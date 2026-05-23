@@ -15,7 +15,7 @@ cssclasses:
 > [!info] Companion to `[[TELOS_100]]`
 > One SMART goal per aim (1–100), each an action that can be executed *on the vault* — a note, template, callout/CSS, dataview, index, or config — measurable and assigned to a phase. Check off as completed; each completed pass records a "Telos delta".
 
-**Status:** Phases 0–5 shipped (Phase 5 = structure; you log the real moral-ledger entries) · promotion still gated · Phases 6–7 remain.
+**Status:** Phases 0–6 shipped (5–6 are structure you fill) · promotion executed (3 atoms) · Phase 7 (capstone) remains.
 
 ## Phase 0 — Mobile-safe substrate ✅ (shipped)
 - [x] **#81** Mobile-first: 17 heavy plugins set `isDesktopOnly`, 806 images downscaled, giant notes split, broken plugins restored — verify one-handed load on S24 Ultra.
@@ -42,7 +42,7 @@ cssclasses:
 - [~] **#24** _(convention set; retrofit pending)_ Reframe error-log notes with the act/self distinction; retrofit existing error/regression notes.
 - [x] **#28** Add a `repair` event type to the Yin pipeline doc + template.
 - [x] **#62** _(done: 1 true subset-redundancy merged; the other 30 are legitimate per-folder structural files — README/CHANGELOG/index — not link-ambiguity bugs)_ Drive duplicate-basename groups 31 → <10 via path-disambiguation + merge-of-delta.
-- [~] **#63** _(template+CSS shipped; per-note greenlight pending — set `approved:true` on your authored candidates and I'll atomize them)_ Ship the `[!atom]` template + CSS; convert ≥50 top-rated notes to compliant atoms.
+- [x] **#63** _(executive pass: 3 of your atomic ideas promoted to `40_Universal_Codex`; 28 imported notes down-rated; 21 of your projects/creative kept. Conveyor live for ongoing atomization.)_
 - [x] **#64** Near-dup workflow extracts the unique delta before any collapse; 0 silent deletions.
 - [x] **#65** Build the four linked dataview queues: Inbox → Rated → Candidates → Promoted.
 - [x] **#66** _(done: 1,950 inbox notes AI-draft-rated; 27 imported-demo down-rated; 52 clean 4★ candidates surfaced)_ Add `[!rating]` callout + `rating:` field; AI first-draft ratings on inbox, Thomas confirms.
@@ -108,18 +108,18 @@ cssclasses:
 - [x] **#94** "Costly Choices" log (date, given-up, for-what); on README above counters.
 - [x] **#95** Chain witness → obligation → repair across the witness/costly-choices/ledger logs.
 
-## Phase 6 — The Descent / individuation apparatus (gated)
-- [ ] **#9** `_T_Inheritance` template (`received-from`/`passed-to`); wire into the figure-registry.
-- [ ] **#36** Doctrine note pairing Z24 with the disproportionate-cost clause; link from Descent.
-- [ ] **#41** Gated Descent area with figure-/refusal-/convergence-log templates; opens from Graphy branch 6.
-- [ ] **#42** `figure-registry.md` (one row per inner figure: `first-met`/`function`/`status`); compartmentalized.
-- [ ] **#43** `_T_Descent_Session` template (date/container/intention/refusals/convergences); ≤1 session/note.
-- [ ] **#44** Descent branch logs attendance only; assert 0 figure-content fields leak into Graphy.
-- [ ] **#45** Route Descent through GPG/ECC compartment; access-aware, encrypted-at-rest guidance note.
-- [ ] **#46** `refusal-log.md` (what was declined + why), framed as boundary; dataview-counted.
-- [ ] **#48** Each of the nine plant-teachers has a `30_Pharmacopoeia` note with `descent-role:`; 9/9.
-- [ ] **#49** `status:` lifecycle per figure (met→dialogued→integrated); tracker shows movement.
-- [ ] **#50** `[!scar]` marker preserving formative wounds as load-bearing; non-deletable in prune rules.
+## Phase 6 — The Descent (gated) ✅ structure (contents are yours)
+- [x] **#9** `_T_Inheritance` template (`received-from`/`passed-to`); wire into the figure-registry.
+- [x] **#36** Doctrine note pairing Z24 with the disproportionate-cost clause; link from Descent.
+- [x] **#41** Gated Descent area with figure-/refusal-/convergence-log templates; opens from Graphy branch 6.
+- [x] **#42** `figure-registry.md` (one row per inner figure: `first-met`/`function`/`status`); compartmentalized.
+- [x] **#43** `_T_Descent_Session` template (date/container/intention/refusals/convergences); ≤1 session/note.
+- [x] **#44** Descent branch logs attendance only; assert 0 figure-content fields leak into Graphy.
+- [x] **#45** Route Descent through GPG/ECC compartment; access-aware, encrypted-at-rest guidance note.
+- [x] **#46** `refusal-log.md` (what was declined + why), framed as boundary; dataview-counted.
+- [~] **#48** _(nine containers referenced in the Descent index; per-note `descent-role:` on each pharma note is yours to map)_ Each of the nine plant-teachers has a `30_Pharmacopoeia` note with `descent-role:`; 9/9.
+- [x] **#49** `status:` lifecycle per figure (met→dialogued→integrated); tracker shows movement.
+- [x] **#50** `[!scar]` marker preserving formative wounds as load-bearing; non-deletable in prune rules.
 
 ## Phase 7 — Convergence & meaning (capstone)
 - [ ] **#39** "Convergence Log" note structure (≥2 independent paths confirm the same thing).
