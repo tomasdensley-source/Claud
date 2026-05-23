@@ -15,7 +15,7 @@ cssclasses:
 > [!info] Companion to `[[TELOS_100]]`
 > One SMART goal per aim (1–100), each an action that can be executed *on the vault* — a note, template, callout/CSS, dataview, index, or config — measurable and assigned to a phase. Check off as completed; each completed pass records a "Telos delta".
 
-**Status:** Phases 0–3 shipped · Z5/Z6/Z14 confirmed canonical · inbox rated (drafts) · promotion gated on your per-note `approved:true` · Phase 4 next.
+**Status:** Phases 0–4 shipped · promotion gated on your per-note `approved:true` · Phases 5–7 remain.
 
 ## Phase 0 — Mobile-safe substrate ✅ (shipped)
 - [x] **#81** Mobile-first: 17 heavy plugins set `isDesktopOnly`, 806 images downscaled, giant notes split, broken plugins restored — verify one-handed load on S24 Ultra.
@@ -73,21 +73,21 @@ cssclasses:
 - [x] **#83** TTS style rule in the template + linter check for dictation-hostile constructs.
 - [x] **#84** Keep README homepage one-tap reachable and light (openOnStartup already false).
 
-## Phase 4 — The six branches & presence
-- [ ] **#26** Strip overdue/streak language from templates + Graphy copy; 0 punitive strings.
-- [ ] **#27** `ACT-F – Recovery and re-triage` flow note + one-tap "resume" bookmark.
-- [ ] **#33** Marriage branch = presence-rhythms + single-keystone only; assert no count fields.
-- [ ] **#34** Marriage/Faith entries store one-line "what was attended"; template enforces ≤1 line.
-- [ ] **#51** Verify `Graphy_Goal_Index` renders all six branches with correct rhythm types; 6/6.
-- [ ] **#52** Presence entries write `last-attended:`; dashboard sorts by it; 0 cumulative counters on presence axes.
-- [ ] **#53** README "Pick one for today" surfaces least-recently-attended branch; invitational copy.
-- [ ] **#54** Wire Outreach_Cadence + Quote_Conversion_Loop unlocks to Vocation; verify 5-target unlock.
-- [ ] **#55** Single Articulation MOC linking codex/songs/parables/essays; each stream has an `_index`.
-- [ ] **#56** Faith branch: Sunday/temple repeating rhythms + patriarchal-blessing keystone note.
-- [ ] **#57** Body branch: presence + one instrument-acquisition counter only; no performance metrics.
-- [ ] **#59** Audit Graphy unlocks: completion-mechanics only on Vocation/Articulation; none on relational/interior.
-- [ ] **#82** Confirm sanctum mobile plugins enabled+bound; document the three gestures in a mobile card.
-- [ ] **#86** Populate ≥8 bookmarks: README, Telos 100, North Star, Graphy, the four pipeline queues.
+## Phase 4 — The six branches & presence ✅ (this pass)
+- [x] **#26** Strip overdue/streak language from templates + Graphy copy; 0 punitive strings.
+- [x] **#27** `ACT-F – Recovery and re-triage` flow note + one-tap "resume" bookmark.
+- [x] **#33** Marriage branch = presence-rhythms + single-keystone only; assert no count fields.
+- [x] **#34** Marriage/Faith entries store one-line "what was attended"; template enforces ≤1 line.
+- [x] **#51** Verify `Graphy_Goal_Index` renders all six branches with correct rhythm types; 6/6.
+- [x] **#52** Presence entries write `last-attended:`; dashboard sorts by it; 0 cumulative counters on presence axes.
+- [x] **#53** README "Pick one for today" surfaces least-recently-attended branch; invitational copy.
+- [x] **#54** Wire Outreach_Cadence + Quote_Conversion_Loop unlocks to Vocation; verify 5-target unlock.
+- [x] **#55** Single Articulation MOC linking codex/songs/parables/essays; each stream has an `_index`.
+- [x] **#56** Faith branch: Sunday/temple repeating rhythms + patriarchal-blessing keystone note.
+- [x] **#57** Body branch: presence + one instrument-acquisition counter only; no performance metrics.
+- [x] **#59** Audit Graphy unlocks: completion-mechanics only on Vocation/Articulation; none on relational/interior.
+- [x] **#82** Confirm sanctum mobile plugins enabled+bound; document the three gestures in a mobile card.
+- [x] **#86** Populate ≥8 bookmarks: README, Telos 100, North Star, Graphy, the four pipeline queues.
 
 ## Phase 5 — Ledger, repair, witness logs
 - [ ] **#1** `_T_Ledger_Entry` template (`load`/`repaired`/`transferred-to`) + 5 seeded entries; open-vs-repaired tracker.
