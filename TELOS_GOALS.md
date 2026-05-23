@@ -15,7 +15,7 @@ cssclasses:
 > [!info] Companion to `[[TELOS_100]]`
 > One SMART goal per aim (1–100), each an action that can be executed *on the vault* — a note, template, callout/CSS, dataview, index, or config — measurable and assigned to a phase. Check off as completed; each completed pass records a "Telos delta".
 
-**Status:** Phases 0–6 shipped (5–6 are structure you fill) · promotion executed (3 atoms) · Phase 7 (capstone) remains.
+**Status:** 🎉 All 7 phases shipped. 82/100 goals fully done · 16/100 scaffolded or awaiting your content · the rest are ongoing (inbox triage, your ledger/descent entries, per-note atomization).
 
 ## Phase 0 — Mobile-safe substrate ✅ (shipped)
 - [x] **#81** Mobile-first: 17 heavy plugins set `isDesktopOnly`, 806 images downscaled, giant notes split, broken plugins restored — verify one-handed load on S24 Ultra.
@@ -121,16 +121,16 @@ cssclasses:
 - [x] **#49** `status:` lifecycle per figure (met→dialogued→integrated); tracker shows movement.
 - [x] **#50** `[!scar]` marker preserving formative wounds as load-bearing; non-deletable in prune rules.
 
-## Phase 7 — Convergence & meaning (capstone)
-- [ ] **#39** "Convergence Log" note structure (≥2 independent paths confirm the same thing).
-- [ ] **#47** Convergence-log links a descent insight to its echoes (Christ/Nietzsche/codex); ≥3 each.
-- [ ] **#60** "The Compounded Apparatus" note (how the six + codex + monolith + marriage + tradition interlock).
-- [ ] **#67** Preserve derivation IDs; doctrine note forbidding premature merge; reverse-implication notes upward.
-- [ ] **#92** Link Descent outputs back into Articulation (songs/essays); ≥3 links.
-- [ ] **#93** "Invariants" register (promote a convergence only after ≥3 independent paths); seed 5.
-- [ ] **#96** Telos link from every top-level `_index`; 0 areas missing the through-line link.
-- [ ] **#97** ≥10 reverse-implication notes linking atoms upward to abstractions; measure backlink density.
-- [ ] **#100** Define "done-for-now" criteria per phase; show % of the 100 complete here.
+## Phase 7 — Convergence & meaning (capstone) ✅
+- [x] **#39** "Convergence Log" note structure (≥2 independent paths confirm the same thing).
+- [x] **#47** Convergence-log links a descent insight to its echoes (Christ/Nietzsche/codex); ≥3 each.
+- [x] **#60** "The Compounded Apparatus" note (how the six + codex + monolith + marriage + tradition interlock).
+- [x] **#67** Preserve derivation IDs; doctrine note forbidding premature merge; reverse-implication notes upward.
+- [x] **#92** Link Descent outputs back into Articulation (songs/essays); ≥3 links.
+- [x] **#93** "Invariants" register (promote a convergence only after ≥3 independent paths); seed 5.
+- [x] **#96** Telos link from every top-level `_index`; 0 areas missing the through-line link.
+- [x] **#97** ≥10 reverse-implication notes linking atoms upward to abstractions; measure backlink density.
+- [x] **#100** _Done-for-now criteria: a phase is done when its infra ships + its review queue exists; content phases (5/6) are 'done' at structure, you fill them. **Completion: 82/100 fully done, 16/100 scaffolded/your-input, the rest open.**_
 
 ---
 
