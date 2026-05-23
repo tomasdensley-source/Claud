@@ -77,3 +77,10 @@ Per Thomas's go-ahead on the judgment items:
 ## Addendum — pass 3d (folder index coverage)
 
 North Star #10 ("an `_index` MOC at every level") was satisfied only at the top level. Created **170** `_index.md` dataview MOCs for every sub-folder holding ≥5 markdown notes that lacked one (e.g. `…/General`, `…/_from_inbox`, `Journal_Dated`, the axiom-codex tiers, the example-zettel folders). Folders are now self-documenting and navigable; tiny folders (<5 notes) were intentionally left index-free to avoid filler (#18). Tag-based inbox routing was evaluated and rejected (only 41 routable, mostly mis-hits like `Newton's Laws → MOCs`).
+
+
+---
+
+## Addendum — pass 3e (banners completed)
+
+`Manus_Attachments_A part 12` (the previously-missing upload) added — its **11** banners all matched referenced compound notes. With one name-normalization fix (`kavalactones` → `Kava_lactones`), banner embeds resolved **771 → 783**. The remaining **195** dangling banner embeds are **genuinely-missing images** (e.g. `5-HTP_banner.png`, `Acorus_calamus_banner.png`) that were never generated/provided — not name mismatches; they'll resolve only if those banner PNGs are produced.

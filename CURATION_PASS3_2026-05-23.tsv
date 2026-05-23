@@ -1906,3 +1906,4 @@ track	action	src	dest_or_kept	reason
 3d	create-index	06_Knowledge_Management_PKM/General/_index.md		156 notes
 3d	create-index	06_Knowledge_Management_PKM/PDF_References/_index.md		11 notes
 3d	create-index	06_Knowledge_Management_PKM/Systems_Methods/_index.md		7 notes
+3e	add-banners	Manus_Attachments_A part12 (11 png) + kavalactones link fix	notes_fixed=2	dangling banners 207->195 (rest truly missing)
