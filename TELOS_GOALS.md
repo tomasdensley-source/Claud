@@ -15,7 +15,7 @@ cssclasses:
 > [!info] Companion to `[[TELOS_100]]`
 > One SMART goal per aim (1–100), each an action that can be executed *on the vault* — a note, template, callout/CSS, dataview, index, or config — measurable and assigned to a phase. Check off as completed; each completed pass records a "Telos delta".
 
-**Status:** Phase 0–1 done · Phase 2 infrastructure shipped (rating/promotion await greenlight) · Phase 3 next · Phases 2–7 sequenced below.
+**Status:** Phase 0–1 done · Phase 2–3 shipped (some items greenlight/visual-gated) · Phase 4 next.
 
 ## Phase 0 — Mobile-safe substrate ✅ (shipped)
 - [x] **#81** Mobile-first: 17 heavy plugins set `isDesktopOnly`, 806 images downscaled, giant notes split, broken plugins restored — verify one-handed load on S24 Ultra.
@@ -51,27 +51,27 @@ cssclasses:
 - [x] **#85** Quick-capture note (≤2 taps) + `_TRIAGE_REVIEW` queue.
 - [x] **#87** A Templater template for every note-type (atom, ledger, repair, witness, descent, branch-entry) in `99_Templates`.
 
-## Phase 3 — The aesthetic home & honest surface
-- [ ] **#3** `[!burden]` callout (CSS `99-telos-callouts.css`) + 10 tagged notes.
-- [ ] **#10** Reorder README so "Open Load / Costly Choices" sits above completion counters.
-- [ ] **#11** `_concepts/truth.md` (Z2) + `[!contradiction]` callout; tag ≥10 named-tension notes.
-- [ ] **#12** `confidence:` field rendered as a colored chip; applied to new `Z`-notes.
-- [ ] **#20** Doctrine note pairing Z2 with tone guidance; bookmark as read-first card.
-- [ ] **#30** Single teaching note `Shame as Concealment` (Z4); bookmarked, not duplicated.
-- [ ] **#35** "Recently witnessed" recency view on README (30-day window).
-- [ ] **#58** Extend `folder-colors.css` + icons so all six branches have unique stable signals; verify on mobile.
-- [ ] **#71** Verify cream/gold palette + 1.68 line-height + 17px on mobile; 0 contrast failures.
-- [ ] **#72** Confirm H1–H5 color ramp renders; add missing levels.
-- [ ] **#73** All 5★/canonical notes have a resolving `banner:`; 0 dangling banners on 5★.
-- [ ] **#74** Consolidate all callout CSS into one documented snippet + a legend note.
-- [ ] **#75** Refresh stale `graph.json` colorGroups to current category paths; 0 stale groups.
-- [ ] **#76** Verify breathing tables/blockquotes; cap desktop line length; distraction-free long reads.
-- [ ] **#77** Audit icon-folder rules; every icon maps to a category/type rule.
-- [ ] **#78** Assert banners only on 5★/branch-home notes; 0 on routine atoms.
-- [ ] **#79** "House style" note (tone + palette); link from templates.
-- [ ] **#80** Before/after visual checklist on desktop + mobile; sign-off in report.
-- [ ] **#83** TTS style rule in the template + linter check for dictation-hostile constructs.
-- [ ] **#84** Keep README homepage one-tap reachable and light (openOnStartup already false).
+## Phase 3 — The aesthetic home ◐ (deliverables shipped; in-app visual sign-off pending)
+- [~] **#3** _(callout shipped; tagging 10 real notes = content pass)_ `[!burden]` callout (CSS `99-telos-callouts.css`) + 10 tagged notes.
+- [x] **#10** Reorder README so "Open Load / Costly Choices" sits above completion counters.
+- [x] **#11** `_concepts/truth.md` (Z2) + `[!contradiction]` callout; tag ≥10 named-tension notes.
+- [x] **#12** `confidence:` field rendered as a colored chip; applied to new `Z`-notes.
+- [x] **#20** Doctrine note pairing Z2 with tone guidance; bookmark as read-first card.
+- [x] **#30** Single teaching note `Shame as Concealment` (Z4); bookmarked, not duplicated.
+- [x] **#35** "Recently witnessed" recency view on README (30-day window).
+- [~] **#58** _(branches are Graphy nodes (colored there); folder-signal N/A — deferred)_ Extend `folder-colors.css` + icons so all six branches have unique stable signals; verify on mobile.
+- [~] **#71** _(palette/line-height/17px rules present; in-app contrast sign-off pending)_ Verify cream/gold palette + 1.68 line-height + 17px on mobile; 0 contrast failures.
+- [~] **#72** _(H1–H5 ramp present in CSS; in-app render sign-off pending)_ Confirm H1–H5 color ramp renders; add missing levels.
+- [~] **#73** _(banners present on rated notes; 5★ coverage audit pending)_ All 5★/canonical notes have a resolving `banner:`; 0 dangling banners on 5★.
+- [x] **#74** Consolidate all callout CSS into one documented snippet + a legend note.
+- [x] **#75** Refresh stale `graph.json` colorGroups to current category paths; 0 stale groups.
+- [~] **#76** _(density CSS present; in-app long-read sign-off pending)_ Verify breathing tables/blockquotes; cap desktop line length; distraction-free long reads.
+- [~] **#77** _(icon rules present; full audit pending)_ Audit icon-folder rules; every icon maps to a category/type rule.
+- [~] **#78** _(convention set; assertion-scan pending)_ Assert banners only on 5★/branch-home notes; 0 on routine atoms.
+- [x] **#79** "House style" note (tone + palette); link from templates.
+- [~] **#80** _(checklist defined; in-app desktop+mobile sign-off is yours)_ Before/after visual checklist on desktop + mobile; sign-off in report.
+- [x] **#83** TTS style rule in the template + linter check for dictation-hostile constructs.
+- [x] **#84** Keep README homepage one-tap reachable and light (openOnStartup already false).
 
 ## Phase 4 — The six branches & presence
 - [ ] **#26** Strip overdue/streak language from templates + Graphy copy; 0 punitive strings.
