@@ -1266,3 +1266,473 @@ track	action	src	dest_or_kept	reason
 3b	create-target	12_Entertainment/_Indexes/Genre - Action.md		facet index; resolves 5 links
 3b	create-target	12_Entertainment/_Indexes/Genre - Horror.md		facet index; resolves 2 links
 3b	summary	created=66	dangling_nonimg_occ=10203	was 14641
+3c	variant-promoted	30_Pharmacopoeia/Functional/Ginkgo biloba (variant).md	30_Pharmacopoeia/Functional/Ginkgo biloba.md	real content 3256b merged into stub 1205b + banner kept
+3c	variant-promoted	30_Pharmacopoeia/Functional/Nutmeg (variant).md	30_Pharmacopoeia/Functional/Nutmeg.md	real content 53253b merged into stub 949b + banner kept
+3c	variant-promoted	30_Pharmacopoeia/Functional/Aconite (variant).md	30_Pharmacopoeia/Functional/Aconite.md	real content 4614b merged into stub 1219b + banner kept
+3c	variant-promoted	30_Pharmacopoeia/Functional/Tobacco (variant).md	30_Pharmacopoeia/Functional/Tobacco.md	real content 38473b merged into stub 1095b + banner kept
+3c	variant-promoted	30_Pharmacopoeia/Functional/Psilocybin (variant).md	30_Pharmacopoeia/Functional/Psilocybin.md	real content 6247b merged into stub 1514b + banner kept
+3c	variant-promoted	30_Pharmacopoeia/Pneumatic/Sinicuichi (variant).md	30_Pharmacopoeia/Pneumatic/Sinicuichi.md	real content 179142b merged into stub 1200b + banner kept
+3c	variant-promoted	30_Pharmacopoeia/Pneumatic/Salvia divinorum (variant).md	30_Pharmacopoeia/Pneumatic/Salvia divinorum.md	real content 30766b merged into stub 1116b + banner kept
+3c	variant-promoted	30_Pharmacopoeia/Pneumatic/MDA (variant).md	30_Pharmacopoeia/Pneumatic/MDA.md	real content 17807b merged into stub 1404b + banner kept
+3c	variant-promoted	30_Pharmacopoeia/Pneumatic/MDMA (variant).md	30_Pharmacopoeia/Pneumatic/MDMA.md	real content 4084b merged into stub 1290b + banner kept
+3c	variant-promoted	30_Pharmacopoeia/Pneumatic/LSD (variant).md	30_Pharmacopoeia/Pneumatic/LSD.md	real content 5307b merged into stub 1210b + banner kept
+3c	variant-promoted	30_Pharmacopoeia/Pneumatic/Iboga (variant).md	30_Pharmacopoeia/Pneumatic/Iboga.md	real content 8148b merged into stub 1187b + banner kept
+3c	variant-promoted	30_Pharmacopoeia/Nutritional/Blue Lotus (variant).md	30_Pharmacopoeia/Nutritional/Blue Lotus.md	real content 4093b merged into stub 1013b + banner kept
+3c	variant-promoted	30_Pharmacopoeia/Nutritional/Laurus nobilis (variant).md	30_Pharmacopoeia/Nutritional/Laurus nobilis.md	real content 5026b merged into stub 994b + banner kept
+3c	variant-promoted	30_Pharmacopoeia/Nutritional/Galanthus nivalis (variant).md	30_Pharmacopoeia/Nutritional/Galanthus nivalis.md	real content 6896b merged into stub 1113b + banner kept
+3c	variant-promoted	30_Pharmacopoeia/Chthonic/Atropa baetica (variant).md	30_Pharmacopoeia/Chthonic/Atropa baetica.md	real content 13633b merged into stub 1095b + banner kept
+3c	variant-promoted	30_Pharmacopoeia/Chthonic/Datura (variant).md	30_Pharmacopoeia/Chthonic/Datura.md	real content 22863b merged into stub 1123b + banner kept
+3c	variant-promoted	30_Pharmacopoeia/Chthonic/Atropa pallidiflora (variant).md	30_Pharmacopoeia/Chthonic/Atropa pallidiflora.md	real content 13635b merged into stub 1120b + banner kept
+3c	variant-promoted	30_Pharmacopoeia/Chthonic/Atropa belladonna (variant).md	30_Pharmacopoeia/Chthonic/Atropa belladonna.md	real content 4327b merged into stub 1236b + banner kept
+3c	variant-promoted	30_Pharmacopoeia/Chthonic/Henbane (variant).md	30_Pharmacopoeia/Chthonic/Henbane.md	real content 23259b merged into stub 1194b + banner kept
+3c	variant-promoted	30_Pharmacopoeia/Chthonic/Mandrake (variant).md	30_Pharmacopoeia/Chthonic/Mandrake.md	real content 25395b merged into stub 1133b + banner kept
+3c	variant-promoted	30_Pharmacopoeia/Chthonic/Brugmansia (variant).md	30_Pharmacopoeia/Chthonic/Brugmansia.md	real content 26764b merged into stub 1143b + banner kept
+3c	variant-promoted	30_Pharmacopoeia/Chthonic/Belladonna (variant).md	30_Pharmacopoeia/Chthonic/Belladonna.md	real content 8068b merged into stub 1187b + banner kept
+3c	create-concept	40_Universal_Codex/_concepts/philosophy.md		resolves 39 links
+3c	create-concept	40_Universal_Codex/_concepts/misc.md		resolves 38 links
+3c	create-concept	40_Universal_Codex/_concepts/advice.md		resolves 36 links
+3c	create-concept	40_Universal_Codex/_concepts/truth.md		resolves 35 links
+3c	create-concept	40_Universal_Codex/_concepts/love.md		resolves 35 links
+3c	create-concept	40_Universal_Codex/_concepts/self.md		resolves 35 links
+3c	create-concept	40_Universal_Codex/_concepts/learning.md		resolves 34 links
+3c	create-concept	40_Universal_Codex/_concepts/foolishness.md		resolves 30 links
+3c	create-concept	40_Universal_Codex/_concepts/time.md		resolves 18 links
+3c	create-concept	40_Universal_Codex/_concepts/meaning.md		resolves 16 links
+3c	create-concept	40_Universal_Codex/_concepts/growth.md		resolves 13 links
+3c	create-concept	40_Universal_Codex/_concepts/art.md		resolves 12 links
+3c	create-concept	40_Universal_Codex/_concepts/success.md		resolves 12 links
+3c	create-concept	40_Universal_Codex/_concepts/life.md		resolves 12 links
+3c	create-concept	40_Universal_Codex/_concepts/math.md		resolves 12 links
+3c	create-concept	40_Universal_Codex/_concepts/power.md		resolves 11 links
+3c	create-concept	40_Universal_Codex/_concepts/suffering.md		resolves 11 links
+3c	create-concept	40_Universal_Codex/_concepts/nature.md		resolves 11 links
+3c	create-concept	40_Universal_Codex/_concepts/parenting.md		resolves 10 links
+3c	create-concept	40_Universal_Codex/_concepts/courage.md		resolves 10 links
+3c	create-concept	40_Universal_Codex/_concepts/kindness.md		resolves 10 links
+3c	create-concept	40_Universal_Codex/_concepts/health.md		resolves 10 links
+3c	create-concept	40_Universal_Codex/_concepts/patience.md		resolves 8 links
+3c	create-concept	40_Universal_Codex/_concepts/anger.md		resolves 8 links
+3c	create-concept	40_Universal_Codex/_concepts/humility.md		resolves 8 links
+3c	create-concept	40_Universal_Codex/_concepts/strategy.md		resolves 7 links
+3c	create-concept	40_Universal_Codex/_concepts/work.md		resolves 7 links
+3c	create-concept	40_Universal_Codex/_concepts/death.md		resolves 7 links
+3c	create-concept	40_Universal_Codex/_concepts/music.md		resolves 7 links
+3c	create-concept	40_Universal_Codex/_concepts/motivation.md		resolves 6 links
+3c	create-concept	40_Universal_Codex/_concepts/faith.md		resolves 6 links
+3c	create-concept	40_Universal_Codex/_concepts/hope.md		resolves 6 links
+3c	create-concept	40_Universal_Codex/_concepts/discipline.md		resolves 4 links
+3c	create-concept	40_Universal_Codex/_concepts/taoism.md		resolves 4 links
+3c	create-concept	40_Universal_Codex/_concepts/war.md		resolves 4 links
+3c	create-concept	40_Universal_Codex/_concepts/food.md		resolves 4 links
+3c	create-concept	40_Universal_Codex/_concepts/finance.md		resolves 3 links
+3c	create-concept	40_Universal_Codex/_concepts/gig work.md		resolves 3 links
+3c	create-concept	40_Universal_Codex/_concepts/checklist.md		resolves 3 links
+3c	create-concept	40_Universal_Codex/_concepts/money.md		resolves 3 links
+3c	create-concept	40_Universal_Codex/_concepts/forgiveness.md		resolves 3 links
+3c	create-concept	40_Universal_Codex/_concepts/failure.md		resolves 3 links
+3c	create-concept	40_Universal_Codex/_concepts/freedom.md		resolves 3 links
+3c	create-concept	40_Universal_Codex/_concepts/novel.md		resolves 2 links
+3c	create-concept	40_Universal_Codex/_concepts/game plan.md		resolves 2 links
+3c	create-concept	40_Universal_Codex/_concepts/films.md		resolves 2 links
+3c	create-concept	40_Universal_Codex/_concepts/story.md		resolves 2 links
+3c	create-concept	40_Universal_Codex/_concepts/cosmic horror.md		resolves 2 links
+3c	create-concept	40_Universal_Codex/_concepts/book writing.md		resolves 2 links
+3c	create-concept	40_Universal_Codex/_concepts/substances.md		resolves 1 links
+3c	create-concept	40_Universal_Codex/_concepts/poetic.md		resolves 1 links
+3c	create-concept	40_Universal_Codex/_concepts/guide.md		resolves 1 links
+3c	create-concept	40_Universal_Codex/_concepts/personal.md		resolves 1 links
+3c	create-concept	40_Universal_Codex/_concepts/sales.md		resolves 1 links
+3c	create-concept	40_Universal_Codex/_concepts/doppelgangers.md		resolves 1 links
+3c	create-concept	40_Universal_Codex/_concepts/backup codes.md		resolves 1 links
+3c	create-concept	40_Universal_Codex/_concepts/abridged.md		resolves 1 links
+3c	create-concept	40_Universal_Codex/_concepts/erotic.md		resolves 1 links
+3c	create-concept	40_Universal_Codex/_concepts/road map.md		resolves 1 links
+3c	create-concept	40_Universal_Codex/_concepts/reference guide.md		resolves 1 links
+3c	create-concept	40_Universal_Codex/_concepts/honor.md		resolves 1 links
+3c	create-concept	40_Universal_Codex/_concepts/list.md		resolves 1 links
+3c	create-concept	40_Universal_Codex/_concepts/loans.md		resolves 1 links
+3c	create-concept	40_Universal_Codex/_concepts/table.md		resolves 1 links
+3c	inbox-route	00_Inbox_Unsorted/Protocol Zeta Starter Vault Guide.md	41_Veritas_Quo_Codex/_from_inbox/Protocol Zeta Starter Vault Guide.md	kw:protocol\ zeta
+3c	inbox-route	00_Inbox_Unsorted/TSPDT_1000_Greatest_Films_Table.md	12_Entertainment/_from_inbox/TSPDT_1000_Greatest_Films_Table.md	kw:tspdt
+3c	inbox-route	00_Inbox_Unsorted/Android App Folder Map & Prompts [557E056A5F].md	05_AI_Tools_and_Guides/_from_inbox/Android App Folder Map & Prompts [557E056A5F].md	kw:prompt
+3c	inbox-route	00_Inbox_Unsorted/Canticle of the Flawed Equilibrium.md	15_Writing_Literature/_from_inbox/Canticle of the Flawed Equilibrium.md	kw:canticle
+3c	inbox-route	00_Inbox_Unsorted/Movie_Sequels_With_Predecessors.md	12_Entertainment/_from_inbox/Movie_Sequels_With_Predecessors.md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/Music idea YouTube 1 [244919A5BA].md	19_Music_Arts_Design/_from_inbox/Music idea YouTube 1 [244919A5BA].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Master kink list Ôö£Ôûæ___.md	16_Personal_NSFW/_from_inbox/Master kink list Ôö£Ôûæ___.md	kw: kink
+3c	inbox-route	00_Inbox_Unsorted/Proofreading and Enrichment Report for Musical Entries Text File [8B60CF883A].md	19_Music_Arts_Design/_from_inbox/Proofreading and Enrichment Report for Musical Entries Text File [8B60CF883A].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/PayPal Transactions (Aug - Nov) ­ƒÆ▓ [B2C1518344].md	03_Finance_Taxes_and_Loans/_from_inbox/PayPal Transactions (Aug - Nov) ­ƒÆ▓ [B2C1518344].md	kw:paypal
+3c	inbox-route	00_Inbox_Unsorted/big quotes.md	14_Reading_Quotes_Philosophy/_from_inbox/big quotes.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/Very large quote list - deduped.md	14_Reading_Quotes_Philosophy/_from_inbox/Very large quote list - deduped.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/Doctor WhoComplete Episode Index [72A944DCAF].md	12_Entertainment/_from_inbox/Doctor WhoComplete Episode Index [72A944DCAF].md	kw:episode
+3c	inbox-route	00_Inbox_Unsorted/Movie_Checklist_Numbered.md	12_Entertainment/_from_inbox/Movie_Checklist_Numbered.md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/music_list_hierarchical_colorcoded_v9b.md	19_Music_Arts_Design/_from_inbox/music_list_hierarchical_colorcoded_v9b.md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/music_list_hierarchical_colorcoded_v9b [E885CDF81B].md	19_Music_Arts_Design/_from_inbox/music_list_hierarchical_colorcoded_v9b [E885CDF81B].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Business Cards - Mockup (Front and Back) [3CE4531142].md	01_Business_Sharp_House_Solutions/_from_inbox/Business Cards - Mockup (Front and Back) [3CE4531142].md	kw:business\ card
+3c	inbox-route	00_Inbox_Unsorted/Folgezettel - 100a.1b Adds certain things....md	50_Implications_Zettelkasten/_from_inbox/Folgezettel - 100a.1b Adds certain things....md	kw:zettel
+3c	inbox-route	00_Inbox_Unsorted/Folgezettel - 100a.1a But Also How It.md	50_Implications_Zettelkasten/_from_inbox/Folgezettel - 100a.1a But Also How It.md	kw:zettel
+3c	inbox-route	00_Inbox_Unsorted/Collection of Quotes Reflections and Insights.md	14_Reading_Quotes_Philosophy/_from_inbox/Collection of Quotes Reflections and Insights.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/Music idea YouTube 1.md	19_Music_Arts_Design/_from_inbox/Music idea YouTube 1.md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/2Ôê®Ôòò├à╬ô├ó├║Second movie list2Ôê®Ôòò├à╬ô├ó├║.md	12_Entertainment/_from_inbox/2Ôê®Ôòò├à╬ô├ó├║Second movie list2Ôê®Ôòò├à╬ô├ó├║.md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/vaults__veritys-quote___archive-governance__00_START_HERE__AI_NAVIGATION.md.md	14_Reading_Quotes_Philosophy/_from_inbox/vaults__veritys-quote___archive-governance__00_START_HERE__AI_NAVIGATION.md.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/Thomas_Densley_Sales_Resume (1) [8AB4793B90].md	02_Business_Gig_Work_and_Careers/_from_inbox/Thomas_Densley_Sales_Resume (1) [8AB4793B90].md	kw:resume
+3c	inbox-route	00_Inbox_Unsorted/Illustrated Structural Epic Spread Prompts.md	05_AI_Tools_and_Guides/_from_inbox/Illustrated Structural Epic Spread Prompts.md	kw:prompt
+3c	inbox-route	00_Inbox_Unsorted/Business Card - Logo Side (Mockup).md	01_Business_Sharp_House_Solutions/_from_inbox/Business Card - Logo Side (Mockup).md	kw:business\ card
+3c	inbox-route	00_Inbox_Unsorted/T2_PLAN__Revised_100-Chapter_Plan__2026-01-25.md	15_Writing_Literature/_from_inbox/T2_PLAN__Revised_100-Chapter_Plan__2026-01-25.md	kw:\bchapter
+3c	inbox-route	00_Inbox_Unsorted/high_watchers_definitive_audit_prompt [627B848748].md	05_AI_Tools_and_Guides/_from_inbox/high_watchers_definitive_audit_prompt [627B848748].md	kw:prompt
+3c	inbox-route	00_Inbox_Unsorted/Inspection-Ready Edges with Budget Gear [7FF0F5A309].md	03_Finance_Taxes_and_Loans/_from_inbox/Inspection-Ready Edges with Budget Gear [7FF0F5A309].md	kw:budget
+3c	inbox-route	00_Inbox_Unsorted/┬Ñ_Markdown_Notes_PKM_Loose_Lead Template ­ƒôï.md	06_Knowledge_Management_PKM/_from_inbox/┬Ñ_Markdown_Notes_PKM_Loose_Lead Template ­ƒôï.md	kw:pkm
+3c	inbox-route	00_Inbox_Unsorted/quotes_dedup_no_squares_landscape_2col_5pt [4A4CC63678].md	14_Reading_Quotes_Philosophy/_from_inbox/quotes_dedup_no_squares_landscape_2col_5pt [4A4CC63678].md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/Doctor Who - Complete Episode Index.md	12_Entertainment/_from_inbox/Doctor Who - Complete Episode Index.md	kw:episode
+3c	inbox-route	00_Inbox_Unsorted/Personal Philosophy [90441926E4].md	14_Reading_Quotes_Philosophy/_from_inbox/Personal Philosophy [90441926E4].md	kw:philosophy
+3c	inbox-route	00_Inbox_Unsorted/PKM_Overview_Pretty_Princess.md	06_Knowledge_Management_PKM/_from_inbox/PKM_Overview_Pretty_Princess.md	kw:pkm
+3c	inbox-route	00_Inbox_Unsorted/Giant quote list 2 [0FAD9E3211].md	14_Reading_Quotes_Philosophy/_from_inbox/Giant quote list 2 [0FAD9E3211].md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/music_list_hierarchical_colorcoded_v8b.md	19_Music_Arts_Design/_from_inbox/music_list_hierarchical_colorcoded_v8b.md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Toyota Corolla Financing Statements (Aug - Oct) ­ƒÆ▓ [77FCF104B2].md	11_Vehicles/_from_inbox/Toyota Corolla Financing Statements (Aug - Oct) ­ƒÆ▓ [77FCF104B2].md	kw:corolla
+3c	inbox-route	00_Inbox_Unsorted/Music List (Golden Record Edition) [741F5AA34A].md	19_Music_Arts_Design/_from_inbox/Music List (Golden Record Edition) [741F5AA34A].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Ideaverse Lite - Release Notes.md	09_Legal_Contracts_Insurance_Housing/_from_inbox/Ideaverse Lite - Release Notes.md	kw:lease
+3c	inbox-route	00_Inbox_Unsorted/Business Cards - Mockup (Two Cards).md	01_Business_Sharp_House_Solutions/_from_inbox/Business Cards - Mockup (Two Cards).md	kw:business\ card
+3c	inbox-route	00_Inbox_Unsorted/Thomas_Densley_Resume_v2.md	02_Business_Gig_Work_and_Careers/_from_inbox/Thomas_Densley_Resume_v2.md	kw:resume
+3c	inbox-route	00_Inbox_Unsorted/TSPDT_1000_Part1_001-250.md	12_Entertainment/_from_inbox/TSPDT_1000_Part1_001-250.md	kw:tspdt
+3c	inbox-route	00_Inbox_Unsorted/Music Library Refactor - Hierarchy Layout.md	19_Music_Arts_Design/_from_inbox/Music Library Refactor - Hierarchy Layout.md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/doctor_who_complete_episode_index_deluxe_v2.md	12_Entertainment/_from_inbox/doctor_who_complete_episode_index_deluxe_v2.md	kw:episode
+3c	inbox-route	00_Inbox_Unsorted/Quotes_Batch_1_Full_1-200.md	14_Reading_Quotes_Philosophy/_from_inbox/Quotes_Batch_1_Full_1-200.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/Quotes_Doubled_Final.md	14_Reading_Quotes_Philosophy/_from_inbox/Quotes_Doubled_Final.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/Songs.md	19_Music_Arts_Design/_from_inbox/Songs.md	kw:\bsong
+3c	inbox-route	00_Inbox_Unsorted/Prompt prompts for llms.md	05_AI_Tools_and_Guides/_from_inbox/Prompt prompts for llms.md	kw:prompt
+3c	inbox-route	00_Inbox_Unsorted/Quote Compendium.md	14_Reading_Quotes_Philosophy/_from_inbox/Quote Compendium.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/Roofing price breakdown chart [ADF9D25A22].md	01_Business_Sharp_House_Solutions/_from_inbox/Roofing price breakdown chart [ADF9D25A22].md	kw:roofing
+3c	inbox-route	00_Inbox_Unsorted/Collection of QuotesReflections & Insights.md	14_Reading_Quotes_Philosophy/_from_inbox/Collection of QuotesReflections & Insights.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/document_links.md	16_Personal_NSFW/_from_inbox/document_links.md	kw:cum
+3c	inbox-route	00_Inbox_Unsorted/Reorganized Movie List Numbered Counts.md	12_Entertainment/_from_inbox/Reorganized Movie List Numbered Counts.md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/Music_Library_Refactor_ELEGANT_COMPRESSED_REV7_260221_185338.md	19_Music_Arts_Design/_from_inbox/Music_Library_Refactor_ELEGANT_COMPRESSED_REV7_260221_185338.md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/THE HOUSE ON THE BORDERLAND (Short Story) [A4A1B55109].md	15_Writing_Literature/_from_inbox/THE HOUSE ON THE BORDERLAND (Short Story) [A4A1B55109].md	kw:\bstory
+3c	inbox-route	00_Inbox_Unsorted/ÔëíãÆ├ä┬╝ Movie Runtimes List 1.md	12_Entertainment/_from_inbox/ÔëíãÆ├ä┬╝ Movie Runtimes List 1.md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/Abridged Dante's inferno chat GPT alpha test [03101D52B0].md	05_AI_Tools_and_Guides/_from_inbox/Abridged Dante's inferno chat GPT alpha test [03101D52B0].md	kw: gpt 
+3c	inbox-route	00_Inbox_Unsorted/Reorganized Movie List Partial 2.md	12_Entertainment/_from_inbox/Reorganized Movie List Partial 2.md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/Enable CSS snippet GraphFirst Vault Identity (v3) [00FC99D208].md	18_Tech_Reference/_from_inbox/Enable CSS snippet GraphFirst Vault Identity (v3) [00FC99D208].md	kw:\bcss\b
+3c	inbox-route	00_Inbox_Unsorted/Enable CSS snippet GraphFirst Vault Identity (v3).md	18_Tech_Reference/_from_inbox/Enable CSS snippet GraphFirst Vault Identity (v3).md	kw:\bcss\b
+3c	inbox-route	00_Inbox_Unsorted/Here you go chat GPT exactly what you asked for [2BA89A8080].md	05_AI_Tools_and_Guides/_from_inbox/Here you go chat GPT exactly what you asked for [2BA89A8080].md	kw: gpt 
+3c	inbox-route	00_Inbox_Unsorted/Toyota Corolla Financing Statements (Aug - Oct) ­ƒÆ▓.md	11_Vehicles/_from_inbox/Toyota Corolla Financing Statements (Aug - Oct) ­ƒÆ▓.md	kw:corolla
+3c	inbox-route	00_Inbox_Unsorted/Folgezettel - 100b.1 And Long-term Rigidity.md	50_Implications_Zettelkasten/_from_inbox/Folgezettel - 100b.1 And Long-term Rigidity.md	kw:zettel
+3c	inbox-route	00_Inbox_Unsorted/Abridged Dante's inferno chat GPT alpha test [CE365B1322].md	05_AI_Tools_and_Guides/_from_inbox/Abridged Dante's inferno chat GPT alpha test [CE365B1322].md	kw: gpt 
+3c	inbox-route	00_Inbox_Unsorted/PayPal Transactions (Aug - Nov) ­ƒÆ▓ [46CD31B6CF].md	03_Finance_Taxes_and_Loans/_from_inbox/PayPal Transactions (Aug - Nov) ­ƒÆ▓ [46CD31B6CF].md	kw:paypal
+3c	inbox-route	00_Inbox_Unsorted/music_list_additional_improvements_report.md	19_Music_Arts_Design/_from_inbox/music_list_additional_improvements_report.md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/music genre universe styled.md	19_Music_Arts_Design/_from_inbox/music genre universe styled.md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Skyrocket_Documents [97B4597AD0].md	16_Personal_NSFW/_from_inbox/Skyrocket_Documents [97B4597AD0].md	kw:cum
+3c	inbox-route	00_Inbox_Unsorted/icon-prompt-library-v3.1-extension.md	05_AI_Tools_and_Guides/_from_inbox/icon-prompt-library-v3.1-extension.md	kw:prompt
+3c	inbox-route	00_Inbox_Unsorted/Business Card - Logo + QR (Mockup).md	01_Business_Sharp_House_Solutions/_from_inbox/Business Card - Logo + QR (Mockup).md	kw:business\ card
+3c	inbox-route	00_Inbox_Unsorted/Collection of Quotes - Reflections & Insights.md	14_Reading_Quotes_Philosophy/_from_inbox/Collection of Quotes - Reflections & Insights.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/Psychology MOC (kit).md	06_Knowledge_Management_PKM/_from_inbox/Psychology MOC (kit).md	kw: moc 
+3c	inbox-route	00_Inbox_Unsorted/Master Kinks Checklist.md	16_Personal_NSFW/_from_inbox/Master Kinks Checklist.md	kw: kink
+3c	inbox-route	00_Inbox_Unsorted/┬¡ãÆ├£├ç Flight School (OE) (Example).md	13_Tickets_Receipts_Travel/_from_inbox/┬¡ãÆ├£├ç Flight School (OE) (Example).md	kw:flight 
+3c	inbox-route	00_Inbox_Unsorted/quotes_artistic_final_gorgeous_small_optimized [67FB125965].md	14_Reading_Quotes_Philosophy/_from_inbox/quotes_artistic_final_gorgeous_small_optimized [67FB125965].md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/Abridged Dante's inferno chat GPT alpha test.md	05_AI_Tools_and_Guides/_from_inbox/Abridged Dante's inferno chat GPT alpha test.md	kw: gpt 
+3c	inbox-route	00_Inbox_Unsorted/doctor_who_original_series_episodes_deluxe_season_episode_numbers.md	12_Entertainment/_from_inbox/doctor_who_original_series_episodes_deluxe_season_episode_numbers.md	kw:episode
+3c	inbox-route	00_Inbox_Unsorted/youtube_music_gemini_historical_chain_100_prompts.md	05_AI_Tools_and_Guides/_from_inbox/youtube_music_gemini_historical_chain_100_prompts.md	kw:prompt
+3c	inbox-route	00_Inbox_Unsorted/Reorganized Movie List Numbered Counts v2.md	12_Entertainment/_from_inbox/Reorganized Movie List Numbered Counts v2.md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/ÔëíãÆ├ä┬╝ Movie Runtimes List.md	12_Entertainment/_from_inbox/ÔëíãÆ├ä┬╝ Movie Runtimes List.md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/FlowCreation MOC.md	06_Knowledge_Management_PKM/_from_inbox/FlowCreation MOC.md	kw: moc 
+3c	inbox-route	00_Inbox_Unsorted/doctor_who_complete_episode_list_1963_2025_v2 [EE8EF3AEF3].md	12_Entertainment/_from_inbox/doctor_who_complete_episode_list_1963_2025_v2 [EE8EF3AEF3].md	kw:episode
+3c	inbox-route	00_Inbox_Unsorted/chapter_writing_rulebook.md	15_Writing_Literature/_from_inbox/chapter_writing_rulebook.md	kw:\bchapter
+3c	inbox-route	00_Inbox_Unsorted/Prompt_1_Protocol_Zeta_Plus.md	05_AI_Tools_and_Guides/_from_inbox/Prompt_1_Protocol_Zeta_Plus.md	kw:prompt
+3c	inbox-route	00_Inbox_Unsorted/Homeowner documents.md	16_Personal_NSFW/_from_inbox/Homeowner documents.md	kw:cum
+3c	inbox-route	00_Inbox_Unsorted/novel_with_cover.md	15_Writing_Literature/_from_inbox/novel_with_cover.md	kw:\bnovel
+3c	inbox-route	00_Inbox_Unsorted/Canticle of the Flawed Equilibrium 1.md	15_Writing_Literature/_from_inbox/Canticle of the Flawed Equilibrium 1.md	kw:canticle
+3c	inbox-route	00_Inbox_Unsorted/chapter writing rulebook.md	15_Writing_Literature/_from_inbox/chapter writing rulebook.md	kw:\bchapter
+3c	inbox-route	00_Inbox_Unsorted/Release_Candidate_Stop-the-Line.md	09_Legal_Contracts_Insurance_Housing/_from_inbox/Release_Candidate_Stop-the-Line.md	kw:lease
+3c	inbox-route	00_Inbox_Unsorted/ultimate guide to maximizing your shift earnings ­ƒù║´©Å [5539A5FA24].md	02_Business_Gig_Work_and_Careers/_from_inbox/ultimate guide to maximizing your shift earnings ­ƒù║´©Å [5539A5FA24].md	kw:earnings
+3c	inbox-route	00_Inbox_Unsorted/movie_serious_scores.md	12_Entertainment/_from_inbox/movie_serious_scores.md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/PKM_Overview_Pretty_Princess 2 [26730D27F8].md	06_Knowledge_Management_PKM/_from_inbox/PKM_Overview_Pretty_Princess 2 [26730D27F8].md	kw:pkm
+3c	inbox-route	00_Inbox_Unsorted/Collection of QuotesReflections & Insights [4BDD48CF2B].md	14_Reading_Quotes_Philosophy/_from_inbox/Collection of QuotesReflections & Insights [4BDD48CF2B].md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/youtube_music_uber_30_playlist_prompts-2.md	05_AI_Tools_and_Guides/_from_inbox/youtube_music_uber_30_playlist_prompts-2.md	kw:prompt
+3c	inbox-route	00_Inbox_Unsorted/quotes_artistic_final_sharpened_opt.md	14_Reading_Quotes_Philosophy/_from_inbox/quotes_artistic_final_sharpened_opt.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/YouTube Music - Gemini Historical Chain 100 Prompts.md	05_AI_Tools_and_Guides/_from_inbox/YouTube Music - Gemini Historical Chain 100 Prompts.md	kw:prompt
+3c	inbox-route	00_Inbox_Unsorted/Samsung S24 Ultra - Folder View Prompts.md	05_AI_Tools_and_Guides/_from_inbox/Samsung S24 Ultra - Folder View Prompts.md	kw:prompt
+3c	inbox-route	00_Inbox_Unsorted/Silly or serious movie list ÔëíãÆ├å├í.md	12_Entertainment/_from_inbox/Silly or serious movie list ÔëíãÆ├å├í.md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/final_document [ED2DA03B57].md	16_Personal_NSFW/_from_inbox/final_document [ED2DA03B57].md	kw:cum
+3c	inbox-route	00_Inbox_Unsorted/Canticle of the Flawed Equilibrium (1).md	15_Writing_Literature/_from_inbox/Canticle of the Flawed Equilibrium (1).md	kw:canticle
+3c	inbox-route	00_Inbox_Unsorted/quotes_artistic_final_gorgeous_small_optimized.md	14_Reading_Quotes_Philosophy/_from_inbox/quotes_artistic_final_gorgeous_small_optimized.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/Checklist for Crafting a Viral Pocket FM Web Novel Chapter [9D5188822B].md	15_Writing_Literature/_from_inbox/Checklist for Crafting a Viral Pocket FM Web Novel Chapter [9D5188822B].md	kw:\bchapter
+3c	inbox-route	00_Inbox_Unsorted/Chat GPT Subscription Comparison Chart.md	05_AI_Tools_and_Guides/_from_inbox/Chat GPT Subscription Comparison Chart.md	kw: gpt 
+3c	inbox-route	00_Inbox_Unsorted/VeritasQuo_IconSystem_MASTER_AllBatches_v1.md	41_Veritas_Quo_Codex/_from_inbox/VeritasQuo_IconSystem_MASTER_AllBatches_v1.md	kw:veritasquo
+3c	inbox-route	00_Inbox_Unsorted/T2_ANALYSIS__Deep_Structural_and_Tonal_Analysis__Calyx_100-Chapter_Plan.md	15_Writing_Literature/_from_inbox/T2_ANALYSIS__Deep_Structural_and_Tonal_Analysis__Calyx_100-Chapter_Plan.md	kw:\bchapter
+3c	inbox-route	00_Inbox_Unsorted/Music_Library_Refactor_ELEGANT_COMPRESSED_REV7_260221_185338 [DD78D30B44].md	19_Music_Arts_Design/_from_inbox/Music_Library_Refactor_ELEGANT_COMPRESSED_REV7_260221_185338 [DD78D30B44].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/movies_list.md	12_Entertainment/_from_inbox/movies_list.md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/Giant quote list 2.md	14_Reading_Quotes_Philosophy/_from_inbox/Giant quote list 2.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/Music idea YouTube [1F23B4E834].md	19_Music_Arts_Design/_from_inbox/Music idea YouTube [1F23B4E834].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/slut-trainer-tracker-app [99E8312F73].md	16_Personal_NSFW/_from_inbox/slut-trainer-tracker-app [99E8312F73].md	kw:slut
+3c	inbox-route	00_Inbox_Unsorted/novel_with_cover_formatted.md	15_Writing_Literature/_from_inbox/novel_with_cover_formatted.md	kw:\bnovel
+3c	inbox-route	00_Inbox_Unsorted/Slut Path Overview.md	16_Personal_NSFW/_from_inbox/Slut Path Overview.md	kw:slut
+3c	inbox-route	00_Inbox_Unsorted/Collection of Quotes - Reflections & Insights [E7C196A2A1].md	14_Reading_Quotes_Philosophy/_from_inbox/Collection of Quotes - Reflections & Insights [E7C196A2A1].md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/doctor_who_complete_episode_list_1963_2025_v2.md	12_Entertainment/_from_inbox/doctor_who_complete_episode_list_1963_2025_v2.md	kw:episode
+3c	inbox-route	00_Inbox_Unsorted/ultimate guide to maximizing your shift earnings ­ƒù║´©Å [16A89D2EE3].md	02_Business_Gig_Work_and_Careers/_from_inbox/ultimate guide to maximizing your shift earnings ­ƒù║´©Å [16A89D2EE3].md	kw:earnings
+3c	inbox-route	00_Inbox_Unsorted/Skyrocket_Documents.md	16_Personal_NSFW/_from_inbox/Skyrocket_Documents.md	kw:cum
+3c	inbox-route	00_Inbox_Unsorted/LLM Strengths & Best Use Case Breakdown Table [255953F4BC].md	05_AI_Tools_and_Guides/_from_inbox/LLM Strengths & Best Use Case Breakdown Table [255953F4BC].md	kw:llm
+3c	inbox-route	00_Inbox_Unsorted/high_watchers_definitive_audit_prompt-1.md	05_AI_Tools_and_Guides/_from_inbox/high_watchers_definitive_audit_prompt-1.md	kw:prompt
+3c	inbox-route	00_Inbox_Unsorted/Doctor WhoComplete Episode Index [5BA70EF1CE].md	12_Entertainment/_from_inbox/Doctor WhoComplete Episode Index [5BA70EF1CE].md	kw:episode
+3c	inbox-route	00_Inbox_Unsorted/Comparison of LLM Subscription Plans (Public Consumer Services) [C3EFB7DAA7].md	05_AI_Tools_and_Guides/_from_inbox/Comparison of LLM Subscription Plans (Public Consumer Services) [C3EFB7DAA7].md	kw:llm
+3c	inbox-route	00_Inbox_Unsorted/Canticle_of_the_Flawed_Equilibrium_Two_Column_Doub_260108_153739 [B8E641B185].md	15_Writing_Literature/_from_inbox/Canticle_of_the_Flawed_Equilibrium_Two_Column_Doub_260108_153739 [B8E641B185].md	kw:canticle
+3c	inbox-route	00_Inbox_Unsorted/REF-D ÔÇô Quote safety heuristic.md	14_Reading_Quotes_Philosophy/_from_inbox/REF-D ÔÇô Quote safety heuristic.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/Business Card - Logo Side (Dark).md	01_Business_Sharp_House_Solutions/_from_inbox/Business Card - Logo Side (Dark).md	kw:business\ card
+3c	inbox-route	00_Inbox_Unsorted/high_watchers_definitive_audit_prompt [AB2F3A8132].md	05_AI_Tools_and_Guides/_from_inbox/high_watchers_definitive_audit_prompt [AB2F3A8132].md	kw:prompt
+3c	inbox-route	00_Inbox_Unsorted/Quotes_Batch_1_111-120.md	14_Reading_Quotes_Philosophy/_from_inbox/Quotes_Batch_1_111-120.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/T2_ANALYSIS__Deep_Structural_and_Tonal_Analysis__Calyx_100-Chapter_Plan [256B2FD815].md	15_Writing_Literature/_from_inbox/T2_ANALYSIS__Deep_Structural_and_Tonal_Analysis__Calyx_100-Chapter_Plan [256B2FD815].md	kw:\bchapter
+3c	inbox-route	00_Inbox_Unsorted/quotes_passages [8C7A10D3BD].md	14_Reading_Quotes_Philosophy/_from_inbox/quotes_passages [8C7A10D3BD].md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/Chat GPT Subscription Comparison Chart [B6A54F6726].md	05_AI_Tools_and_Guides/_from_inbox/Chat GPT Subscription Comparison Chart [B6A54F6726].md	kw: gpt 
+3c	inbox-route	00_Inbox_Unsorted/ultimate guide to maximizing your shift earnings ­ƒù║´©Å.md	02_Business_Gig_Work_and_Careers/_from_inbox/ultimate guide to maximizing your shift earnings ­ƒù║´©Å.md	kw:earnings
+3c	inbox-route	00_Inbox_Unsorted/PDR-C ÔÇô Meditations public-domain note.md	22_Religion_Spiritual/_from_inbox/PDR-C ÔÇô Meditations public-domain note.md	kw:meditation
+3c	inbox-route	00_Inbox_Unsorted/Here you go chat GPT exactly what you asked for.md	05_AI_Tools_and_Guides/_from_inbox/Here you go chat GPT exactly what you asked for.md	kw: gpt 
+3c	inbox-route	00_Inbox_Unsorted/quotes_artistic_final [2CEC84F19C].md	14_Reading_Quotes_Philosophy/_from_inbox/quotes_artistic_final [2CEC84F19C].md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/Film updated list sample.md	12_Entertainment/_from_inbox/Film updated list sample.md	kw:film 
+3c	inbox-route	00_Inbox_Unsorted/Inspection-Ready Edges with Budget Gear [9AE83C0AF3].md	03_Finance_Taxes_and_Loans/_from_inbox/Inspection-Ready Edges with Budget Gear [9AE83C0AF3].md	kw:budget
+3c	inbox-route	00_Inbox_Unsorted/T2_PLAN__Revised_100-Chapter_Plan__2026-01-25 [250E11B9A2].md	15_Writing_Literature/_from_inbox/T2_PLAN__Revised_100-Chapter_Plan__2026-01-25 [250E11B9A2].md	kw:\bchapter
+3c	inbox-route	00_Inbox_Unsorted/Doctor WhoComplete Episode Index [EEF127AB99].md	12_Entertainment/_from_inbox/Doctor WhoComplete Episode Index [EEF127AB99].md	kw:episode
+3c	inbox-route	00_Inbox_Unsorted/ultimate guide to maximizing your shift earnings ­ƒù║´©Å [7199626612].md	02_Business_Gig_Work_and_Careers/_from_inbox/ultimate guide to maximizing your shift earnings ­ƒù║´©Å [7199626612].md	kw:earnings
+3c	inbox-route	00_Inbox_Unsorted/06_long-document.md	16_Personal_NSFW/_from_inbox/06_long-document.md	kw:cum
+3c	inbox-route	00_Inbox_Unsorted/music library songs [267EACDBC3].md	19_Music_Arts_Design/_from_inbox/music library songs [267EACDBC3].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/music_list_factcheck_summary.md	19_Music_Arts_Design/_from_inbox/music_list_factcheck_summary.md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Proofreading and Enrichment Report for Musical Entries Text File.md	19_Music_Arts_Design/_from_inbox/Proofreading and Enrichment Report for Musical Entries Text File.md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/document [0D8FBD7F7B].md	16_Personal_NSFW/_from_inbox/document [0D8FBD7F7B].md	kw:cum
+3c	inbox-route	00_Inbox_Unsorted/Folgezettel - 100a.2 Adds Upfront Friction.md	50_Implications_Zettelkasten/_from_inbox/Folgezettel - 100a.2 Adds Upfront Friction.md	kw:zettel
+3c	inbox-route	00_Inbox_Unsorted/Music idea YouTube ­ƒÆí [83FD23E534].md	19_Music_Arts_Design/_from_inbox/Music idea YouTube ­ƒÆí [83FD23E534].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Personal Philosophy [4A79F9FCE6].md	14_Reading_Quotes_Philosophy/_from_inbox/Personal Philosophy [4A79F9FCE6].md	kw:philosophy
+3c	inbox-route	00_Inbox_Unsorted/Prompt to Rewrite _Vacancy_ as a Pocket FM Audio Web Novel.md	05_AI_Tools_and_Guides/_from_inbox/Prompt to Rewrite _Vacancy_ as a Pocket FM Audio Web Novel.md	kw:prompt
+3c	inbox-route	00_Inbox_Unsorted/policy-document (2).md	16_Personal_NSFW/_from_inbox/policy-document (2).md	kw:cum
+3c	inbox-route	00_Inbox_Unsorted/PayPal Transactions (Aug - Nov) [58988513E8].md	03_Finance_Taxes_and_Loans/_from_inbox/PayPal Transactions (Aug - Nov) [58988513E8].md	kw:paypal
+3c	inbox-route	00_Inbox_Unsorted/music_list_hierarchical_colorcoded_v8b [6B80B14518].md	19_Music_Arts_Design/_from_inbox/music_list_hierarchical_colorcoded_v8b [6B80B14518].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Enable CSS snippet GraphFirst Vault Identity (v3) [7E1F3418B5].md	18_Tech_Reference/_from_inbox/Enable CSS snippet GraphFirst Vault Identity (v3) [7E1F3418B5].md	kw:\bcss\b
+3c	inbox-route	00_Inbox_Unsorted/5A-214_downloaded-document.md	16_Personal_NSFW/_from_inbox/5A-214_downloaded-document.md	kw:cum
+3c	inbox-route	00_Inbox_Unsorted/quotes_dedup_no_squares_landscape_2col_5pt.md	14_Reading_Quotes_Philosophy/_from_inbox/quotes_dedup_no_squares_landscape_2col_5pt.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/PayPal Transactions (Aug - Nov) ­ƒÆ▓ [ECA3333BF0].md	03_Finance_Taxes_and_Loans/_from_inbox/PayPal Transactions (Aug - Nov) ­ƒÆ▓ [ECA3333BF0].md	kw:paypal
+3c	inbox-route	00_Inbox_Unsorted/llm_subscription_atlas_v2.md	05_AI_Tools_and_Guides/_from_inbox/llm_subscription_atlas_v2.md	kw:llm
+3c	inbox-route	00_Inbox_Unsorted/vaults__veritys-quote__imported-monolith-and-legacy__monolith-splits__monolith-part03-of-03.md.md	14_Reading_Quotes_Philosophy/_from_inbox/vaults__veritys-quote__imported-monolith-and-legacy__monolith-splits__monolith-part03-of-03.md.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/Chat GPT Subscription Comparison Chart [525B68E7AE].md	05_AI_Tools_and_Guides/_from_inbox/Chat GPT Subscription Comparison Chart [525B68E7AE].md	kw: gpt 
+3c	inbox-route	00_Inbox_Unsorted/llm_subscription_atlas_redo_v3.md	05_AI_Tools_and_Guides/_from_inbox/llm_subscription_atlas_redo_v3.md	kw:llm
+3c	inbox-route	00_Inbox_Unsorted/novel_with_cover_formatted [2E1AB9294B].md	15_Writing_Literature/_from_inbox/novel_with_cover_formatted [2E1AB9294B].md	kw:\bnovel
+3c	inbox-route	00_Inbox_Unsorted/Canticle_of_the_Flawed_Equilibrium_Two_Column_Doub_260108_153747 [900232B3D1].md	15_Writing_Literature/_from_inbox/Canticle_of_the_Flawed_Equilibrium_Two_Column_Doub_260108_153747 [900232B3D1].md	kw:canticle
+3c	inbox-route	00_Inbox_Unsorted/Please format the markdown file so that the parag...md	09_Legal_Contracts_Insurance_Housing/_from_inbox/Please format the markdown file so that the parag...md	kw:lease
+3c	inbox-route	00_Inbox_Unsorted/Business Card - Thomas - Contact Side [83124FC7E5].md	01_Business_Sharp_House_Solutions/_from_inbox/Business Card - Thomas - Contact Side [83124FC7E5].md	kw:business\ card
+3c	inbox-route	00_Inbox_Unsorted/Quotes_Batch_1_Full_updated (2).md	14_Reading_Quotes_Philosophy/_from_inbox/Quotes_Batch_1_Full_updated (2).md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/Music idea YouTube ­ƒÆí [B49E6035EB].md	19_Music_Arts_Design/_from_inbox/Music idea YouTube ­ƒÆí [B49E6035EB].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/quotes_randomized_deduped.md	14_Reading_Quotes_Philosophy/_from_inbox/quotes_randomized_deduped.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/Music Library Refactor- Hierarchy Layout [6508F4828F].md	19_Music_Arts_Design/_from_inbox/Music Library Refactor- Hierarchy Layout [6508F4828F].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/llm_subscription_atlas_v2 [DB50A6C9B0].md	05_AI_Tools_and_Guides/_from_inbox/llm_subscription_atlas_v2 [DB50A6C9B0].md	kw:llm
+3c	inbox-route	00_Inbox_Unsorted/Inspection Ready EdgesEdges with Budget Gear.md	03_Finance_Taxes_and_Loans/_from_inbox/Inspection Ready EdgesEdges with Budget Gear.md	kw:budget
+3c	inbox-route	00_Inbox_Unsorted/Checklist for Crafting a Viral Pocket FM Web Novel Chapter.md	15_Writing_Literature/_from_inbox/Checklist for Crafting a Viral Pocket FM Web Novel Chapter.md	kw:\bchapter
+3c	inbox-route	00_Inbox_Unsorted/Canticle of the Flawed Equilibrium [84A9FDCC3C].md	15_Writing_Literature/_from_inbox/Canticle of the Flawed Equilibrium [84A9FDCC3C].md	kw:canticle
+3c	inbox-route	00_Inbox_Unsorted/Sinnerman (song).md	19_Music_Arts_Design/_from_inbox/Sinnerman (song).md	kw:\bsong
+3c	inbox-route	00_Inbox_Unsorted/quotes_passages.md	14_Reading_Quotes_Philosophy/_from_inbox/quotes_passages.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/Music Genre Universe [9BBB8B3293].md	19_Music_Arts_Design/_from_inbox/Music Genre Universe [9BBB8B3293].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Movie_Sequels_Chronological_Normalized.md	12_Entertainment/_from_inbox/Movie_Sequels_Chronological_Normalized.md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/Movie_Sequels_Chronological_GroupsOnly.md	12_Entertainment/_from_inbox/Movie_Sequels_Chronological_GroupsOnly.md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/Prompt prompts for llms [3F271C9978].md	05_AI_Tools_and_Guides/_from_inbox/Prompt prompts for llms [3F271C9978].md	kw:prompt
+3c	inbox-route	00_Inbox_Unsorted/Movie_Checklist_Clean_Numbered.md	12_Entertainment/_from_inbox/Movie_Checklist_Clean_Numbered.md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/Movie-Ratings╬ô├ç├ÂBatch-3.md	12_Entertainment/_from_inbox/Movie-Ratings╬ô├ç├ÂBatch-3.md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/philosophy_batch_1_quotes_20251128.md	14_Reading_Quotes_Philosophy/_from_inbox/philosophy_batch_1_quotes_20251128.md	kw:philosophy
+3c	inbox-route	00_Inbox_Unsorted/Master Quote List [3FBEBEFC59].md	14_Reading_Quotes_Philosophy/_from_inbox/Master Quote List [3FBEBEFC59].md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/Personal Philosophy [BDA2B12E6B].md	14_Reading_Quotes_Philosophy/_from_inbox/Personal Philosophy [BDA2B12E6B].md	kw:philosophy
+3c	inbox-route	00_Inbox_Unsorted/high_watchers_definitive_audit_prompt [6A6EB4200F].md	05_AI_Tools_and_Guides/_from_inbox/high_watchers_definitive_audit_prompt [6A6EB4200F].md	kw:prompt
+3c	inbox-route	00_Inbox_Unsorted/Movies.md	12_Entertainment/_from_inbox/Movies.md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/Prompting_Book_Revisions_From_Feedback.md	05_AI_Tools_and_Guides/_from_inbox/Prompting_Book_Revisions_From_Feedback.md	kw:prompt
+3c	inbox-route	00_Inbox_Unsorted/music_list_factcheck_summary [44BC03476B].md	19_Music_Arts_Design/_from_inbox/music_list_factcheck_summary [44BC03476B].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Movie_Sequels_Chronological_By_Franchise.md	12_Entertainment/_from_inbox/Movie_Sequels_Chronological_By_Franchise.md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/Personal Philosophy [BDB010D8D9].md	14_Reading_Quotes_Philosophy/_from_inbox/Personal Philosophy [BDB010D8D9].md	kw:philosophy
+3c	inbox-route	00_Inbox_Unsorted/doctor_who_complete_episode_index_deluxe_with_doctors_v3 [C01FC1298B].md	12_Entertainment/_from_inbox/doctor_who_complete_episode_index_deluxe_with_doctors_v3 [C01FC1298B].md	kw:episode
+3c	inbox-route	00_Inbox_Unsorted/Quotes_Batch_1_Full.md	14_Reading_Quotes_Philosophy/_from_inbox/Quotes_Batch_1_Full.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/big quotes [9B15D3AF47].md	14_Reading_Quotes_Philosophy/_from_inbox/big quotes [9B15D3AF47].md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/music genre universe styled [0389256C77].md	19_Music_Arts_Design/_from_inbox/music genre universe styled [0389256C77].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/LLM_Subscription_Atlas_1-Page_Matrix (1) [BCE03B41B3].md	05_AI_Tools_and_Guides/_from_inbox/LLM_Subscription_Atlas_1-Page_Matrix (1) [BCE03B41B3].md	kw:llm
+3c	inbox-route	00_Inbox_Unsorted/Business Card - Logo Side (Mockup) [D230586ED1].md	01_Business_Sharp_House_Solutions/_from_inbox/Business Card - Logo Side (Mockup) [D230586ED1].md	kw:business\ card
+3c	inbox-route	00_Inbox_Unsorted/PayPal Transactions (Aug - Nov) ­ƒÆ▓ [2845FE7EAC].md	03_Finance_Taxes_and_Loans/_from_inbox/PayPal Transactions (Aug - Nov) ­ƒÆ▓ [2845FE7EAC].md	kw:paypal
+3c	inbox-route	00_Inbox_Unsorted/chapter writing rulebook [F89C957595].md	15_Writing_Literature/_from_inbox/chapter writing rulebook [F89C957595].md	kw:\bchapter
+3c	inbox-route	00_Inbox_Unsorted/Full music list containing every entry use as reference to make sure you have every entry [4798C81537].md	19_Music_Arts_Design/_from_inbox/Full music list containing every entry use as reference to make sure you have every entry [4798C81537].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Toyota Corolla Financing Statements (Aug - Oct).md	11_Vehicles/_from_inbox/Toyota Corolla Financing Statements (Aug - Oct).md	kw:corolla
+3c	inbox-route	00_Inbox_Unsorted/Calyx_100_MicroPrompts.md	05_AI_Tools_and_Guides/_from_inbox/Calyx_100_MicroPrompts.md	kw:prompt
+3c	inbox-route	00_Inbox_Unsorted/Weekly-Report-to-Mistress.md	16_Personal_NSFW/_from_inbox/Weekly-Report-to-Mistress.md	kw:mistress
+3c	inbox-route	00_Inbox_Unsorted/Music Genre Universe.md	19_Music_Arts_Design/_from_inbox/Music Genre Universe.md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Movie_Checklist_Cleaned.md	12_Entertainment/_from_inbox/Movie_Checklist_Cleaned.md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/Music List (Golden Record Edition) [8CE5410061].md	19_Music_Arts_Design/_from_inbox/Music List (Golden Record Edition) [8CE5410061].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/quotes_randomized_deduped [E8A0674606].md	14_Reading_Quotes_Philosophy/_from_inbox/quotes_randomized_deduped [E8A0674606].md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/High Watchers Definitive Audit Prompt.md	05_AI_Tools_and_Guides/_from_inbox/High Watchers Definitive Audit Prompt.md	kw:prompt
+3c	inbox-route	00_Inbox_Unsorted/Thomas_Densley_Resume_v2 [FA45A4E23C].md	02_Business_Gig_Work_and_Careers/_from_inbox/Thomas_Densley_Resume_v2 [FA45A4E23C].md	kw:resume
+3c	inbox-route	00_Inbox_Unsorted/doctor_who_original_series_episodes_deluxe.md	12_Entertainment/_from_inbox/doctor_who_original_series_episodes_deluxe.md	kw:episode
+3c	inbox-route	00_Inbox_Unsorted/Roofing price breakdown chart [D40B6752E1].md	01_Business_Sharp_House_Solutions/_from_inbox/Roofing price breakdown chart [D40B6752E1].md	kw:roofing
+3c	inbox-route	00_Inbox_Unsorted/Inspection Ready EdgesEdges with Budget Gear [206A4D8B67].md	03_Finance_Taxes_and_Loans/_from_inbox/Inspection Ready EdgesEdges with Budget Gear [206A4D8B67].md	kw:budget
+3c	inbox-route	00_Inbox_Unsorted/Music idea YouTube [1E60341F7C].md	19_Music_Arts_Design/_from_inbox/Music idea YouTube [1E60341F7C].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/PKM_Overview_Pretty_Princess 2 [471ACF31D6].md	06_Knowledge_Management_PKM/_from_inbox/PKM_Overview_Pretty_Princess 2 [471ACF31D6].md	kw:pkm
+3c	inbox-route	00_Inbox_Unsorted/Business Card - Kyle.md	01_Business_Sharp_House_Solutions/_from_inbox/Business Card - Kyle.md	kw:business\ card
+3c	inbox-route	00_Inbox_Unsorted/Personal Philosophy [CAAD580DF1].md	14_Reading_Quotes_Philosophy/_from_inbox/Personal Philosophy [CAAD580DF1].md	kw:philosophy
+3c	inbox-route	00_Inbox_Unsorted/Master Movie Ratings ╬ô├ç├Â Full List (4).md	12_Entertainment/_from_inbox/Master Movie Ratings ╬ô├ç├Â Full List (4).md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/doctor_who_complete_episode_index_deluxe_v2 [CD138EB148].md	12_Entertainment/_from_inbox/doctor_who_complete_episode_index_deluxe_v2 [CD138EB148].md	kw:episode
+3c	inbox-route	00_Inbox_Unsorted/Business Card - Thomas - Split Design.md	01_Business_Sharp_House_Solutions/_from_inbox/Business Card - Thomas - Split Design.md	kw:business\ card
+3c	inbox-route	00_Inbox_Unsorted/Personal Philosophy [48554F3E65].md	14_Reading_Quotes_Philosophy/_from_inbox/Personal Philosophy [48554F3E65].md	kw:philosophy
+3c	inbox-route	00_Inbox_Unsorted/chapter_writing_rulebook [FF2DD3CDA9].md	15_Writing_Literature/_from_inbox/chapter_writing_rulebook [FF2DD3CDA9].md	kw:\bchapter
+3c	inbox-route	00_Inbox_Unsorted/Canticle_of_the_Flawed_Equilibrium_Artistic_Recreated.md	15_Writing_Literature/_from_inbox/Canticle_of_the_Flawed_Equilibrium_Artistic_Recreated.md	kw:canticle
+3c	inbox-route	00_Inbox_Unsorted/PayPal Transactions (Aug - Nov) ­ƒÆ▓ [81845E075C].md	03_Finance_Taxes_and_Loans/_from_inbox/PayPal Transactions (Aug - Nov) ­ƒÆ▓ [81845E075C].md	kw:paypal
+3c	inbox-route	00_Inbox_Unsorted/Roofing price breakdown chart [6CE777B3D4].md	01_Business_Sharp_House_Solutions/_from_inbox/Roofing price breakdown chart [6CE777B3D4].md	kw:roofing
+3c	inbox-route	00_Inbox_Unsorted/Music_Library_Refactor_ELEGANT_HIERARCHY_READABLE_REV10.md	19_Music_Arts_Design/_from_inbox/Music_Library_Refactor_ELEGANT_HIERARCHY_READABLE_REV10.md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/LLM_Subscription_Atlas_1-Page_Matrix (1).md	05_AI_Tools_and_Guides/_from_inbox/LLM_Subscription_Atlas_1-Page_Matrix (1).md	kw:llm
+3c	inbox-route	00_Inbox_Unsorted/Movie_Sequels_List.md	12_Entertainment/_from_inbox/Movie_Sequels_List.md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/Enable CSS snippet- GraphFirst Vault Identity (v3) [9804599432].md	18_Tech_Reference/_from_inbox/Enable CSS snippet- GraphFirst Vault Identity (v3) [9804599432].md	kw:\bcss\b
+3c	inbox-route	00_Inbox_Unsorted/loan_payoff_plan_thomas_densley.md	03_Finance_Taxes_and_Loans/_from_inbox/loan_payoff_plan_thomas_densley.md	kw:\bloan
+3c	inbox-route	00_Inbox_Unsorted/Quotes_Batch_1_Full_updated (1).md	14_Reading_Quotes_Philosophy/_from_inbox/Quotes_Batch_1_Full_updated (1).md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/LLM_Subscription_Atlas_Cover.md	05_AI_Tools_and_Guides/_from_inbox/LLM_Subscription_Atlas_Cover.md	kw:llm
+3c	inbox-route	00_Inbox_Unsorted/Master Movie Ratings ╬ô├ç├Â Full List (2).md	12_Entertainment/_from_inbox/Master Movie Ratings ╬ô├ç├Â Full List (2).md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/Inspection Ready EdgesEdges with Budget Gear [B48CE91964].md	03_Finance_Taxes_and_Loans/_from_inbox/Inspection Ready EdgesEdges with Budget Gear [B48CE91964].md	kw:budget
+3c	inbox-route	00_Inbox_Unsorted/Film updated list sample [426AAA280F].md	12_Entertainment/_from_inbox/Film updated list sample [426AAA280F].md	kw:film 
+3c	inbox-route	00_Inbox_Unsorted/Canticle_of_the_Flawed_Equilibrium_Two_Column_Doub_260108_153739.md	15_Writing_Literature/_from_inbox/Canticle_of_the_Flawed_Equilibrium_Two_Column_Doub_260108_153739.md	kw:canticle
+3c	inbox-route	00_Inbox_Unsorted/LLM_Subscription_Atlas_2-Page_Matrix.md	05_AI_Tools_and_Guides/_from_inbox/LLM_Subscription_Atlas_2-Page_Matrix.md	kw:llm
+3c	inbox-route	00_Inbox_Unsorted/high_watchers_definitive_audit_prompt.md	05_AI_Tools_and_Guides/_from_inbox/high_watchers_definitive_audit_prompt.md	kw:prompt
+3c	inbox-route	00_Inbox_Unsorted/Music Library Refactor [01635118B7].md	19_Music_Arts_Design/_from_inbox/Music Library Refactor [01635118B7].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/doctor_who_original_series_episodes_deluxe_season_episode_numbers [3770F163DE].md	12_Entertainment/_from_inbox/doctor_who_original_series_episodes_deluxe_season_episode_numbers [3770F163DE].md	kw:episode
+3c	inbox-route	00_Inbox_Unsorted/loan-agreement-7021258 [35752CDC1E].md	03_Finance_Taxes_and_Loans/_from_inbox/loan-agreement-7021258 [35752CDC1E].md	kw:\bloan
+3c	inbox-route	00_Inbox_Unsorted/Business Cards - Mockup (Two Cards) [875BA374AA].md	01_Business_Sharp_House_Solutions/_from_inbox/Business Cards - Mockup (Two Cards) [875BA374AA].md	kw:business\ card
+3c	inbox-route	00_Inbox_Unsorted/Music List (Golden Record Edition).md	19_Music_Arts_Design/_from_inbox/Music List (Golden Record Edition).md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Quotes_Batch_1_Full_updated [7D5B7FE628].md	14_Reading_Quotes_Philosophy/_from_inbox/Quotes_Batch_1_Full_updated [7D5B7FE628].md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/Quotes_Doubled_Extended.md	14_Reading_Quotes_Philosophy/_from_inbox/Quotes_Doubled_Extended.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/Canticle_of_the_Flawed_Equilibrium_Two_Column_Doub_260108_153747.md	15_Writing_Literature/_from_inbox/Canticle_of_the_Flawed_Equilibrium_Two_Column_Doub_260108_153747.md	kw:canticle
+3c	inbox-route	00_Inbox_Unsorted/Music idea YouTube ­ƒÆí.md	19_Music_Arts_Design/_from_inbox/Music idea YouTube ­ƒÆí.md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Claude_Reference_README.md	05_AI_Tools_and_Guides/_from_inbox/Claude_Reference_README.md	kw:claude
+3c	inbox-route	00_Inbox_Unsorted/Quotes_Batch_1_121-130.md	14_Reading_Quotes_Philosophy/_from_inbox/Quotes_Batch_1_121-130.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/I-9 - List of Acceptable Documents [BACDFEA3E2].md	16_Personal_NSFW/_from_inbox/I-9 - List of Acceptable Documents [BACDFEA3E2].md	kw:cum
+3c	inbox-route	00_Inbox_Unsorted/Uber Ride Playlist Progression.md	02_Business_Gig_Work_and_Careers/_from_inbox/Uber Ride Playlist Progression.md	kw:uber
+3c	inbox-route	00_Inbox_Unsorted/policy-document (2) [B094B2A3C4].md	16_Personal_NSFW/_from_inbox/policy-document (2) [B094B2A3C4].md	kw:cum
+3c	inbox-route	00_Inbox_Unsorted/┬Ñ_Markdown_Inbox_Movie listt.md	12_Entertainment/_from_inbox/┬Ñ_Markdown_Inbox_Movie listt.md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/Quotes_Batch_1_Full_1-140.md	14_Reading_Quotes_Philosophy/_from_inbox/Quotes_Batch_1_Full_1-140.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/Original quote list [59DCEEEC4C].md	14_Reading_Quotes_Philosophy/_from_inbox/Original quote list [59DCEEEC4C].md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/03 - VAULT PHILOSOPHY AND DESIGN MEMORY.md	19_Music_Arts_Design/_from_inbox/03 - VAULT PHILOSOPHY AND DESIGN MEMORY.md	kw:\bdesign 
+3c	inbox-route	00_Inbox_Unsorted/Enable CSS snippet- GraphFirst Vault Identity (v3).md	18_Tech_Reference/_from_inbox/Enable CSS snippet- GraphFirst Vault Identity (v3).md	kw:\bcss\b
+3c	inbox-route	00_Inbox_Unsorted/Business Card - Logo + QR (Mockup) [F7390874FC].md	01_Business_Sharp_House_Solutions/_from_inbox/Business Card - Logo + QR (Mockup) [F7390874FC].md	kw:business\ card
+3c	inbox-route	00_Inbox_Unsorted/Quote Compilation Request.md	14_Reading_Quotes_Philosophy/_from_inbox/Quote Compilation Request.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/ultimate guide to maximizing your shift earnings ­ƒù║´©Å [D8A62F93E7].md	02_Business_Gig_Work_and_Careers/_from_inbox/ultimate guide to maximizing your shift earnings ­ƒù║´©Å [D8A62F93E7].md	kw:earnings
+3c	inbox-route	00_Inbox_Unsorted/Movie_Sequels_Chronological_Renumbered.md	12_Entertainment/_from_inbox/Movie_Sequels_Chronological_Renumbered.md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/Master kink list ­ƒôØ [1B3FA8E4C1].md	16_Personal_NSFW/_from_inbox/Master kink list ­ƒôØ [1B3FA8E4C1].md	kw: kink
+3c	inbox-route	00_Inbox_Unsorted/Philosophy MOC (kit).md	06_Knowledge_Management_PKM/_from_inbox/Philosophy MOC (kit).md	kw: moc 
+3c	inbox-route	00_Inbox_Unsorted/youtube_music_30_playlist_prompts-2.md	05_AI_Tools_and_Guides/_from_inbox/youtube_music_30_playlist_prompts-2.md	kw:prompt
+3c	inbox-route	00_Inbox_Unsorted/Music Genre Universe [699FE09B93].md	19_Music_Arts_Design/_from_inbox/Music Genre Universe [699FE09B93].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Please format the markdown file so that the parag.. [96AA514428].md	09_Legal_Contracts_Insurance_Housing/_from_inbox/Please format the markdown file so that the parag.. [96AA514428].md	kw:lease
+3c	inbox-route	00_Inbox_Unsorted/Quote_Review_Board.md	14_Reading_Quotes_Philosophy/_from_inbox/Quote_Review_Board.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/llm_subscription_atlas_redo_v3 [8DAFFE996F].md	05_AI_Tools_and_Guides/_from_inbox/llm_subscription_atlas_redo_v3 [8DAFFE996F].md	kw:llm
+3c	inbox-route	00_Inbox_Unsorted/Sub Punishments Updated.md	16_Personal_NSFW/_from_inbox/Sub Punishments Updated.md	kw:sub\ punishment
+3c	inbox-route	00_Inbox_Unsorted/LLM Strengths & Best Use Case Breakdown Table.md	05_AI_Tools_and_Guides/_from_inbox/LLM Strengths & Best Use Case Breakdown Table.md	kw:llm
+3c	inbox-route	00_Inbox_Unsorted/Music Library Refactor - Hierarchy Layout [40C6E4A996].md	19_Music_Arts_Design/_from_inbox/Music Library Refactor - Hierarchy Layout [40C6E4A996].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Business Card - Logo Side (Dark) [F95FA8ED6E].md	01_Business_Sharp_House_Solutions/_from_inbox/Business Card - Logo Side (Dark) [F95FA8ED6E].md	kw:business\ card
+3c	inbox-route	00_Inbox_Unsorted/Resume (1).md	02_Business_Gig_Work_and_Careers/_from_inbox/Resume (1).md	kw:resume
+3c	inbox-route	00_Inbox_Unsorted/music Uber playlists ­ƒÄÁ­ƒÄÂ­ƒÄÁ.md	02_Business_Gig_Work_and_Careers/_from_inbox/music Uber playlists ­ƒÄÁ­ƒÄÂ­ƒÄÁ.md	kw:uber
+3c	inbox-route	00_Inbox_Unsorted/music_list_hierarchical_colorcoded_v6c.md	19_Music_Arts_Design/_from_inbox/music_list_hierarchical_colorcoded_v6c.md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/music genre universe styled [5E23847F38].md	19_Music_Arts_Design/_from_inbox/music genre universe styled [5E23847F38].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Toyota Corolla Financing Statements (Aug - Oct) [FB6B4DD196].md	11_Vehicles/_from_inbox/Toyota Corolla Financing Statements (Aug - Oct) [FB6B4DD196].md	kw:corolla
+3c	inbox-route	00_Inbox_Unsorted/doctor_who_complete_episode_index_deluxe_with_doctors_v3.md	12_Entertainment/_from_inbox/doctor_who_complete_episode_index_deluxe_with_doctors_v3.md	kw:episode
+3c	inbox-route	00_Inbox_Unsorted/movie_serious_scores_unshaped.md	12_Entertainment/_from_inbox/movie_serious_scores_unshaped.md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/Folgezettel - 100a.1 Showing How Folgezettel Works.md	50_Implications_Zettelkasten/_from_inbox/Folgezettel - 100a.1 Showing How Folgezettel Works.md	kw:zettel
+3c	inbox-route	00_Inbox_Unsorted/Chat GPT Subscription Comparison Chart [2F44072A76].md	05_AI_Tools_and_Guides/_from_inbox/Chat GPT Subscription Comparison Chart [2F44072A76].md	kw: gpt 
+3c	inbox-route	00_Inbox_Unsorted/Business Card - Kyle [206D643B54].md	01_Business_Sharp_House_Solutions/_from_inbox/Business Card - Kyle [206D643B54].md	kw:business\ card
+3c	inbox-route	00_Inbox_Unsorted/VeritasQuo_IconSystem_Gemini_AllPrompts_v1.md	41_Veritas_Quo_Codex/_from_inbox/VeritasQuo_IconSystem_Gemini_AllPrompts_v1.md	kw:veritasquo
+3c	inbox-route	00_Inbox_Unsorted/Master kink list ­ƒôØ [40E063DA3F].md	16_Personal_NSFW/_from_inbox/Master kink list ­ƒôØ [40E063DA3F].md	kw: kink
+3c	inbox-route	00_Inbox_Unsorted/ultimate guide to maximizing your shift earnings ­ƒù║´©Å [C19BAD45BF].md	02_Business_Gig_Work_and_Careers/_from_inbox/ultimate guide to maximizing your shift earnings ­ƒù║´©Å [C19BAD45BF].md	kw:earnings
+3c	inbox-route	00_Inbox_Unsorted/Systems MOC (kit).md	06_Knowledge_Management_PKM/_from_inbox/Systems MOC (kit).md	kw: moc 
+3c	inbox-route	00_Inbox_Unsorted/Personal Philosophy [2568D832B2].md	14_Reading_Quotes_Philosophy/_from_inbox/Personal Philosophy [2568D832B2].md	kw:philosophy
+3c	inbox-route	00_Inbox_Unsorted/DESIGN.md	19_Music_Arts_Design/_from_inbox/DESIGN.md	kw:\bdesign 
+3c	inbox-route	00_Inbox_Unsorted/Canticle_of_the_Flawed_Equilibrium_Artistic_Recreated [C4A7D7EFC8].md	15_Writing_Literature/_from_inbox/Canticle_of_the_Flawed_Equilibrium_Artistic_Recreated [C4A7D7EFC8].md	kw:canticle
+3c	inbox-route	00_Inbox_Unsorted/ÔëíãÆ├ä┬╝Movie RatingsÔëíãÆ├ä┬╝.md	12_Entertainment/_from_inbox/ÔëíãÆ├ä┬╝Movie RatingsÔëíãÆ├ä┬╝.md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/Master kink list ­ƒôØ.md	16_Personal_NSFW/_from_inbox/Master kink list ­ƒôØ.md	kw: kink
+3c	inbox-route	00_Inbox_Unsorted/Music Library Refactor- Hierarchy Layout [4467041618].md	19_Music_Arts_Design/_from_inbox/Music Library Refactor- Hierarchy Layout [4467041618].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Doctor Who - Complete Episode Index [A6C3E518D2].md	12_Entertainment/_from_inbox/Doctor Who - Complete Episode Index [A6C3E518D2].md	kw:episode
+3c	inbox-route	00_Inbox_Unsorted/Image generation prompts for creatures in the back rooms.md	05_AI_Tools_and_Guides/_from_inbox/Image generation prompts for creatures in the back rooms.md	kw:prompt
+3c	inbox-route	00_Inbox_Unsorted/Business Card - Thomas - Contact Side.md	01_Business_Sharp_House_Solutions/_from_inbox/Business Card - Thomas - Contact Side.md	kw:business\ card
+3c	inbox-route	00_Inbox_Unsorted/vaults__veritys-quote___archive-governance__CHANGELOG.md.md	14_Reading_Quotes_Philosophy/_from_inbox/vaults__veritys-quote___archive-governance__CHANGELOG.md.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/vaults__veritys-quote___archive-governance___governance__MIGRATION_REPORT.md.md	14_Reading_Quotes_Philosophy/_from_inbox/vaults__veritys-quote___archive-governance___governance__MIGRATION_REPORT.md.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/slut-trainer-tracker-app.md	16_Personal_NSFW/_from_inbox/slut-trainer-tracker-app.md	kw:slut
+3c	inbox-route	00_Inbox_Unsorted/icon-prompt-library-v3.md	05_AI_Tools_and_Guides/_from_inbox/icon-prompt-library-v3.md	kw:prompt
+3c	inbox-route	00_Inbox_Unsorted/commercial document.md	16_Personal_NSFW/_from_inbox/commercial document.md	kw:cum
+3c	inbox-route	00_Inbox_Unsorted/Reorganized Movie List Partial.md	12_Entertainment/_from_inbox/Reorganized Movie List Partial.md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/Orgasm Control.md	16_Personal_NSFW/_from_inbox/Orgasm Control.md	kw:orgasm
+3c	inbox-route	00_Inbox_Unsorted/PayPal Transactions (Aug - Nov).md	03_Finance_Taxes_and_Loans/_from_inbox/PayPal Transactions (Aug - Nov).md	kw:paypal
+3c	inbox-route	00_Inbox_Unsorted/loan-agreement-7021258.md	03_Finance_Taxes_and_Loans/_from_inbox/loan-agreement-7021258.md	kw:\bloan
+3c	inbox-route	00_Inbox_Unsorted/novel_with_cover [D0C3367D2F].md	15_Writing_Literature/_from_inbox/novel_with_cover [D0C3367D2F].md	kw:\bnovel
+3c	inbox-route	00_Inbox_Unsorted/music library songs.md	19_Music_Arts_Design/_from_inbox/music library songs.md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Formatted Collection of Quotes and Citations v6 Final.md	14_Reading_Quotes_Philosophy/_from_inbox/Formatted Collection of Quotes and Citations v6 Final.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/Quote Compilation Request [1532A3BBBB].md	14_Reading_Quotes_Philosophy/_from_inbox/Quote Compilation Request [1532A3BBBB].md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/Thomas_Densley_Sales_Resume (1).md	02_Business_Gig_Work_and_Careers/_from_inbox/Thomas_Densley_Sales_Resume (1).md	kw:resume
+3c	inbox-route	00_Inbox_Unsorted/Music Library Refactor- Hierarchy Layout [CC38A2151B].md	19_Music_Arts_Design/_from_inbox/Music Library Refactor- Hierarchy Layout [CC38A2151B].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Do you suffer from note-taking.md	06_Knowledge_Management_PKM/_from_inbox/Do you suffer from note-taking.md	kw:note\-taking
+3c	inbox-route	00_Inbox_Unsorted/Chat GPT Subscription Comparison Chart [D8C94B90C6].md	05_AI_Tools_and_Guides/_from_inbox/Chat GPT Subscription Comparison Chart [D8C94B90C6].md	kw: gpt 
+3c	inbox-route	00_Inbox_Unsorted/Music Library Refactor.md	19_Music_Arts_Design/_from_inbox/Music Library Refactor.md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Music_Library_Refactor_FINAL [A41C59B8DB].md	19_Music_Arts_Design/_from_inbox/Music_Library_Refactor_FINAL [A41C59B8DB].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/OV - TierV - The Terminal Horizon of Carcosa (2).md	18_Tech_Reference/_from_inbox/OV - TierV - The Terminal Horizon of Carcosa (2).md	kw:terminal
+3c	inbox-route	00_Inbox_Unsorted/LLM_Subscription_Atlas_2-Page_Matrix [45CE232CF9].md	05_AI_Tools_and_Guides/_from_inbox/LLM_Subscription_Atlas_2-Page_Matrix [45CE232CF9].md	kw:llm
+3c	inbox-route	00_Inbox_Unsorted/Prompt to Rewrite _Vacancy_ as a Pocket FM Audio Web Novel [E009752986].md	05_AI_Tools_and_Guides/_from_inbox/Prompt to Rewrite _Vacancy_ as a Pocket FM Audio Web Novel [E009752986].md	kw:prompt
+3c	inbox-route	00_Inbox_Unsorted/Original quote list [327713F9DB].md	14_Reading_Quotes_Philosophy/_from_inbox/Original quote list [327713F9DB].md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/only_in_TSPDT_1000.md	12_Entertainment/_from_inbox/only_in_TSPDT_1000.md	kw:tspdt
+3c	inbox-route	00_Inbox_Unsorted/I-9 - List of Acceptable Documents.md	16_Personal_NSFW/_from_inbox/I-9 - List of Acceptable Documents.md	kw:cum
+3c	inbox-route	00_Inbox_Unsorted/Movies_with_Quotes_Batch7.md	12_Entertainment/_from_inbox/Movies_with_Quotes_Batch7.md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/Music_Library_Refactor_ELEGANT_COMPRESSED_REV7 [FA9070104C].md	19_Music_Arts_Design/_from_inbox/Music_Library_Refactor_ELEGANT_COMPRESSED_REV7 [FA9070104C].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/PKM_Overview_Pretty_Princess 2.md	06_Knowledge_Management_PKM/_from_inbox/PKM_Overview_Pretty_Princess 2.md	kw:pkm
+3c	inbox-route	00_Inbox_Unsorted/Updated Music Entries Deduplicated.md	19_Music_Arts_Design/_from_inbox/Updated Music Entries Deduplicated.md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/final_document.md	16_Personal_NSFW/_from_inbox/final_document.md	kw:cum
+3c	inbox-route	00_Inbox_Unsorted/Music idea YouTube [1D5B20F805].md	19_Music_Arts_Design/_from_inbox/Music idea YouTube [1D5B20F805].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/LLM_Subscription_Atlas_Cover [E806B15BC9].md	05_AI_Tools_and_Guides/_from_inbox/LLM_Subscription_Atlas_Cover [E806B15BC9].md	kw:llm
+3c	inbox-route	00_Inbox_Unsorted/movies_not_in_both.md	12_Entertainment/_from_inbox/movies_not_in_both.md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/Master Quote List.md	14_Reading_Quotes_Philosophy/_from_inbox/Master Quote List.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/Updated Music Entries Deduplicated from Screenshots.md	19_Music_Arts_Design/_from_inbox/Updated Music Entries Deduplicated from Screenshots.md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/quotes_artistic_final_sharpened_opt [F16455D1B6].md	14_Reading_Quotes_Philosophy/_from_inbox/quotes_artistic_final_sharpened_opt [F16455D1B6].md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/quotes_dedup_no_squares.md	14_Reading_Quotes_Philosophy/_from_inbox/quotes_dedup_no_squares.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/HarpersBazaar_50_Movies_About_Sex_PLUS_Rated.md	12_Entertainment/_from_inbox/HarpersBazaar_50_Movies_About_Sex_PLUS_Rated.md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/HarpersBazaar_50_Movies_About_Sex_PLUS.md	12_Entertainment/_from_inbox/HarpersBazaar_50_Movies_About_Sex_PLUS.md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/PayPal Transactions (Aug - Nov) ­ƒÆ▓ [C9CDB8CF23].md	03_Finance_Taxes_and_Loans/_from_inbox/PayPal Transactions (Aug - Nov) ­ƒÆ▓ [C9CDB8CF23].md	kw:paypal
+3c	inbox-route	00_Inbox_Unsorted/Roofing price breakdown chart.md	01_Business_Sharp_House_Solutions/_from_inbox/Roofing price breakdown chart.md	kw:roofing
+3c	inbox-route	00_Inbox_Unsorted/high_watchers_definitive_audit_prompt [5FA1D442B2].md	05_AI_Tools_and_Guides/_from_inbox/high_watchers_definitive_audit_prompt [5FA1D442B2].md	kw:prompt
+3c	inbox-route	00_Inbox_Unsorted/BATCH_4_Soundtrack_Score_Stage_FINAL.md	12_Entertainment/_from_inbox/BATCH_4_Soundtrack_Score_Stage_FINAL.md	kw:soundtrack
+3c	inbox-route	00_Inbox_Unsorted/Master kink list.md	16_Personal_NSFW/_from_inbox/Master kink list.md	kw: kink
+3c	inbox-route	00_Inbox_Unsorted/PayPal Transactions (Aug - Nov) ­ƒÆ▓ [5C6E84E025].md	03_Finance_Taxes_and_Loans/_from_inbox/PayPal Transactions (Aug - Nov) ­ƒÆ▓ [5C6E84E025].md	kw:paypal
+3c	inbox-route	00_Inbox_Unsorted/Music_Library_Refactor_CLEAN_COLOR_REV4 [88AC7AF153].md	19_Music_Arts_Design/_from_inbox/Music_Library_Refactor_CLEAN_COLOR_REV4 [88AC7AF153].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Quote Compendium Unique No Labels.md	14_Reading_Quotes_Philosophy/_from_inbox/Quote Compendium Unique No Labels.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/doctor_who_original_series_episodes_deluxe [721FAC8AAB].md	12_Entertainment/_from_inbox/doctor_who_original_series_episodes_deluxe [721FAC8AAB].md	kw:episode
+3c	inbox-route	00_Inbox_Unsorted/music_list_additional_improvements_report [2CAA01AC8C].md	19_Music_Arts_Design/_from_inbox/music_list_additional_improvements_report [2CAA01AC8C].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Kierkegaard - Fear and Trembling and The Sickness Unto Death - Distilled Resource.md	14_Reading_Quotes_Philosophy/_from_inbox/Kierkegaard - Fear and Trembling and The Sickness Unto Death - Distilled Resource.md	kw:kierkegaard
+3c	inbox-route	00_Inbox_Unsorted/Business Cards - Mockup (Front and Back).md	01_Business_Sharp_House_Solutions/_from_inbox/Business Cards - Mockup (Front and Back).md	kw:business\ card
+3c	inbox-route	00_Inbox_Unsorted/Letters to Mistress.md	16_Personal_NSFW/_from_inbox/Letters to Mistress.md	kw:mistress
+3c	inbox-route	00_Inbox_Unsorted/BATCH_4_Soundtrack_Score_Stage_FINAL [CEBE6B22F2].md	12_Entertainment/_from_inbox/BATCH_4_Soundtrack_Score_Stage_FINAL [CEBE6B22F2].md	kw:soundtrack
+3c	inbox-route	00_Inbox_Unsorted/PKM_Overview_Pretty_Princess-1.md	06_Knowledge_Management_PKM/_from_inbox/PKM_Overview_Pretty_Princess-1.md	kw:pkm
+3c	inbox-route	00_Inbox_Unsorted/commercial document [E4641831C8].md	16_Personal_NSFW/_from_inbox/commercial document [E4641831C8].md	kw:cum
+3c	inbox-route	00_Inbox_Unsorted/Movie-Ratings╬ô├ç├ÂBatch-1 (1).md	12_Entertainment/_from_inbox/Movie-Ratings╬ô├ç├ÂBatch-1 (1).md	kw:movie
+3c	inbox-route	00_Inbox_Unsorted/Inspection-Ready Edges with Budget Gear [712B2D0614].md	03_Finance_Taxes_and_Loans/_from_inbox/Inspection-Ready Edges with Budget Gear [712B2D0614].md	kw:budget
+3c	inbox-route	00_Inbox_Unsorted/quotes_artistic_final.md	14_Reading_Quotes_Philosophy/_from_inbox/quotes_artistic_final.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/Please provide me with a markdown file of all of t.md	09_Legal_Contracts_Insurance_Housing/_from_inbox/Please provide me with a markdown file of all of t.md	kw:lease
+3c	inbox-route	00_Inbox_Unsorted/Music_Library_Refactor_CLEAN_COLOR_REV4.md	19_Music_Arts_Design/_from_inbox/Music_Library_Refactor_CLEAN_COLOR_REV4.md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/What I Want Mistress to Know About My Heart.md	16_Personal_NSFW/_from_inbox/What I Want Mistress to Know About My Heart.md	kw:mistress
+3c	inbox-route	00_Inbox_Unsorted/music_list_hierarchical_colorcoded_v6c [0E025222AC].md	19_Music_Arts_Design/_from_inbox/music_list_hierarchical_colorcoded_v6c [0E025222AC].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/loan_payoff_plan_thomas_densley [A023C00091].md	03_Finance_Taxes_and_Loans/_from_inbox/loan_payoff_plan_thomas_densley [A023C00091].md	kw:\bloan
+3c	inbox-route	00_Inbox_Unsorted/Music idea YouTube.md	19_Music_Arts_Design/_from_inbox/Music idea YouTube.md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Pricing proposals and agreements ÔÜ¬.md	01_Business_Sharp_House_Solutions/_from_inbox/Pricing proposals and agreements ÔÜ¬.md	kw:pricing\ proposal
+3c	inbox-route	00_Inbox_Unsorted/Film updated list sample [D2EFF87858].md	12_Entertainment/_from_inbox/Film updated list sample [D2EFF87858].md	kw:film 
+3c	inbox-route	00_Inbox_Unsorted/Sub Punishments Updated [46DDBDAC21].md	16_Personal_NSFW/_from_inbox/Sub Punishments Updated [46DDBDAC21].md	kw:sub\ punishment
+3c	inbox-route	00_Inbox_Unsorted/Roofing price breakdown chart [17118B83B0].md	01_Business_Sharp_House_Solutions/_from_inbox/Roofing price breakdown chart [17118B83B0].md	kw:roofing
+3c	inbox-route	00_Inbox_Unsorted/The Home note vs The MOC Library.md	06_Knowledge_Management_PKM/_from_inbox/The Home note vs The MOC Library.md	kw: moc 
+3c	inbox-route	00_Inbox_Unsorted/Comparison of LLM Subscription Plans (Public Consumer Services).md	05_AI_Tools_and_Guides/_from_inbox/Comparison of LLM Subscription Plans (Public Consumer Services).md	kw:llm
+3c	inbox-route	00_Inbox_Unsorted/document.md	16_Personal_NSFW/_from_inbox/document.md	kw:cum
+3c	inbox-route	00_Inbox_Unsorted/Illustrated Structural Epic Prompts.md	05_AI_Tools_and_Guides/_from_inbox/Illustrated Structural Epic Prompts.md	kw:prompt
+3c	inbox-route	00_Inbox_Unsorted/Business Card - Thomas - Split Design [B8251627D7].md	01_Business_Sharp_House_Solutions/_from_inbox/Business Card - Thomas - Split Design [B8251627D7].md	kw:business\ card
+3c	inbox-route	00_Inbox_Unsorted/┬¡ãÆ├£├ç Flight School 2.5 (E) (Example).md	13_Tickets_Receipts_Travel/_from_inbox/┬¡ãÆ├£├ç Flight School 2.5 (E) (Example).md	kw:flight 
+3c	inbox-route	00_Inbox_Unsorted/Music_Library_Refactor_ELEGANT_HIERARCHY_READABLE_REV10 [6EA97322F1].md	19_Music_Arts_Design/_from_inbox/Music_Library_Refactor_ELEGANT_HIERARCHY_READABLE_REV10 [6EA97322F1].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/doctor_who_original_series_episodes.md	12_Entertainment/_from_inbox/doctor_who_original_series_episodes.md	kw:episode
+3c	inbox-route	00_Inbox_Unsorted/Prompt_1_Protocol_Zeta_Plus [7C0CBF2023].md	05_AI_Tools_and_Guides/_from_inbox/Prompt_1_Protocol_Zeta_Plus [7C0CBF2023].md	kw:prompt
+3c	inbox-route	00_Inbox_Unsorted/graphy-image-prompts.md	05_AI_Tools_and_Guides/_from_inbox/graphy-image-prompts.md	kw:prompt
+3c	inbox-route	00_Inbox_Unsorted/Chat GPT Subscription Comparison Chart [663F698B4C].md	05_AI_Tools_and_Guides/_from_inbox/Chat GPT Subscription Comparison Chart [663F698B4C].md	kw: gpt 
+3c	inbox-route	00_Inbox_Unsorted/Pricing proposals and agreements ╬ô├£┬¼.md	01_Business_Sharp_House_Solutions/_from_inbox/Pricing proposals and agreements ╬ô├£┬¼.md	kw:pricing\ proposal
+3c	inbox-route	00_Inbox_Unsorted/Doctor Who - Complete Episode Index [CD33DAC142].md	12_Entertainment/_from_inbox/Doctor Who - Complete Episode Index [CD33DAC142].md	kw:episode
+3c	inbox-route	00_Inbox_Unsorted/Music_Library_Refactor_FINAL.md	19_Music_Arts_Design/_from_inbox/Music_Library_Refactor_FINAL.md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Original quote list.md	14_Reading_Quotes_Philosophy/_from_inbox/Original quote list.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/doctor_who_original_series_episodes [FF23B1EF5B].md	12_Entertainment/_from_inbox/doctor_who_original_series_episodes [FF23B1EF5B].md	kw:episode
+3c	inbox-route	00_Inbox_Unsorted/Personal Philosophy [BB04CC525E].md	14_Reading_Quotes_Philosophy/_from_inbox/Personal Philosophy [BB04CC525E].md	kw:philosophy
+3c	inbox-route	00_Inbox_Unsorted/Quotes_Batch_1.md	14_Reading_Quotes_Philosophy/_from_inbox/Quotes_Batch_1.md	kw:\bquote
+3c	inbox-route	00_Inbox_Unsorted/Music Library Refactor - Hierarchy Layout [504A5251CF].md	19_Music_Arts_Design/_from_inbox/Music Library Refactor - Hierarchy Layout [504A5251CF].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Language MOC.md	06_Knowledge_Management_PKM/_from_inbox/Language MOC.md	kw: moc 
+3c	inbox-route	00_Inbox_Unsorted/Mistress Rules & Rituals.md	16_Personal_NSFW/_from_inbox/Mistress Rules & Rituals.md	kw:mistress
+3c	inbox-route	00_Inbox_Unsorted/Places MOC.md	06_Knowledge_Management_PKM/_from_inbox/Places MOC.md	kw: moc 
+3c	inbox-route	00_Inbox_Unsorted/music_list_hierarchical_colorcoded_v7b [C0BE6F93EF].md	19_Music_Arts_Design/_from_inbox/music_list_hierarchical_colorcoded_v7b [C0BE6F93EF].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Music Library Refactor [81BFA5FF8C].md	19_Music_Arts_Design/_from_inbox/Music Library Refactor [81BFA5FF8C].md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Full music list containing every entry use as reference to make sure you have every entry.md	19_Music_Arts_Design/_from_inbox/Full music list containing every entry use as reference to make sure you have every entry.md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/Music_Library_Refactor_ELEGANT_COMPRESSED_REV7.md	19_Music_Arts_Design/_from_inbox/Music_Library_Refactor_ELEGANT_COMPRESSED_REV7.md	kw:\bmusic
+3c	inbox-route	00_Inbox_Unsorted/music_list_hierarchical_colorcoded_v7b.md	19_Music_Arts_Design/_from_inbox/music_list_hierarchical_colorcoded_v7b.md	kw:\bmusic
+3c	inbox-summary	moved=383	left=1855	

@@ -57,3 +57,16 @@ Created **66** well-understood structural notes that many links pointed to, cutt
 - **31** `18_Tech_Reference/_System_Guides/SYS-… / ACT-…` guide stubs (`[!review]`).
 
 The remaining ~10.2k dangling occurrences are genuinely-missing content (notes/PDFs) and concept-word links — left in `[[_LINK_REVIEW_2026-05-23]]`, not fabricated.
+
+
+---
+
+## Addendum — pass 3c (variant reconciliation, concepts, inbox triage)
+
+Per Thomas's go-ahead on the judgment items:
+
+- **Pharmacopoeia variants (22):** the 22 `… (variant).md` were the *real* content (Traditional Use, Trip Reports, pharmacology) while the canonical notes were Manus banner-stubs. **Promoted each variant to canonical** (rich content + the banner embed preserved); removed the variant files. The 22 `[!review]` flags are cleared.
+- **Concept notes (64):** created `40_Universal_Codex/_concepts/<word>.md` `[!review]` stubs for the one-word dangling targets (truth, love, philosophy…), resolving **584** links. Convert to tags later if a dedicated note isn't wanted.
+- **Inbox triage (aggressive, filename-only):** routed **383** notes (17%) into `<category>/_from_inbox/` by high-precision filename keywords (Protocol Zeta→Codex, TSPDT→Entertainment, PayPal→Finance, music→Arts, kink→NSFW…). The `_from_inbox/` subfolders keep these reviewable and trivially reversible. **1,855** notes with no clear filename signal stay in `[[00_Inbox_Unsorted/_TRIAGE_REVIEW|_TRIAGE_REVIEW]]` (body-keyword routing was rejected — it misfiled 495 notes via stray `dataview` blocks).
+
+**State after 3c:** ~15,066 notes · non-image dangling **9,597** (from 14,641 at pass-3 start) · inbox **1,904** (from 2,303) · duplicate basenames 31 · vault-wide exact dupes 0 (4 trivial stubs aside). Safe automated curation is now exhausted; remaining work (deep inbox triage, ~9.6k missing-content links, 717 unrecoverable mojibake names, 207 banners blocked on the missing upload part) needs manual decisions or the missing source files.
