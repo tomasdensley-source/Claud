@@ -13,7 +13,7 @@ permissions:
 
 concurrency:
   group: vault-release
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   release:
@@ -28,17 +28,20 @@ jobs:
           ls -lh Unified_Vault_2026-05-23.zip
           unzip -t Unified_Vault_2026-05-23.zip >/dev/null && echo "zip integrity OK"
 
-      - name: Publish (or refresh) the Release
+      - name: Publish (or refresh) the Release in place
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
           TAG=vault-2026-05-23
-          # Make the run idempotent: drop any prior release+tag, then recreate.
-          gh release delete "$TAG" --yes --cleanup-tag 2>/dev/null || true
-          gh release create "$TAG" Unified_Vault_2026-05-23.zip \
-            --target "${{ github.sha }}" \
-            --title "Unified Vault 2026-05-23" \
-            --notes "Single-file build of the unified Obsidian vault, reassembled by CI from the in-repo split parts. Download \`Unified_Vault_2026-05-23.zip\`, unzip, and open \"✦ My Vault ✦\" in Obsidian."
+          # Upload-in-place: never delete the release/tag (so the download link
+          # never 404s). Create the release once if missing, then clobber the asset.
+          if ! gh release view "$TAG" >/dev/null 2>&1; then
+            gh release create "$TAG" \
+              --target "${{ github.sha }}" \
+              --title "Unified Vault 2026-05-23" \
+              --notes "Single-file build of the unified Obsidian vault, reassembled by CI from the in-repo split parts. Download \`Unified_Vault_2026-05-23.zip\`, unzip, and open \"✦ My Vault ✦\" in Obsidian."
+          fi
+          gh release upload "$TAG" Unified_Vault_2026-05-23.zip --clobber
           echo "Asset URL:"
           echo "https://github.com/${{ github.repository }}/releases/download/$TAG/Unified_Vault_2026-05-23.zip"
