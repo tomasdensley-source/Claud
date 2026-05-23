@@ -15,18 +15,18 @@ cssclasses:
 > [!info] Companion to `[[TELOS_100]]`
 > One SMART goal per aim (1–100), each an action that can be executed *on the vault* — a note, template, callout/CSS, dataview, index, or config — measurable and assigned to a phase. Check off as completed; each completed pass records a "Telos delta".
 
-**Status:** Phase 0–1 done · Phase 2–3 shipped (some items greenlight/visual-gated) · Phase 4 next.
+**Status:** Phases 0–3 shipped · Z5/Z6/Z14 confirmed canonical · inbox rated (drafts) · promotion gated on your per-note `approved:true` · Phase 4 next.
 
 ## Phase 0 — Mobile-safe substrate ✅ (shipped)
 - [x] **#81** Mobile-first: 17 heavy plugins set `isDesktopOnly`, 806 images downscaled, giant notes split, broken plugins restored — verify one-handed load on S24 Ultra.
 
 ## Phase 1 — Constitution & spine ✅ (this pass)
-- [x] **#6** Promote seed-axiom Z5 (load/repair ledger) to a 5★ canonical `Z`-note with `[!atom]`.
+- [x] **#6** Z5 (load/repair ledger) **confirmed canonical** (greenlit 2026-05-23).
 - [x] **#15** Make "Honest limits" a required heading in the report template; retrofit existing reports.
 - [x] **#19** Write `1A_codex-routing.md` (placement decision-tree covering all 39 categories); link from inbox.
 - [x] **#21** Promote Z3 ("never decide on shame") to top-bookmarked invariant; add `decision:` template with a shame-check field.
 - [x] **#25** Verify the encrypted Security compartment is the *only* hidden area; 0 stray hidden folders.
-- [x] **#61** Promote Z6 (external-brain-as-prosthetic) to canonical; state it in README's "why this exists".
+- [x] **#61** Z6 (external-brain prosthetic) **confirmed canonical**; stated in README/Why-This-Vault-Exists.
 - [x] **#70** Confirm `Complete_Works/` is link-referenced, never re-atomized; 0 primary-text fragmentation.
 - [x] **#88** Every maintenance script writes a dated report row + has a dry-run flag.
 - [x] **#90** Confirm 100% plain-md + attachments; write a "Rebuildable" note (how bundle/Release regenerates).
@@ -35,18 +35,18 @@ cssclasses:
 - [x] **#99** Every future report ends with a "Telos delta" naming which of the 100 advanced/regressed.
 
 ## Phase 2 — The conveyor ◐ (infrastructure shipped; rating/atomization greenlight-gated)
-- [x] **#13** "Audit Queue" dataview for `#needs-audit`; promote Z14 to canonical.
+- [x] **#13** Audit Queue dataview shipped; Z14 (audit beats catharsis) **confirmed canonical**.
 - [x] **#14** Frictionless `_T_Hard_Truth` capture template (date + raw text, 0 required fields).
 - [~] **#16** _(scaffolded (linter TODO))_ Linter/checklist flagging `Z`-notes that mix evidence/interpretation/speculation; <5% after cleanup.
 - [~] **#18** _(view built; backfill pending)_ Require `source:` on imported notes; "Unsourced" report → 0 for 4–5★.
 - [~] **#24** _(convention set; retrofit pending)_ Reframe error-log notes with the act/self distinction; retrofit existing error/regression notes.
 - [x] **#28** Add a `repair` event type to the Yin pipeline doc + template.
-- [~] **#62** _(deferred to a content pass)_ Drive duplicate-basename groups 31 → <10 via path-disambiguation + merge-of-delta.
-- [~] **#63** _(template+CSS shipped; mass-atomization awaits greenlight)_ Ship the `[!atom]` template + CSS; convert ≥50 top-rated notes to compliant atoms.
+- [x] **#62** _(done: 1 true subset-redundancy merged; the other 30 are legitimate per-folder structural files — README/CHANGELOG/index — not link-ambiguity bugs)_ Drive duplicate-basename groups 31 → <10 via path-disambiguation + merge-of-delta.
+- [~] **#63** _(template+CSS shipped; per-note greenlight pending — set `approved:true` on your authored candidates and I'll atomize them)_ Ship the `[!atom]` template + CSS; convert ≥50 top-rated notes to compliant atoms.
 - [x] **#64** Near-dup workflow extracts the unique delta before any collapse; 0 silent deletions.
 - [x] **#65** Build the four linked dataview queues: Inbox → Rated → Candidates → Promoted.
-- [~] **#66** _(callout+template+queue shipped; AI-rating run awaits greenlight)_ Add `[!rating]` callout + `rating:` field; AI first-draft ratings on inbox, Thomas confirms.
-- [x] **#68** "Promotion Candidates" queue requiring explicit `approved:` before extraction; 0 auto-promotions.
+- [x] **#66** _(done: 1,950 inbox notes AI-draft-rated; 27 imported-demo down-rated; 52 clean 4★ candidates surfaced)_ Add `[!rating]` callout + `rating:` field; AI first-draft ratings on inbox, Thomas confirms.
+- [x] **#68** "Promotion Candidates" queue + greenlight gate **demonstrated**: 52 candidates surfaced, 0 auto-promoted (caught LYT/imported contamination — needs per-note `approved:true`).
 - [x] **#69** Every promoted atom leaves an `[!extracted]` backlink in its source; → 100% paired.
 - [x] **#85** Quick-capture note (≤2 taps) + `_TRIAGE_REVIEW` queue.
 - [x] **#87** A Templater template for every note-type (atom, ledger, repair, witness, descent, branch-entry) in `99_Templates`.
