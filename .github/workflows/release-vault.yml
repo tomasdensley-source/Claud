@@ -1,8 +1,8 @@
-name: Publish vault release
+name: Publish vault markdown export
 
-# Reassembles the split Unified_Vault parts on the CI runner and publishes the
-# single .zip as a Release asset, so it can be downloaded with one click (no
-# local reassembly). Runs when the parts change on this branch, or on demand.
+# Publishes the single committed markdown-only export zip as a Release asset,
+# so it can be downloaded with ONE CLICK (direct link, no local reassembly).
+# The export is small (~13 MB) so it is committed directly — no split parts.
 on:
   push:
     branches: [claude/new-session-JMgv1]
@@ -21,27 +21,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Reassemble vault zip
+      - name: Verify export zip
         run: |
           set -euo pipefail
-          cat Unified_Vault_2026-05-23.zip.part* > Unified_Vault_2026-05-23.zip
-          ls -lh Unified_Vault_2026-05-23.zip
-          unzip -t Unified_Vault_2026-05-23.zip >/dev/null && echo "zip integrity OK"
+          ls -lh VaridisQuo_Markdown_Export_2026-05-23.zip
+          unzip -t VaridisQuo_Markdown_Export_2026-05-23.zip >/dev/null && echo "zip integrity OK"
 
       - name: Publish (or refresh) the Release in place
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
-          TAG=vault-2026-05-23
-          # Upload-in-place: never delete the release/tag (so the download link
-          # never 404s). Create the release once if missing, then clobber the asset.
+          TAG=vault-markdown-2026-05-23
+          # Upload-in-place: create the release once if missing, then clobber the
+          # asset so the one-click download link never 404s.
           if ! gh release view "$TAG" >/dev/null 2>&1; then
             gh release create "$TAG" \
               --target "${{ github.sha }}" \
-              --title "Unified Vault 2026-05-23" \
-              --notes "Single-file build of the unified Obsidian vault, reassembled by CI from the in-repo split parts. Download \`Unified_Vault_2026-05-23.zip\`, unzip, and open \"✦ My Vault ✦\" in Obsidian."
+              --title "VaridisQuo Markdown Export 2026-05-23" \
+              --notes "Markdown-only export of the vault (5,619 notes incl. 12 PDF→md conversions) plus the \`_HANDOFF\` instruction plan + tagging progress for Claude Cowork. Click \`VaridisQuo_Markdown_Export_2026-05-23.zip\` below to download, unzip, and open \"✦ My Vault ✦\"."
           fi
-          gh release upload "$TAG" Unified_Vault_2026-05-23.zip --clobber
-          echo "Asset URL:"
-          echo "https://github.com/${{ github.repository }}/releases/download/$TAG/Unified_Vault_2026-05-23.zip"
+          gh release upload "$TAG" VaridisQuo_Markdown_Export_2026-05-23.zip --clobber
+          echo "One-click download:"
+          echo "https://github.com/${{ github.repository }}/releases/download/$TAG/VaridisQuo_Markdown_Export_2026-05-23.zip"
