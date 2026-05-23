@@ -15,7 +15,7 @@ cssclasses:
 > [!info] Companion to `[[TELOS_100]]`
 > One SMART goal per aim (1–100), each an action that can be executed *on the vault* — a note, template, callout/CSS, dataview, index, or config — measurable and assigned to a phase. Check off as completed; each completed pass records a "Telos delta".
 
-**Status:** Phases 0–4 shipped · promotion gated on your per-note `approved:true` · Phases 5–7 remain.
+**Status:** Phases 0–5 shipped (Phase 5 = structure; you log the real moral-ledger entries) · promotion still gated · Phases 6–7 remain.
 
 ## Phase 0 — Mobile-safe substrate ✅ (shipped)
 - [x] **#81** Mobile-first: 17 heavy plugins set `isDesktopOnly`, 806 images downscaled, giant notes split, broken plugins restored — verify one-handed load on S24 Ultra.
@@ -89,24 +89,24 @@ cssclasses:
 - [x] **#82** Confirm sanctum mobile plugins enabled+bound; document the three gestures in a mobile card.
 - [x] **#86** Populate ≥8 bookmarks: README, Telos 100, North Star, Graphy, the four pipeline queues.
 
-## Phase 5 — Ledger, repair, witness logs
-- [ ] **#1** `_T_Ledger_Entry` template (`load`/`repaired`/`transferred-to`) + 5 seeded entries; open-vs-repaired tracker.
-- [ ] **#2** `_concepts/accountability.md` (O01) with ≥20 inbound links from duty-asserting notes.
-- [ ] **#4** "Open Load" dataview (`ledger.repaired = false`, sorted by age).
-- [ ] **#5** `Lineage of the Burdened.md` MOC (Watchers→Burdened→Bastions) linking O11/B11.
-- [ ] **#7** `transferred-to:` link field resolving to a dated note; validator → 0 dangling transfers.
-- [ ] **#17** `superseded-by:` field + `[!stale]` callout + "Stale claims" view.
-- [ ] **#22** `_concepts/repair.md` + `[!repair]` callout + "Repairs in progress" tracker.
-- [ ] **#23** `image-vs-repair` tag pair; dataview flags image-optimizing notes → 0 unflagged.
-- [ ] **#29** Low-frequency "untouched > 90d" view limited to presence-branches; invitational framing.
-- [ ] **#31** `_concepts/witness.md` (Z24) + `witnessed:` field linking event→obligation.
-- [ ] **#32** "Carried forward" dataview of open obligations; counts open vs discharged.
-- [ ] **#37** Scope note: which obligations are mine vs transferable (reduces over-claimed load).
-- [ ] **#38** Every `witnessed:` obligation links a concrete next-step; validator → 0 dead-ends.
-- [ ] **#40** Orphan-detector: 0 witnessed/obligation notes unreachable from a MOC.
-- [ ] **#89** "Review Hub" MOC unifying `_LINK_REVIEW`, `_TRIAGE_REVIEW`, ledger/repair/audit queues.
-- [ ] **#94** "Costly Choices" log (date, given-up, for-what); on README above counters.
-- [ ] **#95** Chain witness → obligation → repair across the witness/costly-choices/ledger logs.
+## Phase 5 — Ledger, repair, witness logs ✅ (infra; real entries are yours to log)
+- [x] **#1** `_T_Ledger_Entry` template (`load`/`repaired`/`transferred-to`) + 5 seeded entries; open-vs-repaired tracker.
+- [~] **#2** _(concept created; ≥20 inbound links = content pass)_ `_concepts/accountability.md` (O01) with ≥20 inbound links from duty-asserting notes.
+- [x] **#4** "Open Load" dataview (`ledger.repaired = false`, sorted by age).
+- [x] **#5** `Lineage of the Burdened.md` MOC (Watchers→Burdened→Bastions) linking O11/B11.
+- [x] **#7** `transferred-to:` link field resolving to a dated note; validator → 0 dangling transfers.
+- [x] **#17** `superseded-by:` field + `[!stale]` callout + "Stale claims" view.
+- [x] **#22** `_concepts/repair.md` + `[!repair]` callout + "Repairs in progress" tracker.
+- [~] **#23** _(low-value flag; deferred)_ `image-vs-repair` tag pair; dataview flags image-optimizing notes → 0 unflagged.
+- [~] **#29** _(re-entry covered by ACT-F/Pick-one; 90d view deferred)_ Low-frequency "untouched > 90d" view limited to presence-branches; invitational framing.
+- [x] **#31** `_concepts/witness.md` (Z24) + `witnessed:` field linking event→obligation.
+- [x] **#32** "Carried forward" dataview of open obligations; counts open vs discharged.
+- [x] **#37** Scope note: which obligations are mine vs transferable (reduces over-claimed load).
+- [x] **#38** Every `witnessed:` obligation links a concrete next-step; validator → 0 dead-ends.
+- [x] **#40** Orphan-detector: 0 witnessed/obligation notes unreachable from a MOC.
+- [x] **#89** "Review Hub" MOC unifying `_LINK_REVIEW`, `_TRIAGE_REVIEW`, ledger/repair/audit queues.
+- [x] **#94** "Costly Choices" log (date, given-up, for-what); on README above counters.
+- [x] **#95** Chain witness → obligation → repair across the witness/costly-choices/ledger logs.
 
 ## Phase 6 — The Descent / individuation apparatus (gated)
 - [ ] **#9** `_T_Inheritance` template (`received-from`/`passed-to`); wire into the figure-registry.
