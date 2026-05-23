@@ -6,7 +6,7 @@ One Obsidian vault built by pooling every source provided, deduping by content,
 and organizing into convergent categories — with the Graphy plugin + ~44-plugin
 config as a separate technical layer.
 
-**~15,236 markdown notes, 39 categories, 1.3 GB unzipped.**
+**~15,467 markdown notes, 39 categories, ~1.1 GB unzipped.**
 
 Pass 2 (2026-05-23) folded in a new source batch: **839 compound banners** (resolving
 771 previously-dangling pharmacopoeia embeds), the incoming **Pharmacopoeia** vault,
@@ -22,6 +22,12 @@ remainder (missing-content links, inbox) is queued in review notes.
 Pass 3c then promoted 22 pharmacopoeia variants to canonical, created 64 concept
 notes (−584 dangling), and routed 383 inbox notes by filename (inbox 2,303 → 1,904).
 See `CURATION_REPORT_2026-05-23.md` (+ `CURATION_PASS3_2026-05-23.tsv`).
+
+Stability pass (2026-05-23) — mobile crash-prevention, no content removed: restored 5
+broken plugin enables (incl. Dataview), made 17 heavy plugins desktop-only, downscaled
+806 oversized images in place (709→509 MB, count unchanged), split 19 multi-MB notes
+into word-preserving parts, replaced 70 expensive backlink queries, and made startup/graph
+mobile-safe. Word count and attachment count verified non-decreasing. See `STABILITY_REPORT_2026-05-23.md`.
 
 ### Download & reassemble
 
