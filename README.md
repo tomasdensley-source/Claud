@@ -2,27 +2,35 @@
 
 ## Unified_Vault_2026-05-23 (split zip)
 
-One Obsidian vault built by pooling every source provided, deduping by content
-(657 exact duplicates removed), and organizing into convergent categories — with
-the Graphy plugin + ~42-plugin config as a separate technical layer.
+One Obsidian vault built by pooling every source provided, deduping by content,
+and organizing into convergent categories — with the Graphy plugin + ~44-plugin
+config as a separate technical layer.
 
-**~14,900 markdown notes, 34 categories, 574 MB unzipped.**
+**~15,374 markdown notes, 39 categories, 1.3 GB unzipped.**
+
+Pass 2 (2026-05-23) folded in a new source batch: **839 compound banners** (resolving
+771 previously-dangling pharmacopoeia embeds), the incoming **Pharmacopoeia** vault,
+a self-contained **`72_Security_Credentials`** "Sanctum" compartment, and
+**`16_Personal_NSFW/Sissy_Training/`** — with 1,126 exact duplicates removed.
 
 ### Download & reassemble
 
-GitHub caps single files at 100 MB, so the 105 MB zip is split in two parts:
+GitHub caps single files at 100 MB, so the 833 MB zip is split into 9 parts
+(`part00`–`part08`). Reassemble in order:
 
 ```
-cat Unified_Vault_2026-05-23.zip.part00 Unified_Vault_2026-05-23.zip.part01 > Unified_Vault_2026-05-23.zip
+cat Unified_Vault_2026-05-23.zip.part* > Unified_Vault_2026-05-23.zip
 unzip Unified_Vault_2026-05-23.zip      # → open the "✦ My Vault ✦" folder in Obsidian
 ```
 
 ### What's inside / how it was built
-- `INTEGRATION_REPORT_2026-05-23.md` — method, provenance, convergent categories, and an honest disclosure of sensitive content.
-- `DEDUP_REPORT_2026-05-23.md` — the 657 exact duplicates removed and what was kept.
+- `INTEGRATION_REPORT_2026-05-23.md` — method, provenance, convergent categories, and an honest disclosure of sensitive content (incl. the Pass-2 section).
+- `DEDUP_REPORT_2026-05-23.md` — the exact duplicates removed and what was kept; Pass-2 removals detailed in `DEDUP_PASS2_2026-05-23.tsv`.
 - `NORTH_STAR_100.md` — the 100 characteristics the vault aims toward (acceptance criteria).
 
-> ⚠️ Per request, sensitive content (API-key / GPG files, NSFW, financial/medical)
-> is included as-is. See the disclosure in the integration report; rotate any real keys.
+> ⚠️ Per request, sensitive content is included as-is. The `72_Security_Credentials`
+> compartment ships as an empty scaffold (no live secrets were present in the upload);
+> API-key / GPG template files, NSFW, and financial/medical categories remain as-is.
+> See the disclosure in the integration report; rotate any real keys.
 
-Supersedes the earlier `Merged_Vault` (Graphy-merge-only) artifact.
+Supersedes the earlier `Merged_Vault` (Graphy-merge-only) artifact and the Pass-1 two-part bundle.

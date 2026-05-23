@@ -53,3 +53,38 @@ These are in the repo's git history once committed; removing them later requires
 ## Honesty note (scale)
 
 ~15k files cannot be hand-judged note-by-note. Merit was enforced at the **exact-duplicate level** (SHA-256) and categorization used **folder-signal convergence**, not a full re-read of every note. **Near-duplicates** (same idea, different version) are NOT auto-removed — a future curation pass should resolve `_working-vault/` near-dups, triage `00_Inbox_Unsorted` (2301), and reconcile the Example-Zettel demo against the canonical Zettelkasten. No content was silently dropped: every input file was either placed or logged in the dedup report.
+
+---
+
+# Pass 2 — 2026-05-23 (second source batch)
+
+A second batch was integrated by the **same method** (source-blind pooling, merit-based SHA-256 dedup, convergent placement, config layer kept separate). Reassembled the Pass-1 bundle, folded the new content in, re-deduped, and re-bundled.
+
+## Sources pooled (Pass 2)
+- **Pharmacopoeia** vault (1,692 files): botanical/compound notes (`01_Plants-of-Power` … `05_Medical`), `Manus Compound Notes`, `Manus Metadata`, `Source Documents` (PDFs), `Trip Reports`.
+- **Manus_Attachments A + B** (839 banner images, PNG/WebP): rendered compound banners. *A part 12 of 12 was not uploaded; B was complete (14/14).*
+- **Security** ("✿ Security ✿") vault (149 files): the self-contained "Sanctum" credential system.
+- **Sissy Training** ("❁ Sissy Training ❁") vault: personal NSFW collection (banners + stage notes).
+
+## Placement (convergent)
+- Pharmacopoeia → `30_Pharmacopoeia/_pharmacopoeia-vault/`; its compound banners lifted to `30_Pharmacopoeia/Manus Attachments/` so the `![[Manus Attachments/…]]` embeds resolve vault-wide.
+- Security → **new top-level `72_Security_Credentials/`** (compartmentalized; folder-color + `_index` MOC added; `gpg-crypt` + `eccirian` plugins enabled).
+- Sissy Training → `16_Personal_NSFW/Sissy_Training/`.
+- Each incoming vault's secondary `.obsidian/` and `.graphy/` runtime state was excluded (one config-layer rule).
+
+## Key result — banners resolve previously-dangling embeds
+The existing pharmacopoeia already held the compound notes (organized under `30_Pharmacopoeia/{Nutritional,Functional,Pneumatic,Chthonic,Medical}/`) but their banner embeds pointed at a `Manus Attachments/` folder that **did not exist** (0 of 978 resolved). Supplying the 839 banner images now resolves **771 of 978** embeds. **207 remain dangling** (await the un-uploaded Manus_Attachments_A part 12 + some note↔file name mismatches); **68** banner files are present but unreferenced. Flagged for curation.
+
+## Dedup (Pass 2)
+SHA-256 over 17,639 files (excl. `.obsidian/`, `.graphy/`): **1,126 exact duplicates removed** (~20.6 MB), all from the newly-added subtrees, keeping the pre-existing canonical homes — **1,068** from `_pharmacopoeia-vault/` (incl. 968 compound notes already organized elsewhere and all Trip Reports) and **58** internal duplicate banners in `Sissy_Training/`. Full list: `DEDUP_PASS2_2026-05-23.tsv`.
+
+## ⚠️ Security compartment — honest disclosure
+The "Sanctum" vault is **doctrine + scaffolding only**: folder READMEs (`encryption: none`), 23 templates, and Bases dashboards. Its own hard rule is *"no plaintext sensitive data ever touches this vault"* and *"never paste decrypted content into any AI prompt."* **No live secrets were present in the upload, so none were committed.** A prior pass had scattered identical Sanctum doctrine/templates into `00_Inbox_Unsorted/` and `70_System_Templates/`; this pass kept `72_Security_Credentials/` **self-contained** and left those 39 scattered duplicates in place (logged in `security_overlap` within the dedup tsv) rather than deleting them — consolidation deferred to the curation pass.
+
+## Final state (Pass 2)
+- **16,850 files** (15,374 markdown), **39 top-level categories**, **1.3 GB** unzipped.
+- Bundle: `Unified_Vault_2026-05-23.zip` (833 MB) split into 9 parts `part00`–`part08`.
+- Growth is dominated by the 839 compound banners (~595 MB of already-compressed images); these are rendered/derived artifacts (North Star #36/#69) but are committed so the vault is self-contained and embeds render.
+
+## Honesty note (Pass 2)
+The incoming Pharmacopoeia overlapped the existing one almost entirely at the byte level, so Pass 2's *net new* knowledge is small (393 residual md + metadata); its real value is the **banner imagery** and the **compartmentalized Security system**. Near-duplicate pharmacopoeia notes (same compound, different formatting/version) were NOT reconciled and the 207 dangling banners + 39 Security duplicates remain open items for curation.

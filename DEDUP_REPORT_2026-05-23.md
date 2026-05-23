@@ -14,7 +14,62 @@ Removed **657** exact duplicates across **645** duplicate groups, keeping one ca
 
 Merit note: this removes byte-identical duplicates only. Near-duplicates (same idea, different version) are NOT auto-removed — flagged for a future curation pass.
 
-## Removed → kept (first 400)
+---
+
+## Pass 2 — 2026-05-23 (second batch)
+
+Scanned **17,639** content files. Removed **1,126** exact duplicates (~20.6 MB), all from the newly-added subtrees, keeping pre-existing canonical homes. Full machine-readable list: `DEDUP_PASS2_2026-05-23.tsv` (`sha256 ⇥ kept ⇥ removed ⇥ bytes`).
+
+Breakdown of removed:
+- **1,068** from `30_Pharmacopoeia/_pharmacopoeia-vault/` — byte-identical to notes already organized under `30_Pharmacopoeia/{Nutritional (622), Functional (186), Pneumatic (113), Chthonic (80), Medical (28), _Trip_Reports (12), …}`.
+- **58** internal duplicate banners in `16_Personal_NSFW/Sissy_Training/banners/`.
+
+### Retained despite duplication — Security compartment (39, NOT removed)
+`72_Security_Credentials/` was kept **self-contained** (North Star #63 compartmentalization). The following 39 files are byte-identical to copies a prior pass had scattered into `00_Inbox_Unsorted/` and `70_System_Templates/`; the scattered copies were left in place and consolidation is deferred to the curation pass:
+
+- `72_Security_Credentials/00_Doctrine/05_Threat_Model.md` ⟸ keep `00_Inbox_Unsorted/05_Threat_Model.md`
+- `72_Security_Credentials/00_Doctrine/03_Security_Checklist.md` ⟸ keep `00_Inbox_Unsorted/03_Security_Checklist.md`
+- `72_Security_Credentials/00_Doctrine/00_START_HERE.md` ⟸ keep `00_Inbox_Unsorted/00_START_HERE.md`
+- `72_Security_Credentials/00_Doctrine/10_Quick_Capture_and_Triage.md` ⟸ keep `00_Inbox_Unsorted/10_Quick_Capture_and_Triage.md`
+- `72_Security_Credentials/00_Doctrine/07_Bundled_Plugins.md` ⟸ keep `00_Inbox_Unsorted/07_Bundled_Plugins.md`
+- `72_Security_Credentials/40_Index/02_Master_Glossary.md` ⟸ keep `00_Inbox_Unsorted/02_Master_Glossary.md`
+- `72_Security_Credentials/00_Doctrine/09_Device_and_Account_Hardening.md` ⟸ keep `00_Inbox_Unsorted/09_Device_and_Account_Hardening.md`
+- `72_Security_Credentials/00_Doctrine/04_Recovery_Plan.md` ⟸ keep `00_Inbox_Unsorted/04_Recovery_Plan.md`
+- `72_Security_Credentials/00_Doctrine/11_Backup_and_Sync.md` ⟸ keep `00_Inbox_Unsorted/11_Backup_and_Sync.md`
+- `72_Security_Credentials/00_Doctrine/06_Doctrine_Atomic_Notes.md` ⟸ keep `00_Inbox_Unsorted/06_Doctrine_Atomic_Notes.md`
+- `72_Security_Credentials/00_Doctrine/02_Mobile_Workflow.md` ⟸ keep `00_Inbox_Unsorted/02_Mobile_Workflow.md`
+- `72_Security_Credentials/00_Doctrine/01_Encryption_Architecture.md` ⟸ keep `00_Inbox_Unsorted/01_Encryption_Architecture.md`
+- `72_Security_Credentials/Inbox.md` ⟸ keep `00_Inbox_Unsorted/Inbox.md`
+- `72_Security_Credentials/00_Doctrine/08_Field_Research_Synthesis.md` ⟸ keep `00_Inbox_Unsorted/08_Field_Research_Synthesis.md`
+- `72_Security_Credentials/40_Index/00_INDEX.md` ⟸ keep `00_Inbox_Unsorted/00_INDEX.md`
+- `72_Security_Credentials/30_Templates/_T_GPG_Identity_Document.md` ⟸ keep `70_System_Templates/Templates/_T_GPG_Identity_Document.md`
+- `72_Security_Credentials/30_Templates/_T_ECC_Financial_Record.md` ⟸ keep `70_System_Templates/Templates/_T_ECC_Financial_Record.md`
+- `72_Security_Credentials/30_Templates/_T_ECC_Legal_Document.md` ⟸ keep `70_System_Templates/Templates/_T_ECC_Legal_Document.md`
+- `72_Security_Credentials/30_Templates/_T_ECC_Business_Document.md` ⟸ keep `70_System_Templates/Templates/_T_ECC_Business_Document.md`
+- `72_Security_Credentials/30_Templates/_T_ECC_Inventory_Item.md` ⟸ keep `70_System_Templates/Templates/_T_ECC_Inventory_Item.md`
+- `72_Security_Credentials/30_Templates/_T_GPG_PIN_Combination.md` ⟸ keep `70_System_Templates/Templates/_T_GPG_PIN_Combination.md`
+- `72_Security_Credentials/30_Templates/_T_GPG_Password_Entry.md` ⟸ keep `70_System_Templates/Templates/_T_GPG_Password_Entry.md`
+- `72_Security_Credentials/30_Templates/_T_ECC_Vehicle.md` ⟸ keep `70_System_Templates/Templates/_T_ECC_Vehicle.md`
+- `72_Security_Credentials/30_Templates/_T_GPG_Crypto_Key.md` ⟸ keep `70_System_Templates/Templates/_T_GPG_Crypto_Key.md`
+- `72_Security_Credentials/30_Templates/_T_ECC_Tax_Record.md` ⟸ keep `70_System_Templates/Templates/_T_ECC_Tax_Record.md`
+- `72_Security_Credentials/30_Templates/_T_ECC_Contact.md` ⟸ keep `70_System_Templates/Templates/_T_ECC_Contact.md`
+- `72_Security_Credentials/30_Templates/_T_GPG_Recovery_Code.md` ⟸ keep `70_System_Templates/Templates/_T_GPG_Recovery_Code.md`
+- `72_Security_Credentials/30_Templates/_T_GPG_API_Key.md` ⟸ keep `70_System_Templates/Templates/_T_GPG_API_Key.md`
+- `72_Security_Credentials/30_Templates/_T_ECC_Travel_Record.md` ⟸ keep `70_System_Templates/Templates/_T_ECC_Travel_Record.md`
+- `72_Security_Credentials/30_Templates/_T_GPG_SSH_Key.md` ⟸ keep `70_System_Templates/Templates/_T_GPG_SSH_Key.md`
+- `72_Security_Credentials/30_Templates/_T_ECC_Real_Estate.md` ⟸ keep `70_System_Templates/Templates/_T_ECC_Real_Estate.md`
+- `72_Security_Credentials/30_Templates/_T_ECC_Education_Record.md` ⟸ keep `70_System_Templates/Templates/_T_ECC_Education_Record.md`
+- `72_Security_Credentials/30_Templates/_T_ECC_Insurance_Policy.md` ⟸ keep `70_System_Templates/Templates/_T_ECC_Insurance_Policy.md`
+- `72_Security_Credentials/30_Templates/_T_GPG_Banking_Credential.md` ⟸ keep `70_System_Templates/Templates/_T_GPG_Banking_Credential.md`
+- `72_Security_Credentials/30_Templates/_T_ECC_Subscription.md` ⟸ keep `70_System_Templates/Templates/_T_ECC_Subscription.md`
+- `72_Security_Credentials/30_Templates/_T_ECC_Investment_Holding.md` ⟸ keep `70_System_Templates/Templates/_T_ECC_Investment_Holding.md`
+- `72_Security_Credentials/30_Templates/_T_ECC_Employment_Record.md` ⟸ keep `70_System_Templates/Templates/_T_ECC_Employment_Record.md`
+- `72_Security_Credentials/30_Templates/_T_ECC_Medical_Record.md` ⟸ keep `70_System_Templates/Templates/_T_ECC_Medical_Record.md`
+- `72_Security_Credentials/INSTALL.md` ⟸ keep `18_Tech_Reference/INSTALL.md`
+
+---
+
+## Pass 1 — Removed → kept (first 400)
 
 - `vault-content/sessions/2026-05-10/Graphy_Construction_Brief_v0.4.md` → kept `00_Inbox_Unsorted/Graphy_Construction_Brief_v0.4.md`
 - `vault-content/sessions/2026-05-10/_drafts/Letter_to_Nickolle_DRAFT_2026-05-10.md` → kept `00_Inbox_Unsorted/Letter_to_Nickolle_DRAFT_2026-05-10.md`
