@@ -44,3 +44,16 @@ No safe bulk route exists: the film catalog already lives in `12_Entertainment/`
 - **Open / regressions:** inbox still 2,285 (#30/#91 unfinished); 717 mojibake names + ~5.5k missing-note links queued; 207 banners still blocked on the un-uploaded `Manus_Attachments_A part 12`.
 
 See also `[[_LINK_REVIEW_2026-05-23]]`, `[[00_Inbox_Unsorted/_TRIAGE_REVIEW|_TRIAGE_REVIEW]]`, `[[INTEGRATION_REPORT_2026-05-23]]`, `[[CHANGELOG]]`.
+
+
+---
+
+## Addendum — structural link targets created (pass 3b)
+
+Created **66** well-understood structural notes that many links pointed to, cutting non-image dangling links **14,641 → 10,203** (−4,438):
+- `40_Universal_Codex/Source - Universal Codex (Reinforced).md` (was referenced 2,906×) — `[!review]` source stub.
+- **16** `60_MOCs/MOC - …` dataview MOCs (category + thematic indexes incl. Vault Index).
+- **18** `12_Entertainment/_Indexes/…` film-facet indexes (genre/rating/color/section).
+- **31** `18_Tech_Reference/_System_Guides/SYS-… / ACT-…` guide stubs (`[!review]`).
+
+The remaining ~10.2k dangling occurrences are genuinely-missing content (notes/PDFs) and concept-word links — left in `[[_LINK_REVIEW_2026-05-23]]`, not fabricated.

@@ -6,7 +6,7 @@ One Obsidian vault built by pooling every source provided, deduping by content,
 and organizing into convergent categories — with the Graphy plugin + ~44-plugin
 config as a separate technical layer.
 
-**~14,957 markdown notes, 39 categories, 1.3 GB unzipped.**
+**~15,023 markdown notes, 39 categories, 1.3 GB unzipped.**
 
 Pass 2 (2026-05-23) folded in a new source batch: **839 compound banners** (resolving
 771 previously-dangling pharmacopoeia embeds), the incoming **Pharmacopoeia** vault,
@@ -15,8 +15,10 @@ a self-contained **`72_Security_Credentials`** "Sanctum" compartment, and
 
 Pass 3 (2026-05-23) — curation: collapsed 358 pharmacopoeia near-duplicates
 (duplicate basenames **450 → 31**), consolidated the Security compartment (removed
-39 scattered copies), repaired 30 mojibake filenames, auto-fixed 111 broken links,
-and queued the judgment-heavy remainder (missing-target links, inbox) in review notes.
+39 scattered copies), repaired 30 mojibake filenames, auto-fixed 111 broken links, and
+created 66 structural link targets (Universal Codex source, MOC indexes, film-facet
+indexes, system guides) cutting dangling links **14,641 → 10,203**. The judgment-heavy
+remainder (missing-content links, inbox) is queued in review notes.
 See `CURATION_REPORT_2026-05-23.md` (+ `CURATION_PASS3_2026-05-23.tsv`).
 
 ### Download & reassemble

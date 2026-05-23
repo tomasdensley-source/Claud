@@ -1199,3 +1199,70 @@ track	action	src	dest_or_kept	reason
 4	triage-collision	00_Inbox_Unsorted/TaoistCanon.md		basename exists in target category; left for review
 4	summary	moved=0	left=2286	
 4	triage-queue	00_Inbox_Unsorted/_TRIAGE_REVIEW.md	remaining=2285	
+3b	create-target	60_MOCs/MOC - Vault Index.md		MOC index; resolves 743 links
+3b	create-target	60_MOCs/MOC - 11_Vehicles.md		MOC index; resolves 14 links
+3b	create-target	60_MOCs/MOC - Life & Logistics.md		MOC index; resolves 16 links
+3b	create-target	18_Tech_Reference/_System_Guides/ACT-A – Today dashboard.md		system-guide stub; resolves 27 links
+3b	create-target	18_Tech_Reference/_System_Guides/ACT-F – Recovery and re-triage.md		system-guide stub; resolves 8 links
+3b	create-target	60_MOCs/MOC - 14_Reading_Quotes_Philosophy.md		MOC index; resolves 22 links
+3b	create-target	18_Tech_Reference/_System_Guides/SYS-N – Evidence interpretation speculation.md		system-guide stub; resolves 7 links
+3b	create-target	60_MOCs/MOC - 21_Research_Papers.md		MOC index; resolves 3 links
+3b	create-target	18_Tech_Reference/_System_Guides/ACT-G – Weekly execution map.md		system-guide stub; resolves 3 links
+3b	create-target	18_Tech_Reference/_System_Guides/ACT-C – Waiting dashboard.md		system-guide stub; resolves 6 links
+3b	create-target	18_Tech_Reference/_System_Guides/REF-A – Master reference list.md		system-guide stub; resolves 4 links
+3b	create-target	60_MOCs/MOC - Intake & Archive.md		MOC index; resolves 9 links
+3b	create-target	18_Tech_Reference/_System_Guides/REF-D – Quote safety heuristic.md		system-guide stub; resolves 5 links
+3b	create-target	18_Tech_Reference/_System_Guides/SYS-J – Day one guide.md		system-guide stub; resolves 9 links
+3b	create-target	18_Tech_Reference/_System_Guides/SYS-O – Advanced Graph View guide.md		system-guide stub; resolves 26 links
+3b	create-target	18_Tech_Reference/_System_Guides/SYS-I – CSS system guide.md		system-guide stub; resolves 11 links
+3b	create-target	18_Tech_Reference/_System_Guides/SYS-C – Graph legend.md		system-guide stub; resolves 16 links
+3b	create-target	18_Tech_Reference/_System_Guides/SYS-G – Plugin strategy.md		system-guide stub; resolves 16 links
+3b	create-target	18_Tech_Reference/_System_Guides/SYS-A – Vault constitution.md		system-guide stub; resolves 5 links
+3b	create-target	18_Tech_Reference/_System_Guides/SYS-D – Link direction guide.md		system-guide stub; resolves 6 links
+3b	create-target	18_Tech_Reference/_System_Guides/SYS-E – Sibling tag guide.md		system-guide stub; resolves 6 links
+3b	create-target	18_Tech_Reference/_System_Guides/SYS-F – Task system guide.md		system-guide stub; resolves 12 links
+3b	create-target	18_Tech_Reference/_System_Guides/SYS-P – Live vault and legacy archive.md		system-guide stub; resolves 13 links
+3b	create-target	18_Tech_Reference/_System_Guides/SYS-Q – Container and AI context map.md		system-guide stub; resolves 5 links
+3b	create-target	60_MOCs/MOC - 05_AI_Tools_and_Guides.md		MOC index; resolves 43 links
+3b	create-target	40_Universal_Codex/Source - Universal Codex (Reinforced).md		source stub; resolves 2906 citations
+3b	create-target	60_MOCs/MOC - Appendix K - Compendium of Metaphysical Entities and Anomalous Experiences (Abridged).md		MOC index; resolves 1 links
+3b	create-target	60_MOCs/MOC - 02_Business_Gig_Work_and_Careers.md		MOC index; resolves 69 links
+3b	create-target	60_MOCs/MOC - 12_Entertainment.md		MOC index; resolves 23 links
+3b	create-target	18_Tech_Reference/_System_Guides/REF-B – Public domain only.md		system-guide stub; resolves 2 links
+3b	create-target	60_MOCs/MOC - 07_Thomas_Persona.md		MOC index; resolves 17 links
+3b	create-target	60_MOCs/MOC - 13_Tickets_Receipts_Travel.md		MOC index; resolves 6 links
+3b	create-target	60_MOCs/MOC - 06_Knowledge_Management_PKM.md		MOC index; resolves 25 links
+3b	create-target	60_MOCs/MOC - 22_Religion_Spiritual.md		MOC index; resolves 6 links
+3b	create-target	60_MOCs/MOC - 20_Food_Menus.md		MOC index; resolves 5 links
+3b	create-target	18_Tech_Reference/_System_Guides/SYS-L – Archive and cold storage.md		system-guide stub; resolves 7 links
+3b	create-target	60_MOCs/MOC - 08_HR_Employment_and_Policies.md		MOC index; resolves 20 links
+3b	create-target	18_Tech_Reference/_System_Guides/SYS-M – Graph triage guide.md		system-guide stub; resolves 13 links
+3b	create-target	18_Tech_Reference/_System_Guides/ACT-B – Projects dashboard.md		system-guide stub; resolves 1 links
+3b	create-target	18_Tech_Reference/_System_Guides/ACT-D – Deep work dashboard.md		system-guide stub; resolves 4 links
+3b	create-target	18_Tech_Reference/_System_Guides/ACT-E – Reading dashboard.md		system-guide stub; resolves 3 links
+3b	create-target	18_Tech_Reference/_System_Guides/REF-C – Reference intake guide.md		system-guide stub; resolves 1 links
+3b	create-target	18_Tech_Reference/_System_Guides/SYS-B – ID grammar.md		system-guide stub; resolves 2 links
+3b	create-target	18_Tech_Reference/_System_Guides/SYS-H – Source lifecycle.md		system-guide stub; resolves 2 links
+3b	create-target	18_Tech_Reference/_System_Guides/SYS-K – Mobile use guide.md		system-guide stub; resolves 11 links
+3b	create-target	18_Tech_Reference/_System_Guides/SYS-R – Runtime troubleshooting.md		system-guide stub; resolves 15 links
+3b	create-target	18_Tech_Reference/_System_Guides/SYS-T – Recovery quick actions.md		system-guide stub; resolves 4 links
+3b	create-target	18_Tech_Reference/_System_Guides/SYS-S – Runtime self-check.md		system-guide stub; resolves 4 links
+3b	create-target	12_Entertainment/_Indexes/Genre - Fantasy.md		facet index; resolves 3 links
+3b	create-target	12_Entertainment/_Indexes/Country - United States.md		facet index; resolves 7 links
+3b	create-target	12_Entertainment/_Indexes/Rating - G.md		facet index; resolves 8 links
+3b	create-target	12_Entertainment/_Indexes/Format - Live Action.md		facet index; resolves 6 links
+3b	create-target	12_Entertainment/_Indexes/Section - English.md		facet index; resolves 36 links
+3b	create-target	12_Entertainment/_Indexes/Section - Standard.md		facet index; resolves 36 links
+3b	create-target	12_Entertainment/_Indexes/Color - Color.md		facet index; resolves 25 links
+3b	create-target	12_Entertainment/_Indexes/Genre - Adventure.md		facet index; resolves 5 links
+3b	create-target	12_Entertainment/_Indexes/Genre - Comedy.md		facet index; resolves 10 links
+3b	create-target	12_Entertainment/_Indexes/Rating - R.md		facet index; resolves 20 links
+3b	create-target	12_Entertainment/_Indexes/Rating - NR.md		facet index; resolves 7 links
+3b	create-target	12_Entertainment/_Indexes/Genre - Romance.md		facet index; resolves 12 links
+3b	create-target	12_Entertainment/_Indexes/Genre - Thriller.md		facet index; resolves 12 links
+3b	create-target	12_Entertainment/_Indexes/Color - Black and White.md		facet index; resolves 11 links
+3b	create-target	12_Entertainment/_Indexes/Genre - Drama.md		facet index; resolves 18 links
+3b	create-target	12_Entertainment/_Indexes/Genre - Crime.md		facet index; resolves 4 links
+3b	create-target	12_Entertainment/_Indexes/Genre - Action.md		facet index; resolves 5 links
+3b	create-target	12_Entertainment/_Indexes/Genre - Horror.md		facet index; resolves 2 links
+3b	summary	created=66	dangling_nonimg_occ=10203	was 14641
