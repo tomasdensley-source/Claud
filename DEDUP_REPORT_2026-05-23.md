@@ -1,0 +1,420 @@
+---
+title: Dedup Report 2026-05-23
+type: report
+tags:
+  - report
+  - dedup
+updated: 2026-05-23
+---
+
+# Exact-content dedup — 2026-05-23
+
+Scanned **15590** content files (excludes `.obsidian/`, `.graphy/`).
+Removed **657** exact duplicates across **645** duplicate groups, keeping one canonical copy each (preferring corpus-native locations over `_working-vault`/demo copies).
+
+Merit note: this removes byte-identical duplicates only. Near-duplicates (same idea, different version) are NOT auto-removed — flagged for a future curation pass.
+
+## Removed → kept (first 400)
+
+- `vault-content/sessions/2026-05-10/Graphy_Construction_Brief_v0.4.md` → kept `00_Inbox_Unsorted/Graphy_Construction_Brief_v0.4.md`
+- `vault-content/sessions/2026-05-10/_drafts/Letter_to_Nickolle_DRAFT_2026-05-10.md` → kept `00_Inbox_Unsorted/Letter_to_Nickolle_DRAFT_2026-05-10.md`
+- `vault-content/sessions/2026-05-11/TEST_rev13_45s.md` → kept `00_Inbox_Unsorted/TEST_rev13_45s.md`
+- `00_Inbox_Unsorted/00 ÔÇô Vault Home.md` → kept `00_Inbox_Unsorted/00 ÔÇô Vault Home [55271F4997].md`
+- `00_Inbox_Unsorted/01 - Creative Writing.md` → kept `00_Inbox_Unsorted/01 - Creative Writing [3CB1717FBB].md`
+- `00_Inbox_Unsorted/02 ÔÇô Business [B6A17F6ED0].md` → kept `00_Inbox_Unsorted/02 ÔÇô Business.md`
+- `00_Inbox_Unsorted/03 - Knowledge Systems [BE50119758].md` → kept `00_Inbox_Unsorted/03 - Knowledge Systems.md`
+- `00_Inbox_Unsorted/03 ÔÇô Knowledge Systems [A155EF6D1E].md` → kept `00_Inbox_Unsorted/03 ÔÇô Knowledge Systems.md`
+- `00_Inbox_Unsorted/04 - Reference Library.md` → kept `00_Inbox_Unsorted/04 - Reference Library [FA7809462C].md`
+- `00_Inbox_Unsorted/04 ÔÇô Reference Library [05FA3F8179].md` → kept `00_Inbox_Unsorted/04 ÔÇô Reference Library.md`
+- `00_Inbox_Unsorted/05 - Tools & Systems.md` → kept `00_Inbox_Unsorted/05 - Tools & Systems [C4D4A51097].md`
+- `00_Inbox_Unsorted/05 ÔÇô things to do and how to do them [AFE50CDB04].md` → kept `00_Inbox_Unsorted/05 ÔÇô things to do and how to do them.md`
+- `00_Inbox_Unsorted/2026-W13 ÔÇô Weekly review.md` → kept `00_Inbox_Unsorted/2026-W13 ├ö├ç├┤ Weekly review.md`
+- `00_Inbox_Unsorted/287ba5_2d1c30f08fb241f78419e1d9a896f354 (pdf) [7B24885839].md` → kept `00_Inbox_Unsorted/287ba5_2d1c30f08fb241f78419e1d9a896f354 (pdf).md`
+- `00_Inbox_Unsorted/@Calls.md` → kept `00_Inbox_Unsorted/@Calls [61375843CB].md`
+- `00_Inbox_Unsorted/@Deep Work [26695D2E6B].md` → kept `00_Inbox_Unsorted/@Deep Work.md`
+- `00_Inbox_Unsorted/@Duet.md` → kept `00_Inbox_Unsorted/@Duet [C38EA83B19].md`
+- `00_Inbox_Unsorted/@Errands [446D27DB74].md` → kept `00_Inbox_Unsorted/@Errands.md`
+- `00_Inbox_Unsorted/@Phone.md` → kept `00_Inbox_Unsorted/@Phone [CFE23A9777].md`
+- `00_Inbox_Unsorted/ARA-A ÔÇô Personal operations.md` → kept `00_Inbox_Unsorted/ARA-A ├ö├ç├┤ Personal operations.md`
+- `00_Inbox_Unsorted/ARA-B ÔÇô Business operations.md` → kept `00_Inbox_Unsorted/ARA-B ├ö├ç├┤ Business operations.md`
+- `00_Inbox_Unsorted/ARC-A ├ö├ç├┤ Archive guide.md` → kept `00_Inbox_Unsorted/ARC-A ÔÇô Archive guide.md`
+- `00_Inbox_Unsorted/AUDIO CAPTURE FIELD GUIDE (For Samsung Galaxy s21 ultra) [3457BDA390].md` → kept `00_Inbox_Unsorted/AUDIO CAPTURE FIELD GUIDE (For Samsung Galaxy s21 ultra).md`
+- `00_Inbox_Unsorted/Abridged Dante's inferno chat GPT alpha test [F56A8EEEBA].md` → kept `00_Inbox_Unsorted/Abridged Dante's inferno chat GPT alpha test.md`
+- `00_Inbox_Unsorted/Android App Folder Map & Prompts.md` → kept `00_Inbox_Unsorted/Android App Folder Map & Prompts [557E056A5F].md`
+- `00_Inbox_Unsorted/Anna_Karenina_1399_obisidian [0BFA222656].md` → kept `00_Inbox_Unsorted/Anna_Karenina_1399_obisidian.md`
+- `00_Inbox_Unsorted/Audio Capture Field Guide - Samsung S21 Ultra [267487FF30].md` → kept `00_Inbox_Unsorted/Audio Capture Field Guide - Samsung S21 Ultra.md`
+- `00_Inbox_Unsorted/CMP-A ÔÇô Outreach campaign note.md` → kept `00_Inbox_Unsorted/CMP-A ├ö├ç├┤ Outreach campaign note.md`
+- `00_Inbox_Unsorted/CMP-B ├ö├ç├┤ Proposal note example.md` → kept `00_Inbox_Unsorted/CMP-B ÔÇô Proposal note example.md`
+- `00_Inbox_Unsorted/CMP-C ÔÇô Territory route note.md` → kept `00_Inbox_Unsorted/CMP-C ├ö├ç├┤ Territory route note.md`
+- `00_Inbox_Unsorted/CONTRIBUTING.md` → kept `00_Inbox_Unsorted/CONTRIBUTING [3B9AFEEA41].md`
+- `00_Inbox_Unsorted/Capture.md` → kept `00_Inbox_Unsorted/Capture [7FBF1F5FF7].md`
+- `00_Inbox_Unsorted/Catalog Note Template.md` → kept `00_Inbox_Unsorted/Catalog Note Template [BF986FCDA1].md`
+- `00_Inbox_Unsorted/Collection of Quotes - Reflections & Insights [1430C3F772].md` → kept `00_Inbox_Unsorted/Collection of Quotes - Reflections & Insights.md`
+- `00_Inbox_Unsorted/Collection of QuotesReflections & Insights [91A503CBFE].md` → kept `00_Inbox_Unsorted/Collection of QuotesReflections & Insights.md`
+- `00_Inbox_Unsorted/Command Center.md` → kept `00_Inbox_Unsorted/Command Center [46F74329C6].md`
+- `00_Inbox_Unsorted/Create your first TaskNotes task [D0A7D28521].md` → kept `00_Inbox_Unsorted/Create your first TaskNotes task.md`
+- `00_Inbox_Unsorted/DLY-A ÔÇô Daily system home.md` → kept `00_Inbox_Unsorted/DLY-A ├ö├ç├┤ Daily system home.md`
+- `00_Inbox_Unsorted/Doctor Who - Complete Episode Index [85CD9885A7].md` → kept `00_Inbox_Unsorted/Doctor Who - Complete Episode Index.md`
+- `00_Inbox_Unsorted/Doctor WhoComplete Episode Index.md` → kept `00_Inbox_Unsorted/Doctor WhoComplete Episode Index [72A944DCAF].md`
+- `00_Inbox_Unsorted/Enable Bases core plugin [5BF3DE27FE].md` → kept `00_Inbox_Unsorted/Enable Bases core plugin.md`
+- `00_Inbox_Unsorted/GRAPH_FIX_TODAY.md` → kept `00_Inbox_Unsorted/GRAPH_FIX_TODAY [2B94851234].md`
+- `00_Inbox_Unsorted/Graph Guide.md` → kept `00_Inbox_Unsorted/Graph Guide [E7F68BECFD].md`
+- `00_Inbox_Unsorted/Growth paths & projections.md` → kept `00_Inbox_Unsorted/Growth paths & projections [9CBF7888C4].md`
+- `00_Inbox_Unsorted/INB-A ÔÇô Capture dock.md` → kept `00_Inbox_Unsorted/INB-A ├ö├ç├┤ Capture dock.md`
+- `00_Inbox_Unsorted/INB-B ├ö├ç├┤ Triage board.md` → kept `00_Inbox_Unsorted/INB-B ÔÇô Triage board.md`
+- `00_Inbox_Unsorted/INB-C ├ö├ç├┤ Dictation slip example.md` → kept `00_Inbox_Unsorted/INB-C ÔÇô Dictation slip example.md`
+- `00_Inbox_Unsorted/Inferno_abridged.md` → kept `00_Inbox_Unsorted/Dante_Inferno_abridged.md`
+- `00_Inbox_Unsorted/Inspection Ready EdgesEdges with Budget Gear [01BE3F6230].md` → kept `00_Inbox_Unsorted/Inspection Ready EdgesEdges with Budget Gear.md`
+- `00_Inbox_Unsorted/Inspection-Ready Edges with Budget Gear.md` → kept `00_Inbox_Unsorted/Inspection-Ready Edges with Budget Gear [9AE83C0AF3].md`
+- `00_Inbox_Unsorted/Install & enable Style Settings plugin [C021D3FDC5].md` → kept `00_Inbox_Unsorted/Install & enable Style Settings plugin.md`
+- `00_Inbox_Unsorted/Lead Template ­ƒôï.md` → kept `00_Inbox_Unsorted/┬Ñ_Markdown_Notes_PKM_Loose_Lead Template ­ƒôï.md`
+- `00_Inbox_Unsorted/Library Home.md` → kept `00_Inbox_Unsorted/Library Home [DE4A4D513A].md`
+- `00_Inbox_Unsorted/Mapping board plan.md` → kept `00_Inbox_Unsorted/Mapping Board Plan [083631DF59].md`
+- `00_Inbox_Unsorted/Music Genre Universe [10A48FDDB5].md` → kept `00_Inbox_Unsorted/Music Genre Universe.md`
+- `00_Inbox_Unsorted/Music Library Refactor - Hierarchy Layout [AA76E8D608].md` → kept `00_Inbox_Unsorted/Music Library Refactor - Hierarchy Layout.md`
+- `00_Inbox_Unsorted/Music Library Refactor- Hierarchy Layout.md` → kept `00_Inbox_Unsorted/Music Library Refactor- Hierarchy Layout [CC38A2151B].md`
+- `00_Inbox_Unsorted/Open Global Graph and confirm color groups.md` → kept `00_Inbox_Unsorted/Open Global Graph and confirm color groups [F41A41979A].md`
+- `00_Inbox_Unsorted/PDR-A ÔÇô Republic public-domain note.md` → kept `00_Inbox_Unsorted/PDR-A ├ö├ç├┤ Republic public-domain note.md`
+- `00_Inbox_Unsorted/PDR-B ÔÇô Discourses public-domain note.md` → kept `00_Inbox_Unsorted/PDR-B ├ö├ç├┤ Discourses public-domain note.md`
+- `00_Inbox_Unsorted/PDR-C ├ö├ç├┤ Meditations public-domain note.md` → kept `00_Inbox_Unsorted/PDR-C ÔÇô Meditations public-domain note.md`
+- `00_Inbox_Unsorted/PDR-D ÔÇô Hamlet public-domain note.md` → kept `00_Inbox_Unsorted/PDR-D ├ö├ç├┤ Hamlet public-domain note.md`
+- `00_Inbox_Unsorted/PDR-E ÔÇô Pragmatism public-domain note.md` → kept `00_Inbox_Unsorted/PDR-E ├ö├ç├┤ Pragmatism public-domain note.md`
+- `00_Inbox_Unsorted/Parables & Stories [3AEC83D494].md` → kept `00_Inbox_Unsorted/Parables & Stories.md`
+- `00_Inbox_Unsorted/PayPal Transactions (Aug - Nov) ­ƒÆ▓.md` → kept `00_Inbox_Unsorted/PayPal Transactions (Aug - Nov) ­ƒÆ▓ [C9CDB8CF23].md`
+- `00_Inbox_Unsorted/Personal Ops [7A7C0E9990].md` → kept `00_Inbox_Unsorted/Personal Ops.md`
+- `00_Inbox_Unsorted/Personal Shopping List - Substances [7E5A5CC948].md` → kept `00_Inbox_Unsorted/Personal Shopping List - Substances.md`
+- `00_Inbox_Unsorted/Personal Shopping List Substances.md` → kept `00_Inbox_Unsorted/Personal Shopping List Substances [367A09467D].md`
+- `00_Inbox_Unsorted/Pipelines List ­ƒôØ.md` → kept `00_Inbox_Unsorted/Pipelines List ­ƒôØ [4EB6E9F2E4].md`
+- `00_Inbox_Unsorted/Poplin Kickstart Idea ­ƒÆí.md` → kept `00_Inbox_Unsorted/Poplin Kickstart Idea ­ƒÆí [59D2E8C546].md`
+- `00_Inbox_Unsorted/Practice switching Graph filters (Active Ôåö Tasks Ôåö Projects) [4DF1BFE3B2].md` → kept `00_Inbox_Unsorted/Practice switching Graph filters (Active Ôåö Tasks Ôåö Projects).md`
+- `00_Inbox_Unsorted/Project - Learn the Vault [75662A9B73].md` → kept `00_Inbox_Unsorted/Project - Learn the Vault.md`
+- `00_Inbox_Unsorted/Project - Vault Setup.md` → kept `00_Inbox_Unsorted/Project - Vault Setup [CC985ECCDA].md`
+- `00_Inbox_Unsorted/README_APPLY_PATCH [330D3DE8F6].md` → kept `00_Inbox_Unsorted/README_APPLY_PATCH.md`
+- `00_Inbox_Unsorted/REF-B ├ö├ç├┤ Public domain only.md` → kept `00_Inbox_Unsorted/REF-B ÔÇô Public domain only.md`
+- `00_Inbox_Unsorted/REF-C ├ö├ç├┤ Reference intake guide.md` → kept `00_Inbox_Unsorted/REF-C ÔÇô Reference intake guide.md`
+- `00_Inbox_Unsorted/REF-D ├ö├ç├┤ Quote safety heuristic.md` → kept `00_Inbox_Unsorted/REF-D ÔÇô Quote safety heuristic.md`
+- `00_Inbox_Unsorted/SLC Food & Beverage Prospect Checklist [3CDD958070].md` → kept `00_Inbox_Unsorted/SLC Food & Beverage Prospect Checklist.md`
+- `00_Inbox_Unsorted/Samsung S24 Ultra - Folder View Prompts [241D1B06A0].md` → kept `00_Inbox_Unsorted/Samsung S24 Ultra - Folder View Prompts.md`
+- `00_Inbox_Unsorted/Start Here ÔÇö GraphFirst Productivity Vault (v3) [B3851A5A4B].md` → kept `00_Inbox_Unsorted/Start Here ÔÇö GraphFirst Productivity Vault (v3).md`
+- `00_Inbox_Unsorted/Style Settings ÔÇö Quick Tweaks [D0F03C5D96].md` → kept `00_Inbox_Unsorted/Style Settings ÔÇö Quick Tweaks.md`
+- `00_Inbox_Unsorted/T1_ARC_MAP.md` → kept `00_Inbox_Unsorted/T1_ARC_MAP [D8AF273CCA].md`
+- `00_Inbox_Unsorted/THE HOUSE ON THE BORDERLAND (Short Story).md` → kept `00_Inbox_Unsorted/THE HOUSE ON THE BORDERLAND (Short Story) [A4A1B55109].md`
+- `00_Inbox_Unsorted/Taoist_Canon (pdf).md` → kept `00_Inbox_Unsorted/Taoist_Canon (pdf) [67F59E4BA4].md`
+- `00_Inbox_Unsorted/Thomas's InfluenceAtlas.md` → kept `00_Inbox_Unsorted/Thomas's InfluenceAtlas [8F45E960B4].md`
+- `00_Inbox_Unsorted/Toyota Corolla Financing Statements (Aug - Oct) ­ƒÆ▓ [05C826529E].md` → kept `00_Inbox_Unsorted/Toyota Corolla Financing Statements (Aug - Oct) ­ƒÆ▓.md`
+- `00_Inbox_Unsorted/Tranquil Wanderings Dream (pdf) [19D3137110].md` → kept `00_Inbox_Unsorted/Tranquil Wanderings Dream (pdf).md`
+- `00_Inbox_Unsorted/Uber Ride Playlist Progression [AFB8C569BE].md` → kept `00_Inbox_Unsorted/Uber Ride Playlist Progression.md`
+- `00_Inbox_Unsorted/Vault Home.md` → kept `00_Inbox_Unsorted/Vault Home [347A7B913A].md`
+- `00_Inbox_Unsorted/Video Index [B883BC1C74].md` → kept `00_Inbox_Unsorted/Video Index.md`
+- `00_Inbox_Unsorted/Waiting- confirm TaskNotes views open correctly [33F4C934ED].md` → kept `00_Inbox_Unsorted/Waiting- confirm TaskNotes views open correctly.md`
+- `00_Inbox_Unsorted/Watch one Graph View tutorial video [B1D7E31940].md` → kept `00_Inbox_Unsorted/Watch one Graph View tutorial video.md`
+- `00_Inbox_Unsorted/Wu Wei.md` → kept `00_Inbox_Unsorted/Wu wei [3346931374].md`
+- `00_Inbox_Unsorted/_Category_Guide.md` → kept `00_Inbox_Unsorted/_Category_Guide [BFA959ED6C].md`
+- `00_Inbox_Unsorted/_README.md` → kept `00_Inbox_Unsorted/_README [456904FB18].md`
+- `00_Inbox_Unsorted/music genre universe styled [9D96B5C787].md` → kept `00_Inbox_Unsorted/music genre universe styled.md`
+- `00_Inbox_Unsorted/preview (8).md` → kept `00_Inbox_Unsorted/preview (8) [C3C9162325].md`
+- `00_Inbox_Unsorted/rcl-brochure-print (pdf).md` → kept `00_Inbox_Unsorted/rcl-brochure-print (pdf) [871E1D1651].md`
+- `00_Inbox_Unsorted/temp7283208123228801779png SHARED (pdf) [526BF9F53D].md` → kept `00_Inbox_Unsorted/temp7283208123228801779png SHARED (pdf).md`
+- `00_Inbox_Unsorted/temp780892444424618328pdf SHARED (pdf) [2AA01434CE].md` → kept `00_Inbox_Unsorted/temp780892444424618328pdf SHARED (pdf).md`
+- `00_Inbox_Unsorted/the house on the borderlandnull_260208_191718 (pdf).md` → kept `00_Inbox_Unsorted/the house on the borderlandnull_260208_191718 (pdf) [D2C559E62D].md`
+- `00_Inbox_Unsorted/­ƒº╣ Orphan & Attachment Triage.md` → kept `00_Inbox_Unsorted/­ƒº╣ Orphan & Attachment Triage [B0ED163E36].md`
+- `00_Inbox_Unsorted/┬Ñ_Markdown_Inbox_Business idea.md` → kept `00_Inbox_Unsorted/Business idea.md`
+- `01_Business_Sharp_House_Solutions/General/02 - Business [3C9EC17012].md` → kept `01_Business_Sharp_House_Solutions/General/02 - Business.md`
+- `01_Business_Sharp_House_Solutions/General/Immediate action plan checklist for Sharp House [52C00071AA].md` → kept `01_Business_Sharp_House_Solutions/General/Immediate action plan checklist for Sharp House.md`
+- `01_Business_Sharp_House_Solutions/General/Knife Sharpening Systems - Real Images & Comparative Guide [1F6CAA4C2D].md` → kept `01_Business_Sharp_House_Solutions/General/Knife Sharpening Systems - Real Images & Comparative Guide.md`
+- `01_Business_Sharp_House_Solutions/General/Knife Sharpening SystemsReal Images & Comparative Guide [923651DB19].md` → kept `01_Business_Sharp_House_Solutions/General/Knife Sharpening SystemsReal Images & Comparative Guide.md`
+- `01_Business_Sharp_House_Solutions/General/Mobile Knife Sharpening Service ÔÇô Tactical Field Playbook (pdf) [late] Ôùë_Varidis Quo_Library_Reference Library_Library of.md` → kept `01_Business_Sharp_House_Solutions/General/Mobile Knife Sharpening Service ÔÇô Tactical Field Playbook (pdf) [FDE86EF44E].md`
+- `01_Business_Sharp_House_Solutions/General/Productivity_and_Knowledge_Management_Playbook (pdf) [late] Ôùë_Varidis Quo_Library_Reference Library_Library of Alexandri.md` → kept `01_Business_Sharp_House_Solutions/General/Productivity_and_Knowledge_Management_Playbook (pdf) [24E1641AF6].md`
+- `01_Business_Sharp_House_Solutions/General/Sharp House Solutions - Affiliate & Prospect Research [95EA15DEEA].md` → kept `01_Business_Sharp_House_Solutions/General/Sharp House Solutions - Affiliate & Prospect Research.md`
+- `01_Business_Sharp_House_Solutions/General/Sharp House Solutions - Business Plan & Operating Summary [AD8F21F601].md` → kept `01_Business_Sharp_House_Solutions/General/Sharp House Solutions - Business Plan & Operating Summary.md`
+- `01_Business_Sharp_House_Solutions/General/Sharp House Solutions - Master Operating File.md` → kept `01_Business_Sharp_House_Solutions/General/Sharp House Solutions - Master Operating File [41086C151E].md`
+- `01_Business_Sharp_House_Solutions/General/Sharp House Solutions - Resource Compendium (2026-01-26) (pdf) [late] Ôùë_Varidis Quo_Library_Reference Library_Library of Al.md` → kept `01_Business_Sharp_House_Solutions/General/Sharp House Solutions - Resource Compendium (2026-01-26) (pdf) [5571FC5A23].md`
+- `01_Business_Sharp_House_Solutions/General/Sharp House Solutions - Strategic Industrialization.md` → kept `01_Business_Sharp_House_Solutions/General/Sharp House Solutions - Strategic Industrialization [EB1E3AF858].md`
+- `01_Business_Sharp_House_Solutions/General/Sharp House Solutions Business Plan & Operating Summary [30E43D7F87].md` → kept `01_Business_Sharp_House_Solutions/General/Sharp House Solutions Business Plan & Operating Summary.md`
+- `01_Business_Sharp_House_Solutions/General/Sharp House Solutions.md` → kept `01_Business_Sharp_House_Solutions/General/Sharp House Solutions [F7F8DA1E52].md`
+- `01_Business_Sharp_House_Solutions/General/Sharp House SolutionsA ffiliate & Subscription Prospect Research.md` → kept `01_Business_Sharp_House_Solutions/General/Sharp House SolutionsA ffiliate & Subscription Prospect Research [87FEA73DDA].md`
+- `01_Business_Sharp_House_Solutions/General/Sharp House SolutionsThe strategic industrialization of precision into a data-driven safety and compliance enterprise.md` → kept `01_Business_Sharp_House_Solutions/General/Sharp House SolutionsThe strategic industrialization of precision into a data-driven safety and compliance enterprise [5CA2CF.md`
+- `01_Business_Sharp_House_Solutions/General/Sharp_House_Solutions_Field_Operations_Manual (pdf) [E0B129B588].md` → kept `01_Business_Sharp_House_Solutions/General/Sharp_House_Solutions_Field_Operations_Manual (pdf) [late] Ôùë_Varidis Quo_Library_Reference Library_Library of Alexandri.md`
+- `01_Business_Sharp_House_Solutions/General/Sharp_House_Solutions_Updated_Plan_with_Reference (pdf) [late] Ôùë_Varidis Quo_Library_Reference Library_Library of Alexandri.md` → kept `01_Business_Sharp_House_Solutions/General/Sharp_House_Solutions_Updated_Plan_with_Reference (pdf) [C2E41A9353].md`
+- `01_Business_Sharp_House_Solutions/General/Sharpening Brand ÔÇô Naming Analysis & Recommendation (pdf) [late] Ôùë_Varidis Quo_Library_Reference Library_Library of Alexa.md` → kept `01_Business_Sharp_House_Solutions/General/Sharpening Brand ÔÇô Naming Analysis & Recommendation (pdf) [F15782E5AC].md`
+- `01_Business_Sharp_House_Solutions/General/Sign -- Sharp House Solutions LLC Operating Agreement FINAL 12-19-2025 (pdf) [late] Ôùë_Varidis Quo_Library_Reference Library.md` → kept `01_Business_Sharp_House_Solutions/General/Sign -- Sharp House Solutions LLC Operating Agreement FINAL 12-19-2025 (pdf) [A2421E009B].md`
+- `01_Business_Sharp_House_Solutions/General/┬Ñ_Library_Work and Business_Sharp House Solutions Legacy_SHS_obsidian_300_prompt_arc_final_locked.md` → kept `05_AI_Tools_and_Guides/General/obsidian_300_prompt_arc_final_locked [29B3D55638].md`
+- `01_Business_Sharp_House_Solutions/_working-vault/Sharp_House_CRM_v7.md` → kept `01_Business_Sharp_House_Solutions/General/sharp_house_crm_v7.md`
+- `02_Business_Gig_Work_and_Careers/General/Audio Fiction Platforms - Monetization and Success Strategies (pdf) [7A9EA15636].md` → kept `02_Business_Gig_Work_and_Careers/General/Audio Fiction Platforms - Monetization and Success Strategies (pdf) [late] Ôùë_Varidis Quo_Library_Reference Library_Library .md`
+- `02_Business_Gig_Work_and_Careers/General/Compendium Of Metaphysical Entities And Anomalous Experiences (pdf) [late] Ôùë_Varidis Quo_Library_Reference Library_Library .md` → kept `02_Business_Gig_Work_and_Careers/General/Compendium Of Metaphysical Entities And Anomalous Experiences (pdf) [2C4F982DB7].md`
+- `02_Business_Gig_Work_and_Careers/General/Gig Guide Catalog ­ƒùé´©Å.md` → kept `02_Business_Gig_Work_and_Careers/General/Gig Guide Catalog ­ƒùé´©Å [D3A1526171].md`
+- `02_Business_Gig_Work_and_Careers/General/Guide To Dominating Poplin As A Laundry Pro ­ƒù║´©Å (pdf) [late] Ôùë_Varidis Quo_Library_Reference Library_Library of Alexand.md` → kept `02_Business_Gig_Work_and_Careers/General/Guide To Dominating Poplin As A Laundry Pro ­ƒù║´©Å (pdf) [C2748FC0BA].md`
+- `02_Business_Gig_Work_and_Careers/General/Logistics Playbook Becoming An Ultra Wealthy Dumpling Driver In Utah (pdf) [766033DA62].md` → kept `02_Business_Gig_Work_and_Careers/General/Logistics Playbook Becoming An Ultra Wealthy Dumpling Driver In Utah (pdf) [late] Ôùë_Varidis Quo_Library_Reference Library_L.md`
+- `02_Business_Gig_Work_and_Careers/General/Maximizing Your Income With Amride In Utah The Ultimate Success Strategy (pdf) [0A4D58E39E].md` → kept `02_Business_Gig_Work_and_Careers/General/Maximizing Your Income With Amride In Utah The Ultimate Success Strategy (pdf) [late] Ôùë_Varidis Quo_Library_Reference Libra.md`
+- `02_Business_Gig_Work_and_Careers/General/Mega Master Gig Compendium ÔÇô Expanded Guide (tiers S Through D) (pdf) [E3AD06DFAD].md` → kept `02_Business_Gig_Work_and_Careers/General/Mega Master Gig Compendium ÔÇô Expanded Guide (tiers S Through D) (pdf) [late] Ôùë_Varidis Quo_Library_Reference Library_Libr.md`
+- `02_Business_Gig_Work_and_Careers/General/Skipcart Driver Field Guide ÔÇô Maximizing Earnings And Efficiency (1) 1 (pdf) [late] Library_Reference Library_Library of Al.md` → kept `02_Business_Gig_Work_and_Careers/General/Skipcart Driver Field Guide ÔÇô Maximizing Earnings And Efficiency (1) 1 (pdf) [late] Ôùë_Varidis Quo_Library_Reference Libra.md`
+- `02_Business_Gig_Work_and_Careers/General/Skipcart Driver Field Guide ÔÇô Maximizing Earnings And Efficiency (pdf) [late] Library_Reference Library_Library of Alexandr.md` → kept `02_Business_Gig_Work_and_Careers/General/Skipcart Driver Field Guide ÔÇô Maximizing Earnings And Efficiency (pdf) [late] Ôùë_Varidis Quo_Library_Reference Library_Lib.md`
+- `02_Business_Gig_Work_and_Careers/General/Ultimate Guide to Maximizing Your Shipt Earnings in Utah County (pdf) [late] Ôùë_Varidis Quo_Library_Reference Library_Librar.md` → kept `02_Business_Gig_Work_and_Careers/General/Ultimate Guide to Maximizing Your Shipt Earnings in Utah County (pdf) [late] Library_Reference Library_Library of Alexandria_.md`
+- `02_Business_Gig_Work_and_Careers/General/rideshare_playlist_prompts.md` → kept `02_Business_Gig_Work_and_Careers/General/rideshare_playlist_prompts [262A9EED0B].md`
+- `02_Business_Gig_Work_and_Careers/_working-vault/Rancheritos_Betos_Dedicated_Restaurant_Notes.md` → kept `00_Inbox_Unsorted/Rancheritos_Betos_Dedicated_Restaurant_Notes.md`
+- `02_Business_Gig_Work_and_Careers/_working-vault/Rancheritos_SLCounty_UtahCounty.md` → kept `00_Inbox_Unsorted/Rancheritos_SLCounty_UtahCounty.md`
+- `03_Finance_Taxes_and_Loans/18586387 62f9 4bd6 bcd6 569487d6c935 Daily User Trade Confirmation 08 24 2023 (pdf) [late] Ôùë_Varidis Quo_Library_Reference .md` → kept `03_Finance_Taxes_and_Loans/18586387 62f9 4bd6 bcd6 569487d6c935 Daily User Trade Confirmation 08 24 2023 (pdf).md`
+- `03_Finance_Taxes_and_Loans/April 2025 bank statement (UCCU) [E672C2AC86].md` → kept `03_Finance_Taxes_and_Loans/April 2025 bank statement (UCCU).md`
+- `03_Finance_Taxes_and_Loans/August 2025 bank statement (UCCU).md` → kept `03_Finance_Taxes_and_Loans/August 2025 bank statement (UCCU) [404BC41DA0].md`
+- `03_Finance_Taxes_and_Loans/February 2025 bank statement (UCCU) [01F8C631CF].md` → kept `03_Finance_Taxes_and_Loans/February 2025 bank statement (UCCU).md`
+- `03_Finance_Taxes_and_Loans/Ibvconsent 5475e1ebb65d3bc4e56aa8a3dec21c151e786690a66ff31f79b71e995933ae3c (pdf).md` → kept `03_Finance_Taxes_and_Loans/Ibvconsent 5475e1ebb65d3bc4e56aa8a3dec21c151e786690a66ff31f79b71e995933ae3c (pdf) [late] Ôùë_Varidis Quo_Library_Reference Li.md`
+- `03_Finance_Taxes_and_Loans/July 2025 bank statement (UCCU) [382295AB76].md` → kept `03_Finance_Taxes_and_Loans/July 2025 bank statement (UCCU).md`
+- `03_Finance_Taxes_and_Loans/June 2025 bank statement(UCCU) [E89F3BF91B].md` → kept `03_Finance_Taxes_and_Loans/June 2025 bank statement(UCCU).md`
+- `03_Finance_Taxes_and_Loans/March 2025 bank statement (UCCU).md` → kept `03_Finance_Taxes_and_Loans/March 2025 bank statement (UCCU) [9331EC987B].md`
+- `03_Finance_Taxes_and_Loans/May 2025 bank statement (UCCU).md` → kept `03_Finance_Taxes_and_Loans/May 2025 bank statement (UCCU) [8C799AF0BA].md`
+- `03_Finance_Taxes_and_Loans/Utah Valley University Densley, Thomas Keith - No 3420 - 2023-10-26 (pdf).md` → kept `03_Finance_Taxes_and_Loans/Utah Valley University Densley, Thomas Keith - No 3420 - 2023-10-26 (pdf) [late] Ôùë_Varidis Quo_Library_Reference Library_Li.md`
+- `04_Education_and_Training/General/01 - Spheres of the Earth (pdf) [7322962066].md` → kept `04_Education_and_Training/General/01 - Spheres of the Earth (pdf).md`
+- `04_Education_and_Training/General/04 - Introduction to Ecosystems (pdf).md` → kept `04_Education_and_Training/General/04 - Introduction to Ecosystems (pdf) [AF23F648D7].md`
+- `04_Education_and_Training/General/100 Derivatives-1 (pdf).md` → kept `04_Education_and_Training/General/100 Derivatives-1 (pdf) [961569F7AA].md`
+- `04_Education_and_Training/General/2022 2023 Final (pdf) [7B8D46980D].md` → kept `04_Education_and_Training/General/2022 2023 Final (pdf).md`
+- `04_Education_and_Training/General/ACORD 0025 (pdf) [BCEE997959].md` → kept `04_Education_and_Training/General/ACORD 0025 (pdf).md`
+- `04_Education_and_Training/General/Academic Calendar 2 (pdf).md` → kept `04_Education_and_Training/General/Academic Calendar 2 (pdf) [4D28DBC5FC].md`
+- `04_Education_and_Training/General/Calculus Cheat Sheet (pdf).md` → kept `04_Education_and_Training/General/Calculus Cheat Sheet (pdf) [2B870AB711].md`
+- `04_Education_and_Training/General/Counting To Ten (pdf).md` → kept `04_Education_and_Training/General/Counting To Ten (pdf) [3198AA122B].md`
+- `04_Education_and_Training/General/Curvesketchpractice (pdf).md` → kept `04_Education_and_Training/General/Curvesketchpractice (pdf) [7152E33539].md`
+- `04_Education_and_Training/General/External Brain Quiz (pdf).md` → kept `04_Education_and_Training/General/External Brain Quiz (pdf) [401CDEA09D].md`
+- `04_Education_and_Training/General/External Brain Quiz-2 (pdf) [9FA11BD7A3].md` → kept `04_Education_and_Training/General/External Brain Quiz-2 (pdf).md`
+- `04_Education_and_Training/General/External Brain Quiz-3 (pdf) [7A6D4D47AC].md` → kept `04_Education_and_Training/General/External Brain Quiz-3 (pdf).md`
+- `04_Education_and_Training/General/FALL 2022 (pdf) [A6EB36ECD4].md` → kept `04_Education_and_Training/General/FALL 2022 (pdf).md`
+- `04_Education_and_Training/General/Green Print (pdf).md` → kept `04_Education_and_Training/General/Green Print (pdf) [CFD839B10A].md`
+- `04_Education_and_Training/General/North Star Pathways Workbook (pdf) [EACD3E0440].md` → kept `04_Education_and_Training/General/North Star Pathways Workbook (pdf).md`
+- `04_Education_and_Training/General/Personal_and_Miscellaneous_Notes (pdf).md` → kept `04_Education_and_Training/General/Personal_and_Miscellaneous_Notes (pdf) [8C02EFC87A].md`
+- `04_Education_and_Training/General/Precalculus Contents (pdf) [C374E94725].md` → kept `04_Education_and_Training/General/Precalculus Contents (pdf).md`
+- `04_Education_and_Training/General/Probs1ans (pdf).md` → kept `04_Education_and_Training/General/Probs1ans (pdf) [E35EE5BA02].md`
+- `04_Education_and_Training/General/Switchguide 2017 Oct (pdf) [E8EB216D39].md` → kept `04_Education_and_Training/General/Switchguide 2017 Oct (pdf).md`
+- `04_Education_and_Training/General/TUITIONANDFEES2023 2024 (pdf) [D82A780ECA].md` → kept `04_Education_and_Training/General/TUITIONANDFEES2023 2024 (pdf).md`
+- `04_Education_and_Training/General/The Hollow Corridors part2 (pdf).md` → kept `04_Education_and_Training/General/The Hollow Corridors part2 (pdf) [680CDBE957].md`
+- `04_Education_and_Training/General/Thomas Character Model QA Log v2 (pdf) [8CFDC65E7A].md` → kept `04_Education_and_Training/General/Thomas Character Model QA Log v2 (pdf).md`
+- `04_Education_and_Training/General/external_brain_quiz_1000_conversational_yesno (pdf) [8BF851E1E7].md` → kept `04_Education_and_Training/General/external_brain_quiz_1000_conversational_yesno (pdf).md`
+- `04_Education_and_Training/General/homework1220 (pdf) [DC48ED7B90].md` → kept `04_Education_and_Training/General/homework1220 (pdf).md`
+- `05_AI_Tools_and_Guides/General/00_README__How_to_use_in_ChatGPT_Project [E8D5C2AD69].md` → kept `05_AI_Tools_and_Guides/General/00_README__How_to_use_in_ChatGPT_Project.md`
+- `05_AI_Tools_and_Guides/General/A BeginnerÔÇÖs Guide To Apis And Using ChatGPT With Obsidian (pdf).md` → kept `05_AI_Tools_and_Guides/General/A BeginnerÔÇÖs Guide To Apis And Using ChatGPT With Obsidian (pdf) [89395C8358].md`
+- `05_AI_Tools_and_Guides/General/AI Tools (pdf).md` → kept `05_AI_Tools_and_Guides/General/AI Tools (pdf) [E0B43D27A8].md`
+- `05_AI_Tools_and_Guides/General/Beginner S Guide (pdf).md` → kept `05_AI_Tools_and_Guides/General/Beginner S Guide (pdf) [04AAD463F4].md`
+- `05_AI_Tools_and_Guides/General/Certificate Certification COURSE-2 (pdf).md` → kept `05_AI_Tools_and_Guides/General/Certificate Certification COURSE-2 (pdf) [FDD823D452].md`
+- `05_AI_Tools_and_Guides/General/ChatGPT Plans All Categories Single Page (pdf) [5C4A7F903B].md` → kept `05_AI_Tools_and_Guides/General/ChatGPT Plans All Categories Single Page (pdf).md`
+- `05_AI_Tools_and_Guides/General/ChatGPT Plans All Categories Single Page Compact (pdf) [0D77643BA1].md` → kept `05_AI_Tools_and_Guides/General/ChatGPT Plans All Categories Single Page Compact (pdf).md`
+- `05_AI_Tools_and_Guides/General/ChatGPT Plans All Categories Single Page Rotated Headers (pdf).md` → kept `05_AI_Tools_and_Guides/General/ChatGPT Plans All Categories Single Page Rotated Headers (pdf) [5F697BDA6B].md`
+- `05_AI_Tools_and_Guides/General/ChatGPT Plans Single Page Portrait (pdf).md` → kept `05_AI_Tools_and_Guides/General/ChatGPT Plans Single Page Portrait (pdf) [1DB767A3FA].md`
+- `05_AI_Tools_and_Guides/General/ChatGPT Plans Transposed Summary (pdf).md` → kept `05_AI_Tools_and_Guides/General/ChatGPT Plans Transposed Summary (pdf) [9FDDAD7DCB].md`
+- `05_AI_Tools_and_Guides/General/ChatGPT Plans Vertical Tables (pdf) [AC5721B1EB].md` → kept `05_AI_Tools_and_Guides/General/ChatGPT Plans Vertical Tables (pdf).md`
+- `05_AI_Tools_and_Guides/General/ChatGPT Plans by Category Horizontal (pdf) [04EC400D67].md` → kept `05_AI_Tools_and_Guides/General/ChatGPT Plans by Category Horizontal (pdf).md`
+- `05_AI_Tools_and_Guides/General/ChatGPT Plans by Category Landscape (pdf) [E8B3A54DE0].md` → kept `05_AI_Tools_and_Guides/General/ChatGPT Plans by Category Landscape (pdf).md`
+- `05_AI_Tools_and_Guides/General/Chatgpt Pro Comprehensive (pdf).md` → kept `05_AI_Tools_and_Guides/General/Chatgpt Pro Comprehensive (pdf) [B6815FA451].md`
+- `05_AI_Tools_and_Guides/General/Chatgpt Pro Comprehensive_f9668c96 (pdf) [247B5F4BFF].md` → kept `05_AI_Tools_and_Guides/General/Chatgpt Pro Comprehensive_f9668c96 (pdf).md`
+- `05_AI_Tools_and_Guides/General/Formatted Table (pdf).md` → kept `05_AI_Tools_and_Guides/General/Formatted Table (pdf) [A1FD9C764A].md`
+- `05_AI_Tools_and_Guides/General/Frontier Artificial Intelligence Trends, Models, And Economic Projections (pdf) [late] Ôùë_Varidis Quo_Library_Reference Libr.md` → kept `05_AI_Tools_and_Guides/General/Frontier Artificial Intelligence Trends, Models, And Economic Projections (pdf) [A5BF5C7FFD].md`
+- `05_AI_Tools_and_Guides/General/Frontier Artificial Intelligence Trends, Models, And Economic Projections (pdf).md` → kept `05_AI_Tools_and_Guides/General/Frontier Artificial Intelligence Trends, Models, And Economic Projections (pdf) [A5BF5C7FFD].md`
+- `05_AI_Tools_and_Guides/General/Inferno_abridged_chatgpt-variant.md` → kept `Complete_Works/Dante/Inferno_abridged_chatgpt_variant.md`
+- `05_AI_Tools_and_Guides/General/Just to clarify is this just the batches I upload (pdf).md` → kept `05_AI_Tools_and_Guides/General/Just to clarify is this just the batches I upload (pdf) [D9E34FC19D].md`
+- `05_AI_Tools_and_Guides/General/Limited Limited Limited Limited (pdf) [89A489FF5A].md` → kept `05_AI_Tools_and_Guides/General/Limited Limited Limited Limited (pdf).md`
+- `05_AI_Tools_and_Guides/General/Markdown File For Obsidian (pdf) [66F36C727E].md` → kept `05_AI_Tools_and_Guides/General/Markdown File For Obsidian (pdf).md`
+- `05_AI_Tools_and_Guides/General/Markdown File Obsidian (pdf).md` → kept `05_AI_Tools_and_Guides/General/Markdown File Obsidian (pdf) [280B547969].md`
+- `05_AI_Tools_and_Guides/General/Messages & interactions Chat history Access on web iOS Android (pdf).md` → kept `05_AI_Tools_and_Guides/General/Messages & interactions Chat history Access on web iOS Android (pdf) [1FC0E7D601].md`
+- `05_AI_Tools_and_Guides/General/Next (pdf).md` → kept `05_AI_Tools_and_Guides/General/Next (pdf) [E4DD9A2A01].md`
+- `05_AI_Tools_and_Guides/General/Obsidian Community Plugins (pdf).md` → kept `05_AI_Tools_and_Guides/General/Obsidian Community Plugins (pdf) [78C86CB561].md`
+- `05_AI_Tools_and_Guides/General/Pocket FM - Audio Web Novel Prompt Template [F7957E5579].md` → kept `05_AI_Tools_and_Guides/General/Pocket FM - Audio Web Novel Prompt Template.md`
+- `05_AI_Tools_and_Guides/General/Pocket FM Audio Web Novel Rewrite Prompt Template [2D219DCAC3].md` → kept `05_AI_Tools_and_Guides/General/Pocket FM Audio Web Novel Rewrite Prompt Template.md`
+- `05_AI_Tools_and_Guides/General/Recursive Consciousness Systems-2 (pdf) [13D0F4741B].md` → kept `05_AI_Tools_and_Guides/General/Recursive Consciousness Systems-2 (pdf).md`
+- `05_AI_Tools_and_Guides/General/The Acrobat & Scan Field Guide (pdf).md` → kept `05_AI_Tools_and_Guides/General/The Acrobat & Scan Field Guide (pdf) [A9657A8DD8].md`
+- `05_AI_Tools_and_Guides/General/The High WatcherÔÇÖs Definitive Audit ÔÇö Master Prompt (Absurdly Exhaustive Edition) (pdf) [late] Ôùë_Varidis Quo_Library_Re.md` → kept `05_AI_Tools_and_Guides/General/The High WatcherÔÇÖs Definitive Audit ÔÇö Master Prompt (Absurdly Exhaustive Edition) (pdf) [late] Library_Reference Library_.md`
+- `05_AI_Tools_and_Guides/General/The High WatcherÔÇÖs Definitive Audit ÔÇö Master Prompt (Absurdly Exhaustive Edition) (pdf).md` → kept `05_AI_Tools_and_Guides/General/The High WatcherÔÇÖs Definitive Audit ÔÇö Master Prompt (Absurdly Exhaustive Edition) (pdf) [late] Library_Reference Library_.md`
+- `05_AI_Tools_and_Guides/General/The Ultimate Notion Playbook for Personal Productivity guide ­ƒù║´©Å (pdf) [2EFEECD857].md` → kept `05_AI_Tools_and_Guides/General/The Ultimate Notion Playbook for Personal Productivity guide ­ƒù║´©Å (pdf).md`
+- `05_AI_Tools_and_Guides/General/Thomas Character Model - Master Prompt [55782BC0D5].md` → kept `07_Thomas_Persona/General/Thomas Character Model - Master Prompt.md`
+- `05_AI_Tools_and_Guides/General/external_brain_quiz_1000_obsidian (pdf) [D848DCCD94].md` → kept `05_AI_Tools_and_Guides/General/external_brain_quiz_1000_obsidian (pdf).md`
+- `05_AI_Tools_and_Guides/General/gig_apps_utah_analysis (pdf) [A592B1E0B2].md` → kept `05_AI_Tools_and_Guides/General/gig_apps_utah_analysis (pdf).md`
+- `05_AI_Tools_and_Guides/General/obsidian_300_prompt_arc_final_locked.md` → kept `05_AI_Tools_and_Guides/General/obsidian_300_prompt_arc_final_locked [13D424AD6F].md`
+- `05_AI_Tools_and_Guides/General/obsidian_vault_definition_engine_YNQ_numbered_repaired (Markor) (pdf).md` → kept `05_AI_Tools_and_Guides/General/obsidian_vault_definition_engine_YNQ_numbered_repaired (Markor) (pdf) [4024B7F59C].md`
+- `05_AI_Tools_and_Guides/General/print overbrowser (pdf).md` → kept `05_AI_Tools_and_Guides/General/print overbrowser (pdf) [C152A36CF9].md`
+- `05_AI_Tools_and_Guides/General/print overbrowser_85547435 (pdf).md` → kept `05_AI_Tools_and_Guides/General/print overbrowser_85547435 (pdf) [854303B960].md`
+- `05_AI_Tools_and_Guides/General/print overbrowser_b844a6c5 (pdf) [773EBDD02C].md` → kept `05_AI_Tools_and_Guides/General/print overbrowser_b844a6c5 (pdf).md`
+- `05_AI_Tools_and_Guides/General/productivity_manual_with_cover_260208_175226 (pdf) [1B9E735BA8].md` → kept `05_AI_Tools_and_Guides/General/productivity_manual_with_cover_260208_175226 (pdf).md`
+- `05_AI_Tools_and_Guides/General/squarespace_plans_comparison_detailed (pdf).md` → kept `05_AI_Tools_and_Guides/General/squarespace_plans_comparison_detailed (pdf) [B6C659A79A].md`
+- `05_AI_Tools_and_Guides/General/www.perplexity (pdf).md` → kept `05_AI_Tools_and_Guides/General/www.perplexity (pdf) [7E020C1530].md`
+- `05_AI_Tools_and_Guides/Prompting/Chapter Prompts Guide [D946761036].md` → kept `05_AI_Tools_and_Guides/Prompting/Chapter Prompts Guide.md`
+- `06_Knowledge_Management_PKM/General/All Mentioned Compounds Two Columns (pdf).md` → kept `06_Knowledge_Management_PKM/General/All Mentioned Compounds Two Columns (pdf) [08472AD874].md`
+- `06_Knowledge_Management_PKM/General/Android Apps - Best One-Time Purchase Picks (Long-Term Value) (pdf).md` → kept `06_Knowledge_Management_PKM/General/Android Apps - Best One-Time Purchase Picks (Long-Term Value) (pdf) [47FDA599EE].md`
+- `06_Knowledge_Management_PKM/General/Be Careful What You Wish For (pdf) [992FDA3BC1].md` → kept `06_Knowledge_Management_PKM/General/Be Careful What You Wish For (pdf).md`
+- `06_Knowledge_Management_PKM/General/Combine February 6, 2026 (pdf).md` → kept `06_Knowledge_Management_PKM/General/Combine February 6, 2026 (pdf) [0ECE5B6A80].md`
+- `06_Knowledge_Management_PKM/General/Dream_Paradoxes (pdf) [84F791AEB4].md` → kept `06_Knowledge_Management_PKM/General/Dream_Paradoxes (pdf).md`
+- `06_Knowledge_Management_PKM/General/Extended Mind 2024 (pdf) [4CDCDF0232].md` → kept `06_Knowledge_Management_PKM/General/Extended Mind 2024 (pdf).md`
+- `06_Knowledge_Management_PKM/General/Master Substance Index Deep Dive UT NV (pdf).md` → kept `06_Knowledge_Management_PKM/General/Master Substance Index Deep Dive UT NV (pdf) [C0E9728B71].md`
+- `06_Knowledge_Management_PKM/General/Mobile Knowledge Nexus - PKM Ecosystems on Android (Analysis) (pdf).md` → kept `06_Knowledge_Management_PKM/General/Mobile Knowledge Nexus - PKM Ecosystems on Android (Analysis) (pdf) [A33142EAD9].md`
+- `06_Knowledge_Management_PKM/General/Obsidian - Wikilinks Guide (Deep Dive) (pdf) [5667B8B32D].md` → kept `06_Knowledge_Management_PKM/General/Obsidian - Wikilinks Guide (Deep Dive) (pdf).md`
+- `06_Knowledge_Management_PKM/General/Obsidian Personal Operating (pdf).md` → kept `06_Knowledge_Management_PKM/General/Obsidian Personal Operating (pdf) [C8934A3EA3].md`
+- `06_Knowledge_Management_PKM/General/ObsidianVault_Concatenated_Cleaned_v9_Concise_UniqueMovies.md` → kept `00_Inbox_Unsorted/ttttt.md`
+- `06_Knowledge_Management_PKM/General/ObsidianVault_Concatenated_Cleaned_v9_UniqueMovies_ONE_ENTRY_FINAL3.md` → kept `06_Knowledge_Management_PKM/General/ObsidianVault_Concatenated_Cleaned.md`
+- `06_Knowledge_Management_PKM/General/PKM 3 (pdf) [E9EF38448F].md` → kept `06_Knowledge_Management_PKM/General/PKM 3 (pdf).md`
+- `06_Knowledge_Management_PKM/General/Protocol Zeta Plus - Five-Day Plan (Clean Reformatted Layout) (pdf) [6819800FB4].md` → kept `06_Knowledge_Management_PKM/General/Protocol Zeta Plus - Five-Day Plan (Clean Reformatted Layout) (pdf).md`
+- `06_Knowledge_Management_PKM/General/Protocol Zeta Plus - Five-Day Plan (Original) (pdf) [030C26BD44].md` → kept `06_Knowledge_Management_PKM/General/Protocol Zeta Plus - Five-Day Plan (Original) (pdf).md`
+- `06_Knowledge_Management_PKM/General/Quotes_v7_for_Obsidian.md` → kept `06_Knowledge_Management_PKM/General/Quotes_v7_for_Obsidian (1).md`
+- `06_Knowledge_Management_PKM/General/Science is neither more nor less than patient and detailed attention to the world, and is integral to our understanding of it.md` → kept `00_Inbox_Unsorted/Science is neither more nor less than patient and detailed attention to the world, and is integral to our understanding of it.md`
+- `06_Knowledge_Management_PKM/General/Unified Obsidian Knowledge (pdf) [70E174F55E].md` → kept `06_Knowledge_Management_PKM/General/Unified Obsidian Knowledge (pdf).md`
+- `06_Knowledge_Management_PKM/General/Zettelkasten Class Diagram (pdf) [0D32761AE2].md` → kept `06_Knowledge_Management_PKM/General/Zettelkasten Class Diagram (pdf).md`
+- `06_Knowledge_Management_PKM/General/Zettelkasten D1 2025 (pdf).md` → kept `06_Knowledge_Management_PKM/General/Zettelkasten D1 2025 (pdf) [6C501B0A97].md`
+- `06_Knowledge_Management_PKM/General/Zettelkasten Litmap 2024 (pdf).md` → kept `06_Knowledge_Management_PKM/General/Zettelkasten Litmap 2024 (pdf) [C1DC762B21].md`
+- `06_Knowledge_Management_PKM/General/clean_merged_v2_obsidian.md` → kept `00_Inbox_Unsorted/rertf4r.md`
+- `06_Knowledge_Management_PKM/General/obsidian_s24_ultra_48_prompts.md` → kept `06_Knowledge_Management_PKM/General/obsidian_s24_ultra_48_prompts [5664080A85].md`
+- `06_Knowledge_Management_PKM/General/parables and stories (pdf) [49FCFCBD43].md` → kept `06_Knowledge_Management_PKM/General/parables and stories (pdf).md`
+- `07_Thomas_Persona/General/Michael ÔÇö A Review by Thomas Densley (Extended).md` → kept `00_Inbox_Unsorted/Michael_a_review_by_thomas_densley_extended.md`
+- `07_Thomas_Persona/General/PARABLES & STORIES (by (Thomas Densley) [F7C61E9426].md` → kept `07_Thomas_Persona/General/PARABLES & STORIES (by (Thomas Densley).md`
+- `07_Thomas_Persona/General/Qualities Batch 4 (pdf) [34BFF4FD34].md` → kept `07_Thomas_Persona/General/Qualities Batch 4 (pdf).md`
+- `07_Thomas_Persona/General/Qualities Batch 5 (pdf) [29762BC369].md` → kept `07_Thomas_Persona/General/Qualities Batch 5 (pdf).md`
+- `07_Thomas_Persona/General/SYSTEM PROMPT Thomas (pdf) [612A28A5D7].md` → kept `07_Thomas_Persona/General/SYSTEM PROMPT Thomas (pdf).md`
+- `07_Thomas_Persona/General/TEMP4152730221422276790MD SHARED (pdf) [07B095CFAD].md` → kept `07_Thomas_Persona/General/TEMP4152730221422276790MD SHARED (pdf).md`
+- `07_Thomas_Persona/General/THOMAS_CHARACTER_MODEL.md` → kept `0A_graphy-plugin/ai-context/THOMAS_CHARACTER_MODEL.md`
+- `07_Thomas_Persona/General/THOMAS_INTERVIEW_PROTOCOL.md` → kept `0A_graphy-plugin/ai-context/THOMAS_INTERVIEW_PROTOCOL.md`
+- `07_Thomas_Persona/General/Thomas Character Model (pdf) [58E847E2AA].md` → kept `07_Thomas_Persona/General/Thomas Character Model (pdf).md`
+- `07_Thomas_Persona/General/Thomas Character Model-2 (pdf) [3F775896B5].md` → kept `07_Thomas_Persona/General/Thomas Character Model-2 (pdf).md`
+- `07_Thomas_Persona/General/Thomas Character Model-3 (pdf).md` → kept `07_Thomas_Persona/General/Thomas Character Model-3 (pdf) [FEAE9BEDBE].md`
+- `07_Thomas_Persona/General/Thomas Character Model-4 (pdf) [5BFB426C60].md` → kept `07_Thomas_Persona/General/Thomas Character Model-4 (pdf).md`
+- `07_Thomas_Persona/General/Thomas Prompt Block37 (pdf).md` → kept `07_Thomas_Persona/General/Thomas Prompt Block37 (pdf) [E090943811].md`
+- `07_Thomas_Persona/General/Thomas Prompt V2 (pdf).md` → kept `07_Thomas_Persona/General/Thomas Prompt V2 (pdf) [D87BC41569].md`
+- `07_Thomas_Persona/General/Thomas's Influence Atlas [FE28D10162].md` → kept `07_Thomas_Persona/General/Thomas's Influence Atlas.md`
+- `07_Thomas_Persona/General/insight-guide-501-0-85077845-20230707141951665000000-S9aZjW (pdf).md` → kept `07_Thomas_Persona/General/insight-guide-501-0-85077845-20230707141951665000000-S9aZjW (pdf) [F59E0C0BEB].md`
+- `07_Thomas_Persona/General/insight-guide-501-0-85077845-20230720111008347000000-FYLlYL (pdf).md` → kept `07_Thomas_Persona/General/insight-guide-501-0-85077845-20230720111008347000000-FYLlYL (pdf) [B95BE17852].md`
+- `07_Thomas_Persona/General/insight-guide-501-0-85077845-20230720111338596000000-LIP6Ck (pdf).md` → kept `07_Thomas_Persona/General/insight-guide-501-0-85077845-20230720111338596000000-LIP6Ck (pdf) [5C1C38E2E6].md`
+- `07_Thomas_Persona/Journal_Dated/2026-03-27.md` → kept `70_System_Templates/Templates/TPL-011 ÔÇô Daily note template.md`
+- `09_Legal_Contracts_Insurance_Housing/Contracts_Agreements/Partnership agreement checklist.md` → kept `09_Legal_Contracts_Insurance_Housing/Contracts_Agreements/Partnership agreement checklist [C625A09D2B].md`
+- `09_Legal_Contracts_Insurance_Housing/General/6170249-06152023021357238-84202625-NewBusiness-1_230615_133822 (pdf) [374D1DE583].md` → kept `09_Legal_Contracts_Insurance_Housing/General/6170249-06152023021357238-84202625-NewBusiness-1_230615_133822 (pdf) [late] Ôùë_Varidis Quo_Library_Reference Library_Library.md`
+- `09_Legal_Contracts_Insurance_Housing/General/Putnam Seminar Sarkar hw5 Series, Groups, Rings (pdf) [late] Ôùë_Varidis Quo_Library_Reference Library_Library of Alexandri.md` → kept `09_Legal_Contracts_Insurance_Housing/General/Putnam Seminar Sarkar hw5 Series, Groups, Rings (pdf) [BE49881BF6].md`
+- `09_Legal_Contracts_Insurance_Housing/General/Registration Receipt Card (Form I-551)1. U.S. Passport or U.S. Passport Card (pdf) [late] Library_Reference Library_Library o.md` → kept `09_Legal_Contracts_Insurance_Housing/General/Registration Receipt Card (Form I-551)1. U.S. Passport or U.S. Passport Card (pdf) [late] Ôùë_Varidis Quo_Library_Reference L.md`
+- `09_Legal_Contracts_Insurance_Housing/General/Revision Mandate for the Universal Codex_ Definitive Edition (pdf) [late] Library_Reference Library_Library of Alexandria_02_.md` → kept `09_Legal_Contracts_Insurance_Housing/General/Revision Mandate for the Universal Codex_ Definitive Edition (pdf) [late] Ôùë_Varidis Quo_Library_Reference Library_Library o.md`
+- `09_Legal_Contracts_Insurance_Housing/_working-vault/Salt_Lake_City_Rental_Search_2026_06_30_Move_In.md` → kept `00_Inbox_Unsorted/Salt-Lake-City-Rental-Search-2026-06-30-Move-In.md`
+- `0A_graphy-plugin/AUDIT_REV22_REV31_SUMMARY.md` → kept `00_Inbox_Unsorted/AUDIT_REV22_REV31_SUMMARY.md`
+- `0A_graphy-plugin/LiberNovus-Densley/registries/convergence_log.md` → kept `00_Inbox_Unsorted/convergence_log.md`
+- `0A_graphy-plugin/LiberNovus-Densley/registries/figure_registry.md` → kept `00_Inbox_Unsorted/figure_registry.md`
+- `0A_graphy-plugin/LiberNovus-Densley/registries/refusal_log.md` → kept `00_Inbox_Unsorted/refusal_log.md`
+- `0A_graphy-plugin/ai-context/ACCEPTANCE_TEST_REPORT.md` → kept `00_Inbox_Unsorted/ACCEPTANCE_TEST_REPORT.md`
+- `0A_graphy-plugin/ai-context/ANDROID_VERIFICATION_PROTOCOL.md` → kept `00_Inbox_Unsorted/ANDROID_VERIFICATION_PROTOCOL.md`
+- `0A_graphy-plugin/ai-context/ARCHITECTURE.md` → kept `00_Inbox_Unsorted/ARCHITECTURE.md`
+- `0A_graphy-plugin/ai-context/ASSET_INVENTORY_AUDIT_rev22.md` → kept `00_Inbox_Unsorted/ASSET_INVENTORY_AUDIT_rev22.md`
+- `0A_graphy-plugin/ai-context/DEBUGGING.md` → kept `00_Inbox_Unsorted/DEBUGGING.md`
+- `0A_graphy-plugin/ai-context/OBJECTIVES_AND_REQUESTS.md` → kept `00_Inbox_Unsorted/OBJECTIVES_AND_REQUESTS.md`
+- `0A_graphy-plugin/ai-context/RECOVERY_PLAN_12_PASSES.md` → kept `00_Inbox_Unsorted/RECOVERY_PLAN_12_PASSES.md`
+- `0A_graphy-plugin/ai-context/RESEARCH_DEEP_DIVE_2026-05-10.md` → kept `00_Inbox_Unsorted/RESEARCH_DEEP_DIVE_2026-05-10.md`
+- `0A_graphy-plugin/ai-context/SESSION_NORTH_STAR.md` → kept `00_Inbox_Unsorted/SESSION_NORTH_STAR.md`
+- `0A_graphy-plugin/ai-context/THOMAS_5000_GOALS.md` → kept `00_Inbox_Unsorted/THOMAS_5000_GOALS.md`
+- `0A_graphy-plugin/ai-context/THOMAS_NON_NEGOTIABLES.md` → kept `00_Inbox_Unsorted/THOMAS_NON_NEGOTIABLES.md`
+- `0A_graphy-plugin/ai-context/USER_PREFERENCES_LIVING.md` → kept `00_Inbox_Unsorted/USER_PREFERENCES_LIVING.md`
+- `0A_graphy-plugin/ai-context/WHY_GRAPHY_EXISTS.md` → kept `00_Inbox_Unsorted/WHY_GRAPHY_EXISTS.md`
+- `0A_graphy-plugin/ai-context/WORKING_WITH_THOMAS.md` → kept `00_Inbox_Unsorted/WORKING_WITH_THOMAS.md`
+- `0A_graphy-plugin/dev-fixtures/graphy.json` → kept `0A_graphy-plugin/build-evidence/state.json`
+- `0_graphy-build/Graphy_Image_Prompts.md` → kept `00_Inbox_Unsorted/graphy-image-prompts.md`
+- `10_Health_Medical/General/InTech-The_neuropsychopharmacology_of_stimulants_dopamine_and_adhd (pdf) [late] Ôùë_Varidis Quo_Library_Reference Library_Lib.md` → kept `10_Health_Medical/General/InTech-The_neuropsychopharmacology_of_stimulants_dopamine_and_adhd (pdf) [AADD438970].md`
+- `11_Vehicles/ARC-B ├ö├ç├┤ Retired taxonomy test.md` → kept `11_Vehicles/ARC-B ÔÇô Retired taxonomy test.md`
+- `11_Vehicles/Toyota Financing, Info & Documents ­ƒÆ▓ [5BB6E7E898].md` → kept `11_Vehicles/Toyota Financing, Info & Documents ­ƒÆ▓.md`
+- `12_Entertainment/Movie_List/Master_List/Movie listt.md` → kept `00_Inbox_Unsorted/┬Ñ_Markdown_Inbox_Movie listt.md`
+- `12_Entertainment/Movie_List/Standard_Catalog/0313 - Notorious (1946) [Live Action] [77380C7FDF].md` → kept `12_Entertainment/Movie_List/Standard_Catalog/0313 - Notorious (1946) [Live Action].md`
+- `12_Entertainment/Movie_List/Standard_Catalog/0634 - Civil War (2024) [Live Action] [315CAEDA52].md` → kept `12_Entertainment/Movie_List/Standard_Catalog/0634 - Civil War (2024) [Live Action].md`
+- `12_Entertainment/Movie_List/Standard_Catalog/0893 - The Green Knight (2021) [Live Action].md` → kept `12_Entertainment/Movie_List/Standard_Catalog/0893 - The Green Knight (2021) [Live Action] [A6E68A4509].md`
+- `13_Tickets_Receipts_Travel/2019PS4 (pdf) [55A5466A69].md` → kept `13_Tickets_Receipts_Travel/2019PS4 (pdf).md`
+- `13_Tickets_Receipts_Travel/TICKETORDERW3 OT 1241832 (pdf).md` → kept `13_Tickets_Receipts_Travel/TICKETORDERW3 OT 1241832 (pdf) [00455C7807].md`
+- `14_Reading_Quotes_Philosophy/General/1 Shitty First (pdf) [1A8AA53A71].md` → kept `14_Reading_Quotes_Philosophy/General/1 Shitty First (pdf).md`
+- `14_Reading_Quotes_Philosophy/General/Collection of Quotes Reflections & Insights (pdf).md` → kept `14_Reading_Quotes_Philosophy/General/Collection of Quotes Reflections & Insights (pdf) [07EBAAAA27].md`
+- `14_Reading_Quotes_Philosophy/General/Dante - Inferno (Abridged, Reformatted) (pdf).md` → kept `14_Reading_Quotes_Philosophy/General/Dante - Inferno (Abridged, Reformatted) (pdf) [10AA93C3CE].md`
+- `14_Reading_Quotes_Philosophy/General/Dantes Inferno Abridged (pdf) [962C90C6DE].md` → kept `14_Reading_Quotes_Philosophy/General/Dantes Inferno Abridged (pdf).md`
+- `14_Reading_Quotes_Philosophy/General/Giant Quote List (pdf).md` → kept `14_Reading_Quotes_Philosophy/General/Giant Quote List (pdf) [20B9C926A7].md`
+- `14_Reading_Quotes_Philosophy/General/Living Knowledge Vault - Manifesto (Uniting Data and Spirit) (pdf).md` → kept `14_Reading_Quotes_Philosophy/General/Living Knowledge Vault - Manifesto (Uniting Data and Spirit) (pdf) [2E9C68551F].md`
+- `14_Reading_Quotes_Philosophy/General/Mark And Amanda (pdf) [8BB1713D39].md` → kept `14_Reading_Quotes_Philosophy/General/Mark And Amanda (pdf).md`
+- `14_Reading_Quotes_Philosophy/General/Master Codex Pre (pdf).md` → kept `14_Reading_Quotes_Philosophy/General/Master Codex Pre (pdf) [39AA9227AD].md`
+- `14_Reading_Quotes_Philosophy/General/Master Quote List (pdf) [37C00BD205].md` → kept `14_Reading_Quotes_Philosophy/General/Master Quote List (pdf).md`
+- `14_Reading_Quotes_Philosophy/General/Plato BC 375 (pdf) [D083A24DC0].md` → kept `14_Reading_Quotes_Philosophy/General/Plato BC 375 (pdf).md`
+- `14_Reading_Quotes_Philosophy/General/Quote Comparison and Expansion (pdf).md` → kept `14_Reading_Quotes_Philosophy/General/Quote Comparison and Expansion (pdf) [7010858A24].md`
+- `14_Reading_Quotes_Philosophy/General/Quote and Citation Index - Handwritten Quotes (Tagged Table) (pdf) [5F2E339D17].md` → kept `14_Reading_Quotes_Philosophy/General/Quote and Citation Index - Handwritten Quotes (Tagged Table) (pdf).md`
+- `14_Reading_Quotes_Philosophy/General/Quotes Dedup No (pdf) [69DEB3E850].md` → kept `14_Reading_Quotes_Philosophy/General/Quotes Dedup No (pdf).md`
+- `14_Reading_Quotes_Philosophy/General/Quotes Dedup No-2 (pdf) [BF1AECCC83].md` → kept `14_Reading_Quotes_Philosophy/General/Quotes Dedup No-2 (pdf).md`
+- `14_Reading_Quotes_Philosophy/General/Quotes Shuffled (pdf).md` → kept `14_Reading_Quotes_Philosophy/General/Quotes Shuffled (pdf) [30B5283048].md`
+- `14_Reading_Quotes_Philosophy/General/Quotes With Inserts (pdf).md` → kept `14_Reading_Quotes_Philosophy/General/Quotes With Inserts (pdf) [3A6EE4D79F].md`
+- `14_Reading_Quotes_Philosophy/General/Randomized Compendium Of Contrasting Quotes (pdf).md` → kept `14_Reading_Quotes_Philosophy/General/Randomized Compendium Of Contrasting Quotes (pdf) [B75A7E6FA1].md`
+- `14_Reading_Quotes_Philosophy/General/temp1351130126187435174pdf SHARED (pdf) [E18E36130F].md` → kept `14_Reading_Quotes_Philosophy/General/temp1351130126187435174pdf SHARED (pdf).md`
+- `14_Reading_Quotes_Philosophy/Quotes/01-01-speak-not-in-the-ears-of-a-fool.md` → kept `14_Reading_Quotes_Philosophy/Quotes/01-01-speak-not-in-the-ears-of-a-fool [8BD5973496].md`
+- `14_Reading_Quotes_Philosophy/Quotes/01-07-faithfull-are-the-wounds-of-a-friend-but.md` → kept `14_Reading_Quotes_Philosophy/Quotes/01-07-faithfull-are-the-wounds-of-a-friend-but [6745CE00DC].md`
+- `14_Reading_Quotes_Philosophy/Quotes/Quotes List ­ƒôØ [A611C02B02].md` → kept `14_Reading_Quotes_Philosophy/Quotes/Quotes List ­ƒôØ.md`
+- `14_Reading_Quotes_Philosophy/Quotes/quote_compendium_25k_30k [F4F91E4D98].md` → kept `14_Reading_Quotes_Philosophy/Quotes/quote_compendium_25k_30k.md`
+- `15_Writing_Literature/Courtesy_Required_Book_Series/COURTESY REQUIREDBook One - The Lobby.md` → kept `15_Writing_Literature/Courtesy_Required_Book_Series/COURTESY REQUIREDBook One - The Lobby [5F74303B2B].md`
+- `15_Writing_Literature/Courtesy_Required_Book_Series/Courtesy Required - Book One, The Lobby.md` → kept `15_Writing_Literature/Courtesy_Required_Book_Series/Courtesy Required - Book One, The Lobby [B945027842].md`
+- `15_Writing_Literature/Drafts_Notes/Tranquil Wanderings - Dream Paradoxes.md` → kept `15_Writing_Literature/Drafts_Notes/Tranquil Wanderings - Dream Paradoxes [F3C42E88D1].md`
+- `15_Writing_Literature/Drafts_Notes/Tranquil Wanderings Dream Paradoxes [E78CAB6EFD].md` → kept `15_Writing_Literature/Drafts_Notes/Tranquil Wanderings Dream Paradoxes.md`
+- `15_Writing_Literature/General/Backrooms Levels 0ÔÇô100 Reference Guide (pdf).md` → kept `15_Writing_Literature/General/Backrooms Levels 0ÔÇô100 Reference Guide (pdf) [D45130C81E].md`
+- `15_Writing_Literature/General/Backrooms Levels 0ÔÇô99 Reference Guide (pdf).md` → kept `15_Writing_Literature/General/Backrooms Levels 0ÔÇô99 Reference Guide (pdf) [7E617C608E].md`
+- `15_Writing_Literature/General/Backrooms_Liminal_Codex_v3pdf_260206_065458 (pdf).md` → kept `15_Writing_Literature/General/Backrooms_Liminal_Codex_v3pdf_260206_065458 (pdf) [73C12C392E].md`
+- `15_Writing_Literature/General/Canticle Of The Flawed Equilibrium Two Column Doublecolumn (pdf).md` → kept `15_Writing_Literature/General/Canticle Of The Flawed Equilibrium Two Column Doublecolumn (pdf) [F0911953A0].md`
+- `15_Writing_Literature/General/Canticle_of_the_Flawed_Equilibrium_Mythic_Expanded (pdf) [C5DE27DBBA].md` → kept `15_Writing_Literature/General/Canticle_of_the_Flawed_Equilibrium_Mythic_Expanded (pdf).md`
+- `15_Writing_Literature/General/Chronicle Of The Cold Fire Vol1 Excerpt-1 - Part 1 (pdf).md` → kept `15_Writing_Literature/General/Chronicle Of The Cold Fire Vol1 Excerpt-1 - Part 1 (pdf) [614A492F75].md`
+- `15_Writing_Literature/General/Chronicle_of_the_Cold_Fire_Vol1_Excerpt (pdf) [C2BE851AA3].md` → kept `15_Writing_Literature/General/Chronicle_of_the_Cold_Fire_Vol1_Excerpt (pdf).md`
+- `15_Writing_Literature/General/Codex Void Ideas (pdf) [0FA73ED41E].md` → kept `15_Writing_Literature/General/Codex Void Ideas (pdf).md`
+- `15_Writing_Literature/General/Dialogue on the codex (pdf) [EB378C99CC].md` → kept `15_Writing_Literature/General/Dialogue on the codex (pdf).md`
+- `15_Writing_Literature/General/Hollow Corridors PART1 (pdf) [2C89AE2E4B].md` → kept `15_Writing_Literature/General/Hollow Corridors PART1 (pdf).md`
+- `15_Writing_Literature/General/Lead Soldiers Others (pdf) [2A969821E9].md` → kept `15_Writing_Literature/General/Lead Soldiers Others (pdf).md`
+- `15_Writing_Literature/General/Note Clipped, rewrite based off Thomas's character model liberal interpretation chat GPT (pdf) [late] Library_Reference Libra.md` → kept `15_Writing_Literature/General/Note Clipped, rewrite based off Thomas's character model liberal interpretation chat GPT (pdf) [late] Ôùë_Varidis Quo_Library.md`
+- `15_Writing_Literature/General/Note Clipped, rewrite based off Thomas's character model liberal interpretation chat GPT (pdf).md` → kept `15_Writing_Literature/General/Note Clipped, rewrite based off Thomas's character model liberal interpretation chat GPT (pdf) [late] Ôùë_Varidis Quo_Library.md`
+- `15_Writing_Literature/General/Note_Clipped_in_the_Backrooms (pdf).md` → kept `15_Writing_Literature/General/Note_Clipped_in_the_Backrooms (pdf) [1E2DF81360].md`
+- `15_Writing_Literature/General/Ontology_of_the_Void-3 (pdf).md` → kept `15_Writing_Literature/General/Ontology_of_the_Void-3 (pdf) [8C92BE833A].md`
+- `15_Writing_Literature/General/The Archivist of Two Lanterns (pdf) [786B7B5621].md` → kept `15_Writing_Literature/General/The Archivist of Two Lanterns (pdf).md`
+- `15_Writing_Literature/General/The Bottleneck Gate (pdf) [5BF1C4DE5F].md` → kept `15_Writing_Literature/General/The Bottleneck Gate (pdf).md`
+- `15_Writing_Literature/General/The Bright House and the Basement (pdf).md` → kept `15_Writing_Literature/General/The Bright House and the Basement (pdf) [8AA564A171].md`
+- `15_Writing_Literature/General/The Chain of Custody (pdf) [E4EC52CFDC].md` → kept `15_Writing_Literature/General/The Chain of Custody (pdf).md`
+- `15_Writing_Literature/General/The Detective Who Walked Backward (pdf).md` → kept `15_Writing_Literature/General/The Detective Who Walked Backward (pdf) [0A8FC8A111].md`
+- `15_Writing_Literature/General/The Elevator Where Words Could Not Follow (pdf) [1FE28CC5AB].md` → kept `15_Writing_Literature/General/The Elevator Where Words Could Not Follow (pdf).md`
+- `15_Writing_Literature/General/The Euclidean Rebellion (pdf) [60C6D0917B].md` → kept `15_Writing_Literature/General/The Euclidean Rebellion (pdf).md`
+- `15_Writing_Literature/General/The Mapmaker with Sideways Eyes (pdf) [EC54F6D092].md` → kept `15_Writing_Literature/General/The Mapmaker with Sideways Eyes (pdf).md`
+- `15_Writing_Literature/General/The Mountain of Convergence (pdf).md` → kept `15_Writing_Literature/General/The Mountain of Convergence (pdf) [ECC8746334].md`
+- `15_Writing_Literature/General/The Oracle and the Proof (pdf) [56993DE3A0].md` → kept `15_Writing_Literature/General/The Oracle and the Proof (pdf).md`
+- `15_Writing_Literature/General/The Orchard of Notes (pdf) [F5A548DAF7].md` → kept `15_Writing_Literature/General/The Orchard of Notes (pdf).md`
+- `15_Writing_Literature/General/The Questions We Dare (pdf).md` → kept `15_Writing_Literature/General/The Questions We Dare (pdf) [0634B66C53].md`
+- `15_Writing_Literature/General/The Ticket Collector (pdf).md` → kept `15_Writing_Literature/General/The Ticket Collector (pdf) [68AC8A4BE9].md`
+- `15_Writing_Literature/General/The Unfinished Pyramid (pdf) [916D333859].md` → kept `15_Writing_Literature/General/The Unfinished Pyramid (pdf).md`
+- `15_Writing_Literature/General/The Workshop Without a Master (pdf) [B81D54E656].md` → kept `15_Writing_Literature/General/The Workshop Without a Master (pdf).md`
+- `15_Writing_Literature/General/Topic I King (pdf) [91EAAE7F8C].md` → kept `15_Writing_Literature/General/Topic I King (pdf).md`
+- `15_Writing_Literature/General/Uncensored Story Writer (pdf) [34271F0958].md` → kept `15_Writing_Literature/General/Uncensored Story Writer (pdf).md`
+- `15_Writing_Literature/General/Universal_Codex (pdf).md` → kept `15_Writing_Literature/General/Universal_Codex (pdf) [9ADE707D27].md`
+- `15_Writing_Literature/General/Universal_Codex_Ontology_of_the_Void_IDEAS_ONLY_SPEECHIFY_ULTRACLEAN_V2 (pdf) [12B9058DC2].md` → kept `15_Writing_Literature/General/Universal_Codex_Ontology_of_the_Void_IDEAS_ONLY_SPEECHIFY_ULTRACLEAN_V2 (pdf) [late] Ôùë_Varidis Quo_Library_Reference Librar.md`
+- `15_Writing_Literature/General/Universal_Codex_Ontology_of_the_Void_IDEAS_ONLY_SPEECHIFY_ULTRACLEAN_V2 (pdf).md` → kept `15_Writing_Literature/General/Universal_Codex_Ontology_of_the_Void_IDEAS_ONLY_SPEECHIFY_ULTRACLEAN_V2 (pdf) [late] Ôùë_Varidis Quo_Library_Reference Librar.md`
+- `15_Writing_Literature/General/Vacancy (pdf) [2426C8DB7C].md` → kept `15_Writing_Literature/General/Vacancy (pdf).md`
+- `15_Writing_Literature/Parables/T3_Parables__Index.md` → kept `15_Writing_Literature/Parables/T3_Parables__Index [169B96F6BD].md`
+- `15_Writing_Literature/Public_Domain_Stories/Confession_(Tolstoy).md` → kept `00_Inbox_Unsorted/Confession.md`
+- `15_Writing_Literature/Public_Domain_Stories/Death_of_Ivan_Ilyich_and_other_stories.md` → kept `Complete_Works/Tolstoy/Death_of_Ivan_Ilyich_and_other_stories.md`
+- `15_Writing_Literature/Public_Domain_Stories/Death_of_Ivan_Ilyich_and_other_stories_(Tolstoy).md` → kept `Complete_Works/Tolstoy/Death_of_Ivan_Ilyich_and_other_stories.md`
+- `15_Writing_Literature/Public_Domain_Stories/House_on_the_Borderland_(Hodgson)_full-text.md` → kept `15_Writing_Literature/Public_Domain_Stories/House_on_the_Borderland_full-text.md`
+- `15_Writing_Literature/Public_Domain_Stories/King_in_Yellow_(Chambers)_audiobook-transcript.md` → kept `Complete_Works/Chambers/King_in_Yellow_audiobook_transcript.md`
+- `15_Writing_Literature/Public_Domain_Stories/King_in_Yellow_audiobook-transcript.md` → kept `Complete_Works/Chambers/King_in_Yellow_audiobook_transcript.md`
+- `15_Writing_Literature/Public_Domain_Stories/Kingdom_of_God_Is_Within_You_(Tolstoy)_full-text.md` → kept `00_Inbox_Unsorted/Kingdom_of_God_Is_Within_You_full-text.md`
+- `15_Writing_Literature/Public_Domain_Stories/THE KINGDOM OF GOD IS WITHIN YOU.md` → kept `15_Writing_Literature/Public_Domain_Stories/The Kingdom of God Is Within You [5EF6A62EA6].md`
+- `15_Writing_Literature/Public_Domain_Stories/Tolstoy_A_Confession_clean_6x9-1.md` → kept `15_Writing_Literature/Public_Domain_Stories/Tolstoy_A_Confession_clean_6x9-1 [4CC32DB37D].md`
+- `15_Writing_Literature/Public_Domain_Stories/Yellow_Sign.md` → kept `Complete_Works/Chambers/Yellow_Sign.md`
+- `15_Writing_Literature/Public_Domain_Stories/Yellow_Sign_(Chambers).md` → kept `Complete_Works/Chambers/Yellow_Sign.md`
+- `15_Writing_Literature/Public_Domain_Stories/war_and_peace_abridged.md` → kept `Complete_Works/Tolstoy/War_and_Peace_abridged.md`
+- `16_Personal_NSFW/10 Sissy Slut Positions (pdf) [1FD559B288].md` → kept `16_Personal_NSFW/10 Sissy Slut Positions (pdf).md`
+- `16_Personal_NSFW/10 Ways To Test If You are a Sissy (pdf) [35F2CC4225].md` → kept `16_Personal_NSFW/10 Ways To Test If You are a Sissy (pdf).md`
+- `16_Personal_NSFW/100thingstobegratefulfor (pdf) [5A29E2B805].md` → kept `16_Personal_NSFW/100thingstobegratefulfor (pdf).md`
+- `16_Personal_NSFW/108 Tips to be The Perfect Girly Girl (pdf).md` → kept `16_Personal_NSFW/108 Tips to be The Perfect Girly Girl (pdf) [D7B157EF79].md`
+- `16_Personal_NSFW/10SissyCuckoldTrainingIdeas (pdf).md` → kept `16_Personal_NSFW/10SissyCuckoldTrainingIdeas (pdf) [20690B6C2F].md`
+- `16_Personal_NSFW/113 Things to do with Your Sissy (pdf).md` → kept `16_Personal_NSFW/113 Things to do with Your Sissy (pdf) [D0804CA07E].md`
+- `16_Personal_NSFW/12StepsToSissification (pdf) [8B4F123B6C].md` → kept `16_Personal_NSFW/12StepsToSissification (pdf).md`
+- `16_Personal_NSFW/150kinkythingstodowithsissy (pdf).md` → kept `16_Personal_NSFW/150kinkythingstodowithsissy (pdf) [29E5927FE6].md`
+- `16_Personal_NSFW/199 Sissy Tasks (pdf) [35393C50C6].md` → kept `16_Personal_NSFW/199 Sissy Tasks (pdf).md`
+- `16_Personal_NSFW/20DayBambiTakeoverPhase1 (pdf) [0ED4E33460].md` → kept `16_Personal_NSFW/20DayBambiTakeoverPhase1 (pdf).md`
+- `16_Personal_NSFW/250 Sissy Achievement Test (pdf).md` → kept `16_Personal_NSFW/250 Sissy Achievement Test (pdf) [18268BEA36].md`
+- `16_Personal_NSFW/250UltimateSissyTasksBundle (pdf).md` → kept `16_Personal_NSFW/250UltimateSissyTasksBundle (pdf) [86067891D7].md`
+- `16_Personal_NSFW/25solosissificationsteps (pdf) [EB9E40D16E].md` → kept `16_Personal_NSFW/25solosissificationsteps (pdf).md`
+- `16_Personal_NSFW/333 Sissy Rules v1.2 (pdf) [1B84A925D9].md` → kept `16_Personal_NSFW/333 Sissy Rules v1.2 (pdf).md`
+- `16_Personal_NSFW/400HumiliatingPunishmentsforSubs (pdf) [327418BE88].md` → kept `16_Personal_NSFW/400HumiliatingPunishmentsforSubs (pdf).md`
+- `16_Personal_NSFW/400HumiliatingPunishmentsforSubs_250418_230704 (pdf) [9FFD292BFA].md` → kept `16_Personal_NSFW/400HumiliatingPunishmentsforSubs_250418_230704 (pdf).md`
+- `16_Personal_NSFW/7 Ideas to Feel Girly v1.1 (pdf).md` → kept `16_Personal_NSFW/7 Ideas to Feel Girly v1.1 (pdf) [41CA40BF18].md`
+- `16_Personal_NSFW/7_days_sissy_soft-version (pdf) [6831B71D31].md` → kept `16_Personal_NSFW/7_days_sissy_soft-version (pdf).md`
+- `16_Personal_NSFW/8 Steps In Your Sissification Project (pdf).md` → kept `16_Personal_NSFW/8 Steps In Your Sissification Project (pdf) [D34C8775DB].md`
+- `16_Personal_NSFW/Absolute Privacy & Consent Agreement Femdomtraining.ca (pdf) [E2E1CD036D].md` → kept `16_Personal_NSFW/Absolute Privacy & Consent Agreement Femdomtraining.ca (pdf).md`
+- `16_Personal_NSFW/AskYourFemalePartnerToBeDominantinBed (pdf) [C5CE853637].md` → kept `16_Personal_NSFW/AskYourFemalePartnerToBeDominantinBed (pdf).md`
+- `16_Personal_NSFW/BDSM Contract LXPDF (pdf).md` → kept `16_Personal_NSFW/BDSM Contract LXPDF (pdf) [EA31D89308].md`
+- `16_Personal_NSFW/Bambi Loves Her (pdf) [60958A72F8].md` → kept `16_Personal_NSFW/Bambi Loves Her (pdf).md`
+- `16_Personal_NSFW/Bambi Loves Her Mommy - complete transcript (pdf) [E6339C27D1].md` → kept `16_Personal_NSFW/Bambi Loves Her Mommy - complete transcript (pdf).md`
+- `16_Personal_NSFW/Careful What You (Version 2) (pdf) [AA8C785B32].md` → kept `16_Personal_NSFW/Careful What You (Version 2) (pdf).md`
+- `16_Personal_NSFW/Certificate of Achievement - Pink Bimbo Bambi - Bimbo University (pdf).md` → kept `16_Personal_NSFW/Certificate of Achievement - Pink Bimbo Bambi - Bimbo University (pdf) [D222BCEEC6].md`
+- `16_Personal_NSFW/CompleteFemdomTaskList3in1 (pdf).md` → kept `16_Personal_NSFW/CompleteFemdomTaskList3in1 (pdf) [827389B361].md`
+- `16_Personal_NSFW/Dick Rating Script (pdf) [BE63BBC779].md` → kept `16_Personal_NSFW/Dick Rating Script (pdf).md`
+- `16_Personal_NSFW/DominatrixCards (pdf) [22EA12D840].md` → kept `16_Personal_NSFW/DominatrixCards (pdf).md`
+- `16_Personal_NSFW/Fifty Shades Of Grey Anna Grey Contract (NSFW) (pdf).md` → kept `16_Personal_NSFW/Fifty Shades Of Grey Anna Grey Contract (NSFW) (pdf) [A093CCA166].md`
+- `16_Personal_NSFW/Gnosticism A Deep Dive And Comparative ysis (NSFW) (pdf).md` → kept `16_Personal_NSFW/Gnosticism A Deep Dive And Comparative ysis (NSFW) (pdf) [7E85799E78].md`
+
+…and 257 more.

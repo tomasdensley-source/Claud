@@ -1,21 +1,28 @@
 # Claud
 
-## Merged_Vault_2026-05-23.zip
+## Unified_Vault_2026-05-23 (split zip)
 
-A single Obsidian vault produced by concatenating two vaults and keeping the best
-attributes of each:
+One Obsidian vault built by pooling every source provided, deduping by content
+(657 exact duplicates removed), and organizing into convergent categories — with
+the Graphy plugin + ~42-plugin config as a separate technical layer.
 
-- **`✦ My Vault ✦`** — the mature personal vault (chassis): full `.obsidian`
-  (~50 plugins, snippets, Minimal theme, `folder-colors.css`) and the Veritas Quo
-  numeric-prefix organization.
-- **`✧ Graphy ✧`** — the Graphy Obsidian-plugin bundle: the live `graphy` plugin
-  (v0.4.22), the `Graphy` theme, the canonical `.graphy/` runtime state, the
-  `Graphy_Goal_Index.md` dashboard, and the dev/design material.
+**~14,900 markdown notes, 34 categories, 574 MB unzipped.**
 
-The result is one vault (`✦ My Vault ✦`) where the Graphy plugin runs inside the
-personal vault, with its dev/design bundle filed under `0A_graphy-plugin/`.
+### Download & reassemble
 
-To use: unzip and open the `✦ My Vault ✦` folder in Obsidian.
+GitHub caps single files at 100 MB, so the 105 MB zip is split in two parts:
 
-See `MERGE_REPORT_2026-05-23.md` for the full decision record, and the vault's own
-`CHANGELOG.md` for the change entry.
+```
+cat Unified_Vault_2026-05-23.zip.part00 Unified_Vault_2026-05-23.zip.part01 > Unified_Vault_2026-05-23.zip
+unzip Unified_Vault_2026-05-23.zip      # → open the "✦ My Vault ✦" folder in Obsidian
+```
+
+### What's inside / how it was built
+- `INTEGRATION_REPORT_2026-05-23.md` — method, provenance, convergent categories, and an honest disclosure of sensitive content.
+- `DEDUP_REPORT_2026-05-23.md` — the 657 exact duplicates removed and what was kept.
+- `NORTH_STAR_100.md` — the 100 characteristics the vault aims toward (acceptance criteria).
+
+> ⚠️ Per request, sensitive content (API-key / GPG files, NSFW, financial/medical)
+> is included as-is. See the disclosure in the integration report; rotate any real keys.
+
+Supersedes the earlier `Merged_Vault` (Graphy-merge-only) artifact.
