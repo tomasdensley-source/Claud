@@ -15,24 +15,24 @@ cssclasses:
 > [!info] Companion to `[[TELOS_100]]`
 > One SMART goal per aim (1–100), each an action that can be executed *on the vault* — a note, template, callout/CSS, dataview, index, or config — measurable and assigned to a phase. Check off as completed; each completed pass records a "Telos delta".
 
-**Status:** Phase 0 done · Phase 1 in progress · Phases 2–7 sequenced below.
+**Status:** Phase 0–1 done · Phase 2 next · Phases 2–7 sequenced below.
 
 ## Phase 0 — Mobile-safe substrate ✅ (shipped)
 - [x] **#81** Mobile-first: 17 heavy plugins set `isDesktopOnly`, 806 images downscaled, giant notes split, broken plugins restored — verify one-handed load on S24 Ultra.
 
-## Phase 1 — Constitution & spine
-- [ ] **#6** Promote seed-axiom Z5 (load/repair ledger) to a 5★ canonical `Z`-note with `[!atom]`.
-- [ ] **#15** Make "Honest limits" a required heading in the report template; retrofit existing reports.
-- [ ] **#19** Write `1A_codex-routing.md` (placement decision-tree covering all 39 categories); link from inbox.
-- [ ] **#21** Promote Z3 ("never decide on shame") to top-bookmarked invariant; add `decision:` template with a shame-check field.
-- [ ] **#25** Verify the encrypted Security compartment is the *only* hidden area; 0 stray hidden folders.
-- [ ] **#61** Promote Z6 (external-brain-as-prosthetic) to canonical; state it in README's "why this exists".
-- [ ] **#70** Confirm `Complete_Works/` is link-referenced, never re-atomized; 0 primary-text fragmentation.
-- [ ] **#88** Every maintenance script writes a dated report row + has a dry-run flag.
-- [ ] **#90** Confirm 100% plain-md + attachments; write a "Rebuildable" note (how bundle/Release regenerates).
-- [ ] **#91** Manifesto `Why This Vault Exists` (meaning-first); bookmark as 2nd read-first card.
-- [ ] **#98** Create `CARRY_FORWARD.md` (open items each pass inherits: ~9.6k missing-content links, inbox ~1.9k, 195 banners).
-- [ ] **#99** Every future report ends with a "Telos delta" naming which of the 100 advanced/regressed.
+## Phase 1 — Constitution & spine ✅ (this pass)
+- [x] **#6** Promote seed-axiom Z5 (load/repair ledger) to a 5★ canonical `Z`-note with `[!atom]`.
+- [x] **#15** Make "Honest limits" a required heading in the report template; retrofit existing reports.
+- [x] **#19** Write `1A_codex-routing.md` (placement decision-tree covering all 39 categories); link from inbox.
+- [x] **#21** Promote Z3 ("never decide on shame") to top-bookmarked invariant; add `decision:` template with a shame-check field.
+- [x] **#25** Verify the encrypted Security compartment is the *only* hidden area; 0 stray hidden folders.
+- [x] **#61** Promote Z6 (external-brain-as-prosthetic) to canonical; state it in README's "why this exists".
+- [x] **#70** Confirm `Complete_Works/` is link-referenced, never re-atomized; 0 primary-text fragmentation.
+- [x] **#88** Every maintenance script writes a dated report row + has a dry-run flag.
+- [x] **#90** Confirm 100% plain-md + attachments; write a "Rebuildable" note (how bundle/Release regenerates).
+- [x] **#91** Manifesto `Why This Vault Exists` (meaning-first); bookmark as 2nd read-first card.
+- [x] **#98** Create `CARRY_FORWARD.md` (open items each pass inherits: ~9.6k missing-content links, inbox ~1.9k, 195 banners).
+- [x] **#99** Every future report ends with a "Telos delta" naming which of the 100 advanced/regressed.
 
 ## Phase 2 — The conveyor (capture → rate → atomize → promote)
 - [ ] **#13** "Audit Queue" dataview for `#needs-audit`; promote Z14 to canonical.
