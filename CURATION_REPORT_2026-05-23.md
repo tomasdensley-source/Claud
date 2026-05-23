@@ -70,3 +70,10 @@ Per Thomas's go-ahead on the judgment items:
 - **Inbox triage (aggressive, filename-only):** routed **383** notes (17%) into `<category>/_from_inbox/` by high-precision filename keywords (Protocol Zeta→Codex, TSPDT→Entertainment, PayPal→Finance, music→Arts, kink→NSFW…). The `_from_inbox/` subfolders keep these reviewable and trivially reversible. **1,855** notes with no clear filename signal stay in `[[00_Inbox_Unsorted/_TRIAGE_REVIEW|_TRIAGE_REVIEW]]` (body-keyword routing was rejected — it misfiled 495 notes via stray `dataview` blocks).
 
 **State after 3c:** ~15,066 notes · non-image dangling **9,597** (from 14,641 at pass-3 start) · inbox **1,904** (from 2,303) · duplicate basenames 31 · vault-wide exact dupes 0 (4 trivial stubs aside). Safe automated curation is now exhausted; remaining work (deep inbox triage, ~9.6k missing-content links, 717 unrecoverable mojibake names, 207 banners blocked on the missing upload part) needs manual decisions or the missing source files.
+
+
+---
+
+## Addendum — pass 3d (folder index coverage)
+
+North Star #10 ("an `_index` MOC at every level") was satisfied only at the top level. Created **170** `_index.md` dataview MOCs for every sub-folder holding ≥5 markdown notes that lacked one (e.g. `…/General`, `…/_from_inbox`, `Journal_Dated`, the axiom-codex tiers, the example-zettel folders). Folders are now self-documenting and navigable; tiny folders (<5 notes) were intentionally left index-free to avoid filler (#18). Tag-based inbox routing was evaluated and rejected (only 41 routable, mostly mis-hits like `Newton's Laws → MOCs`).

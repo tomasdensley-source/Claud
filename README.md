@@ -6,7 +6,7 @@ One Obsidian vault built by pooling every source provided, deduping by content,
 and organizing into convergent categories — with the Graphy plugin + ~44-plugin
 config as a separate technical layer.
 
-**~15,066 markdown notes, 39 categories, 1.3 GB unzipped.**
+**~15,236 markdown notes, 39 categories, 1.3 GB unzipped.**
 
 Pass 2 (2026-05-23) folded in a new source batch: **839 compound banners** (resolving
 771 previously-dangling pharmacopoeia embeds), the incoming **Pharmacopoeia** vault,
