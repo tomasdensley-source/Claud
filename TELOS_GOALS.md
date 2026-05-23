@@ -15,7 +15,7 @@ cssclasses:
 > [!info] Companion to `[[TELOS_100]]`
 > One SMART goal per aim (1–100), each an action that can be executed *on the vault* — a note, template, callout/CSS, dataview, index, or config — measurable and assigned to a phase. Check off as completed; each completed pass records a "Telos delta".
 
-**Status:** Phase 0–1 done · Phase 2 next · Phases 2–7 sequenced below.
+**Status:** Phase 0–1 done · Phase 2 infrastructure shipped (rating/promotion await greenlight) · Phase 3 next · Phases 2–7 sequenced below.
 
 ## Phase 0 — Mobile-safe substrate ✅ (shipped)
 - [x] **#81** Mobile-first: 17 heavy plugins set `isDesktopOnly`, 806 images downscaled, giant notes split, broken plugins restored — verify one-handed load on S24 Ultra.
@@ -34,22 +34,22 @@ cssclasses:
 - [x] **#98** Create `CARRY_FORWARD.md` (open items each pass inherits: ~9.6k missing-content links, inbox ~1.9k, 195 banners).
 - [x] **#99** Every future report ends with a "Telos delta" naming which of the 100 advanced/regressed.
 
-## Phase 2 — The conveyor (capture → rate → atomize → promote)
-- [ ] **#13** "Audit Queue" dataview for `#needs-audit`; promote Z14 to canonical.
-- [ ] **#14** Frictionless `_T_Hard_Truth` capture template (date + raw text, 0 required fields).
-- [ ] **#16** Linter/checklist flagging `Z`-notes that mix evidence/interpretation/speculation; <5% after cleanup.
-- [ ] **#18** Require `source:` on imported notes; "Unsourced" report → 0 for 4–5★.
-- [ ] **#24** Reframe error-log notes with the act/self distinction; retrofit existing error/regression notes.
-- [ ] **#28** Add a `repair` event type to the Yin pipeline doc + template.
-- [ ] **#62** Drive duplicate-basename groups 31 → <10 via path-disambiguation + merge-of-delta.
-- [ ] **#63** Ship the `[!atom]` template + CSS; convert ≥50 top-rated notes to compliant atoms.
-- [ ] **#64** Near-dup workflow extracts the unique delta before any collapse; 0 silent deletions.
-- [ ] **#65** Build the four linked dataview queues: Inbox → Rated → Candidates → Promoted.
-- [ ] **#66** Add `[!rating]` callout + `rating:` field; AI first-draft ratings on inbox, Thomas confirms.
-- [ ] **#68** "Promotion Candidates" queue requiring explicit `approved:` before extraction; 0 auto-promotions.
-- [ ] **#69** Every promoted atom leaves an `[!extracted]` backlink in its source; → 100% paired.
-- [ ] **#85** Quick-capture note (≤2 taps) + `_TRIAGE_REVIEW` queue.
-- [ ] **#87** A Templater template for every note-type (atom, ledger, repair, witness, descent, branch-entry) in `99_Templates`.
+## Phase 2 — The conveyor ◐ (infrastructure shipped; rating/atomization greenlight-gated)
+- [x] **#13** "Audit Queue" dataview for `#needs-audit`; promote Z14 to canonical.
+- [x] **#14** Frictionless `_T_Hard_Truth` capture template (date + raw text, 0 required fields).
+- [~] **#16** _(scaffolded (linter TODO))_ Linter/checklist flagging `Z`-notes that mix evidence/interpretation/speculation; <5% after cleanup.
+- [~] **#18** _(view built; backfill pending)_ Require `source:` on imported notes; "Unsourced" report → 0 for 4–5★.
+- [~] **#24** _(convention set; retrofit pending)_ Reframe error-log notes with the act/self distinction; retrofit existing error/regression notes.
+- [x] **#28** Add a `repair` event type to the Yin pipeline doc + template.
+- [~] **#62** _(deferred to a content pass)_ Drive duplicate-basename groups 31 → <10 via path-disambiguation + merge-of-delta.
+- [~] **#63** _(template+CSS shipped; mass-atomization awaits greenlight)_ Ship the `[!atom]` template + CSS; convert ≥50 top-rated notes to compliant atoms.
+- [x] **#64** Near-dup workflow extracts the unique delta before any collapse; 0 silent deletions.
+- [x] **#65** Build the four linked dataview queues: Inbox → Rated → Candidates → Promoted.
+- [~] **#66** _(callout+template+queue shipped; AI-rating run awaits greenlight)_ Add `[!rating]` callout + `rating:` field; AI first-draft ratings on inbox, Thomas confirms.
+- [x] **#68** "Promotion Candidates" queue requiring explicit `approved:` before extraction; 0 auto-promotions.
+- [x] **#69** Every promoted atom leaves an `[!extracted]` backlink in its source; → 100% paired.
+- [x] **#85** Quick-capture note (≤2 taps) + `_TRIAGE_REVIEW` queue.
+- [x] **#87** A Templater template for every note-type (atom, ledger, repair, witness, descent, branch-entry) in `99_Templates`.
 
 ## Phase 3 — The aesthetic home & honest surface
 - [ ] **#3** `[!burden]` callout (CSS `99-telos-callouts.css`) + 10 tagged notes.
