@@ -54,6 +54,25 @@ npm test
 
 Compiles the engine and runs the unit tests with Node's built-in test runner.
 
+## Download an installable APK (CI build)
+
+Every push and pull request triggers the **Build** GitHub Actions workflow
+(`.github/workflows/build.yml`), which type-checks, runs the engine tests,
+and builds a debug Android **APK**.
+
+To download it:
+
+1. Open the **Actions** tab of the repo and click the latest **Build** run
+   for your branch.
+2. Scroll to the **Artifacts** section at the bottom of the run summary.
+3. Download **`go-android-apk`** — it contains `go-debug.apk`.
+4. Copy the APK to an Android device and install it (enable "install from
+   unknown sources" if prompted).
+
+The debug APK is signed with the standard Android debug key, so it installs
+directly without any extra signing setup — ideal for trying the app. For
+Play Store distribution, produce a signed release build with EAS (below).
+
 ## Building with EAS
 
 This project is configured for EAS Build. Profiles live in `eas.json`:
