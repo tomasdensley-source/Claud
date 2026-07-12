@@ -1,0 +1,15 @@
+{
+  "name": "claud-obsidian-vault",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Development harness for the custom Obsidian plugins shipped in obsidian-vault-fixed.zip",
+  "scripts": {
+    "extract": "node dev/extract-vault.js",
+    "lint": "node dev/lint.js",
+    "test": "node dev/harness.js",
+    "dev": "node dev/harness.js"
+  },
+  "devDependencies": {
+    "jsdom": "^24.1.0"
+  }
+}
