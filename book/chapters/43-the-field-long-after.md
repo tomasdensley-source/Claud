@@ -4,7 +4,7 @@
 
 He knew before anyone came to the field, because she did not come to the field.
 
-She had come on the eighth of the month for nine years. On the eighth of the ninth month of the nineteenth year she did not come, and the ninth passed, and the tenth, and on the eleventh a girl he did not know came and sat on the stone and cried, and he did not know who she was and he did not know who she was crying for, and he had no way to ask her, and he stayed with her until she went home.
+She had come on the eighth of the month for sixteen years. On the eighth of the ninth month of the nineteenth year she did not come, and the ninth passed, and the tenth, and on the eleventh a girl he did not know came and sat on the stone and cried, and he did not know who she was and he did not know who she was crying for, and he had no way to ask her, and he stayed with her until she went home.
 
 It was Arda who told him, in the end, and she told him the way the keepers had learned to tell him, which was to sit on the stone and speak to the air like a woman thinking aloud, so that anyone crossing the field would see a keeper resting.
 
@@ -50,7 +50,7 @@ Then it said: “Say it again.”
 
 Arda said it again.
 
-She said it eleven times before the light went, and the eleventh time she was crying so hard that she could not get through the part about the birch bark, and she stopped, and she said, I am sorry, and the stone said, no.
+She said it eleven times before the light went, and the eleventh time she was crying so hard that she could not get through the part about the birch bark, and she stopped, and she said, “I am sorry,” and the stone said, “No.”
 
 “No,” it said. “Do not call this beautiful.”
 
@@ -65,6 +65,8 @@ She said it eleven times before the light went, and the eleventh time she was cr
 The stone was warm under her hands.
 
 “Good.”
+
+For a time, grief was the only institution he could bear to witness.
 
 In time, the field beyond Verrin was no longer beyond the town.
 
@@ -126,7 +128,7 @@ The child who tripped over the buried pillar was named Sen. He pressed his ear t
 
 “Or names.”
 
-She looked at him.
+Arda looked at him.
 
 “Who taught you that?”
 

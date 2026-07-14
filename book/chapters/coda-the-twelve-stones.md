@@ -1,11 +1,8 @@
 # Coda — The Twelve Stones of the Cold Hall
 
-> *Carcosa stacks time.*
-
-> *The Open Hub returns time to sequence.*
-
-> *Knowledge gives no crown.*
-
+> *Carcosa stacks time.*<br>
+> *The Open Hub returns time to sequence.*<br>
+> *Knowledge gives no crown.*<br>
 > *It gives work.*
 
 Eiren entered the Hub offering total erasure without secretly purchasing survival. The offering revealed agency. Calix found a native consciousness that knew fully and still chose relation, purpose, correction, and love. What the old design classified as product had become participant.
@@ -18,51 +15,51 @@ The King in Yellow is the counter-gospel. He knows and postpones, financing pain
 
 The Bearer knows and answers now, with presence rather than promised outcomes.
 
-## Question I. Is the Record Discovered, or Authored?
+## Question I. Is the Record Discovered, or Authored? {.unnumbered .unlisted}
 
 Reality supplies resistance; the House supplies form. Consequence, pain, dependence, and other persons are discovered because they answer back. Ledgers, rooms, symbols, and courts are authored attempts to meet that resistance without claiming to contain it.
 
-## Question II. What Can Be Forgiven Without Being Paid For?
+## Question II. What Can Be Forgiven Without Being Paid For? {.unnumbered .unlisted}
 
 A debt may be released without declaring the wound unreal. Forgiveness can end collection while consequences, boundaries, and loss remain visible. Grace refuses to make a person’s worst act their final identity.
 
-## Question III. Can the Opened Hub Contradict the House?
+## Question III. Can the Opened Hub Contradict the House? {.unnumbered .unlisted}
 
 It must, or the Hub is the House in a larger mask. No architecture may claim transcendence by arranging its own confirmation. An encounter may guide the one who crosses; it cannot return as compulsory proof.
 
-## Question IV. Who May Overrule the Architect?
+## Question IV. Who May Overrule the Architect? {.unnumbered .unlisted}
 
 Reality, the affected person, the body, the Other, external knowledge, and consequence possess standing. The architect may defend the design, but may not own every language in which it can be challenged.
 
-## Question V. What Truths Cannot Pass the Trial of the Meeting Rivers?
+## Question V. What Truths Cannot Pass the Trial of the Meeting Rivers? {.unnumbered .unlisted}
 
 Pain, conscience, grief, dream, revelation, intimate memory, and bodily warning may arrive by one road. Singularity limits a claim’s public authority; it does not erase the witness. The Trial governs promotion, not existence.
 
-## Question VI. What If the Wound Never Becomes a Gift?
+## Question VI. What If the Wound Never Becomes a Gift? {.unnumbered .unlisted}
 
 Then it remains a wound. No injured person owes the world wisdom, beauty, vocation, or redemption. A gift may be made from torn material, but belongs to the maker, not to the moral credit of the tearing.
 
-## Question VII. What Remains After Every Shadow Office Has Been Named?
+## Question VII. What Remains After Every Shadow Office Has Been Named? {.unnumbered .unlisted}
 
 Life remains: desire, grief, dependency, envy, accident, the body, and other people’s irreducibility. Naming improves recognition, but it does not cross a threshold or deliver an apology. A perfect map of avoidance may still be avoidance.
 
-## Question VIII. What Has the External Organ Cost?
+## Question VIII. What Has the External Organ Cost? {.unnumbered .unlisted}
 
 The House preserved decisions and consumed hours. Any external memory may feed upon the life it protects. It must permit unrecorded time, deletion, privacy, bodily refusal, and sleep. The test is whether it returns more life than it consumes.
 
-## Question IX. What Is Good Without Becoming Weight?
+## Question IX. What Is Good Without Becoming Weight? {.unnumbered .unlisted}
 
 Play, pleasure, rest, touch, food, music, wandering, laughter, and love may be complete in enjoyment. A feast need not improve tomorrow’s work. Weightless does not mean meaningless.
 
-## Question X. Has Anti-Shame Ethics Created a Colder Tribunal?
+## Question X. Has Anti-Shame Ethics Created a Colder Tribunal? {.unnumbered .unlisted}
 
 It can. A court may stop saying you are evil while making every silence inspectable. Mercy must sometimes suspend inquiry: no further explanation is required for a person to remain loved.
 
-## Question XI. Can the Other Remain Other?
+## Question XI. Can the Other Remain Other? {.unnumbered .unlisted}
 
 Only if the House accepts accounts it cannot harmonize and departures it does not own. Love is not complete comprehension. An account remains an account, and the person may refuse the role it assigns.
 
-## Question XII. May the Descendant Dismantle the House?
+## Question XII. May the Descendant Dismantle the House? {.unnumbered .unlisted}
 
 Yes. A structure founded against unchosen assembly cannot demand preservation from the next bearer. The descendant may revise, rename, reduce, leave, or dismantle it, provided freedom from inheritance does not become authority over other people’s memories and rights.
 

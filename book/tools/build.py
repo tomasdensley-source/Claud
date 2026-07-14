@@ -59,40 +59,40 @@ PLATES = {
     "04-the-four-rooms.md": ("img-005.jpg", "The protest in the fifth room."),
     "05-the-carpenters-wheel.md": ("img-006.jpg", "Hadrin’s wheel without a final center."),
     "06-the-one-more-turn.md": ("img-007.jpg", "The road’s uncounted turn."),
-    "07-the-council-of-water.md": ("img-008.jpg", "Buried lines beneath the waterworks."),
-    "08-the-miracle-of-the-lost-child.md": ("img-009.jpg", "The keepers carry Pela’s name."),
-    "09-the-keeper-of-jars.md": ("img-010.jpg", "Senn among the jars and records."),
-    "10-the-two-springs.md": ("img-011.jpg", "Two springs, one hidden source."),
-    "12-the-first-blank-room.md": ("img-012.jpg", "The first blank room opens."),
-    "13-the-five-keepers.md": ("img-013.jpg", "Four keepers around the fifth chair."),
-    "14-foam-for-sale.md": ("img-014.jpg", "Foam at the surface of the work."),
-    "15-the-weightless-feast.md": ("img-015.jpg", "A feast that owes no lesson."),
+    "08-the-miracle-of-the-lost-child.md": ("img-008.jpg", "The keepers carry Pela’s name."),
+    "09-the-keeper-of-jars.md": ("img-009.jpg", "Senn among the jars and records."),
+    "10-the-two-springs.md": ("img-010.jpg", "Two springs, one hidden source."),
+    "12-the-first-blank-room.md": ("img-011.jpg", "The first blank room opens."),
+    "13-the-five-keepers.md": ("img-012.jpg", "Four keepers around the fifth chair."),
+    "14-foam-for-sale.md": ("img-013.jpg", "Foam at the surface of the work."),
+    "15-the-weightless-feast.md": ("img-014.jpg", "A feast that owes no lesson."),
     "17-the-protest-that-walked.md": ("img-016.jpg", "The protest walks out of the House."),
-    "18-the-play-in-yellow.md": ("img-017.jpg", "The actor beneath the yellow robe."),
-    "19-the-density-oracle.md": ("img-018.jpg", "The Oracle gathers its echoes."),
-    "20-the-reviser.md": ("img-019.jpg", "The Reviser enters the Cold Hall."),
-    "21-the-mirror-court.md": ("img-020.jpg", "The court reflects a single source."),
-    "22-the-demolition-field.md": ("img-021.jpg", "The buried court of the First One."),
-    "23-the-door-behind-the-door.md": ("img-022.jpg", "A door opens behind the door."),
-    "24-the-corridor-of-delays.md": ("img-023.jpg", "The lower corridor offers delay."),
+    "18-the-play-in-yellow.md": ("img-015.jpg", "The actor beneath the yellow robe."),
+    "19-the-density-oracle.md": ("img-017.jpg", "The Oracle gathers its echoes."),
+    "20-the-reviser.md": ("img-018.jpg", "The Reviser enters the Cold Hall."),
+    "21-the-mirror-court.md": ("img-019.jpg", "The court reflects a single source."),
+    "22-the-demolition-field.md": ("img-020.jpg", "The buried court of the First One."),
+    "23-the-door-behind-the-door.md": ("img-021.jpg", "A door opens behind the door."),
+    "24-the-corridor-of-delays.md": ("img-022.jpg", "The lower corridor offers delay."),
     "25-carcosa.md": ("img-024.jpg", "Carcosa beneath the black stars."),
-    "26-the-collector-of-unpaid-evenings.md": ("img-025.jpg", "The Collector opens the unpaid evening."),
+    "26-the-collector-of-unpaid-evenings.md": ("img-023.jpg", "The Collector opens the unpaid evening."),
     "27-the-first-ones.md": ("img-026.jpg", "The first builders beneath the world."),
     "28-the-three-choices-of-years.md": ("img-027.jpg", "Three choices in the counting of years."),
     "29-the-narrow-bridge.md": ("img-028.jpg", "The narrow bridge refuses a child."),
     "30-the-calix.md": ("img-029.jpg", "The circular architecture of Calix."),
-    "31-the-toxic-knower.md": ("img-030.jpg", "Correction touches the toxic knower."),
-    "32-the-cord-cutter.md": ("img-031.jpg", "The blade becomes a gate."),
-    "33-theology-at-the-shore.md": ("img-032.jpg", "At the shore of honest theology."),
+    "31-the-toxic-knower.md": ("img-032.jpg", "Correction touches the toxic knower."),
+    "32-the-cord-cutter.md": ("img-039.jpg", "The blade becomes a gate."),
+    "33-theology-at-the-shore.md": ("img-031.jpg", "At the shore of honest theology."),
     "34-the-opened-hub.md": ("img-033.jpg", "The Open Hub beyond proof."),
-    "35-the-return-through-the-repeating-doors.md": ("img-034.jpg", "The repeating doors of the return."),
-    "36-the-bastion-that-decides.md": ("img-035.jpg", "The Bastion before the open gate."),
-    "37-the-waterworks.md": ("img-036.jpg", "Old stone joins new craft."),
-    "38-the-house-under-its-own-audit.md": ("img-037.jpg", "The House stands under its own audit."),
-    "39-the-names-that-began-to-fade.md": ("img-038.jpg", "The city remembers through the seventh night."),
-    "40-the-descendants-door.md": ("img-039.jpg", "One hand may refuse; one may receive."),
-    "41-the-repair.md": ("img-040.jpg", "Light descends through the repaired court."),
+    "35-the-return-through-the-repeating-doors.md": ("img-025.jpg", "The repeating doors of the return."),
+    "36-the-bastion-that-decides.md": ("img-034.jpg", "The Bastion before the open gate."),
+    "37-the-waterworks.md": ("img-035.jpg", "Old stone joins new craft."),
+    "38-the-house-under-its-own-audit.md": ("img-036.jpg", "The House stands under its own audit."),
+    "39-the-names-that-began-to-fade.md": ("img-037.jpg", "The city remembers through the seventh night."),
+    "40-the-descendants-door.md": ("img-040.jpg", "One hand may refuse; one may receive."),
+    "41-the-repair.md": ("img-038.jpg", "Light descends through the repaired court."),
     "43-the-field-long-after.md": ("img-041.jpg", "The field, long after."),
+    "fragment-gnosis.md": ("img-030.jpg", "Knowledge demands descent rather than a crown."),
     "coda-the-twelve-stones.md": ("img-042.jpg", "An answer on one face; an opening on the other."),
 }
 
@@ -109,14 +109,15 @@ def plate_block(filename: str) -> str:
     if not plate:
         return ""
     image, caption = plate
-    image_path = (ARTWORK / image).as_posix()
+    image_path = (ARTWORK / image).relative_to(ROOT).as_posix()
     return (
         "\n"
-        "\\begin{figure}[!ht]\n"
+        "\\begin{center}\n"
         "\\centering\n"
         f"\\includegraphics[height=2.1in,keepaspectratio]{{{image_path}}}\n"
-        f"\\caption*{{\\textit{{{caption}}}}}\n"
-        "\\end{figure}\n"
+        "\\par\\smallskip\n"
+        f"{{\\small\\itshape {caption}\\par}}\n"
+        "\\end{center}\n"
     )
 
 
@@ -133,11 +134,13 @@ def render_source(path: Path, numbered: bool) -> str:
         lines[0] = heading + " {.unnumbered}"
 
     insert_at = 1
-    if len(lines) > 2 and lines[1] == "" and (
-        (lines[2].startswith("*") and lines[2].endswith("*"))
-        or lines[2].startswith(">")
-    ):
-        insert_at = 3
+    if len(lines) > 2 and lines[1] == "":
+        if lines[2].startswith("*") and lines[2].endswith("*"):
+            insert_at = 3
+        elif lines[2].startswith(">"):
+            insert_at = 2
+            while insert_at < len(lines) and lines[insert_at].startswith(">"):
+                insert_at += 1
         while insert_at < len(lines) and lines[insert_at] == "":
             insert_at += 1
     plate = plate_block(path.name)
@@ -146,16 +149,19 @@ def render_source(path: Path, numbered: bool) -> str:
     return "\n".join(lines).strip() + "\n"
 
 
+def running_mark(path: Path) -> str:
+    heading = path.read_text(encoding="utf-8").splitlines()[0].removeprefix("# ")
+    return f"\\markboth{{{heading}}}{{{heading}}}\n"
+
+
 def assemble() -> Path:
     BUILD.mkdir(parents=True, exist_ok=True)
-    cover = (ARTWORK / "img-000.jpg").as_posix()
+    cover = (ARTWORK / "img-000.jpg").relative_to(ROOT).as_posix()
     sections = [
         "---\n"
         "lang: en-US\n"
-        "title: The Book of the One House\n"
-        "subtitle: A Chronicle of Verrin and the Calix\n"
-        "author: Thomas Densley\n"
-        "edition: Fifth Literary Edition — Revised\n"
+        "title-meta: The Book of the One House\n"
+        "author-meta: Thomas Densley\n"
         "---\n",
         "\\begin{titlepage}\n"
         "\\newgeometry{margin=0pt}\n"
@@ -180,21 +186,26 @@ def assemble() -> Path:
         "\\frontmatter\n"
         "\\tableofcontents\n"
         "\\cleardoublepage\n",
+        running_mark(CHAPTERS / "00-prologue.md"),
         render_source(CHAPTERS / "00-prologue.md", numbered=False),
         "\\mainmatter\n",
     ]
 
     for part_number, part_title, chapter_prefixes, fragment_names in PARTS:
-        sections.append(f"\\part{{{part_number}: {part_title}}}\n")
+        sections.append(f"\\part{{{part_title}}}\n")
         for prefix in chapter_prefixes:
             sections.append(render_source(chapter_file(prefix), numbered=True))
         for fragment in fragment_names:
-            sections.append(render_source(FRAGMENTS / fragment, numbered=False))
+            fragment_path = FRAGMENTS / fragment
+            sections.append(running_mark(fragment_path))
+            sections.append(render_source(fragment_path, numbered=False))
 
+    coda = CHAPTERS / "coda-the-twelve-stones.md"
     sections.extend(
         [
             "\\backmatter\n",
-            render_source(CHAPTERS / "coda-the-twelve-stones.md", numbered=False),
+            running_mark(coda),
+            render_source(coda, numbered=False),
         ]
     )
     manuscript = BUILD / "manuscript.md"
@@ -211,7 +222,6 @@ def build_pdf() -> None:
         "--pdf-engine=xelatex",
         "--number-sections",
         "--top-level-division=chapter",
-        "--toc",
         "--include-in-header",
         str(BOOK / "header.tex"),
         "--resource-path",

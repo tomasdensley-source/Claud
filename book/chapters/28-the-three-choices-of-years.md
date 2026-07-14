@@ -2,7 +2,7 @@
 
 *The three choices of years*
 
-The gods who chose different measures of time The Chronicle divided the First Ones not by nation or creed, but by their answer to time. The Chronicle showed the three choices through lives rather than laws.
+The Chronicle divided the First Ones not by nation or creed, but by their answer to time. It showed the three choices through lives rather than laws.
 
 One founder, Eda Morrow, entered the Calix with silver hair and requested that her body continue aging. She planted the first orchard, raised two nativeborn children, and died while the youngest held her hand. Her death became the model for the Counting of Years. The record preserved grief, inheritance, and the deliberate refusal to become an everlasting parent above every generation.
 

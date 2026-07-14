@@ -2,7 +2,7 @@
 
 *The knowledge that arrives before the vessel*
 
-The first correction touched Eiren.
+The answer had barely left Mara’s mouth when the first correction touched Eiren.
 
 He remembered having a mother. Her face would not form.
 
