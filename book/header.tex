@@ -1,0 +1,47 @@
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{fancyhdr}
+\usepackage{emptypage}
+\usepackage{titlesec}
+
+\setlength{\parindent}{1.15em}
+\setlength{\parskip}{0pt}
+\setlength{\emergencystretch}{2em}
+\widowpenalty=10000
+\clubpenalty=10000
+\displaywidowpenalty=10000
+
+\titleformat{\chapter}[display]
+  {\normalfont\centering}
+  {\small\scshape Chapter \thechapter}
+  {0.65em}
+  {\Large\scshape}
+\titlespacing*{\chapter}{0pt}{-1.8em}{0.8em}
+
+\titleformat{name=\chapter,numberless}[display]
+  {\normalfont\centering}
+  {}
+  {0pt}
+  {\Large\scshape}
+\titlespacing*{name=\chapter,numberless}{0pt}{-1.8em}{0.8em}
+
+\titleformat{\part}[display]
+  {\normalfont\centering}
+  {\small\scshape \partname\ \thepart}
+  {1em}
+  {\Huge\scshape}
+
+\captionsetup{font=small,labelformat=empty,skip=3pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\small\scshape The Book of the One House}
+\fancyhead[RO]{\small\scshape\leftmark}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[C]{\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+}
