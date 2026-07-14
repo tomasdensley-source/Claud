@@ -1,0 +1,117 @@
+category	action	target	detail
+A	restore-mainjs	dataview	2377634 bytes
+A	restore-mainjs	pdf-plus	1088807 bytes
+A	restore-mainjs	obsidian-admonition	1724640 bytes
+A	restore-mainjs	obsidian-meta-bind-plugin	1127843 bytes
+A	restore-mainjs	obsidian-emoji-toolbar	2244496 bytes
+A	desktop-only	obsidian-excalidraw-plugin	isDesktopOnly=true (won't load on mobile)
+A	desktop-only	quickadd	isDesktopOnly=true (won't load on mobile)
+A	desktop-only	periodic-para	isDesktopOnly=true (won't load on mobile)
+A	desktop-only	obsidian-kanban	isDesktopOnly=true (won't load on mobile)
+A	desktop-only	obsidian-linter	isDesktopOnly=true (won't load on mobile)
+A	desktop-only	obsidian-importer	isDesktopOnly=true (won't load on mobile)
+A	desktop-only	obsidian-text-format	isDesktopOnly=true (won't load on mobile)
+A	desktop-only	code-block-plugin	isDesktopOnly=true (won't load on mobile)
+A	desktop-only	advanced-canvas	isDesktopOnly=true (won't load on mobile)
+A	desktop-only	table-editor-obsidian	isDesktopOnly=true (won't load on mobile)
+A	desktop-only	customjs	isDesktopOnly=true (won't load on mobile)
+A	desktop-only	obsidian-imgur-plugin	isDesktopOnly=true (won't load on mobile)
+A	desktop-only	eleven-labs	isDesktopOnly=true (won't load on mobile)
+A	desktop-only	obsidian-emoji-toolbar	isDesktopOnly=true (won't load on mobile)
+A	desktop-only	obsidian-meta-bind-plugin	isDesktopOnly=true (won't load on mobile)
+A	desktop-only	pdf-plus	isDesktopOnly=true (won't load on mobile)
+A	desktop-only	better-search-views	isDesktopOnly=true (won't load on mobile)
+F	startup	homepage	openOnStartup=false, refreshDataview=false
+E	graph	global	showAttachments/showOrphans/showTags=false
+D	img-summary	downscaled=806	skip=267 err=0 saved_MB=200.3
+B	query-backlinks	40_Universal_Codex/Source - Universal Codex (Reinforced).md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/meaning.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/honor.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/misc.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/game plan.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/nature.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/forgiveness.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/life.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/hope.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/sales.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/taoism.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/foolishness.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/love.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/humility.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/guide.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/music.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/health.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/loans.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/patience.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/films.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/table.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/book writing.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/death.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/failure.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/art.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/cosmic horror.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/strategy.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/advice.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/checklist.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/freedom.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/road map.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/motivation.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/math.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/backup codes.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/growth.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/gig work.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/personal.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/power.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/abridged.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/reference guide.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/parenting.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/list.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/anger.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/food.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/self.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/courage.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/work.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/war.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/erotic.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/faith.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/discipline.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/success.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/kindness.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/finance.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/poetic.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/novel.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/money.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/substances.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/time.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/suffering.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/learning.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/philosophy.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/doppelgangers.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/truth.md	replaced expensive contains() dataview
+B	query-backlinks	40_Universal_Codex/_concepts/story.md	replaced expensive contains() dataview
+B	query-backlinks	60_MOCs/MOC - Intake & Archive.md	replaced expensive contains() dataview
+B	query-backlinks	60_MOCs/MOC - Life & Logistics.md	replaced expensive contains() dataview
+B	query-backlinks	60_MOCs/MOC - 21_Research_Papers.md	replaced expensive contains() dataview
+B	query-backlinks	60_MOCs/MOC - Appendix K - Compendium of Metaphysical Entities and Anomalous Experiences (Abridged).md	replaced expensive contains() dataview
+B	query-backlinks	60_MOCs/MOC - Vault Index.md	replaced expensive contains() dataview
+B	query-summary	notes=70	blocks_replaced=70
+C	split	00_Inbox_Unsorted/06 - FULL VAULT INDEX - AI SCAN MAP.md	4 parts in 00_Inbox_Unsorted/06 - FULL VAULT INDEX - AI SCAN MAP/
+C	split	00_Inbox_Unsorted/monolith-part02-of-03.md	17 parts in 00_Inbox_Unsorted/monolith-part02-of-03/
+C	split	00_Inbox_Unsorted/ttttt.md	30 parts in 00_Inbox_Unsorted/ttttt/
+C	split	00_Inbox_Unsorted/Financial Catalog ­ƒùé´©Å [85CF5BFED0].md	6 parts in 00_Inbox_Unsorted/Financial Catalog ­ƒùé´©Å [85CF5BFED0]/
+C	split	00_Inbox_Unsorted/Financial Catalog ­ƒùé´©Å [D92AD8D5D7].md	7 parts in 00_Inbox_Unsorted/Financial Catalog ­ƒùé´©Å [D92AD8D5D7]/
+C	split	00_Inbox_Unsorted/monolith-part03-of-03.md	3 parts in 00_Inbox_Unsorted/monolith-part03-of-03/
+C	split	00_Inbox_Unsorted/­ƒº¡Navigation Hub­ƒº¡ [2D44F13776].md	4 parts in 00_Inbox_Unsorted/­ƒº¡Navigation Hub­ƒº¡ [2D44F13776]/
+C	split	00_Inbox_Unsorted/Lead Template ­ƒôï [57AE8F487C].md	24 parts in 00_Inbox_Unsorted/Lead Template ­ƒôï [57AE8F487C]/
+C	split	60_MOCs/Catalogs/Ideas Catalog ­ƒùé´©Å [CAD7A28D84].md	6 parts in 60_MOCs/Catalogs/Ideas Catalog ­ƒùé´©Å [CAD7A28D84]/
+C	split	60_MOCs/Catalogs/List catalog ­ƒùé´©Å [A6638B8C66].md	6 parts in 60_MOCs/Catalogs/List catalog ­ƒùé´©Å [A6638B8C66]/
+C	split	60_MOCs/Catalogs/Ideas Catalog ­ƒùé´©Å [A3771D7C9C].md	4 parts in 60_MOCs/Catalogs/Ideas Catalog ­ƒùé´©Å [A3771D7C9C]/
+C	split	60_MOCs/Hubs/­ƒÅø Life Archive Hub ­ƒÅø.md	7 parts in 60_MOCs/Hubs/­ƒÅø Life Archive Hub ­ƒÅø/
+C	split	02_Business_Gig_Work_and_Careers/General/Gig Guide Catalog ­ƒùé´©Å [042D8D6EA6].md	9 parts in 02_Business_Gig_Work_and_Careers/General/Gig Guide Catalog ­ƒùé´©Å [042D8D6EA6]/
+C	split	02_Business_Gig_Work_and_Careers/General/Gig Guide Catalog ­ƒùé´©Å [478CE69C23].md	11 parts in 02_Business_Gig_Work_and_Careers/General/Gig Guide Catalog ­ƒùé´©Å [478CE69C23]/
+C	split	03_Finance_Taxes_and_Loans/High-Cost Loan Priority Table­ƒÆ▓ [D857D673C6].md	4 parts in 03_Finance_Taxes_and_Loans/High-Cost Loan Priority Table­ƒÆ▓ [D857D673C6]/
+C	split	01_Business_Sharp_House_Solutions/General/My window Pricing Guide ­ƒù║´©Å [56FCC5CBE3].md	5 parts in 01_Business_Sharp_House_Solutions/General/My window Pricing Guide ­ƒù║´©Å [56FCC5CBE3]/
+C	split	06_Knowledge_Management_PKM/General/ObsidianVault_Concatenated_Cleaned.md	26 parts in 06_Knowledge_Management_PKM/General/ObsidianVault_Concatenated_Cleaned/
+C	split	06_Knowledge_Management_PKM/General/ÔÜí Zettelkasten Hub ÔÜí.md	15 parts in 06_Knowledge_Management_PKM/General/ÔÜí Zettelkasten Hub ÔÜí/
+C	split	06_Knowledge_Management_PKM/General/ObsidianVault_v9_UniqueMovies_NoTags_Min1000.md	30 parts in 06_Knowledge_Management_PKM/General/ObsidianVault_v9_UniqueMovies_NoTags_Min1000/
+C	split-summary	notes=19	
