@@ -92,3 +92,40 @@ test('migration clamps opacity and sanitizes drawing points', () => {
   assert.equal(drawing?.type === 'drawing' ? drawing.paths[0].points.length : 0, 2);
   assert.equal(drawing?.type === 'drawing' ? drawing.paths[0].width : 0, 80);
 });
+
+test('migration sanitizes text formatting task metadata and file sizes', () => {
+  const boards = migrateBoards([
+    {
+      id: 'board',
+      name: 42,
+      updatedAt: Number.NaN,
+      items: [
+        { id: 't', type: 'text', text: 'Bad', fontSize: 999, fontWeight: '900', textAlign: 'middle', color: 'url(bad)', x: 0, y: 0, width: 100, height: 60, zIndex: 1 },
+        { id: 'task', type: 'task', text: 'Task', done: false, priority: 'urgent', dueDate: 'tomorrow', dependsOn: [], x: 0, y: 80, width: 100, height: 60, zIndex: 2 },
+        { id: 'pdf', type: 'pdf', name: 'a.pdf', size: Number.POSITIVE_INFINITY, x: 0, y: 160, width: 100, height: 60, zIndex: 3 },
+      ],
+    },
+  ]);
+  assert.equal(boards[0].name, 'Board 1');
+  assert.ok(Number.isFinite(boards[0].updatedAt));
+  const text = boards[0].items.find((item) => item.id === 't');
+  assert.equal(text?.type === 'text' ? text.fontSize : 0, 96);
+  assert.equal(text?.type === 'text' ? text.fontWeight : 'bad', undefined);
+  assert.equal(text?.type === 'text' ? text.textAlign : 'bad', 'left');
+  assert.equal(text?.color, undefined);
+  const task = boards[0].items.find((item) => item.id === 'task');
+  assert.equal(task?.type === 'task' ? task.priority : 'bad', 'normal');
+  assert.equal(task?.type === 'task' ? task.dueDate : 'bad', undefined);
+  const pdf = boards[0].items.find((item) => item.id === 'pdf');
+  assert.equal(pdf?.type === 'pdf' ? pdf.size : 1, undefined);
+});
+
+test('legacy mindmap children use regenerated parent ids', () => {
+  const items = normalizeBoardItems([
+    { id: 'dup', type: 'mindmap', text: 'Root A', x: 0, y: 0, width: 100, height: 60, zIndex: 1 },
+    { id: 'dup', type: 'mindmap', text: 'Root B', children: ['Child'], x: 0, y: 80, width: 100, height: 60, zIndex: 2 },
+  ]);
+  const rootB = items.find((item) => item.type === 'mindmap' && item.text === 'Root B');
+  const child = items.find((item) => item.type === 'mindmap' && item.text === 'Child');
+  assert.equal(child?.type === 'mindmap' ? child.parentId : null, rootB?.id);
+});

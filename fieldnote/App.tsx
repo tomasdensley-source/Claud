@@ -82,6 +82,7 @@ function FieldnoteApp() {
     bringSelectedForward,
     sendSelectedBackward,
     removeSelectedDependency,
+    updateItems,
     canPaste,
     toast,
     dismissToast,
@@ -123,6 +124,27 @@ function FieldnoteApp() {
     () => currentBoard.items.filter((item) => selectedIds.includes(item.id)),
     [currentBoard.items, selectedIds],
   );
+  const activeColor = selectedItems[0]
+    ? selectedItems[0].type === 'text'
+      ? selectedItems[0].color ?? colors.ink
+      : selectedItems[0].type === 'shape'
+        ? selectedItems[0].borderColor ?? selectedItems[0].backgroundColor ?? drawColor
+        : selectedItems[0].type === 'mindmap'
+          ? selectedItems[0].branchColor
+          : selectedItems[0].backgroundColor ?? drawColor
+    : drawColor;
+
+  const applyList = useCallback((kind: 'bullet' | 'number') => {
+    updateItems((items) => items.map((item) => {
+      if (!selectedIds.includes(item.id) || item.locked || item.type !== 'text') return item;
+      const lines = item.text.split(/\r?\n/);
+      const next = lines.map((line, index) => {
+        const clean = line.replace(/^(\s*[-*]\s+|\s*\d+\.\s+)/, '');
+        return kind === 'bullet' ? `- ${clean}` : `${index + 1}. ${clean}`;
+      }).join('\n');
+      return { ...item, text: next };
+    }));
+  }, [selectedIds, updateItems]);
 
   const requestZoom = useCallback((next: number) => {
     setZoomRequest({ scale: Math.min(2.8, Math.max(0.2, next)), token: Date.now() });
@@ -174,6 +196,7 @@ function FieldnoteApp() {
         <PaletteStrip
           visible={tool === 'draw' || selectedIds.length > 0}
           drawColor={drawColor}
+          activeColor={activeColor}
           drawWidth={drawWidth}
           drawMode={drawMode}
           selectedCount={selectedIds.length}
@@ -190,6 +213,7 @@ function FieldnoteApp() {
           onWidth={setDrawWidth}
           onMode={setDrawMode}
           onFormat={(patch) => formatSelected(patch)}
+          onList={applyList}
         />
         <ZoomControls
           scale={scale}
@@ -280,6 +304,7 @@ function FieldnoteApp() {
 function PaletteStrip({
   visible,
   drawColor,
+  activeColor,
   drawWidth,
   drawMode,
   selectedCount,
@@ -287,9 +312,11 @@ function PaletteStrip({
   onWidth,
   onMode,
   onFormat,
+  onList,
 }: {
   visible: boolean;
   drawColor: string;
+  activeColor: string;
   drawWidth: number;
   drawMode: 'pen' | 'highlighter' | 'eraser';
   selectedCount: number;
@@ -297,6 +324,7 @@ function PaletteStrip({
   onWidth: (width: number) => void;
   onMode: (mode: 'pen' | 'highlighter' | 'eraser') => void;
   onFormat: (patch: Partial<BoardItem>) => void;
+  onList: (kind: 'bullet' | 'number') => void;
 }) {
   if (!visible) return null;
   return (
@@ -305,7 +333,7 @@ function PaletteStrip({
         <Pressable
           key={color}
           onPress={() => onColor(color)}
-          style={[styles.swatch, { backgroundColor: color }, drawColor === color && styles.swatchActive]}
+          style={[styles.swatch, { backgroundColor: color }, activeColor === color && styles.swatchActive]}
           accessibilityLabel={`Use color ${color}`}
           hitSlop={6}
         />
@@ -324,6 +352,15 @@ function PaletteStrip({
       {selectedCount > 0 ? (
         <>
           <View style={styles.paletteDivider} />
+          <Pressable style={styles.modeBtn} onPress={() => onFormat({ role: 'title' } as Partial<BoardItem>)} accessibilityLabel="Title text">
+            <Text style={styles.modeText}>Title</Text>
+          </Pressable>
+          <Pressable style={styles.modeBtn} onPress={() => onFormat({ role: 'body' } as Partial<BoardItem>)} accessibilityLabel="Body text">
+            <Text style={styles.modeText}>Body</Text>
+          </Pressable>
+          <Pressable style={styles.modeBtn} onPress={() => onFormat({ role: 'note' } as Partial<BoardItem>)} accessibilityLabel="Note text">
+            <Text style={styles.modeText}>Note</Text>
+          </Pressable>
           <Pressable style={styles.modeBtn} onPress={() => onFormat({ fontSize: 18 } as Partial<BoardItem>)} accessibilityLabel="Small text">
             <Text style={styles.modeText}>A-</Text>
           </Pressable>
@@ -333,11 +370,34 @@ function PaletteStrip({
           <Pressable style={styles.modeBtn} onPress={() => onFormat({ fontWeight: '700' } as Partial<BoardItem>)} accessibilityLabel="Bold text">
             <Text style={styles.modeText}>Bold</Text>
           </Pressable>
-          <Pressable style={styles.modeBtn} onPress={() => onFormat({ textAlign: 'center' } as Partial<BoardItem>)} accessibilityLabel="Center text">
-            <Text style={styles.modeText}>Center</Text>
+          <Pressable style={styles.modeBtn} onPress={() => onFormat({ italic: true } as Partial<BoardItem>)} accessibilityLabel="Italic text">
+            <Text style={styles.modeText}>Italic</Text>
+          </Pressable>
+          {(['left', 'center', 'right'] as const).map((align) => (
+            <Pressable key={align} style={styles.modeBtn} onPress={() => onFormat({ textAlign: align } as Partial<BoardItem>)} accessibilityLabel={`${align} align text`}>
+              <Text style={styles.modeText}>{align}</Text>
+            </Pressable>
+          ))}
+          <Pressable style={styles.modeBtn} onPress={() => onList('bullet')} accessibilityLabel="Bullet list text">
+            <Text style={styles.modeText}>Bullets</Text>
+          </Pressable>
+          <Pressable style={styles.modeBtn} onPress={() => onList('number')} accessibilityLabel="Numbered list text">
+            <Text style={styles.modeText}>1. List</Text>
           </Pressable>
           <Pressable style={styles.modeBtn} onPress={() => onFormat({ shape: 'ellipse' } as Partial<BoardItem>)} accessibilityLabel="Ellipse shape">
             <Text style={styles.modeText}>Oval</Text>
+          </Pressable>
+          <Pressable style={styles.modeBtn} onPress={() => onFormat({ opacity: 0.12 } as Partial<BoardItem>)} accessibilityLabel="Low region opacity">
+            <Text style={styles.modeText}>Fade</Text>
+          </Pressable>
+          <Pressable style={styles.modeBtn} onPress={() => onFormat({ opacity: 0.36 } as Partial<BoardItem>)} accessibilityLabel="High region opacity">
+            <Text style={styles.modeText}>Solid</Text>
+          </Pressable>
+          <Pressable style={styles.modeBtn} onPress={() => onFormat({ pattern: 'stripes' } as Partial<BoardItem>)} accessibilityLabel="Striped region pattern">
+            <Text style={styles.modeText}>Stripe</Text>
+          </Pressable>
+          <Pressable style={styles.modeBtn} onPress={() => onFormat({ pattern: 'dots' } as Partial<BoardItem>)} accessibilityLabel="Dotted region pattern">
+            <Text style={styles.modeText}>Dots</Text>
           </Pressable>
         </>
       ) : null}
@@ -422,17 +482,20 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 12,
     top: 170,
+    maxWidth: 196,
     backgroundColor: colors.walnut,
     borderRadius: 18,
     padding: 8,
     gap: 8,
     zIndex: 42,
     alignItems: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
   swatch: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.32)',
   },
@@ -441,13 +504,13 @@ const styles = StyleSheet.create({
     borderColor: colors.selection,
   },
   paletteDivider: {
-    width: 24,
+    width: '100%',
     height: 1,
     backgroundColor: 'rgba(255,255,255,0.24)',
   },
   widthBtn: {
-    width: 30,
-    height: 28,
+    width: 44,
+    height: 44,
     borderRadius: 9,
     alignItems: 'center',
     justifyContent: 'center',
@@ -456,7 +519,7 @@ const styles = StyleSheet.create({
   widthText: { color: colors.cream, fontSize: 11, fontWeight: '800' },
   modeBtn: {
     minWidth: 44,
-    height: 28,
+    minHeight: 44,
     borderRadius: 9,
     alignItems: 'center',
     justifyContent: 'center',

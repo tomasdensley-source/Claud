@@ -6,6 +6,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { ModalShell } from './ModalShell';
 import { useBoard } from '../../store/BoardContext';
 import { colors, radii } from '../../theme';
+import { directoryUsage } from '../../lib/localFiles';
+import { estimateStorageUsage } from '../../lib/storageCore';
 
 interface Props {
   visible: boolean;
@@ -13,8 +15,9 @@ interface Props {
 }
 
 export function MorePanel({ visible, onClose }: Props) {
-  const { currentBoard, visibleItems, undo, redo, canUndo, canRedo, select, setPanel, resetToSeed, exportCurrentBoard, importBoardJson, removeSelectedDependency } = useBoard();
+  const { currentBoard, visibleItems, selectedIds, undo, redo, canUndo, canRedo, select, setPanel, resetToSeed, exportCurrentBoard, importBoardJson, removeSelectedDependency, updateItems } = useBoard();
   const tasks = currentBoard.items.filter((item) => item.type === 'task');
+  const selectedTask = currentBoard.items.find((item) => selectedIds.length === 1 && item.id === selectedIds[0] && item.type === 'task');
 
   const importJson = async () => {
     try {
@@ -104,9 +107,35 @@ export function MorePanel({ visible, onClose }: Props) {
       <Row
         icon="git-branch-outline"
         title="Remove selected task dependency"
-        subtitle="Removes the newest dependency from the selected task"
+        subtitle={selectedTask?.type === 'task' && selectedTask.dependsOn.length ? `Removes one of ${selectedTask.dependsOn.length} dependencies` : 'Select one task with dependencies first'}
+        disabled={!(selectedTask?.type === 'task' && selectedTask.dependsOn.length > 0)}
         onPress={() => {
           removeSelectedDependency();
+          onClose();
+        }}
+      />
+      <Row
+        icon="flag-outline"
+        title="Cycle selected task priority"
+        subtitle="Low -> normal -> high"
+        disabled={selectedTask?.type !== 'task'}
+        onPress={() => {
+          updateItems((items) => items.map((item) => {
+            if (item.id !== selectedTask?.id || item.type !== 'task') return item;
+            const next = item.priority === 'low' ? 'normal' : item.priority === 'high' ? 'low' : 'high';
+            return { ...item, priority: next };
+          }));
+          onClose();
+        }}
+      />
+      <Row
+        icon="calendar-outline"
+        title="Set selected task due today"
+        subtitle="Uses YYYY-MM-DD format"
+        disabled={selectedTask?.type !== 'task'}
+        onPress={() => {
+          const today = new Date().toISOString().slice(0, 10);
+          updateItems((items) => items.map((item) => item.id === selectedTask?.id && item.type === 'task' ? { ...item, dueDate: today } : item));
           onClose();
         }}
       />
@@ -147,7 +176,7 @@ export function MorePanel({ visible, onClose }: Props) {
         }}
       />
       <View style={styles.tipBanner}>
-        <Text style={styles.tipBannerText}>Fieldnote 1.0.5 · Haptics are enabled for edits, drops, connects, and confirmations.</Text>
+        <Text style={styles.tipBannerText}>Fieldnote 1.0.6 · Haptics are enabled after accepted edits, drops, connects, and confirmations.</Text>
       </View>
       {tasks.length ? (
         <View style={styles.statCard}>
@@ -189,6 +218,9 @@ export function GesturesPanel({ visible, onClose }: Props) {
           <Tip title="Back button" body="Closes the open panel first on Android" />
           <Tip title="Copy, paste, lock" body="Use the selection bar; paste also appears beside zoom when the clipboard has content" />
           <Tip title="Files" body="Picked files are copied into Fieldnote storage before being placed" />
+          <Tip title="Audio" body="In-app playback is foreground-only; lock-screen audio is intentionally out of scope." />
+          <Tip title="Web keyboard" body="Web wheel zoom and shortcuts are best-effort only; the mobile app is the primary surface." />
+          <Tip title="Multiple tabs" body="Fieldnote is local-first and does not coordinate concurrent edits across tabs." />
         </View>
       </View>
       <View style={styles.tipBanner}>
@@ -199,9 +231,15 @@ export function GesturesPanel({ visible, onClose }: Props) {
 }
 
 export function StoragePanel({ visible, onClose }: Props) {
-  const { boards, workingFiles, resetToSeed } = useBoard();
+  const { boards, workingFiles, resetToSeed, restoreFromBackup } = useBoard();
+  const [filesBytes, setFilesBytes] = React.useState(0);
+  React.useEffect(() => {
+    if (!visible) return;
+    void directoryUsage().then(setFilesBytes);
+  }, [visible]);
   const itemCount = boards.reduce((n, b) => n + b.items.length, 0);
-  const approxBytes = JSON.stringify(boards).length + JSON.stringify(workingFiles).length + workingFiles.reduce((n, file) => n + (file.size ?? 0), 0);
+  const usage = estimateStorageUsage(boards, workingFiles);
+  const approxBytes = usage.jsonBytes + Math.max(usage.fileBytes, filesBytes);
   const approxSize = approxBytes < 1024 * 1024 ? `${Math.round(approxBytes / 1024)} KB` : `${(approxBytes / (1024 * 1024)).toFixed(1)} MB`;
 
   return (
@@ -215,11 +253,23 @@ export function StoragePanel({ visible, onClose }: Props) {
       <View style={styles.statCard}>
         <Text style={styles.stat}>{boards.length} boards</Text>
         <Text style={styles.statSub}>{itemCount} cards · {workingFiles.length} working files · approx {approxSize}</Text>
+        <Text style={styles.rowSub}>JSON {Math.round(usage.jsonBytes / 1024)} KB · fieldnote-files {Math.round(filesBytes / 1024)} KB</Text>
       </View>
       <Text style={styles.body}>
         Waiting before editing protects your saved work. Boards autosave as you move and write.
         Clearing app data or uninstalling removes local boards. Reset also deletes files copied into Fieldnote storage.
       </Text>
+      <Pressable
+        style={styles.restore}
+        onPress={() => {
+          Alert.alert('Restore latest backup?', 'This replaces the visible boards with the latest saved backup snapshot.', [
+            { text: 'Cancel', style: 'cancel' },
+            { text: 'Restore', onPress: async () => restoreFromBackup() },
+          ]);
+        }}
+      >
+        <Text style={styles.restoreText}>Restore latest backup snapshot</Text>
+      </Pressable>
       <Pressable
         style={styles.danger}
         onPress={() => {
@@ -260,6 +310,8 @@ function Row({
       style={[styles.row, disabled && { opacity: 0.4 }]}
       onPress={onPress}
       disabled={disabled}
+      accessibilityRole="button"
+      accessibilityLabel={title}
     >
       <Ionicons name={icon} size={18} color={colors.ink} />
       <View style={{ flex: 1 }}>
@@ -322,4 +374,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   dangerText: { color: colors.cream, fontWeight: '700' },
+  restore: {
+    backgroundColor: colors.paperStrong,
+    borderRadius: radii.control,
+    padding: 14,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(52,38,29,0.08)',
+  },
+  restoreText: { color: colors.ink, fontWeight: '800' },
 });

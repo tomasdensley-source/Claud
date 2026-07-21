@@ -22,7 +22,23 @@ export function BoardsPanel({ visible, onClose }: Props) {
   } = useBoard();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [name, setName] = useState('');
+  const [query, setQuery] = useState('');
+  const [sort, setSort] = useState<'updated' | 'name'>('updated');
   const [, setClock] = useState(0);
+  const visibleBoards = [...boards]
+    .filter((board) => board.name.toLowerCase().includes(query.trim().toLowerCase()))
+    .sort((a, b) => sort === 'name' ? a.name.localeCompare(b.name) : b.updatedAt - a.updatedAt);
+
+  const saveName = (boardId: string, fallback: string) => {
+    const trimmed = name.trim();
+    if (!trimmed) {
+      Alert.alert('Board name required', 'Enter a name before saving.');
+      return;
+    }
+    renameBoard(boardId, trimmed || fallback);
+    setEditingId(null);
+  };
+
 
   React.useEffect(() => {
     if (!visible) return undefined;
@@ -49,7 +65,24 @@ export function BoardsPanel({ visible, onClose }: Props) {
         <Text style={styles.newText}>New board</Text>
       </Pressable>
 
-      {boards.map((board) => {
+      <TextInput
+        value={query}
+        onChangeText={setQuery}
+        placeholder="Search boards"
+        placeholderTextColor={colors.mutedInk}
+        style={styles.search}
+        accessibilityLabel="Search boards"
+      />
+      <View style={styles.sortRow}>
+        <Pressable style={[styles.sortChip, sort === 'updated' && styles.sortChipActive]} onPress={() => setSort('updated')}>
+          <Text style={[styles.sortText, sort === 'updated' && styles.sortTextActive]}>Recent</Text>
+        </Pressable>
+        <Pressable style={[styles.sortChip, sort === 'name' && styles.sortChipActive]} onPress={() => setSort('name')}>
+          <Text style={[styles.sortText, sort === 'name' && styles.sortTextActive]}>Name</Text>
+        </Pressable>
+      </View>
+
+      {visibleBoards.map((board) => {
         const active = board.id === currentBoard.id;
         const editing = editingId === board.id;
         return (
@@ -90,15 +123,13 @@ export function BoardsPanel({ visible, onClose }: Props) {
                     autoFocus
                     returnKeyType="done"
                     onSubmitEditing={() => {
-                      renameBoard(board.id, name.trim() || board.name);
-                      setEditingId(null);
+                      saveName(board.id, board.name);
                     }}
                     style={styles.nameInput}
                   />
                   <View style={styles.editActions}>
                     <Pressable onPress={() => {
-                      renameBoard(board.id, name.trim() || board.name);
-                      setEditingId(null);
+                      saveName(board.id, board.name);
                     }} accessibilityLabel={`Save name for ${board.name}`}>
                       <Text style={styles.editAction}>Save</Text>
                     </Pressable>
@@ -116,31 +147,22 @@ export function BoardsPanel({ visible, onClose }: Props) {
             <Pressable onPress={() => duplicateBoard(board.id)} hitSlop={8} accessibilityLabel={`Duplicate ${board.name}`}>
               <Ionicons name="copy-outline" size={18} color={colors.mutedInk} />
             </Pressable>
-            {!active ? (
-              <Pressable
-                onPress={() => {
-                  Alert.alert('Delete board?', board.name, [
-                    { text: 'Cancel', style: 'cancel' },
-                    {
-                      text: 'Delete',
-                      style: 'destructive',
-                      onPress: () => deleteBoard(board.id),
-                    },
-                  ]);
-                }}
-                hitSlop={8}
-              >
-                <Ionicons name="trash-outline" size={18} color={colors.mutedInk} />
-              </Pressable>
-            ) : (
-              <Pressable
-                onPress={() => Alert.alert('Active board cannot be deleted', 'Switch to another board first so Fieldnote always has a safe active board.')}
-                hitSlop={8}
-                accessibilityLabel="Why active board cannot be deleted"
-              >
-                <Ionicons name="information-circle-outline" size={18} color={colors.mutedInk} />
-              </Pressable>
-            )}
+            <Pressable
+              onPress={() => {
+                Alert.alert(active ? 'Delete active board?' : 'Delete board?', active ? `${board.name} will be deleted and Fieldnote will switch to the next board.` : board.name, [
+                  { text: 'Cancel', style: 'cancel' },
+                  {
+                    text: 'Delete',
+                    style: 'destructive',
+                    onPress: () => deleteBoard(board.id),
+                  },
+                ]);
+              }}
+              hitSlop={8}
+              accessibilityLabel={`Delete ${board.name}`}
+            >
+              <Ionicons name="trash-outline" size={18} color={colors.mutedInk} />
+            </Pressable>
           </Pressable>
         );
       })}
@@ -185,6 +207,25 @@ const styles = StyleSheet.create({
   rowActive: {
     borderColor: colors.clayDeep,
   },
+  search: {
+    backgroundColor: colors.paperStrong,
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    color: colors.ink,
+    borderWidth: 1,
+    borderColor: 'rgba(52,38,29,0.08)',
+  },
+  sortRow: { flexDirection: 'row', gap: 8 },
+  sortChip: {
+    borderRadius: 999,
+    backgroundColor: colors.paperStrong,
+    paddingHorizontal: 10,
+    paddingVertical: 7,
+  },
+  sortChipActive: { backgroundColor: colors.walnut },
+  sortText: { color: colors.ink, fontWeight: '700', fontSize: 12 },
+  sortTextActive: { color: colors.cream },
   thumb: {
     width: 64,
     height: 64,

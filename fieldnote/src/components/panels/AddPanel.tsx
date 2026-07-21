@@ -1,12 +1,14 @@
 import React from 'react';
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
+import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { ModalShell } from './ModalShell';
 import { useBoard } from '../../store/BoardContext';
 import { colors, radii } from '../../theme';
-import { humanFileSize, persistPickedAsset } from '../../lib/localFiles';
+import { persistPickedAsset } from '../../lib/localFiles';
+import { createWorkingFileRecords, makeFileCardDrafts, PickedFileLike } from '../../lib/fileTypes';
 
 interface Props {
   visible: boolean;
@@ -15,7 +17,7 @@ interface Props {
 }
 
 export function AddPanel({ visible, onClose, viewCenter }: Props) {
-  const { addItem, addScientificTemplate, addWorkingFiles, showToast } = useBoard();
+  const { addItem, addItems, addScientificTemplate, addWorkingFiles, showToast } = useBoard();
 
   const placeAtCenter = (w: number, h: number) => ({
     x: viewCenter.x - w / 2,
@@ -100,14 +102,6 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
     onClose();
   };
 
-  const fileCardType = (mimeType?: string, name?: string) => {
-    const lower = `${mimeType ?? ''} ${name ?? ''}`.toLowerCase();
-    if (lower.includes('pdf') || lower.endsWith('.pdf')) return 'pdf' as const;
-    if (lower.startsWith('audio/') || /\.(mp3|wav|m4a|aac|ogg)$/.test(lower)) return 'audio' as const;
-    if (lower.includes('markdown') || /\.(md|markdown)$/.test(lower)) return 'markdown' as const;
-    return 'file' as const;
-  };
-
   const pickFiles = async () => {
     try {
       const result = await DocumentPicker.getDocumentAsync({
@@ -116,50 +110,14 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
         type: ['image/*', 'application/pdf', 'text/*', 'audio/*', 'application/json'],
       });
       if (result.canceled) return;
-      const assets = await Promise.all(result.assets.map(async (asset) => ({
-        ...asset,
-        uri: await persistPickedAsset(asset),
-      })));
-      addWorkingFiles(assets.map((asset) => ({
-        name: asset.name,
-        uri: asset.uri,
-        mimeType: asset.mimeType,
-        size: asset.size,
-      })));
-      assets.forEach((asset, i) => {
-        const isImage = (asset.mimeType ?? '').startsWith('image/');
-        const cardType = fileCardType(asset.mimeType, asset.name);
-        const { x, y } = placeAtCenter(280, isImage ? 220 : 120);
-        if (isImage) {
-          const width = 280;
-          const dimensions = asset as typeof asset & { width?: number; height?: number };
-          const height = dimensions.height && dimensions.width ? Math.round(width * (dimensions.height / Math.max(dimensions.width, 1))) : 220;
-          addItem({
-            type: 'image',
-            x: x + i * 24,
-            y: y + i * 24,
-            width,
-            height,
-            uri: asset.uri,
-            alt: asset.name,
-            backgroundColor: colors.paper,
-          });
-        } else {
-          addItem({
-            type: cardType,
-            x: x + i * 24,
-            y: y + i * 24,
-            width: 240,
-            height: 120,
-            name: asset.name,
-            uri: asset.uri,
-            mimeType: asset.mimeType,
-            size: asset.size,
-            text: [asset.mimeType, humanFileSize(asset.size)].filter(Boolean).join(' · '),
-            backgroundColor: colors.paperStrong,
-          });
-        }
-      });
+      const assets: PickedFileLike[] = await Promise.all(result.assets.map(async (asset) => {
+        const uri = await persistPickedAsset(asset);
+        const isMarkdown = /\.(md|markdown)$/i.test(asset.name ?? '') || (asset.mimeType ?? '').toLowerCase().includes('markdown');
+        const text = isMarkdown ? await FileSystem.readAsStringAsync(asset.uri).catch(() => undefined) : undefined;
+        return { ...asset, uri, text };
+      }));
+      addItems(makeFileCardDrafts(assets, viewCenter));
+      addWorkingFiles(createWorkingFileRecords(assets), false);
       showToast(`${assets.length} file${assets.length === 1 ? '' : 's'} placed on board.`);
       onClose();
     } catch (e) {
@@ -184,25 +142,17 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
         ...asset,
         uri: await persistPickedAsset({ uri: asset.uri, name: asset.fileName }),
       })));
-      addWorkingFiles(assets.map((asset) => ({
-        name: asset.fileName ?? 'Photo',
+      const picked = assets.map((asset) => ({
         uri: asset.uri,
+        name: asset.fileName ?? 'Photo',
         mimeType: asset.mimeType,
         size: asset.fileSize,
-      })));
-      assets.forEach((asset, i) => {
-        const { x, y } = placeAtCenter(300, 300);
-        addItem({
-          type: 'image',
-          x: x + i * 24,
-          y: y + i * 24,
-          width: 300,
-          height: Math.round(300 * (asset.height / Math.max(asset.width, 1))),
-          uri: asset.uri,
-          alt: asset.fileName ?? 'Photo',
-          backgroundColor: colors.paper,
-        });
-      });
+        width: asset.width,
+        height: asset.height,
+      }));
+      addItems(makeFileCardDrafts(picked, viewCenter));
+      addWorkingFiles(createWorkingFileRecords(picked), false);
+      showToast(`${assets.length} photo${assets.length === 1 ? '' : 's'} imported.`);
       onClose();
     } catch (e) {
       Alert.alert('Could not open photos', String(e));
@@ -304,7 +254,7 @@ function CreateBtn({
   onPress: () => void;
 }) {
   return (
-    <Pressable style={styles.createBtn} onPress={onPress}>
+    <Pressable style={styles.createBtn} onPress={onPress} accessibilityRole="button" accessibilityLabel={`Create ${label}`}>
       {icon}
       <Text style={styles.createLabel}>{label}</Text>
     </Pressable>

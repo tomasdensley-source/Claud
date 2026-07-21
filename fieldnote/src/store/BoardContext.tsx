@@ -20,9 +20,13 @@ import {
   saveBoards,
   saveClipboard,
   saveWorkingFiles,
+  restoreBoardsFromBackup,
 } from '../lib/storage';
-import { clearPersistedAssets, deletePersistedAsset, isPersistedFieldnoteFile, toPortableUri } from '../lib/localFiles';
+import { clearPersistedAssets } from '../lib/localFiles';
 import { hiddenMindMapIds, migrateBoards, mindMapDescendantIds } from '../lib/migration';
+import { conflictSafeBoardName, createPackagePayload, parsePackageJson } from '../lib/packageFormat';
+import { hasDependencyPath } from '../lib/graphHelpers';
+import { placeMindChild, tidyMindmapTree } from '../lib/placement';
 import { colors, PALETTE } from '../theme';
 
 type Tool = 'select' | 'draw' | 'multi';
@@ -106,11 +110,12 @@ interface BoardContextValue {
   sendSelectedBackward: () => void;
   lockSelected: (locked: boolean) => void;
   addScientificTemplate: (center: { x: number; y: number }) => void;
-  addWorkingFiles: (files: Omit<WorkingFileRecord, 'id' | 'addedAt'>[]) => void;
+  addWorkingFiles: (files: Omit<WorkingFileRecord, 'id' | 'addedAt'>[], recordHistory?: boolean) => void;
   removeWorkingFile: (id: string) => void;
   openUri: (uri?: string) => Promise<void>;
   exportCurrentBoard: () => Promise<void>;
   importBoardJson: (json: string) => void;
+  restoreFromBackup: () => Promise<void>;
   flushSave: () => Promise<void>;
 }
 
@@ -127,8 +132,13 @@ function cloneItem<T extends BoardItem>(item: T): T {
 function cloneSelection(items: BoardItem[], offset: number): BoardItem[] {
   const idMap = new Map(items.map((item) => [item.id, uid(item.type)]));
   return items.map((item) => {
-    const copy = { ...cloneItem(item), id: idMap.get(item.id) ?? uid(item.type), x: item.x + offset, y: item.y + offset };
-    if (copy.type === 'task') copy.dependsOn = copy.dependsOn.map((id) => idMap.get(id) ?? id);
+    const copy = { ...cloneItem(item), id: idMap.get(item.id) ?? uid(item.type), x: item.x + offset, y: item.y + offset, locked: false };
+    if (copy.type === 'task') {
+      copy.dependsOn = copy.dependsOn.map((id) => idMap.get(id) ?? id);
+      copy.connectorSides = Object.fromEntries(
+        Object.entries(copy.connectorSides ?? {}).map(([id, sides]) => [idMap.get(id) ?? id, sides]),
+      );
+    }
     if (copy.type === 'mindmap' && copy.parentId) copy.parentId = idMap.get(copy.parentId) ?? copy.parentId;
     return copy;
   });
@@ -141,7 +151,7 @@ function cloneSelectionAtCenter(items: BoardItem[], center: { x: number; y: numb
   const dy = center.y - (bounds.minY + bounds.maxY) / 2 + offset;
   const idMap = new Map(items.map((item) => [item.id, uid(item.type)]));
   return items.map((item) => {
-    const copy = { ...cloneItem(item), id: idMap.get(item.id) ?? uid(item.type), x: item.x + dx, y: item.y + dy };
+    const copy = { ...cloneItem(item), id: idMap.get(item.id) ?? uid(item.type), x: item.x + dx, y: item.y + dy, locked: false };
     if (copy.type === 'task') {
       copy.dependsOn = copy.dependsOn.map((id) => idMap.get(id) ?? id);
       copy.connectorSides = Object.fromEntries(
@@ -212,19 +222,6 @@ function refreshTaskStates(items: BoardItem[]): BoardItem[] {
   });
 }
 
-function hasDependencyPath(items: BoardItem[], fromId: string, targetId: string): boolean {
-  const visited = new Set<string>();
-  const walk = (id: string): boolean => {
-    if (visited.has(id)) return false;
-    visited.add(id);
-    const task = items.find((item) => item.type === 'task' && item.id === id);
-    if (!task || task.type !== 'task') return false;
-    if (task.dependsOn.includes(targetId)) return true;
-    return task.dependsOn.some((depId) => walk(depId));
-  };
-  return walk(fromId);
-}
-
 function downstreamTaskIds(items: BoardItem[], rootId: string) {
   const downstream = new Set<string>();
   const visit = (taskId: string) => {
@@ -269,6 +266,73 @@ function pointNearPath(point: { x: number; y: number }, pathPoints: { x: number;
 
 function withUpdatedBoard(boards: Board[], id: string, updater: (board: Board) => Board) {
   return boards.map((board) => (board.id === id ? updater(board) : board));
+}
+
+function applyFormatPatch(item: BoardItem, patch: Partial<BoardItem>): BoardItem {
+  if (item.locked) return item;
+  if (item.type === 'text') {
+    const next: Extract<BoardItem, { type: 'text' }> = { ...item };
+    const rawPatch = patch as Partial<Extract<BoardItem, { type: 'text' }>>;
+    if (typeof rawPatch.fontSize === 'number') next.fontSize = rawPatch.fontSize;
+    if (rawPatch.fontWeight) next.fontWeight = rawPatch.fontWeight;
+    if (rawPatch.textAlign) next.textAlign = rawPatch.textAlign;
+    if (typeof rawPatch.italic === 'boolean') next.italic = rawPatch.italic;
+    if (rawPatch.color) next.color = rawPatch.color;
+    if (rawPatch.backgroundColor) next.backgroundColor = rawPatch.backgroundColor;
+    if (rawPatch.role) {
+      next.role = rawPatch.role;
+      if (rawPatch.role === 'title') {
+        next.fontSize = 42;
+        next.fontWeight = '700';
+      } else if (rawPatch.role === 'note') {
+        next.fontSize = 20;
+        next.fontWeight = '500';
+      } else {
+        next.fontSize = 24;
+        next.fontWeight = '400';
+      }
+    }
+    return next;
+  }
+  if (item.type === 'shape') {
+    const shapePatch = patch as Partial<Extract<BoardItem, { type: 'shape' }>>;
+    return {
+      ...item,
+      shape: shapePatch.shape ?? item.shape,
+      borderColor: shapePatch.borderColor ?? item.borderColor,
+      backgroundColor: patch.backgroundColor ?? item.backgroundColor,
+    };
+  }
+  if (item.type === 'region') {
+    const regionPatch = patch as Partial<Extract<BoardItem, { type: 'region' }>>;
+    return {
+      ...item,
+      opacity: typeof patch.opacity === 'number' ? patch.opacity : item.opacity,
+      pattern: regionPatch.pattern ?? item.pattern,
+      backgroundColor: patch.backgroundColor ?? item.backgroundColor,
+      editingBackground: typeof regionPatch.editingBackground === 'boolean' ? regionPatch.editingBackground : item.editingBackground,
+    };
+  }
+  if (item.type === 'mindmap') {
+    return {
+      ...item,
+      branchColor: patch.backgroundColor ?? patch.color ?? item.branchColor,
+      backgroundColor: patch.backgroundColor ?? item.backgroundColor,
+    };
+  }
+  if (item.type === 'task') {
+    const taskPatch = patch as Partial<Extract<BoardItem, { type: 'task' }>>;
+    return {
+      ...item,
+      backgroundColor: patch.backgroundColor ?? item.backgroundColor,
+      priority: taskPatch.priority ?? item.priority,
+      dueDate: taskPatch.dueDate ?? item.dueDate,
+    };
+  }
+  if (item.type === 'file' || item.type === 'folder' || item.type === 'pdf' || item.type === 'audio' || item.type === 'markdown') {
+    return { ...item, backgroundColor: patch.backgroundColor ?? item.backgroundColor } as BoardItem;
+  }
+  return item;
 }
 
 export function BoardProvider({ children }: { children: React.ReactNode }) {
@@ -354,7 +418,8 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
       setWorkingFiles(files);
       setClipboard(migrateBoards([{ id: 'clipboard', name: 'Clipboard', items: storedClipboard, updatedAt: Date.now() }])[0]?.items ?? []);
       setReady(true);
-      if (loaded.recoveredFromCorruptJson) showToast('Recovered from corrupt saved JSON.');
+      if (loaded.recoveredFromBackup) showToast('Recovered boards from the last good backup.');
+      else if (loaded.recoveredFromCorruptJson) showToast('Recovered from corrupt saved JSON.');
     })();
     return () => {
       cancelled = true;
@@ -364,10 +429,11 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
   const flushSave = useCallback(async () => {
     if (!ready) return;
     if (saveTimer.current) clearTimeout(saveTimer.current);
+    saveTimer.current = null;
     setSaving(true);
     try {
       await Promise.all([
-        saveBoards(boardsRef.current, currentBoardIdRef.current),
+        saveBoards(boardsRef.current, currentBoardIdRef.current, workingFilesRef.current),
         saveWorkingFiles(workingFilesRef.current),
       ]);
       setDirty(false);
@@ -402,6 +468,9 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
   }, [flushSave]);
 
   useEffect(() => () => {
+    if (saveTimer.current) clearTimeout(saveTimer.current);
+    if (toastTimer.current) clearTimeout(toastTimer.current);
+    if (textHistoryTimer.current) clearTimeout(textHistoryTimer.current);
     void flushSave();
   }, [flushSave]);
 
@@ -464,6 +533,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
 
   const setPanel = useCallback((next: PanelKind) => {
     setPanelState(next);
+    if (next) setConnectingFrom(null);
   }, []);
 
   const setTool = useCallback((next: Tool) => {
@@ -509,7 +579,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
       updateItems(
         (items) =>
           items.map((it) =>
-            moveIds.includes(it.id) && !it.locked
+            moveIds.includes(it.id) && (!it.locked || !ids.includes(it.id))
               ? { ...it, x: it.x + dx, y: it.y + dy }
               : it,
           ),
@@ -522,12 +592,19 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
 
   const resizeItem = useCallback(
     (id: string, width: number, height: number, commit = false) => {
+      const board = boardsRef.current.find((b) => b.id === currentBoardIdRef.current);
+      const existing = board?.items.find((item) => item.id === id);
+      if (!existing) return;
+      const minHeight = existing.type === 'shape' && existing.shape === 'line' ? 8 : 60;
+      const nextWidth = Math.max(80, width);
+      const nextHeight = Math.max(minHeight, height);
+      if (commit && Math.round(existing.width) === Math.round(nextWidth) && Math.round(existing.height) === Math.round(nextHeight)) return;
       updateItems(
         (items) =>
           items.map((it) =>
             it.id === id
               && !it.locked
-              ? { ...it, width: Math.max(80, width), height: Math.max(60, height) }
+              ? { ...it, width: nextWidth, height: nextHeight }
               : it,
           ),
         commit,
@@ -640,19 +717,6 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
       return;
     }
     const deleted = currentBoard.items.filter((it) => deleteIds.has(it.id));
-    const remainingFileUris = new Set<string>();
-    currentBoard.items.forEach((it) => {
-      if (deleteIds.has(it.id)) return;
-      if ((it.type === 'file' || it.type === 'image' || it.type === 'audio' || it.type === 'pdf' || it.type === 'markdown') && it.uri) {
-        remainingFileUris.add(it.uri);
-      }
-    });
-    workingFilesRef.current.forEach((file) => remainingFileUris.add(file.uri));
-    deleted.forEach((it) => {
-      if ((it.type === 'file' || it.type === 'image' || it.type === 'audio' || it.type === 'pdf' || it.type === 'markdown') && it.uri && !remainingFileUris.has(it.uri)) {
-        void deletePersistedAsset(it.uri);
-      }
-    });
     updateItems((items) => {
       const kept = items.filter((it) => !deleteIds.has(it.id));
       return kept.map((it) => {
@@ -703,9 +767,10 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
 
   const createBoard = useCallback((name?: string) => {
     pushHistory();
+    const safeName = typeof name === 'string' && name.trim() ? name.trim() : `Board ${boardsRef.current.length + 1}`;
     const board: Board = {
       id: uid('board'),
-      name: name ?? `Board ${boardsRef.current.length + 1}`,
+      name: safeName,
       items: [],
       updatedAt: Date.now(),
     };
@@ -717,9 +782,10 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
 
   const renameBoard = useCallback((id: string, name: string) => {
     const board = boardsRef.current.find((b) => b.id === id);
-    if (!board || board.name === name) return;
+    const safeName = name.trim();
+    if (!board || !safeName || board.name === safeName) return;
     pushHistory();
-    setBoards((prev) => prev.map((b) => (b.id === id ? { ...b, name, updatedAt: Date.now() } : b)));
+    setBoards((prev) => prev.map((b) => (b.id === id ? { ...b, name: safeName, updatedAt: Date.now() } : b)));
     pulse('light');
   }, [pulse, pushHistory]);
 
@@ -727,6 +793,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     setCurrentBoardId(id);
     setSelectedIds([]);
     setPanelState(null);
+    setConnectingFrom(null);
   }, []);
 
   const deleteBoard = useCallback(
@@ -751,6 +818,9 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
       setBoards(prev.boards);
       setCurrentBoardId(prev.currentBoardId);
       setWorkingFiles(prev.workingFiles);
+      const ids = new Set(prev.boards.find((board) => board.id === prev.currentBoardId)?.items.map((item) => item.id) ?? []);
+      setSelectedIds((selected) => selected.filter((id) => ids.has(id)));
+      setConnectingFrom(null);
       showToast('Undo complete.');
       return h.slice(0, -1);
     });
@@ -764,6 +834,9 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
       setBoards(next.boards);
       setCurrentBoardId(next.currentBoardId);
       setWorkingFiles(next.workingFiles);
+      const ids = new Set(next.boards.find((board) => board.id === next.currentBoardId)?.items.map((item) => item.id) ?? []);
+      setSelectedIds((selected) => selected.filter((id) => ids.has(id)));
+      setConnectingFrom(null);
       showToast('Redo complete.');
       return rest;
     });
@@ -789,6 +862,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
       if (drawMode === 'eraser') {
         const radius = Math.max(8, drawWidth * 2.2);
         const eraserPoints = [{ x: point.x, y: point.y }];
+        const removedDrawingIds = new Set<string>();
         updateItems((items) =>
           items
             .map((it) => {
@@ -803,11 +877,13 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
                   }),
                 }))
                 .filter((path) => path.points.length > 1);
+              if (paths.length === 0) removedDrawingIds.add(it.id);
               return { ...it, paths };
             })
             .filter((it) => it.type !== 'drawing' || it.paths.length > 0),
           startNewPath,
         );
+        if (removedDrawingIds.size) setSelectedIds((ids) => ids.filter((id) => !removedDrawingIds.has(id)));
         return 'eraser';
       }
       const pathColor =
@@ -875,10 +951,12 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
   const addMindChild = useCallback((id: string) => {
     const parent = currentBoard.items.find((it) => it.id === id && it.type === 'mindmap');
     if (!parent || parent.type !== 'mindmap' || parent.locked) return;
+    const siblings = currentBoard.items.filter((it) => it.type === 'mindmap' && it.parentId === parent.id);
+    const pos = placeMindChild(parent, siblings);
     addItem({
       type: 'mindmap',
-      x: parent.x + 280,
-      y: parent.y + 90,
+      x: pos.x,
+      y: pos.y,
       width: 220,
       height: 70,
       backgroundColor: colors.paperStrong,
@@ -892,10 +970,16 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
   const addMindSibling = useCallback((id: string) => {
     const node = currentBoard.items.find((it) => it.id === id && it.type === 'mindmap');
     if (!node || node.type !== 'mindmap' || node.locked) return;
+    if (!node.parentId) {
+      showToast('Root sibling becomes a child to keep one root.');
+      addMindChild(node.id);
+      return;
+    }
+    const pos = { x: node.x, y: node.y + Math.max(92, node.height + 24) };
     addItem({
       type: 'mindmap',
-      x: node.x,
-      y: node.y + 92,
+      x: pos.x,
+      y: pos.y,
       width: node.width,
       height: node.height,
       backgroundColor: colors.paperStrong,
@@ -904,29 +988,22 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
       collapsed: false,
       branchColor: node.branchColor,
     });
-  }, [addItem, currentBoard.items]);
+  }, [addItem, addMindChild, currentBoard.items, showToast]);
 
   const toggleMindCollapse = useCallback((id: string) => {
+    const target = currentBoard.items.find((item) => item.id === id && item.type === 'mindmap');
+    const willCollapse = target?.type === 'mindmap' ? !target.collapsed : false;
+    const descendants = willCollapse ? new Set(mindMapDescendantIds(currentBoard.items, id)) : new Set<string>();
     updateItems((items) =>
       items.map((it) => (it.id === id && it.type === 'mindmap' && !it.locked ? { ...it, collapsed: !it.collapsed } : it)),
     );
-  }, [updateItems]);
+    if (descendants.size) setSelectedIds((ids) => ids.filter((selectedId) => !descendants.has(selectedId)));
+  }, [currentBoard.items, updateItems]);
 
   const tidyMindMap = useCallback((id: string) => {
     const root = currentBoard.items.find((it) => it.id === id && it.type === 'mindmap');
     if (!root || root.type !== 'mindmap' || root.locked) return;
-    updateItems((items) => {
-      const children = items.filter((it) => it.type === 'mindmap' && it.parentId === id);
-      return items.map((it) => {
-        const index = children.findIndex((child) => child.id === it.id);
-        if (index < 0) return it;
-        return {
-          ...it,
-          x: root.x + 330,
-          y: root.y + (index - (children.length - 1) / 2) * 96,
-        };
-      });
-    });
+    updateItems((items) => tidyMindmapTree(items, id));
     showToast('Mind map tidied.');
   }, [currentBoard.items, showToast, updateItems]);
 
@@ -1023,7 +1100,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
   }, [updateItems]);
 
   const formatSelected = useCallback((patch: Partial<BoardItem>) => {
-    updateItems((items) => items.map((it) => (selectedIds.includes(it.id) && !it.locked ? { ...it, ...patch } as BoardItem : it)));
+    updateItems((items) => items.map((it) => (selectedIds.includes(it.id) ? applyFormatPatch(it, patch) : it)));
   }, [selectedIds, updateItems]);
 
   const copySelection = useCallback(() => {
@@ -1074,13 +1151,20 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     addItems(createScientificMethodItems(center.x, center.y));
   }, [addItems]);
 
-  const addWorkingFiles = useCallback((files: Omit<WorkingFileRecord, 'id' | 'addedAt'>[]) => {
+  const addWorkingFiles = useCallback((files: Omit<WorkingFileRecord, 'id' | 'addedAt'>[], recordHistory = true) => {
     if (files.length === 0) return;
-    pushHistory();
-    setWorkingFiles((prev) => [
-      ...files.map((file) => ({ ...file, id: uid('file'), addedAt: Date.now() })),
-      ...prev,
-    ]);
+    if (recordHistory) pushHistory();
+    setWorkingFiles((prev) => {
+      const seen = new Set(prev.map((file) => file.uri));
+      const additions = files
+        .filter((file) => {
+          if (seen.has(file.uri)) return false;
+          seen.add(file.uri);
+          return true;
+        })
+        .map((file) => ({ ...file, id: uid('file'), addedAt: Date.now() }));
+      return [...additions, ...prev];
+    });
     showToast(`${files.length} file${files.length === 1 ? '' : 's'} added to the library.`);
   }, [pushHistory, showToast]);
 
@@ -1088,15 +1172,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     const file = workingFilesRef.current.find((entry) => entry.id === id);
     pushHistory();
     setWorkingFiles((prev) => prev.filter((entry) => entry.id !== id));
-    if (file) {
-      const stillUsed = boardsRef.current.some((board) =>
-        board.items.some((item) =>
-          (item.type === 'file' || item.type === 'image' || item.type === 'audio' || item.type === 'pdf' || item.type === 'markdown') && item.uri === file.uri,
-        ),
-      );
-      if (!stillUsed) void deletePersistedAsset(file.uri);
-    }
-    showToast('Working file removed from the library.');
+    showToast(file ? 'Working file removed from the library. Undo keeps the copied file available.' : 'Working file removed.');
   }, [pushHistory, showToast]);
 
   const openUri = useCallback(async (uri?: string) => {
@@ -1113,25 +1189,9 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
 
   const exportCurrentBoard = useCallback(async () => {
     try {
-      const portableItem = (item: BoardItem): BoardItem => {
-        if ((item.type === 'file' || item.type === 'image' || item.type === 'audio' || item.type === 'pdf' || item.type === 'markdown') && item.uri) {
-          return { ...item, uri: toPortableUri(item.uri) ?? item.uri } as BoardItem;
-        }
-        return item;
-      };
-      const json = JSON.stringify({
-        schemaVersion: 3,
-        board: { ...currentBoard, items: currentBoard.items.map(portableItem) },
-        workingFiles: workingFilesRef.current.map((file) => ({
-          ...file,
-          uri: toPortableUri(file.uri) ?? file.uri,
-          embedded: false,
-          localCopy: isPersistedFieldnoteFile(file.uri),
-        })),
-        assetBase: 'fieldnote-files/',
-      }, null, 2);
+      const json = JSON.stringify(createPackagePayload(currentBoard, workingFilesRef.current), null, 2);
       await Share.share({ title: currentBoard.name, message: json });
-      showToast('Board JSON ready to share.');
+      showToast('Fieldnote package JSON ready to share.');
     } catch {
       showToast('Could not export this board.');
     }
@@ -1139,17 +1199,39 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
 
   const importBoardJson = useCallback((json: string) => {
     try {
-      const parsed = JSON.parse(json) as { board?: Board; boards?: Board[] };
-      const board = normalizeImportedBoard(parsed.board ? [parsed.board] : parsed);
+      const parsed = parsePackageJson(json);
+      const board = normalizeImportedBoard([parsed.board]);
       if (!board) throw new Error('No board found');
+      board.name = conflictSafeBoardName(board.name, boardsRef.current.map((existing) => existing.name));
       pushHistory();
       setBoards((prev) => [...prev, board]);
       setCurrentBoardId(board.id);
+      if (parsed.workingFiles.length) {
+        const seen = new Set(workingFilesRef.current.map((file) => file.uri));
+        setWorkingFiles((prev) => [
+          ...parsed.workingFiles.filter((file) => !seen.has(file.uri)).map((file) => ({ ...file, id: uid('file'), addedAt: Date.now() })),
+          ...prev,
+        ]);
+      }
       setSelectedIds([]);
       showToast('Board imported.');
     } catch {
       showToast('Could not import that JSON.');
     }
+  }, [pushHistory, showToast]);
+
+  const restoreFromBackup = useCallback(async () => {
+    const restored = await restoreBoardsFromBackup();
+    if (!restored) {
+      showToast('No backup snapshot is available yet.');
+      return;
+    }
+    pushHistory();
+    setBoards(restored.boards);
+    setCurrentBoardId(restored.currentBoardId);
+    setSelectedIds([]);
+    setConnectingFrom(null);
+    showToast('Restored boards from the latest backup.');
   }, [pushHistory, showToast]);
 
   const value: BoardContextValue = {
@@ -1222,6 +1304,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     openUri,
     exportCurrentBoard,
     importBoardJson,
+    restoreFromBackup,
     flushSave,
   };
 

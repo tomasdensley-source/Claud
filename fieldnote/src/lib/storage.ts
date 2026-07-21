@@ -1,13 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Board, WorkingFileRecord } from '../types';
-import { createMainBoard } from './seed';
-import { migrateBoards, STORAGE_SCHEMA_VERSION } from './migration';
+import { parseBoardsWithBackup, serializeBoards } from './storageCore';
+import { migrateBoards } from './migration';
 
 const STORAGE_KEY = 'fieldnote.boards.v2';
 const LEGACY_STORAGE_KEY = 'fieldnote.boards.v1';
 const CURRENT_KEY = 'fieldnote.currentBoardId.v1';
 const WORKING_FILES_KEY = 'fieldnote.workingFiles.v1';
-const ONBOARDING_KEY = 'fieldnote.onboarding.dismissed.v1';
+const ONBOARDING_KEY = 'fieldnote.onboarding.dismissed.1.0.6';
 const CLIPBOARD_KEY = 'fieldnote.clipboard.v1';
 const BACKUP_KEY = 'fieldnote.boards.backup.v1';
 
@@ -15,38 +15,26 @@ export interface LoadBoardsResult {
   boards: Board[];
   currentBoardId: string;
   recoveredFromCorruptJson: boolean;
+  recoveredFromBackup: boolean;
 }
 
 export async function loadBoards(): Promise<LoadBoardsResult> {
-  try {
-    const [rawV2, rawLegacy, current] = await Promise.all([
-      AsyncStorage.getItem(STORAGE_KEY),
-      AsyncStorage.getItem(LEGACY_STORAGE_KEY),
-      AsyncStorage.getItem(CURRENT_KEY),
-    ]);
-    const raw = rawV2 ?? rawLegacy;
-    if (!raw) {
-      const main = createMainBoard();
-      return { boards: [main], currentBoardId: main.id, recoveredFromCorruptJson: false };
-    }
-    const parsed = JSON.parse(raw) as unknown;
-    const boards = migrateBoards(parsed);
-    if (boards.length === 0) {
-      const main = createMainBoard();
-      return { boards: [main], currentBoardId: main.id, recoveredFromCorruptJson: false };
-    }
-    const currentBoardId =
-      current && boards.some((b) => b.id === current) ? current : boards[0].id;
-    return { boards, currentBoardId, recoveredFromCorruptJson: false };
-  } catch {
-    await AsyncStorage.setItem(`${BACKUP_KEY}.${Date.now()}`, String(await AsyncStorage.getItem(STORAGE_KEY))).catch(() => undefined);
-    const main = createMainBoard();
-    return { boards: [main], currentBoardId: main.id, recoveredFromCorruptJson: true };
+  const [rawV2, rawLegacy, backup, current] = await Promise.all([
+    AsyncStorage.getItem(STORAGE_KEY),
+    AsyncStorage.getItem(LEGACY_STORAGE_KEY),
+    AsyncStorage.getItem(BACKUP_KEY),
+    AsyncStorage.getItem(CURRENT_KEY),
+  ]);
+  const raw = rawV2 ?? rawLegacy;
+  const parsed = parseBoardsWithBackup(raw, backup, current);
+  if (parsed.recoveredFromCorruptJson && raw && raw !== 'null') {
+    await AsyncStorage.setItem(`${BACKUP_KEY}.${Date.now()}`, raw).catch(() => undefined);
   }
+  return parsed;
 }
 
-export async function saveBoards(boards: Board[], currentBoardId: string): Promise<void> {
-  const payload = JSON.stringify({ schemaVersion: STORAGE_SCHEMA_VERSION, boards });
+export async function saveBoards(boards: Board[], currentBoardId: string, workingFiles: WorkingFileRecord[] = []): Promise<void> {
+  const payload = serializeBoards(boards, workingFiles);
   await AsyncStorage.setItem(BACKUP_KEY, payload);
   await Promise.all([
     AsyncStorage.setItem(STORAGE_KEY, payload),
@@ -56,8 +44,9 @@ export async function saveBoards(boards: Board[], currentBoardId: string): Promi
 
 export async function loadWorkingFiles(): Promise<WorkingFileRecord[]> {
   try {
-    const raw = await AsyncStorage.getItem(WORKING_FILES_KEY);
-    const parsed = raw ? (JSON.parse(raw) as unknown) : [];
+    const [raw, boardRaw] = await Promise.all([AsyncStorage.getItem(WORKING_FILES_KEY), AsyncStorage.getItem(STORAGE_KEY)]);
+    const boardPayload = boardRaw ? JSON.parse(boardRaw) as { workingFiles?: unknown } : {};
+    const parsed = raw ? (JSON.parse(raw) as unknown) : boardPayload.workingFiles ?? [];
     if (!Array.isArray(parsed)) return [];
     return parsed.filter((file): file is WorkingFileRecord =>
       Boolean(file && typeof file === 'object' && 'id' in file && 'name' in file && 'uri' in file),
@@ -94,11 +83,24 @@ export async function saveOnboardingDismissed(): Promise<void> {
 }
 
 export async function clearAllBoards(): Promise<void> {
+  const keys = await AsyncStorage.getAllKeys().catch(() => []);
+  const timestampedBackups = keys.filter((key) => key.startsWith(`${BACKUP_KEY}.`));
   await Promise.all([
     AsyncStorage.removeItem(STORAGE_KEY),
     AsyncStorage.removeItem(LEGACY_STORAGE_KEY),
     AsyncStorage.removeItem(CURRENT_KEY),
     AsyncStorage.removeItem(WORKING_FILES_KEY),
     AsyncStorage.removeItem(CLIPBOARD_KEY),
+    AsyncStorage.removeItem(BACKUP_KEY),
+    ...timestampedBackups.map((key) => AsyncStorage.removeItem(key)),
   ]);
+}
+
+export async function restoreBoardsFromBackup(): Promise<LoadBoardsResult | null> {
+  const [backup, current] = await Promise.all([AsyncStorage.getItem(BACKUP_KEY), AsyncStorage.getItem(CURRENT_KEY)]);
+  if (!backup || backup === 'null') return null;
+  const restored = parseBoardsWithBackup(backup, null, current);
+  await AsyncStorage.setItem(STORAGE_KEY, backup);
+  await AsyncStorage.setItem(CURRENT_KEY, restored.currentBoardId);
+  return { ...restored, recoveredFromBackup: true };
 }

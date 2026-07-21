@@ -38,6 +38,7 @@ export interface TextItem extends BoardItemBase {
   role?: TextRole;
   fontWeight?: '400' | '500' | '600' | '700';
   textAlign?: TextAlign;
+  italic?: boolean;
 }
 
 export interface ImageItem extends BoardItemBase {
@@ -45,6 +46,7 @@ export interface ImageItem extends BoardItemBase {
   uri: string;
   alt?: string;
   assetKey?: 'pottery' | 'wildflower';
+  size?: number;
 }
 
 export interface TaskItem extends BoardItemBase {
@@ -69,6 +71,8 @@ export interface MindMapItem extends BoardItemBase {
 export interface RegionItem extends BoardItemBase {
   type: 'region';
   label: string;
+  pattern?: 'dots' | 'stripes' | 'solid';
+  editingBackground?: boolean;
 }
 
 export interface ShapeItem extends BoardItemBase {

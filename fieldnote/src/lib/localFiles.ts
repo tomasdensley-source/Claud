@@ -28,6 +28,12 @@ export function toPortableUri(uri?: string) {
   return name ? `fieldnote-files/${name}` : uri;
 }
 
+export function fromPortableUri(uri?: string) {
+  if (!uri?.startsWith('fieldnote-files/')) return uri;
+  const dir = fieldnoteFilesDirectory();
+  return dir ? `${dir}${uri.slice('fieldnote-files/'.length)}` : uri;
+}
+
 export function isPersistedFieldnoteFile(uri?: string) {
   const dir = fieldnoteFilesDirectory();
   return Boolean(uri && dir && uri.startsWith(dir));
@@ -55,6 +61,21 @@ export async function clearPersistedAssets(): Promise<void> {
 export async function deletePersistedAsset(uri?: string): Promise<void> {
   if (!isPersistedFieldnoteFile(uri) || !uri) return;
   await FileSystem.deleteAsync(uri, { idempotent: true }).catch(() => undefined);
+}
+
+export async function directoryUsage(): Promise<number> {
+  const dir = fieldnoteFilesDirectory();
+  if (!dir) return 0;
+  try {
+    const names = await FileSystem.readDirectoryAsync(dir);
+    const sizes = await Promise.all(names.map(async (name) => {
+      const info = await FileSystem.getInfoAsync(`${dir}${name}`);
+      return info.exists && !info.isDirectory && typeof info.size === 'number' ? info.size : 0;
+    }));
+    return sizes.reduce((sum, size) => sum + size, 0);
+  } catch {
+    return 0;
+  }
 }
 
 export async function persistedAssetExists(uri?: string): Promise<boolean> {

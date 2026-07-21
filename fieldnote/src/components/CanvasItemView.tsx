@@ -1,13 +1,16 @@
-import React, { memo, useMemo, useState } from 'react';
+import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Image,
+  Modal,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from 'react-native';
 import * as Haptics from 'expo-haptics';
+import { Audio, AVPlaybackStatus } from 'expo-av';
 import Svg, { Circle, Ellipse, Line, Path, Rect as SvgRect } from 'react-native-svg';
 import { BoardItem } from '../types';
 import { colors, radii, shadows } from '../theme';
@@ -48,6 +51,27 @@ function pointsToPath(points: { x: number; y: number }[]): string {
     .join(' ');
 }
 
+function formatTime(ms?: number) {
+  if (!ms || ms < 0) return '0:00';
+  const seconds = Math.floor(ms / 1000);
+  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
+}
+
+function markdownSections(text: string) {
+  const sections: { title: string; body: string }[] = [];
+  let current = { title: 'Preview', body: '' };
+  text.split(/\r?\n/).forEach((line) => {
+    if (line.startsWith('## ')) {
+      if (current.body.trim() || current.title !== 'Preview') sections.push(current);
+      current = { title: line.replace(/^##\s+/, '').trim() || 'Section', body: '' };
+    } else {
+      current.body += `${line}\n`;
+    }
+  });
+  if (current.body.trim() || current.title !== 'Preview') sections.push(current);
+  return sections.length ? sections : [{ title: 'Preview', body: text }];
+}
+
 export const CanvasItemView = memo(function CanvasItemView({
   item,
   selected,
@@ -73,8 +97,37 @@ export const CanvasItemView = memo(function CanvasItemView({
   connectingActive,
 }: Props) {
   const [imageFailed, setImageFailed] = useState(false);
+  const [readerOpen, setReaderOpen] = useState(false);
+  const [collapsedMarkdown, setCollapsedMarkdown] = useState<Record<string, boolean>>({});
+  const soundRef = useRef<Audio.Sound | null>(null);
+  const [audioPlaying, setAudioPlaying] = useState(false);
+  const [audioPosition, setAudioPosition] = useState(0);
+  const [audioDuration, setAudioDuration] = useState(0);
   const handleSize = Math.max(12, 14 / Math.max(scale, 0.2));
+  const connectorSize = Math.max(20, 44 / Math.max(scale, 0.2));
   const showText = !lowDetail || editing;
+
+  useEffect(() => () => {
+    void soundRef.current?.unloadAsync();
+    soundRef.current = null;
+  }, []);
+
+  const toggleAudio = async () => {
+    if (item.type !== 'audio' || !item.uri) return;
+    if (!soundRef.current) {
+      const created = await Audio.Sound.createAsync({ uri: item.uri }, { shouldPlay: true }, (status: AVPlaybackStatus) => {
+        if (!status.isLoaded) return;
+        setAudioPlaying(status.isPlaying);
+        setAudioPosition(status.positionMillis ?? 0);
+        setAudioDuration(status.durationMillis ?? 0);
+      });
+      soundRef.current = created.sound;
+      setAudioPlaying(true);
+      return;
+    }
+    if (audioPlaying) await soundRef.current.pauseAsync();
+    else await soundRef.current.playAsync();
+  };
 
   const content = useMemo(() => {
     switch (item.type) {
@@ -95,6 +148,7 @@ export const CanvasItemView = memo(function CanvasItemView({
                   fontSize: item.fontSize,
                   fontWeight: item.fontWeight ?? '400',
                   textAlign: item.textAlign ?? 'left',
+                  fontStyle: item.italic ? 'italic' : 'normal',
                 },
               ]}
               placeholder="Write something..."
@@ -112,6 +166,7 @@ export const CanvasItemView = memo(function CanvasItemView({
                 fontSize: item.fontSize,
                 fontWeight: item.fontWeight ?? '400',
                 textAlign: item.textAlign ?? 'left',
+                fontStyle: item.italic ? 'italic' : 'normal',
               },
             ]}
             numberOfLines={lowDetail ? 2 : undefined}
@@ -208,9 +263,9 @@ export const CanvasItemView = memo(function CanvasItemView({
         );
       case 'region':
         return (
-          <View style={[styles.region, { opacity: item.opacity ?? 0.2 }]}>
+          <View style={[styles.region, { opacity: item.opacity ?? 0.2, backgroundColor: item.backgroundColor ?? 'transparent' }]}>
             <Svg style={StyleSheet.absoluteFill}>
-              {Array.from({ length: 18 }).map((_, i) => (
+              {item.pattern !== 'solid' && Array.from({ length: 18 }).map((_, i) => (
                 <Circle
                   key={i}
                   cx={18 + (i % 6) * 54}
@@ -218,6 +273,9 @@ export const CanvasItemView = memo(function CanvasItemView({
                   r={2}
                   fill="rgba(52,38,29,0.18)"
                 />
+              ))}
+              {item.pattern === 'stripes' && Array.from({ length: 9 }).map((_, i) => (
+                <Line key={`stripe-${i}`} x1={i * 48} y1="100%" x2={i * 48 + 80} y2="0" stroke="rgba(52,38,29,0.14)" strokeWidth={2} />
               ))}
             </Svg>
             <Text style={styles.regionLabel}>{item.label || 'Region'}</Text>
@@ -279,20 +337,45 @@ export const CanvasItemView = memo(function CanvasItemView({
           </View>
         );
       case 'audio':
-      case 'pdf':
-      case 'markdown':
         return (
           <View style={styles.fileCard}>
-            <Text style={styles.fileGlyph}>{item.type.toUpperCase()}</Text>
+            <Text style={styles.fileGlyph}>AUDIO</Text>
             <Text style={styles.fileName} numberOfLines={2}>{item.name}</Text>
-            <Text style={styles.fileMeta}>{item.text ?? (item.uri ? 'Stored in Fieldnote files.' : 'Add a real file to open it from Fieldnote.')}</Text>
+            <Text style={styles.fileMeta}>{formatTime(audioPosition)} / {formatTime(audioDuration)}</Text>
+            <View style={styles.scrubber}><View style={[styles.scrubberFill, { width: `${audioDuration ? Math.min(100, (audioPosition / audioDuration) * 100) : 0}%` }]} /></View>
             {item.uri ? (
-              <Pressable style={styles.openChip} onStartShouldSetResponder={() => true} onPress={() => onOpenUri(item.uri)}>
-                <Text style={styles.openChipText}>Open</Text>
+              <Pressable style={styles.openChip} onStartShouldSetResponder={() => true} onPress={toggleAudio}>
+                <Text style={styles.openChipText}>{audioPlaying ? 'Pause' : 'Play'}</Text>
               </Pressable>
             ) : null}
           </View>
         );
+      case 'pdf':
+        return (
+          <View style={[styles.fileCard, styles.pdfCover]}>
+            <Text style={styles.fileGlyph}>PDF</Text>
+            <Text style={styles.fileName} numberOfLines={2}>{item.name}</Text>
+            <Text style={styles.fileMeta}>{item.text ?? 'First-page preview placeholder · open for details.'}</Text>
+            {item.uri ? (
+              <Pressable style={styles.openChip} onStartShouldSetResponder={() => true} onPress={() => setReaderOpen(true)}>
+                <Text style={styles.openChipText}>Read</Text>
+              </Pressable>
+            ) : null}
+          </View>
+        );
+      case 'markdown': {
+        const preview = (item.text ?? '').split(/\r?\n/).filter(Boolean).slice(0, 4).join('\n');
+        return (
+          <View style={styles.fileCard}>
+            <Text style={styles.fileGlyph}>MARKDOWN</Text>
+            <Text style={styles.fileName} numberOfLines={2}>{item.name}</Text>
+            <Text style={styles.fileMeta} numberOfLines={4}>{preview || 'Markdown content preview unavailable.'}</Text>
+            <Pressable style={styles.openChip} onStartShouldSetResponder={() => true} onPress={() => setReaderOpen(true)}>
+              <Text style={styles.openChipText}>Preview</Text>
+            </Pressable>
+          </View>
+        );
+      }
       default:
         return null;
     }
@@ -312,6 +395,10 @@ export const CanvasItemView = memo(function CanvasItemView({
     canConnect,
     showText,
     selected,
+    audioDuration,
+    audioPlaying,
+    audioPosition,
+    toggleAudio,
   ]);
 
   const transparentBg = item.type === 'drawing' || item.type === 'shape' || item.type === 'region';
@@ -329,8 +416,9 @@ export const CanvasItemView = memo(function CanvasItemView({
     <Pressable
       onPress={onSelect}
       onLongPress={() => {
+        if (item.locked) return;
         void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-        if (!item.locked) onLongPress();
+        onLongPress();
       }}
       delayLongPress={500}
       style={({ pressed }) => [
@@ -360,7 +448,7 @@ export const CanvasItemView = memo(function CanvasItemView({
       ) : null}
       {selected ? (
         <>
-          {canConnect && !item.locked ? <ConnectorDots size={handleSize} onPress={onConnectorPress} /> : null}
+          {canConnect && !item.locked ? <ConnectorDots size={connectorSize} onPress={onConnectorPress} /> : null}
           <View style={[styles.handle, { width: handleSize, height: handleSize, left: -handleSize / 2, top: -handleSize / 2 }]} />
           <View style={[styles.handle, { width: handleSize, height: handleSize, right: -handleSize / 2, top: -handleSize / 2 }]} />
           <View style={[styles.handle, { width: handleSize, height: handleSize, left: -handleSize / 2, bottom: -handleSize / 2 }]} />
@@ -375,6 +463,38 @@ export const CanvasItemView = memo(function CanvasItemView({
             accessibilityLabel="Resize selected card"
           />
         </>
+      ) : null}
+      {readerOpen && (item.type === 'pdf' || item.type === 'markdown') ? (
+        <Modal visible transparent animationType="fade" onRequestClose={() => setReaderOpen(false)}>
+          <View style={styles.readerBackdrop}>
+            <View style={styles.reader}>
+              <Text style={styles.readerTitle}>{item.name}</Text>
+              {item.type === 'pdf' ? (
+                <View style={styles.readerBody}>
+                  <Text style={styles.fileGlyph}>PDF reader</Text>
+                  <Text style={styles.fileMeta}>Page 1 / 1 · zoom uses the system viewer. Open externally for search and outlines.</Text>
+                  <Pressable style={styles.openChip} onPress={() => onOpenUri(item.uri)}>
+                    <Text style={styles.openChipText}>Open externally</Text>
+                  </Pressable>
+                </View>
+              ) : (
+                <ScrollView style={styles.readerScroll}>
+                  {markdownSections(item.text ?? '').map((section) => (
+                    <View key={section.title} style={styles.mdSection}>
+                      <Pressable onPress={() => setCollapsedMarkdown((prev) => ({ ...prev, [section.title]: !prev[section.title] }))}>
+                        <Text style={styles.mdHeading}>{collapsedMarkdown[section.title] ? '+' : '-'} {section.title}</Text>
+                      </Pressable>
+                      {!collapsedMarkdown[section.title] ? <Text style={styles.mdBody}>{section.body.trim()}</Text> : null}
+                    </View>
+                  ))}
+                </ScrollView>
+              )}
+              <Pressable style={styles.readerClose} onPress={() => setReaderOpen(false)}>
+                <Text style={styles.openChipText}>Close</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
       ) : null}
     </Pressable>
   );
@@ -572,6 +692,21 @@ const styles = StyleSheet.create({
     color: colors.mutedInk,
     fontSize: 12,
   },
+  pdfCover: {
+    backgroundColor: 'rgba(203,125,70,0.09)',
+    borderRadius: 14,
+    padding: 10,
+  },
+  scrubber: {
+    height: 7,
+    borderRadius: 999,
+    backgroundColor: 'rgba(52,38,29,0.14)',
+    overflow: 'hidden',
+  },
+  scrubberFill: {
+    height: '100%',
+    backgroundColor: colors.clayDeep,
+  },
   openChip: {
     alignSelf: 'flex-start',
     marginTop: 4,
@@ -619,5 +754,56 @@ const styles = StyleSheet.create({
     borderColor: colors.walnut,
     zIndex: 6,
     transform: [{ scale: 1.2 }],
+  },
+  readerBackdrop: {
+    flex: 1,
+    backgroundColor: colors.overlay,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 18,
+  },
+  reader: {
+    width: '92%',
+    maxHeight: '84%',
+    backgroundColor: colors.paperStrong,
+    borderRadius: 22,
+    padding: 16,
+    gap: 12,
+  },
+  readerTitle: {
+    color: colors.ink,
+    fontSize: 18,
+    fontWeight: '900',
+  },
+  readerBody: {
+    backgroundColor: colors.paper,
+    borderRadius: 14,
+    padding: 14,
+    gap: 10,
+  },
+  readerScroll: {
+    maxHeight: 420,
+  },
+  readerClose: {
+    alignSelf: 'flex-end',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 999,
+    backgroundColor: colors.walnut,
+  },
+  mdSection: {
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(52,38,29,0.1)',
+    gap: 6,
+  },
+  mdHeading: {
+    color: colors.ink,
+    fontWeight: '900',
+    fontSize: 15,
+  },
+  mdBody: {
+    color: colors.mutedInk,
+    lineHeight: 20,
   },
 });

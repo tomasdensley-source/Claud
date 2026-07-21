@@ -9,11 +9,12 @@ import Animated, {
   withDecay,
   withTiming,
 } from 'react-native-reanimated';
-import Svg, { Line, Path } from 'react-native-svg';
+import Svg, { Path } from 'react-native-svg';
 import { useBoard } from '../store/BoardContext';
 import { colors } from '../theme';
 import { CanvasItemView } from './CanvasItemView';
 import { BoardItem } from '../types';
+import { clampInertiaVelocity } from '../lib/placement';
 
 const MIN_ZOOM = 0.2;
 const MAX_ZOOM = 2.8;
@@ -63,6 +64,14 @@ function sidePoint(item: BoardItem, side: ConnectorSide) {
   if (side === 'right') return { x: item.x + item.width, y: item.y + item.height / 2 };
   if (side === 'top') return { x: item.x + item.width / 2, y: item.y };
   return { x: item.x + item.width / 2, y: item.y + item.height };
+}
+
+function offsetSidePoint(item: BoardItem, side: ConnectorSide, offset = 12) {
+  const point = sidePoint(item, side);
+  if (side === 'left') return { x: point.x - offset, y: point.y };
+  if (side === 'right') return { x: point.x + offset, y: point.y };
+  if (side === 'top') return { x: point.x, y: point.y - offset };
+  return { x: point.x, y: point.y + offset };
 }
 
 export function InfiniteCanvas({
@@ -322,8 +331,8 @@ export function InfiniteCanvas({
         })
         .onEnd((e) => {
           'worklet';
-          tx.value = withDecay({ velocity: e.velocityX, deceleration: 0.994 });
-          ty.value = withDecay({ velocity: e.velocityY, deceleration: 0.994 });
+          tx.value = withDecay({ velocity: clampInertiaVelocity(e.velocityX, scale.value), deceleration: 0.994 });
+          ty.value = withDecay({ velocity: clampInertiaVelocity(e.velocityY, scale.value), deceleration: 0.994 });
           runOnJS(reportTransform)(scale.value, tx.value, ty.value);
         })
         .onFinalize(() => {
@@ -554,26 +563,27 @@ export function InfiniteCanvas({
           const dep = itemsById.get(depId);
           if (!dep) return;
           const sides = item.connectorSides?.[depId] ?? { fromSide: 'right' as const, toSide: 'left' as const };
-          const from = sidePoint(dep, sides.fromSide);
-          const to = sidePoint(item, sides.toSide);
+          const from = offsetSidePoint(dep, sides.fromSide);
+          const to = offsetSidePoint(item, sides.toSide);
           if (!lineVisible(from, to)) return;
           const x = Math.min(from.x, to.x) - 24;
           const y = Math.min(from.y, to.y) - 24;
           const w = Math.abs(to.x - from.x) + 48;
           const h = Math.abs(to.y - from.y) + 48;
           const done = dep.type === 'task' && dep.done;
-          const angle = Math.atan2(to.y - from.y, to.x - from.x);
+          const midX = from.x + (to.x - from.x) / 2;
+          const angle = Math.atan2(0, to.x - midX);
           const arrow = `M ${to.x - x} ${to.y - y} L ${to.x - x - Math.cos(angle - 0.45) * 12} ${to.y - y - Math.sin(angle - 0.45) * 12} L ${to.x - x - Math.cos(angle + 0.45) * 12} ${to.y - y - Math.sin(angle + 0.45) * 12} Z`;
           views.push(
-            <Svg key={`${depId}-${item.id}`} style={{ position: 'absolute', left: x, top: y, width: w, height: h, zIndex: 1 }}>
-              <Line
-                x1={from.x - x}
-                y1={from.y - y}
-                x2={to.x - x}
-                y2={to.y - y}
+            <Svg key={`${depId}-${item.id}`} pointerEvents="none" style={{ position: 'absolute', left: x, top: y, width: w, height: h, zIndex: 1 }}>
+              <Path
+                d={`M ${from.x - x} ${from.y - y} L ${midX - x} ${from.y - y} L ${midX - x} ${to.y - y} L ${to.x - x} ${to.y - y}`}
                 stroke={done ? colors.success : colors.connector}
                 strokeWidth={done ? 4 : 2}
+                strokeOpacity={done ? 0.9 : 1}
                 strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="none"
               />
               <Path d={arrow} fill={done ? colors.success : colors.connector} />
             </Svg>,
@@ -593,7 +603,7 @@ export function InfiniteCanvas({
         const c1x = from.x - x + (to.x - from.x) * 0.42;
         const c2x = from.x - x + (to.x - from.x) * 0.58;
         views.push(
-          <Svg key={`${item.parentId}-${item.id}`} style={{ position: 'absolute', left: x, top: y, width: w, height: h, zIndex: 1 }}>
+          <Svg key={`${item.parentId}-${item.id}`} pointerEvents="none" style={{ position: 'absolute', left: x, top: y, width: w, height: h, zIndex: 1 }}>
             <Path
               d={`M ${from.x - x} ${from.y - y} C ${c1x} ${from.y - y}, ${c2x} ${to.y - y}, ${to.x - x} ${to.y - y}`}
               stroke={item.branchColor}
@@ -618,6 +628,7 @@ export function InfiniteCanvas({
             {culledItems.map((item) => (
               <View
                 key={item.id}
+                pointerEvents={item.type === 'drawing' && !selectedSet.has(item.id) ? 'box-none' : 'auto'}
                 style={{
                   position: 'absolute',
                   left: item.x,
@@ -701,7 +712,7 @@ export function InfiniteCanvas({
       ) : null}
       {connectingFromId ? (
         <View style={styles.connectBanner}>
-          <Text style={styles.modeBannerText}>Connecting dependency · tap another task side</Text>
+          <Text style={styles.modeBannerText}>Connecting dependency source to target · tap the target task side</Text>
           <Text style={styles.cancelConnect} onPress={cancelConnect}>Cancel</Text>
         </View>
       ) : null}

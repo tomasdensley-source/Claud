@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { createMainBoard, createSeedItems, uid } from './seed';
+import { createMainBoard, createScientificMethodItems, createSeedItems, uid } from './seed';
 
 test('seed board includes demo content', () => {
   const items = createSeedItems();
@@ -10,6 +10,10 @@ test('seed board includes demo content', () => {
   assert.ok(items.some((i) => i.type === 'image' && i.assetKey === 'wildflower'));
   assert.ok(items.some((i) => i.type === 'task' && i.dependsOn.length > 0));
   assert.ok(items.some((i) => i.type === 'mindmap' && i.parentId));
+  assert.ok(items.some((i) => i.type === 'pdf'));
+  assert.ok(items.some((i) => i.type === 'audio'));
+  assert.ok(items.some((i) => i.type === 'markdown' && i.text?.includes('## Observation')));
+  assert.ok(items.some((i) => i.type === 'file' && i.name.includes('Working file')));
 });
 
 test('main board defaults', () => {
@@ -24,4 +28,9 @@ test('uid is unique-ish', () => {
   const b = uid('x');
   assert.notEqual(a, b);
   assert.match(a, /^x-/);
+});
+
+test('scientific template has exactly 19 mindmap nodes', () => {
+  const items = createScientificMethodItems(0, 0);
+  assert.equal(items.filter((item) => item.type === 'mindmap').length, 19);
 });

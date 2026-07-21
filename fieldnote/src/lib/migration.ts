@@ -2,7 +2,7 @@ import { Board, BoardItem, MindMapItem, TaskItem } from '../types';
 import { colors, PALETTE } from '../theme';
 import { uid } from './seed';
 
-export const STORAGE_SCHEMA_VERSION = 2;
+export const STORAGE_SCHEMA_VERSION = 3;
 
 type UnknownItem = Partial<BoardItem> & {
   id?: string;
@@ -21,6 +21,10 @@ type UnknownPath = {
 };
 
 const VALID_SIDES = new Set(['left', 'right', 'top', 'bottom']);
+const VALID_WEIGHTS = new Set(['400', '500', '600', '700']);
+const VALID_ALIGNS = new Set(['left', 'center', 'right']);
+const VALID_PRIORITIES = new Set(['low', 'normal', 'high']);
+const VALID_REGION_PATTERNS = new Set(['dots', 'stripes', 'solid']);
 
 function finite(value: unknown, fallback: number) {
   return typeof value === 'number' && Number.isFinite(value) ? value : fallback;
@@ -32,8 +36,31 @@ function clamp(value: number, min: number, max: number) {
 
 function validColor(value: unknown, fallback?: string) {
   if (typeof value !== 'string') return fallback;
-  if (/^#[0-9a-fA-F]{6}$/.test(value) || /^rgba?\(/.test(value)) return value;
+  if (/^#[0-9a-fA-F]{6}$/.test(value)) return value;
+  if (/^rgba?\(\s*(\d{1,3}\s*,\s*){2}\d{1,3}(\s*,\s*(0|1|0?\.\d+))?\s*\)$/.test(value)) return value;
   return fallback;
+}
+
+function validWeight(value: unknown) {
+  return VALID_WEIGHTS.has(String(value)) ? String(value) as '400' | '500' | '600' | '700' : undefined;
+}
+
+function validAlign(value: unknown) {
+  return VALID_ALIGNS.has(String(value)) ? String(value) as 'left' | 'center' | 'right' : 'left';
+}
+
+function validPriority(value: unknown) {
+  return VALID_PRIORITIES.has(String(value)) ? String(value) as 'low' | 'normal' | 'high' : 'normal';
+}
+
+function validDueDate(value: unknown) {
+  if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return undefined;
+  const time = Date.parse(`${value}T00:00:00Z`);
+  return Number.isFinite(time) ? value : undefined;
+}
+
+function validSize(value: unknown) {
+  return typeof value === 'number' && Number.isFinite(value) ? clamp(Math.round(value), 0, 1024 * 1024 * 1024 * 2) : undefined;
 }
 
 function uniqueId(rawId: unknown, type: string, used: Set<string>) {
@@ -68,11 +95,14 @@ export function normalizeBoardItems(rawItems: unknown): BoardItem[] {
   const output: BoardItem[] = [];
   const source = rawItems as UnknownItem[];
   const usedIds = new Set<string>();
+  const rawToNewIds = new Map<string, string>();
 
   source.forEach((raw, index) => {
     if (!raw || typeof raw !== 'object' || !raw.type) return;
+    const id = uniqueId(raw.id, String(raw.type), usedIds);
+    if (typeof raw.id === 'string') rawToNewIds.set(raw.id, id);
     const base = {
-      id: uniqueId(raw.id, String(raw.type), usedIds),
+      id,
       x: clamp(finite(raw.x, 80 + index * 24), -100000, 100000),
       y: clamp(finite(raw.y, 80 + index * 24), -100000, 100000),
       width: clamp(finite(raw.width, 260), 60, 4000),
@@ -90,10 +120,11 @@ export function normalizeBoardItems(rawItems: unknown): BoardItem[] {
           ...base,
           type: 'text',
           text: String((raw as { text?: unknown }).text ?? ''),
-          fontSize: Number((raw as { fontSize?: unknown }).fontSize ?? 22),
+          fontSize: clamp(finite((raw as { fontSize?: unknown }).fontSize, 22), 8, 96),
           role: (raw as { role?: 'title' | 'body' | 'note' }).role ?? 'body',
-          fontWeight: (raw as { fontWeight?: '400' | '500' | '600' | '700' }).fontWeight,
-          textAlign: (raw as { textAlign?: 'left' | 'center' | 'right' }).textAlign ?? 'left',
+          fontWeight: validWeight((raw as { fontWeight?: unknown }).fontWeight),
+          textAlign: validAlign((raw as { textAlign?: unknown }).textAlign),
+          italic: Boolean((raw as { italic?: unknown }).italic),
         });
         break;
       case 'image':
@@ -103,6 +134,7 @@ export function normalizeBoardItems(rawItems: unknown): BoardItem[] {
           uri: String((raw as { uri?: unknown }).uri ?? ''),
           alt: (raw as { alt?: string }).alt,
           assetKey: (raw as { assetKey?: 'pottery' | 'wildflower' }).assetKey,
+          size: validSize((raw as { size?: unknown }).size),
         });
         break;
       case 'task': {
@@ -115,8 +147,8 @@ export function normalizeBoardItems(rawItems: unknown): BoardItem[] {
           dependsOn,
           connectorSides: sanitizeConnectorSides(raw.connectorSides, new Set(dependsOn)),
           state: raw.done ? 'done' : dependsOn.length ? 'blocked' : 'ready',
-          priority: (raw as { priority?: 'low' | 'normal' | 'high' }).priority ?? 'normal',
-          dueDate: typeof (raw as { dueDate?: unknown }).dueDate === 'string' ? (raw as { dueDate: string }).dueDate : undefined,
+          priority: validPriority((raw as { priority?: unknown }).priority),
+          dueDate: validDueDate((raw as { dueDate?: unknown }).dueDate),
         });
         break;
       }
@@ -138,6 +170,10 @@ export function normalizeBoardItems(rawItems: unknown): BoardItem[] {
           type: 'region',
           label: String((raw as { label?: unknown }).label ?? 'Region'),
           opacity: typeof raw.opacity === 'number' ? clamp(raw.opacity, 0, 1) : 0.16,
+          pattern: VALID_REGION_PATTERNS.has(String((raw as { pattern?: unknown }).pattern))
+            ? (raw as { pattern: 'dots' | 'stripes' | 'solid' }).pattern
+            : 'dots',
+          editingBackground: Boolean((raw as { editingBackground?: unknown }).editingBackground),
         });
         break;
       case 'shape':
@@ -174,7 +210,7 @@ export function normalizeBoardItems(rawItems: unknown): BoardItem[] {
           name: String((raw as { name?: unknown }).name ?? 'File'),
           uri: String((raw as { uri?: unknown }).uri ?? ''),
           mimeType: (raw as { mimeType?: string }).mimeType,
-          size: (raw as { size?: number }).size,
+          size: validSize((raw as { size?: unknown }).size),
         });
         break;
       case 'folder':
@@ -195,7 +231,7 @@ export function normalizeBoardItems(rawItems: unknown): BoardItem[] {
           text: (raw as { text?: string }).text,
           uri: typeof (raw as { uri?: unknown }).uri === 'string' ? (raw as { uri: string }).uri : undefined,
           mimeType: typeof (raw as { mimeType?: unknown }).mimeType === 'string' ? (raw as { mimeType: string }).mimeType : undefined,
-          size: typeof (raw as { size?: unknown }).size === 'number' ? (raw as { size: number }).size : undefined,
+          size: validSize((raw as { size?: unknown }).size),
         });
         break;
       default:
@@ -206,6 +242,7 @@ export function normalizeBoardItems(rawItems: unknown): BoardItem[] {
   const withMigratedMindmaps = [...output];
   source.forEach((raw) => {
     if (raw.type !== 'mindmap' || !raw.id || !Array.isArray(raw.children)) return;
+    const parentId = rawToNewIds.get(raw.id) ?? raw.id;
     raw.children.forEach((childText, index) => {
       if (!childText) return;
       withMigratedMindmaps.push({
@@ -219,7 +256,7 @@ export function normalizeBoardItems(rawItems: unknown): BoardItem[] {
         backgroundColor: colors.paperStrong,
         color: colors.ink,
         text: String(childText),
-        parentId: typeof raw.id === 'string' ? raw.id : null,
+        parentId,
         collapsed: false,
         branchColor: PALETTE[index % PALETTE.length],
       });
@@ -257,9 +294,9 @@ export function migrateBoards(raw: unknown): Board[] {
     .filter((board): board is Partial<Board> & { id?: string; name?: string } => Boolean(board))
     .map((board, index) => ({
       id: uniqueId(board.id, 'board', usedBoardIds),
-      name: board.name ?? `Board ${index + 1}`,
+      name: typeof board.name === 'string' && board.name.trim() ? board.name : `Board ${index + 1}`,
       items: normalizeBoardItems((board as { items?: unknown }).items),
-      updatedAt: Number((board as { updatedAt?: unknown }).updatedAt ?? Date.now()),
+      updatedAt: finite((board as { updatedAt?: unknown }).updatedAt, Date.now()),
     }));
 }
 

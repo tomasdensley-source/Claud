@@ -9,6 +9,12 @@ export function BoardBadge() {
   const [editing, setEditing] = React.useState(false);
   const [name, setName] = React.useState(currentBoard.name);
   React.useEffect(() => setName(currentBoard.name), [currentBoard.name]);
+  const save = () => {
+    const trimmed = name.trim();
+    if (!trimmed) return;
+    renameBoard(currentBoard.id, trimmed);
+    setEditing(false);
+  };
   return (
     <Pressable
       style={[styles.badge, shadows.control]}
@@ -19,16 +25,28 @@ export function BoardBadge() {
       <View style={styles.row}>
         <Ionicons name="grid" size={14} color={colors.clayDeep} />
         {editing ? (
-          <TextInput
-            value={name}
-            onChangeText={setName}
-            autoFocus
-            onBlur={() => {
-              renameBoard(currentBoard.id, name.trim() || currentBoard.name);
-              setEditing(false);
-            }}
-            style={styles.nameInput}
-          />
+          <View style={styles.editRow}>
+            <TextInput
+              value={name}
+              onChangeText={setName}
+              autoFocus
+              onSubmitEditing={save}
+              style={styles.nameInput}
+              accessibilityLabel="Board name"
+            />
+            <Pressable onPress={save} accessibilityLabel="Save board name">
+              <Text style={styles.editAction}>Save</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => {
+                setName(currentBoard.name);
+                setEditing(false);
+              }}
+              accessibilityLabel="Cancel board rename"
+            >
+              <Text style={styles.editActionMuted}>Cancel</Text>
+            </Pressable>
+          </View>
         ) : (
           <Text style={styles.name} numberOfLines={1}>
             {currentBoard.name}
@@ -78,6 +96,14 @@ const styles = StyleSheet.create({
     minWidth: 130,
     padding: 0,
   },
+  editRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    flexWrap: 'wrap',
+  },
+  editAction: { color: colors.clayDeep, fontWeight: '900', fontSize: 12 },
+  editActionMuted: { color: colors.mutedInk, fontWeight: '800', fontSize: 12 },
   saveDot: {
     width: 8,
     height: 8,
