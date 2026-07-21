@@ -10,6 +10,12 @@ export type Panel =
   | 'draw'
   | 'gestures'
   | 'storage'
+  | 'markdown'
+  | 'audio'
+  | 'pdfReader'
+  | 'regionEdit'
+  | 'objectMenu'
+  | 'readOnly'
   | 'onboarding';
 
 export type ObjectType =
@@ -18,6 +24,7 @@ export type ObjectType =
   | 'image'
   | 'file'
   | 'pdf'
+  | 'audio'
   | 'markdown'
   | 'mindmap'
   | 'region'
@@ -95,6 +102,15 @@ export interface PdfObject extends BoardObjectBase {
   pageCount?: number;
 }
 
+export interface AudioObject extends BoardObjectBase {
+  type: 'audio';
+  name: string;
+  src: string;
+  mime?: string;
+  duration?: number;
+  blobId?: string;
+}
+
 export interface MarkdownObject extends BoardObjectBase {
   type: 'markdown';
   name: string;
@@ -150,6 +166,7 @@ export type BoardObject =
   | ImageObject
   | FileObject
   | PdfObject
+  | AudioObject
   | MarkdownObject
   | MindMapObject
   | RegionObject
@@ -170,6 +187,7 @@ export interface WorkingFile {
   name: string;
   mime?: string;
   src: string;
+  blobId?: string;
   coverDataUrl?: string;
   size?: number;
   createdAt: number;
@@ -188,4 +206,12 @@ export interface UiPrefs {
   lastColor: string;
   textFormat: TextFormatPrefs;
   draw: { color: string; width: number; tool: 'pen' | 'highlighter' | 'eraser' };
+  filesSheet: 'peek' | 'half' | 'full';
+  backgroundEdit: boolean;
+}
+
+export interface ClipboardPayload {
+  version: 1;
+  objects: BoardObject[];
+  connectors: ConnectorObject[];
 }

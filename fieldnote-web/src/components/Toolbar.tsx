@@ -179,9 +179,11 @@ export function Toolbar() {
 }
 
 function PaletteTab() {
-  const { selectedIds, objects, prefs, setPrefs } = useFieldnote();
+  const { selectedIds, objects, prefs, setPrefs, tool, panel } = useFieldnote();
+  const drawing = tool === 'draw' || panel === 'draw';
   const selected = objects.filter((o) => selectedIds.includes(o.id));
   const colorable =
+    drawing ||
     selected.length > 0 &&
     selected.some((o) =>
       ['text', 'task', 'region', 'mindmap', 'shape', 'connector', 'drawing'].includes(o.type),
@@ -224,8 +226,10 @@ function PaletteTab() {
 }
 
 export function ColorPalette() {
-  const { prefs, selectedIds, objects, viewport } = useFieldnote();
+  const { prefs, selectedIds, objects, viewport, tool, panel } = useFieldnote();
+  const drawing = tool === 'draw' || panel === 'draw';
   const colorable =
+    drawing ||
     selectedIds.length > 0 &&
     objects.some(
       (o) =>

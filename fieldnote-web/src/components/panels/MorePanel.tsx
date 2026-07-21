@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import { ModalSheet } from '../ModalSheet';
 import { useFieldnote } from '../../store/useFieldnote';
-import { estimateStorage, exportSnapshotPackage } from '../../lib/persistence';
+import { estimateStorage } from '../../lib/persistence';
 
 export function FilesPanel() {
   const { panel, setPanel, files, addObject } = useFieldnote();
@@ -55,6 +55,33 @@ export function FilesPanel() {
                   zIndex: 8,
                   src: f.src,
                   alt: f.name,
+                });
+              } else if (f.mime === 'application/pdf') {
+                addObject({
+                  id: `pdf-${f.id}`,
+                  type: 'pdf',
+                  x,
+                  y,
+                  width: 220,
+                  height: 280,
+                  zIndex: 8,
+                  name: f.name,
+                  src: f.src,
+                  coverDataUrl: f.coverDataUrl,
+                });
+              } else if (f.mime?.startsWith('audio/')) {
+                addObject({
+                  id: `audio-${f.id}`,
+                  type: 'audio',
+                  x,
+                  y,
+                  width: 260,
+                  height: 96,
+                  zIndex: 8,
+                  name: f.name,
+                  src: f.src,
+                  mime: f.mime,
+                  blobId: f.blobId,
                 });
               } else {
                 addObject({
@@ -176,15 +203,13 @@ export function MorePanel() {
     history,
     future,
     boards,
-    objects,
-    files,
     createBoard,
     switchBoard,
     removeBoard,
     fitBoard,
     viewport,
-    setToast,
     currentId,
+    exportPackage,
   } = useFieldnote();
 
   return (
@@ -218,15 +243,7 @@ export function MorePanel() {
           icon={<Download size={18} />}
           title="Export package"
           onClick={() => {
-            const board = boards.find((b) => b.id === currentId)!;
-            const pkg = exportSnapshotPackage({ ...board, objects }, files);
-            const blob = new Blob([JSON.stringify(pkg, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${board.name.replace(/\s+/g, '-').toLowerCase()}-fieldnote.json`;
-            a.click();
-            setToast({ message: 'Package downloaded' });
+            void exportPackage();
             setPanel(null);
           }}
         />

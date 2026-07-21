@@ -11,7 +11,6 @@ import { ModalSheet } from '../ModalSheet';
 import { useFieldnote } from '../../store/useFieldnote';
 import { uid } from '../../lib/seed';
 import { COLORS } from '../../lib/theme';
-import type { WorkingFile } from '../../types';
 
 function viewCenter() {
   const { camera, viewport } = useFieldnote.getState();
@@ -22,7 +21,7 @@ function viewCenter() {
 }
 
 export function AddPanel() {
-  const { panel, setPanel, addObject, placeScientificMethod, addWorkingFile } = useFieldnote();
+  const { panel, setPanel, addObject, placeScientificMethod, importDeviceFiles } = useFieldnote();
   const open = panel === 'add' || panel === 'onboarding';
 
   const placeText = () => {
@@ -108,78 +107,7 @@ export function AddPanel() {
     input.onchange = async () => {
       const list = input.files;
       if (!list) return;
-      const c = viewCenter();
-      let i = 0;
-      for (const file of Array.from(list)) {
-        const src = URL.createObjectURL(file);
-        const wf: WorkingFile = {
-          id: uid('file'),
-          name: file.name,
-          mime: file.type,
-          src,
-          size: file.size,
-          createdAt: Date.now(),
-        };
-        await addWorkingFile(wf);
-        if (file.type.startsWith('image/')) {
-          addObject({
-            id: uid('image'),
-            type: 'image',
-            x: c.x - 140 + i * 24,
-            y: c.y - 140 + i * 24,
-            width: 280,
-            height: 280,
-            zIndex: 10,
-            src,
-            alt: file.name,
-            fill: COLORS.paper,
-          });
-        } else if (file.type === 'application/pdf') {
-          addObject({
-            id: uid('pdf'),
-            type: 'pdf',
-            x: c.x - 110 + i * 24,
-            y: c.y - 140 + i * 24,
-            width: 220,
-            height: 280,
-            zIndex: 10,
-            name: file.name,
-            src,
-            fill: COLORS.walnut,
-          });
-        } else if (file.type.startsWith('text/') || file.name.endsWith('.md')) {
-          const content = await file.text();
-          addObject({
-            id: uid('md'),
-            type: 'markdown',
-            x: c.x - 140 + i * 24,
-            y: c.y - 90 + i * 24,
-            width: 280,
-            height: 180,
-            zIndex: 10,
-            name: file.name,
-            content,
-            fill: COLORS.paperStrong,
-          });
-        } else {
-          addObject({
-            id: uid('file'),
-            type: 'file',
-            x: c.x - 120 + i * 24,
-            y: c.y - 60 + i * 24,
-            width: 240,
-            height: 120,
-            zIndex: 10,
-            name: file.name,
-            src,
-            mime: file.type,
-            size: file.size,
-            fill: COLORS.paperStrong,
-          });
-        }
-        i += 1;
-      }
-      setPanel(null);
+      await importDeviceFiles(list);
     };
     input.click();
   };

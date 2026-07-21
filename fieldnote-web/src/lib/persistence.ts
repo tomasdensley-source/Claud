@@ -1,5 +1,13 @@
 import { openDB, type DBSchema, type IDBPDatabase } from 'idb';
-import type { BoardSnapshot, WorkingFile, UiPrefs } from '../types';
+import type { BoardObject, BoardSnapshot, WorkingFile, UiPrefs } from '../types';
+import {
+  arrayBufferToBase64,
+  base64ToArrayBuffer,
+  getBlob,
+  parseBlobRef,
+  putBlob,
+  toBlobRef,
+} from './blobs';
 import { createMainBoard } from './seed';
 import { COLORS } from './theme';
 
@@ -7,6 +15,14 @@ interface FieldnoteDB extends DBSchema {
   boards: { key: string; value: BoardSnapshot };
   files: { key: string; value: WorkingFile };
   blobs: { key: string; value: { id: string; data: ArrayBuffer; mime: string } };
+}
+
+export interface SnapshotPackage {
+  version: 1;
+  exportedAt: number;
+  board: BoardSnapshot;
+  files: WorkingFile[];
+  blobs: Record<string, { mime: string; base64: string }>;
 }
 
 const PREFS_KEY = 'fieldnote.ui.v1';
@@ -39,6 +55,8 @@ export function defaultPrefs(): UiPrefs {
       align: 'left',
     },
     draw: { color: COLORS.ink, width: 3, tool: 'pen' },
+    filesSheet: 'peek',
+    backgroundEdit: false,
   };
 }
 
@@ -97,19 +115,62 @@ export async function deleteFile(id: string) {
   await database.delete('files', id);
 }
 
-/** Snapshot without embedding large file bytes — references Working Files by id/src */
-export function exportSnapshotPackage(board: BoardSnapshot, files: WorkingFile[]) {
-  const usedSrcs = new Set(
-    board.objects
-      .map((o) => ('src' in o ? (o as { src?: string }).src : undefined))
-      .filter(Boolean) as string[],
-  );
+export function exportSnapshotPackageSync(board: BoardSnapshot, files: WorkingFile[]): SnapshotPackage {
   return {
     version: 1,
     exportedAt: Date.now(),
     board,
-    files: files.filter((f) => usedSrcs.has(f.src) || true),
+    files,
+    blobs: {},
   };
+}
+
+export async function exportSnapshotPackage(board: BoardSnapshot, files: WorkingFile[]): Promise<SnapshotPackage> {
+  return exportPackageWithBlobs(board, files);
+}
+
+export async function exportPackageWithBlobs(board: BoardSnapshot, files: WorkingFile[]): Promise<SnapshotPackage> {
+  const blobIds = collectPackageBlobIds(board, files);
+  const blobs: SnapshotPackage['blobs'] = {};
+
+  for (const id of blobIds) {
+    const stored = await getBlob(id);
+    if (!stored) continue;
+    blobs[id] = {
+      mime: stored.mime,
+      base64: arrayBufferToBase64(stored.data),
+    };
+  }
+
+  return {
+    version: 1,
+    exportedAt: Date.now(),
+    board,
+    files,
+    blobs,
+  };
+}
+
+export async function importSnapshotPackage(pkg: SnapshotPackage): Promise<{ board: BoardSnapshot; files: WorkingFile[] }> {
+  if (!pkg || pkg.version !== 1 || !pkg.board || !Array.isArray(pkg.files)) {
+    throw new Error('Unsupported Fieldnote package');
+  }
+
+  const idMap = new Map<string, string>();
+  for (const [oldId, blob] of Object.entries(pkg.blobs ?? {})) {
+    const newId = makeImportedBlobId(oldId);
+    await putBlob(newId, base64ToArrayBuffer(blob.base64), blob.mime);
+    idMap.set(oldId, newId);
+  }
+
+  const board = rewriteBoardBlobRefs(pkg.board, idMap);
+  const files = pkg.files.map((file) => rewriteWorkingFileBlobRefs(file, idMap));
+
+  await saveBoard(board);
+  await Promise.all(files.map((file) => saveFile(file)));
+  await setCurrentBoardId(board.id);
+
+  return { board, files };
 }
 
 export async function estimateStorage(): Promise<{ usage: number; quota: number }> {
@@ -118,4 +179,74 @@ export async function estimateStorage(): Promise<{ usage: number; quota: number 
     return { usage: est.usage ?? 0, quota: est.quota ?? 0 };
   }
   return { usage: 0, quota: 0 };
+}
+
+function collectPackageBlobIds(board: BoardSnapshot, files: WorkingFile[]): Set<string> {
+  const ids = new Set<string>();
+
+  board.objects.forEach((obj) => {
+    collectObjectBlobIds(obj, ids);
+  });
+
+  files.forEach((file) => {
+    const srcId = parseBlobRef(file.src);
+    if (srcId) ids.add(srcId);
+    if (file.blobId) ids.add(file.blobId);
+  });
+
+  return ids;
+}
+
+function collectObjectBlobIds(obj: BoardObject, ids: Set<string>) {
+  if ('src' in obj) {
+    const srcId = parseBlobRef(obj.src);
+    if (srcId) ids.add(srcId);
+  }
+
+  if ('blobId' in obj && typeof obj.blobId === 'string') {
+    ids.add(obj.blobId);
+  }
+}
+
+function rewriteBoardBlobRefs(board: BoardSnapshot, idMap: Map<string, string>): BoardSnapshot {
+  return {
+    ...board,
+    objects: board.objects.map((obj) => rewriteObjectBlobRefs(obj, idMap)),
+  };
+}
+
+function rewriteObjectBlobRefs(obj: BoardObject, idMap: Map<string, string>): BoardObject {
+  const next: BoardObject = { ...obj };
+
+  if ('src' in next) {
+    const srcId = parseBlobRef(next.src);
+    if (srcId && idMap.has(srcId)) {
+      next.src = toBlobRef(idMap.get(srcId)!);
+    }
+  }
+
+  if ('blobId' in next && typeof next.blobId === 'string' && idMap.has(next.blobId)) {
+    next.blobId = idMap.get(next.blobId);
+  }
+
+  return next;
+}
+
+function rewriteWorkingFileBlobRefs(file: WorkingFile, idMap: Map<string, string>): WorkingFile {
+  const srcId = parseBlobRef(file.src);
+  const blobId = file.blobId && idMap.has(file.blobId) ? idMap.get(file.blobId) : file.blobId;
+
+  return {
+    ...file,
+    src: srcId && idMap.has(srcId) ? toBlobRef(idMap.get(srcId)!) : file.src,
+    blobId,
+  };
+}
+
+function makeImportedBlobId(oldId: string) {
+  if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
+    return `blob-import-${crypto.randomUUID()}`;
+  }
+
+  return `blob-import-${oldId}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 }

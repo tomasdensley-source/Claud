@@ -6,6 +6,8 @@ import type { BoardObject, ConnectorObject, Side } from '../types';
 import { COLORS } from '../lib/theme';
 import { sidePoint } from '../lib/seed';
 import { haptic } from '../lib/haptics';
+import { resolveMediaSrc } from '../lib/blobs';
+import { moveMindSubtree } from '../lib/mindmap';
 
 function useHtmlImage(src?: string) {
   const [img, setImg] = useState<HTMLImageElement | null>(null);
@@ -14,10 +16,18 @@ function useHtmlImage(src?: string) {
       setImg(null);
       return;
     }
+    let cancelled = false;
     const image = new window.Image();
     image.crossOrigin = 'anonymous';
-    image.onload = () => setImg(image);
-    image.src = src;
+    image.onload = () => {
+      if (!cancelled) setImg(image);
+    };
+    void resolveMediaSrc(src).then((resolved) => {
+      if (!cancelled) image.src = resolved;
+    });
+    return () => {
+      cancelled = true;
+    };
   }, [src]);
   return img;
 }
@@ -146,6 +156,14 @@ function ObjectNode({
     },
     onDragEnd: (e: Konva.KonvaEventObject<DragEvent>) => {
       const node = e.target;
+      if (obj.type === 'mindmap') {
+        const dx = node.x() - obj.x;
+        const dy = node.y() - obj.y;
+        store.updateObjects((objs) => moveMindSubtree(objs, obj.id, dx, dy), true);
+        haptic('drop');
+        return;
+      }
+
       store.updateObjects(
         (objs) =>
           objs.map((o) =>
@@ -370,7 +388,7 @@ function ObjectNode({
     );
   }
 
-  if (obj.type === 'file' || obj.type === 'markdown') {
+  if (obj.type === 'file' || obj.type === 'markdown' || obj.type === 'audio') {
     return (
       <Group {...common}>
         <Rect
@@ -384,13 +402,15 @@ function ObjectNode({
           strokeWidth={strokeWidth}
         />
         <Text
-          text={obj.type === 'file' ? '📄' : 'MD'}
+          text={obj.type === 'audio' ? 'AUDIO' : obj.type === 'file' ? 'DOC' : 'MD'}
           x={16}
           y={18}
-          fontSize={22}
+          fontSize={obj.type === 'audio' ? 14 : 18}
+          fontStyle="bold"
+          fill={COLORS.muted}
         />
         <Text
-          text={obj.type === 'file' ? obj.name : obj.name}
+          text={obj.name}
           x={16}
           y={52}
           width={obj.width - 32}
