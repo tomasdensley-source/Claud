@@ -11,7 +11,6 @@ import { ModalSheet } from '../ModalSheet';
 import { useFieldnote } from '../../store/useFieldnote';
 import { uid } from '../../lib/seed';
 import { COLORS } from '../../lib/theme';
-import type { WorkingFile } from '../../types';
 
 function viewCenter() {
   const { camera, viewport } = useFieldnote.getState();
@@ -22,7 +21,7 @@ function viewCenter() {
 }
 
 export function AddPanel() {
-  const { panel, setPanel, addObject, placeScientificMethod, addWorkingFile } = useFieldnote();
+  const { panel, setPanel, addObject, placeScientificMethod, importDeviceFiles } = useFieldnote();
   const open = panel === 'add' || panel === 'onboarding';
 
   const placeText = () => {
@@ -108,78 +107,7 @@ export function AddPanel() {
     input.onchange = async () => {
       const list = input.files;
       if (!list) return;
-      const c = viewCenter();
-      let i = 0;
-      for (const file of Array.from(list)) {
-        const src = URL.createObjectURL(file);
-        const wf: WorkingFile = {
-          id: uid('file'),
-          name: file.name,
-          mime: file.type,
-          src,
-          size: file.size,
-          createdAt: Date.now(),
-        };
-        await addWorkingFile(wf);
-        if (file.type.startsWith('image/')) {
-          addObject({
-            id: uid('image'),
-            type: 'image',
-            x: c.x - 140 + i * 24,
-            y: c.y - 140 + i * 24,
-            width: 280,
-            height: 280,
-            zIndex: 10,
-            src,
-            alt: file.name,
-            fill: COLORS.paper,
-          });
-        } else if (file.type === 'application/pdf') {
-          addObject({
-            id: uid('pdf'),
-            type: 'pdf',
-            x: c.x - 110 + i * 24,
-            y: c.y - 140 + i * 24,
-            width: 220,
-            height: 280,
-            zIndex: 10,
-            name: file.name,
-            src,
-            fill: COLORS.walnut,
-          });
-        } else if (file.type.startsWith('text/') || file.name.endsWith('.md')) {
-          const content = await file.text();
-          addObject({
-            id: uid('md'),
-            type: 'markdown',
-            x: c.x - 140 + i * 24,
-            y: c.y - 90 + i * 24,
-            width: 280,
-            height: 180,
-            zIndex: 10,
-            name: file.name,
-            content,
-            fill: COLORS.paperStrong,
-          });
-        } else {
-          addObject({
-            id: uid('file'),
-            type: 'file',
-            x: c.x - 120 + i * 24,
-            y: c.y - 60 + i * 24,
-            width: 240,
-            height: 120,
-            zIndex: 10,
-            name: file.name,
-            src,
-            mime: file.type,
-            size: file.size,
-            fill: COLORS.paperStrong,
-          });
-        }
-        i += 1;
-      }
-      setPanel(null);
+      await importDeviceFiles(list);
     };
     input.click();
   };
@@ -188,24 +116,32 @@ export function AddPanel() {
     <ModalSheet
       open={open}
       onClose={() => setPanel(null)}
-      title="Add to Fieldnote"
-      subtitle="Choose one thing, then return to your board."
+      title={panel === 'onboarding' ? 'Add your first note' : 'Add to Fieldnote'}
+      subtitle={panel === 'onboarding' ? 'Start with one card or file.' : 'Choose one thing, then return to your board.'}
       icon={<FileUp size={18} />}
       id="add"
     >
       {panel === 'onboarding' && (
-        <div className="mb-4 rounded-2xl bg-[var(--tip)] p-3 text-sm text-[var(--ink)]">
-          Hold a card ~500 ms to edit. Pinch to zoom. Drag empty space to pan. Two fingers always navigate.
+        <div className="grid gap-3">
           <button
             type="button"
-            className="mt-2 block text-sm font-bold underline"
+            className="flex min-h-20 w-full items-center justify-center rounded-3xl bg-[var(--clay-deep)] px-5 py-4 text-lg font-extrabold text-[var(--cream)] shadow-xl"
+            onClick={() => setPanel('add')}
+          >
+            Add your first note
+          </button>
+          <button
+            type="button"
+            className="mx-auto min-h-11 px-4 text-sm font-bold underline"
             onClick={() => setPanel(null)}
           >
-            Dismiss hints
+            Dismiss
           </button>
         </div>
       )}
 
+      {panel !== 'onboarding' && (
+        <>
       <h3 className="mb-2 text-sm font-bold">From your device</h3>
       <button
         type="button"
@@ -241,6 +177,8 @@ export function AddPanel() {
         <CreateBtn icon={<Square size={20} />} label="Region" onClick={placeRegion} />
         <CreateBtn icon={<ImageIcon size={20} />} label="Scientific method" onClick={() => { placeScientificMethod(); }} />
       </div>
+        </>
+      )}
     </ModalSheet>
   );
 }

@@ -6,6 +6,8 @@ import type { BoardObject, ConnectorObject, Side } from '../types';
 import { COLORS } from '../lib/theme';
 import { sidePoint } from '../lib/seed';
 import { haptic } from '../lib/haptics';
+import { resolveMediaSrc } from '../lib/blobs';
+import { isMindCollapsedHidden, moveMindSubtree } from '../lib/mindmap';
 
 function useHtmlImage(src?: string) {
   const [img, setImg] = useState<HTMLImageElement | null>(null);
@@ -14,10 +16,18 @@ function useHtmlImage(src?: string) {
       setImg(null);
       return;
     }
+    let cancelled = false;
     const image = new window.Image();
     image.crossOrigin = 'anonymous';
-    image.onload = () => setImg(image);
-    image.src = src;
+    image.onload = () => {
+      if (!cancelled) setImg(image);
+    };
+    void resolveMediaSrc(src).then((resolved) => {
+      if (!cancelled) image.src = resolved;
+    });
+    return () => {
+      cancelled = true;
+    };
   }, [src]);
   return img;
 }
@@ -137,15 +147,44 @@ function ObjectNode({
     },
     onTap: (e: Konva.KonvaEventObject<Event>) => {
       e.cancelBubble = true;
+      if (selected && obj.type === 'pdf') {
+        store.setPdfReader(obj.id);
+        return;
+      }
       store.select([obj.id], store.tool === 'multi');
     },
     onDblClick: () => {
       if (obj.type === 'text' || obj.type === 'task' || obj.type === 'mindmap') {
         store.setEditing(obj.id);
+      } else if (obj.type === 'pdf') {
+        store.setPdfReader(obj.id);
+      } else if (obj.type === 'markdown') {
+        store.openMarkdown(obj.id);
+      } else if (obj.type === 'audio') {
+        store.openAudio(obj.id);
+      }
+    },
+    onDblTap: () => {
+      if (obj.type === 'text' || obj.type === 'task' || obj.type === 'mindmap') {
+        store.setEditing(obj.id);
+      } else if (obj.type === 'pdf') {
+        store.setPdfReader(obj.id);
+      } else if (obj.type === 'markdown') {
+        store.openMarkdown(obj.id);
+      } else if (obj.type === 'audio') {
+        store.openAudio(obj.id);
       }
     },
     onDragEnd: (e: Konva.KonvaEventObject<DragEvent>) => {
       const node = e.target;
+      if (obj.type === 'mindmap') {
+        const dx = node.x() - obj.x;
+        const dy = node.y() - obj.y;
+        store.updateObjects((objs) => moveMindSubtree(objs, obj.id, dx, dy), true);
+        haptic('drop');
+        return;
+      }
+
       store.updateObjects(
         (objs) =>
           objs.map((o) =>
@@ -161,8 +200,9 @@ function ObjectNode({
   const strokeWidth = selected ? 2.5 / Math.max(scale, 0.4) : 0;
 
   if (obj.type === 'region') {
+    const interactive = selected || store.backgroundEdit;
     return (
-      <Group {...common} draggable={!obj.locked && store.tool !== 'draw'}>
+      <Group {...common} listening={interactive} draggable={interactive && !obj.locked && store.tool !== 'draw'}>
         <Rect
           width={obj.width}
           height={obj.height}
@@ -172,6 +212,41 @@ function ObjectNode({
           strokeWidth={selected ? 2 : 1}
           dash={selected ? undefined : [8, 6]}
         />
+        {obj.pattern === 'dots' &&
+          Array.from({ length: Math.ceil(obj.width / 28) }).map((_, ix) =>
+            Array.from({ length: Math.ceil(obj.height / 28) }).map((__, iy) => (
+              <Circle
+                key={`${ix}-${iy}`}
+                x={18 + ix * 28}
+                y={18 + iy * 28}
+                radius={2}
+                fill="rgba(52,38,29,0.18)"
+                listening={false}
+              />
+            )),
+          )}
+        {obj.pattern === 'grid' && (
+          <>
+            {Array.from({ length: Math.ceil(obj.width / 32) }).map((_, ix) => (
+              <Line
+                key={`v-${ix}`}
+                points={[ix * 32, 0, ix * 32, obj.height]}
+                stroke="rgba(52,38,29,0.12)"
+                strokeWidth={1}
+                listening={false}
+              />
+            ))}
+            {Array.from({ length: Math.ceil(obj.height / 32) }).map((_, iy) => (
+              <Line
+                key={`h-${iy}`}
+                points={[0, iy * 32, obj.width, iy * 32]}
+                stroke="rgba(52,38,29,0.12)"
+                strokeWidth={1}
+                listening={false}
+              />
+            ))}
+          </>
+        )}
         {!semantic && (
           <Text
             text={obj.label}
@@ -370,6 +445,42 @@ function ObjectNode({
     );
   }
 
+  if (obj.type === 'audio') {
+    return (
+      <Group {...common}>
+        <Rect
+          width={obj.width}
+          height={obj.height}
+          fill={obj.fill ?? COLORS.paperStrong}
+          cornerRadius={16}
+          shadowBlur={semantic ? 0 : 10}
+          shadowOpacity={0.1}
+          stroke={stroke}
+          strokeWidth={strokeWidth}
+        />
+        <Circle x={34} y={34} radius={18} fill={COLORS.clayDeep} />
+        <Text text="♪" x={26} y={19} fontSize={28} fill={COLORS.cream} />
+        <Text
+          text={obj.name}
+          x={64}
+          y={20}
+          width={obj.width - 80}
+          fontSize={15}
+          fontStyle="bold"
+          fill={COLORS.ink}
+        />
+        <Text text="Double-click or use Play" x={64} y={52} width={obj.width - 80} fontSize={11} fill={COLORS.muted} />
+        {selected && (
+          <ConnectorDots
+            obj={obj}
+            scale={scale}
+            onStart={(side) => store.beginConnect(obj.id, side)}
+          />
+        )}
+      </Group>
+    );
+  }
+
   if (obj.type === 'file' || obj.type === 'markdown') {
     return (
       <Group {...common}>
@@ -384,13 +495,15 @@ function ObjectNode({
           strokeWidth={strokeWidth}
         />
         <Text
-          text={obj.type === 'file' ? '📄' : 'MD'}
+          text={obj.type === 'file' ? 'DOC' : 'MD'}
           x={16}
           y={18}
-          fontSize={22}
+          fontSize={18}
+          fontStyle="bold"
+          fill={COLORS.muted}
         />
         <Text
-          text={obj.type === 'file' ? obj.name : obj.name}
+          text={obj.name}
           x={16}
           y={52}
           width={obj.width - 32}
@@ -517,12 +630,42 @@ export function InfiniteCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<Konva.Stage>(null);
   const pointers = useRef<Map<number, { x: number; y: number }>>(new Map());
-  const panStart = useRef({ x: 0, y: 0, camX: 0, camY: 0 });
+  const panStart = useRef({ x: 0, y: 0, camX: 0, camY: 0, active: false });
+  const panVelocity = useRef({ vx: 0, vy: 0, lastX: 0, lastY: 0, lastT: 0 });
+  const inertiaFrame = useRef<number | null>(null);
   const pinchStart = useRef({ dist: 0, scale: 1, camX: 0, camY: 0, cx: 0, cy: 0 });
   const longPressTimer = useRef<number | null>(null);
   const marquee = useRef<null | { x1: number; y1: number; x2: number; y2: number }>(null);
   const [marqueeBox, setMarqueeBox] = useState<null | { x: number; y: number; w: number; h: number }>(null);
   const [connectCursor, setConnectCursor] = useState<null | { x: number; y: number }>(null);
+
+  const stopInertia = useCallback(() => {
+    if (inertiaFrame.current !== null) {
+      cancelAnimationFrame(inertiaFrame.current);
+      inertiaFrame.current = null;
+    }
+  }, []);
+
+  const startInertia = useCallback(() => {
+    stopInertia();
+    const friction = 0.92;
+    const minSpeed = 0.35;
+    const tick = () => {
+      const { vx, vy } = panVelocity.current;
+      if (Math.hypot(vx, vy) < minSpeed) {
+        inertiaFrame.current = null;
+        return;
+      }
+      const cam = useFieldnote.getState().camera;
+      useFieldnote.getState().setCamera({ x: cam.x + vx, y: cam.y + vy });
+      panVelocity.current.vx *= friction;
+      panVelocity.current.vy *= friction;
+      inertiaFrame.current = requestAnimationFrame(tick);
+    };
+    inertiaFrame.current = requestAnimationFrame(tick);
+  }, [stopInertia]);
+
+  useEffect(() => () => stopInertia(), [stopInertia]);
 
   const semantic = camera.scale < 0.45;
 
@@ -590,13 +733,19 @@ export function InfiniteCanvas() {
 
   // Visible objects (culling)
   const visible = useMemo(() => {
+    const hiddenMindIds = new Set(
+      objects
+        .filter((obj) => obj.type === 'mindmap' && isMindCollapsedHidden(objects, obj))
+        .map((obj) => obj.id),
+    );
     const pad = 200 / camera.scale;
     const minX = -camera.x / camera.scale - pad;
     const minY = -camera.y / camera.scale - pad;
     const maxX = (viewport.w - camera.x) / camera.scale + pad;
     const maxY = (viewport.h - camera.y) / camera.scale + pad;
     return objects.filter((o) => {
-      if (o.type === 'connector') return true;
+      if (o.type === 'mindmap' && hiddenMindIds.has(o.id)) return false;
+      if (o.type === 'connector') return !hiddenMindIds.has(o.fromId) && !hiddenMindIds.has(o.toId);
       return !(o.x + o.width < minX || o.x > maxX || o.y + o.height < minY || o.y > maxY);
     });
   }, [objects, camera, viewport]);
@@ -609,10 +758,12 @@ export function InfiniteCanvas() {
     const stage = stageRef.current;
     if (!stage) return;
     const evt = e.evt;
+    stopInertia();
     pointers.current.set(evt.pointerId, { x: evt.clientX, y: evt.clientY });
 
     // Gesture priority: 2+ pointers = navigation only
     if (pointers.current.size >= 2) {
+      panStart.current.active = false;
       if (longPressTimer.current) {
         window.clearTimeout(longPressTimer.current);
         longPressTimer.current = null;
@@ -657,7 +808,8 @@ export function InfiniteCanvas() {
       if (tool === 'multi') {
         marquee.current = { x1: world.x, y1: world.y, x2: world.x, y2: world.y };
       } else {
-        panStart.current = { x: sx, y: sy, camX: camera.x, camY: camera.y };
+        panStart.current = { x: sx, y: sy, camX: camera.x, camY: camera.y, active: true };
+        panVelocity.current = { vx: 0, vy: 0, lastX: sx, lastY: sy, lastT: performance.now() };
         clearSelection();
       }
     } else {
@@ -741,7 +893,7 @@ export function InfiniteCanvas() {
     }
 
     // one-finger pan on empty / after stage down
-    if (panStart.current && e.target === stageRef.current) {
+    if (panStart.current.active) {
       const dx = sx - panStart.current.x;
       const dy = sy - panStart.current.y;
       if (Math.hypot(dx, dy) > 4) {
@@ -749,6 +901,13 @@ export function InfiniteCanvas() {
           window.clearTimeout(longPressTimer.current);
           longPressTimer.current = null;
         }
+        const now = performance.now();
+        const dt = Math.max(1, now - panVelocity.current.lastT);
+        panVelocity.current.vx = ((sx - panVelocity.current.lastX) / dt) * 16.67;
+        panVelocity.current.vy = ((sy - panVelocity.current.lastY) / dt) * 16.67;
+        panVelocity.current.lastX = sx;
+        panVelocity.current.lastY = sy;
+        panVelocity.current.lastT = now;
         setCamera({
           x: panStart.current.camX + dx,
           y: panStart.current.camY + dy,
@@ -764,6 +923,13 @@ export function InfiniteCanvas() {
     if (longPressTimer.current) {
       window.clearTimeout(longPressTimer.current);
       longPressTimer.current = null;
+    }
+
+    if (panStart.current.active && pointers.current.size === 0) {
+      panStart.current.active = false;
+      if (Math.hypot(panVelocity.current.vx, panVelocity.current.vy) > 0.8) {
+        startInertia();
+      }
     }
 
     if (pointers.current.size < 2) {

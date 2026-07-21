@@ -6,11 +6,14 @@ import { FilesPanel, FindPanel, MorePanel } from './components/panels/MorePanel'
 import {
   BoardBadge,
   DrawPanel,
+  EmptyStateAddButton,
   Minimap,
   TextFormatPanel,
   ToastHost,
   ZoomBar,
 } from './components/Chrome';
+import { MediaOverlays } from './components/MediaOverlays';
+import { ObjectToolbar } from './components/ObjectToolbar';
 import { useFieldnote } from './store/useFieldnote';
 import { placement } from './lib/placement';
 
@@ -27,6 +30,8 @@ export default function App() {
   const objects = useFieldnote((s) => s.objects);
   const deleteSelected = useFieldnote((s) => s.deleteSelected);
   const duplicateSelected = useFieldnote((s) => s.duplicateSelected);
+  const copySelection = useFieldnote((s) => s.copySelection);
+  const pasteClipboard = useFieldnote((s) => s.pasteClipboard);
 
   useEffect(() => {
     void bootstrap();
@@ -61,6 +66,18 @@ export default function App() {
         e.preventDefault();
         duplicateSelected();
       }
+      if (meta && e.key.toLowerCase() === 'c') {
+        const t = e.target as HTMLElement;
+        if (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA') return;
+        e.preventDefault();
+        copySelection();
+      }
+      if (meta && e.key.toLowerCase() === 'v') {
+        const t = e.target as HTMLElement;
+        if (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA') return;
+        e.preventDefault();
+        pasteClipboard();
+      }
       if (e.key === 'Delete' || e.key === 'Backspace') {
         const t = e.target as HTMLElement;
         if (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA') return;
@@ -81,6 +98,8 @@ export default function App() {
     objects,
     deleteSelected,
     duplicateSelected,
+    copySelection,
+    pasteClipboard,
     fitBoard,
     fitSelection,
     viewport,
@@ -104,6 +123,8 @@ export default function App() {
       <BoardBadge />
       <Toolbar />
       <ColorPalette />
+      <ObjectToolbar />
+      <EmptyStateAddButton />
       <Minimap />
       <ZoomBar />
       <DrawPanel />
@@ -113,6 +134,7 @@ export default function App() {
       <FilesPanel />
       <FindPanel />
       <MorePanel />
+      <MediaOverlays />
       <div className="visually-hidden" role="status" aria-live="polite">
         Fieldnote ready
       </div>

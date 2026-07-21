@@ -1,11 +1,15 @@
 import { create } from 'zustand';
 import type {
+  AudioObject,
   BoardObject,
   BoardSnapshot,
   Camera,
+  ClipboardPayload,
   ConnectorObject,
   Panel,
+  RegionObject,
   Side,
+  TextFormatPrefs,
   TaskObject,
   Tool,
   UiPrefs,
@@ -20,10 +24,29 @@ import {
   saveFile,
   savePrefs,
   setCurrentBoardId,
+  exportPackageWithBlobs,
+  importSnapshotPackage,
 } from '../lib/persistence';
 import { createMainBoard, scientificMethodMindMap, uid } from '../lib/seed';
 import { COLORS } from '../lib/theme';
 import { haptic } from '../lib/haptics';
+import {
+  addMindChild as addMindChildObjects,
+  addMindSibling as addMindSiblingObjects,
+  getMindSubtreeIds,
+  moveMindSubtree,
+  simplifyMindDepth as simplifyMindDepthObjects,
+  tidyMindMap as tidyMindMapObjects,
+  toggleCollapse,
+} from '../lib/mindmap';
+import { isPdfTooLarge, generatePdfCover, MAX_PDF_BYTES } from '../lib/pdf';
+import { storeFileAsBlob, toBlobRef } from '../lib/blobs';
+import {
+  acquireWriteLock,
+  releaseWriteLock,
+  startWriteLockHeartbeat,
+  warnUnsavedBeforeUnload,
+} from '../lib/tabLock';
 
 interface HistoryEntry {
   objects: BoardObject[];
@@ -49,8 +72,16 @@ interface FieldnoteState {
   toast: null | { message: string; undo?: boolean };
   pdfReader: null | { id: string };
   viewport: { w: number; h: number };
+  readOnly: boolean;
+  dirty: boolean;
+  filesSheet: 'peek' | 'half' | 'full';
+  backgroundEdit: boolean;
+  clipboard: ClipboardPayload | null;
+  markdownEditorId: string | null;
+  audioPlayerId: string | null;
 
   bootstrap: () => Promise<void>;
+  setDirty: (dirty: boolean) => void;
   setViewport: (w: number, h: number) => void;
   setCamera: (camera: Partial<Camera>) => void;
   setTool: (tool: Tool) => void;
@@ -83,7 +114,26 @@ interface FieldnoteState {
   persist: () => Promise<void>;
   setPrefs: (patch: Partial<UiPrefs>) => void;
   addWorkingFile: (file: WorkingFile) => Promise<void>;
+  importPackage: (file: File) => Promise<void>;
+  exportPackage: () => Promise<void>;
+  importDeviceFiles: (files: FileList | File[]) => Promise<void>;
   placeScientificMethod: () => void;
+  toggleMindCollapse: (id: string) => void;
+  addMindChild: (id: string) => void;
+  addMindSibling: (id: string) => void;
+  tidyMindMap: (id: string) => void;
+  simplifyMindDepth: (id: string, depth: number) => void;
+  copySelection: () => void;
+  pasteClipboard: () => void;
+  setRegionProps: (id: string, patch: Partial<Pick<RegionObject, 'pattern' | 'opacity' | 'locked'>>) => void;
+  setBackgroundEdit: (backgroundEdit: boolean) => void;
+  setFilesSheet: (mode: 'peek' | 'half' | 'full') => void;
+  openMarkdown: (id: string) => void;
+  saveMarkdown: (id: string, content: string) => void;
+  closeMarkdown: () => void;
+  openAudio: (id: string) => void;
+  closeAudio: () => void;
+  applyTextFormat: (patch: Partial<TextFormatPrefs>) => void;
   setToast: (toast: FieldnoteState['toast']) => void;
   setPdfReader: (id: string | null) => void;
   setDrawingId: (id: string | null) => void;
@@ -140,6 +190,41 @@ function wouldCreateCycle(objects: BoardObject[], fromId: string, toId: string):
 }
 
 let persistTimer: ReturnType<typeof setTimeout> | null = null;
+let persistVersion = 0;
+let heartbeatCleanup: (() => void) | null = null;
+let releaseRegistered = false;
+
+function maxZIndex(objects: BoardObject[]): number {
+  return objects.reduce((max, obj) => Math.max(max, obj.zIndex), 0);
+}
+
+function viewCenter(camera: Camera, viewport: { w: number; h: number }, offset = { x: 0, y: 0 }) {
+  return {
+    x: (viewport.w / 2 - camera.x) / camera.scale + offset.x,
+    y: (viewport.h / 2 - camera.y) / camera.scale + offset.y,
+  };
+}
+
+function downloadJson(filename: string, data: unknown) {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.download = filename;
+  anchor.click();
+  URL.revokeObjectURL(url);
+}
+
+function pastedIdFor(obj: BoardObject) {
+  return uid(obj.type === 'connector' ? 'conn' : obj.type);
+}
+
+function makeImportedBoardList(boards: BoardSnapshot[], imported: BoardSnapshot): BoardSnapshot[] {
+  const withoutImported = boards.filter((board) => board.id !== imported.id);
+  return [...withoutImported, imported];
+}
+
+const initialPrefs = loadPrefs();
 
 export const useFieldnote = create<FieldnoteState>((set, get) => ({
   ready: false,
@@ -151,7 +236,7 @@ export const useFieldnote = create<FieldnoteState>((set, get) => ({
   editingId: null,
   tool: 'select',
   panel: 'onboarding',
-  prefs: loadPrefs(),
+  prefs: initialPrefs,
   files: [],
   history: [],
   future: [],
@@ -160,11 +245,34 @@ export const useFieldnote = create<FieldnoteState>((set, get) => ({
   toast: null,
   pdfReader: null,
   viewport: { w: 390, h: 844 },
+  readOnly: false,
+  dirty: false,
+  filesSheet: initialPrefs.filesSheet,
+  backgroundEdit: initialPrefs.backgroundEdit,
+  clipboard: null,
+  markdownEditorId: null,
+  audioPlayerId: null,
 
   bootstrap: async () => {
+    const lock = acquireWriteLock();
+    if (!lock.ok) {
+      set({ readOnly: true, toast: { message: 'Another tab is editing. This tab is read-only.' } });
+    } else if (!heartbeatCleanup) {
+      heartbeatCleanup = startWriteLockHeartbeat(() => {
+        set({ readOnly: true, toast: { message: 'Write lock lost. This tab is read-only.' } });
+        warnUnsavedBeforeUnload(get().dirty);
+      });
+
+      if (!releaseRegistered && typeof window !== 'undefined') {
+        releaseRegistered = true;
+        window.addEventListener('pagehide', releaseWriteLock);
+      }
+    }
+
     const { boards, currentId } = await loadBoards();
     const current = boards.find((b) => b.id === currentId) ?? boards[0] ?? createMainBoard();
     const files = await loadFiles();
+    const prefs = loadPrefs();
     set({
       ready: true,
       boards,
@@ -172,8 +280,16 @@ export const useFieldnote = create<FieldnoteState>((set, get) => ({
       objects: recomputeTaskStates(current.objects),
       camera: current.camera,
       files,
-      panel: current.objects.length <= 4 ? 'onboarding' : null,
+      prefs,
+      filesSheet: prefs.filesSheet,
+      backgroundEdit: prefs.backgroundEdit,
+      panel: current.objects.length === 0 ? 'onboarding' : null,
     });
+  },
+
+  setDirty: (dirty) => {
+    set({ dirty });
+    warnUnsavedBeforeUnload(dirty);
   },
 
   setViewport: (w, h) => set({ viewport: { w, h } }),
@@ -299,7 +415,31 @@ export const useFieldnote = create<FieldnoteState>((set, get) => ({
     if (!ids.size) return;
     if (commit) get().pushHistory();
     set((s) => ({
-      objects: s.objects.map((o) => (ids.has(o.id) ? { ...o, x: o.x + dx, y: o.y + dy } : o)),
+      objects: (() => {
+        const selectedMindIds = s.objects
+          .filter((obj) => obj.type === 'mindmap' && ids.has(obj.id))
+          .map((obj) => obj.id);
+        const nestedMindIds = new Set<string>();
+
+        selectedMindIds.forEach((id) => {
+          getMindSubtreeIds(s.objects, id).forEach((subId) => {
+            if (subId !== id && ids.has(subId)) nestedMindIds.add(subId);
+          });
+        });
+
+        const rootMindIds = selectedMindIds.filter((id) => !nestedMindIds.has(id));
+        const movedByMind = new Set<string>();
+        let next = s.objects;
+
+        rootMindIds.forEach((id) => {
+          getMindSubtreeIds(next, id).forEach((subId) => movedByMind.add(subId));
+          next = moveMindSubtree(next, id, dx, dy);
+        });
+
+        return next.map((o) =>
+          ids.has(o.id) && !movedByMind.has(o.id) ? { ...o, x: o.x + dx, y: o.y + dy } : o,
+        );
+      })(),
     }));
     if (commit) {
       haptic('drop');
@@ -316,6 +456,11 @@ export const useFieldnote = create<FieldnoteState>((set, get) => ({
   },
 
   setObjectColor: (color) => {
+    const { tool, panel, prefs } = get();
+    if (tool === 'draw' || panel === 'draw') {
+      get().setPrefs({ draw: { ...prefs.draw, color }, lastColor: color, paletteOpen: true });
+    }
+
     const ids = new Set(get().selectedIds);
     if (!ids.size) return;
     get().updateObjects((objs) =>
@@ -506,6 +651,11 @@ export const useFieldnote = create<FieldnoteState>((set, get) => ({
   },
 
   createBoard: () => {
+    if (get().readOnly) {
+      set({ toast: { message: 'Read-only tab: boards cannot be created here.' } });
+      return;
+    }
+
     const board: BoardSnapshot = {
       id: uid('board'),
       name: `Board ${get().boards.length + 1}`,
@@ -540,6 +690,11 @@ export const useFieldnote = create<FieldnoteState>((set, get) => ({
   },
 
   renameBoard: (id, name) => {
+    if (get().readOnly) {
+      set({ toast: { message: 'Read-only tab: boards cannot be renamed here.' } });
+      return;
+    }
+
     set((s) => ({
       boards: s.boards.map((b) => (b.id === id ? { ...b, name, updatedAt: Date.now() } : b)),
     }));
@@ -548,6 +703,11 @@ export const useFieldnote = create<FieldnoteState>((set, get) => ({
   },
 
   removeBoard: async (id) => {
+    if (get().readOnly) {
+      set({ toast: { message: 'Read-only tab: boards cannot be deleted here.' } });
+      return;
+    }
+
     if (get().boards.length <= 1) return;
     await deleteBoard(id);
     const boards = get().boards.filter((b) => b.id !== id);
@@ -564,6 +724,14 @@ export const useFieldnote = create<FieldnoteState>((set, get) => ({
 
   persist: async () => {
     if (persistTimer) clearTimeout(persistTimer);
+    get().setDirty(true);
+    const version = ++persistVersion;
+
+    if (get().readOnly) {
+      set({ toast: { message: 'Read-only tab: changes are not saved here.' } });
+      return;
+    }
+
     persistTimer = setTimeout(async () => {
       const { currentId, objects, camera, boards } = get();
       const board: BoardSnapshot = {
@@ -577,18 +745,189 @@ export const useFieldnote = create<FieldnoteState>((set, get) => ({
       set((s) => ({
         boards: s.boards.map((b) => (b.id === board.id ? board : b)),
       }));
+      if (version === persistVersion) get().setDirty(false);
     }, 280);
   },
 
   setPrefs: (patch) => {
     const prefs = { ...get().prefs, ...patch };
-    set({ prefs });
+    set({
+      prefs,
+      filesSheet: prefs.filesSheet,
+      backgroundEdit: prefs.backgroundEdit,
+    });
     savePrefs(prefs);
   },
 
   addWorkingFile: async (file) => {
+    if (get().readOnly) {
+      set({ toast: { message: 'Read-only tab: files cannot be imported here.' } });
+      return;
+    }
+
     await saveFile(file);
     set((s) => ({ files: [...s.files.filter((f) => f.id !== file.id), file] }));
+  },
+
+  importPackage: async (file) => {
+    if (get().readOnly) {
+      set({ toast: { message: 'Read-only tab: packages cannot be imported here.' } });
+      return;
+    }
+
+    const text = await file.text();
+    const pkg = JSON.parse(text);
+    const { board, files } = await importSnapshotPackage(pkg);
+
+    set((s) => ({
+      boards: makeImportedBoardList(s.boards, board),
+      currentId: board.id,
+      objects: recomputeTaskStates(board.objects),
+      camera: board.camera,
+      files: [...s.files.filter((existing) => !files.some((file) => file.id === existing.id)), ...files],
+      selectedIds: [],
+      panel: board.objects.length === 0 ? 'onboarding' : null,
+      toast: { message: 'Package imported' },
+    }));
+    get().setDirty(false);
+  },
+
+  exportPackage: async () => {
+    await get().persist();
+    const { currentId, boards, objects, camera, files } = get();
+    const baseBoard = boards.find((b) => b.id === currentId) ?? createMainBoard();
+    const board: BoardSnapshot = {
+      ...baseBoard,
+      camera,
+      objects: clone(objects),
+      updatedAt: Date.now(),
+    };
+    const pkg = await exportPackageWithBlobs(board, files);
+    downloadJson(`${board.name.replace(/\s+/g, '-').toLowerCase()}-fieldnote.json`, pkg);
+    set({ toast: { message: 'Package downloaded' } });
+  },
+
+  importDeviceFiles: async (filesInput) => {
+    if (get().readOnly) {
+      set({ toast: { message: 'Read-only tab: files cannot be imported here.' } });
+      return;
+    }
+
+    const files = Array.from(filesInput);
+    if (!files.length) return;
+
+    const { camera, viewport, objects } = get();
+    const start = viewCenter(camera, viewport);
+    const imported: BoardObject[] = [];
+    let zIndex = maxZIndex(objects) + 1;
+    let index = 0;
+
+    for (const file of files) {
+      if (file.type === 'application/pdf' && isPdfTooLarge(file.size)) {
+        const mb = Math.round(MAX_PDF_BYTES / 1024 / 1024);
+        set({ toast: { message: `${file.name} is larger than the ${mb} MB PDF limit` } });
+        continue;
+      }
+
+      const stored = await storeFileAsBlob(file);
+      const src = toBlobRef(stored.id);
+      const fileRecord: WorkingFile = {
+        id: uid('file'),
+        name: file.name,
+        mime: stored.mime,
+        src,
+        blobId: stored.id,
+        size: stored.size,
+        createdAt: Date.now(),
+      };
+      await get().addWorkingFile(fileRecord);
+
+      const x = start.x - 140 + index * 24;
+      const y = start.y - 120 + index * 24;
+
+      if (stored.mime.startsWith('image/')) {
+        imported.push({
+          id: uid('image'),
+          type: 'image',
+          x,
+          y,
+          width: 280,
+          height: 280,
+          zIndex: zIndex++,
+          src,
+          alt: file.name,
+          fill: COLORS.paper,
+        });
+      } else if (stored.mime === 'application/pdf') {
+        const cover = await generatePdfCover(file, { jobId: stored.id });
+        fileRecord.coverDataUrl = cover?.coverDataUrl;
+        await get().addWorkingFile(fileRecord);
+        imported.push({
+          id: uid('pdf'),
+          type: 'pdf',
+          x,
+          y,
+          width: 220,
+          height: 280,
+          zIndex: zIndex++,
+          name: file.name,
+          src,
+          coverDataUrl: cover?.coverDataUrl,
+          pageCount: cover?.pageCount,
+          fill: COLORS.walnut,
+        });
+      } else if (stored.mime.startsWith('audio/')) {
+        imported.push({
+          id: uid('audio'),
+          type: 'audio',
+          x,
+          y,
+          width: 260,
+          height: 96,
+          zIndex: zIndex++,
+          name: file.name,
+          src,
+          mime: stored.mime,
+          blobId: stored.id,
+          fill: COLORS.paperStrong,
+        } satisfies AudioObject);
+      } else if (stored.mime.startsWith('text/') || file.name.toLowerCase().endsWith('.md')) {
+        imported.push({
+          id: uid('md'),
+          type: 'markdown',
+          x,
+          y,
+          width: 280,
+          height: 180,
+          zIndex: zIndex++,
+          name: file.name,
+          content: await file.text(),
+          fill: COLORS.paperStrong,
+        });
+      } else {
+        imported.push({
+          id: uid('file'),
+          type: 'file',
+          x,
+          y,
+          width: 240,
+          height: 120,
+          zIndex: zIndex++,
+          name: file.name,
+          src,
+          mime: stored.mime,
+          size: stored.size,
+          fill: COLORS.paperStrong,
+        });
+      }
+
+      index += 1;
+    }
+
+    if (imported.length) {
+      get().addMany(imported);
+      set({ panel: null, toast: { message: `${imported.length} file${imported.length === 1 ? '' : 's'} imported` } });
+    }
   },
 
   placeScientificMethod: () => {
@@ -599,6 +938,158 @@ export const useFieldnote = create<FieldnoteState>((set, get) => ({
     get().addMany(nodes);
     set({ panel: null, toast: { message: 'Scientific method mind map added' } });
     haptic('branch');
+  },
+
+  toggleMindCollapse: (id) => {
+    get().updateObjects((objects) => toggleCollapse(objects, id));
+  },
+
+  addMindChild: (id) => {
+    let newId = '';
+    get().updateObjects((objects) => {
+      const result = addMindChildObjects(objects, id);
+      newId = result.newId;
+      return result.objects;
+    });
+    if (newId) set({ selectedIds: [newId], editingId: newId });
+  },
+
+  addMindSibling: (id) => {
+    let newId = '';
+    get().updateObjects((objects) => {
+      const result = addMindSiblingObjects(objects, id);
+      newId = result.newId;
+      return result.objects;
+    });
+    if (newId) set({ selectedIds: [newId], editingId: newId });
+  },
+
+  tidyMindMap: (id) => {
+    get().updateObjects((objects) => tidyMindMapObjects(objects, id));
+  },
+
+  simplifyMindDepth: (id, depth) => {
+    get().updateObjects((objects) => simplifyMindDepthObjects(objects, id, depth));
+  },
+
+  copySelection: () => {
+    const ids = new Set(get().selectedIds);
+    if (!ids.size) return;
+
+    const selectedObjects = get().objects.filter((obj) => ids.has(obj.id) && obj.type !== 'connector');
+    const connectors = get().objects.filter(
+      (obj): obj is ConnectorObject =>
+        obj.type === 'connector' && (ids.has(obj.id) || (ids.has(obj.fromId) && ids.has(obj.toId))),
+    );
+
+    set({
+      clipboard: {
+        version: 1,
+        objects: clone(selectedObjects),
+        connectors: clone(connectors),
+      },
+      toast: { message: 'Copied selection' },
+    });
+  },
+
+  pasteClipboard: () => {
+    const payload = get().clipboard;
+    if (!payload?.objects.length) return;
+
+    get().pushHistory();
+    const idMap = new Map<string, string>();
+    const topZ = maxZIndex(get().objects) + 1;
+
+    payload.objects.forEach((obj) => {
+      idMap.set(obj.id, pastedIdFor(obj));
+    });
+
+    const objects = payload.objects.map((obj, index) => {
+      const id = idMap.get(obj.id)!;
+      const copy = { ...clone(obj), id, x: obj.x + 32, y: obj.y + 32, zIndex: topZ + index } as BoardObject;
+
+      if (copy.type === 'mindmap' && copy.parentId) {
+        copy.parentId = idMap.get(copy.parentId) ?? null;
+      }
+
+      if (copy.type === 'task') {
+        copy.dependsOn = obj.type === 'task' ? obj.dependsOn.flatMap((id) => idMap.get(id) ?? []) : [];
+      }
+
+      return copy;
+    });
+    const connectors = payload.connectors
+      .filter((connector) => idMap.has(connector.fromId) && idMap.has(connector.toId))
+      .map((connector, index) => ({
+        ...clone(connector),
+        id: uid('conn'),
+        fromId: idMap.get(connector.fromId)!,
+        toId: idMap.get(connector.toId)!,
+        zIndex: topZ + objects.length + index,
+      }));
+
+    set((s) => ({
+      objects: recomputeTaskStates([...s.objects, ...objects, ...connectors]),
+      selectedIds: objects.map((obj) => obj.id),
+      editingId: null,
+      panel: null,
+    }));
+    void get().persist();
+  },
+
+  setRegionProps: (id, patch) => {
+    get().updateObjects((objects) =>
+      objects.map((obj) => (obj.id === id && obj.type === 'region' ? { ...obj, ...patch } : obj)),
+    );
+  },
+
+  setBackgroundEdit: (backgroundEdit) => {
+    get().setPrefs({ backgroundEdit });
+  },
+
+  setFilesSheet: (filesSheet) => {
+    get().setPrefs({ filesSheet });
+  },
+
+  openMarkdown: (id) => {
+    set({ markdownEditorId: id, panel: 'markdown', selectedIds: [id] });
+  },
+
+  saveMarkdown: (id, content) => {
+    get().updateObjects((objects) =>
+      objects.map((obj) => (obj.id === id && obj.type === 'markdown' ? { ...obj, content } : obj)),
+    );
+    set({ markdownEditorId: null, panel: null });
+  },
+
+  closeMarkdown: () => {
+    set({ markdownEditorId: null, panel: null });
+  },
+
+  openAudio: (id) => {
+    set({ audioPlayerId: id, panel: 'audio', selectedIds: [id] });
+  },
+
+  closeAudio: () => {
+    set({ audioPlayerId: null, panel: null });
+  },
+
+  applyTextFormat: (patch) => {
+    const textFormat = { ...get().prefs.textFormat, ...patch };
+    get().setPrefs({ textFormat });
+    get().updateObjects((objects) =>
+      objects.map((obj) => {
+        if (!get().selectedIds.includes(obj.id) || obj.type !== 'text') return obj;
+        return {
+          ...obj,
+          fontSize: patch.fontSize ?? obj.fontSize,
+          fontWeight: patch.fontWeight ?? obj.fontWeight,
+          color: patch.color ?? obj.color,
+          align: patch.align ?? obj.align,
+        };
+      }),
+    );
+    set({ panel: 'textFormat' });
   },
 
   setToast: (toast) => set({ toast }),
