@@ -630,12 +630,42 @@ export function InfiniteCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<Konva.Stage>(null);
   const pointers = useRef<Map<number, { x: number; y: number }>>(new Map());
-  const panStart = useRef({ x: 0, y: 0, camX: 0, camY: 0 });
+  const panStart = useRef({ x: 0, y: 0, camX: 0, camY: 0, active: false });
+  const panVelocity = useRef({ vx: 0, vy: 0, lastX: 0, lastY: 0, lastT: 0 });
+  const inertiaFrame = useRef<number | null>(null);
   const pinchStart = useRef({ dist: 0, scale: 1, camX: 0, camY: 0, cx: 0, cy: 0 });
   const longPressTimer = useRef<number | null>(null);
   const marquee = useRef<null | { x1: number; y1: number; x2: number; y2: number }>(null);
   const [marqueeBox, setMarqueeBox] = useState<null | { x: number; y: number; w: number; h: number }>(null);
   const [connectCursor, setConnectCursor] = useState<null | { x: number; y: number }>(null);
+
+  const stopInertia = useCallback(() => {
+    if (inertiaFrame.current !== null) {
+      cancelAnimationFrame(inertiaFrame.current);
+      inertiaFrame.current = null;
+    }
+  }, []);
+
+  const startInertia = useCallback(() => {
+    stopInertia();
+    const friction = 0.92;
+    const minSpeed = 0.35;
+    const tick = () => {
+      const { vx, vy } = panVelocity.current;
+      if (Math.hypot(vx, vy) < minSpeed) {
+        inertiaFrame.current = null;
+        return;
+      }
+      const cam = useFieldnote.getState().camera;
+      useFieldnote.getState().setCamera({ x: cam.x + vx, y: cam.y + vy });
+      panVelocity.current.vx *= friction;
+      panVelocity.current.vy *= friction;
+      inertiaFrame.current = requestAnimationFrame(tick);
+    };
+    inertiaFrame.current = requestAnimationFrame(tick);
+  }, [stopInertia]);
+
+  useEffect(() => () => stopInertia(), [stopInertia]);
 
   const semantic = camera.scale < 0.45;
 
@@ -728,10 +758,12 @@ export function InfiniteCanvas() {
     const stage = stageRef.current;
     if (!stage) return;
     const evt = e.evt;
+    stopInertia();
     pointers.current.set(evt.pointerId, { x: evt.clientX, y: evt.clientY });
 
     // Gesture priority: 2+ pointers = navigation only
     if (pointers.current.size >= 2) {
+      panStart.current.active = false;
       if (longPressTimer.current) {
         window.clearTimeout(longPressTimer.current);
         longPressTimer.current = null;
@@ -776,7 +808,8 @@ export function InfiniteCanvas() {
       if (tool === 'multi') {
         marquee.current = { x1: world.x, y1: world.y, x2: world.x, y2: world.y };
       } else {
-        panStart.current = { x: sx, y: sy, camX: camera.x, camY: camera.y };
+        panStart.current = { x: sx, y: sy, camX: camera.x, camY: camera.y, active: true };
+        panVelocity.current = { vx: 0, vy: 0, lastX: sx, lastY: sy, lastT: performance.now() };
         clearSelection();
       }
     } else {
@@ -860,7 +893,7 @@ export function InfiniteCanvas() {
     }
 
     // one-finger pan on empty / after stage down
-    if (panStart.current && e.target === stageRef.current) {
+    if (panStart.current.active) {
       const dx = sx - panStart.current.x;
       const dy = sy - panStart.current.y;
       if (Math.hypot(dx, dy) > 4) {
@@ -868,6 +901,13 @@ export function InfiniteCanvas() {
           window.clearTimeout(longPressTimer.current);
           longPressTimer.current = null;
         }
+        const now = performance.now();
+        const dt = Math.max(1, now - panVelocity.current.lastT);
+        panVelocity.current.vx = ((sx - panVelocity.current.lastX) / dt) * 16.67;
+        panVelocity.current.vy = ((sy - panVelocity.current.lastY) / dt) * 16.67;
+        panVelocity.current.lastX = sx;
+        panVelocity.current.lastY = sy;
+        panVelocity.current.lastT = now;
         setCamera({
           x: panStart.current.camX + dx,
           y: panStart.current.camY + dy,
@@ -883,6 +923,13 @@ export function InfiniteCanvas() {
     if (longPressTimer.current) {
       window.clearTimeout(longPressTimer.current);
       longPressTimer.current = null;
+    }
+
+    if (panStart.current.active && pointers.current.size === 0) {
+      panStart.current.active = false;
+      if (Math.hypot(panVelocity.current.vx, panVelocity.current.vy) > 0.8) {
+        startInertia();
+      }
     }
 
     if (pointers.current.size < 2) {
