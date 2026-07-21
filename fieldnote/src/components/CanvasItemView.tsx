@@ -233,11 +233,6 @@ export function CanvasItemView({
         styles.item,
         shadows.card,
         {
-          left: item.x,
-          top: item.y,
-          width: item.width,
-          height: item.height,
-          zIndex: item.zIndex + (selected ? 1000 : 0),
           backgroundColor: transparentBg
             ? 'transparent'
             : item.backgroundColor ?? colors.paper,
@@ -262,17 +257,21 @@ export function CanvasItemView({
 
 const styles = StyleSheet.create({
   item: {
-    position: 'absolute',
+    width: '100%',
+    height: '100%',
     borderRadius: radii.card,
     overflow: 'hidden',
     padding: 18,
   },
   text: {
     fontFamily: 'System',
-    lineHeight: undefined,
   },
   image: {
-    ...StyleSheet.absoluteFill,
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
     width: '100%',
     height: '100%',
   },

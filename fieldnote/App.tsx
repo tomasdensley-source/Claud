@@ -1,5 +1,5 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import React, { Component, ErrorInfo, ReactNode, useCallback, useMemo, useState } from 'react';
+import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -16,6 +16,39 @@ import { SearchPanel } from './src/components/panels/SearchPanel';
 import { GesturesPanel, MorePanel, StoragePanel } from './src/components/panels/MorePanel';
 import { colors } from './src/theme';
 
+class ErrorBoundary extends Component<
+  { children: ReactNode },
+  { error: Error | null }
+> {
+  state = { error: null as Error | null };
+
+  static getDerivedStateFromError(error: Error) {
+    return { error };
+  }
+
+  componentDidCatch(error: Error, info: ErrorInfo) {
+    console.error('Fieldnote crash', error, info);
+  }
+
+  render() {
+    if (this.state.error) {
+      return (
+        <View style={styles.loading}>
+          <Text style={styles.loadingText}>Something went wrong</Text>
+          <Text style={styles.loadingSub}>{this.state.error.message}</Text>
+          <Pressable
+            style={styles.retry}
+            onPress={() => this.setState({ error: null })}
+          >
+            <Text style={styles.retryText}>Try again</Text>
+          </Pressable>
+        </View>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 function FieldnoteApp() {
   const {
     ready,
@@ -27,7 +60,7 @@ function FieldnoteApp() {
     duplicateSelected,
   } = useBoard();
   const { width, height } = useViewportSize();
-  const [scale, setScale] = useState(0.86);
+  const [scale, setScale] = useState(0.7);
   const [fitRequest, setFitRequest] = useState(0);
   const [zoomRequest, setZoomRequest] = useState<{ scale: number; token: number } | null>(null);
   const [centerRequest, setCenterRequest] = useState<{
@@ -37,9 +70,6 @@ function FieldnoteApp() {
   } | null>(null);
 
   const viewCenter = useMemo(() => {
-    // Approximate world center of current viewport using last known scale.
-    // Pan offsets live inside InfiniteCanvas; for placement we use board content midpoint
-    // as a stable fallback when adding items.
     if (currentBoard.items.length === 0) {
       return { x: 600, y: 400 };
     }
@@ -74,14 +104,16 @@ function FieldnoteApp() {
     <SafeAreaView style={styles.safe} edges={['top', 'bottom']}>
       <StatusBar style="dark" />
       <View style={styles.shell}>
-        <InfiniteCanvas
-          viewportWidth={width}
-          viewportHeight={height}
-          onScaleChange={setScale}
-          fitRequest={fitRequest}
-          zoomRequest={zoomRequest}
-          centerRequest={centerRequest}
-        />
+        <ErrorBoundary>
+          <InfiniteCanvas
+            viewportWidth={width}
+            viewportHeight={height}
+            onScaleChange={setScale}
+            fitRequest={fitRequest}
+            zoomRequest={zoomRequest}
+            centerRequest={centerRequest}
+          />
+        </ErrorBoundary>
         <BoardBadge />
         <Toolbar />
         <Minimap
@@ -128,9 +160,11 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
-        <BoardProvider>
-          <FieldnoteApp />
-        </BoardProvider>
+        <ErrorBoundary>
+          <BoardProvider>
+            <FieldnoteApp />
+          </BoardProvider>
+        </ErrorBoundary>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );
@@ -158,9 +192,21 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 18,
     marginTop: 8,
+    textAlign: 'center',
   },
   loadingSub: {
     color: colors.mutedInk,
     textAlign: 'center',
+  },
+  retry: {
+    marginTop: 16,
+    backgroundColor: colors.clayDeep,
+    paddingHorizontal: 18,
+    paddingVertical: 10,
+    borderRadius: 12,
+  },
+  retryText: {
+    color: colors.cream,
+    fontWeight: '700',
   },
 });
