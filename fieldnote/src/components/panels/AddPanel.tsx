@@ -1,14 +1,11 @@
 import React from 'react';
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
-import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { ModalShell } from './ModalShell';
 import { useBoard } from '../../store/BoardContext';
 import { colors, radii } from '../../theme';
-import { persistPickedAsset } from '../../lib/localFiles';
-import { createWorkingFileRecords, makeFileCardDrafts, PickedFileLike } from '../../lib/fileTypes';
 
 interface Props {
   visible: boolean;
@@ -17,7 +14,7 @@ interface Props {
 }
 
 export function AddPanel({ visible, onClose, viewCenter }: Props) {
-  const { addItem, addItems, addScientificTemplate, addWorkingFiles, showToast } = useBoard();
+  const { addItem } = useBoard();
 
   const placeAtCenter = (w: number, h: number) => ({
     x: viewCenter.x - w / 2,
@@ -52,8 +49,6 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
       backgroundColor: colors.paperStrong,
       text: 'New task',
       done: false,
-      dependsOn: [],
-      state: 'ready',
     });
     onClose();
   };
@@ -68,23 +63,7 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
       height: 180,
       backgroundColor: colors.paper,
       text: 'Idea',
-      parentId: null,
-      collapsed: false,
-      branchColor: colors.clayDeep,
-    });
-    onClose();
-  };
-
-  const addShape = () => {
-    const { x, y } = placeAtCenter(220, 140);
-    addItem({
-      type: 'shape',
-      x,
-      y,
-      width: 220,
-      height: 140,
-      shape: 'rect',
-      backgroundColor: 'rgba(216,230,232,0.42)',
+      children: ['Branch', 'Branch'],
     });
     onClose();
   };
@@ -107,18 +86,36 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
       const result = await DocumentPicker.getDocumentAsync({
         multiple: true,
         copyToCacheDirectory: true,
-        type: ['image/*', 'application/pdf', 'text/*', 'audio/*', 'application/json'],
       });
       if (result.canceled) return;
-      const assets: PickedFileLike[] = await Promise.all(result.assets.map(async (asset) => {
-        const uri = await persistPickedAsset(asset);
-        const isMarkdown = /\.(md|markdown)$/i.test(asset.name ?? '') || (asset.mimeType ?? '').toLowerCase().includes('markdown');
-        const text = isMarkdown ? await FileSystem.readAsStringAsync(asset.uri).catch(() => undefined) : undefined;
-        return { ...asset, uri, text };
-      }));
-      addItems(makeFileCardDrafts(assets, viewCenter));
-      addWorkingFiles(createWorkingFileRecords(assets), false);
-      showToast(`${assets.length} file${assets.length === 1 ? '' : 's'} placed on board.`);
+      result.assets.forEach((asset, i) => {
+        const isImage = (asset.mimeType ?? '').startsWith('image/');
+        const { x, y } = placeAtCenter(280, isImage ? 280 : 120);
+        if (isImage) {
+          addItem({
+            type: 'image',
+            x: x + i * 24,
+            y: y + i * 24,
+            width: 280,
+            height: 280,
+            uri: asset.uri,
+            alt: asset.name,
+            backgroundColor: colors.paper,
+          });
+        } else {
+          addItem({
+            type: 'file',
+            x: x + i * 24,
+            y: y + i * 24,
+            width: 240,
+            height: 120,
+            name: asset.name,
+            uri: asset.uri,
+            mimeType: asset.mimeType,
+            backgroundColor: colors.paperStrong,
+          });
+        }
+      });
       onClose();
     } catch (e) {
       Alert.alert('Could not open files', String(e));
@@ -126,37 +123,29 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
   };
 
   const pickImages = async () => {
-    try {
-      const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (!perm.granted) {
-        Alert.alert('Permission needed', 'Allow photo library access to place images.');
-        return;
-      }
-      const result = await ImagePicker.launchImageLibraryAsync({
-        allowsMultipleSelection: true,
-        quality: 0.9,
-        mediaTypes: ['images'],
-      });
-      if (result.canceled) return;
-      const assets = await Promise.all(result.assets.map(async (asset) => ({
-        ...asset,
-        uri: await persistPickedAsset({ uri: asset.uri, name: asset.fileName }),
-      })));
-      const picked = assets.map((asset) => ({
-        uri: asset.uri,
-        name: asset.fileName ?? 'Photo',
-        mimeType: asset.mimeType,
-        size: asset.fileSize,
-        width: asset.width,
-        height: asset.height,
-      }));
-      addItems(makeFileCardDrafts(picked, viewCenter));
-      addWorkingFiles(createWorkingFileRecords(picked), false);
-      showToast(`${assets.length} photo${assets.length === 1 ? '' : 's'} imported.`);
-      onClose();
-    } catch (e) {
-      Alert.alert('Could not open photos', String(e));
+    const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!perm.granted) {
+      Alert.alert('Permission needed', 'Allow photo library access to place images.');
+      return;
     }
+    const result = await ImagePicker.launchImageLibraryAsync({
+      allowsMultipleSelection: true,
+      quality: 0.9,
+    });
+    if (result.canceled) return;
+    result.assets.forEach((asset, i) => {
+      const { x, y } = placeAtCenter(300, 300);
+      addItem({
+        type: 'image',
+        x: x + i * 24,
+        y: y + i * 24,
+        width: 300,
+        height: Math.round(300 * (asset.height / Math.max(asset.width, 1))),
+        uri: asset.uri,
+        backgroundColor: colors.paper,
+      });
+    });
+    onClose();
   };
 
   const chooseFolder = () => {
@@ -200,8 +189,8 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
       <Pressable style={styles.secondaryBtn} onPress={chooseFolder}>
         <Ionicons name="folder-open-outline" size={20} color={colors.ink} />
         <View style={{ flex: 1 }}>
-          <Text style={styles.secondaryTitle}>Folder card</Text>
-          <Text style={styles.secondarySub}>Create an organizer card; folder import is not supported.</Text>
+          <Text style={styles.secondaryTitle}>Choose folder</Text>
+          <Text style={styles.secondarySub}>Place the whole folder as one panel.</Text>
         </View>
       </Pressable>
 
@@ -226,19 +215,6 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
           onPress={addRegion}
           icon={<Ionicons name="grid-outline" size={22} color={colors.ink} />}
         />
-        <CreateBtn
-          label="Shape"
-          onPress={addShape}
-          icon={<Ionicons name="shapes-outline" size={22} color={colors.ink} />}
-        />
-        <CreateBtn
-          label="Science"
-          onPress={() => {
-            addScientificTemplate(viewCenter);
-            onClose();
-          }}
-          icon={<MaterialCommunityIcons name="flask-outline" size={22} color={colors.ink} />}
-        />
       </View>
     </ModalShell>
   );
@@ -254,7 +230,7 @@ function CreateBtn({
   onPress: () => void;
 }) {
   return (
-    <Pressable style={styles.createBtn} onPress={onPress} accessibilityRole="button" accessibilityLabel={`Create ${label}`}>
+    <Pressable style={styles.createBtn} onPress={onPress}>
       {icon}
       <Text style={styles.createLabel}>{label}</Text>
     </Pressable>

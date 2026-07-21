@@ -1,6 +1,6 @@
 {
   "name": "fieldnote",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "main": "index.ts",
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",
@@ -8,13 +8,9 @@
     "babel-preset-expo": "~57.0.0",
     "expo": "~57.0.7",
     "expo-asset": "~57.0.6",
-    "expo-av": "^16.0.8",
-    "expo-clipboard": "~57.0.1",
     "expo-document-picker": "~57.0.1",
     "expo-file-system": "~57.0.1",
     "expo-font": "~57.0.1",
-    "expo-haptics": "^57.0.1",
-    "expo-image-manipulator": "~57.0.5",
     "expo-image-picker": "~57.0.5",
     "expo-status-bar": "~57.0.1",
     "expo-system-ui": "~57.0.1",
@@ -38,7 +34,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "typecheck": "tsc --noEmit",
-    "test": "npx tsc src/lib/seed.ts src/lib/seed.test.ts src/lib/migration.ts src/lib/migration.test.ts src/lib/fileTypes.ts src/lib/searchFilters.ts src/lib/placement.ts src/lib/graphHelpers.ts src/lib/packageFormat.ts src/lib/storageCore.ts src/lib/helpers.test.ts src/theme.ts src/types.ts --ignoreConfig --outDir .tmptest --module commonjs --target es2020 --skipLibCheck --esModuleInterop --types node && node --test .tmptest/lib/*.test.js && rm -rf .tmptest"
+    "test": "npx tsc src/lib/seed.ts src/lib/seed.test.ts src/theme.ts src/types.ts --ignoreConfig --outDir .tmptest --module commonjs --target es2020 --skipLibCheck --esModuleInterop --types node && node --test .tmptest/lib/seed.test.js && rm -rf .tmptest"
   },
   "private": true
 }

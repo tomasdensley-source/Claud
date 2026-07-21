@@ -17,24 +17,7 @@ export const colors = {
   overlay: 'rgba(36, 28, 23, 0.45)',
   selection: '#eeb174',
   saveDot: '#edb64a',
-  success: '#3f8f58',
-  danger: '#9f3f2f',
-  blocked: '#c86545',
-  ready: '#d69b36',
-  connector: 'rgba(52,38,29,0.36)',
 } as const;
-
-export const PALETTE = [
-  '#fbf6ec',
-  '#fffaf0',
-  '#E9B27F',
-  '#edb64a',
-  '#d8e6e8',
-  '#cfe0bf',
-  '#d9c1aa',
-  '#f7d9d4',
-  '#34261d',
-] as const;
 
 export const radii = {
   card: 18,

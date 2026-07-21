@@ -1,10 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ModalShell } from './ModalShell';
 import { useBoard } from '../../store/BoardContext';
 import { colors, radii } from '../../theme';
-import { groupSearchResults, itemMatchesSearch, SearchTypeFilter, searchResultLabel } from '../../lib/searchFilters';
 
 interface Props {
   visible: boolean;
@@ -12,31 +11,32 @@ interface Props {
   onFocusItem: (x: number, y: number) => void;
 }
 
+type TypeFilter = 'everything' | 'text' | 'image' | 'file' | 'task';
+
 export function SearchPanel({ visible, onClose, onFocusItem }: Props) {
-  const { currentBoard, hiddenIds, select, setPanel, revealMindPath } = useBoard();
+  const { currentBoard, select, setPanel } = useBoard();
   const [query, setQuery] = useState('');
-  const [type, setType] = useState<SearchTypeFilter>('everything');
-  const [showAll, setShowAll] = useState(false);
-
-  useEffect(() => {
-    if (!visible) {
-      setQuery('');
-      setType('everything');
-      setShowAll(false);
-    }
-  }, [visible]);
-
-  useEffect(() => {
-    setShowAll(false);
-  }, [query, type]);
+  const [type, setType] = useState<TypeFilter>('everything');
 
   const results = useMemo(() => {
-    return currentBoard.items.filter((it) => itemMatchesSearch(it, query, type));
+    const q = query.trim().toLowerCase();
+    return currentBoard.items.filter((it) => {
+      if (type !== 'everything') {
+        if (type === 'file' && !(it.type === 'file' || it.type === 'folder')) return false;
+        else if (type !== 'file' && it.type !== type) return false;
+      }
+      if (!q) return true;
+      if (it.type === 'text' || it.type === 'task' || it.type === 'mindmap') {
+        return it.text.toLowerCase().includes(q);
+      }
+      if (it.type === 'file' || it.type === 'folder') return it.name.toLowerCase().includes(q);
+      if (it.type === 'image') return (it.alt ?? 'image').toLowerCase().includes(q);
+      if (it.type === 'region') return it.label.toLowerCase().includes(q);
+      return it.type.includes(q);
+    });
   }, [currentBoard.items, query, type]);
-  const visibleResults = showAll ? results : results.slice(0, 30);
-  const grouped = groupSearchResults(visibleResults);
 
-  const filters: SearchTypeFilter[] = ['everything', 'text', 'image', 'file', 'task', 'mindmap', 'region'];
+  const filters: TypeFilter[] = ['everything', 'text', 'image', 'file', 'task'];
 
   return (
     <ModalShell
@@ -49,17 +49,11 @@ export function SearchPanel({ visible, onClose, onFocusItem }: Props) {
       <TextInput
         value={query}
         onChangeText={setQuery}
-        placeholder="Search cards, files, and notes..."
+        placeholder="Search cards, files, playlists..."
         placeholderTextColor={colors.mutedInk}
         style={styles.search}
         autoFocus
       />
-      {query ? (
-        <Pressable style={styles.clearBtn} onPress={() => setQuery('')} accessibilityLabel="Clear search">
-          <Ionicons name="close-circle-outline" size={16} color={colors.ink} />
-          <Text style={styles.clearText}>Clear search</Text>
-        </Pressable>
-      ) : null}
       <View style={styles.filters}>
         {filters.map((f) => (
           <Pressable
@@ -74,24 +68,23 @@ export function SearchPanel({ visible, onClose, onFocusItem }: Props) {
         ))}
       </View>
       <Text style={styles.count}>{results.length} results</Text>
-      {results.length === 0 ? (
-        <View style={styles.empty}>
-          <Text style={styles.label}>No matches yet</Text>
-          <Text style={styles.meta}>Try a task, region label, file name, or hidden mind-map branch.</Text>
-        </View>
-      ) : null}
-      {Object.entries(grouped).map(([group, items]) => (
-        <View key={group} style={styles.group}>
-          <Text style={styles.groupTitle}>{group}</Text>
-          {items.map((it) => {
-        const label = searchResultLabel(it);
+      {results.map((it) => {
+        const label =
+          it.type === 'text' || it.type === 'task' || it.type === 'mindmap'
+            ? it.text.slice(0, 80) || 'Untitled'
+            : it.type === 'file' || it.type === 'folder'
+              ? it.name
+              : it.type === 'image'
+                ? it.alt ?? 'Image'
+                : it.type === 'region'
+                  ? it.label
+                  : it.type;
         return (
           <Pressable
             key={it.id}
             style={styles.row}
             onPress={() => {
               select([it.id]);
-              if (hiddenIds.has(it.id)) revealMindPath(it.id);
               onFocusItem(it.x + it.width / 2, it.y + it.height / 2);
               setPanel(null);
               onClose();
@@ -114,18 +107,11 @@ export function SearchPanel({ visible, onClose, onFocusItem }: Props) {
               <Text style={styles.label} numberOfLines={2}>
                 {label}
               </Text>
-              <Text style={styles.meta}>{it.type}{hiddenIds.has(it.id) ? ' · hidden in collapsed branch' : ''}</Text>
+              <Text style={styles.meta}>{it.type}</Text>
             </View>
           </Pressable>
         );
       })}
-        </View>
-      ))}
-      {!showAll && results.length > visibleResults.length ? (
-        <Pressable style={styles.clearBtn} onPress={() => setShowAll(true)}>
-          <Text style={styles.clearText}>Show {results.length - visibleResults.length} more</Text>
-        </Pressable>
-      ) : null}
     </ModalShell>
   );
 }
@@ -156,23 +142,6 @@ const styles = StyleSheet.create({
   chipText: { color: colors.ink, fontSize: 12, fontWeight: '600' },
   chipTextActive: { color: colors.cream },
   count: { color: colors.mutedInk, fontSize: 12 },
-  empty: {
-    padding: 14,
-    borderRadius: radii.control,
-    backgroundColor: colors.paperStrong,
-    gap: 4,
-  },
-  clearBtn: {
-    alignSelf: 'flex-start',
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    backgroundColor: colors.paperStrong,
-    borderRadius: radii.pill,
-    paddingHorizontal: 10,
-    paddingVertical: 7,
-  },
-  clearText: { color: colors.ink, fontWeight: '700', fontSize: 12 },
   row: {
     flexDirection: 'row',
     gap: 10,
@@ -183,6 +152,4 @@ const styles = StyleSheet.create({
   },
   label: { color: colors.ink, fontWeight: '600' },
   meta: { color: colors.mutedInk, fontSize: 12, marginTop: 2 },
-  group: { gap: 8 },
-  groupTitle: { color: colors.ink, fontSize: 12, fontWeight: '900', textTransform: 'uppercase' },
 });
