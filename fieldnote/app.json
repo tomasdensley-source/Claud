@@ -1,0 +1,55 @@
+{
+  "expo": {
+    "name": "Fieldnote",
+    "slug": "fieldnote",
+    "version": "1.0.0",
+    "orientation": "default",
+    "icon": "./assets/icon.png",
+    "scheme": "fieldnote",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#f4ecdd"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.fieldnote.canvas"
+    },
+    "android": {
+      "package": "com.fieldnote.canvas",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png",
+        "backgroundColor": "#f4ecdd"
+      },
+      "permissions": [
+        "READ_MEDIA_IMAGES",
+        "READ_EXTERNAL_STORAGE"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-asset",
+      "expo-font",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow Fieldnote to place photos on your board."
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "fieldnote-local"
+      }
+    }
+  }
+}
