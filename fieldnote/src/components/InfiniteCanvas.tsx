@@ -7,6 +7,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withDecay,
+  withTiming,
 } from 'react-native-reanimated';
 import Svg, { Line, Path } from 'react-native-svg';
 import { useBoard } from '../store/BoardContext';
@@ -28,8 +29,10 @@ interface Props {
   onCameraChange?: (center: { x: number; y: number }) => void;
   fitRequest: number;
   fitSelectionRequest: number;
+  editRequest: number;
   zoomRequest: { scale: number; token: number } | null;
   centerRequest: { x: number; y: number; scale?: number; token: number } | null;
+  onOpenAddAt?: (center: { x: number; y: number }) => void;
 }
 
 function boundsOf(items: BoardItem[]) {
@@ -55,11 +58,11 @@ function centerOf(item: BoardItem) {
   return { x: item.x + item.width / 2, y: item.y + item.height / 2 };
 }
 
-function edgePoint(item: BoardItem, side: 'left' | 'right') {
-  return {
-    x: side === 'left' ? item.x : item.x + item.width,
-    y: item.y + item.height / 2,
-  };
+function sidePoint(item: BoardItem, side: ConnectorSide) {
+  if (side === 'left') return { x: item.x, y: item.y + item.height / 2 };
+  if (side === 'right') return { x: item.x + item.width, y: item.y + item.height / 2 };
+  if (side === 'top') return { x: item.x + item.width / 2, y: item.y };
+  return { x: item.x + item.width / 2, y: item.y + item.height };
 }
 
 export function InfiniteCanvas({
@@ -69,8 +72,10 @@ export function InfiniteCanvas({
   onCameraChange,
   fitRequest,
   fitSelectionRequest,
+  editRequest,
   zoomRequest,
   centerRequest,
+  onOpenAddAt,
 }: Props) {
   const {
     currentBoard,
@@ -80,20 +85,25 @@ export function InfiniteCanvas({
     select,
     clearSelection,
     moveItems,
+    resizeItem,
     updateText,
+    commitTextEdit,
     toggleTask,
     appendDrawingPoint,
     setPanel,
     completeConnect,
+    cancelConnect,
+    connectingFromId,
     addMindChild,
     addMindSibling,
     toggleMindCollapse,
     tidyMindMap,
+    openUri,
   } = useBoard();
 
   const safeWidth = Number.isFinite(viewportWidth) && viewportWidth > 0 ? viewportWidth : 360;
   const safeHeight = Number.isFinite(viewportHeight) && viewportHeight > 0 ? viewportHeight : 640;
-  const scale = useSharedValue(0.65);
+  const scale = useSharedValue(0.7);
   const tx = useSharedValue(16);
   const ty = useSharedValue(48);
   const savedScale = useSharedValue(1);
@@ -101,7 +111,7 @@ export function InfiniteCanvas({
   const savedTy = useSharedValue(0);
 
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [scaleState, setScaleState] = useState(0.65);
+  const [scaleState, setScaleState] = useState(0.7);
   const [txState, setTxState] = useState(16);
   const [tyState, setTyState] = useState(48);
   const [marquee, setMarquee] = useState<null | { x: number; y: number; width: number; height: number }>(null);
@@ -114,6 +124,8 @@ export function InfiniteCanvas({
   const tyRef = useRef(tyState);
   const dragIdsRef = useRef<string[]>([]);
   const dragActiveRef = useRef(false);
+  const resizeRef = useRef<null | { id: string; width: number; height: number; pageX: number; pageY: number }>(null);
+  const lastDrawPointRef = useRef<{ x: number; y: number } | null>(null);
   const lastPageRef = useRef({ x: 0, y: 0 });
   const itemTouchStartRef = useRef({ id: '', pageX: 0, pageY: 0 });
   const marqueeStartRef = useRef({ x: 0, y: 0, worldX: 0, worldY: 0 });
@@ -122,6 +134,7 @@ export function InfiniteCanvas({
   scaleRef.current = scaleState;
   txRef.current = txState;
   tyRef.current = tyState;
+  const selectedSet = useMemo(() => new Set(selectedIds), [selectedIds]);
 
   const reportTransform = useCallback(
     (s: number, x: number, y: number) => {
@@ -139,9 +152,9 @@ export function InfiniteCanvas({
     (nextScale: number, nextTx: number, nextTy: number) => {
       const s = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, nextScale));
       if (!Number.isFinite(s) || !Number.isFinite(nextTx) || !Number.isFinite(nextTy)) return;
-      scale.value = s;
-      tx.value = nextTx;
-      ty.value = nextTy;
+      scale.value = withTiming(s, { duration: 180 });
+      tx.value = withTiming(nextTx, { duration: 180 });
+      ty.value = withTiming(nextTy, { duration: 180 });
       reportTransform(s, nextTx, nextTy);
     },
     [reportTransform, scale, tx, ty],
@@ -189,9 +202,20 @@ export function InfiniteCanvas({
   }, [centerRequest, applyTransform, scale, safeHeight, safeWidth]);
 
   useEffect(() => {
-    const timer = setTimeout(() => fitItems(currentBoard.items), 80);
-    return () => clearTimeout(timer);
-  }, [safeWidth, safeHeight]);
+    if (editRequest <= 0) return;
+    const target = currentBoard.items.find((item) => selectedIds.includes(item.id) && (item.type === 'text' || item.type === 'task' || item.type === 'mindmap'));
+    if (target && !target.locked) setEditingId(target.id);
+  }, [currentBoard.items, editRequest, selectedIds]);
+
+  const lastBoardIdRef = useRef(currentBoard.id);
+  useEffect(() => {
+    if (lastBoardIdRef.current === currentBoard.id) return;
+    lastBoardIdRef.current = currentBoard.id;
+    const b = boundsOf(currentBoard.items);
+    const center = { x: (safeWidth / 2 - txRef.current) / scaleRef.current, y: (safeHeight / 2 - tyRef.current) / scaleRef.current };
+    const offscreen = center.x < b.minX - 500 || center.x > b.maxX + 500 || center.y < b.minY - 500 || center.y > b.maxY + 500;
+    if (offscreen || currentBoard.items.length === 0) fitItems(currentBoard.items);
+  }, [currentBoard.id, currentBoard.items, fitItems, safeHeight, safeWidth]);
 
   const viewportRect = useMemo(
     () => ({
@@ -228,8 +252,6 @@ export function InfiniteCanvas({
     setEditingId(null);
   }, [clearSelection]);
 
-  const openAdd = useCallback(() => setPanel('add'), [setPanel]);
-
   const worldPoint = useCallback(
     (x: number, y: number) => ({
       x: (x - txRef.current) / scaleRef.current,
@@ -238,11 +260,31 @@ export function InfiniteCanvas({
     [],
   );
 
+  const openAdd = useCallback((x?: number, y?: number) => {
+    if (typeof x === 'number' && typeof y === 'number') onOpenAddAt?.(worldPoint(x, y));
+    else setPanel('add');
+  }, [onOpenAddAt, setPanel, worldPoint]);
+
   const drawAt = useCallback(
     (x: number, y: number, start: boolean) => {
       const world = worldPoint(x, y);
       if (start) drawingIdRef.current = null;
-      drawingIdRef.current = appendDrawingPoint(drawingIdRef.current, world, start);
+      const previous = lastDrawPointRef.current;
+      if (!start && previous) {
+        const distance = Math.hypot(world.x - previous.x, world.y - previous.y);
+        const steps = Math.min(8, Math.max(1, Math.ceil(distance / 10)));
+        for (let i = 1; i <= steps; i += 1) {
+          const t = i / steps;
+          drawingIdRef.current = appendDrawingPoint(
+            drawingIdRef.current,
+            { x: previous.x + (world.x - previous.x) * t, y: previous.y + (world.y - previous.y) * t },
+            false,
+          );
+        }
+      } else {
+        drawingIdRef.current = appendDrawingPoint(drawingIdRef.current, world, start);
+      }
+      lastDrawPointRef.current = world;
     },
     [appendDrawingPoint, worldPoint],
   );
@@ -260,6 +302,7 @@ export function InfiniteCanvas({
 
   const finishDrawing = useCallback(() => {
     drawingIdRef.current = null;
+    lastDrawPointRef.current = null;
   }, []);
 
   const panGesture = useMemo(
@@ -281,6 +324,10 @@ export function InfiniteCanvas({
           'worklet';
           tx.value = withDecay({ velocity: e.velocityX, deceleration: 0.994 });
           ty.value = withDecay({ velocity: e.velocityY, deceleration: 0.994 });
+          runOnJS(reportTransform)(scale.value, tx.value, ty.value);
+        })
+        .onFinalize(() => {
+          'worklet';
           runOnJS(reportTransform)(scale.value, tx.value, ty.value);
         }),
     [reportTransform, savedTx, savedTy, scale, tool, tx, ty],
@@ -324,9 +371,9 @@ export function InfiniteCanvas({
     () =>
       Gesture.Tap()
         .numberOfTaps(2)
-        .onEnd(() => {
+        .onEnd((e) => {
           'worklet';
-          runOnJS(openAdd)();
+          runOnJS(openAdd)(e.x, e.y);
         }),
     [openAdd],
   );
@@ -344,6 +391,10 @@ export function InfiniteCanvas({
           runOnJS(drawAt)(e.x, e.y, false);
         })
         .onEnd(() => {
+          'worklet';
+          runOnJS(finishDrawing)();
+        })
+        .onFinalize(() => {
           'worklet';
           runOnJS(finishDrawing)();
         }),
@@ -397,6 +448,10 @@ export function InfiniteCanvas({
         .onEnd((e) => {
           'worklet';
           runOnJS(endMarquee)(e.x, e.y);
+        })
+        .onFinalize(() => {
+          'worklet';
+          runOnJS(setMarquee)(null);
         }),
     [beginMarquee, endMarquee, tool, updateMarquee],
   );
@@ -457,6 +512,30 @@ export function InfiniteCanvas({
     dragActiveRef.current = false;
   }, [moveItems]);
 
+  const startResize = useCallback((item: BoardItem, pageX: number, pageY: number) => {
+    if (item.locked) return;
+    resizeRef.current = { id: item.id, width: item.width, height: item.height, pageX, pageY };
+    dragIdsRef.current = [];
+    dragActiveRef.current = false;
+  }, []);
+
+  const moveResize = useCallback((pageX: number, pageY: number) => {
+    const resize = resizeRef.current;
+    if (!resize) return;
+    const s = scaleRef.current || 1;
+    const width = resize.width + (pageX - resize.pageX) / s;
+    const height = resize.height + (pageY - resize.pageY) / s;
+    resizeItem(resize.id, width, height, false);
+  }, [resizeItem]);
+
+  const endResize = useCallback((pageX: number, pageY: number) => {
+    const resize = resizeRef.current;
+    if (!resize) return;
+    const s = scaleRef.current || 1;
+    resizeItem(resize.id, resize.width + (pageX - resize.pageX) / s, resize.height + (pageY - resize.pageY) / s, true);
+    resizeRef.current = null;
+  }, [resizeItem]);
+
   const connectors = useMemo(() => {
     const itemsById = new Map(visibleItems.map((item) => [item.id, item]));
     const views: React.ReactNode[] = [];
@@ -474,14 +553,17 @@ export function InfiniteCanvas({
         item.dependsOn.forEach((depId) => {
           const dep = itemsById.get(depId);
           if (!dep) return;
-          const from = edgePoint(dep, 'right');
-          const to = edgePoint(item, 'left');
+          const sides = item.connectorSides?.[depId] ?? { fromSide: 'right' as const, toSide: 'left' as const };
+          const from = sidePoint(dep, sides.fromSide);
+          const to = sidePoint(item, sides.toSide);
           if (!lineVisible(from, to)) return;
-          const x = Math.min(from.x, to.x);
-          const y = Math.min(from.y, to.y) - 18;
-          const w = Math.abs(to.x - from.x) || 1;
-          const h = Math.abs(to.y - from.y) + 36;
+          const x = Math.min(from.x, to.x) - 24;
+          const y = Math.min(from.y, to.y) - 24;
+          const w = Math.abs(to.x - from.x) + 48;
+          const h = Math.abs(to.y - from.y) + 48;
           const done = dep.type === 'task' && dep.done;
+          const angle = Math.atan2(to.y - from.y, to.x - from.x);
+          const arrow = `M ${to.x - x} ${to.y - y} L ${to.x - x - Math.cos(angle - 0.45) * 12} ${to.y - y - Math.sin(angle - 0.45) * 12} L ${to.x - x - Math.cos(angle + 0.45) * 12} ${to.y - y - Math.sin(angle + 0.45) * 12} Z`;
           views.push(
             <Svg key={`${depId}-${item.id}`} style={{ position: 'absolute', left: x, top: y, width: w, height: h, zIndex: 1 }}>
               <Line
@@ -493,6 +575,7 @@ export function InfiniteCanvas({
                 strokeWidth={done ? 4 : 2}
                 strokeLinecap="round"
               />
+              <Path d={arrow} fill={done ? colors.success : colors.connector} />
             </Svg>,
           );
         });
@@ -541,7 +624,7 @@ export function InfiniteCanvas({
                   top: item.y,
                   width: item.width,
                   height: item.height,
-                  zIndex: item.zIndex + (selectedIds.includes(item.id) ? 1000 : 0),
+                  zIndex: item.zIndex + (selectedSet.has(item.id) ? 1000 : 0),
                 }}
                 onStartShouldSetResponder={() => false}
                 onStartShouldSetResponderCapture={(e) => {
@@ -566,7 +649,8 @@ export function InfiniteCanvas({
               >
                 <CanvasItemView
                   item={{ ...item, x: 0, y: 0 }}
-                  selected={selectedIds.includes(item.id)}
+                    selected={selectedSet.has(item.id)}
+                    connectingActive={connectingFromId === item.id}
                   editing={editingId === item.id}
                   scale={scaleState}
                   lowDetail={scaleState < 0.45}
@@ -584,8 +668,15 @@ export function InfiniteCanvas({
                   }}
                   onChangeText={(text) => updateText(item.id, text)}
                   onToggleTask={() => toggleTask(item.id)}
-                  onEndEdit={() => setEditingId(null)}
+                  onEndEdit={() => {
+                    commitTextEdit();
+                    setEditingId(null);
+                  }}
                   onConnectorPress={(side: ConnectorSide) => completeConnect(item.id, side)}
+                  onOpenUri={openUri}
+                  onResizeStart={(pageX, pageY) => startResize(item, pageX, pageY)}
+                  onResizeMove={moveResize}
+                  onResizeEnd={endResize}
                   onMindChild={() => addMindChild(item.id)}
                   onMindSibling={() => addMindSibling(item.id)}
                   onMindCollapse={() => toggleMindCollapse(item.id)}
@@ -606,6 +697,12 @@ export function InfiniteCanvas({
       {tool === 'draw' ? (
         <View pointerEvents="none" style={styles.modeBanner}>
           <Text style={styles.modeBannerText}>Draw mode · two fingers pan and zoom</Text>
+        </View>
+      ) : null}
+      {connectingFromId ? (
+        <View style={styles.connectBanner}>
+          <Text style={styles.modeBannerText}>Connecting dependency · tap another task side</Text>
+          <Text style={styles.cancelConnect} onPress={cancelConnect}>Cancel</Text>
         </View>
       ) : null}
     </View>
@@ -702,5 +799,23 @@ const styles = StyleSheet.create({
     color: colors.cream,
     fontSize: 12,
     fontWeight: '700',
+  },
+  connectBanner: {
+    position: 'absolute',
+    alignSelf: 'center',
+    bottom: 124,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 999,
+    backgroundColor: colors.walnut,
+    zIndex: 36,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  cancelConnect: {
+    color: colors.selection,
+    fontWeight: '900',
+    fontSize: 12,
   },
 });

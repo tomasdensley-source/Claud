@@ -1,7 +1,6 @@
 import React, { memo, useMemo, useState } from 'react';
 import {
   Image,
-  Linking,
   Pressable,
   StyleSheet,
   Text,
@@ -30,11 +29,16 @@ interface Props {
   onToggleTask: () => void;
   onEndEdit: () => void;
   onConnectorPress: (side: ConnectorSide) => void;
+  onOpenUri: (uri?: string) => void;
+  onResizeStart: (pageX: number, pageY: number) => void;
+  onResizeMove: (pageX: number, pageY: number) => void;
+  onResizeEnd: (pageX: number, pageY: number) => void;
   onMindChild: () => void;
   onMindSibling: () => void;
   onMindCollapse: () => void;
   onMindTidy: () => void;
   canConnect: boolean;
+  connectingActive: boolean;
 }
 
 function pointsToPath(points: { x: number; y: number }[]): string {
@@ -57,11 +61,16 @@ export const CanvasItemView = memo(function CanvasItemView({
   onToggleTask,
   onEndEdit,
   onConnectorPress,
+  onOpenUri,
+  onResizeStart,
+  onResizeMove,
+  onResizeEnd,
   onMindChild,
   onMindSibling,
   onMindCollapse,
   onMindTidy,
   canConnect,
+  connectingActive,
 }: Props) {
   const [imageFailed, setImageFailed] = useState(false);
   const handleSize = Math.max(12, 14 / Math.max(scale, 0.2));
@@ -78,6 +87,7 @@ export const CanvasItemView = memo(function CanvasItemView({
               value={item.text}
               onChangeText={onChangeText}
               onBlur={onEndEdit}
+              returnKeyType="done"
               style={[
                 styles.text,
                 {
@@ -147,6 +157,7 @@ export const CanvasItemView = memo(function CanvasItemView({
                   value={item.text}
                   onChangeText={onChangeText}
                   onBlur={onEndEdit}
+                  returnKeyType="done"
                   style={[styles.taskText, item.done && styles.taskDone]}
                   maxFontSizeMultiplier={1.25}
                 />
@@ -158,6 +169,8 @@ export const CanvasItemView = memo(function CanvasItemView({
               <Text style={[styles.taskMeta, ready && styles.readyText, item.done && styles.doneText]}>
                 {item.done ? 'done' : blocked ? 'blocked' : 'ready'}
                 {item.dependsOn.length ? ` · ${item.dependsOn.length} deps` : ''}
+                {item.priority && item.priority !== 'normal' ? ` · ${item.priority}` : ''}
+                {item.dueDate ? ` · due ${item.dueDate}` : ''}
               </Text>
             </View>
           </Pressable>
@@ -173,6 +186,7 @@ export const CanvasItemView = memo(function CanvasItemView({
                   value={item.text}
                   onChangeText={onChangeText}
                   onBlur={onEndEdit}
+                  returnKeyType="done"
                   style={styles.mindmapHubText}
                   maxFontSizeMultiplier={1.2}
                 />
@@ -213,11 +227,11 @@ export const CanvasItemView = memo(function CanvasItemView({
         return (
           <Svg width="100%" height="100%">
             {item.shape === 'ellipse' ? (
-              <Ellipse cx="50%" cy="50%" rx="45%" ry="40%" stroke={colors.ink} strokeWidth={3} fill={item.backgroundColor ?? 'transparent'} />
+              <Ellipse cx="50%" cy="50%" rx="45%" ry="40%" stroke={item.borderColor ?? colors.ink} strokeWidth={3} fill={item.backgroundColor ?? 'transparent'} />
             ) : item.shape === 'line' ? (
-              <Line x1="8%" y1="50%" x2="92%" y2="50%" stroke={colors.ink} strokeWidth={4} strokeLinecap="round" />
+              <Line x1="8%" y1="50%" x2="92%" y2="50%" stroke={item.borderColor ?? colors.ink} strokeWidth={4} strokeLinecap="round" />
             ) : (
-              <SvgRect x="8%" y="12%" width="84%" height="76%" rx={12} stroke={colors.ink} strokeWidth={3} fill={item.backgroundColor ?? 'transparent'} />
+              <SvgRect x="8%" y="12%" width="84%" height="76%" rx={12} stroke={item.borderColor ?? colors.ink} strokeWidth={3} fill={item.backgroundColor ?? 'transparent'} />
             )}
           </Svg>
         );
@@ -248,7 +262,7 @@ export const CanvasItemView = memo(function CanvasItemView({
               style={styles.openChip}
               onStartShouldSetResponder={() => true}
               onPress={() => {
-                void Linking.openURL(item.uri);
+                onOpenUri(item.uri);
               }}
             >
               <Text style={styles.openChipText}>Open</Text>
@@ -271,7 +285,12 @@ export const CanvasItemView = memo(function CanvasItemView({
           <View style={styles.fileCard}>
             <Text style={styles.fileGlyph}>{item.type.toUpperCase()}</Text>
             <Text style={styles.fileName} numberOfLines={2}>{item.name}</Text>
-            <Text style={styles.fileMeta}>{item.text ?? 'Add a real file to open it from Fieldnote.'}</Text>
+            <Text style={styles.fileMeta}>{item.text ?? (item.uri ? 'Stored in Fieldnote files.' : 'Add a real file to open it from Fieldnote.')}</Text>
+            {item.uri ? (
+              <Pressable style={styles.openChip} onStartShouldSetResponder={() => true} onPress={() => onOpenUri(item.uri)}>
+                <Text style={styles.openChipText}>Open</Text>
+              </Pressable>
+            ) : null}
           </View>
         );
       default:
@@ -284,6 +303,7 @@ export const CanvasItemView = memo(function CanvasItemView({
     lowDetail,
     onChangeText,
     onEndEdit,
+    onOpenUri,
     onMindChild,
     onMindCollapse,
     onMindSibling,
@@ -318,6 +338,7 @@ export const CanvasItemView = memo(function CanvasItemView({
         !dense && item.type !== 'region' && shadows.card,
         dense && styles.denseShadow,
         selectedGlow,
+        connectingActive && styles.connectingActive,
         {
           opacity: pressed ? 0.86 : 1,
           backgroundColor: transparentBg ? 'transparent' : item.backgroundColor ?? colors.paper,
@@ -328,7 +349,8 @@ export const CanvasItemView = memo(function CanvasItemView({
         item.locked && styles.locked,
       ]}
       accessibilityRole="button"
-      accessibilityLabel={`${item.type} item${selected ? ', selected' : ''}`}
+      accessibilityLabel={`${item.type} item${selected ? ', selected' : ''}${item.locked ? ', locked' : ''}`}
+      accessibilityHint={item.type === 'task' ? 'Task cards can be checked, edited, or connected to dependencies.' : undefined}
     >
       {content}
       {item.locked ? (
@@ -342,7 +364,16 @@ export const CanvasItemView = memo(function CanvasItemView({
           <View style={[styles.handle, { width: handleSize, height: handleSize, left: -handleSize / 2, top: -handleSize / 2 }]} />
           <View style={[styles.handle, { width: handleSize, height: handleSize, right: -handleSize / 2, top: -handleSize / 2 }]} />
           <View style={[styles.handle, { width: handleSize, height: handleSize, left: -handleSize / 2, bottom: -handleSize / 2 }]} />
-          <View style={[styles.handle, { width: handleSize, height: handleSize, right: -handleSize / 2, bottom: -handleSize / 2 }]} />
+          <Pressable
+            style={[styles.handle, styles.resizeHandle, { width: handleSize + 8, height: handleSize + 8, right: -(handleSize + 8) / 2, bottom: -(handleSize + 8) / 2 }]}
+            onStartShouldSetResponder={() => true}
+            onResponderGrant={(e) => onResizeStart(e.nativeEvent.pageX, e.nativeEvent.pageY)}
+            onResponderMove={(e) => onResizeMove(e.nativeEvent.pageX, e.nativeEvent.pageY)}
+            onResponderRelease={(e) => onResizeEnd(e.nativeEvent.pageX, e.nativeEvent.pageY)}
+            onResponderTerminate={(e) => onResizeEnd(e.nativeEvent.pageX, e.nativeEvent.pageY)}
+            accessibilityRole="adjustable"
+            accessibilityLabel="Resize selected card"
+          />
         </>
       ) : null}
     </Pressable>
@@ -382,6 +413,13 @@ const styles = StyleSheet.create({
   },
   locked: {
     borderStyle: 'dashed',
+  },
+  connectingActive: {
+    borderWidth: 3,
+    borderColor: colors.connector,
+    shadowColor: colors.connector,
+    shadowOpacity: 0.65,
+    shadowRadius: 14,
   },
   text: {
     fontFamily: 'System',
@@ -569,11 +607,17 @@ const styles = StyleSheet.create({
     borderRadius: 999,
     zIndex: 5,
   },
+  resizeHandle: {
+    backgroundColor: colors.selection,
+    borderColor: colors.walnut,
+    zIndex: 8,
+  },
   connectorDot: {
     position: 'absolute',
     backgroundColor: colors.selection,
     borderWidth: 2,
     borderColor: colors.walnut,
     zIndex: 6,
+    transform: [{ scale: 1.2 }],
   },
 });

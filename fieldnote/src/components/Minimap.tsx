@@ -6,11 +6,12 @@ import { colors, radii, shadows } from '../theme';
 interface Props {
   items: BoardItem[];
   selectedIds: string[];
+  viewport?: { centerX: number; centerY: number; width: number; height: number };
   onNavigate: (worldX: number, worldY: number) => void;
   onFit: () => void;
 }
 
-export function Minimap({ items, selectedIds, onNavigate, onFit }: Props) {
+export function Minimap({ items, selectedIds, viewport, onNavigate, onFit }: Props) {
   const [size, setSize] = useState({ width: 104, height: 104 });
   const layout = useMemo(() => {
     if (items.length === 0) {
@@ -35,6 +36,16 @@ export function Minimap({ items, selectedIds, onNavigate, onFit }: Props) {
     };
   }, [items]);
 
+  const navigateAt = (locationX: number, locationY: number) => {
+    const innerWidth = Math.max(1, size.width - 12);
+    const innerHeight = Math.max(1, size.height - 12);
+    const wx = layout.minX + (Math.max(0, Math.min(innerWidth, locationX - 6)) / innerWidth) * layout.w;
+    const wy = layout.minY + (Math.max(0, Math.min(innerHeight, locationY - 6)) / innerHeight) * layout.h;
+    onNavigate(wx, wy);
+  };
+
+  const renderedItems = items.slice(0, 160);
+
   return (
     <Pressable
       style={[styles.box, shadows.control]}
@@ -44,17 +55,15 @@ export function Minimap({ items, selectedIds, onNavigate, onFit }: Props) {
       }}
       onPress={(e) => {
         const { locationX, locationY } = e.nativeEvent;
-        const innerWidth = Math.max(1, size.width - 12);
-        const innerHeight = Math.max(1, size.height - 12);
-        const wx = layout.minX + (Math.max(0, locationX - 6) / innerWidth) * layout.w;
-        const wy = layout.minY + (Math.max(0, locationY - 6) / innerHeight) * layout.h;
-        onNavigate(wx, wy);
+        navigateAt(locationX, locationY);
       }}
+      onMoveShouldSetResponder={() => true}
+      onResponderMove={(e) => navigateAt(e.nativeEvent.locationX, e.nativeEvent.locationY)}
       onLongPress={onFit}
       accessibilityLabel="Mini map. Tap to move the view; long press to fit the board"
     >
       <View style={styles.surface}>
-        {items.map((it) => (
+        {renderedItems.map((it) => (
           <View
             key={it.id}
             style={[
@@ -77,6 +86,20 @@ export function Minimap({ items, selectedIds, onNavigate, onFit }: Props) {
             ]}
           />
         ))}
+        {viewport ? (
+          <View
+            pointerEvents="none"
+            style={[
+              styles.viewport,
+              {
+                left: `${((viewport.centerX - viewport.width / 2 - layout.minX) / layout.w) * 100}%`,
+                top: `${((viewport.centerY - viewport.height / 2 - layout.minY) / layout.h) * 100}%`,
+                width: `${Math.max(8, (viewport.width / layout.w) * 100)}%`,
+                height: `${Math.max(8, (viewport.height / layout.h) * 100)}%`,
+              },
+            ]}
+          />
+        ) : null}
       </View>
     </Pressable>
   );
@@ -116,5 +139,12 @@ const styles = StyleSheet.create({
     shadowColor: colors.selection,
     shadowOpacity: 0.8,
     shadowRadius: 4,
+  },
+  viewport: {
+    position: 'absolute',
+    borderWidth: 1,
+    borderColor: colors.cream,
+    backgroundColor: 'rgba(255,250,240,0.08)',
+    borderRadius: 4,
   },
 });

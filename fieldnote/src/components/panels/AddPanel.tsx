@@ -6,7 +6,7 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { ModalShell } from './ModalShell';
 import { useBoard } from '../../store/BoardContext';
 import { colors, radii } from '../../theme';
-import { persistPickedAsset } from '../../lib/localFiles';
+import { humanFileSize, persistPickedAsset } from '../../lib/localFiles';
 
 interface Props {
   visible: boolean;
@@ -15,7 +15,7 @@ interface Props {
 }
 
 export function AddPanel({ visible, onClose, viewCenter }: Props) {
-  const { addItem, addScientificTemplate, addWorkingFiles } = useBoard();
+  const { addItem, addScientificTemplate, addWorkingFiles, showToast } = useBoard();
 
   const placeAtCenter = (w: number, h: number) => ({
     x: viewCenter.x - w / 2,
@@ -100,6 +100,14 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
     onClose();
   };
 
+  const fileCardType = (mimeType?: string, name?: string) => {
+    const lower = `${mimeType ?? ''} ${name ?? ''}`.toLowerCase();
+    if (lower.includes('pdf') || lower.endsWith('.pdf')) return 'pdf' as const;
+    if (lower.startsWith('audio/') || /\.(mp3|wav|m4a|aac|ogg)$/.test(lower)) return 'audio' as const;
+    if (lower.includes('markdown') || /\.(md|markdown)$/.test(lower)) return 'markdown' as const;
+    return 'file' as const;
+  };
+
   const pickFiles = async () => {
     try {
       const result = await DocumentPicker.getDocumentAsync({
@@ -120,21 +128,25 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
       })));
       assets.forEach((asset, i) => {
         const isImage = (asset.mimeType ?? '').startsWith('image/');
-        const { x, y } = placeAtCenter(280, isImage ? 280 : 120);
+        const cardType = fileCardType(asset.mimeType, asset.name);
+        const { x, y } = placeAtCenter(280, isImage ? 220 : 120);
         if (isImage) {
+          const width = 280;
+          const dimensions = asset as typeof asset & { width?: number; height?: number };
+          const height = dimensions.height && dimensions.width ? Math.round(width * (dimensions.height / Math.max(dimensions.width, 1))) : 220;
           addItem({
             type: 'image',
             x: x + i * 24,
             y: y + i * 24,
-            width: 280,
-            height: 280,
+            width,
+            height,
             uri: asset.uri,
             alt: asset.name,
             backgroundColor: colors.paper,
           });
         } else {
           addItem({
-            type: 'file',
+            type: cardType,
             x: x + i * 24,
             y: y + i * 24,
             width: 240,
@@ -143,10 +155,12 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
             uri: asset.uri,
             mimeType: asset.mimeType,
             size: asset.size,
+            text: [asset.mimeType, humanFileSize(asset.size)].filter(Boolean).join(' · '),
             backgroundColor: colors.paperStrong,
           });
         }
       });
+      showToast(`${assets.length} file${assets.length === 1 ? '' : 's'} placed on board.`);
       onClose();
     } catch (e) {
       Alert.alert('Could not open files', String(e));

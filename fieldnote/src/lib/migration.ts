@@ -10,6 +10,7 @@ type UnknownItem = Partial<BoardItem> & {
   children?: string[];
   dependsOn?: string[];
   done?: boolean;
+  connectorSides?: Record<string, { fromSide?: string; toSide?: string }>;
 };
 
 type UnknownPath = {
@@ -18,6 +19,41 @@ type UnknownPath = {
   points?: { x?: number; y?: number }[];
   mode?: 'pen' | 'highlighter' | 'eraser';
 };
+
+const VALID_SIDES = new Set(['left', 'right', 'top', 'bottom']);
+
+function finite(value: unknown, fallback: number) {
+  return typeof value === 'number' && Number.isFinite(value) ? value : fallback;
+}
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function validColor(value: unknown, fallback?: string) {
+  if (typeof value !== 'string') return fallback;
+  if (/^#[0-9a-fA-F]{6}$/.test(value) || /^rgba?\(/.test(value)) return value;
+  return fallback;
+}
+
+function uniqueId(rawId: unknown, type: string, used: Set<string>) {
+  const base = typeof rawId === 'string' && rawId.trim() ? rawId.trim() : uid(type);
+  let candidate = base;
+  while (used.has(candidate)) candidate = uid(type);
+  used.add(candidate);
+  return candidate;
+}
+
+function sanitizeConnectorSides(raw: UnknownItem['connectorSides'], validIds: Set<string>) {
+  if (!raw || typeof raw !== 'object') return undefined;
+  const entries = Object.entries(raw).flatMap(([depId, sides]) => {
+    if (!validIds.has(depId)) return [];
+    const fromSide = VALID_SIDES.has(String(sides?.fromSide)) ? sides.fromSide : 'right';
+    const toSide = VALID_SIDES.has(String(sides?.toSide)) ? sides.toSide : 'left';
+    return [[depId, { fromSide, toSide }]];
+  });
+  return entries.length ? Object.fromEntries(entries) : undefined;
+}
 
 function taskState(done: boolean, dependsOn: string[], items: BoardItem[]) {
   if (done) return 'done' as const;
@@ -31,20 +67,21 @@ export function normalizeBoardItems(rawItems: unknown): BoardItem[] {
   if (!Array.isArray(rawItems)) return [];
   const output: BoardItem[] = [];
   const source = rawItems as UnknownItem[];
+  const usedIds = new Set<string>();
 
   source.forEach((raw, index) => {
     if (!raw || typeof raw !== 'object' || !raw.type) return;
     const base = {
-      id: raw.id ?? uid(String(raw.type)),
-      x: Number.isFinite(raw.x) ? Number(raw.x) : 80 + index * 24,
-      y: Number.isFinite(raw.y) ? Number(raw.y) : 80 + index * 24,
-      width: Number.isFinite(raw.width) ? Math.max(60, Number(raw.width)) : 260,
-      height: Number.isFinite(raw.height) ? Math.max(50, Number(raw.height)) : 140,
-      zIndex: Number.isFinite(raw.zIndex) ? Number(raw.zIndex) : index + 1,
-      backgroundColor: raw.backgroundColor,
-      color: raw.color,
+      id: uniqueId(raw.id, String(raw.type), usedIds),
+      x: clamp(finite(raw.x, 80 + index * 24), -100000, 100000),
+      y: clamp(finite(raw.y, 80 + index * 24), -100000, 100000),
+      width: clamp(finite(raw.width, 260), 60, 4000),
+      height: clamp(finite(raw.height, 140), 50, 4000),
+      zIndex: clamp(Math.round(finite(raw.zIndex, index + 1)), 1, 1000000),
+      backgroundColor: validColor(raw.backgroundColor),
+      color: validColor(raw.color),
       locked: Boolean(raw.locked),
-      opacity: typeof raw.opacity === 'number' ? raw.opacity : undefined,
+      opacity: typeof raw.opacity === 'number' ? clamp(raw.opacity, 0, 1) : undefined,
     };
 
     switch (raw.type) {
@@ -69,14 +106,17 @@ export function normalizeBoardItems(rawItems: unknown): BoardItem[] {
         });
         break;
       case 'task': {
-        const dependsOn = Array.isArray(raw.dependsOn) ? raw.dependsOn.filter(Boolean) : [];
+        const dependsOn = Array.isArray(raw.dependsOn) ? raw.dependsOn.filter((id): id is string => typeof id === 'string' && Boolean(id)) : [];
         output.push({
           ...base,
           type: 'task',
           text: String((raw as { text?: unknown }).text ?? 'Task'),
           done: Boolean(raw.done),
           dependsOn,
+          connectorSides: sanitizeConnectorSides(raw.connectorSides, new Set(dependsOn)),
           state: raw.done ? 'done' : dependsOn.length ? 'blocked' : 'ready',
+          priority: (raw as { priority?: 'low' | 'normal' | 'high' }).priority ?? 'normal',
+          dueDate: typeof (raw as { dueDate?: unknown }).dueDate === 'string' ? (raw as { dueDate: string }).dueDate : undefined,
         });
         break;
       }
@@ -97,7 +137,7 @@ export function normalizeBoardItems(rawItems: unknown): BoardItem[] {
           ...base,
           type: 'region',
           label: String((raw as { label?: unknown }).label ?? 'Region'),
-          opacity: typeof raw.opacity === 'number' ? raw.opacity : 0.16,
+          opacity: typeof raw.opacity === 'number' ? clamp(raw.opacity, 0, 1) : 0.16,
         });
         break;
       case 'shape':
@@ -105,6 +145,7 @@ export function normalizeBoardItems(rawItems: unknown): BoardItem[] {
           ...base,
           type: 'shape',
           shape: (raw as { shape?: 'rect' | 'ellipse' | 'line' }).shape ?? 'rect',
+          borderColor: validColor((raw as { borderColor?: unknown }).borderColor, colors.ink),
         });
         break;
       case 'drawing':
@@ -113,14 +154,14 @@ export function normalizeBoardItems(rawItems: unknown): BoardItem[] {
           type: 'drawing',
           paths: Array.isArray((raw as { paths?: unknown }).paths)
             ? ((raw as { paths: UnknownPath[] }).paths).map((path) => ({
-                color: path.color ?? colors.ink,
-                width: Number(path.width ?? 3),
+                color: validColor(path.color, colors.ink) ?? colors.ink,
+                width: clamp(finite(path.width, 3), 1, 80),
                 mode: path.mode ?? 'pen',
                 points: Array.isArray(path.points)
-                  ? path.points.map((point) => ({
-                      x: Number(point.x ?? 0),
-                      y: Number(point.y ?? 0),
-                    }))
+                  ? path.points
+                      .map((point) => ({ x: finite(point.x, NaN), y: finite(point.y, NaN) }))
+                      .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y))
+                      .map((point) => ({ x: clamp(point.x, -100000, 100000), y: clamp(point.y, -100000, 100000) }))
                   : [],
               }))
             : [],
@@ -152,6 +193,9 @@ export function normalizeBoardItems(rawItems: unknown): BoardItem[] {
           type: raw.type,
           name: String((raw as { name?: unknown }).name ?? raw.type),
           text: (raw as { text?: string }).text,
+          uri: typeof (raw as { uri?: unknown }).uri === 'string' ? (raw as { uri: string }).uri : undefined,
+          mimeType: typeof (raw as { mimeType?: unknown }).mimeType === 'string' ? (raw as { mimeType: string }).mimeType : undefined,
+          size: typeof (raw as { size?: unknown }).size === 'number' ? (raw as { size: number }).size : undefined,
         });
         break;
       default:
@@ -165,7 +209,7 @@ export function normalizeBoardItems(rawItems: unknown): BoardItem[] {
     raw.children.forEach((childText, index) => {
       if (!childText) return;
       withMigratedMindmaps.push({
-        id: uid('mindmap'),
+        id: uniqueId(undefined, 'mindmap', usedIds),
         type: 'mindmap',
         x: Number(raw.x ?? 0) + 260,
         y: Number(raw.y ?? 0) + index * 92 - 46,
@@ -175,21 +219,30 @@ export function normalizeBoardItems(rawItems: unknown): BoardItem[] {
         backgroundColor: colors.paperStrong,
         color: colors.ink,
         text: String(childText),
-        parentId: raw.id ?? null,
+        parentId: typeof raw.id === 'string' ? raw.id : null,
         collapsed: false,
         branchColor: PALETTE[index % PALETTE.length],
       });
     });
   });
 
-  return withMigratedMindmaps.map((item) =>
-    item.type === 'task'
-      ? ({
-          ...item,
-          state: taskState(item.done, item.dependsOn, withMigratedMindmaps),
-        } satisfies TaskItem)
-      : item,
-  );
+  const validIds = new Set(withMigratedMindmaps.map((item) => item.id));
+  return withMigratedMindmaps.map((item) => {
+    if (item.type === 'task') {
+      const dependsOn = Array.from(new Set(item.dependsOn.filter((id) => validIds.has(id) && id !== item.id)));
+      return {
+        ...item,
+        dependsOn,
+        connectorSides: sanitizeConnectorSides(item.connectorSides, new Set(dependsOn)),
+        state: taskState(item.done, dependsOn, withMigratedMindmaps),
+      } satisfies TaskItem;
+    }
+    if (item.type === 'mindmap') {
+      const parentId = item.parentId && validIds.has(item.parentId) && item.parentId !== item.id ? item.parentId : null;
+      return { ...item, parentId } satisfies MindMapItem;
+    }
+    return item;
+  });
 }
 
 export function migrateBoards(raw: unknown): Board[] {
@@ -199,10 +252,11 @@ export function migrateBoards(raw: unknown): Board[] {
       ? (raw as { boards: unknown[] }).boards
       : [];
 
+  const usedBoardIds = new Set<string>();
   return boards
     .filter((board): board is Partial<Board> & { id?: string; name?: string } => Boolean(board))
     .map((board, index) => ({
-      id: board.id ?? uid('board'),
+      id: uniqueId(board.id, 'board', usedBoardIds),
       name: board.name ?? `Board ${index + 1}`,
       items: normalizeBoardItems((board as { items?: unknown }).items),
       updatedAt: Number((board as { updatedAt?: unknown }).updatedAt ?? Date.now()),

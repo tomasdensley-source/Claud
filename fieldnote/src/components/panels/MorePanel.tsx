@@ -13,7 +13,8 @@ interface Props {
 }
 
 export function MorePanel({ visible, onClose }: Props) {
-  const { visibleItems, undo, redo, canUndo, canRedo, select, setPanel, resetToSeed, exportCurrentBoard, importBoardJson } = useBoard();
+  const { currentBoard, visibleItems, undo, redo, canUndo, canRedo, select, setPanel, resetToSeed, exportCurrentBoard, importBoardJson, removeSelectedDependency } = useBoard();
+  const tasks = currentBoard.items.filter((item) => item.type === 'task');
 
   const importJson = async () => {
     try {
@@ -83,6 +84,33 @@ export function MorePanel({ visible, onClose }: Props) {
         }}
       />
       <Row
+        icon="text-outline"
+        title="Select text cards"
+        subtitle="Select every visible text note"
+        onPress={() => {
+          select(visibleItems.filter((item) => item.type === 'text').map((item) => item.id));
+          onClose();
+        }}
+      />
+      <Row
+        icon="document-outline"
+        title="Select file cards"
+        subtitle="Select visible files, PDFs, audio, Markdown, folders, and images"
+        onPress={() => {
+          select(visibleItems.filter((item) => ['file', 'pdf', 'audio', 'markdown', 'folder', 'image'].includes(item.type)).map((item) => item.id));
+          onClose();
+        }}
+      />
+      <Row
+        icon="git-branch-outline"
+        title="Remove selected task dependency"
+        subtitle="Removes the newest dependency from the selected task"
+        onPress={() => {
+          removeSelectedDependency();
+          onClose();
+        }}
+      />
+      <Row
         icon="grid-outline"
         title="Add region card"
         subtitle="Create a draggable region from Add"
@@ -103,9 +131,9 @@ export function MorePanel({ visible, onClose }: Props) {
       <Row
         icon="refresh-outline"
         title="Reset to demo board"
-        subtitle="Clears local boards and restores seed content"
+        subtitle="Export first if needed; clears boards and copied files"
         onPress={() => {
-          Alert.alert('Reset Fieldnote?', 'This replaces saved boards with the demo board.', [
+          Alert.alert('Reset Fieldnote?', 'This replaces saved boards with the demo board and deletes copied Fieldnote files. Export a backup first if needed.', [
             { text: 'Cancel', style: 'cancel' },
             {
               text: 'Reset',
@@ -119,8 +147,18 @@ export function MorePanel({ visible, onClose }: Props) {
         }}
       />
       <View style={styles.tipBanner}>
-        <Text style={styles.tipBannerText}>Fieldnote 1.0.4 · Haptics are enabled for edits, drops, connects, and confirmations.</Text>
+        <Text style={styles.tipBannerText}>Fieldnote 1.0.5 · Haptics are enabled for edits, drops, connects, and confirmations.</Text>
       </View>
+      {tasks.length ? (
+        <View style={styles.statCard}>
+          <Text style={styles.stat}>Tasks</Text>
+          {tasks.slice(0, 8).map((task) => task.type === 'task' ? (
+            <Text key={task.id} style={styles.rowSub}>
+              {task.done ? 'Done' : task.state === 'blocked' ? 'Blocked' : 'Ready'} · {task.text || 'Untitled task'}
+            </Text>
+          ) : null)}
+        </View>
+      ) : null}
     </ModalShell>
   );
 }
@@ -161,9 +199,9 @@ export function GesturesPanel({ visible, onClose }: Props) {
 }
 
 export function StoragePanel({ visible, onClose }: Props) {
-  const { boards, resetToSeed } = useBoard();
+  const { boards, workingFiles, resetToSeed } = useBoard();
   const itemCount = boards.reduce((n, b) => n + b.items.length, 0);
-  const approxBytes = JSON.stringify(boards).length;
+  const approxBytes = JSON.stringify(boards).length + JSON.stringify(workingFiles).length + workingFiles.reduce((n, file) => n + (file.size ?? 0), 0);
   const approxSize = approxBytes < 1024 * 1024 ? `${Math.round(approxBytes / 1024)} KB` : `${(approxBytes / (1024 * 1024)).toFixed(1)} MB`;
 
   return (
@@ -176,16 +214,16 @@ export function StoragePanel({ visible, onClose }: Props) {
     >
       <View style={styles.statCard}>
         <Text style={styles.stat}>{boards.length} boards</Text>
-        <Text style={styles.statSub}>{itemCount} cards & files stored locally · approx {approxSize}</Text>
+        <Text style={styles.statSub}>{itemCount} cards · {workingFiles.length} working files · approx {approxSize}</Text>
       </View>
       <Text style={styles.body}>
         Waiting before editing protects your saved work. Boards autosave as you move and write.
-        Clearing app data or uninstalling removes local boards.
+        Clearing app data or uninstalling removes local boards. Reset also deletes files copied into Fieldnote storage.
       </Text>
       <Pressable
         style={styles.danger}
         onPress={() => {
-          Alert.alert('Clear all local boards?', undefined, [
+          Alert.alert('Clear all local boards?', 'Export a backup first if needed. This also deletes copied Fieldnote files.', [
             { text: 'Cancel', style: 'cancel' },
             {
               text: 'Clear',

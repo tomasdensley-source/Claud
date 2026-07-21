@@ -83,16 +83,30 @@ export function BoardsPanel({ visible, onClose }: Props) {
             </View>
             <View style={{ flex: 1 }}>
               {editing ? (
-                <TextInput
-                  value={name}
-                  onChangeText={setName}
-                  onBlur={() => {
-                    renameBoard(board.id, name.trim() || board.name);
-                    setEditingId(null);
-                  }}
-                  autoFocus
-                  style={styles.nameInput}
-                />
+                <View style={styles.editWrap}>
+                  <TextInput
+                    value={name}
+                    onChangeText={setName}
+                    autoFocus
+                    returnKeyType="done"
+                    onSubmitEditing={() => {
+                      renameBoard(board.id, name.trim() || board.name);
+                      setEditingId(null);
+                    }}
+                    style={styles.nameInput}
+                  />
+                  <View style={styles.editActions}>
+                    <Pressable onPress={() => {
+                      renameBoard(board.id, name.trim() || board.name);
+                      setEditingId(null);
+                    }} accessibilityLabel={`Save name for ${board.name}`}>
+                      <Text style={styles.editAction}>Save</Text>
+                    </Pressable>
+                    <Pressable onPress={() => setEditingId(null)} accessibilityLabel="Cancel board rename">
+                      <Text style={styles.editActionMuted}>Cancel</Text>
+                    </Pressable>
+                  </View>
+                </View>
               ) : (
                 <Text style={styles.name}>{board.name}</Text>
               )}
@@ -118,7 +132,15 @@ export function BoardsPanel({ visible, onClose }: Props) {
               >
                 <Ionicons name="trash-outline" size={18} color={colors.mutedInk} />
               </Pressable>
-            ) : null}
+            ) : (
+              <Pressable
+                onPress={() => Alert.alert('Active board cannot be deleted', 'Switch to another board first so Fieldnote always has a safe active board.')}
+                hitSlop={8}
+                accessibilityLabel="Why active board cannot be deleted"
+              >
+                <Ionicons name="information-circle-outline" size={18} color={colors.mutedInk} />
+              </Pressable>
+            )}
           </Pressable>
         );
       })}
@@ -186,6 +208,23 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 15,
     padding: 0,
+  },
+  editWrap: {
+    gap: 6,
+  },
+  editActions: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  editAction: {
+    color: colors.clayDeep,
+    fontWeight: '900',
+    fontSize: 12,
+  },
+  editActionMuted: {
+    color: colors.mutedInk,
+    fontWeight: '700',
+    fontSize: 12,
   },
   meta: {
     color: colors.mutedInk,

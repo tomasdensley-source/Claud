@@ -14,13 +14,14 @@ interface Props {
 type TypeFilter = 'everything' | 'text' | 'image' | 'file' | 'task';
 
 export function SearchPanel({ visible, onClose, onFocusItem }: Props) {
-  const { visibleItems, select, setPanel } = useBoard();
+  const { currentBoard, hiddenIds, select, setPanel, revealMindPath } = useBoard();
   const [query, setQuery] = useState('');
   const [type, setType] = useState<TypeFilter>('everything');
+  const [showAll, setShowAll] = useState(false);
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return visibleItems.filter((it) => {
+    return currentBoard.items.filter((it) => {
       if (type !== 'everything') {
         if (type === 'file' && !(it.type === 'file' || it.type === 'folder')) return false;
         else if (type !== 'file' && it.type !== type) return false;
@@ -34,7 +35,8 @@ export function SearchPanel({ visible, onClose, onFocusItem }: Props) {
       if (it.type === 'region') return it.label.toLowerCase().includes(q);
       return it.type.includes(q);
     });
-  }, [visibleItems, query, type]);
+  }, [currentBoard.items, query, type]);
+  const visibleResults = showAll ? results : results.slice(0, 30);
 
   const filters: TypeFilter[] = ['everything', 'text', 'image', 'file', 'task'];
 
@@ -74,7 +76,13 @@ export function SearchPanel({ visible, onClose, onFocusItem }: Props) {
         ))}
       </View>
       <Text style={styles.count}>{results.length} results</Text>
-      {results.map((it) => {
+      {results.length === 0 ? (
+        <View style={styles.empty}>
+          <Text style={styles.label}>No matches yet</Text>
+          <Text style={styles.meta}>Try a task, region label, file name, or hidden mind-map branch.</Text>
+        </View>
+      ) : null}
+      {visibleResults.map((it) => {
         const label =
           it.type === 'text' || it.type === 'task' || it.type === 'mindmap'
             ? it.text.slice(0, 80) || 'Untitled'
@@ -91,6 +99,7 @@ export function SearchPanel({ visible, onClose, onFocusItem }: Props) {
             style={styles.row}
             onPress={() => {
               select([it.id]);
+              if (hiddenIds.has(it.id)) revealMindPath(it.id);
               onFocusItem(it.x + it.width / 2, it.y + it.height / 2);
               setPanel(null);
               onClose();
@@ -113,11 +122,16 @@ export function SearchPanel({ visible, onClose, onFocusItem }: Props) {
               <Text style={styles.label} numberOfLines={2}>
                 {label}
               </Text>
-              <Text style={styles.meta}>{it.type}</Text>
+              <Text style={styles.meta}>{it.type}{hiddenIds.has(it.id) ? ' · hidden in collapsed branch' : ''}</Text>
             </View>
           </Pressable>
         );
       })}
+      {!showAll && results.length > visibleResults.length ? (
+        <Pressable style={styles.clearBtn} onPress={() => setShowAll(true)}>
+          <Text style={styles.clearText}>Show {results.length - visibleResults.length} more</Text>
+        </Pressable>
+      ) : null}
     </ModalShell>
   );
 }
@@ -148,6 +162,12 @@ const styles = StyleSheet.create({
   chipText: { color: colors.ink, fontSize: 12, fontWeight: '600' },
   chipTextActive: { color: colors.cream },
   count: { color: colors.mutedInk, fontSize: 12 },
+  empty: {
+    padding: 14,
+    borderRadius: radii.control,
+    backgroundColor: colors.paperStrong,
+    gap: 4,
+  },
   clearBtn: {
     alignSelf: 'flex-start',
     flexDirection: 'row',

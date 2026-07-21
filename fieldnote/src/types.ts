@@ -52,7 +52,10 @@ export interface TaskItem extends BoardItemBase {
   text: string;
   done: boolean;
   dependsOn: string[];
+  connectorSides?: Record<string, { fromSide: 'left' | 'right' | 'top' | 'bottom'; toSide: 'left' | 'right' | 'top' | 'bottom' }>;
   state: TaskState;
+  priority?: 'low' | 'normal' | 'high';
+  dueDate?: string;
 }
 
 export interface MindMapItem extends BoardItemBase {
@@ -71,6 +74,7 @@ export interface RegionItem extends BoardItemBase {
 export interface ShapeItem extends BoardItemBase {
   type: 'shape';
   shape: 'rect' | 'ellipse' | 'line';
+  borderColor?: string;
 }
 
 export interface DrawingItem extends BoardItemBase {
@@ -101,6 +105,9 @@ export interface StubItem extends BoardItemBase {
   type: 'audio' | 'pdf' | 'markdown';
   name: string;
   text?: string;
+  uri?: string;
+  mimeType?: string;
+  size?: number;
 }
 
 export type BoardItem =

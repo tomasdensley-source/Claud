@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useBoard } from '../store/BoardContext';
 import { colors, radii, shadows } from '../theme';
 import { PanelKind } from '../types';
@@ -17,6 +18,27 @@ export function Toolbar() {
   const { panel, setPanel, tool, setTool, clearSelection, selectedIds } = useBoard();
   const [collapsed, setCollapsed] = React.useState(false);
   const [side, setSide] = React.useState<'left' | 'right'>('left');
+
+  React.useEffect(() => {
+    void AsyncStorage.multiGet(['fieldnote.toolbar.collapsed.v1', 'fieldnote.toolbar.side.v1']).then((entries) => {
+      const map = Object.fromEntries(entries);
+      setCollapsed(map['fieldnote.toolbar.collapsed.v1'] === '1');
+      setSide(map['fieldnote.toolbar.side.v1'] === 'right' ? 'right' : 'left');
+    }).catch(() => undefined);
+  }, []);
+
+  const updateCollapsed = (next: boolean) => {
+    setCollapsed(next);
+    void AsyncStorage.setItem('fieldnote.toolbar.collapsed.v1', next ? '1' : '0');
+  };
+
+  const toggleSide = () => {
+    setSide((current) => {
+      const next = current === 'left' ? 'right' : 'left';
+      void AsyncStorage.setItem('fieldnote.toolbar.side.v1', next);
+      return next;
+    });
+  };
 
   const buttons: ToolBtn[] = [
     {
@@ -67,8 +89,8 @@ export function Toolbar() {
     return (
       <Pressable
         style={[styles.collapsed, side === 'right' && styles.rightCollapsed, shadows.control]}
-        onPress={() => setCollapsed(false)}
-        onLongPress={() => setSide(side === 'left' ? 'right' : 'left')}
+        onPress={() => updateCollapsed(false)}
+        onLongPress={toggleSide}
         accessibilityLabel="Show canvas tools"
         hitSlop={8}
       >
@@ -81,13 +103,16 @@ export function Toolbar() {
     <View style={[styles.rail, side === 'right' && styles.railRight, shadows.control]}>
       <View style={styles.head}>
         <Pressable
-          onPress={() => setCollapsed(true)}
-          onLongPress={() => setSide(side === 'left' ? 'right' : 'left')}
+          onPress={() => updateCollapsed(true)}
+          onLongPress={toggleSide}
           style={styles.headBtn}
           accessibilityLabel="Hide tools"
           hitSlop={10}
         >
           <Ionicons name={side === 'left' ? 'chevron-back' : 'chevron-forward'} size={16} color={colors.cream} />
+        </Pressable>
+        <Pressable onPress={toggleSide} style={styles.headBtn} accessibilityLabel="Move toolbar to other side" hitSlop={10}>
+          <Ionicons name="swap-horizontal-outline" size={15} color={colors.cream} />
         </Pressable>
       </View>
       {buttons.map((btn) => {

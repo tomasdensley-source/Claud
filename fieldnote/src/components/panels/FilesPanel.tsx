@@ -11,16 +11,25 @@ interface Props {
   visible: boolean;
   onClose: () => void;
   viewCenter: { x: number; y: number };
+  onFocusItem: (x: number, y: number) => void;
 }
 
-export function FilesPanel({ visible, onClose, viewCenter }: Props) {
-  const { currentBoard, addItem, select, setPanel, workingFiles, addWorkingFiles, removeWorkingFile } = useBoard();
+export function FilesPanel({ visible, onClose, viewCenter, onFocusItem }: Props) {
+  const { currentBoard, addItem, select, setPanel, workingFiles, addWorkingFiles, removeWorkingFile, showToast } = useBoard();
   const [query, setQuery] = useState('');
 
   const files = useMemo(
     () => currentBoard.items.filter((it) => it.type === 'file' || it.type === 'folder' || it.type === 'image'),
     [currentBoard.items],
   );
+
+  const fileCardType = (mimeType?: string, name?: string) => {
+    const lower = `${mimeType ?? ''} ${name ?? ''}`.toLowerCase();
+    if (lower.includes('pdf') || lower.endsWith('.pdf')) return 'pdf' as const;
+    if (lower.startsWith('audio/') || /\.(mp3|wav|m4a|aac|ogg)$/.test(lower)) return 'audio' as const;
+    if (lower.includes('markdown') || /\.(md|markdown)$/.test(lower)) return 'markdown' as const;
+    return 'file' as const;
+  };
 
   const filtered = files.filter((it) => {
     const name =
@@ -29,8 +38,10 @@ export function FilesPanel({ visible, onClose, viewCenter }: Props) {
         : it.type === 'image'
           ? it.alt ?? 'Image'
           : '';
-    return name.toLowerCase().includes(query.toLowerCase());
+    const libraryHit = workingFiles.some((file) => file.name.toLowerCase().includes(query.toLowerCase()));
+    return name.toLowerCase().includes(query.toLowerCase()) || libraryHit;
   });
+  const filteredLibrary = workingFiles.filter((file) => file.name.toLowerCase().includes(query.toLowerCase()));
 
   const upload = async () => {
     try {
@@ -52,8 +63,9 @@ export function FilesPanel({ visible, onClose, viewCenter }: Props) {
       })));
       assets.forEach((asset, i) => {
         const isImage = (asset.mimeType ?? '').startsWith('image/');
+        const cardType = fileCardType(asset.mimeType, asset.name);
         addItem({
-          type: isImage ? 'image' : 'file',
+          type: isImage ? 'image' : cardType,
           x: viewCenter.x - 120 + i * 20,
           y: viewCenter.y - 60 + i * 20,
           width: isImage ? 260 : 240,
@@ -63,9 +75,11 @@ export function FilesPanel({ visible, onClose, viewCenter }: Props) {
           mimeType: asset.mimeType,
           size: asset.size,
           alt: asset.name,
+          text: [asset.mimeType, humanFileSize(asset.size)].filter(Boolean).join(' · '),
           backgroundColor: colors.paperStrong,
         } as Parameters<typeof addItem>[0]);
       });
+      showToast(`${assets.length} upload${assets.length === 1 ? '' : 's'} complete.`);
     } catch (e) {
       Alert.alert('Could not upload files', String(e));
     }
@@ -133,6 +147,7 @@ export function FilesPanel({ visible, onClose, viewCenter }: Props) {
               style={styles.row}
               onPress={() => {
                 select([it.id]);
+                onFocusItem(it.x + it.width / 2, it.y + it.height / 2);
                 setPanel(null);
                 onClose();
               }}
@@ -152,13 +167,13 @@ export function FilesPanel({ visible, onClose, viewCenter }: Props) {
       {workingFiles.length ? (
         <>
           <Text style={styles.section}>Library</Text>
-          {workingFiles.slice(0, 8).map((file) => (
+          {filteredLibrary.map((file) => (
             <Pressable
               key={file.id}
               style={styles.row}
               onPress={() => {
                 addItem({
-                  type: (file.mimeType ?? '').startsWith('image/') ? 'image' : 'file',
+                  type: (file.mimeType ?? '').startsWith('image/') ? 'image' : fileCardType(file.mimeType, file.name),
                   x: viewCenter.x - 120,
                   y: viewCenter.y - 60,
                   width: 260,
@@ -168,8 +183,10 @@ export function FilesPanel({ visible, onClose, viewCenter }: Props) {
                   mimeType: file.mimeType,
                   size: file.size,
                   alt: file.name,
+                  text: [file.mimeType, humanFileSize(file.size)].filter(Boolean).join(' · '),
                   backgroundColor: colors.paperStrong,
                 } as Parameters<typeof addItem>[0]);
+                showToast(`${file.name} placed on board.`);
                 onClose();
               }}
             >

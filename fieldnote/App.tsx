@@ -16,6 +16,7 @@ import { SearchPanel } from './src/components/panels/SearchPanel';
 import { GesturesPanel, MorePanel, StoragePanel } from './src/components/panels/MorePanel';
 import { loadOnboardingDismissed, saveOnboardingDismissed } from './src/lib/storage';
 import { colors, PALETTE } from './src/theme';
+import { BoardItem } from './src/types';
 
 class ErrorBoundary extends Component<
   { children: ReactNode; onReset?: () => void },
@@ -66,6 +67,8 @@ function FieldnoteApp() {
     drawColor,
     drawWidth,
     drawMode,
+    dirty,
+    saving,
     setDrawColor,
     setDrawWidth,
     setDrawMode,
@@ -75,6 +78,10 @@ function FieldnoteApp() {
     lockSelected,
     deleteSelected,
     duplicateSelected,
+    clearSelection,
+    bringSelectedForward,
+    sendSelectedBackward,
+    removeSelectedDependency,
     canPaste,
     toast,
     dismissToast,
@@ -90,6 +97,8 @@ function FieldnoteApp() {
     scale?: number;
     token: number;
   } | null>(null);
+  const [editRequest, setEditRequest] = useState(0);
+  const [addCenter, setAddCenter] = useState<{ x: number; y: number } | null>(null);
   const [cameraCenter, setCameraCenter] = useState({ x: 600, y: 400 });
   const [showOnboarding, setShowOnboarding] = useState(false);
 
@@ -110,6 +119,10 @@ function FieldnoteApp() {
 
   const viewCenter = cameraCenter;
   const allSelectedLocked = selectedIds.length > 0 && selectedIds.every((id) => currentBoard.items.find((it) => it.id === id)?.locked);
+  const selectedItems = useMemo(
+    () => currentBoard.items.filter((item) => selectedIds.includes(item.id)),
+    [currentBoard.items, selectedIds],
+  );
 
   const requestZoom = useCallback((next: number) => {
     setZoomRequest({ scale: Math.min(2.8, Math.max(0.2, next)), token: Date.now() });
@@ -142,6 +155,11 @@ function FieldnoteApp() {
             fitSelectionRequest={fitSelectionRequest}
             zoomRequest={zoomRequest}
             centerRequest={centerRequest}
+            editRequest={editRequest}
+            onOpenAddAt={(center) => {
+              setAddCenter(center);
+              setPanel('add');
+            }}
           />
         </ErrorBoundary>
         <BoardBadge />
@@ -149,6 +167,7 @@ function FieldnoteApp() {
         <Minimap
           items={visibleItems}
           selectedIds={selectedIds}
+          viewport={{ centerX: cameraCenter.x, centerY: cameraCenter.y, width: width / Math.max(scale, 0.2), height: height / Math.max(scale, 0.2) }}
           onNavigate={(x, y) => setCenterRequest({ x, y, token: Date.now() })}
           onFit={() => setFitRequest((n) => n + 1)}
         />
@@ -157,12 +176,20 @@ function FieldnoteApp() {
           drawColor={drawColor}
           drawWidth={drawWidth}
           drawMode={drawMode}
+          selectedCount={selectedIds.length}
           onColor={(color) => {
-            setDrawColor(color);
-            if (selectedIds.length) formatSelected({ backgroundColor: color, color });
+            if (tool === 'draw') setDrawColor(color);
+            if (selectedItems.length) {
+              const hasText = selectedItems.some((item) => item.type === 'text');
+              const hasShape = selectedItems.some((item) => item.type === 'shape');
+              if (hasText) formatSelected({ color } as Partial<BoardItem>);
+              else if (hasShape) formatSelected({ backgroundColor: color, borderColor: color } as Partial<BoardItem>);
+              else formatSelected({ backgroundColor: color } as Partial<BoardItem>);
+            }
           }}
           onWidth={setDrawWidth}
           onMode={setDrawMode}
+          onFormat={(patch) => formatSelected(patch)}
         />
         <ZoomControls
           scale={scale}
@@ -182,16 +209,17 @@ function FieldnoteApp() {
             } else deleteSelected();
           }}
           onCopy={copySelection}
-          onPaste={pasteSelection}
+          onPaste={() => pasteSelection(viewCenter)}
+          onEdit={() => setEditRequest((n) => n + 1)}
+          onDeselect={clearSelection}
+          onBringForward={bringSelectedForward}
+          onSendBackward={sendSelectedBackward}
+          onRemoveDependency={removeSelectedDependency}
           canPaste={canPaste}
           lockActive={allSelectedLocked}
           onLock={() => lockSelected(!allSelectedLocked)}
         />
-        {currentBoard.items.length === 0 ? (
-          <Pressable style={styles.centerAdd} onPress={() => setPanel('add')} accessibilityLabel="Add first item">
-            <Text style={styles.centerAddText}>Add first item</Text>
-          </Pressable>
-        ) : null}
+        <Text style={styles.saveStatus}>{saving ? 'Saving...' : dirty ? 'Unsaved changes' : 'Saved'}</Text>
         {showOnboarding ? (
           <View style={styles.onboarding}>
             <Text style={styles.onboardingTitle}>Welcome to Fieldnote</Text>
@@ -223,14 +251,18 @@ function FieldnoteApp() {
 
         <AddPanel
           visible={panel === 'add'}
-          onClose={() => setPanel(null)}
-          viewCenter={viewCenter}
+          onClose={() => {
+            setPanel(null);
+            setAddCenter(null);
+          }}
+          viewCenter={addCenter ?? viewCenter}
         />
         <BoardsPanel visible={panel === 'boards'} onClose={() => setPanel(null)} />
         <FilesPanel
           visible={panel === 'files'}
           onClose={() => setPanel(null)}
           viewCenter={viewCenter}
+          onFocusItem={(x, y) => setCenterRequest({ x, y, scale: Math.max(scale, 1), token: Date.now() })}
         />
         <SearchPanel
           visible={panel === 'search'}
@@ -250,17 +282,21 @@ function PaletteStrip({
   drawColor,
   drawWidth,
   drawMode,
+  selectedCount,
   onColor,
   onWidth,
   onMode,
+  onFormat,
 }: {
   visible: boolean;
   drawColor: string;
   drawWidth: number;
   drawMode: 'pen' | 'highlighter' | 'eraser';
+  selectedCount: number;
   onColor: (color: string) => void;
   onWidth: (width: number) => void;
   onMode: (mode: 'pen' | 'highlighter' | 'eraser') => void;
+  onFormat: (patch: Partial<BoardItem>) => void;
 }) {
   if (!visible) return null;
   return (
@@ -282,9 +318,29 @@ function PaletteStrip({
       ))}
       {(['pen', 'highlighter', 'eraser'] as const).map((mode) => (
         <Pressable key={mode} style={[styles.modeBtn, drawMode === mode && styles.modeBtnActive]} onPress={() => onMode(mode)} accessibilityLabel={`Draw mode ${mode}`}>
-          <Text style={styles.modeText}>{mode[0]}</Text>
+          <Text style={styles.modeText}>{mode === 'pen' ? 'Pen' : mode === 'highlighter' ? 'High' : 'Eraser'}</Text>
         </Pressable>
       ))}
+      {selectedCount > 0 ? (
+        <>
+          <View style={styles.paletteDivider} />
+          <Pressable style={styles.modeBtn} onPress={() => onFormat({ fontSize: 18 } as Partial<BoardItem>)} accessibilityLabel="Small text">
+            <Text style={styles.modeText}>A-</Text>
+          </Pressable>
+          <Pressable style={styles.modeBtn} onPress={() => onFormat({ fontSize: 28 } as Partial<BoardItem>)} accessibilityLabel="Large text">
+            <Text style={styles.modeText}>A+</Text>
+          </Pressable>
+          <Pressable style={styles.modeBtn} onPress={() => onFormat({ fontWeight: '700' } as Partial<BoardItem>)} accessibilityLabel="Bold text">
+            <Text style={styles.modeText}>Bold</Text>
+          </Pressable>
+          <Pressable style={styles.modeBtn} onPress={() => onFormat({ textAlign: 'center' } as Partial<BoardItem>)} accessibilityLabel="Center text">
+            <Text style={styles.modeText}>Center</Text>
+          </Pressable>
+          <Pressable style={styles.modeBtn} onPress={() => onFormat({ shape: 'ellipse' } as Partial<BoardItem>)} accessibilityLabel="Ellipse shape">
+            <Text style={styles.modeText}>Oval</Text>
+          </Pressable>
+        </>
+      ) : null}
     </View>
   );
 }
@@ -399,12 +455,13 @@ const styles = StyleSheet.create({
   widthBtnActive: { backgroundColor: 'rgba(238,177,116,0.32)' },
   widthText: { color: colors.cream, fontSize: 11, fontWeight: '800' },
   modeBtn: {
-    width: 30,
+    minWidth: 44,
     height: 28,
     borderRadius: 9,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(255,250,240,0.08)',
+    paddingHorizontal: 5,
   },
   modeBtnActive: { backgroundColor: colors.clayDeep },
   modeText: { color: colors.cream, fontSize: 11, fontWeight: '900' },
@@ -423,12 +480,25 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 86,
     right: 132,
-    bottom: 18,
+    bottom: 96,
     backgroundColor: colors.tipBlue,
     borderRadius: 18,
     padding: 14,
     gap: 8,
     zIndex: 44,
+  },
+  saveStatus: {
+    position: 'absolute',
+    alignSelf: 'center',
+    top: 14,
+    color: colors.mutedInk,
+    fontSize: 12,
+    fontWeight: '800',
+    zIndex: 38,
+    backgroundColor: 'rgba(255,250,240,0.72)',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 999,
   },
   onboardingTitle: { color: colors.ink, fontWeight: '900', fontSize: 15 },
   onboardingBody: { color: colors.mutedInk, lineHeight: 19 },

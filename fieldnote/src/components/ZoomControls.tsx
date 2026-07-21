@@ -15,6 +15,11 @@ interface Props {
   onDelete?: () => void;
   onCopy?: () => void;
   onPaste?: () => void;
+  onEdit?: () => void;
+  onDeselect?: () => void;
+  onBringForward?: () => void;
+  onSendBackward?: () => void;
+  onRemoveDependency?: () => void;
   onLock?: () => void;
   canPaste?: boolean;
   lockActive?: boolean;
@@ -32,6 +37,11 @@ export function ZoomControls({
   onDelete,
   onCopy,
   onPaste,
+  onEdit,
+  onDeselect,
+  onBringForward,
+  onSendBackward,
+  onRemoveDependency,
   onLock,
   canPaste,
   lockActive,
@@ -41,9 +51,13 @@ export function ZoomControls({
       {selectedCount > 0 ? (
         <View style={[styles.bar, shadows.control, styles.selectionBar]}>
           <Text style={styles.selectionText}>{selectedCount} selected</Text>
+          <ActionButton icon="create-outline" label="Edit" onPress={onEdit} />
           <Pressable onPress={onFitSelection} style={styles.iconBtn} accessibilityLabel="Fit selection" hitSlop={6}>
             <Ionicons name="scan-outline" size={18} color={colors.cream} />
           </Pressable>
+          <ActionButton icon="arrow-up-circle-outline" label="Front" onPress={onBringForward} />
+          <ActionButton icon="arrow-down-circle-outline" label="Back" onPress={onSendBackward} />
+          <ActionButton icon="git-branch-outline" label="Unlink" onPress={onRemoveDependency} />
           <Pressable onPress={onCopy} style={styles.iconBtn} accessibilityLabel="Copy selection" hitSlop={6}>
             <Ionicons name="clipboard-outline" size={18} color={colors.cream} />
           </Pressable>
@@ -59,6 +73,7 @@ export function ZoomControls({
           <Pressable onPress={onDelete} style={styles.iconBtn} accessibilityLabel="Delete" hitSlop={6}>
             <Ionicons name="trash-outline" size={18} color={colors.cream} />
           </Pressable>
+          <ActionButton icon="close-outline" label="Deselect" onPress={onDeselect} />
         </View>
       ) : null}
       <View style={[styles.bar, shadows.control]}>
@@ -80,12 +95,29 @@ export function ZoomControls({
           <>
             <View style={styles.divider} />
             <Pressable onPress={onPaste} style={styles.iconBtn} accessibilityLabel="Paste clipboard" hitSlop={6}>
-              <Ionicons name="duplicate-outline" size={18} color={colors.cream} />
+              <Ionicons name="clipboard-outline" size={18} color={colors.cream} />
             </Pressable>
           </>
         ) : null}
       </View>
     </View>
+  );
+}
+
+function ActionButton({
+  icon,
+  label,
+  onPress,
+}: {
+  icon: keyof typeof Ionicons.glyphMap;
+  label: string;
+  onPress?: () => void;
+}) {
+  return (
+    <Pressable onPress={onPress} style={styles.actionBtn} accessibilityLabel={label} hitSlop={6}>
+      <Ionicons name={icon} size={16} color={colors.cream} />
+      <Text style={styles.actionLabel}>{label}</Text>
+    </Pressable>
   );
 }
 
@@ -117,6 +149,19 @@ const styles = StyleSheet.create({
     height: 36,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  actionBtn: {
+    minWidth: 42,
+    height: 36,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 4,
+  },
+  actionLabel: {
+    color: 'rgba(255,250,240,0.82)',
+    fontSize: 8,
+    fontWeight: '800',
+    marginTop: -2,
   },
   disabled: {
     opacity: 0.35,

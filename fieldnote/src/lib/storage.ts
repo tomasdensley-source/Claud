@@ -8,6 +8,8 @@ const LEGACY_STORAGE_KEY = 'fieldnote.boards.v1';
 const CURRENT_KEY = 'fieldnote.currentBoardId.v1';
 const WORKING_FILES_KEY = 'fieldnote.workingFiles.v1';
 const ONBOARDING_KEY = 'fieldnote.onboarding.dismissed.v1';
+const CLIPBOARD_KEY = 'fieldnote.clipboard.v1';
+const BACKUP_KEY = 'fieldnote.boards.backup.v1';
 
 export interface LoadBoardsResult {
   boards: Board[];
@@ -37,17 +39,17 @@ export async function loadBoards(): Promise<LoadBoardsResult> {
       current && boards.some((b) => b.id === current) ? current : boards[0].id;
     return { boards, currentBoardId, recoveredFromCorruptJson: false };
   } catch {
+    await AsyncStorage.setItem(`${BACKUP_KEY}.${Date.now()}`, String(await AsyncStorage.getItem(STORAGE_KEY))).catch(() => undefined);
     const main = createMainBoard();
     return { boards: [main], currentBoardId: main.id, recoveredFromCorruptJson: true };
   }
 }
 
 export async function saveBoards(boards: Board[], currentBoardId: string): Promise<void> {
+  const payload = JSON.stringify({ schemaVersion: STORAGE_SCHEMA_VERSION, boards });
+  await AsyncStorage.setItem(BACKUP_KEY, payload);
   await Promise.all([
-    AsyncStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify({ schemaVersion: STORAGE_SCHEMA_VERSION, boards }),
-    ),
+    AsyncStorage.setItem(STORAGE_KEY, payload),
     AsyncStorage.setItem(CURRENT_KEY, currentBoardId),
   ]);
 }
@@ -69,6 +71,20 @@ export async function saveWorkingFiles(files: WorkingFileRecord[]): Promise<void
   await AsyncStorage.setItem(WORKING_FILES_KEY, JSON.stringify(files));
 }
 
+export async function loadClipboard(): Promise<unknown[]> {
+  try {
+    const raw = await AsyncStorage.getItem(CLIPBOARD_KEY);
+    const parsed = raw ? (JSON.parse(raw) as unknown) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+export async function saveClipboard(items: unknown[]): Promise<void> {
+  await AsyncStorage.setItem(CLIPBOARD_KEY, JSON.stringify(items));
+}
+
 export async function loadOnboardingDismissed(): Promise<boolean> {
   return (await AsyncStorage.getItem(ONBOARDING_KEY)) === '1';
 }
@@ -83,5 +99,6 @@ export async function clearAllBoards(): Promise<void> {
     AsyncStorage.removeItem(LEGACY_STORAGE_KEY),
     AsyncStorage.removeItem(CURRENT_KEY),
     AsyncStorage.removeItem(WORKING_FILES_KEY),
+    AsyncStorage.removeItem(CLIPBOARD_KEY),
   ]);
 }
