@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+:root {
+  --canvas: #f4ecdd;
+  --canvas-grid: rgba(169, 124, 69, 0.22);
+  --paper: #fbf6ec;
+  --paper-strong: #fffaf0;
+  --ink: #34261d;
+  --muted: #6d5847;
+  --walnut: #241c17;
+  --walnut-raised: #342821;
+  --clay: #e9b27f;
+  --clay-deep: #cb7d46;
+  --amber: #edb64a;
+  --cream: #fff8e9;
+  --selection: #eeb174;
+  --glow: #38b978;
+  --tip: #d8e6e8;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: "SF Pro Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+  touch-action: none;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
