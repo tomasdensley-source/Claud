@@ -2,6 +2,7 @@ import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
 import {
   GestureResponderEvent,
   Image,
+  Linking,
   Modal,
   Pressable,
   ScrollView,
@@ -11,7 +12,6 @@ import {
   View,
 } from 'react-native';
 import * as Haptics from 'expo-haptics';
-import { Audio, AVPlaybackStatus } from 'expo-av';
 import Svg, { Circle, Ellipse, Line, Path, Rect as SvgRect } from 'react-native-svg';
 import { BoardItem } from '../types';
 import { colors, radii, shadows } from '../theme';
@@ -19,7 +19,48 @@ import { SEED_IMAGES } from '../lib/seedImages';
 import { fromPortableUri, humanFileSize } from '../lib/localFiles';
 
 type ConnectorSide = 'left' | 'right' | 'top' | 'bottom';
-let activeAudio: Audio.Sound | null = null;
+type AudioSound = {
+  pauseAsync: () => Promise<unknown>;
+  playAsync: () => Promise<unknown>;
+  setPositionAsync: (positionMillis: number) => Promise<unknown>;
+  unloadAsync: () => Promise<unknown>;
+};
+type PlaybackStatus = {
+  isLoaded: boolean;
+  error?: string;
+  isPlaying?: boolean;
+  positionMillis?: number;
+  durationMillis?: number;
+};
+type AudioModule = {
+  Audio?: {
+    Sound?: {
+      createAsync?: (
+        source: { uri: string },
+        initialStatus: { shouldPlay: boolean },
+        onPlaybackStatusUpdate: (status: PlaybackStatus) => void,
+      ) => Promise<{ sound: AudioSound }>;
+    };
+  };
+};
+let activeAudio: AudioSound | null = null;
+
+async function loadAudioModule(): Promise<AudioModule | null> {
+  try {
+    return await import('expo-av');
+  } catch {
+    return null;
+  }
+}
+
+async function openAudioExternally(uri: string, setAudioError: (message: string | null) => void) {
+  try {
+    await Linking.openURL(uri);
+    setAudioError('Opened audio with another app.');
+  } catch {
+    setAudioError('Could not play this audio file.');
+  }
+}
 
 interface Props {
   item: BoardItem;
@@ -119,7 +160,7 @@ export const CanvasItemView = memo(function CanvasItemView({
   const [imageFailed, setImageFailed] = useState(false);
   const [readerOpen, setReaderOpen] = useState(false);
   const [collapsedMarkdown, setCollapsedMarkdown] = useState<Record<string, boolean>>({});
-  const soundRef = useRef<Audio.Sound | null>(null);
+  const soundRef = useRef<AudioSound | null>(null);
   const [audioPlaying, setAudioPlaying] = useState(false);
   const [audioPosition, setAudioPosition] = useState(0);
   const [audioDuration, setAudioDuration] = useState(0);
@@ -135,7 +176,7 @@ export const CanvasItemView = memo(function CanvasItemView({
 
   useEffect(() => () => {
     if (activeAudio === soundRef.current) activeAudio = null;
-    void soundRef.current?.unloadAsync();
+    void soundRef.current?.unloadAsync().catch(() => undefined);
     soundRef.current = null;
   }, []);
 
@@ -147,12 +188,18 @@ export const CanvasItemView = memo(function CanvasItemView({
     try {
       if (!soundRef.current) {
         if (activeAudio && activeAudio !== soundRef.current) await activeAudio.pauseAsync().catch(() => undefined);
-        const created = await Audio.Sound.createAsync({ uri: resolvedUri }, { shouldPlay: true }, (status: AVPlaybackStatus) => {
+        const audioModule = await loadAudioModule();
+        const createAsync = audioModule?.Audio?.Sound?.createAsync;
+        if (!createAsync) {
+          await openAudioExternally(resolvedUri, setAudioError);
+          return;
+        }
+        const created = await createAsync({ uri: resolvedUri }, { shouldPlay: true }, (status: PlaybackStatus) => {
           if (!status.isLoaded) {
             if ('error' in status) setAudioError(status.error ?? 'Playback failed.');
             return;
           }
-          setAudioPlaying(status.isPlaying);
+          setAudioPlaying(Boolean(status.isPlaying));
           setAudioPosition(status.positionMillis ?? 0);
           setAudioDuration(status.durationMillis ?? 0);
         });
@@ -168,7 +215,7 @@ export const CanvasItemView = memo(function CanvasItemView({
         await soundRef.current.playAsync();
       }
     } catch {
-      setAudioError('Could not play this audio file.');
+      await openAudioExternally(resolvedUri, setAudioError);
     }
   };
 
@@ -508,7 +555,11 @@ export const CanvasItemView = memo(function CanvasItemView({
       onPress={onSelect}
       onLongPress={() => {
         if (item.locked) return;
-        void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+        try {
+          void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => undefined);
+        } catch {
+          // Missing native haptics should not block editing.
+        }
         onLongPress();
       }}
       delayLongPress={500}

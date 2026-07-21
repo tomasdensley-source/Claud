@@ -14,7 +14,6 @@ import { useBoard } from '../store/BoardContext';
 import { colors } from '../theme';
 import { CanvasItemView } from './CanvasItemView';
 import { BoardItem } from '../types';
-import { clampInertiaVelocity } from '../lib/placement';
 
 const MIN_ZOOM = 0.2;
 const MAX_ZOOM = 2.8;
@@ -22,6 +21,13 @@ const CULL_PAD = 420;
 const GRID_STEP = 180;
 const DRAG_THRESHOLD = 8;
 type ConnectorSide = 'left' | 'right' | 'top' | 'bottom';
+
+function clampInertiaVelocityWorklet(velocity: number, zoom: number) {
+  'worklet';
+  const boundedZoom = Math.max(0.25, Math.min(1, zoom));
+  const max = 2400 * boundedZoom;
+  return Math.max(-max, Math.min(max, velocity));
+}
 
 interface Props {
   viewportWidth: number;
@@ -331,8 +337,8 @@ export function InfiniteCanvas({
         })
         .onEnd((e) => {
           'worklet';
-          tx.value = withDecay({ velocity: clampInertiaVelocity(e.velocityX, scale.value), deceleration: 0.994 });
-          ty.value = withDecay({ velocity: clampInertiaVelocity(e.velocityY, scale.value), deceleration: 0.994 });
+          tx.value = withDecay({ velocity: clampInertiaVelocityWorklet(e.velocityX, scale.value), deceleration: 0.994 });
+          ty.value = withDecay({ velocity: clampInertiaVelocityWorklet(e.velocityY, scale.value), deceleration: 0.994 });
           runOnJS(reportTransform)(scale.value, tx.value, ty.value);
         })
         .onFinalize(() => {

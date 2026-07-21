@@ -8,7 +8,6 @@ import React, {
   useState,
 } from 'react';
 import { AppState as RNAppState, Linking, Share } from 'react-native';
-import * as Clipboard from 'expo-clipboard';
 import * as Haptics from 'expo-haptics';
 import { Board, BoardItem, DraftBoardItem, DrawMode, PanelKind, WorkingFileRecord } from '../types';
 import { createMainBoard, createScientificMethodItems, uid } from '../lib/seed';
@@ -120,6 +119,37 @@ interface BoardContextValue {
 }
 
 const BoardContext = createContext<BoardContextValue | null>(null);
+
+type ClipboardModule = {
+  getStringAsync?: () => Promise<string>;
+  setStringAsync?: (text: string) => Promise<unknown>;
+};
+
+async function loadClipboardModule(): Promise<ClipboardModule | null> {
+  try {
+    return await import('expo-clipboard');
+  } catch {
+    return null;
+  }
+}
+
+async function getSystemClipboard(): Promise<string> {
+  try {
+    const clipboardModule = await loadClipboardModule();
+    return await clipboardModule?.getStringAsync?.() ?? '';
+  } catch {
+    return '';
+  }
+}
+
+async function setSystemClipboard(text: string): Promise<void> {
+  try {
+    const clipboardModule = await loadClipboardModule();
+    await clipboardModule?.setStringAsync?.(text);
+  } catch {
+    // System clipboard access is best effort; the in-app clipboard still works.
+  }
+}
 
 function cloneBoards(boards: Board[]): Board[] {
   return JSON.parse(JSON.stringify(boards)) as Board[];
@@ -404,11 +434,15 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
   workingFilesRef.current = workingFiles;
 
   const pulse = useCallback((style: 'light' | 'medium' | 'success' = 'light') => {
-    if (style === 'success') void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    else {
-      void Haptics.impactAsync(
-        style === 'medium' ? Haptics.ImpactFeedbackStyle.Medium : Haptics.ImpactFeedbackStyle.Light,
-      );
+    try {
+      if (style === 'success') void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => undefined);
+      else {
+        void Haptics.impactAsync(
+          style === 'medium' ? Haptics.ImpactFeedbackStyle.Medium : Haptics.ImpactFeedbackStyle.Light,
+        ).catch(() => undefined);
+      }
+    } catch {
+      // Missing native haptics should never affect board interactions.
     }
   }, []);
 
@@ -445,20 +479,45 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const [loaded, files, storedClipboard] = await Promise.all([loadBoards(), loadWorkingFiles(), loadClipboard()]);
-      if (cancelled) return;
-      setBoards(loaded.boards);
-      setCurrentBoardId(loaded.currentBoardId);
-      setWorkingFiles(files);
-      setClipboard(migrateBoards([{ id: 'clipboard', name: 'Clipboard', items: storedClipboard, updatedAt: Date.now() }])[0]?.items ?? []);
-      setReady(true);
-      if (loaded.recoveredFromBackup) showToast('Recovered boards from the last good backup.');
-      else if (loaded.recoveredFromCorruptJson) showToast('Recovered from corrupt saved JSON.');
+      try {
+        const [loaded, files, storedClipboard] = await Promise.all([
+          loadBoards().catch(() => null),
+          loadWorkingFiles().catch(() => []),
+          loadClipboard().catch(() => []),
+        ]);
+        if (cancelled) return;
+        if (loaded?.boards?.length) {
+          setBoards(loaded.boards);
+          setCurrentBoardId(loaded.currentBoardId);
+        } else {
+          const main = createMainBoard();
+          setBoards([main]);
+          setCurrentBoardId(main.id);
+        }
+        setWorkingFiles(Array.isArray(files) ? files : []);
+        try {
+          const clip = migrateBoards([{ id: 'clipboard', name: 'Clipboard', items: storedClipboard, updatedAt: Date.now() }])[0]?.items ?? [];
+          setClipboard(clip);
+        } catch {
+          setClipboard([]);
+        }
+      } catch (e) {
+        console.error('bootstrap failed', e);
+        const main = createMainBoard();
+        if (!cancelled) {
+          setBoards([main]);
+          setCurrentBoardId(main.id);
+          setWorkingFiles([]);
+          setClipboard([]);
+        }
+      } finally {
+        if (!cancelled) setReady(true);
+      }
     })();
     return () => {
       cancelled = true;
     };
-  }, [showToast]);
+  }, []);
 
   const flushSave = useCallback(async () => {
     if (!ready) return;
@@ -878,7 +937,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
 
   const resetToSeed = useCallback(async () => {
     await clearAllBoards();
-    await clearPersistedAssets();
+    await clearPersistedAssets().catch(() => undefined);
     const main = createMainBoard();
     setBoards([main]);
     setCurrentBoardId(main.id);
@@ -1142,13 +1201,13 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     const copied = currentBoard.items.filter((it) => selectedIds.includes(it.id)).map((it) => JSON.parse(JSON.stringify(it)) as BoardItem);
     setClipboard(copied);
     void saveClipboard(copied);
-    void Clipboard.setStringAsync(JSON.stringify({ schemaVersion: 2, items: copied })).catch(() => undefined);
+    void setSystemClipboard(JSON.stringify({ schemaVersion: 2, items: copied }));
     showToast(`${selectedIds.length} item${selectedIds.length === 1 ? '' : 's'} copied.`);
   }, [currentBoard.items, selectedIds, showToast]);
 
   const pasteSelection = useCallback(async (center?: { x: number; y: number }) => {
     if (clipboard.length === 0) {
-      const text = await Clipboard.getStringAsync().catch(() => '');
+      const text = await getSystemClipboard();
       if (text.trim()) {
         try {
           const parsed = JSON.parse(text) as { items?: unknown; board?: Board; boards?: Board[]; format?: string };

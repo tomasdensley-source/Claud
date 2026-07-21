@@ -14,15 +14,15 @@ import { BoardsPanel } from './src/components/panels/BoardsPanel';
 import { FilesPanel } from './src/components/panels/FilesPanel';
 import { SearchPanel } from './src/components/panels/SearchPanel';
 import { GesturesPanel, MorePanel, StoragePanel } from './src/components/panels/MorePanel';
-import { loadOnboardingDismissed, saveOnboardingDismissed } from './src/lib/storage';
+import { clearAllBoards, loadOnboardingDismissed, saveOnboardingDismissed } from './src/lib/storage';
 import { colors, PALETTE } from './src/theme';
 import { BoardItem } from './src/types';
 
 class ErrorBoundary extends Component<
-  { children: ReactNode; onReset?: () => void },
-  { error: Error | null }
+  { children: ReactNode; onReset?: () => void; onClearLocalData?: () => Promise<void> },
+  { error: Error | null; resetting: boolean }
 > {
-  state = { error: null as Error | null };
+  state = { error: null as Error | null, resetting: false };
 
   static getDerivedStateFromError(error: Error) {
     return { error };
@@ -31,6 +31,18 @@ class ErrorBoundary extends Component<
   componentDidCatch(error: Error, info: ErrorInfo) {
     console.error('Fieldnote crash', error, info);
   }
+
+  clearLocalData = async () => {
+    this.setState({ resetting: true });
+    try {
+      await this.props.onClearLocalData?.();
+      this.props.onReset?.();
+      this.setState({ error: null, resetting: false });
+    } catch (error) {
+      console.error('Fieldnote local data reset failed', error);
+      this.setState({ resetting: false });
+    }
+  };
 
   render() {
     if (this.state.error) {
@@ -46,6 +58,13 @@ class ErrorBoundary extends Component<
             }}
           >
             <Text style={styles.retryText}>Reset to board</Text>
+          </Pressable>
+          <Pressable
+            style={[styles.retry, styles.resetLocal]}
+            onPress={this.clearLocalData}
+            disabled={this.state.resetting}
+          >
+            <Text style={styles.retryText}>{this.state.resetting ? 'Resetting...' : 'Reset local data'}</Text>
           </Pressable>
         </View>
       );
@@ -86,6 +105,7 @@ function FieldnoteApp() {
     canPaste,
     toast,
     dismissToast,
+    resetToSeed,
   } = useBoard();
   const { width, height } = useViewportSize();
   const [scale, setScale] = useState(0.7);
@@ -167,10 +187,13 @@ function FieldnoteApp() {
     <SafeAreaView style={styles.safe} edges={['top', 'bottom']}>
       <StatusBar style="dark" />
       <View style={styles.shell}>
-        <ErrorBoundary onReset={() => {
-          setTool('select');
-          setPanel(null);
-        }}>
+        <ErrorBoundary
+          onReset={() => {
+            setTool('select');
+            setPanel(null);
+          }}
+          onClearLocalData={resetToSeed}
+        >
           <InfiniteCanvas
             viewportWidth={width}
             viewportHeight={height}
@@ -432,11 +455,17 @@ function ToastHost({ toast, onDismiss }: { toast: ReturnType<typeof useBoard>['t
 }
 
 export default function App() {
+  const [resetToken, setResetToken] = useState(0);
+  const clearLocalData = useCallback(async () => {
+    await clearAllBoards();
+    setResetToken((token) => token + 1);
+  }, []);
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
-        <ErrorBoundary>
-          <BoardProvider>
+        <ErrorBoundary onClearLocalData={clearLocalData}>
+          <BoardProvider key={resetToken}>
             <FieldnoteApp />
           </BoardProvider>
         </ErrorBoundary>
@@ -483,6 +512,9 @@ const styles = StyleSheet.create({
   retryText: {
     color: colors.cream,
     fontWeight: '700',
+  },
+  resetLocal: {
+    backgroundColor: colors.walnut,
   },
   palette: {
     position: 'absolute',

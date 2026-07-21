@@ -15,25 +15,28 @@ export function serializeBoards(boards: Board[], workingFiles: WorkingFileRecord
 
 export function parseBoardsWithBackup(raw: string | null, backupRaw: string | null, currentBoardId: string | null): ParsedBoards {
   const parse = (value: string | null) => {
-    if (!value || value === 'null') return [];
-    return migrateBoards(JSON.parse(value));
-  };
-  try {
-    const boards = parse(raw);
-    if (boards.length) {
-      return {
-        boards,
-        currentBoardId: currentBoardId && boards.some((board) => board.id === currentBoardId) ? currentBoardId : boards[0].id,
-        recoveredFromBackup: false,
-        recoveredFromCorruptJson: false,
-      };
+    if (!value || value === 'null') return { boards: [] as Board[], failed: false };
+    try {
+      return { boards: migrateBoards(JSON.parse(value)), failed: false };
+    } catch {
+      return { boards: [] as Board[], failed: true };
     }
-  } catch {
-    const backupBoards = parse(backupRaw);
-    if (backupBoards.length) {
+  };
+  const parsed = parse(raw);
+  if (parsed.boards.length) {
+    return {
+      boards: parsed.boards,
+      currentBoardId: currentBoardId && parsed.boards.some((board) => board.id === currentBoardId) ? currentBoardId : parsed.boards[0].id,
+      recoveredFromBackup: false,
+      recoveredFromCorruptJson: false,
+    };
+  }
+  if (parsed.failed) {
+    const backup = parse(backupRaw);
+    if (backup.boards.length) {
       return {
-        boards: backupBoards,
-        currentBoardId: currentBoardId && backupBoards.some((board) => board.id === currentBoardId) ? currentBoardId : backupBoards[0].id,
+        boards: backup.boards,
+        currentBoardId: currentBoardId && backup.boards.some((board) => board.id === currentBoardId) ? currentBoardId : backup.boards[0].id,
         recoveredFromBackup: true,
         recoveredFromCorruptJson: true,
       };
@@ -44,7 +47,7 @@ export function parseBoardsWithBackup(raw: string | null, backupRaw: string | nu
     boards: [main],
     currentBoardId: main.id,
     recoveredFromBackup: false,
-    recoveredFromCorruptJson: Boolean(raw),
+    recoveredFromCorruptJson: Boolean(raw && raw !== 'null'),
   };
 }
 

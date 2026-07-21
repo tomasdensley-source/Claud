@@ -64,6 +64,17 @@ test('storage core recovers corrupt primary JSON from backup', () => {
   assert.equal(parsed.boards[0].name, 'Backup');
 });
 
+test('storage core falls back to main board when migration and backup fail', () => {
+  const invalidBoard = JSON.stringify({
+    boards: [{ id: 'bad', name: 'Bad', updatedAt: 1, items: [{ id: 'draw', type: 'drawing', paths: [{ points: [null] }] }] }],
+  });
+  const parsed = parseBoardsWithBackup(invalidBoard, '{also bad', null);
+  assert.equal(parsed.recoveredFromBackup, false);
+  assert.equal(parsed.recoveredFromCorruptJson, true);
+  assert.equal(parsed.currentBoardId, 'main');
+  assert.equal(parsed.boards[0].name, 'Main board');
+});
+
 test('storage usage clamps invalid working-file sizes', () => {
   const usage = estimateStorageUsage([], [{ id: 'f', name: 'bad', uri: 'u', size: -10, addedAt: 1 }]);
   assert.ok(usage.totalBytes >= usage.jsonBytes);
