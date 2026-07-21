@@ -13,14 +13,11 @@ interface Props {
 }
 
 export function FilesPanel({ visible, onClose, viewCenter }: Props) {
-  const { currentBoard, addItem, select, setPanel } = useBoard();
+  const { currentBoard, addItem, select, setPanel, workingFiles, addWorkingFiles } = useBoard();
   const [query, setQuery] = useState('');
 
   const files = useMemo(
-    () =>
-      currentBoard.items.filter(
-        (it) => it.type === 'file' || it.type === 'folder' || it.type === 'image',
-      ),
+    () => currentBoard.items.filter((it) => it.type === 'file' || it.type === 'folder' || it.type === 'image'),
     [currentBoard.items],
   );
 
@@ -38,8 +35,15 @@ export function FilesPanel({ visible, onClose, viewCenter }: Props) {
     const result = await DocumentPicker.getDocumentAsync({
       multiple: true,
       copyToCacheDirectory: true,
+      type: ['image/*', 'application/pdf', 'text/*', 'audio/*', 'application/json'],
     });
     if (result.canceled) return;
+    addWorkingFiles(result.assets.map((asset) => ({
+      name: asset.name,
+      uri: asset.uri,
+      mimeType: asset.mimeType,
+      size: asset.size,
+    })));
     result.assets.forEach((asset, i) => {
       addItem({
         type: 'file',
@@ -50,6 +54,7 @@ export function FilesPanel({ visible, onClose, viewCenter }: Props) {
         name: asset.name,
         uri: asset.uri,
         mimeType: asset.mimeType,
+        size: asset.size,
         backgroundColor: colors.paperStrong,
       });
     });
@@ -98,7 +103,7 @@ export function FilesPanel({ visible, onClose, viewCenter }: Props) {
 
       {filtered.length === 0 ? (
         <View style={styles.empty}>
-          <Text style={styles.emptyTitle}>{files.length} files on this device</Text>
+          <Text style={styles.emptyTitle}>{workingFiles.length} working files stored</Text>
           <Text style={styles.emptySub}>
             Upload files or choose photos from Add to keep them with this board.
           </Text>
@@ -133,6 +138,39 @@ export function FilesPanel({ visible, onClose, viewCenter }: Props) {
           );
         })
       )}
+      {workingFiles.length ? (
+        <>
+          <Text style={styles.section}>Library</Text>
+          {workingFiles.slice(0, 8).map((file) => (
+            <Pressable
+              key={file.id}
+              style={styles.row}
+              onPress={() => {
+                addItem({
+                  type: (file.mimeType ?? '').startsWith('image/') ? 'image' : 'file',
+                  x: viewCenter.x - 120,
+                  y: viewCenter.y - 60,
+                  width: 260,
+                  height: (file.mimeType ?? '').startsWith('image/') ? 220 : 120,
+                  name: file.name,
+                  uri: file.uri,
+                  mimeType: file.mimeType,
+                  size: file.size,
+                  alt: file.name,
+                  backgroundColor: colors.paperStrong,
+                } as Parameters<typeof addItem>[0]);
+                onClose();
+              }}
+            >
+              <Text style={styles.glyph}>{(file.mimeType ?? '').startsWith('image/') ? 'Image' : 'File'}</Text>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.name}>{file.name}</Text>
+                <Text style={styles.meta}>{file.mimeType ?? 'document'}{file.size ? ` · ${Math.round(file.size / 1024)} KB` : ''}</Text>
+              </View>
+            </Pressable>
+          ))}
+        </>
+      ) : null}
     </ModalShell>
   );
 }
@@ -177,6 +215,7 @@ const styles = StyleSheet.create({
   },
   emptyTitle: { color: colors.ink, fontWeight: '700', marginBottom: 4 },
   emptySub: { color: colors.mutedInk, lineHeight: 18 },
+  section: { color: colors.ink, fontWeight: '800', marginTop: 4 },
   row: {
     flexDirection: 'row',
     alignItems: 'center',

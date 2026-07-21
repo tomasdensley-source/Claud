@@ -1,5 +1,7 @@
 import React from 'react';
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import * as DocumentPicker from 'expo-document-picker';
+import * as FileSystem from 'expo-file-system';
 import { Ionicons } from '@expo/vector-icons';
 import { ModalShell } from './ModalShell';
 import { useBoard } from '../../store/BoardContext';
@@ -11,7 +13,18 @@ interface Props {
 }
 
 export function MorePanel({ visible, onClose }: Props) {
-  const { undo, redo, canUndo, canRedo, setPanel, resetToSeed } = useBoard();
+  const { undo, redo, canUndo, canRedo, setPanel, resetToSeed, exportCurrentBoard, importBoardJson } = useBoard();
+
+  const importJson = async () => {
+    const result = await DocumentPicker.getDocumentAsync({
+      type: ['application/json', 'text/*'],
+      copyToCacheDirectory: true,
+    });
+    if (result.canceled || !result.assets[0]) return;
+    const text = await FileSystem.readAsStringAsync(result.assets[0].uri);
+    importBoardJson(text);
+    onClose();
+  };
 
   return (
     <ModalShell
@@ -37,6 +50,23 @@ export function MorePanel({ visible, onClose }: Props) {
         onPress={() => {
           redo();
           onClose();
+        }}
+      />
+      <Row
+        icon="share-outline"
+        title="Export board JSON"
+        subtitle="Share or copy a portable board backup"
+        onPress={() => {
+          void exportCurrentBoard();
+          onClose();
+        }}
+      />
+      <Row
+        icon="download-outline"
+        title="Import JSON"
+        subtitle="Choose a Fieldnote JSON export"
+        onPress={() => {
+          void importJson();
         }}
       />
       <Row
@@ -75,6 +105,9 @@ export function MorePanel({ visible, onClose }: Props) {
           ]);
         }}
       />
+      <View style={styles.tipBanner}>
+        <Text style={styles.tipBannerText}>Fieldnote 1.0.3 · Haptics are enabled for edits, drops, connects, and confirmations.</Text>
+      </View>
     </ModalShell>
   );
 }
@@ -96,14 +129,15 @@ export function GesturesPanel({ visible, onClose }: Props) {
           <Tip title="Hold a title" body="Edit after the confirm pulse" />
           <Tip title="Drag empty space" body="Move around the canvas" />
           <Tip title="Pinch" body="Zoom in or out" />
-          <Tip title="Hold empty space" body="Open Add here" />
+          <Tip title="Double tap empty space" body="Open Add without accidental long-presses" />
           <Tip title="Multi button" body="Select several cards" />
+          <Tip title="Drag empty space in Multi" body="Marquee select visible cards" />
         </View>
         <View style={styles.col}>
           <Text style={styles.colTitle}>With a keyboard</Text>
           <Tip title="Ctrl / ⌘ F" body="Find anything" />
-          <Tip title="Ctrl / ⌘ A" body="Select visible cards" />
-          <Tip title="Ctrl / ⌘ C, V" body="Copy and paste cards" />
+          <Tip title="Back" body="Closes the open panel first" />
+          <Tip title="Copy, paste, lock" body="Use the selection bar after selecting cards" />
           <Tip title="F" body="Fit the whole board" />
           <Tip title="1" body="Return to 100%" />
           <Tip title="?" body="Open this guide" />

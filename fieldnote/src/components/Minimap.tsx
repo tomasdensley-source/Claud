@@ -5,11 +5,12 @@ import { colors, radii, shadows } from '../theme';
 
 interface Props {
   items: BoardItem[];
+  selectedIds: string[];
   onNavigate: (worldX: number, worldY: number) => void;
   onFit: () => void;
 }
 
-export function Minimap({ items, onNavigate, onFit }: Props) {
+export function Minimap({ items, selectedIds, onNavigate, onFit }: Props) {
   const layout = useMemo(() => {
     if (items.length === 0) {
       return { minX: 0, minY: 0, w: 1000, h: 800 };
@@ -52,6 +53,7 @@ export function Minimap({ items, onNavigate, onFit }: Props) {
             style={[
               styles.dot,
               it.type === 'image' ? styles.imageDot : styles.textDot,
+              selectedIds.includes(it.id) && styles.selectedDot,
               {
                 left: `${((it.x - layout.minX) / layout.w) * 100}%`,
                 top: `${((it.y - layout.minY) / layout.h) * 100}%`,
@@ -98,4 +100,8 @@ const styles = StyleSheet.create({
   },
   textDot: {},
   imageDot: {},
+  selectedDot: {
+    borderWidth: 1,
+    borderColor: colors.selection,
+  },
 });

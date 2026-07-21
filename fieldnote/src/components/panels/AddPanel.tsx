@@ -14,7 +14,7 @@ interface Props {
 }
 
 export function AddPanel({ visible, onClose, viewCenter }: Props) {
-  const { addItem } = useBoard();
+  const { addItem, addScientificTemplate, addWorkingFiles } = useBoard();
 
   const placeAtCenter = (w: number, h: number) => ({
     x: viewCenter.x - w / 2,
@@ -49,6 +49,8 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
       backgroundColor: colors.paperStrong,
       text: 'New task',
       done: false,
+      dependsOn: [],
+      state: 'ready',
     });
     onClose();
   };
@@ -63,7 +65,38 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
       height: 180,
       backgroundColor: colors.paper,
       text: 'Idea',
-      children: ['Branch', 'Branch'],
+      parentId: null,
+      collapsed: false,
+      branchColor: colors.clayDeep,
+    });
+    onClose();
+  };
+
+  const addShape = () => {
+    const { x, y } = placeAtCenter(220, 140);
+    addItem({
+      type: 'shape',
+      x,
+      y,
+      width: 220,
+      height: 140,
+      shape: 'rect',
+      backgroundColor: 'rgba(216,230,232,0.42)',
+    });
+    onClose();
+  };
+
+  const addStub = (type: 'audio' | 'pdf' | 'markdown') => {
+    const { x, y } = placeAtCenter(260, 120);
+    addItem({
+      type,
+      x,
+      y,
+      width: 260,
+      height: 120,
+      backgroundColor: colors.paperStrong,
+      name: type === 'pdf' ? 'PDF preview' : type === 'audio' ? 'Audio note' : 'Markdown note',
+      text: 'Preview stub',
     });
     onClose();
   };
@@ -86,8 +119,15 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
       const result = await DocumentPicker.getDocumentAsync({
         multiple: true,
         copyToCacheDirectory: true,
+        type: ['image/*', 'application/pdf', 'text/*', 'audio/*', 'application/json'],
       });
       if (result.canceled) return;
+      addWorkingFiles(result.assets.map((asset) => ({
+        name: asset.name,
+        uri: asset.uri,
+        mimeType: asset.mimeType,
+        size: asset.size,
+      })));
       result.assets.forEach((asset, i) => {
         const isImage = (asset.mimeType ?? '').startsWith('image/');
         const { x, y } = placeAtCenter(280, isImage ? 280 : 120);
@@ -112,6 +152,7 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
             name: asset.name,
             uri: asset.uri,
             mimeType: asset.mimeType,
+            size: asset.size,
             backgroundColor: colors.paperStrong,
           });
         }
@@ -131,6 +172,7 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
     const result = await ImagePicker.launchImageLibraryAsync({
       allowsMultipleSelection: true,
       quality: 0.9,
+      mediaTypes: ['images'],
     });
     if (result.canceled) return;
     result.assets.forEach((asset, i) => {
@@ -142,6 +184,7 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
         width: 300,
         height: Math.round(300 * (asset.height / Math.max(asset.width, 1))),
         uri: asset.uri,
+        alt: asset.fileName ?? 'Photo',
         backgroundColor: colors.paper,
       });
     });
@@ -214,6 +257,34 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
           label="Region"
           onPress={addRegion}
           icon={<Ionicons name="grid-outline" size={22} color={colors.ink} />}
+        />
+        <CreateBtn
+          label="Shape"
+          onPress={addShape}
+          icon={<Ionicons name="shapes-outline" size={22} color={colors.ink} />}
+        />
+        <CreateBtn
+          label="Science"
+          onPress={() => {
+            addScientificTemplate(viewCenter);
+            onClose();
+          }}
+          icon={<MaterialCommunityIcons name="flask-outline" size={22} color={colors.ink} />}
+        />
+        <CreateBtn
+          label="Audio"
+          onPress={() => addStub('audio')}
+          icon={<Ionicons name="mic-outline" size={22} color={colors.ink} />}
+        />
+        <CreateBtn
+          label="PDF"
+          onPress={() => addStub('pdf')}
+          icon={<Ionicons name="document-text-outline" size={22} color={colors.ink} />}
+        />
+        <CreateBtn
+          label="Markdown"
+          onPress={() => addStub('markdown')}
+          icon={<Ionicons name="logo-markdown" size={22} color={colors.ink} />}
         />
       </View>
     </ModalShell>

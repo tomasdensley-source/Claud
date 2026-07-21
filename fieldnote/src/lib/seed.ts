@@ -1,5 +1,5 @@
 import { Board, BoardItem } from '../types';
-import { colors } from '../theme';
+import { colors, PALETTE } from '../theme';
 
 export function createSeedItems(): BoardItem[] {
   return [
@@ -74,7 +74,147 @@ export function createSeedItems(): BoardItem[] {
       role: 'body',
       fontWeight: '400',
     },
+    {
+      id: 'seed-region',
+      type: 'region',
+      x: 35,
+      y: 55,
+      width: 1040,
+      height: 760,
+      zIndex: 0,
+      label: 'Workshop notes',
+      opacity: 0.14,
+      locked: true,
+    },
+    {
+      id: 'seed-task-research',
+      type: 'task',
+      x: 1130,
+      y: 620,
+      width: 320,
+      height: 92,
+      zIndex: 2,
+      backgroundColor: colors.paperStrong,
+      text: 'Collect three field observations',
+      done: true,
+      dependsOn: [],
+      state: 'done',
+    },
+    {
+      id: 'seed-task-synth',
+      type: 'task',
+      x: 1130,
+      y: 738,
+      width: 320,
+      height: 92,
+      zIndex: 2,
+      backgroundColor: colors.paperStrong,
+      text: 'Synthesize patterns',
+      done: false,
+      dependsOn: ['seed-task-research'],
+      state: 'ready',
+    },
+    {
+      id: 'seed-mind-root',
+      type: 'mindmap',
+      x: 1505,
+      y: 610,
+      width: 230,
+      height: 78,
+      zIndex: 2,
+      backgroundColor: colors.paper,
+      text: 'Fieldnote map',
+      parentId: null,
+      collapsed: false,
+      branchColor: colors.clayDeep,
+    },
+    {
+      id: 'seed-mind-capture',
+      type: 'mindmap',
+      x: 1810,
+      y: 540,
+      width: 220,
+      height: 70,
+      zIndex: 2,
+      backgroundColor: colors.paperStrong,
+      text: 'Capture',
+      parentId: 'seed-mind-root',
+      branchColor: PALETTE[5],
+    },
+    {
+      id: 'seed-mind-connect',
+      type: 'mindmap',
+      x: 1810,
+      y: 690,
+      width: 220,
+      height: 70,
+      zIndex: 2,
+      backgroundColor: colors.paperStrong,
+      text: 'Connect',
+      parentId: 'seed-mind-root',
+      branchColor: PALETTE[3],
+    },
   ];
+}
+
+export function createScientificMethodItems(centerX: number, centerY: number): BoardItem[] {
+  const labels = [
+    'Question',
+    'Background research',
+    'Observation',
+    'Hypothesis',
+    'Prediction',
+    'Materials',
+    'Variables',
+    'Control group',
+    'Experiment design',
+    'Procedure',
+    'Collect data',
+    'Analyze results',
+    'Graph evidence',
+    'Interpretation',
+    'Conclusion',
+    'Peer review',
+    'Revise',
+    'Publish',
+    'Next question',
+  ];
+  const rootId = uid('science-root');
+  const items: BoardItem[] = [
+    {
+      id: rootId,
+      type: 'mindmap',
+      x: centerX - 120,
+      y: centerY - 40,
+      width: 240,
+      height: 80,
+      zIndex: 20,
+      backgroundColor: colors.clay,
+      text: 'Scientific method',
+      parentId: null,
+      collapsed: false,
+      branchColor: colors.clayDeep,
+    },
+  ];
+  labels.forEach((label, index) => {
+    const angle = (Math.PI * 2 * index) / labels.length;
+    const radius = index % 2 === 0 ? 420 : 560;
+    items.push({
+      id: uid('science'),
+      type: 'mindmap',
+      x: centerX + Math.cos(angle) * radius - 110,
+      y: centerY + Math.sin(angle) * radius - 35,
+      width: 220,
+      height: 70,
+      zIndex: 21 + index,
+      backgroundColor: colors.paperStrong,
+      text: label,
+      parentId: rootId,
+      collapsed: false,
+      branchColor: PALETTE[index % PALETTE.length],
+    });
+  });
+  return items;
 }
 
 export function createMainBoard(): Board {

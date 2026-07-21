@@ -1,21 +1,42 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useBoard } from '../store/BoardContext';
 import { colors, radii, shadows } from '../theme';
 
 export function BoardBadge() {
-  const { currentBoard } = useBoard();
+  const { currentBoard, renameBoard, dirty, saving } = useBoard();
+  const [editing, setEditing] = React.useState(false);
+  const [name, setName] = React.useState(currentBoard.name);
+  React.useEffect(() => setName(currentBoard.name), [currentBoard.name]);
   return (
-    <View style={[styles.badge, shadows.control]}>
+    <Pressable
+      style={[styles.badge, shadows.control]}
+      onPress={() => setEditing(true)}
+      accessibilityLabel="Current board. Tap to rename"
+    >
       <Text style={styles.eyebrow}>CURRENT BOARD</Text>
       <View style={styles.row}>
         <Ionicons name="grid" size={14} color={colors.clayDeep} />
-        <Text style={styles.name} numberOfLines={1}>
-          {currentBoard.name}
-        </Text>
+        {editing ? (
+          <TextInput
+            value={name}
+            onChangeText={setName}
+            autoFocus
+            onBlur={() => {
+              renameBoard(currentBoard.id, name.trim() || currentBoard.name);
+              setEditing(false);
+            }}
+            style={styles.nameInput}
+          />
+        ) : (
+          <Text style={styles.name} numberOfLines={1}>
+            {currentBoard.name}
+          </Text>
+        )}
+        <View style={[styles.saveDot, dirty && styles.saveDirty, saving && styles.saveSaving]} />
       </View>
-    </View>
+    </Pressable>
   );
 }
 
@@ -49,5 +70,24 @@ const styles = StyleSheet.create({
     color: colors.ink,
     fontSize: 14,
     fontWeight: '600',
+  },
+  nameInput: {
+    color: colors.ink,
+    fontSize: 14,
+    fontWeight: '600',
+    minWidth: 130,
+    padding: 0,
+  },
+  saveDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: 'rgba(52,38,29,0.18)',
+  },
+  saveDirty: {
+    backgroundColor: colors.saveDot,
+  },
+  saveSaving: {
+    backgroundColor: colors.clayDeep,
   },
 });

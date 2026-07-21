@@ -14,8 +14,9 @@ type ToolBtn = {
 };
 
 export function Toolbar() {
-  const { panel, setPanel, tool, setTool, clearSelection } = useBoard();
+  const { panel, setPanel, tool, setTool, clearSelection, selectedIds } = useBoard();
   const [collapsed, setCollapsed] = React.useState(false);
+  const [side, setSide] = React.useState<'left' | 'right'>('left');
 
   const buttons: ToolBtn[] = [
     {
@@ -65,20 +66,28 @@ export function Toolbar() {
   if (collapsed) {
     return (
       <Pressable
-        style={[styles.collapsed, shadows.control]}
+        style={[styles.collapsed, side === 'right' && styles.rightCollapsed, shadows.control]}
         onPress={() => setCollapsed(false)}
+        onLongPress={() => setSide(side === 'left' ? 'right' : 'left')}
         accessibilityLabel="Show canvas tools"
+        hitSlop={8}
       >
-        <Ionicons name="chevron-forward" size={18} color={colors.cream} />
+        <Ionicons name={side === 'left' ? 'chevron-forward' : 'chevron-back'} size={18} color={colors.cream} />
       </Pressable>
     );
   }
 
   return (
-    <View style={[styles.rail, shadows.control]}>
+    <View style={[styles.rail, side === 'right' && styles.railRight, shadows.control]}>
       <View style={styles.head}>
-        <Pressable onPress={() => setCollapsed(true)} style={styles.headBtn} accessibilityLabel="Hide tools">
-          <Ionicons name="chevron-back" size={16} color={colors.cream} />
+        <Pressable
+          onPress={() => setCollapsed(true)}
+          onLongPress={() => setSide(side === 'left' ? 'right' : 'left')}
+          style={styles.headBtn}
+          accessibilityLabel="Hide tools"
+          hitSlop={10}
+        >
+          <Ionicons name={side === 'left' ? 'chevron-back' : 'chevron-forward'} size={16} color={colors.cream} />
         </Pressable>
       </View>
       {buttons.map((btn) => {
@@ -99,11 +108,17 @@ export function Toolbar() {
               }
             }}
             accessibilityLabel={btn.label}
+            hitSlop={6}
           >
             {btn.icon}
             <Text style={styles.label} numberOfLines={1}>
               {btn.label}
             </Text>
+            {btn.key === 'multi' && selectedIds.length > 0 ? (
+              <View style={styles.countBadge}>
+                <Text style={styles.countText}>{selectedIds.length}</Text>
+              </View>
+            ) : null}
           </Pressable>
         );
       })}
@@ -126,6 +141,10 @@ const styles = StyleSheet.create({
     gap: 2,
     zIndex: 40,
   },
+  railRight: {
+    left: undefined,
+    right: 10,
+  },
   collapsed: {
     position: 'absolute',
     left: 10,
@@ -137,6 +156,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 40,
+  },
+  rightCollapsed: {
+    left: undefined,
+    right: 10,
   },
   head: {
     alignItems: 'center',
@@ -158,6 +181,23 @@ const styles = StyleSheet.create({
   },
   btnActive: {
     backgroundColor: 'rgba(203,125,70,0.54)',
+  },
+  countBadge: {
+    position: 'absolute',
+    top: 4,
+    right: 4,
+    minWidth: 18,
+    height: 18,
+    borderRadius: 9,
+    backgroundColor: colors.selection,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 4,
+  },
+  countText: {
+    color: colors.walnut,
+    fontSize: 10,
+    fontWeight: '900',
   },
   label: {
     color: 'rgba(255,250,240,0.82)',

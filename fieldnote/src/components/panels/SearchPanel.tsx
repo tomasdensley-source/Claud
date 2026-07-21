@@ -54,6 +54,12 @@ export function SearchPanel({ visible, onClose, onFocusItem }: Props) {
         style={styles.search}
         autoFocus
       />
+      {query ? (
+        <Pressable style={styles.clearBtn} onPress={() => setQuery('')} accessibilityLabel="Clear search">
+          <Ionicons name="close-circle-outline" size={16} color={colors.ink} />
+          <Text style={styles.clearText}>Clear search</Text>
+        </Pressable>
+      ) : null}
       <View style={styles.filters}>
         {filters.map((f) => (
           <Pressable
@@ -142,6 +148,17 @@ const styles = StyleSheet.create({
   chipText: { color: colors.ink, fontSize: 12, fontWeight: '600' },
   chipTextActive: { color: colors.cream },
   count: { color: colors.mutedInk, fontSize: 12 },
+  clearBtn: {
+    alignSelf: 'flex-start',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: colors.paperStrong,
+    borderRadius: radii.pill,
+    paddingHorizontal: 10,
+    paddingVertical: 7,
+  },
+  clearText: { color: colors.ink, fontWeight: '700', fontSize: 12 },
   row: {
     flexDirection: 'row',
     gap: 10,

@@ -18,6 +18,7 @@ export function BoardsPanel({ visible, onClose }: Props) {
     switchBoard,
     renameBoard,
     deleteBoard,
+    duplicateBoard,
   } = useBoard();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [name, setName] = useState('');
@@ -88,11 +89,12 @@ export function BoardsPanel({ visible, onClose }: Props) {
               ) : (
                 <Text style={styles.name}>{board.name}</Text>
               )}
-              <Text style={styles.meta}>
-                {board.items.length} items · {new Date(board.updatedAt).toLocaleDateString()}
-              </Text>
+              <Text style={styles.meta}>{board.items.length} items · {relativeTime(board.updatedAt)}</Text>
             </View>
             {active ? <Ionicons name="checkmark-circle" size={20} color={colors.clayDeep} /> : null}
+            <Pressable onPress={() => duplicateBoard(board.id)} hitSlop={8} accessibilityLabel={`Duplicate ${board.name}`}>
+              <Ionicons name="copy-outline" size={18} color={colors.mutedInk} />
+            </Pressable>
             {!active ? (
               <Pressable
                 onPress={() => {
@@ -115,6 +117,15 @@ export function BoardsPanel({ visible, onClose }: Props) {
       })}
     </ModalShell>
   );
+}
+
+function relativeTime(time: number) {
+  const minutes = Math.max(0, Math.round((Date.now() - time) / 60000));
+  if (minutes < 1) return 'just now';
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.round(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+  return `${Math.round(hours / 24)}d ago`;
 }
 
 const styles = StyleSheet.create({

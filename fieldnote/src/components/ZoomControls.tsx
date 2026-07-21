@@ -10,8 +10,12 @@ interface Props {
   onZoomOut: () => void;
   onResetZoom: () => void;
   onFit: () => void;
+  onFitSelection?: () => void;
   onDuplicate?: () => void;
   onDelete?: () => void;
+  onCopy?: () => void;
+  onPaste?: () => void;
+  onLock?: () => void;
 }
 
 export function ZoomControls({
@@ -21,34 +25,50 @@ export function ZoomControls({
   onZoomOut,
   onResetZoom,
   onFit,
+  onFitSelection,
   onDuplicate,
   onDelete,
+  onCopy,
+  onPaste,
+  onLock,
 }: Props) {
   return (
     <View style={styles.wrap}>
       {selectedCount > 0 ? (
         <View style={[styles.bar, shadows.control, styles.selectionBar]}>
           <Text style={styles.selectionText}>{selectedCount} selected</Text>
+          <Pressable onPress={onFitSelection} style={styles.iconBtn} accessibilityLabel="Fit selection" hitSlop={6}>
+            <Ionicons name="scan-outline" size={18} color={colors.cream} />
+          </Pressable>
+          <Pressable onPress={onCopy} style={styles.iconBtn} accessibilityLabel="Copy selection" hitSlop={6}>
+            <Ionicons name="clipboard-outline" size={18} color={colors.cream} />
+          </Pressable>
+          <Pressable onPress={onPaste} style={styles.iconBtn} accessibilityLabel="Paste selection" hitSlop={6}>
+            <Ionicons name="duplicate-outline" size={18} color={colors.cream} />
+          </Pressable>
+          <Pressable onPress={onLock} style={styles.iconBtn} accessibilityLabel="Lock selection" hitSlop={6}>
+            <Ionicons name="lock-closed-outline" size={18} color={colors.cream} />
+          </Pressable>
           <Pressable onPress={onDuplicate} style={styles.iconBtn} accessibilityLabel="Duplicate">
             <Ionicons name="copy-outline" size={18} color={colors.cream} />
           </Pressable>
-          <Pressable onPress={onDelete} style={styles.iconBtn} accessibilityLabel="Delete">
+          <Pressable onPress={onDelete} style={styles.iconBtn} accessibilityLabel="Delete" hitSlop={6}>
             <Ionicons name="trash-outline" size={18} color={colors.cream} />
           </Pressable>
         </View>
       ) : null}
       <View style={[styles.bar, shadows.control]}>
-        <Pressable onPress={onZoomOut} style={styles.iconBtn} accessibilityLabel="Zoom out">
+        <Pressable onPress={onZoomOut} style={styles.iconBtn} accessibilityLabel="Zoom out" hitSlop={6}>
           <Ionicons name="remove" size={20} color={colors.cream} />
         </Pressable>
-        <Pressable onPress={onResetZoom} style={styles.zoomPct} accessibilityLabel="Reset zoom">
+        <Pressable onPress={onResetZoom} style={styles.zoomPct} accessibilityLabel="Reset zoom" hitSlop={6}>
           <Text style={styles.zoomText}>{Math.round(scale * 100)}%</Text>
         </Pressable>
-        <Pressable onPress={onZoomIn} style={styles.iconBtn} accessibilityLabel="Zoom in">
+        <Pressable onPress={onZoomIn} style={styles.iconBtn} accessibilityLabel="Zoom in" hitSlop={6}>
           <Ionicons name="add" size={20} color={colors.cream} />
         </Pressable>
         <View style={styles.divider} />
-        <Pressable onPress={onFit} style={styles.fitBtn} accessibilityLabel="Fit entire board">
+        <Pressable onPress={onFit} style={styles.fitBtn} accessibilityLabel="Fit entire board" onLongPress={onFitSelection} hitSlop={6}>
           <Ionicons name="expand-outline" size={18} color={colors.cream} />
           <Text style={styles.fitText}>Fit board</Text>
         </Pressable>

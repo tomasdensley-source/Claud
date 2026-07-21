@@ -1,31 +1,36 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Dimensions, StyleSheet, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
+  withDecay,
 } from 'react-native-reanimated';
+import Svg, { Line, Path } from 'react-native-svg';
 import { useBoard } from '../store/BoardContext';
 import { colors } from '../theme';
 import { CanvasItemView } from './CanvasItemView';
 import { BoardItem } from '../types';
 
-const WORLD = 2800;
+const MIN_ZOOM = 0.2;
+const MAX_ZOOM = 2.8;
+const CULL_PAD = 420;
+const GRID_STEP = 180;
 
 interface Props {
   viewportWidth: number;
   viewportHeight: number;
   onScaleChange: (scale: number) => void;
+  onCameraChange?: (center: { x: number; y: number }) => void;
   fitRequest: number;
+  fitSelectionRequest: number;
   zoomRequest: { scale: number; token: number } | null;
   centerRequest: { x: number; y: number; token: number } | null;
 }
 
 function boundsOf(items: BoardItem[]) {
-  if (items.length === 0) {
-    return { minX: 0, minY: 0, maxX: 1200, maxY: 800 };
-  }
+  if (items.length === 0) return { minX: 0, minY: 0, maxX: 1200, maxY: 800 };
   let minX = Infinity;
   let minY = Infinity;
   let maxX = -Infinity;
@@ -39,17 +44,35 @@ function boundsOf(items: BoardItem[]) {
   return { minX, minY, maxX, maxY };
 }
 
+function intersects(item: BoardItem, rect: { minX: number; minY: number; maxX: number; maxY: number }) {
+  return item.x + item.width >= rect.minX && item.x <= rect.maxX && item.y + item.height >= rect.minY && item.y <= rect.maxY;
+}
+
+function centerOf(item: BoardItem) {
+  return { x: item.x + item.width / 2, y: item.y + item.height / 2 };
+}
+
+function edgePoint(item: BoardItem, side: 'left' | 'right') {
+  return {
+    x: side === 'left' ? item.x : item.x + item.width,
+    y: item.y + item.height / 2,
+  };
+}
+
 export function InfiniteCanvas({
   viewportWidth,
   viewportHeight,
   onScaleChange,
+  onCameraChange,
   fitRequest,
+  fitSelectionRequest,
   zoomRequest,
   centerRequest,
 }: Props) {
   const {
     currentBoard,
     selectedIds,
+    visibleItems,
     tool,
     select,
     clearSelection,
@@ -58,8 +81,15 @@ export function InfiniteCanvas({
     toggleTask,
     appendDrawingPoint,
     setPanel,
+    completeConnect,
+    addMindChild,
+    addMindSibling,
+    toggleMindCollapse,
+    tidyMindMap,
   } = useBoard();
 
+  const safeWidth = Number.isFinite(viewportWidth) && viewportWidth > 0 ? viewportWidth : 360;
+  const safeHeight = Number.isFinite(viewportHeight) && viewportHeight > 0 ? viewportHeight : 640;
   const scale = useSharedValue(0.65);
   const tx = useSharedValue(16);
   const ty = useSharedValue(48);
@@ -69,77 +99,121 @@ export function InfiniteCanvas({
 
   const [editingId, setEditingId] = useState<string | null>(null);
   const [scaleState, setScaleState] = useState(0.65);
+  const [txState, setTxState] = useState(16);
+  const [tyState, setTyState] = useState(48);
+  const [marquee, setMarquee] = useState<null | { x: number; y: number; width: number; height: number }>(null);
 
   const drawingIdRef = useRef<string | null>(null);
   const toolRef = useRef(tool);
   const selectedRef = useRef(selectedIds);
   const scaleRef = useRef(scaleState);
+  const txRef = useRef(txState);
+  const tyRef = useRef(tyState);
+  const dragIdsRef = useRef<string[]>([]);
+  const lastPageRef = useRef({ x: 0, y: 0 });
+  const marqueeStartRef = useRef({ x: 0, y: 0, worldX: 0, worldY: 0 });
   toolRef.current = tool;
   selectedRef.current = selectedIds;
   scaleRef.current = scaleState;
+  txRef.current = txState;
+  tyRef.current = tyState;
 
-  const dragIdRef = useRef<string | null>(null);
-  const lastPageRef = useRef({ x: 0, y: 0 });
-
-  const reportScale = useCallback(
-    (s: number) => {
+  const reportTransform = useCallback(
+    (s: number, x: number, y: number) => {
+      if (!Number.isFinite(s) || !Number.isFinite(x) || !Number.isFinite(y)) return;
       setScaleState(s);
+      setTxState(x);
+      setTyState(y);
       onScaleChange(s);
+      onCameraChange?.({ x: (safeWidth / 2 - x) / s, y: (safeHeight / 2 - y) / s });
     },
-    [onScaleChange],
+    [onCameraChange, onScaleChange, safeHeight, safeWidth],
   );
 
   const applyTransform = useCallback(
     (nextScale: number, nextTx: number, nextTy: number) => {
-      scale.value = nextScale;
+      const s = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, nextScale));
+      scale.value = s;
       tx.value = nextTx;
       ty.value = nextTy;
-      reportScale(nextScale);
+      reportTransform(s, nextTx, nextTy);
     },
-    [reportScale, scale, tx, ty],
+    [reportTransform, scale, tx, ty],
   );
 
-  const fitBoard = useCallback(() => {
-    if (viewportWidth < 32 || viewportHeight < 32) return;
-    const b = boundsOf(currentBoard.items);
-    const pad = 72;
-    const w = Math.max(240, b.maxX - b.minX + pad * 2);
-    const h = Math.max(240, b.maxY - b.minY + pad * 2);
-    const s = Math.min(viewportWidth / w, viewportHeight / h, 1.15);
-    applyTransform(
-      s,
-      viewportWidth / 2 - ((b.minX + b.maxX) / 2) * s,
-      viewportHeight / 2 - ((b.minY + b.maxY) / 2) * s,
-    );
-  }, [applyTransform, currentBoard.items, viewportHeight, viewportWidth]);
+  const fitItems = useCallback(
+    (items: BoardItem[]) => {
+      if (safeWidth < 32 || safeHeight < 32) return;
+      const b = boundsOf(items);
+      const pad = 140;
+      const w = Math.max(240, b.maxX - b.minX + pad * 2);
+      const h = Math.max(240, b.maxY - b.minY + pad * 2);
+      const s = Math.min(safeWidth / w, safeHeight / h, 1.2);
+      applyTransform(
+        s,
+        safeWidth / 2 - ((b.minX + b.maxX) / 2) * s,
+        safeHeight / 2 - ((b.minY + b.maxY) / 2) * s,
+      );
+    },
+    [applyTransform, safeHeight, safeWidth],
+  );
 
   useEffect(() => {
-    if (fitRequest > 0) fitBoard();
-  }, [fitRequest, fitBoard]);
+    if (fitRequest > 0) fitItems(currentBoard.items);
+  }, [fitRequest, fitItems, currentBoard.items]);
+
+  useEffect(() => {
+    if (fitSelectionRequest <= 0) return;
+    const selection = currentBoard.items.filter((it) => selectedIds.includes(it.id));
+    fitItems(selection.length ? selection : currentBoard.items);
+  }, [fitSelectionRequest, fitItems, currentBoard.items, selectedIds]);
 
   useEffect(() => {
     if (!zoomRequest) return;
-    const cx = (viewportWidth / 2 - tx.value) / scale.value;
-    const cy = (viewportHeight / 2 - ty.value) / scale.value;
-    const s = zoomRequest.scale;
-    applyTransform(s, viewportWidth / 2 - cx * s, viewportHeight / 2 - cy * s);
-  }, [zoomRequest, applyTransform, scale, tx, ty, viewportHeight, viewportWidth]);
+    const cx = (safeWidth / 2 - tx.value) / scale.value;
+    const cy = (safeHeight / 2 - ty.value) / scale.value;
+    applyTransform(zoomRequest.scale, safeWidth / 2 - cx * zoomRequest.scale, safeHeight / 2 - cy * zoomRequest.scale);
+  }, [zoomRequest, applyTransform, scale, tx, ty, safeHeight, safeWidth]);
 
   useEffect(() => {
     if (!centerRequest) return;
     const s = scale.value;
-    applyTransform(
-      s,
-      viewportWidth / 2 - centerRequest.x * s,
-      viewportHeight / 2 - centerRequest.y * s,
-    );
-  }, [centerRequest, applyTransform, scale, viewportHeight, viewportWidth]);
+    applyTransform(s, safeWidth / 2 - centerRequest.x * s, safeHeight / 2 - centerRequest.y * s);
+  }, [centerRequest, applyTransform, scale, safeHeight, safeWidth]);
 
   useEffect(() => {
-    const timer = setTimeout(fitBoard, 80);
+    const timer = setTimeout(() => fitItems(currentBoard.items), 80);
     return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [viewportWidth, viewportHeight]);
+  }, [safeWidth, safeHeight]);
+
+  const viewportRect = useMemo(
+    () => ({
+      minX: (-txState - CULL_PAD) / scaleState,
+      minY: (-tyState - CULL_PAD) / scaleState,
+      maxX: (safeWidth - txState + CULL_PAD) / scaleState,
+      maxY: (safeHeight - tyState + CULL_PAD) / scaleState,
+    }),
+    [safeHeight, safeWidth, scaleState, txState, tyState],
+  );
+
+  const culledItems = useMemo(
+    () => visibleItems.filter((item) => intersects(item, viewportRect)),
+    [visibleItems, viewportRect],
+  );
+
+  const gridDots = useMemo(() => {
+    const dots: { id: string; x: number; y: number }[] = [];
+    const startX = Math.floor(viewportRect.minX / GRID_STEP) * GRID_STEP;
+    const endX = Math.ceil(viewportRect.maxX / GRID_STEP) * GRID_STEP;
+    const startY = Math.floor(viewportRect.minY / GRID_STEP) * GRID_STEP;
+    const endY = Math.ceil(viewportRect.maxY / GRID_STEP) * GRID_STEP;
+    for (let x = startX; x <= endX; x += GRID_STEP) {
+      for (let y = startY; y <= endY; y += GRID_STEP) {
+        dots.push({ id: `${x}:${y}`, x, y });
+      }
+    }
+    return dots.slice(0, 900);
+  }, [viewportRect]);
 
   const clearSel = useCallback(() => {
     if (toolRef.current === 'draw') return;
@@ -147,21 +221,28 @@ export function InfiniteCanvas({
     setEditingId(null);
   }, [clearSelection]);
 
-  const openAdd = useCallback(() => {
-    setPanel('add');
-  }, [setPanel]);
+  const openAdd = useCallback(() => setPanel('add'), [setPanel]);
+
+  const worldPoint = useCallback(
+    (x: number, y: number) => ({
+      x: (x - txRef.current) / scaleRef.current,
+      y: (y - tyRef.current) / scaleRef.current,
+    }),
+    [],
+  );
 
   const drawAt = useCallback(
     (x: number, y: number, start: boolean) => {
-      const world = {
-        x: (x - tx.value) / scale.value,
-        y: (y - ty.value) / scale.value,
-      };
+      const world = { x: (x - tx.value) / scale.value, y: (y - ty.value) / scale.value };
       if (start) drawingIdRef.current = null;
       drawingIdRef.current = appendDrawingPoint(drawingIdRef.current, world, start);
     },
     [appendDrawingPoint, scale, tx, ty],
   );
+
+  const finishDrawing = useCallback(() => {
+    drawingIdRef.current = null;
+  }, []);
 
   const panGesture = useMemo(
     () =>
@@ -177,8 +258,14 @@ export function InfiniteCanvas({
           'worklet';
           tx.value = savedTx.value + e.translationX;
           ty.value = savedTy.value + e.translationY;
+        })
+        .onEnd((e) => {
+          'worklet';
+          tx.value = withDecay({ velocity: e.velocityX, deceleration: 0.994 });
+          ty.value = withDecay({ velocity: e.velocityY, deceleration: 0.994 });
+          runOnJS(reportTransform)(scale.value, tx.value, ty.value);
         }),
-    [savedTx, savedTy, tx, ty],
+    [reportTransform, savedTx, savedTy, scale, tx, ty],
   );
 
   const pinchGesture = useMemo(
@@ -192,7 +279,7 @@ export function InfiniteCanvas({
         })
         .onUpdate((e) => {
           'worklet';
-          const next = Math.min(2.4, Math.max(0.28, savedScale.value * e.scale));
+          const next = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, savedScale.value * e.scale));
           const worldX = (e.focalX - savedTx.value) / savedScale.value;
           const worldY = (e.focalY - savedTy.value) / savedScale.value;
           scale.value = next;
@@ -201,9 +288,9 @@ export function InfiniteCanvas({
         })
         .onEnd(() => {
           'worklet';
-          runOnJS(reportScale)(scale.value);
+          runOnJS(reportTransform)(scale.value, tx.value, ty.value);
         }),
-    [reportScale, savedScale, savedTx, savedTy, scale, tx, ty],
+    [reportTransform, savedScale, savedTx, savedTy, scale, tx, ty],
   );
 
   const tapGesture = useMemo(
@@ -215,13 +302,13 @@ export function InfiniteCanvas({
     [clearSel],
   );
 
-  const longPressGesture = useMemo(
+  const doubleTapGesture = useMemo(
     () =>
-      Gesture.LongPress()
-        .minDuration(480)
-        .onEnd((_e, success) => {
+      Gesture.Tap()
+        .numberOfTaps(2)
+        .onEnd(() => {
           'worklet';
-          if (success) runOnJS(openAdd)();
+          runOnJS(openAdd)();
         }),
     [openAdd],
   );
@@ -237,32 +324,90 @@ export function InfiniteCanvas({
         .onUpdate((e) => {
           'worklet';
           runOnJS(drawAt)(e.x, e.y, false);
+        })
+        .onEnd(() => {
+          'worklet';
+          runOnJS(finishDrawing)();
         }),
-    [drawAt],
+    [drawAt, finishDrawing],
+  );
+
+  const beginMarquee = useCallback((x: number, y: number) => {
+    const world = worldPoint(x, y);
+    marqueeStartRef.current = { x, y, worldX: world.x, worldY: world.y };
+    setMarquee({ x, y, width: 1, height: 1 });
+  }, [worldPoint]);
+
+  const updateMarquee = useCallback((x: number, y: number) => {
+    const start = marqueeStartRef.current;
+    setMarquee({
+      x: Math.min(start.x, x),
+      y: Math.min(start.y, y),
+      width: Math.abs(x - start.x),
+      height: Math.abs(y - start.y),
+    });
+  }, []);
+
+  const endMarquee = useCallback((x: number, y: number) => {
+    const start = marqueeStartRef.current;
+    const end = worldPoint(x, y);
+    const rect = {
+      minX: Math.min(start.worldX, end.x),
+      minY: Math.min(start.worldY, end.y),
+      maxX: Math.max(start.worldX, end.x),
+      maxY: Math.max(start.worldY, end.y),
+    };
+    const ids = visibleItems.filter((item) => intersects(item, rect)).map((item) => item.id);
+    if (ids.length) select(ids, true);
+    setMarquee(null);
+  }, [select, visibleItems, worldPoint]);
+
+  const marqueeGesture = useMemo(
+    () =>
+      Gesture.Pan()
+        .minDistance(8)
+        .maxPointers(1)
+        .enabled(tool === 'multi')
+        .onBegin((e) => {
+          'worklet';
+          runOnJS(beginMarquee)(e.x, e.y);
+        })
+        .onUpdate((e) => {
+          'worklet';
+          runOnJS(updateMarquee)(e.x, e.y);
+        })
+        .onEnd((e) => {
+          'worklet';
+          runOnJS(endMarquee)(e.x, e.y);
+        }),
+    [beginMarquee, endMarquee, tool, updateMarquee],
   );
 
   const composed = useMemo(() => {
-    if (tool === 'draw') {
-      // Two-finger pan/zoom still works via Simultaneous; one-finger draws.
-      return Gesture.Simultaneous(pinchGesture, Gesture.Exclusive(drawGesture, panGesture));
-    }
+    if (tool === 'draw') return Gesture.Simultaneous(pinchGesture, Gesture.Exclusive(drawGesture, panGesture));
     return Gesture.Simultaneous(
       pinchGesture,
-      panGesture,
-      Gesture.Exclusive(longPressGesture, tapGesture),
+      Gesture.Exclusive(marqueeGesture, panGesture),
+      Gesture.Exclusive(doubleTapGesture, tapGesture),
     );
-  }, [tool, pinchGesture, panGesture, drawGesture, longPressGesture, tapGesture]);
+  }, [tool, pinchGesture, marqueeGesture, panGesture, doubleTapGesture, tapGesture, drawGesture]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: tx.value }, { translateY: ty.value }, { scale: scale.value }],
   }));
 
   const startItemDrag = useCallback(
-    (id: string, pageX: number, pageY: number) => {
-      dragIdRef.current = id;
+    (item: BoardItem, pageX: number, pageY: number) => {
+      if (item.type === 'region' && !selectedRef.current.includes(item.id)) {
+        select([item.id], toolRef.current === 'multi');
+        dragIdsRef.current = [];
+        return;
+      }
+      const selected = selectedRef.current.includes(item.id) ? selectedRef.current : [item.id];
+      dragIdsRef.current = selected;
       lastPageRef.current = { x: pageX, y: pageY };
-      if (toolRef.current === 'multi') select([id], true);
-      else select([id], false);
+      if (toolRef.current === 'multi') select([item.id], true);
+      else if (!selectedRef.current.includes(item.id)) select([item.id], false);
       setEditingId(null);
     },
     [select],
@@ -270,27 +415,86 @@ export function InfiniteCanvas({
 
   const moveItemDrag = useCallback(
     (pageX: number, pageY: number) => {
-      const id = dragIdRef.current;
-      if (!id) return;
+      if (dragIdsRef.current.length === 0) return;
       const s = scaleRef.current || 1;
       const dx = (pageX - lastPageRef.current.x) / s;
       const dy = (pageY - lastPageRef.current.y) / s;
       lastPageRef.current = { x: pageX, y: pageY };
       if (dx === 0 && dy === 0) return;
-      moveItems([id], dx, dy, false);
+      moveItems(dragIdsRef.current, dx, dy, false);
     },
     [moveItems],
   );
 
   const endItemDrag = useCallback(() => {
-    dragIdRef.current = null;
-  }, []);
+    if (dragIdsRef.current.length) moveItems(dragIdsRef.current, 0, 0, true);
+    dragIdsRef.current = [];
+  }, [moveItems]);
+
+  const connectors = useMemo(() => {
+    const itemsById = new Map(currentBoard.items.map((item) => [item.id, item]));
+    const views: React.ReactNode[] = [];
+    currentBoard.items.forEach((item) => {
+      if (item.type === 'task') {
+        item.dependsOn.forEach((depId) => {
+          const dep = itemsById.get(depId);
+          if (!dep) return;
+          const from = edgePoint(dep, 'right');
+          const to = edgePoint(item, 'left');
+          const x = Math.min(from.x, to.x);
+          const y = Math.min(from.y, to.y) - 18;
+          const w = Math.abs(to.x - from.x) || 1;
+          const h = Math.abs(to.y - from.y) + 36;
+          const done = dep.type === 'task' && dep.done;
+          views.push(
+            <Svg key={`${depId}-${item.id}`} style={{ position: 'absolute', left: x, top: y, width: w, height: h, zIndex: 1 }}>
+              <Line
+                x1={from.x - x}
+                y1={from.y - y}
+                x2={to.x - x}
+                y2={to.y - y}
+                stroke={done ? colors.success : colors.connector}
+                strokeWidth={done ? 4 : 2}
+                strokeLinecap="round"
+              />
+            </Svg>,
+          );
+        });
+      }
+      if (item.type === 'mindmap' && item.parentId) {
+        const parent = itemsById.get(item.parentId);
+        if (!parent) return;
+        const from = centerOf(parent);
+        const to = centerOf(item);
+        const x = Math.min(from.x, to.x);
+        const y = Math.min(from.y, to.y) - 30;
+        const w = Math.abs(to.x - from.x) || 1;
+        const h = Math.abs(to.y - from.y) + 60;
+        const c1x = from.x - x + (to.x - from.x) * 0.42;
+        const c2x = from.x - x + (to.x - from.x) * 0.58;
+        views.push(
+          <Svg key={`${item.parentId}-${item.id}`} style={{ position: 'absolute', left: x, top: y, width: w, height: h, zIndex: 1 }}>
+            <Path
+              d={`M ${from.x - x} ${from.y - y} C ${c1x} ${from.y - y}, ${c2x} ${to.y - y}, ${to.x - x} ${to.y - y}`}
+              stroke={item.branchColor}
+              strokeWidth={3}
+              fill="none"
+              strokeLinecap="round"
+            />
+          </Svg>,
+        );
+      }
+    });
+    return views;
+  }, [currentBoard.items]);
 
   return (
-    <View style={[styles.root, { width: viewportWidth, height: viewportHeight }]}>
+    <View style={[styles.root, { width: safeWidth, height: safeHeight }]}>
       <GestureDetector gesture={composed}>
         <Animated.View style={[styles.world, animatedStyle]} collapsable={false}>
-          {currentBoard.items.map((item) => (
+          {gridDots.map((dot) => <View key={dot.id} style={[styles.dot, { left: dot.x, top: dot.y }]} />)}
+          {connectors}
+          {culledItems.map((item) => (
             <View
               key={item.id}
               style={{
@@ -303,12 +507,8 @@ export function InfiniteCanvas({
               }}
               onStartShouldSetResponder={() => toolRef.current !== 'draw'}
               onMoveShouldSetResponder={() => toolRef.current !== 'draw'}
-              onResponderGrant={(e) => {
-                startItemDrag(item.id, e.nativeEvent.pageX, e.nativeEvent.pageY);
-              }}
-              onResponderMove={(e) => {
-                moveItemDrag(e.nativeEvent.pageX, e.nativeEvent.pageY);
-              }}
+              onResponderGrant={(e) => startItemDrag(item, e.nativeEvent.pageX, e.nativeEvent.pageY)}
+              onResponderMove={(e) => moveItemDrag(e.nativeEvent.pageX, e.nativeEvent.pageY)}
               onResponderRelease={endItemDrag}
               onResponderTerminate={endItemDrag}
             >
@@ -317,6 +517,8 @@ export function InfiniteCanvas({
                 selected={selectedIds.includes(item.id)}
                 editing={editingId === item.id}
                 scale={scaleState}
+                lowDetail={scaleState < 0.45}
+                dense={currentBoard.items.length > 80}
                 onSelect={() => {
                   if (tool === 'multi') select([item.id], true);
                   else select([item.id], false);
@@ -324,18 +526,33 @@ export function InfiniteCanvas({
                 }}
                 onLongPress={() => {
                   select([item.id], false);
-                  if (item.type === 'text' || item.type === 'task' || item.type === 'mindmap') {
-                    setEditingId(item.id);
-                  }
+                  if (item.type === 'text' || item.type === 'task' || item.type === 'mindmap') setEditingId(item.id);
                 }}
                 onChangeText={(text) => updateText(item.id, text)}
                 onToggleTask={() => toggleTask(item.id)}
                 onEndEdit={() => setEditingId(null)}
+                onConnectorPress={() => completeConnect(item.id)}
+                onMindChild={() => addMindChild(item.id)}
+                onMindSibling={() => addMindSibling(item.id)}
+                onMindCollapse={() => toggleMindCollapse(item.id)}
+                onMindTidy={() => tidyMindMap(item.id)}
               />
             </View>
           ))}
         </Animated.View>
       </GestureDetector>
+      {marquee ? <View pointerEvents="none" style={[styles.marquee, marquee]} /> : null}
+      {currentBoard.items.length === 0 ? (
+        <View pointerEvents="box-none" style={styles.empty}>
+          <Text style={styles.emptyTitle}>Start a fieldnote board</Text>
+          <Text style={styles.emptyBody}>Double tap the canvas or use Add to place your first card.</Text>
+        </View>
+      ) : null}
+      {tool === 'draw' ? (
+        <View pointerEvents="none" style={styles.modeBanner}>
+          <Text style={styles.modeBannerText}>Draw mode · two fingers pan and zoom</Text>
+        </View>
+      ) : null}
     </View>
   );
 }
@@ -344,14 +561,17 @@ export function useViewportSize() {
   const [size, setSize] = useState(() => {
     const win = Dimensions.get('window');
     return {
-      width: win.width > 0 ? win.width : 360,
-      height: win.height > 0 ? win.height : 640,
+      width: Number.isFinite(win.width) && win.width > 0 ? win.width : 360,
+      height: Number.isFinite(win.height) && win.height > 0 ? win.height : 640,
     };
   });
 
   useEffect(() => {
     const sub = Dimensions.addEventListener('change', ({ window }) => {
-      setSize({ width: window.width, height: window.height });
+      setSize({
+        width: Number.isFinite(window.width) && window.width > 0 ? window.width : 360,
+        height: Number.isFinite(window.height) && window.height > 0 ? window.height : 640,
+      });
     });
     return () => sub.remove();
   }, []);
@@ -366,8 +586,62 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   world: {
-    width: WORLD,
-    height: WORLD,
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: 1,
+    height: 1,
     backgroundColor: colors.canvas,
+  },
+  dot: {
+    position: 'absolute',
+    width: 4,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: colors.canvasGrid,
+  },
+  marquee: {
+    position: 'absolute',
+    borderWidth: 1,
+    borderColor: colors.selection,
+    backgroundColor: 'rgba(238,177,116,0.16)',
+    zIndex: 25,
+  },
+  empty: {
+    position: 'absolute',
+    alignSelf: 'center',
+    top: '40%',
+    maxWidth: 310,
+    alignItems: 'center',
+    gap: 8,
+    padding: 18,
+    borderRadius: 22,
+    backgroundColor: 'rgba(255,250,240,0.82)',
+  },
+  emptyTitle: {
+    color: colors.ink,
+    fontSize: 20,
+    fontWeight: '800',
+    textAlign: 'center',
+  },
+  emptyBody: {
+    color: colors.mutedInk,
+    textAlign: 'center',
+    lineHeight: 19,
+  },
+  modeBanner: {
+    position: 'absolute',
+    alignSelf: 'center',
+    bottom: 82,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 999,
+    backgroundColor: colors.walnut,
+    zIndex: 35,
+  },
+  modeBannerText: {
+    color: colors.cream,
+    fontSize: 12,
+    fontWeight: '700',
   },
 });
