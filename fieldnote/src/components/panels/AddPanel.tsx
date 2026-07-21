@@ -6,6 +6,7 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { ModalShell } from './ModalShell';
 import { useBoard } from '../../store/BoardContext';
 import { colors, radii } from '../../theme';
+import { persistPickedAsset } from '../../lib/localFiles';
 
 interface Props {
   visible: boolean;
@@ -86,21 +87,6 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
     onClose();
   };
 
-  const addStub = (type: 'audio' | 'pdf' | 'markdown') => {
-    const { x, y } = placeAtCenter(260, 120);
-    addItem({
-      type,
-      x,
-      y,
-      width: 260,
-      height: 120,
-      backgroundColor: colors.paperStrong,
-      name: type === 'pdf' ? 'PDF preview' : type === 'audio' ? 'Audio note' : 'Markdown note',
-      text: 'Preview stub',
-    });
-    onClose();
-  };
-
   const addRegion = () => {
     const { x, y } = placeAtCenter(360, 240);
     addItem({
@@ -122,13 +108,17 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
         type: ['image/*', 'application/pdf', 'text/*', 'audio/*', 'application/json'],
       });
       if (result.canceled) return;
-      addWorkingFiles(result.assets.map((asset) => ({
+      const assets = await Promise.all(result.assets.map(async (asset) => ({
+        ...asset,
+        uri: await persistPickedAsset(asset),
+      })));
+      addWorkingFiles(assets.map((asset) => ({
         name: asset.name,
         uri: asset.uri,
         mimeType: asset.mimeType,
         size: asset.size,
       })));
-      result.assets.forEach((asset, i) => {
+      assets.forEach((asset, i) => {
         const isImage = (asset.mimeType ?? '').startsWith('image/');
         const { x, y } = placeAtCenter(280, isImage ? 280 : 120);
         if (isImage) {
@@ -164,31 +154,45 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
   };
 
   const pickImages = async () => {
-    const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (!perm.granted) {
-      Alert.alert('Permission needed', 'Allow photo library access to place images.');
-      return;
-    }
-    const result = await ImagePicker.launchImageLibraryAsync({
-      allowsMultipleSelection: true,
-      quality: 0.9,
-      mediaTypes: ['images'],
-    });
-    if (result.canceled) return;
-    result.assets.forEach((asset, i) => {
-      const { x, y } = placeAtCenter(300, 300);
-      addItem({
-        type: 'image',
-        x: x + i * 24,
-        y: y + i * 24,
-        width: 300,
-        height: Math.round(300 * (asset.height / Math.max(asset.width, 1))),
-        uri: asset.uri,
-        alt: asset.fileName ?? 'Photo',
-        backgroundColor: colors.paper,
+    try {
+      const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (!perm.granted) {
+        Alert.alert('Permission needed', 'Allow photo library access to place images.');
+        return;
+      }
+      const result = await ImagePicker.launchImageLibraryAsync({
+        allowsMultipleSelection: true,
+        quality: 0.9,
+        mediaTypes: ['images'],
       });
-    });
-    onClose();
+      if (result.canceled) return;
+      const assets = await Promise.all(result.assets.map(async (asset) => ({
+        ...asset,
+        uri: await persistPickedAsset({ uri: asset.uri, name: asset.fileName }),
+      })));
+      addWorkingFiles(assets.map((asset) => ({
+        name: asset.fileName ?? 'Photo',
+        uri: asset.uri,
+        mimeType: asset.mimeType,
+        size: asset.fileSize,
+      })));
+      assets.forEach((asset, i) => {
+        const { x, y } = placeAtCenter(300, 300);
+        addItem({
+          type: 'image',
+          x: x + i * 24,
+          y: y + i * 24,
+          width: 300,
+          height: Math.round(300 * (asset.height / Math.max(asset.width, 1))),
+          uri: asset.uri,
+          alt: asset.fileName ?? 'Photo',
+          backgroundColor: colors.paper,
+        });
+      });
+      onClose();
+    } catch (e) {
+      Alert.alert('Could not open photos', String(e));
+    }
   };
 
   const chooseFolder = () => {
@@ -232,8 +236,8 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
       <Pressable style={styles.secondaryBtn} onPress={chooseFolder}>
         <Ionicons name="folder-open-outline" size={20} color={colors.ink} />
         <View style={{ flex: 1 }}>
-          <Text style={styles.secondaryTitle}>Choose folder</Text>
-          <Text style={styles.secondarySub}>Place the whole folder as one panel.</Text>
+          <Text style={styles.secondaryTitle}>Folder card</Text>
+          <Text style={styles.secondarySub}>Create an organizer card; folder import is not supported.</Text>
         </View>
       </Pressable>
 
@@ -270,21 +274,6 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
             onClose();
           }}
           icon={<MaterialCommunityIcons name="flask-outline" size={22} color={colors.ink} />}
-        />
-        <CreateBtn
-          label="Audio"
-          onPress={() => addStub('audio')}
-          icon={<Ionicons name="mic-outline" size={22} color={colors.ink} />}
-        />
-        <CreateBtn
-          label="PDF"
-          onPress={() => addStub('pdf')}
-          icon={<Ionicons name="document-text-outline" size={22} color={colors.ink} />}
-        />
-        <CreateBtn
-          label="Markdown"
-          onPress={() => addStub('markdown')}
-          icon={<Ionicons name="logo-markdown" size={22} color={colors.ink} />}
         />
       </View>
     </ModalShell>

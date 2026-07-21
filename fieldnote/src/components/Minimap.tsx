@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { BoardItem } from '../types';
 import { colors, radii, shadows } from '../theme';
@@ -11,6 +11,7 @@ interface Props {
 }
 
 export function Minimap({ items, selectedIds, onNavigate, onFit }: Props) {
+  const [size, setSize] = useState({ width: 104, height: 104 });
   const layout = useMemo(() => {
     if (items.length === 0) {
       return { minX: 0, minY: 0, w: 1000, h: 800 };
@@ -37,10 +38,16 @@ export function Minimap({ items, selectedIds, onNavigate, onFit }: Props) {
   return (
     <Pressable
       style={[styles.box, shadows.control]}
+      onLayout={(event) => {
+        const { width, height } = event.nativeEvent.layout;
+        if (width > 0 && height > 0) setSize({ width, height });
+      }}
       onPress={(e) => {
         const { locationX, locationY } = e.nativeEvent;
-        const wx = layout.minX + (locationX / 104) * layout.w;
-        const wy = layout.minY + (locationY / 104) * layout.h;
+        const innerWidth = Math.max(1, size.width - 12);
+        const innerHeight = Math.max(1, size.height - 12);
+        const wx = layout.minX + (Math.max(0, locationX - 6) / innerWidth) * layout.w;
+        const wy = layout.minY + (Math.max(0, locationY - 6) / innerHeight) * layout.h;
         onNavigate(wx, wy);
       }}
       onLongPress={onFit}
@@ -54,6 +61,7 @@ export function Minimap({ items, selectedIds, onNavigate, onFit }: Props) {
               styles.dot,
               it.type === 'image' ? styles.imageDot : styles.textDot,
               selectedIds.includes(it.id) && styles.selectedDot,
+              selectedIds.includes(it.id) && styles.selectionRing,
               {
                 left: `${((it.x - layout.minX) / layout.w) * 100}%`,
                 top: `${((it.y - layout.minY) / layout.h) * 100}%`,
@@ -101,7 +109,12 @@ const styles = StyleSheet.create({
   textDot: {},
   imageDot: {},
   selectedDot: {
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: colors.selection,
+  },
+  selectionRing: {
+    shadowColor: colors.selection,
+    shadowOpacity: 0.8,
+    shadowRadius: 4,
   },
 });

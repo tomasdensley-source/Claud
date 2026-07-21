@@ -13,17 +13,21 @@ interface Props {
 }
 
 export function MorePanel({ visible, onClose }: Props) {
-  const { undo, redo, canUndo, canRedo, setPanel, resetToSeed, exportCurrentBoard, importBoardJson } = useBoard();
+  const { visibleItems, undo, redo, canUndo, canRedo, select, setPanel, resetToSeed, exportCurrentBoard, importBoardJson } = useBoard();
 
   const importJson = async () => {
-    const result = await DocumentPicker.getDocumentAsync({
-      type: ['application/json', 'text/*'],
-      copyToCacheDirectory: true,
-    });
-    if (result.canceled || !result.assets[0]) return;
-    const text = await FileSystem.readAsStringAsync(result.assets[0].uri);
-    importBoardJson(text);
-    onClose();
+    try {
+      const result = await DocumentPicker.getDocumentAsync({
+        type: ['application/json', 'text/*'],
+        copyToCacheDirectory: true,
+      });
+      if (result.canceled || !result.assets[0]) return;
+      const text = await FileSystem.readAsStringAsync(result.assets[0].uri);
+      importBoardJson(text);
+      onClose();
+    } catch {
+      Alert.alert('Could not import JSON', 'Choose a readable Fieldnote export and try again.');
+    }
   };
 
   return (
@@ -70,9 +74,18 @@ export function MorePanel({ visible, onClose }: Props) {
         }}
       />
       <Row
+        icon="checkbox-outline"
+        title="Select all"
+        subtitle="Select every visible card on this board"
+        onPress={() => {
+          select(visibleItems.map((item) => item.id));
+          onClose();
+        }}
+      />
+      <Row
         icon="grid-outline"
-        title="Edit regions"
-        subtitle="Regions group space on the board"
+        title="Add region card"
+        subtitle="Create a draggable region from Add"
         onPress={() => {
           setPanel('add');
         }}
@@ -106,7 +119,7 @@ export function MorePanel({ visible, onClose }: Props) {
         }}
       />
       <View style={styles.tipBanner}>
-        <Text style={styles.tipBannerText}>Fieldnote 1.0.3 · Haptics are enabled for edits, drops, connects, and confirmations.</Text>
+        <Text style={styles.tipBannerText}>Fieldnote 1.0.4 · Haptics are enabled for edits, drops, connects, and confirmations.</Text>
       </View>
     </ModalShell>
   );
@@ -134,13 +147,10 @@ export function GesturesPanel({ visible, onClose }: Props) {
           <Tip title="Drag empty space in Multi" body="Marquee select visible cards" />
         </View>
         <View style={styles.col}>
-          <Text style={styles.colTitle}>With a keyboard</Text>
-          <Tip title="Ctrl / ⌘ F" body="Find anything" />
-          <Tip title="Back" body="Closes the open panel first" />
-          <Tip title="Copy, paste, lock" body="Use the selection bar after selecting cards" />
-          <Tip title="F" body="Fit the whole board" />
-          <Tip title="1" body="Return to 100%" />
-          <Tip title="?" body="Open this guide" />
+          <Text style={styles.colTitle}>Panels</Text>
+          <Tip title="Back button" body="Closes the open panel first on Android" />
+          <Tip title="Copy, paste, lock" body="Use the selection bar; paste also appears beside zoom when the clipboard has content" />
+          <Tip title="Files" body="Picked files are copied into Fieldnote storage before being placed" />
         </View>
       </View>
       <View style={styles.tipBanner}>
@@ -153,6 +163,8 @@ export function GesturesPanel({ visible, onClose }: Props) {
 export function StoragePanel({ visible, onClose }: Props) {
   const { boards, resetToSeed } = useBoard();
   const itemCount = boards.reduce((n, b) => n + b.items.length, 0);
+  const approxBytes = JSON.stringify(boards).length;
+  const approxSize = approxBytes < 1024 * 1024 ? `${Math.round(approxBytes / 1024)} KB` : `${(approxBytes / (1024 * 1024)).toFixed(1)} MB`;
 
   return (
     <ModalShell
@@ -164,7 +176,7 @@ export function StoragePanel({ visible, onClose }: Props) {
     >
       <View style={styles.statCard}>
         <Text style={styles.stat}>{boards.length} boards</Text>
-        <Text style={styles.statSub}>{itemCount} cards & files stored locally</Text>
+        <Text style={styles.statSub}>{itemCount} cards & files stored locally · approx {approxSize}</Text>
       </View>
       <Text style={styles.body}>
         Waiting before editing protects your saved work. Boards autosave as you move and write.

@@ -22,6 +22,13 @@ export function BoardsPanel({ visible, onClose }: Props) {
   } = useBoard();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [name, setName] = useState('');
+  const [, setClock] = useState(0);
+
+  React.useEffect(() => {
+    if (!visible) return undefined;
+    const timer = setInterval(() => setClock((n) => n + 1), 60000);
+    return () => clearInterval(timer);
+  }, [visible]);
 
   return (
     <ModalShell

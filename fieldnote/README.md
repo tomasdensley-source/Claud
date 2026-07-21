@@ -9,14 +9,14 @@ Built for **Android** (Expo Go + installable APK via EAS).
 
 ## Features
 
-- Infinite pan / pinch-zoom canvas with inertia, viewport culling, and warm cream dot grid
+- Infinite pan / pinch-zoom canvas with full-viewport gesture hit testing, inertia, viewport culling, and warm cream dot grid
 - Seed demo board matching Fieldnote (“A place for unfinished ideas…”)
 - Floating walnut toolbar: Add, Boards, Files, Multi, Draw, Find, More
-- Add panel: device files / photos, text, task, mind map, region
+- Add panel: durable device files / photos, text, task, mind map, region, and shape cards
 - Multiple boards with local autosave (AsyncStorage)
-- Working files panel, search, undo/redo, gestures guide, storage controls
+- Working files panel with durable app-local URIs, search, undo/redo, gestures guide, storage controls
 - Minimap + zoom controls + Fit board
-- Long-press cards to edit; double-tap empty canvas or use Add to create content
+- Long-press cards to edit; double-tap empty canvas or use Add to create content; two fingers pan while drawing
 - Real parent-linked mind maps, task dependencies, connector overlays, JSON export/import, and undo toasts
 
 ## Project layout

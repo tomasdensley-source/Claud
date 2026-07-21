@@ -14,13 +14,13 @@ interface Props {
 type TypeFilter = 'everything' | 'text' | 'image' | 'file' | 'task';
 
 export function SearchPanel({ visible, onClose, onFocusItem }: Props) {
-  const { currentBoard, select, setPanel } = useBoard();
+  const { visibleItems, select, setPanel } = useBoard();
   const [query, setQuery] = useState('');
   const [type, setType] = useState<TypeFilter>('everything');
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return currentBoard.items.filter((it) => {
+    return visibleItems.filter((it) => {
       if (type !== 'everything') {
         if (type === 'file' && !(it.type === 'file' || it.type === 'folder')) return false;
         else if (type !== 'file' && it.type !== type) return false;
@@ -34,7 +34,7 @@ export function SearchPanel({ visible, onClose, onFocusItem }: Props) {
       if (it.type === 'region') return it.label.toLowerCase().includes(q);
       return it.type.includes(q);
     });
-  }, [currentBoard.items, query, type]);
+  }, [visibleItems, query, type]);
 
   const filters: TypeFilter[] = ['everything', 'text', 'image', 'file', 'task'];
 
@@ -49,7 +49,7 @@ export function SearchPanel({ visible, onClose, onFocusItem }: Props) {
       <TextInput
         value={query}
         onChangeText={setQuery}
-        placeholder="Search cards, files, playlists..."
+        placeholder="Search cards, files, and notes..."
         placeholderTextColor={colors.mutedInk}
         style={styles.search}
         autoFocus

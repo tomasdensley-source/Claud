@@ -58,6 +58,7 @@ function FieldnoteApp() {
     ready,
     currentBoard,
     selectedIds,
+    visibleItems,
     panel,
     setPanel,
     setTool,
@@ -74,6 +75,7 @@ function FieldnoteApp() {
     lockSelected,
     deleteSelected,
     duplicateSelected,
+    canPaste,
     toast,
     dismissToast,
   } = useBoard();
@@ -85,6 +87,7 @@ function FieldnoteApp() {
   const [centerRequest, setCenterRequest] = useState<{
     x: number;
     y: number;
+    scale?: number;
     token: number;
   } | null>(null);
   const [cameraCenter, setCameraCenter] = useState({ x: 600, y: 400 });
@@ -105,22 +108,8 @@ function FieldnoteApp() {
     return () => sub.remove();
   }, [panel, setPanel]);
 
-  const viewCenter = useMemo(() => {
-    if (currentBoard.items.length === 0) {
-      return cameraCenter;
-    }
-    let minX = Infinity;
-    let minY = Infinity;
-    let maxX = -Infinity;
-    let maxY = -Infinity;
-    currentBoard.items.forEach((it) => {
-      minX = Math.min(minX, it.x);
-      minY = Math.min(minY, it.y);
-      maxX = Math.max(maxX, it.x + it.width);
-      maxY = Math.max(maxY, it.y + it.height);
-    });
-    return { x: (minX + maxX) / 2, y: (minY + maxY) / 2 };
-  }, [cameraCenter, currentBoard.items]);
+  const viewCenter = cameraCenter;
+  const allSelectedLocked = selectedIds.length > 0 && selectedIds.every((id) => currentBoard.items.find((it) => it.id === id)?.locked);
 
   const requestZoom = useCallback((next: number) => {
     setZoomRequest({ scale: Math.min(2.8, Math.max(0.2, next)), token: Date.now() });
@@ -158,7 +147,7 @@ function FieldnoteApp() {
         <BoardBadge />
         <Toolbar />
         <Minimap
-          items={currentBoard.items}
+          items={visibleItems}
           selectedIds={selectedIds}
           onNavigate={(x, y) => setCenterRequest({ x, y, token: Date.now() })}
           onFit={() => setFitRequest((n) => n + 1)}
@@ -170,7 +159,7 @@ function FieldnoteApp() {
           drawMode={drawMode}
           onColor={(color) => {
             setDrawColor(color);
-            if (selectedIds.length) formatSelected({ backgroundColor: color });
+            if (selectedIds.length) formatSelected({ backgroundColor: color, color });
           }}
           onWidth={setDrawWidth}
           onMode={setDrawMode}
@@ -194,7 +183,9 @@ function FieldnoteApp() {
           }}
           onCopy={copySelection}
           onPaste={pasteSelection}
-          onLock={() => lockSelected(true)}
+          canPaste={canPaste}
+          lockActive={allSelectedLocked}
+          onLock={() => lockSelected(!allSelectedLocked)}
         />
         {currentBoard.items.length === 0 ? (
           <Pressable style={styles.centerAdd} onPress={() => setPanel('add')} accessibilityLabel="Add first item">
@@ -215,7 +206,14 @@ function FieldnoteApp() {
               >
                 <Text style={styles.tipBtnText}>Skip tips</Text>
               </Pressable>
-              <Pressable style={styles.tipBtnPrimary} onPress={() => setPanel('gestures')}>
+              <Pressable
+                style={styles.tipBtnPrimary}
+                onPress={() => {
+                  void saveOnboardingDismissed();
+                  setShowOnboarding(false);
+                  setPanel('gestures');
+                }}
+              >
                 <Text style={styles.tipBtnPrimaryText}>Show gestures</Text>
               </Pressable>
             </View>
@@ -237,7 +235,7 @@ function FieldnoteApp() {
         <SearchPanel
           visible={panel === 'search'}
           onClose={() => setPanel(null)}
-          onFocusItem={(x, y) => setCenterRequest({ x, y, token: Date.now() })}
+          onFocusItem={(x, y) => setCenterRequest({ x, y, scale: Math.max(scale, 1), token: Date.now() })}
         />
         <MorePanel visible={panel === 'more'} onClose={() => setPanel(null)} />
         <GesturesPanel visible={panel === 'gestures'} onClose={() => setPanel(null)} />

@@ -211,9 +211,11 @@ export function migrateBoards(raw: unknown): Board[] {
 
 export function mindMapDescendantIds(items: BoardItem[], rootId: string): string[] {
   const descendants: string[] = [];
+  const visited = new Set<string>([rootId]);
   const visit = (id: string) => {
     items.forEach((item) => {
-      if (item.type === 'mindmap' && item.parentId === id) {
+      if (item.type === 'mindmap' && item.parentId === id && !visited.has(item.id)) {
+        visited.add(item.id);
         descendants.push(item.id);
         visit(item.id);
       }

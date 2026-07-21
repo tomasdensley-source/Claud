@@ -16,6 +16,8 @@ interface Props {
   onCopy?: () => void;
   onPaste?: () => void;
   onLock?: () => void;
+  canPaste?: boolean;
+  lockActive?: boolean;
 }
 
 export function ZoomControls({
@@ -31,6 +33,8 @@ export function ZoomControls({
   onCopy,
   onPaste,
   onLock,
+  canPaste,
+  lockActive,
 }: Props) {
   return (
     <View style={styles.wrap}>
@@ -43,11 +47,11 @@ export function ZoomControls({
           <Pressable onPress={onCopy} style={styles.iconBtn} accessibilityLabel="Copy selection" hitSlop={6}>
             <Ionicons name="clipboard-outline" size={18} color={colors.cream} />
           </Pressable>
-          <Pressable onPress={onPaste} style={styles.iconBtn} accessibilityLabel="Paste selection" hitSlop={6}>
+          <Pressable onPress={onPaste} style={[styles.iconBtn, !canPaste && styles.disabled]} disabled={!canPaste} accessibilityLabel="Paste clipboard" hitSlop={6}>
             <Ionicons name="duplicate-outline" size={18} color={colors.cream} />
           </Pressable>
-          <Pressable onPress={onLock} style={styles.iconBtn} accessibilityLabel="Lock selection" hitSlop={6}>
-            <Ionicons name="lock-closed-outline" size={18} color={colors.cream} />
+          <Pressable onPress={onLock} style={styles.iconBtn} accessibilityLabel={lockActive ? 'Unlock selection' : 'Lock selection'} hitSlop={6}>
+            <Ionicons name={lockActive ? 'lock-open-outline' : 'lock-closed-outline'} size={18} color={colors.cream} />
           </Pressable>
           <Pressable onPress={onDuplicate} style={styles.iconBtn} accessibilityLabel="Duplicate">
             <Ionicons name="copy-outline" size={18} color={colors.cream} />
@@ -72,6 +76,14 @@ export function ZoomControls({
           <Ionicons name="expand-outline" size={18} color={colors.cream} />
           <Text style={styles.fitText}>Fit board</Text>
         </Pressable>
+        {canPaste ? (
+          <>
+            <View style={styles.divider} />
+            <Pressable onPress={onPaste} style={styles.iconBtn} accessibilityLabel="Paste clipboard" hitSlop={6}>
+              <Ionicons name="duplicate-outline" size={18} color={colors.cream} />
+            </Pressable>
+          </>
+        ) : null}
       </View>
     </View>
   );
@@ -105,6 +117,9 @@ const styles = StyleSheet.create({
     height: 36,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  disabled: {
+    opacity: 0.35,
   },
   zoomPct: {
     minWidth: 48,

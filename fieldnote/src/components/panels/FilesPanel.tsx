@@ -1,10 +1,11 @@
 import React, { useMemo, useState } from 'react';
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import { Ionicons } from '@expo/vector-icons';
 import { ModalShell } from './ModalShell';
 import { useBoard } from '../../store/BoardContext';
 import { colors, radii } from '../../theme';
+import { humanFileSize, persistPickedAsset } from '../../lib/localFiles';
 
 interface Props {
   visible: boolean;
@@ -13,7 +14,7 @@ interface Props {
 }
 
 export function FilesPanel({ visible, onClose, viewCenter }: Props) {
-  const { currentBoard, addItem, select, setPanel, workingFiles, addWorkingFiles } = useBoard();
+  const { currentBoard, addItem, select, setPanel, workingFiles, addWorkingFiles, removeWorkingFile } = useBoard();
   const [query, setQuery] = useState('');
 
   const files = useMemo(
@@ -32,32 +33,42 @@ export function FilesPanel({ visible, onClose, viewCenter }: Props) {
   });
 
   const upload = async () => {
-    const result = await DocumentPicker.getDocumentAsync({
-      multiple: true,
-      copyToCacheDirectory: true,
-      type: ['image/*', 'application/pdf', 'text/*', 'audio/*', 'application/json'],
-    });
-    if (result.canceled) return;
-    addWorkingFiles(result.assets.map((asset) => ({
-      name: asset.name,
-      uri: asset.uri,
-      mimeType: asset.mimeType,
-      size: asset.size,
-    })));
-    result.assets.forEach((asset, i) => {
-      addItem({
-        type: 'file',
-        x: viewCenter.x - 120 + i * 20,
-        y: viewCenter.y - 60 + i * 20,
-        width: 240,
-        height: 120,
+    try {
+      const result = await DocumentPicker.getDocumentAsync({
+        multiple: true,
+        copyToCacheDirectory: true,
+        type: ['image/*', 'application/pdf', 'text/*', 'audio/*', 'application/json'],
+      });
+      if (result.canceled) return;
+      const assets = await Promise.all(result.assets.map(async (asset) => ({
+        ...asset,
+        uri: await persistPickedAsset(asset),
+      })));
+      addWorkingFiles(assets.map((asset) => ({
         name: asset.name,
         uri: asset.uri,
         mimeType: asset.mimeType,
         size: asset.size,
-        backgroundColor: colors.paperStrong,
+      })));
+      assets.forEach((asset, i) => {
+        const isImage = (asset.mimeType ?? '').startsWith('image/');
+        addItem({
+          type: isImage ? 'image' : 'file',
+          x: viewCenter.x - 120 + i * 20,
+          y: viewCenter.y - 60 + i * 20,
+          width: isImage ? 260 : 240,
+          height: isImage ? 220 : 120,
+          name: asset.name,
+          uri: asset.uri,
+          mimeType: asset.mimeType,
+          size: asset.size,
+          alt: asset.name,
+          backgroundColor: colors.paperStrong,
+        } as Parameters<typeof addItem>[0]);
       });
-    });
+    } catch (e) {
+      Alert.alert('Could not upload files', String(e));
+    }
   };
 
   return (
@@ -165,8 +176,11 @@ export function FilesPanel({ visible, onClose, viewCenter }: Props) {
               <Text style={styles.glyph}>{(file.mimeType ?? '').startsWith('image/') ? 'Image' : 'File'}</Text>
               <View style={{ flex: 1 }}>
                 <Text style={styles.name}>{file.name}</Text>
-                <Text style={styles.meta}>{file.mimeType ?? 'document'}{file.size ? ` · ${Math.round(file.size / 1024)} KB` : ''}</Text>
+                <Text style={styles.meta}>{[file.mimeType ?? 'document', humanFileSize(file.size)].filter(Boolean).join(' · ')}</Text>
               </View>
+              <Pressable onPress={() => removeWorkingFile(file.id)} hitSlop={8} accessibilityLabel={`Remove ${file.name}`}>
+                <Ionicons name="trash-outline" size={18} color={colors.mutedInk} />
+              </Pressable>
             </Pressable>
           ))}
         </>

@@ -1,6 +1,7 @@
 import React, { memo, useMemo, useState } from 'react';
 import {
   Image,
+  Linking,
   Pressable,
   StyleSheet,
   Text,
@@ -12,6 +13,9 @@ import Svg, { Circle, Ellipse, Line, Path, Rect as SvgRect } from 'react-native-
 import { BoardItem } from '../types';
 import { colors, radii, shadows } from '../theme';
 import { SEED_IMAGES } from '../lib/seedImages';
+import { humanFileSize } from '../lib/localFiles';
+
+type ConnectorSide = 'left' | 'right' | 'top' | 'bottom';
 
 interface Props {
   item: BoardItem;
@@ -25,11 +29,12 @@ interface Props {
   onChangeText: (text: string) => void;
   onToggleTask: () => void;
   onEndEdit: () => void;
-  onConnectorPress: () => void;
+  onConnectorPress: (side: ConnectorSide) => void;
   onMindChild: () => void;
   onMindSibling: () => void;
   onMindCollapse: () => void;
   onMindTidy: () => void;
+  canConnect: boolean;
 }
 
 function pointsToPath(points: { x: number; y: number }[]): string {
@@ -37,12 +42,6 @@ function pointsToPath(points: { x: number; y: number }[]): string {
   return points
     .map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x.toFixed(1)} ${p.y.toFixed(1)}`)
     .join(' ');
-}
-
-function fileSize(size?: number) {
-  if (!size) return null;
-  if (size < 1024 * 1024) return `${Math.round(size / 1024)} KB`;
-  return `${(size / (1024 * 1024)).toFixed(1)} MB`;
 }
 
 export const CanvasItemView = memo(function CanvasItemView({
@@ -62,6 +61,7 @@ export const CanvasItemView = memo(function CanvasItemView({
   onMindSibling,
   onMindCollapse,
   onMindTidy,
+  canConnect,
 }: Props) {
   const [imageFailed, setImageFailed] = useState(false);
   const handleSize = Math.max(12, 14 / Math.max(scale, 0.2));
@@ -130,7 +130,13 @@ export const CanvasItemView = memo(function CanvasItemView({
         const blocked = item.state === 'blocked';
         const ready = item.state === 'ready';
         return (
-          <Pressable style={styles.taskRow} onPress={onToggleTask} accessibilityLabel={`Task ${item.text}`}>
+          <Pressable
+            style={styles.taskRow}
+            onPress={onToggleTask}
+            onStartShouldSetResponder={() => true}
+            disabled={item.locked}
+            accessibilityLabel={`Task ${item.text}`}
+          >
             <View style={[styles.checkbox, item.done && styles.checkboxDone, blocked && styles.checkboxBlocked]}>
               {item.done ? <Text style={styles.checkMark}>✓</Text> : null}
             </View>
@@ -232,12 +238,21 @@ export const CanvasItemView = memo(function CanvasItemView({
           </Svg>
         );
       case 'file': {
-        const size = fileSize(item.size);
+        const size = humanFileSize(item.size);
         return (
           <View style={styles.fileCard}>
             <Text style={styles.fileGlyph}>File</Text>
             <Text style={styles.fileName} numberOfLines={2}>{item.name}</Text>
             <Text style={styles.fileMeta}>{[item.mimeType, size].filter(Boolean).join(' · ') || 'document'}</Text>
+            <Pressable
+              style={styles.openChip}
+              onStartShouldSetResponder={() => true}
+              onPress={() => {
+                void Linking.openURL(item.uri);
+              }}
+            >
+              <Text style={styles.openChipText}>Open</Text>
+            </Pressable>
           </View>
         );
       }
@@ -256,7 +271,7 @@ export const CanvasItemView = memo(function CanvasItemView({
           <View style={styles.fileCard}>
             <Text style={styles.fileGlyph}>{item.type.toUpperCase()}</Text>
             <Text style={styles.fileName} numberOfLines={2}>{item.name}</Text>
-            <Text style={styles.fileMeta}>{item.text ?? 'Stub card ready for future preview support'}</Text>
+            <Text style={styles.fileMeta}>{item.text ?? 'Add a real file to open it from Fieldnote.'}</Text>
           </View>
         );
       default:
@@ -274,6 +289,7 @@ export const CanvasItemView = memo(function CanvasItemView({
     onMindSibling,
     onMindTidy,
     onToggleTask,
+    canConnect,
     showText,
     selected,
   ]);
@@ -294,7 +310,7 @@ export const CanvasItemView = memo(function CanvasItemView({
       onPress={onSelect}
       onLongPress={() => {
         void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-        onLongPress();
+        if (!item.locked) onLongPress();
       }}
       delayLongPress={500}
       style={({ pressed }) => [
@@ -315,9 +331,14 @@ export const CanvasItemView = memo(function CanvasItemView({
       accessibilityLabel={`${item.type} item${selected ? ', selected' : ''}`}
     >
       {content}
+      {item.locked ? (
+        <View style={styles.lockBadge} pointerEvents="none">
+          <Text style={styles.lockBadgeText}>LOCKED</Text>
+        </View>
+      ) : null}
       {selected ? (
         <>
-          <ConnectorDots size={handleSize} onPress={onConnectorPress} />
+          {canConnect && !item.locked ? <ConnectorDots size={handleSize} onPress={onConnectorPress} /> : null}
           <View style={[styles.handle, { width: handleSize, height: handleSize, left: -handleSize / 2, top: -handleSize / 2 }]} />
           <View style={[styles.handle, { width: handleSize, height: handleSize, right: -handleSize / 2, top: -handleSize / 2 }]} />
           <View style={[styles.handle, { width: handleSize, height: handleSize, left: -handleSize / 2, bottom: -handleSize / 2 }]} />
@@ -330,20 +351,20 @@ export const CanvasItemView = memo(function CanvasItemView({
 
 function ActionChip({ label, onPress }: { label: string; onPress: () => void }) {
   return (
-    <Pressable onPress={onPress} style={styles.actionChip} accessibilityLabel={label}>
+    <Pressable onPress={onPress} onStartShouldSetResponder={() => true} style={styles.actionChip} accessibilityLabel={label}>
       <Text style={styles.actionChipText}>{label}</Text>
     </Pressable>
   );
 }
 
-function ConnectorDots({ size, onPress }: { size: number; onPress: () => void }) {
+function ConnectorDots({ size, onPress }: { size: number; onPress: (side: ConnectorSide) => void }) {
   const dot = { width: size, height: size, borderRadius: size / 2 };
   return (
     <>
-      <Pressable style={[styles.connectorDot, dot, { left: -size / 2, top: '50%' }]} onPress={onPress} accessibilityLabel="Connect from left side" />
-      <Pressable style={[styles.connectorDot, dot, { right: -size / 2, top: '50%' }]} onPress={onPress} accessibilityLabel="Connect from right side" />
-      <Pressable style={[styles.connectorDot, dot, { top: -size / 2, left: '50%' }]} onPress={onPress} accessibilityLabel="Connect from top side" />
-      <Pressable style={[styles.connectorDot, dot, { bottom: -size / 2, left: '50%' }]} onPress={onPress} accessibilityLabel="Connect from bottom side" />
+      <Pressable style={[styles.connectorDot, dot, { left: -size / 2, top: '50%' }]} onStartShouldSetResponder={() => true} onPress={() => onPress('left')} accessibilityLabel="Connect from left side" />
+      <Pressable style={[styles.connectorDot, dot, { right: -size / 2, top: '50%' }]} onStartShouldSetResponder={() => true} onPress={() => onPress('right')} accessibilityLabel="Connect from right side" />
+      <Pressable style={[styles.connectorDot, dot, { top: -size / 2, left: '50%' }]} onStartShouldSetResponder={() => true} onPress={() => onPress('top')} accessibilityLabel="Connect from top side" />
+      <Pressable style={[styles.connectorDot, dot, { bottom: -size / 2, left: '50%' }]} onStartShouldSetResponder={() => true} onPress={() => onPress('bottom')} accessibilityLabel="Connect from bottom side" />
     </>
   );
 }
@@ -512,6 +533,33 @@ const styles = StyleSheet.create({
   fileMeta: {
     color: colors.mutedInk,
     fontSize: 12,
+  },
+  openChip: {
+    alignSelf: 'flex-start',
+    marginTop: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 999,
+    backgroundColor: colors.walnut,
+  },
+  openChipText: {
+    color: colors.cream,
+    fontSize: 11,
+    fontWeight: '800',
+  },
+  lockBadge: {
+    position: 'absolute',
+    right: 8,
+    top: 8,
+    paddingHorizontal: 7,
+    paddingVertical: 3,
+    borderRadius: 999,
+    backgroundColor: colors.walnut,
+  },
+  lockBadgeText: {
+    color: colors.cream,
+    fontSize: 9,
+    fontWeight: '900',
   },
   handle: {
     position: 'absolute',
