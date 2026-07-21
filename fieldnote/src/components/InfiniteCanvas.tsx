@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   runOnJS,
@@ -495,7 +495,7 @@ export function InfiniteCanvas({
       dragIdsRef.current = selected;
       dragActiveRef.current = true;
       lastPageRef.current = { x: pageX, y: pageY };
-      if (toolRef.current === 'multi') select([item.id], true);
+      if (toolRef.current === 'multi' && !selectedRef.current.includes(item.id)) select([item.id], true);
       else if (!selectedRef.current.includes(item.id)) select([item.id], false);
       setEditingId(null);
     },
@@ -572,7 +572,7 @@ export function InfiniteCanvas({
           const h = Math.abs(to.y - from.y) + 48;
           const done = dep.type === 'task' && dep.done;
           const midX = from.x + (to.x - from.x) / 2;
-          const angle = Math.atan2(0, to.x - midX);
+          const angle = Math.atan2(to.y - from.y, to.x - from.x);
           const arrow = `M ${to.x - x} ${to.y - y} L ${to.x - x - Math.cos(angle - 0.45) * 12} ${to.y - y - Math.sin(angle - 0.45) * 12} L ${to.x - x - Math.cos(angle + 0.45) * 12} ${to.y - y - Math.sin(angle + 0.45) * 12} Z`;
           views.push(
             <Svg key={`${depId}-${item.id}`} pointerEvents="none" style={{ position: 'absolute', left: x, top: y, width: w, height: h, zIndex: 1 }}>
@@ -703,6 +703,9 @@ export function InfiniteCanvas({
         <View pointerEvents="box-none" style={styles.empty}>
           <Text style={styles.emptyTitle}>Start a fieldnote board</Text>
           <Text style={styles.emptyBody}>Double tap the canvas or use Add to place your first card.</Text>
+          <Pressable style={styles.emptyAdd} onPress={() => openAdd()} accessibilityRole="button" accessibilityLabel="Add first card">
+            <Text style={styles.emptyAddText}>Add first card</Text>
+          </Pressable>
         </View>
       ) : null}
       {tool === 'draw' ? (
@@ -795,6 +798,19 @@ const styles = StyleSheet.create({
     color: colors.mutedInk,
     textAlign: 'center',
     lineHeight: 19,
+  },
+  emptyAdd: {
+    minHeight: 44,
+    marginTop: 4,
+    paddingHorizontal: 16,
+    borderRadius: 999,
+    backgroundColor: colors.clayDeep,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emptyAddText: {
+    color: colors.cream,
+    fontWeight: '900',
   },
   modeBanner: {
     position: 'absolute',

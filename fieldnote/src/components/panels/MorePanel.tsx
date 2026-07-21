@@ -176,7 +176,7 @@ export function MorePanel({ visible, onClose }: Props) {
         }}
       />
       <View style={styles.tipBanner}>
-        <Text style={styles.tipBannerText}>Fieldnote 1.0.6 · Haptics are enabled after accepted edits, drops, connects, and confirmations.</Text>
+        <Text style={styles.tipBannerText}>Fieldnote 1.0.7 · Haptics are enabled after accepted edits, drops, connects, and confirmations.</Text>
       </View>
       {tasks.length ? (
         <View style={styles.statCard}>

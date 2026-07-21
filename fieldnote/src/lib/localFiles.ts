@@ -1,5 +1,8 @@
 import * as FileSystem from 'expo-file-system/legacy';
 
+export const PACKAGE_BLOB_SIZE_LIMIT = 2 * 1024 * 1024;
+const PORTABLE_PREFIX = 'fieldnote-files/';
+
 type PickedAsset = {
   uri: string;
   name?: string | null;
@@ -25,13 +28,18 @@ export function localFileName(uri?: string) {
 
 export function toPortableUri(uri?: string) {
   const name = localFileName(uri);
-  return name ? `fieldnote-files/${name}` : uri;
+  return name ? `${PORTABLE_PREFIX}${name}` : uri;
 }
 
 export function fromPortableUri(uri?: string) {
-  if (!uri?.startsWith('fieldnote-files/')) return uri;
+  if (!uri?.startsWith(PORTABLE_PREFIX)) return uri;
   const dir = fieldnoteFilesDirectory();
-  return dir ? `${dir}${uri.slice('fieldnote-files/'.length)}` : uri;
+  return dir ? `${dir}${uri.slice(PORTABLE_PREFIX.length)}` : uri;
+}
+
+export function portableBlobKey(uri?: string) {
+  const portable = toPortableUri(uri);
+  return portable?.startsWith(PORTABLE_PREFIX) ? portable : undefined;
 }
 
 export function isPersistedFieldnoteFile(uri?: string) {
@@ -79,13 +87,36 @@ export async function directoryUsage(): Promise<number> {
 }
 
 export async function persistedAssetExists(uri?: string): Promise<boolean> {
-  if (!uri) return false;
+  const resolved = fromPortableUri(uri);
+  if (!resolved) return false;
   try {
-    const info = await FileSystem.getInfoAsync(uri);
+    const info = await FileSystem.getInfoAsync(resolved);
     return info.exists;
   } catch {
     return false;
   }
+}
+
+export async function readPortableBlob(uri?: string, sizeHint?: number): Promise<{ key: string; base64?: string; size?: number; skipped?: string }> {
+  const key = portableBlobKey(uri);
+  const resolved = fromPortableUri(uri);
+  if (!key || !resolved) throw new Error('Only Fieldnote-managed files can be embedded.');
+  const info = await FileSystem.getInfoAsync(resolved);
+  if (!info.exists || info.isDirectory) return { key, skipped: 'missing' };
+  const size = typeof info.size === 'number' ? info.size : sizeHint;
+  if (size && size > PACKAGE_BLOB_SIZE_LIMIT) return { key, size, skipped: 'over-size-cap' };
+  const base64 = await FileSystem.readAsStringAsync(resolved, { encoding: FileSystem.EncodingType.Base64 });
+  return { key, base64, size };
+}
+
+export async function writePortableBlob(key: string, base64: string): Promise<string> {
+  if (!key.startsWith(PORTABLE_PREFIX)) throw new Error('Invalid Fieldnote blob path.');
+  const dir = fieldnoteFilesDirectory();
+  if (!dir) throw new Error('Fieldnote file storage is unavailable.');
+  await FileSystem.makeDirectoryAsync(dir, { intermediates: true }).catch(() => undefined);
+  const destination = `${dir}${key.slice(PORTABLE_PREFIX.length)}`;
+  await FileSystem.writeAsStringAsync(destination, base64, { encoding: FileSystem.EncodingType.Base64 });
+  return destination;
 }
 
 export function humanFileSize(size?: number) {

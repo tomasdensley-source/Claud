@@ -22,7 +22,7 @@ import {
   saveWorkingFiles,
   restoreBoardsFromBackup,
 } from '../lib/storage';
-import { clearPersistedAssets } from '../lib/localFiles';
+import { clearPersistedAssets, fromPortableUri, readPortableBlob, toPortableUri, writePortableBlob } from '../lib/localFiles';
 import { hiddenMindMapIds, migrateBoards, mindMapDescendantIds } from '../lib/migration';
 import { conflictSafeBoardName, createPackagePayload, parsePackageJson } from '../lib/packageFormat';
 import { hasDependencyPath } from '../lib/graphHelpers';
@@ -105,7 +105,7 @@ interface BoardContextValue {
   revealMindPath: (id: string) => void;
   formatSelected: (patch: Partial<BoardItem>) => void;
   copySelection: () => void;
-  pasteSelection: (center?: { x: number; y: number }) => void;
+  pasteSelection: (center?: { x: number; y: number }) => Promise<void>;
   bringSelectedForward: () => void;
   sendSelectedBackward: () => void;
   lockSelected: (locked: boolean) => void;
@@ -114,7 +114,7 @@ interface BoardContextValue {
   removeWorkingFile: (id: string) => void;
   openUri: (uri?: string) => Promise<void>;
   exportCurrentBoard: () => Promise<void>;
-  importBoardJson: (json: string) => void;
+  importBoardJson: (json: string) => Promise<void>;
   restoreFromBackup: () => Promise<void>;
   flushSave: () => Promise<void>;
 }
@@ -253,6 +253,40 @@ function normalizeImportedBoard(raw: unknown): Board | null {
   const board = boards[0];
   if (!board) return null;
   return { ...board, id: uid('board'), name: `${board.name ?? 'Imported board'} import`, updatedAt: Date.now() };
+}
+
+function hydrateItemUri(item: BoardItem): BoardItem {
+  if ((item.type === 'file' || item.type === 'image' || item.type === 'audio' || item.type === 'pdf' || item.type === 'markdown') && item.uri) {
+    return { ...item, uri: fromPortableUri(item.uri) ?? item.uri } as BoardItem;
+  }
+  return item;
+}
+
+function hydrateBoardUris(board: Board): Board {
+  return { ...board, items: board.items.map(hydrateItemUri) };
+}
+
+function hydrateWorkingFileUris(files: WorkingFileRecord[]) {
+  return files.map((file) => ({ ...file, uri: fromPortableUri(file.uri) ?? file.uri }));
+}
+
+function portableUrisForPackage(board: Board, workingFiles: WorkingFileRecord[]) {
+  const byKey = new Map<string, { uri: string; mimeType?: string; size?: number }>();
+  board.items.forEach((item) => {
+    if ((item.type === 'file' || item.type === 'image' || item.type === 'audio' || item.type === 'pdf' || item.type === 'markdown') && item.uri) {
+      const key = toPortableUri(item.uri);
+      if (key?.startsWith('fieldnote-files/')) byKey.set(key, {
+        uri: item.uri,
+        mimeType: item.type === 'image' ? undefined : item.mimeType,
+        size: 'size' in item ? item.size : undefined,
+      });
+    }
+  });
+  workingFiles.forEach((file) => {
+    const key = toPortableUri(file.uri);
+    if (key?.startsWith('fieldnote-files/')) byKey.set(key, { uri: file.uri, mimeType: file.mimeType, size: file.size });
+  });
+  return byKey;
 }
 
 function pointNearPath(point: { x: number; y: number }, pathPoints: { x: number; y: number }[], radius: number) {
@@ -626,7 +660,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
       }, 650);
       updateItems((items) =>
         items.map((it) =>
-          it.id === id && !it.locked && (it.type === 'text' || it.type === 'task' || it.type === 'mindmap')
+          it.id === id && !it.locked && (it.type === 'text' || it.type === 'task' || it.type === 'mindmap' || it.type === 'markdown')
             ? { ...it, text }
             : it,
         ),
@@ -1112,9 +1146,25 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     showToast(`${selectedIds.length} item${selectedIds.length === 1 ? '' : 's'} copied.`);
   }, [currentBoard.items, selectedIds, showToast]);
 
-  const pasteSelection = useCallback((center?: { x: number; y: number }) => {
+  const pasteSelection = useCallback(async (center?: { x: number; y: number }) => {
     if (clipboard.length === 0) {
-      showToast('Copy cards before pasting.');
+      const text = await Clipboard.getStringAsync().catch(() => '');
+      if (text.trim()) {
+        try {
+          const parsed = JSON.parse(text) as { items?: unknown; board?: Board; boards?: Board[]; format?: string };
+          const items = Array.isArray(parsed.items)
+            ? migrateBoards([{ id: 'clipboard', name: 'Clipboard', items: parsed.items, updatedAt: Date.now() }])[0]?.items ?? []
+            : parsePackageJson(text).board.items.map(hydrateItemUri);
+          if (items.length) {
+            addItems(center ? cloneSelectionAtCenter(items, center) : cloneSelection(items, 36));
+            showToast('Pasted Fieldnote JSON from clipboard.');
+            return;
+          }
+        } catch {
+          // Fall through to the user-facing message below.
+        }
+      }
+      showToast('Copy cards or Fieldnote JSON before pasting.');
       return;
     }
     addItems(center ? cloneSelectionAtCenter(clipboard, center) : cloneSelection(clipboard, 36));
@@ -1176,12 +1226,13 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
   }, [pushHistory, showToast]);
 
   const openUri = useCallback(async (uri?: string) => {
-    if (!uri) {
+    const resolved = fromPortableUri(uri);
+    if (!resolved) {
       showToast('This card does not have a file URI.');
       return;
     }
     try {
-      await Linking.openURL(uri);
+      await Linking.openURL(resolved);
     } catch {
       showToast('Could not open this file.');
     }
@@ -1189,32 +1240,48 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
 
   const exportCurrentBoard = useCallback(async () => {
     try {
-      const json = JSON.stringify(createPackagePayload(currentBoard, workingFilesRef.current), null, 2);
+      const blobs: ReturnType<typeof createPackagePayload>['blobs'] = {};
+      const portableFiles = portableUrisForPackage(currentBoard, workingFilesRef.current);
+      await Promise.all(Array.from(portableFiles.entries()).map(async ([key, file]) => {
+        try {
+          const blob = await readPortableBlob(file.uri, file.size);
+          blobs[key] = { mimeType: file.mimeType, size: blob.size ?? file.size, base64: blob.base64, skipped: blob.skipped };
+        } catch {
+          blobs[key] = { mimeType: file.mimeType, size: file.size, skipped: 'unreadable' };
+        }
+      }));
+      const json = JSON.stringify(createPackagePayload(currentBoard, workingFilesRef.current, blobs), null, 2);
       await Share.share({ title: currentBoard.name, message: json });
-      showToast('Fieldnote package JSON ready to share.');
+      showToast(`Fieldnote package ready with ${Object.values(blobs).filter((blob) => blob.base64).length} embedded file blob(s).`);
     } catch {
       showToast('Could not export this board.');
     }
   }, [currentBoard, showToast]);
 
-  const importBoardJson = useCallback((json: string) => {
+  const importBoardJson = useCallback(async (json: string) => {
     try {
       const parsed = parsePackageJson(json);
+      await Promise.all(Object.entries(parsed.blobs).map(async ([key, blob]) => {
+        if (!blob.base64) return;
+        await writePortableBlob(key, blob.base64);
+      }));
       const board = normalizeImportedBoard([parsed.board]);
       if (!board) throw new Error('No board found');
       board.name = conflictSafeBoardName(board.name, boardsRef.current.map((existing) => existing.name));
+      const hydratedBoard = hydrateBoardUris(board);
       pushHistory();
-      setBoards((prev) => [...prev, board]);
-      setCurrentBoardId(board.id);
+      setBoards((prev) => [...prev, hydratedBoard]);
+      setCurrentBoardId(hydratedBoard.id);
       if (parsed.workingFiles.length) {
+        const hydratedFiles = hydrateWorkingFileUris(parsed.workingFiles);
         const seen = new Set(workingFilesRef.current.map((file) => file.uri));
         setWorkingFiles((prev) => [
-          ...parsed.workingFiles.filter((file) => !seen.has(file.uri)).map((file) => ({ ...file, id: uid('file'), addedAt: Date.now() })),
+          ...hydratedFiles.filter((file) => !seen.has(file.uri)).map((file) => ({ ...file, id: uid('file'), addedAt: Date.now() })),
           ...prev,
         ]);
       }
       setSelectedIds([]);
-      showToast('Board imported.');
+      showToast(`Board imported${Object.values(parsed.blobs).some((blob) => blob.base64) ? ' with embedded files restored.' : '.'}`);
     } catch {
       showToast('Could not import that JSON.');
     }
@@ -1234,7 +1301,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     showToast('Restored boards from the latest backup.');
   }, [pushHistory, showToast]);
 
-  const value: BoardContextValue = {
+  const value: BoardContextValue = useMemo(() => ({
     ready,
     boards,
     currentBoard,
@@ -1306,7 +1373,79 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     importBoardJson,
     restoreFromBackup,
     flushSave,
-  };
+  }), [
+    addItem,
+    addItems,
+    addMindChild,
+    addMindSibling,
+    addScientificTemplate,
+    addWorkingFiles,
+    appendDrawingPoint,
+    beginConnect,
+    boards,
+    bringSelectedForward,
+    cancelConnect,
+    clearSelection,
+    clipboard.length,
+    commitTextEdit,
+    completeConnect,
+    connectingFrom?.id,
+    connectingFrom?.side,
+    copySelection,
+    createBoard,
+    currentBoard,
+    deleteBoard,
+    deleteSelected,
+    dirty,
+    dismissToast,
+    drawColor,
+    drawMode,
+    drawWidth,
+    duplicateBoard,
+    duplicateSelected,
+    exportCurrentBoard,
+    flushSave,
+    formatSelected,
+    future.length,
+    hiddenIds,
+    history.length,
+    importBoardJson,
+    lockSelected,
+    moveItems,
+    openUri,
+    panel,
+    pasteSelection,
+    ready,
+    revealMindPath,
+    redo,
+    removeSelectedDependency,
+    removeWorkingFile,
+    renameBoard,
+    resetToSeed,
+    resizeItem,
+    restoreFromBackup,
+    saving,
+    select,
+    selectedIds,
+    sendSelectedBackward,
+    setDrawColor,
+    setDrawMode,
+    setDrawWidth,
+    setPanel,
+    setTool,
+    showToast,
+    switchBoard,
+    tidyMindMap,
+    toast,
+    toggleMindCollapse,
+    toggleTask,
+    tool,
+    undo,
+    updateItems,
+    updateText,
+    visibleItems,
+    workingFiles,
+  ]);
 
   return <BoardContext.Provider value={value}>{children}</BoardContext.Provider>;
 }

@@ -1,5 +1,6 @@
 import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
 import {
+  GestureResponderEvent,
   Image,
   Modal,
   Pressable,
@@ -15,9 +16,10 @@ import Svg, { Circle, Ellipse, Line, Path, Rect as SvgRect } from 'react-native-
 import { BoardItem } from '../types';
 import { colors, radii, shadows } from '../theme';
 import { SEED_IMAGES } from '../lib/seedImages';
-import { humanFileSize } from '../lib/localFiles';
+import { fromPortableUri, humanFileSize } from '../lib/localFiles';
 
 type ConnectorSide = 'left' | 'right' | 'top' | 'bottom';
+let activeAudio: Audio.Sound | null = null;
 
 interface Props {
   item: BoardItem;
@@ -57,19 +59,37 @@ function formatTime(ms?: number) {
   return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
 }
 
+function estimatedPdfPageCount(item: BoardItem) {
+  if (item.type !== 'pdf') return 1;
+  const explicit = item.text?.match(/(?:pages?|pageCount)\D+(\d{1,4})/i)?.[1];
+  if (explicit) return Math.max(1, Number(explicit));
+  if (item.size) return Math.max(1, Math.min(500, Math.ceil(item.size / 90000)));
+  return 1;
+}
+
 function markdownSections(text: string) {
+  const limited = text.length > 120000 ? `${text.slice(0, 120000)}\n\n[Preview truncated at 120 KB]` : text;
   const sections: { title: string; body: string }[] = [];
   let current = { title: 'Preview', body: '' };
-  text.split(/\r?\n/).forEach((line) => {
-    if (line.startsWith('## ')) {
+  limited.split(/\r?\n/).forEach((line) => {
+    if (/^#{1,3}\s+/.test(line)) {
       if (current.body.trim() || current.title !== 'Preview') sections.push(current);
-      current = { title: line.replace(/^##\s+/, '').trim() || 'Section', body: '' };
+      current = { title: line.replace(/^#{1,3}\s+/, '').trim() || 'Section', body: '' };
     } else {
       current.body += `${line}\n`;
     }
   });
   if (current.body.trim() || current.title !== 'Preview') sections.push(current);
-  return sections.length ? sections : [{ title: 'Preview', body: text }];
+  return sections.length ? sections : [{ title: 'Preview', body: limited }];
+}
+
+function renderMarkdownLine(line: string, index: number) {
+  const trimmed = line.trim();
+  if (!trimmed) return <Text key={index} style={styles.mdSpacer}> </Text>;
+  if (/^[-*]\s+/.test(trimmed)) return <Text key={index} style={styles.mdBody}>• {trimmed.replace(/^[-*]\s+/, '')}</Text>;
+  if (/^\d+\.\s+/.test(trimmed)) return <Text key={index} style={styles.mdBody}>{trimmed}</Text>;
+  if (/^>\s+/.test(trimmed)) return <Text key={index} style={styles.mdQuote}>{trimmed.replace(/^>\s+/, '')}</Text>;
+  return <Text key={index} style={styles.mdBody}>{trimmed.replace(/\*\*([^*]+)\*\*/g, '$1').replace(/\*([^*]+)\*/g, '$1')}</Text>;
 }
 
 export const CanvasItemView = memo(function CanvasItemView({
@@ -103,30 +123,68 @@ export const CanvasItemView = memo(function CanvasItemView({
   const [audioPlaying, setAudioPlaying] = useState(false);
   const [audioPosition, setAudioPosition] = useState(0);
   const [audioDuration, setAudioDuration] = useState(0);
+  const [audioError, setAudioError] = useState<string | null>(null);
+  const [scrubberWidth, setScrubberWidth] = useState(1);
+  const [pdfPage, setPdfPage] = useState(1);
+  const [pdfZoom, setPdfZoom] = useState(1);
+  const [markdownQuery, setMarkdownQuery] = useState('');
+  const [markdownEditing, setMarkdownEditing] = useState(false);
   const handleSize = Math.max(12, 14 / Math.max(scale, 0.2));
   const connectorSize = Math.max(20, 44 / Math.max(scale, 0.2));
   const showText = !lowDetail || editing;
 
   useEffect(() => () => {
+    if (activeAudio === soundRef.current) activeAudio = null;
     void soundRef.current?.unloadAsync();
     soundRef.current = null;
   }, []);
 
   const toggleAudio = async () => {
     if (item.type !== 'audio' || !item.uri) return;
-    if (!soundRef.current) {
-      const created = await Audio.Sound.createAsync({ uri: item.uri }, { shouldPlay: true }, (status: AVPlaybackStatus) => {
-        if (!status.isLoaded) return;
-        setAudioPlaying(status.isPlaying);
-        setAudioPosition(status.positionMillis ?? 0);
-        setAudioDuration(status.durationMillis ?? 0);
-      });
-      soundRef.current = created.sound;
-      setAudioPlaying(true);
-      return;
+    const resolvedUri = fromPortableUri(item.uri);
+    if (!resolvedUri) return;
+    setAudioError(null);
+    try {
+      if (!soundRef.current) {
+        if (activeAudio && activeAudio !== soundRef.current) await activeAudio.pauseAsync().catch(() => undefined);
+        const created = await Audio.Sound.createAsync({ uri: resolvedUri }, { shouldPlay: true }, (status: AVPlaybackStatus) => {
+          if (!status.isLoaded) {
+            if ('error' in status) setAudioError(status.error ?? 'Playback failed.');
+            return;
+          }
+          setAudioPlaying(status.isPlaying);
+          setAudioPosition(status.positionMillis ?? 0);
+          setAudioDuration(status.durationMillis ?? 0);
+        });
+        soundRef.current = created.sound;
+        activeAudio = created.sound;
+        setAudioPlaying(true);
+        return;
+      }
+      if (audioPlaying) await soundRef.current.pauseAsync();
+      else {
+        if (activeAudio && activeAudio !== soundRef.current) await activeAudio.pauseAsync().catch(() => undefined);
+        activeAudio = soundRef.current;
+        await soundRef.current.playAsync();
+      }
+    } catch {
+      setAudioError('Could not play this audio file.');
     }
-    if (audioPlaying) await soundRef.current.pauseAsync();
-    else await soundRef.current.playAsync();
+  };
+
+  const seekAudio = async (nextPosition: number) => {
+    if (!soundRef.current || !audioDuration) return;
+    try {
+      await soundRef.current.setPositionAsync(Math.max(0, Math.min(audioDuration, nextPosition)));
+    } catch {
+      setAudioError('Could not seek in this audio file.');
+    }
+  };
+
+  const scrubAudio = (event: GestureResponderEvent) => {
+    if (!audioDuration) return;
+    const x = Math.max(0, Math.min(scrubberWidth, event.nativeEvent.locationX));
+    void seekAudio((x / Math.max(1, scrubberWidth)) * audioDuration);
   };
 
   const content = useMemo(() => {
@@ -179,7 +237,7 @@ export const CanvasItemView = memo(function CanvasItemView({
         const source = item.assetKey
           ? SEED_IMAGES[item.assetKey]
           : item.uri
-            ? { uri: item.uri }
+            ? { uri: fromPortableUri(item.uri) ?? item.uri }
             : null;
         if (!source || imageFailed) {
           return (
@@ -342,27 +400,51 @@ export const CanvasItemView = memo(function CanvasItemView({
             <Text style={styles.fileGlyph}>AUDIO</Text>
             <Text style={styles.fileName} numberOfLines={2}>{item.name}</Text>
             <Text style={styles.fileMeta}>{formatTime(audioPosition)} / {formatTime(audioDuration)}</Text>
-            <View style={styles.scrubber}><View style={[styles.scrubberFill, { width: `${audioDuration ? Math.min(100, (audioPosition / audioDuration) * 100) : 0}%` }]} /></View>
+            <Pressable
+              style={styles.scrubber}
+              onLayout={(event) => setScrubberWidth(Math.max(1, event.nativeEvent.layout.width))}
+              onPress={scrubAudio}
+              onStartShouldSetResponder={() => true}
+              accessibilityRole="adjustable"
+              accessibilityLabel="Audio scrubber"
+            >
+              <View style={[styles.scrubberFill, { width: `${audioDuration ? Math.min(100, (audioPosition / audioDuration) * 100) : 0}%` }]} />
+            </Pressable>
+            {audioError ? <Text style={styles.errorText}>{audioError}</Text> : null}
             {item.uri ? (
-              <Pressable style={styles.openChip} onStartShouldSetResponder={() => true} onPress={toggleAudio}>
-                <Text style={styles.openChipText}>{audioPlaying ? 'Pause' : 'Play'}</Text>
-              </Pressable>
+              <View style={styles.inlineControls}>
+                <Pressable style={styles.openChip} onStartShouldSetResponder={() => true} onPress={() => seekAudio(audioPosition - 15000)}>
+                  <Text style={styles.openChipText}>-15s</Text>
+                </Pressable>
+                <Pressable style={styles.openChip} onStartShouldSetResponder={() => true} onPress={toggleAudio}>
+                  <Text style={styles.openChipText}>{audioPlaying ? 'Pause' : 'Play'}</Text>
+                </Pressable>
+                <Pressable style={styles.openChip} onStartShouldSetResponder={() => true} onPress={() => seekAudio(audioPosition + 15000)}>
+                  <Text style={styles.openChipText}>+15s</Text>
+                </Pressable>
+              </View>
             ) : null}
           </View>
         );
-      case 'pdf':
+      case 'pdf': {
+        const pageCount = estimatedPdfPageCount(item);
         return (
           <View style={[styles.fileCard, styles.pdfCover]}>
             <Text style={styles.fileGlyph}>PDF</Text>
             <Text style={styles.fileName} numberOfLines={2}>{item.name}</Text>
-            <Text style={styles.fileMeta}>{item.text ?? 'First-page preview placeholder · open for details.'}</Text>
+            <Text style={styles.fileMeta}>{pageCount} page{pageCount === 1 ? '' : 's'} · {humanFileSize(item.size) ?? 'portable document'}</Text>
+            <Text style={styles.pdfPreview} numberOfLines={2}>{item.text ?? 'Branded PDF cover card. Open the reader for page controls and external fallback.'}</Text>
             {item.uri ? (
-              <Pressable style={styles.openChip} onStartShouldSetResponder={() => true} onPress={() => setReaderOpen(true)}>
+              <Pressable style={styles.openChip} onStartShouldSetResponder={() => true} onPress={() => {
+                setPdfPage(1);
+                setReaderOpen(true);
+              }}>
                 <Text style={styles.openChipText}>Read</Text>
               </Pressable>
             ) : null}
           </View>
         );
+      }
       case 'markdown': {
         const preview = (item.text ?? '').split(/\r?\n/).filter(Boolean).slice(0, 4).join('\n');
         return (
@@ -370,6 +452,7 @@ export const CanvasItemView = memo(function CanvasItemView({
             <Text style={styles.fileGlyph}>MARKDOWN</Text>
             <Text style={styles.fileName} numberOfLines={2}>{item.name}</Text>
             <Text style={styles.fileMeta} numberOfLines={4}>{preview || 'Markdown content preview unavailable.'}</Text>
+            <Text style={styles.fileMeta}>{item.text?.length ? `${Math.round(item.text.length / 1024)} KB text` : 'No embedded text'}</Text>
             <Pressable style={styles.openChip} onStartShouldSetResponder={() => true} onPress={() => setReaderOpen(true)}>
               <Text style={styles.openChipText}>Preview</Text>
             </Pressable>
@@ -396,8 +479,16 @@ export const CanvasItemView = memo(function CanvasItemView({
     showText,
     selected,
     audioDuration,
+    audioError,
     audioPlaying,
     audioPosition,
+    markdownEditing,
+    markdownQuery,
+    pdfPage,
+    pdfZoom,
+    scrubberWidth,
+    seekAudio,
+    scrubAudio,
     toggleAudio,
   ]);
 
@@ -465,31 +556,83 @@ export const CanvasItemView = memo(function CanvasItemView({
         </>
       ) : null}
       {readerOpen && (item.type === 'pdf' || item.type === 'markdown') ? (
-        <Modal visible transparent animationType="fade" onRequestClose={() => setReaderOpen(false)}>
+        <Modal visible transparent animationType="fade" onRequestClose={() => setReaderOpen(false)} accessible accessibilityViewIsModal>
           <View style={styles.readerBackdrop}>
             <View style={styles.reader}>
               <Text style={styles.readerTitle}>{item.name}</Text>
               {item.type === 'pdf' ? (
                 <View style={styles.readerBody}>
                   <Text style={styles.fileGlyph}>PDF reader</Text>
-                  <Text style={styles.fileMeta}>Page 1 / 1 · zoom uses the system viewer. Open externally for search and outlines.</Text>
-                  <Pressable style={styles.openChip} onPress={() => onOpenUri(item.uri)}>
+                  <Text style={styles.fileMeta}>Page {pdfPage} / {estimatedPdfPageCount(item)} · {Math.round(pdfZoom * 100)}% zoom</Text>
+                  <View style={[styles.pdfPage, { transform: [{ scale: pdfZoom }] }]}>
+                    <Text style={styles.pdfPageTitle}>{item.name}</Text>
+                    <Text style={styles.pdfPageBody}>Page preview stub</Text>
+                    <Text style={styles.pdfPageBody}>{item.text ?? 'Use Open externally for native search, selectable text, and full raster rendering.'}</Text>
+                  </View>
+                  <View style={styles.inlineControls}>
+                    <Pressable style={styles.openChip} onPress={() => setPdfPage((page) => Math.max(1, page - 1))} accessibilityLabel="Previous PDF page">
+                      <Text style={styles.openChipText}>Prev</Text>
+                    </Pressable>
+                    <Pressable style={styles.openChip} onPress={() => setPdfPage((page) => Math.min(estimatedPdfPageCount(item), page + 1))} accessibilityLabel="Next PDF page">
+                      <Text style={styles.openChipText}>Next</Text>
+                    </Pressable>
+                    <Pressable style={styles.openChip} onPress={() => setPdfZoom((zoom) => Math.max(0.75, Number((zoom - 0.25).toFixed(2))))} accessibilityLabel="Zoom PDF out">
+                      <Text style={styles.openChipText}>-</Text>
+                    </Pressable>
+                    <Pressable style={styles.openChip} onPress={() => setPdfZoom((zoom) => Math.min(2, Number((zoom + 0.25).toFixed(2))))} accessibilityLabel="Zoom PDF in">
+                      <Text style={styles.openChipText}>+</Text>
+                    </Pressable>
+                  </View>
+                  <Pressable style={styles.openChip} onPress={() => onOpenUri(item.uri)} accessibilityLabel="Open PDF externally">
                     <Text style={styles.openChipText}>Open externally</Text>
                   </Pressable>
                 </View>
               ) : (
+                <>
+                  <View style={styles.inlineControls}>
+                    <TextInput
+                      value={markdownQuery}
+                      onChangeText={setMarkdownQuery}
+                      placeholder="Search Markdown"
+                      placeholderTextColor={colors.mutedInk}
+                      style={styles.readerSearch}
+                    />
+                    <Pressable style={styles.openChip} onPress={() => setMarkdownEditing((editingState) => !editingState)} accessibilityLabel="Toggle Markdown editing">
+                      <Text style={styles.openChipText}>{markdownEditing ? 'Preview' : 'Edit'}</Text>
+                    </Pressable>
+                  </View>
+                  {markdownEditing ? (
+                    <TextInput
+                      multiline
+                      value={item.text ?? ''}
+                      onChangeText={onChangeText}
+                      style={styles.markdownEditor}
+                      placeholder="Write Markdown..."
+                      placeholderTextColor={colors.mutedInk}
+                    />
+                  ) : (
                 <ScrollView style={styles.readerScroll}>
-                  {markdownSections(item.text ?? '').map((section) => (
+                  {markdownSections(item.text ?? '').filter((section) => {
+                    const q = markdownQuery.trim().toLowerCase();
+                    if (!q) return true;
+                    return `${section.title}\n${section.body}`.toLowerCase().includes(q);
+                  }).map((section) => (
                     <View key={section.title} style={styles.mdSection}>
-                      <Pressable onPress={() => setCollapsedMarkdown((prev) => ({ ...prev, [section.title]: !prev[section.title] }))}>
+                      <Pressable
+                        onPress={() => setCollapsedMarkdown((prev) => ({ ...prev, [section.title]: !prev[section.title] }))}
+                        accessibilityRole="button"
+                        accessibilityLabel={`${collapsedMarkdown[section.title] ? 'Expand' : 'Collapse'} ${section.title}`}
+                      >
                         <Text style={styles.mdHeading}>{collapsedMarkdown[section.title] ? '+' : '-'} {section.title}</Text>
                       </Pressable>
-                      {!collapsedMarkdown[section.title] ? <Text style={styles.mdBody}>{section.body.trim()}</Text> : null}
+                      {!collapsedMarkdown[section.title] ? section.body.split(/\r?\n/).map(renderMarkdownLine) : null}
                     </View>
                   ))}
                 </ScrollView>
+                  )}
+                </>
               )}
-              <Pressable style={styles.readerClose} onPress={() => setReaderOpen(false)}>
+              <Pressable style={styles.readerClose} onPress={() => setReaderOpen(false)} accessibilityLabel="Close reader">
                 <Text style={styles.openChipText}>Close</Text>
               </Pressable>
             </View>
@@ -649,6 +792,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 999,
+    minHeight: 44,
+    justifyContent: 'center',
   },
   actionChipText: {
     color: colors.cream,
@@ -697,23 +842,42 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     padding: 10,
   },
+  pdfPreview: {
+    color: colors.ink,
+    fontSize: 12,
+    lineHeight: 17,
+  },
   scrubber: {
-    height: 7,
+    minHeight: 44,
     borderRadius: 999,
     backgroundColor: 'rgba(52,38,29,0.14)',
     overflow: 'hidden',
+    justifyContent: 'center',
   },
   scrubberFill: {
-    height: '100%',
+    height: 7,
     backgroundColor: colors.clayDeep,
+  },
+  inlineControls: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  errorText: {
+    color: colors.blocked,
+    fontSize: 11,
+    fontWeight: '700',
   },
   openChip: {
     alignSelf: 'flex-start',
     marginTop: 4,
     paddingHorizontal: 10,
-    paddingVertical: 5,
+    paddingVertical: 8,
+    minHeight: 44,
     borderRadius: 999,
     backgroundColor: colors.walnut,
+    justifyContent: 'center',
   },
   openChipText: {
     color: colors.cream,
@@ -780,16 +944,57 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     padding: 14,
     gap: 10,
+    overflow: 'hidden',
+  },
+  pdfPage: {
+    minHeight: 180,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(52,38,29,0.12)',
+    backgroundColor: '#fffaf0',
+    padding: 16,
+    gap: 10,
+  },
+  pdfPageTitle: {
+    color: colors.ink,
+    fontWeight: '900',
+    fontSize: 16,
+  },
+  pdfPageBody: {
+    color: colors.mutedInk,
+    lineHeight: 20,
   },
   readerScroll: {
     maxHeight: 420,
+  },
+  readerSearch: {
+    flex: 1,
+    minWidth: 170,
+    minHeight: 44,
+    borderRadius: 12,
+    backgroundColor: colors.paper,
+    borderWidth: 1,
+    borderColor: 'rgba(52,38,29,0.1)',
+    color: colors.ink,
+    paddingHorizontal: 12,
+  },
+  markdownEditor: {
+    minHeight: 280,
+    maxHeight: 460,
+    borderRadius: 12,
+    backgroundColor: colors.paper,
+    color: colors.ink,
+    padding: 12,
+    textAlignVertical: 'top',
   },
   readerClose: {
     alignSelf: 'flex-end',
     paddingHorizontal: 12,
     paddingVertical: 8,
+    minHeight: 44,
     borderRadius: 999,
     backgroundColor: colors.walnut,
+    justifyContent: 'center',
   },
   mdSection: {
     paddingVertical: 8,
@@ -805,5 +1010,15 @@ const styles = StyleSheet.create({
   mdBody: {
     color: colors.mutedInk,
     lineHeight: 20,
+  },
+  mdQuote: {
+    color: colors.ink,
+    lineHeight: 20,
+    borderLeftWidth: 3,
+    borderLeftColor: colors.clayDeep,
+    paddingLeft: 8,
+  },
+  mdSpacer: {
+    height: 8,
   },
 });

@@ -133,6 +133,9 @@ function FieldnoteApp() {
           ? selectedItems[0].branchColor
           : selectedItems[0].backgroundColor ?? drawColor
     : drawColor;
+  const italicActive = selectedItems.some((item) => item.type === 'text') && selectedItems
+    .filter((item) => item.type === 'text')
+    .every((item) => item.type === 'text' && item.italic);
 
   const applyList = useCallback((kind: 'bullet' | 'number') => {
     updateItems((items) => items.map((item) => {
@@ -214,6 +217,7 @@ function FieldnoteApp() {
           onMode={setDrawMode}
           onFormat={(patch) => formatSelected(patch)}
           onList={applyList}
+          italicActive={italicActive}
         />
         <ZoomControls
           scale={scale}
@@ -313,6 +317,7 @@ function PaletteStrip({
   onMode,
   onFormat,
   onList,
+  italicActive,
 }: {
   visible: boolean;
   drawColor: string;
@@ -325,6 +330,7 @@ function PaletteStrip({
   onMode: (mode: 'pen' | 'highlighter' | 'eraser') => void;
   onFormat: (patch: Partial<BoardItem>) => void;
   onList: (kind: 'bullet' | 'number') => void;
+  italicActive: boolean;
 }) {
   if (!visible) return null;
   return (
@@ -370,7 +376,7 @@ function PaletteStrip({
           <Pressable style={styles.modeBtn} onPress={() => onFormat({ fontWeight: '700' } as Partial<BoardItem>)} accessibilityLabel="Bold text">
             <Text style={styles.modeText}>Bold</Text>
           </Pressable>
-          <Pressable style={styles.modeBtn} onPress={() => onFormat({ italic: true } as Partial<BoardItem>)} accessibilityLabel="Italic text">
+          <Pressable style={[styles.modeBtn, italicActive && styles.modeBtnActive]} onPress={() => onFormat({ italic: !italicActive } as Partial<BoardItem>)} accessibilityLabel="Toggle italic text">
             <Text style={styles.modeText}>Italic</Text>
           </Pressable>
           {(['left', 'center', 'right'] as const).map((align) => (

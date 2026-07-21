@@ -45,10 +45,15 @@ test('placement helper centers and clamps zoom-scaled inertia', () => {
 
 test('package format validates payloads and conflict renames', () => {
   const board: Board = { id: 'b', name: 'Board', updatedAt: 1, items: [] };
-  const json = JSON.stringify(createPackagePayload(board, [{ id: 'f', name: 'File', uri: 'file:///x/fieldnote-files/a.pdf', addedAt: 1 }]));
+  const json = JSON.stringify(createPackagePayload(
+    board,
+    [{ id: 'f', name: 'File', uri: 'file:///x/fieldnote-files/a.pdf', addedAt: 1 }],
+    { 'fieldnote-files/a.pdf': { mimeType: 'application/pdf', size: 4, base64: 'ZGF0YQ==' } },
+  ));
   const parsed = parsePackageJson(json);
   assert.equal(parsed.board.name, 'Board');
   assert.equal(parsed.workingFiles[0].uri, 'fieldnote-files/a.pdf');
+  assert.equal(parsed.blobs['fieldnote-files/a.pdf'].base64, 'ZGF0YQ==');
   assert.equal(conflictSafeBoardName('Board', ['Board', 'Board (2)']), 'Board (3)');
 });
 
