@@ -88,9 +88,9 @@ export function scientificMethodMindMap(origin: { x: number; y: number }): Board
   ];
 
   const branches = [
-    { text: 'Ask a question', kids: ['Observe', 'Wonder', 'Define scope'] },
+    { text: 'Ask a question', kids: ['Observe', 'Wonder'] },
     { text: 'Background research', kids: ['Read sources', 'Note gaps'] },
-    { text: 'Hypothesis', kids: ['Predict', 'Null alternative'] },
+    { text: 'Hypothesis', kids: ['Predict'] },
     { text: 'Experiment', kids: ['Controls', 'Variables', 'Procedure'] },
     { text: 'Analyze data', kids: ['Charts', 'Errors'] },
     { text: 'Conclude', kids: ['Support / reject', 'Next questions'] },
