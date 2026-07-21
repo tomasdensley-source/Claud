@@ -29,8 +29,9 @@
         "backgroundColor": "#f4ecdd"
       },
       "permissions": [
-        "READ_MEDIA_IMAGES",
-        "READ_EXTERNAL_STORAGE"
+        "android.permission.READ_MEDIA_IMAGES",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.RECORD_AUDIO"
       ]
     },
     "web": {
@@ -48,8 +49,9 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "fieldnote-local"
+        "projectId": "80fcf1fb-aecc-4ed7-b394-e98356974ee7"
       }
-    }
+    },
+    "owner": "thomasdensley"
   }
 }
