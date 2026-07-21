@@ -195,4 +195,5 @@
 804. Version in package-lock.json is bumped to 1.0.7.
 805. Version in app.json is bumped to 1.0.7.
 806. Android versionCode is bumped to 8.
+
 807. No EAS build was started for these improvements.
