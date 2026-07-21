@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Copy, Maximize2, Minus, Plus, Trash2, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useFieldnote } from '../store/useFieldnote';
 import { placement } from '../lib/placement';
-import { COLORS } from '../lib/theme';
+import { COLORS, PALETTE } from '../lib/theme';
 
 export function BoardBadge() {
   const { boards, currentId } = useFieldnote();
@@ -218,6 +218,25 @@ export function ToastHost() {
   );
 }
 
+export function EmptyStateAddButton() {
+  const { objects, setPanel } = useFieldnote();
+  const empty = objects.filter((obj) => obj.type !== 'connector').length === 0;
+  if (!empty) return null;
+
+  return (
+    <motion.button
+      type="button"
+      className="absolute bottom-[max(92px,calc(var(--safe-bottom)+88px))] left-1/2 z-[35] flex -translate-x-1/2 items-center gap-2 rounded-full bg-[var(--clay-deep)] px-5 py-3 text-base font-extrabold text-[var(--cream)] shadow-xl"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      onClick={() => setPanel('add')}
+    >
+      <Plus size={18} />
+      Add
+    </motion.button>
+  );
+}
+
 export function DrawPanel() {
   const { panel, setPanel, prefs, setPrefs, setTool } = useFieldnote();
   if (panel !== 'draw') return null;
@@ -247,6 +266,25 @@ export function DrawPanel() {
           <span className="block rounded-full bg-[var(--cream)]" style={{ width: w + 4, height: w + 4 }} />
         </button>
       ))}
+      <div className="flex max-w-40 gap-1 overflow-x-auto">
+        {PALETTE.map((color) => (
+          <button
+            key={color}
+            type="button"
+            className="flex h-11 w-9 shrink-0 items-center justify-center rounded-xl"
+            onClick={() => setPrefs({ draw: { ...prefs.draw, color }, lastColor: color })}
+            aria-label={`Draw color ${color}`}
+          >
+            <span
+              className="block h-6 w-6 rounded-full"
+              style={{
+                background: color,
+                boxShadow: prefs.draw.color === color ? `0 0 0 2px ${COLORS.cream}` : 'inset 0 0 0 1px rgba(0,0,0,0.2)',
+              }}
+            />
+          </button>
+        ))}
+      </div>
       <button
         type="button"
         className="min-h-11 rounded-xl px-3 text-xs font-bold"
@@ -262,28 +300,23 @@ export function DrawPanel() {
 }
 
 export function TextFormatPanel() {
-  const { panel, setPanel, selectedIds, prefs, setPrefs, updateObjects } = useFieldnote();
+  const { panel, setPanel, prefs, applyTextFormat } = useFieldnote();
+  const [step, setStep] = useState(0);
+
+  useEffect(() => {
+    if (panel === 'textFormat') setStep(0);
+  }, [panel]);
+
   if (panel !== 'textFormat') return null;
 
   const apply = (patch: Partial<{
     fontSize: number;
-    fontWeight: 400 | 700;
+    fontWeight: 400 | 500 | 600 | 700;
     color: string;
     align: 'left' | 'center' | 'right';
-  }>) => {
-    setPrefs({ textFormat: { ...prefs.textFormat, ...patch } });
-    updateObjects((objs) =>
-      objs.map((o) => {
-        if (!selectedIds.includes(o.id) || o.type !== 'text') return o;
-        return {
-          ...o,
-          fontSize: patch.fontSize ?? o.fontSize,
-          fontWeight: patch.fontWeight ?? o.fontWeight,
-          color: patch.color ?? o.color,
-          align: patch.align ?? o.align,
-        };
-      }),
-    );
+  }>, nextStep: number) => {
+    applyTextFormat(patch);
+    setStep((current) => Math.max(current, nextStep));
   };
 
   return (
@@ -300,31 +333,52 @@ export function TextFormatPanel() {
             key={s}
             type="button"
             className="min-h-11 rounded-xl bg-white/10 px-3 text-sm font-semibold"
-            onClick={() => apply({ fontSize: s })}
+            onClick={() => apply({ fontSize: s }, 1)}
           >
             {s}
           </button>
         ))}
       </div>
-      <div className="flex gap-2">
+      {step >= 1 && (
+      <div className="mb-2 flex gap-2">
         <button
           type="button"
           className="min-h-11 flex-1 rounded-xl bg-white/10 font-bold"
-          onClick={() => apply({ fontWeight: prefs.textFormat.fontWeight === 700 ? 400 : 700 })}
+          onClick={() => apply({ fontWeight: prefs.textFormat.fontWeight === 700 ? 400 : 700 }, 2)}
         >
           Bold
         </button>
+      </div>
+      )}
+      {step >= 2 && (
+      <div className="mb-2 flex gap-2">
         {(['left', 'center', 'right'] as const).map((a) => (
           <button
             key={a}
             type="button"
             className="min-h-11 flex-1 rounded-xl bg-white/10 text-xs font-semibold capitalize"
-            onClick={() => apply({ align: a })}
+            onClick={() => apply({ align: a }, 3)}
           >
             {a}
           </button>
         ))}
       </div>
+      )}
+      {step >= 3 && (
+        <div className="grid grid-cols-6 gap-2">
+          {PALETTE.map((color) => (
+            <button
+              key={color}
+              type="button"
+              className="flex h-9 items-center justify-center rounded-xl bg-white/10"
+              onClick={() => apply({ color }, 4)}
+              aria-label={`Text color ${color}`}
+            >
+              <span className="block h-6 w-6 rounded-full" style={{ background: color }} />
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

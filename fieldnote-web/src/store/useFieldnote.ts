@@ -130,6 +130,7 @@ interface FieldnoteState {
   setFilesSheet: (mode: 'peek' | 'half' | 'full') => void;
   openMarkdown: (id: string) => void;
   saveMarkdown: (id: string, content: string) => void;
+  closeMarkdown: () => void;
   openAudio: (id: string) => void;
   closeAudio: () => void;
   applyTextFormat: (patch: Partial<TextFormatPrefs>) => void;
@@ -1058,6 +1059,10 @@ export const useFieldnote = create<FieldnoteState>((set, get) => ({
     get().updateObjects((objects) =>
       objects.map((obj) => (obj.id === id && obj.type === 'markdown' ? { ...obj, content } : obj)),
     );
+    set({ markdownEditorId: null, panel: null });
+  },
+
+  closeMarkdown: () => {
     set({ markdownEditorId: null, panel: null });
   },
 

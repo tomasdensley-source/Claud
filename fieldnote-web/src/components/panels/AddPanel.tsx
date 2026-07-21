@@ -116,24 +116,32 @@ export function AddPanel() {
     <ModalSheet
       open={open}
       onClose={() => setPanel(null)}
-      title="Add to Fieldnote"
-      subtitle="Choose one thing, then return to your board."
+      title={panel === 'onboarding' ? 'Add your first note' : 'Add to Fieldnote'}
+      subtitle={panel === 'onboarding' ? 'Start with one card or file.' : 'Choose one thing, then return to your board.'}
       icon={<FileUp size={18} />}
       id="add"
     >
       {panel === 'onboarding' && (
-        <div className="mb-4 rounded-2xl bg-[var(--tip)] p-3 text-sm text-[var(--ink)]">
-          Hold a card ~500 ms to edit. Pinch to zoom. Drag empty space to pan. Two fingers always navigate.
+        <div className="grid gap-3">
           <button
             type="button"
-            className="mt-2 block text-sm font-bold underline"
+            className="flex min-h-20 w-full items-center justify-center rounded-3xl bg-[var(--clay-deep)] px-5 py-4 text-lg font-extrabold text-[var(--cream)] shadow-xl"
+            onClick={() => setPanel('add')}
+          >
+            Add your first note
+          </button>
+          <button
+            type="button"
+            className="mx-auto min-h-11 px-4 text-sm font-bold underline"
             onClick={() => setPanel(null)}
           >
-            Dismiss hints
+            Dismiss
           </button>
         </div>
       )}
 
+      {panel !== 'onboarding' && (
+        <>
       <h3 className="mb-2 text-sm font-bold">From your device</h3>
       <button
         type="button"
@@ -169,6 +177,8 @@ export function AddPanel() {
         <CreateBtn icon={<Square size={20} />} label="Region" onClick={placeRegion} />
         <CreateBtn icon={<ImageIcon size={20} />} label="Scientific method" onClick={() => { placeScientificMethod(); }} />
       </div>
+        </>
+      )}
     </ModalSheet>
   );
 }

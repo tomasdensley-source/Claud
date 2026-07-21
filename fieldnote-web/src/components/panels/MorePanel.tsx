@@ -1,20 +1,129 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
+  Clipboard,
+  Copy,
   HelpCircle,
   Redo2,
   Shield,
   Trash2,
   Undo2,
   Download,
+  Upload,
 } from 'lucide-react';
 import { ModalSheet } from '../ModalSheet';
 import { useFieldnote } from '../../store/useFieldnote';
 import { estimateStorage } from '../../lib/persistence';
+import { resolveMediaSrc } from '../../lib/blobs';
+import { applyInertiaScroll } from '../../lib/inertia';
+import { uid } from '../../lib/seed';
+import { COLORS } from '../../lib/theme';
+import type { WorkingFile } from '../../types';
 
 export function FilesPanel() {
-  const { panel, setPanel, files, addObject } = useFieldnote();
+  const { panel, setPanel, files, filesSheet, setFilesSheet, addObject, importPackage, objects } = useFieldnote();
   const [q, setQ] = useState('');
+  const scrollRef = useRef<HTMLDivElement>(null);
   const filtered = files.filter((f) => f.name.toLowerCase().includes(q.toLowerCase()));
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (panel !== 'files' || !el) return;
+    return applyInertiaScroll(el);
+  }, [panel, filesSheet]);
+
+  const pickPackage = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'application/json,.json';
+    input.onchange = () => {
+      const file = input.files?.[0];
+      if (file) void importPackage(file);
+    };
+    input.click();
+  };
+
+  const placeFile = async (f: WorkingFile) => {
+    const { camera, viewport } = useFieldnote.getState();
+    const x = (viewport.w / 2 - camera.x) / camera.scale - 120;
+    const y = (viewport.h / 2 - camera.y) / camera.scale - 60;
+    const zIndex = objects.reduce((max, obj) => Math.max(max, obj.zIndex), 0) + 1;
+
+    if (f.mime?.startsWith('image/')) {
+      addObject({
+        id: uid('image'),
+        type: 'image',
+        x,
+        y,
+        width: 260,
+        height: 260,
+        zIndex,
+        src: f.src,
+        alt: f.name,
+        fill: COLORS.paper,
+      });
+    } else if (f.mime === 'application/pdf') {
+      addObject({
+        id: uid('pdf'),
+        type: 'pdf',
+        x,
+        y,
+        width: 220,
+        height: 280,
+        zIndex,
+        name: f.name,
+        src: f.src,
+        coverDataUrl: f.coverDataUrl,
+        fill: COLORS.walnut,
+      });
+    } else if (f.mime?.startsWith('audio/')) {
+      addObject({
+        id: uid('audio'),
+        type: 'audio',
+        x,
+        y,
+        width: 260,
+        height: 96,
+        zIndex,
+        name: f.name,
+        src: f.src,
+        mime: f.mime,
+        blobId: f.blobId,
+        fill: COLORS.paperStrong,
+      });
+    } else if (isMarkdownFile(f)) {
+      const src = await resolveMediaSrc(f.src);
+      const content = await fetch(src).then((res) => res.text()).catch(() => '');
+      addObject({
+        id: uid('md'),
+        type: 'markdown',
+        x,
+        y,
+        width: 280,
+        height: 180,
+        zIndex,
+        name: f.name,
+        content,
+        fill: COLORS.paperStrong,
+      });
+    } else {
+      addObject({
+        id: uid('file'),
+        type: 'file',
+        x,
+        y,
+        width: 240,
+        height: 120,
+        zIndex,
+        name: f.name,
+        src: f.src,
+        mime: f.mime,
+        size: f.size,
+        fill: COLORS.paperStrong,
+      });
+    }
+
+    setPanel(null);
+  };
 
   return (
     <ModalSheet
@@ -23,94 +132,75 @@ export function FilesPanel() {
       title="Working files"
       subtitle="Files stay on this device until you place them."
       id="files"
+      size={filesSheet}
     >
+      <div className="mb-3 flex gap-2">
+        {(['peek', 'half', 'full'] as const).map((mode) => (
+          <button
+            key={mode}
+            type="button"
+            className={`min-h-10 flex-1 rounded-xl px-3 text-xs font-bold capitalize ${
+              filesSheet === mode ? 'bg-[var(--walnut)] text-[var(--cream)]' : 'bg-[var(--paper-strong)]'
+            }`}
+            onClick={() => setFilesSheet(mode)}
+          >
+            {mode}
+          </button>
+        ))}
+      </div>
+      <button
+        type="button"
+        className="mb-3 flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl bg-[var(--clay-deep)] px-4 py-2 font-bold text-[var(--cream)]"
+        onClick={pickPackage}
+      >
+        <Upload size={16} />
+        Import package
+      </button>
       <input
         value={q}
         onChange={(e) => setQ(e.target.value)}
         placeholder="Search working files"
         className="mb-3 w-full rounded-xl border border-black/5 bg-[var(--paper-strong)] px-3 py-3 outline-none"
       />
-      {filtered.length === 0 ? (
-        <p className="rounded-2xl bg-[var(--paper-strong)] p-4 text-sm text-[var(--muted)]">
-          {files.length} files on this device. Import from Add to keep them with this board.
-        </p>
-      ) : (
-        filtered.map((f) => (
-          <button
-            key={f.id}
-            type="button"
-            className="mb-2 flex w-full items-center gap-3 rounded-2xl bg-[var(--paper-strong)] p-3 text-left"
-            onClick={() => {
-              const { camera, viewport } = useFieldnote.getState();
-              const x = (viewport.w / 2 - camera.x) / camera.scale - 120;
-              const y = (viewport.h / 2 - camera.y) / camera.scale - 60;
-              if (f.mime?.startsWith('image/')) {
-                addObject({
-                  id: `img-${f.id}`,
-                  type: 'image',
-                  x,
-                  y,
-                  width: 260,
-                  height: 260,
-                  zIndex: 8,
-                  src: f.src,
-                  alt: f.name,
-                });
-              } else if (f.mime === 'application/pdf') {
-                addObject({
-                  id: `pdf-${f.id}`,
-                  type: 'pdf',
-                  x,
-                  y,
-                  width: 220,
-                  height: 280,
-                  zIndex: 8,
-                  name: f.name,
-                  src: f.src,
-                  coverDataUrl: f.coverDataUrl,
-                });
-              } else if (f.mime?.startsWith('audio/')) {
-                addObject({
-                  id: `audio-${f.id}`,
-                  type: 'audio',
-                  x,
-                  y,
-                  width: 260,
-                  height: 96,
-                  zIndex: 8,
-                  name: f.name,
-                  src: f.src,
-                  mime: f.mime,
-                  blobId: f.blobId,
-                });
-              } else {
-                addObject({
-                  id: `file-${f.id}`,
-                  type: 'file',
-                  x,
-                  y,
-                  width: 240,
-                  height: 120,
-                  zIndex: 8,
-                  name: f.name,
-                  src: f.src,
-                  mime: f.mime,
-                  size: f.size,
-                });
-              }
-              setPanel(null);
-            }}
-          >
-            <span className="text-xl">{f.mime?.startsWith('image/') ? '🖼' : '📄'}</span>
-            <span className="min-w-0 flex-1">
-              <div className="truncate font-semibold">{f.name}</div>
-              <div className="text-xs text-[var(--muted)]">{f.mime ?? 'file'}</div>
-            </span>
-          </button>
-        ))
-      )}
+      <div ref={scrollRef} className="min-h-0 overflow-y-auto pr-1">
+        {filtered.length === 0 ? (
+          <p className="rounded-2xl bg-[var(--paper-strong)] p-4 text-sm text-[var(--muted)]">
+            {files.length} files on this device. Import from Add to keep them with this board.
+          </p>
+        ) : (
+          filtered.slice(0, filesSheet === 'peek' ? 4 : filesSheet === 'half' ? 12 : filtered.length).map((f) => (
+            <button
+              key={f.id}
+              type="button"
+              className="mb-2 flex w-full items-center gap-3 rounded-2xl bg-[var(--paper-strong)] p-3 text-left"
+              onClick={() => {
+                void placeFile(f);
+              }}
+            >
+              <span className="text-xl">{fileIcon(f)}</span>
+              <span className="min-w-0 flex-1">
+                <div className="truncate font-semibold">{f.name}</div>
+                <div className="text-xs text-[var(--muted)]">{f.mime ?? 'file'}</div>
+              </span>
+            </button>
+          ))
+        )}
+      </div>
     </ModalSheet>
   );
+}
+
+function isMarkdownFile(file: WorkingFile) {
+  const name = file.name.toLowerCase();
+  return file.mime === 'text/markdown' || name.endsWith('.md') || name.endsWith('.markdown');
+}
+
+function fileIcon(file: WorkingFile) {
+  if (file.mime?.startsWith('image/')) return 'IMG';
+  if (file.mime === 'application/pdf') return 'PDF';
+  if (file.mime?.startsWith('audio/')) return 'AUD';
+  if (isMarkdownFile(file)) return 'MD';
+  return 'DOC';
 }
 
 export function FindPanel() {
@@ -210,7 +300,25 @@ export function MorePanel() {
     viewport,
     currentId,
     exportPackage,
+    importPackage,
+    backgroundEdit,
+    setBackgroundEdit,
+    copySelection,
+    pasteClipboard,
+    selectedIds,
+    clipboard,
   } = useFieldnote();
+
+  const pickPackage = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'application/json,.json';
+    input.onchange = () => {
+      const file = input.files?.[0];
+      if (file) void importPackage(file);
+    };
+    input.click();
+  };
 
   return (
     <>
@@ -244,6 +352,34 @@ export function MorePanel() {
           title="Export package"
           onClick={() => {
             void exportPackage();
+            setPanel(null);
+          }}
+        />
+        <Row
+          icon={<Upload size={18} />}
+          title="Import package"
+          onClick={pickPackage}
+        />
+        <Row
+          icon={<Shield size={18} />}
+          title={backgroundEdit ? 'Background edit on' : 'Background edit off'}
+          onClick={() => setBackgroundEdit(!backgroundEdit)}
+        />
+        <Row
+          icon={<Copy size={18} />}
+          title="Copy selection"
+          disabled={!selectedIds.length}
+          onClick={() => {
+            copySelection();
+            setPanel(null);
+          }}
+        />
+        <Row
+          icon={<Clipboard size={18} />}
+          title="Paste selection"
+          disabled={!clipboard?.objects.length}
+          onClick={() => {
+            pasteClipboard();
             setPanel(null);
           }}
         />

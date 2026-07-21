@@ -7,7 +7,7 @@ import { COLORS } from '../lib/theme';
 import { sidePoint } from '../lib/seed';
 import { haptic } from '../lib/haptics';
 import { resolveMediaSrc } from '../lib/blobs';
-import { moveMindSubtree } from '../lib/mindmap';
+import { isMindCollapsedHidden, moveMindSubtree } from '../lib/mindmap';
 
 function useHtmlImage(src?: string) {
   const [img, setImg] = useState<HTMLImageElement | null>(null);
@@ -147,11 +147,32 @@ function ObjectNode({
     },
     onTap: (e: Konva.KonvaEventObject<Event>) => {
       e.cancelBubble = true;
+      if (selected && obj.type === 'pdf') {
+        store.setPdfReader(obj.id);
+        return;
+      }
       store.select([obj.id], store.tool === 'multi');
     },
     onDblClick: () => {
       if (obj.type === 'text' || obj.type === 'task' || obj.type === 'mindmap') {
         store.setEditing(obj.id);
+      } else if (obj.type === 'pdf') {
+        store.setPdfReader(obj.id);
+      } else if (obj.type === 'markdown') {
+        store.openMarkdown(obj.id);
+      } else if (obj.type === 'audio') {
+        store.openAudio(obj.id);
+      }
+    },
+    onDblTap: () => {
+      if (obj.type === 'text' || obj.type === 'task' || obj.type === 'mindmap') {
+        store.setEditing(obj.id);
+      } else if (obj.type === 'pdf') {
+        store.setPdfReader(obj.id);
+      } else if (obj.type === 'markdown') {
+        store.openMarkdown(obj.id);
+      } else if (obj.type === 'audio') {
+        store.openAudio(obj.id);
       }
     },
     onDragEnd: (e: Konva.KonvaEventObject<DragEvent>) => {
@@ -179,8 +200,9 @@ function ObjectNode({
   const strokeWidth = selected ? 2.5 / Math.max(scale, 0.4) : 0;
 
   if (obj.type === 'region') {
+    const interactive = selected || store.backgroundEdit;
     return (
-      <Group {...common} draggable={!obj.locked && store.tool !== 'draw'}>
+      <Group {...common} listening={interactive} draggable={interactive && !obj.locked && store.tool !== 'draw'}>
         <Rect
           width={obj.width}
           height={obj.height}
@@ -190,6 +212,41 @@ function ObjectNode({
           strokeWidth={selected ? 2 : 1}
           dash={selected ? undefined : [8, 6]}
         />
+        {obj.pattern === 'dots' &&
+          Array.from({ length: Math.ceil(obj.width / 28) }).map((_, ix) =>
+            Array.from({ length: Math.ceil(obj.height / 28) }).map((__, iy) => (
+              <Circle
+                key={`${ix}-${iy}`}
+                x={18 + ix * 28}
+                y={18 + iy * 28}
+                radius={2}
+                fill="rgba(52,38,29,0.18)"
+                listening={false}
+              />
+            )),
+          )}
+        {obj.pattern === 'grid' && (
+          <>
+            {Array.from({ length: Math.ceil(obj.width / 32) }).map((_, ix) => (
+              <Line
+                key={`v-${ix}`}
+                points={[ix * 32, 0, ix * 32, obj.height]}
+                stroke="rgba(52,38,29,0.12)"
+                strokeWidth={1}
+                listening={false}
+              />
+            ))}
+            {Array.from({ length: Math.ceil(obj.height / 32) }).map((_, iy) => (
+              <Line
+                key={`h-${iy}`}
+                points={[0, iy * 32, obj.width, iy * 32]}
+                stroke="rgba(52,38,29,0.12)"
+                strokeWidth={1}
+                listening={false}
+              />
+            ))}
+          </>
+        )}
         {!semantic && (
           <Text
             text={obj.label}
@@ -388,7 +445,43 @@ function ObjectNode({
     );
   }
 
-  if (obj.type === 'file' || obj.type === 'markdown' || obj.type === 'audio') {
+  if (obj.type === 'audio') {
+    return (
+      <Group {...common}>
+        <Rect
+          width={obj.width}
+          height={obj.height}
+          fill={obj.fill ?? COLORS.paperStrong}
+          cornerRadius={16}
+          shadowBlur={semantic ? 0 : 10}
+          shadowOpacity={0.1}
+          stroke={stroke}
+          strokeWidth={strokeWidth}
+        />
+        <Circle x={34} y={34} radius={18} fill={COLORS.clayDeep} />
+        <Text text="♪" x={26} y={19} fontSize={28} fill={COLORS.cream} />
+        <Text
+          text={obj.name}
+          x={64}
+          y={20}
+          width={obj.width - 80}
+          fontSize={15}
+          fontStyle="bold"
+          fill={COLORS.ink}
+        />
+        <Text text="Double-click or use Play" x={64} y={52} width={obj.width - 80} fontSize={11} fill={COLORS.muted} />
+        {selected && (
+          <ConnectorDots
+            obj={obj}
+            scale={scale}
+            onStart={(side) => store.beginConnect(obj.id, side)}
+          />
+        )}
+      </Group>
+    );
+  }
+
+  if (obj.type === 'file' || obj.type === 'markdown') {
     return (
       <Group {...common}>
         <Rect
@@ -402,10 +495,10 @@ function ObjectNode({
           strokeWidth={strokeWidth}
         />
         <Text
-          text={obj.type === 'audio' ? 'AUDIO' : obj.type === 'file' ? 'DOC' : 'MD'}
+          text={obj.type === 'file' ? 'DOC' : 'MD'}
           x={16}
           y={18}
-          fontSize={obj.type === 'audio' ? 14 : 18}
+          fontSize={18}
           fontStyle="bold"
           fill={COLORS.muted}
         />
@@ -610,13 +703,19 @@ export function InfiniteCanvas() {
 
   // Visible objects (culling)
   const visible = useMemo(() => {
+    const hiddenMindIds = new Set(
+      objects
+        .filter((obj) => obj.type === 'mindmap' && isMindCollapsedHidden(objects, obj))
+        .map((obj) => obj.id),
+    );
     const pad = 200 / camera.scale;
     const minX = -camera.x / camera.scale - pad;
     const minY = -camera.y / camera.scale - pad;
     const maxX = (viewport.w - camera.x) / camera.scale + pad;
     const maxY = (viewport.h - camera.y) / camera.scale + pad;
     return objects.filter((o) => {
-      if (o.type === 'connector') return true;
+      if (o.type === 'mindmap' && hiddenMindIds.has(o.id)) return false;
+      if (o.type === 'connector') return !hiddenMindIds.has(o.fromId) && !hiddenMindIds.has(o.toId);
       return !(o.x + o.width < minX || o.x > maxX || o.y + o.height < minY || o.y > maxY);
     });
   }, [objects, camera, viewport]);
