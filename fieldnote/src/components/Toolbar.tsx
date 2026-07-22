@@ -4,6 +4,7 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useBoard } from '../store/BoardContext';
 import { colors, radii, shadows } from '../theme';
 import { PanelKind } from '../types';
+import { hapticImpact, hapticSelection } from '../lib/haptics';
 
 type ToolBtn = {
   key: string;
@@ -66,7 +67,10 @@ export function Toolbar() {
     return (
       <Pressable
         style={[styles.collapsed, shadows.control]}
-        onPress={() => setCollapsed(false)}
+        onPress={() => {
+          void hapticSelection();
+          setCollapsed(false);
+        }}
         accessibilityLabel="Show canvas tools"
       >
         <Ionicons name="chevron-forward" size={18} color={colors.cream} />
@@ -77,7 +81,14 @@ export function Toolbar() {
   return (
     <View style={[styles.rail, shadows.control]}>
       <View style={styles.head}>
-        <Pressable onPress={() => setCollapsed(true)} style={styles.headBtn} accessibilityLabel="Hide tools">
+        <Pressable
+          onPress={() => {
+            void hapticSelection();
+            setCollapsed(true);
+          }}
+          style={styles.headBtn}
+          accessibilityLabel="Hide tools"
+        >
           <Ionicons name="chevron-back" size={16} color={colors.cream} />
         </Pressable>
       </View>
@@ -90,6 +101,7 @@ export function Toolbar() {
             key={btn.key}
             style={[styles.btn, active && styles.btnActive]}
             onPress={() => {
+              void hapticSelection();
               if (btn.panel) {
                 setPanel(panel === btn.panel ? null : btn.panel);
                 if (btn.panel === 'add') clearSelection();
@@ -99,6 +111,7 @@ export function Toolbar() {
               }
             }}
             onLongPress={() => {
+              void hapticImpact('medium');
               if (btn.key === 'multi') selectAll();
               if (btn.key === 'more' && canUndo) undo();
             }}

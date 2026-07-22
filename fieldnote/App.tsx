@@ -1,5 +1,5 @@
-import React, { Component, ErrorInfo, ReactNode, useCallback, useState } from 'react';
-import { ActivityIndicator, Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import React, { Component, ErrorInfo, ReactNode, useCallback, useEffect, useState } from 'react';
+import { AccessibilityInfo, ActivityIndicator, Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -25,6 +25,7 @@ import { MAX_SCALE, MIN_SCALE, clampScale } from './src/lib/camera';
 import { ColorTarget } from './src/lib/colorManager';
 import { pickAndBuildFileItems, pickAndBuildPhotoItems } from './src/lib/files';
 import { placeAtPoint } from './src/lib/placement';
+import { setHapticsEnabled } from './src/lib/haptics';
 
 class ErrorBoundary extends Component<
   { children: ReactNode },
@@ -341,6 +342,22 @@ function FieldnoteApp() {
 }
 
 export default function App() {
+  useEffect(() => {
+    let sub: { remove: () => void } | undefined;
+    (async () => {
+      try {
+        const reduce = await AccessibilityInfo.isReduceMotionEnabled();
+        setHapticsEnabled(!reduce);
+        sub = AccessibilityInfo.addEventListener('reduceMotionChanged', (next) => {
+          setHapticsEnabled(!next);
+        });
+      } catch {
+        setHapticsEnabled(true);
+      }
+    })();
+    return () => sub?.remove();
+  }, []);
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>

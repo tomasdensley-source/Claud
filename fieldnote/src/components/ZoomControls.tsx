@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, radii, shadows } from '../theme';
 import { formatZoomPercent } from '../lib/camera';
+import { hapticImpact, hapticSelection, hapticWarning } from '../lib/haptics';
 
 interface Props {
   scale: number;
@@ -21,6 +22,14 @@ interface Props {
   onSendBack?: () => void;
   minScale?: number;
   maxScale?: number;
+}
+
+function buzz(fn?: () => void, kind: 'select' | 'light' | 'medium' | 'warn' = 'select') {
+  if (kind === 'select') void hapticSelection();
+  else if (kind === 'light') void hapticImpact('light');
+  else if (kind === 'medium') void hapticImpact('medium');
+  else void hapticWarning();
+  fn?.();
 }
 
 export function ZoomControls({
@@ -49,23 +58,39 @@ export function ZoomControls({
             <Text style={styles.badgeText}>{selectedCount}</Text>
           </View>
           <Text style={styles.selectionText}>selected</Text>
-          <Pressable onPress={onBringFront} style={styles.iconBtn} accessibilityLabel="Bring forward">
+          <Pressable
+            onPress={() => buzz(onBringFront, 'light')}
+            style={styles.iconBtn}
+            accessibilityLabel="Bring forward"
+          >
             <Ionicons name="arrow-up" size={18} color={colors.cream} />
           </Pressable>
-          <Pressable onPress={onSendBack} style={styles.iconBtn} accessibilityLabel="Send backward">
+          <Pressable
+            onPress={() => buzz(onSendBack, 'light')}
+            style={styles.iconBtn}
+            accessibilityLabel="Send backward"
+          >
             <Ionicons name="arrow-down" size={18} color={colors.cream} />
           </Pressable>
-          <Pressable onPress={onDuplicate} style={styles.iconBtn} accessibilityLabel="Duplicate">
+          <Pressable
+            onPress={() => buzz(onDuplicate, 'medium')}
+            style={styles.iconBtn}
+            accessibilityLabel="Duplicate"
+          >
             <Ionicons name="copy-outline" size={18} color={colors.cream} />
           </Pressable>
-          <Pressable onPress={onDelete} style={styles.iconBtn} accessibilityLabel="Delete">
+          <Pressable
+            onPress={() => buzz(onDelete, 'warn')}
+            style={styles.iconBtn}
+            accessibilityLabel="Delete"
+          >
             <Ionicons name="trash-outline" size={18} color={colors.cream} />
           </Pressable>
         </View>
       ) : null}
       <View style={[styles.bar, shadows.control]}>
         <Pressable
-          onPress={onUndo}
+          onPress={() => buzz(onUndo, 'medium')}
           disabled={!canUndo}
           style={[styles.iconBtn, !canUndo && styles.disabled]}
           accessibilityLabel="Undo"
@@ -73,7 +98,7 @@ export function ZoomControls({
           <Ionicons name="arrow-undo" size={18} color={colors.cream} />
         </Pressable>
         <Pressable
-          onPress={onRedo}
+          onPress={() => buzz(onRedo, 'medium')}
           disabled={!canRedo}
           style={[styles.iconBtn, !canRedo && styles.disabled]}
           accessibilityLabel="Redo"
@@ -82,18 +107,22 @@ export function ZoomControls({
         </Pressable>
         <View style={styles.divider} />
         <Pressable
-          onPress={onZoomOut}
+          onPress={() => buzz(onZoomOut)}
           disabled={scale <= minScale + 0.001}
           style={[styles.iconBtn, scale <= minScale + 0.001 && styles.disabled]}
           accessibilityLabel="Zoom out"
         >
           <Ionicons name="remove" size={20} color={colors.cream} />
         </Pressable>
-        <Pressable onPress={onResetZoom} style={styles.zoomPct} accessibilityLabel="Reset zoom">
+        <Pressable
+          onPress={() => buzz(onResetZoom, 'light')}
+          style={styles.zoomPct}
+          accessibilityLabel="Reset zoom"
+        >
           <Text style={styles.zoomText}>{formatZoomPercent(scale)}</Text>
         </Pressable>
         <Pressable
-          onPress={onZoomIn}
+          onPress={() => buzz(onZoomIn)}
           disabled={scale >= maxScale - 0.001}
           style={[styles.iconBtn, scale >= maxScale - 0.001 && styles.disabled]}
           accessibilityLabel="Zoom in"
@@ -101,7 +130,11 @@ export function ZoomControls({
           <Ionicons name="add" size={20} color={colors.cream} />
         </Pressable>
         <View style={styles.divider} />
-        <Pressable onPress={onFit} style={styles.fitBtn} accessibilityLabel="Fit entire board">
+        <Pressable
+          onPress={() => buzz(onFit, 'medium')}
+          style={styles.fitBtn}
+          accessibilityLabel="Fit entire board"
+        >
           <Ionicons name="expand-outline" size={18} color={colors.cream} />
           <Text style={styles.fitText}>Fit</Text>
         </Pressable>

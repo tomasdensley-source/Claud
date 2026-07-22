@@ -24,7 +24,7 @@ import {
   zoomAboutFocal,
 } from '../lib/camera';
 import { GESTURE } from '../lib/gesturePriority';
-import { hapticImpact } from '../lib/haptics';
+import { hapticImpact, hapticSelection } from '../lib/haptics';
 import { canCompleteTask } from '../lib/taskGraph';
 import { descendantCount, visibleMindMapIds } from '../lib/mindMap';
 import { shareText } from '../lib/share';
@@ -645,6 +645,7 @@ export function InfiniteCanvas({
     setLiveStroke(null);
     if (points.length < 2) return;
     addDrawingStroke(points, drawColor, drawWidth);
+    void hapticImpact('light');
   }, [addDrawingStroke, drawColor, drawWidth]);
 
   const endPanReport = useCallback(() => {
@@ -849,6 +850,7 @@ export function InfiniteCanvas({
       if (toolRef.current === 'multi') select([id], true);
       else select([id], false);
       setEditingId(null);
+      void hapticSelection();
     },
     [select],
   );
@@ -967,6 +969,7 @@ export function InfiniteCanvas({
         select([id], false);
       }
       setEditingId(null);
+      void hapticImpact('light');
     },
     [select],
   );
@@ -1009,6 +1012,7 @@ export function InfiniteCanvas({
       };
       beginHistory();
       select([id], false);
+      void hapticImpact('medium');
     },
     [beginHistory, currentBoard.items, select],
   );
@@ -1068,9 +1072,13 @@ export function InfiniteCanvas({
       clearHoldTimer();
       const started = Date.now();
       setHoldState({ id, progress: 0.05 });
+      void hapticImpact('medium');
       holdTimerRef.current = setInterval(() => {
         const p = Math.min(0.99, (Date.now() - started) / 3000);
         setHoldState({ id, progress: p });
+        // Soft ticks as the glow fills.
+        if (p > 0.32 && p < 0.36) void hapticSelection();
+        if (p > 0.65 && p < 0.69) void hapticImpact('light');
       }, 50);
     },
     [clearHoldTimer],

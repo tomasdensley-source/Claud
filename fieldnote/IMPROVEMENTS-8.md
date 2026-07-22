@@ -32,5 +32,7 @@
 30. Share helper accepts filename + mime for Markdown files.
 31. BLUEPRINT status: SQLite dual-write, region focus, stroke edit, resize.
 32. Markdown unit smoke test.
-34. Near-infinite camera zoom (2% → 6400%) for pinch + buttons.
-35. Fit can zoom out below the old 25% floor for huge boards.
+36. Soft haptic feedback across tools, zoom, select, drag, draw, resize, tasks.
+37. Haptic warning on blocked tasks / delete; success on complete / new board.
+38. Respects Reduce Motion (mutes haptics when enabled).
+39. Mid-hold haptic ticks during the 3s task glow.

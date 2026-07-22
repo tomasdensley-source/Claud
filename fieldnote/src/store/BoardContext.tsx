@@ -31,7 +31,7 @@ import {
   stringifyJsonCanvas,
 } from '../lib/jsonCanvas';
 import { saveSnapshot } from '../lib/snapshots';
-import { hapticSuccess } from '../lib/haptics';
+import { hapticImpact, hapticSuccess, hapticWarning } from '../lib/haptics';
 
 export type Tool = 'select' | 'draw' | 'multi';
 
@@ -380,8 +380,10 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
             items.map((it) => (it.id === id && it.type === 'task' ? { ...it, done: false } : it)),
           ),
         );
+        void hapticImpact('light');
         return { ok: true };
       }
+      void hapticWarning();
       return {
         ok: false,
         reason: 'Hold the task for 3 seconds to complete it',
@@ -398,6 +400,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
       if (!task || task.type !== 'task') return { ok: false, reason: 'Not a task' };
       if (task.done) return { ok: true };
       if (!canCompleteTask(task, board.items)) {
+        void hapticWarning();
         return { ok: false, reason: 'Waiting on dependency water-flow' };
       }
       updateItems((items) =>
@@ -511,6 +514,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     if (selectedIds.length === 0) return;
     updateItems((items) => items.filter((it) => !selectedIds.includes(it.id)));
     setSelectedIds([]);
+    void hapticImpact('medium');
   }, [selectedIds, updateItems]);
 
   const duplicateSelected = useCallback(() => {
@@ -527,6 +531,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     });
     updateItems((items) => [...items, ...copies]);
     setSelectedIds(newIds);
+    void hapticImpact('light');
   }, [selectedIds, updateItems]);
 
   const bringToFront = useCallback(() => {
@@ -564,6 +569,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
       setCurrentBoardId(board.id);
       setSelectedIds([]);
       setTool('select');
+      void hapticSuccess();
     },
     [pushHistory],
   );
@@ -581,6 +587,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     setPanel(null);
     setTool('select');
     setFocusedRegionId(null);
+    void hapticImpact('light');
   }, []);
 
   const deleteBoard = useCallback(
@@ -717,6 +724,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
       setFuture((f) => [cloneBoards(boardsRef.current), ...f].slice(0, 50));
       setBoards(prev);
       setSelectedIds([]);
+      void hapticImpact('medium');
       return h.slice(0, -1);
     });
   }, []);
@@ -728,6 +736,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
       setHistory((h) => [...h, cloneBoards(boardsRef.current)].slice(-50));
       setBoards(next);
       setSelectedIds([]);
+      void hapticImpact('medium');
       return rest;
     });
   }, []);

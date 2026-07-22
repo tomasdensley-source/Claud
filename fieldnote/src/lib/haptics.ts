@@ -10,6 +10,8 @@ let Haptics: null | {
   NotificationFeedbackType: Record<string, unknown>;
 } = null;
 
+let enabled = true;
+
 try {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   Haptics = require('expo-haptics');
@@ -17,8 +19,17 @@ try {
   Haptics = null;
 }
 
+/** Allow callers to mute haptics (e.g. reduced-motion preference). */
+export function setHapticsEnabled(next: boolean): void {
+  enabled = next;
+}
+
+export function hapticsAvailable(): boolean {
+  return Haptics != null && enabled;
+}
+
 export async function hapticImpact(style: Impact = 'light'): Promise<void> {
-  if (!Haptics) return;
+  if (!Haptics || !enabled) return;
   try {
     const map = {
       light: Haptics.ImpactFeedbackStyle.Light,
@@ -32,7 +43,7 @@ export async function hapticImpact(style: Impact = 'light'): Promise<void> {
 }
 
 export async function hapticSelection(): Promise<void> {
-  if (!Haptics) return;
+  if (!Haptics || !enabled) return;
   try {
     await Haptics.selectionAsync();
   } catch {
@@ -41,9 +52,27 @@ export async function hapticSelection(): Promise<void> {
 }
 
 export async function hapticSuccess(): Promise<void> {
-  if (!Haptics) return;
+  if (!Haptics || !enabled) return;
   try {
     await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+  } catch {
+    // ignore
+  }
+}
+
+export async function hapticWarning(): Promise<void> {
+  if (!Haptics || !enabled) return;
+  try {
+    await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+  } catch {
+    // ignore
+  }
+}
+
+export async function hapticError(): Promise<void> {
+  if (!Haptics || !enabled) return;
+  try {
+    await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
   } catch {
     // ignore
   }
