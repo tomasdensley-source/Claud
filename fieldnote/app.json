@@ -45,11 +45,6 @@
           "photosPermission": "Allow Fieldnote to place photos on your board."
         }
       ]
-    ],
-    "extra": {
-      "eas": {
-        "projectId": "fieldnote-local"
-      }
-    }
+    ]
   }
 }
