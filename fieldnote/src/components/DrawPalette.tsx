@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { colors, radii, shadows } from '../theme';
+import { hapticSelection } from '../lib/haptics';
 
 const SWATCHES = ['#34261d', '#cb7d46', '#2f6fed', '#2f9e6b', '#c43c3c', '#ffffff'];
 
@@ -18,7 +19,10 @@ export function DrawPalette({ color, width, onColor, onWidth }: Props) {
         {SWATCHES.map((c) => (
           <Pressable
             key={c}
-            onPress={() => onColor(c)}
+            onPress={() => {
+              void hapticSelection();
+              onColor(c);
+            }}
             style={[
               styles.swatch,
               { backgroundColor: c, borderColor: c === '#ffffff' ? '#ccc' : c },
@@ -32,7 +36,10 @@ export function DrawPalette({ color, width, onColor, onWidth }: Props) {
         {[2, 4, 8].map((w) => (
           <Pressable
             key={w}
-            onPress={() => onWidth(w)}
+            onPress={() => {
+              void hapticSelection();
+              onWidth(w);
+            }}
             style={[styles.widthBtn, width === w && styles.widthActive]}
             accessibilityLabel={`Stroke width ${w}`}
           >
