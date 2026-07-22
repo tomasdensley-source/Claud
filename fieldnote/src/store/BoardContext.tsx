@@ -10,6 +10,8 @@ import React, {
 import { Board, BoardItem, DraftBoardItem, PanelKind } from '../types';
 import { createMainBoard, uid } from '../lib/seed';
 import { clearAllBoards, loadBoards, saveBoards } from '../lib/storage';
+import { parseJSONCanvas, serializeJSONCanvas } from '../lib/jsoncanvas';
+import { repairBoardItems } from '../lib/normalize';
 import { colors } from '../theme';
 
 type Tool = 'select' | 'draw' | 'multi';
@@ -49,6 +51,15 @@ interface BoardContextValue {
     point: { x: number; y: number },
     startNewPath: boolean,
   ) => string;
+  exportBoardAsJSONCanvas: () => string;
+  importJSONCanvas: (raw: string, mode: 'replace' | 'append') => ImportOutcome;
+  repairCurrentBoard: () => { changed: boolean; issues: string[] };
+}
+
+export interface ImportOutcome {
+  ok: boolean;
+  issues: string[];
+  count?: number;
 }
 
 const BoardContext = createContext<BoardContextValue | null>(null);
@@ -332,6 +343,45 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     [currentBoard.items, drawColor, updateItems],
   );
 
+  const exportBoardAsJSONCanvas = useCallback(
+    () => serializeJSONCanvas(currentBoard),
+    [currentBoard],
+  );
+
+  const importJSONCanvas = useCallback(
+    (raw: string, mode: 'replace' | 'append'): ImportOutcome => {
+      const result = parseJSONCanvas(raw);
+      if (result.items.length === 0) {
+        return { ok: false, issues: result.issues };
+      }
+      if (mode === 'replace') {
+        pushHistory();
+        replaceCurrentItems(result.items, false);
+      } else {
+        const existingIds = new Set(currentBoard.items.map((it) => it.id));
+        let maxZ = currentBoard.items.reduce((m, it) => Math.max(m, it.zIndex), 0);
+        const appended = result.items.map((it) => {
+          let id = it.id;
+          while (existingIds.has(id)) id = uid(it.type);
+          existingIds.add(id);
+          maxZ += 1;
+          return { ...it, id, zIndex: maxZ };
+        });
+        updateItems((items) => [...items, ...appended], true);
+      }
+      return { ok: true, issues: result.issues, count: result.items.length };
+    },
+    [currentBoard.items, pushHistory, replaceCurrentItems, updateItems],
+  );
+
+  const repairCurrentBoard = useCallback(() => {
+    const result = repairBoardItems(currentBoard.items);
+    if (result.changed) {
+      replaceCurrentItems(result.items, true);
+    }
+    return { changed: result.changed, issues: result.issues };
+  }, [currentBoard.items, replaceCurrentItems]);
+
   const value: BoardContextValue = {
     ready,
     boards,
@@ -363,6 +413,9 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     redo,
     resetToSeed,
     appendDrawingPoint,
+    exportBoardAsJSONCanvas,
+    importJSONCanvas,
+    repairCurrentBoard,
   };
 
   return <BoardContext.Provider value={value}>{children}</BoardContext.Provider>;

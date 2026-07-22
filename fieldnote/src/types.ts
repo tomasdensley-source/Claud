@@ -119,4 +119,5 @@ export type PanelKind =
   | 'search'
   | 'more'
   | 'gestures'
-  | 'storage';
+  | 'storage'
+  | 'jsoncanvas';

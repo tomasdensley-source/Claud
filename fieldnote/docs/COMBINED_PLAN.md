@@ -288,3 +288,16 @@ current; EAS/APK build link attached to the release PR from CI.
   verifiable in-sandbox and avoids an unvalidated native dependency.
 - Decision: land batches as incremental type-checked PRs, not one monolith — matches
   environment constraints and keeps review tractable.
+- **Batch 1 — landed.** JSON Canvas 1.0 import/export (`src/lib/jsoncanvas.ts`) and
+  AI-board coordinate repair (`src/lib/normalize.ts`), wired end-to-end: a new
+  Import/export panel (More → Import/export) lets you export the current board,
+  paste a JSON Canvas document (Fieldnote's own, Obsidian's, or one pasted from an AI
+  generator) to append or replace, and a one-tap "Repair map" fixes stacked/out-of-
+  range cards on the board you already have open. Every Fieldnote item round-trips
+  losslessly via `metadata.fieldnote` on export; foreign documents map onto text/group
+  nodes. Repair runs three passes: fix individual bad coordinates/sizes, rescale+recenter
+  layouts at an extreme scale, then spread exactly-stacked duplicates. Addresses bug #19
+  (AI boards glitch on import) and lands the JSON Canvas feature promised in the brief.
+  Scope note: connectors/edges are intentionally not modeled yet — Fieldnote has no
+  first-class connector item until Batch 8, so `edges` is always `[]` on export; that's
+  a decision, not an oversight. Gate: `tsc --noEmit && npm test` (13/13) green.

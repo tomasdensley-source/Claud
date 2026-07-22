@@ -15,6 +15,8 @@ Built for **Android** (Expo Go + installable APK).
 - Add panel: device files / photos, text, task, mind map, region
 - Multiple boards with local autosave (AsyncStorage)
 - Working files panel, search, undo/redo, gestures guide, storage controls
+- Import/export boards as JSON Canvas 1.0 (lossless round-trip), plus a
+  one-tap Repair Map for AI-generated boards with broken coordinates
 - Minimap + zoom controls + Fit board
 - Long-press cards to edit; hold empty canvas to open Add
 
@@ -28,6 +30,9 @@ src/
   store/BoardContext.tsx   Boards, selection, history, persistence
   lib/seed.ts              Demo board content
   lib/storage.ts           AsyncStorage
+  lib/camera.ts            Zoom/pan clamp + coordinate math
+  lib/jsoncanvas.ts        JSON Canvas 1.0 import/export
+  lib/normalize.ts         Coordinate repair for broken/AI-generated boards
   components/              Canvas, toolbar, minimap, panels
 eas.json                   EAS Build profiles (preview → APK)
 ```

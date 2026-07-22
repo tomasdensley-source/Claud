@@ -14,6 +14,7 @@ import { BoardsPanel } from './src/components/panels/BoardsPanel';
 import { FilesPanel } from './src/components/panels/FilesPanel';
 import { SearchPanel } from './src/components/panels/SearchPanel';
 import { GesturesPanel, MorePanel, StoragePanel } from './src/components/panels/MorePanel';
+import { ImportExportPanel } from './src/components/panels/ImportExportPanel';
 import { clampScale } from './src/lib/camera';
 import { colors } from './src/theme';
 
@@ -118,6 +119,7 @@ function FieldnoteApp() {
           onFocusItem={(x, y) => setCenterRequest({ x, y, token: Date.now() })}
         />
         <MorePanel visible={panel === 'more'} onClose={() => setPanel(null)} />
+        <ImportExportPanel visible={panel === 'jsoncanvas'} onClose={() => setPanel(null)} />
         <GesturesPanel visible={panel === 'gestures'} onClose={() => setPanel(null)} />
         <StoragePanel visible={panel === 'storage'} onClose={() => setPanel(null)} />
       </View>
