@@ -145,6 +145,22 @@ export function Toolbar() {
   const left = slot?.left ?? preferred.x;
   const top = slot?.top ?? preferred.y;
 
+  const [tip, setTip] = React.useState<string | null>(null);
+  const tipTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const showTip = React.useCallback((label: string) => {
+    setTip(label);
+    if (tipTimer.current) clearTimeout(tipTimer.current);
+    tipTimer.current = setTimeout(() => setTip(null), 1800);
+  }, []);
+
+  React.useEffect(
+    () => () => {
+      if (tipTimer.current) clearTimeout(tipTimer.current);
+    },
+    [],
+  );
+
   const buttons: ToolBtn[] = [
     {
       key: 'add',
@@ -262,6 +278,7 @@ export function Toolbar() {
             }}
             onLongPress={() => {
               void hapticImpact('medium');
+              showTip(btn.label);
               if (btn.key === 'multi') selectAll();
               if (btn.key === 'more' && canUndo) undo();
             }}
@@ -275,7 +292,7 @@ export function Toolbar() {
                 ? 'Long press to select all cards'
                 : btn.key === 'more'
                   ? 'Long press to undo'
-                  : undefined
+                  : `Long press for ${btn.label}`
             }
           >
             <View style={styles.iconWrap}>
@@ -291,6 +308,11 @@ export function Toolbar() {
           </Pressable>
         );
       })}
+      {tip ? (
+        <View style={styles.tipBubble} pointerEvents="none">
+          <Text style={styles.tipText}>{tip}</Text>
+        </View>
+      ) : null}
     </View>
   );
 }
@@ -375,5 +397,22 @@ const styles = StyleSheet.create({
     color: colors.cream,
     fontSize: 9,
     fontWeight: '700',
+  },
+  tipBubble: {
+    position: 'absolute',
+    left: RAIL_W + 8,
+    top: 48,
+    backgroundColor: colors.walnut,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.14)',
+    minWidth: 72,
+  },
+  tipText: {
+    color: colors.cream,
+    fontSize: 12,
+    fontWeight: '600',
   },
 });

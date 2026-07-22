@@ -200,9 +200,26 @@ interface Props {
   fontSize?: number;
 }
 
+const MAX_MD_CHARS = 12_000;
+const MAX_MD_BLOCKS = 80;
+
+/** Soft-truncate huge Markdown so card paint stays responsive. */
+export function softMarkdownSource(source: string): { text: string; truncated: boolean } {
+  const raw = source || '';
+  if (raw.length <= MAX_MD_CHARS) return { text: raw, truncated: false };
+  return {
+    text: `${raw.slice(0, MAX_MD_CHARS)}\n\n…`,
+    truncated: true,
+  };
+}
+
 /** Renders a useful subset of Markdown for Fieldnote text cards. */
 export function MarkdownView({ source, color = colors.ink, fontSize = 16 }: Props) {
-  const blocks = useMemo(() => parseBlocks(source || ''), [source]);
+  const prepared = useMemo(() => softMarkdownSource(source || ''), [source]);
+  const blocks = useMemo(() => {
+    const parsed = parseBlocks(prepared.text);
+    return parsed.length > MAX_MD_BLOCKS ? parsed.slice(0, MAX_MD_BLOCKS) : parsed;
+  }, [prepared.text]);
   const base: TextStyle = { color, fontSize, lineHeight: fontSize * 1.45 };
 
   if (blocks.length === 0) {
@@ -268,6 +285,9 @@ export function MarkdownView({ source, color = colors.ink, fontSize = 16 }: Prop
         }
         return <InlineText key={i} text={block.text} baseStyle={{ ...base, marginBottom: 8 }} />;
       })}
+      {prepared.truncated || blocks.length >= MAX_MD_BLOCKS ? (
+        <Text style={[base, styles.truncatedNote]}>Large note — showing a preview for speed</Text>
+      ) : null}
     </View>
   );
 }
@@ -278,6 +298,12 @@ const styles = StyleSheet.create({
   },
   placeholder: {
     color: colors.mutedInk,
+  },
+  truncatedNote: {
+    color: colors.mutedInk,
+    fontSize: 12,
+    marginTop: 8,
+    fontStyle: 'italic',
   },
   bold: {
     fontWeight: '700',

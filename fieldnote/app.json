@@ -2,7 +2,7 @@
   "expo": {
     "name": "Fieldnote",
     "slug": "fieldnote",
-    "version": "1.6.1",
+    "version": "1.6.2",
     "orientation": "default",
     "icon": "./assets/icon.png",
     "scheme": "fieldnote",
@@ -22,7 +22,7 @@
     },
     "android": {
       "package": "com.fieldnote.canvas",
-      "versionCode": 24,
+      "versionCode": 25,
       "adaptiveIcon": {
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",

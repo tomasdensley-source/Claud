@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, radii } from '../theme';
 import {
@@ -12,6 +12,7 @@ import {
   saveSwatches,
 } from '../lib/colorManager';
 import { hapticSelection } from '../lib/haptics';
+import { useChromeSlot } from '../chrome/ChromeLayoutContext';
 
 interface Props {
   lit: boolean;
@@ -42,6 +43,7 @@ export function VerticalColorPalette({
 }: Props) {
   const [folded, setFolded] = useState(true);
   const [swatches, setSwatches] = useState(DEFAULT_SWATCHES);
+  const { height: winH } = useWindowDimensions();
 
   const targets =
     allowedTargets && allowedTargets.length > 0
@@ -49,6 +51,19 @@ export function VerticalColorPalette({
       : (['frame', 'body'] as ColorTarget[]);
   const showToggle = targets.length > 1;
   const effectiveTarget = targets.includes(target) ? target : targets[0];
+
+  const preferred = React.useMemo(
+    () => ({
+      x: 72,
+      y: 120,
+      width: folded || !lit ? 34 : 86,
+      height: folded || !lit ? 56 : Math.min(280, winH * 0.4),
+    }),
+    [folded, lit, winH],
+  );
+  const slot = useChromeSlot('color', preferred, true);
+  const left = slot?.left ?? preferred.x;
+  const top = slot?.top ?? preferred.y;
 
   useEffect(() => {
     void (async () => {
@@ -85,7 +100,10 @@ export function VerticalColorPalette({
   };
 
   return (
-    <View style={[styles.wrap, softShadow]} pointerEvents="box-none">
+    <View
+      style={[styles.wrap, softShadow, { left, top }]}
+      pointerEvents="box-none"
+    >
       <Pressable
         style={[styles.tab, lit && styles.tabLit, !folded && lit && styles.tabOpen]}
         onPress={toggle}
@@ -143,8 +161,6 @@ export function VerticalColorPalette({
 const styles = StyleSheet.create({
   wrap: {
     position: 'absolute',
-    left: 72,
-    top: 120,
     zIndex: 45,
     flexDirection: 'row',
     alignItems: 'flex-start',

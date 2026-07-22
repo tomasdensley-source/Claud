@@ -5,7 +5,8 @@ export function isRegion(item: BoardItem): item is RegionItem {
   return item.type === 'region';
 }
 
-/** Assign parentId for items whose center lies inside a region (deepest/smallest wins). */
+/** Assign parentId for items whose center lies inside a region (deepest/smallest wins).
+ * Regions may nest inside larger regions. */
 export function assignRegionParents(items: BoardItem[]): BoardItem[] {
   const regions = items
     .filter(isRegion)
@@ -13,12 +14,20 @@ export function assignRegionParents(items: BoardItem[]): BoardItem[] {
     .sort((a, b) => a.width * a.height - b.width * b.height);
 
   return items.map((it) => {
-    if (it.type === 'region' || it.type === 'connector') return it;
+    if (it.type === 'connector') return it;
     const cx = it.x + it.width / 2;
     const cy = it.y + it.height / 2;
-    const parent = regions.find(
-      (r) => r.id !== it.id && cx >= r.x && cx <= r.x + r.width && cy >= r.y && cy <= r.y + r.height,
-    );
+    const candidates = regions.filter((r) => {
+      if (r.id === it.id) return false;
+      if (!(cx >= r.x && cx <= r.x + r.width && cy >= r.y && cy <= r.y + r.height)) {
+        return false;
+      }
+      if (it.type === 'region') {
+        return r.width * r.height > it.width * it.height;
+      }
+      return true;
+    });
+    const parent = candidates[0];
     const parentId = parent?.id ?? null;
     return it.parentId === parentId ? it : { ...it, parentId };
   });
@@ -83,7 +92,7 @@ export function regionToMarkdown(items: BoardItem[], regionId: string): string {
     } else if (it.type === 'task') {
       lines.push(`- [${it.done ? 'x' : ' '}] ${it.text || 'Task'}`);
     } else if (it.type === 'file' || it.type === 'folder') {
-      lines.push(`- ${it.type === 'folder' ? '📁' : '📄'} ${it.name}`);
+      lines.push(`- ${it.type === 'folder' ? 'Folder' : 'File'}: ${it.name}`);
     } else if (it.type === 'image') {
       lines.push(`- Image: ${it.alt || it.uri || 'photo'}`);
     }

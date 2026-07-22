@@ -1,11 +1,21 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Svg, { Circle, Line } from 'react-native-svg';
-import { runOnJS } from 'react-native-reanimated';
+import Animated, {
+  Easing,
+  cancelAnimation,
+  runOnJS,
+  useAnimatedProps,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from 'react-native-reanimated';
 import { BoardItem, ConnectorItem } from '../types';
 import { colors } from '../theme';
 import { GESTURE } from '../lib/gesturePriority';
+
+const AnimatedLine = Animated.createAnimatedComponent(Line);
 
 interface Props {
   items: BoardItem[];
@@ -45,6 +55,7 @@ function anchorPoint(
 /**
  * Per-edge SVG (tight bounds) — avoids one giant 4000×4000 Android bitmap
  * that crashes when the world layer is scaled.
+ * Glowing edges animate a dashed “water-flow” stroke.
  */
 function ConnectorEdge({
   edge,
@@ -72,6 +83,26 @@ function ConnectorEdge({
   const strokeWidth = edge.glowing ? (edge.thickness ?? 2) + 1.5 : edge.thickness ?? 2;
   const midX = (a.x + b.x) / 2;
   const midY = (a.y + b.y) / 2;
+
+  const dashOffset = useSharedValue(0);
+  useEffect(() => {
+    if (!edge.glowing) {
+      cancelAnimation(dashOffset);
+      dashOffset.value = 0;
+      return;
+    }
+    dashOffset.value = 0;
+    dashOffset.value = withRepeat(
+      withTiming(28, { duration: 900, easing: Easing.linear }),
+      -1,
+      false,
+    );
+    return () => cancelAnimation(dashOffset);
+  }, [dashOffset, edge.glowing]);
+
+  const flowProps = useAnimatedProps(() => ({
+    strokeDashoffset: -dashOffset.value,
+  }));
 
   const gesture = useMemo(
     () =>
@@ -107,8 +138,22 @@ function ConnectorEdge({
           stroke={stroke}
           strokeWidth={strokeWidth}
           strokeLinecap="round"
-          opacity={edge.glowing ? 1 : 0.75}
+          opacity={edge.glowing ? 0.35 : 0.75}
         />
+        {edge.glowing ? (
+          <AnimatedLine
+            x1={a.x - minX}
+            y1={a.y - minY}
+            x2={b.x - minX}
+            y2={b.y - minY}
+            stroke={stroke}
+            strokeWidth={strokeWidth + 0.5}
+            strokeLinecap="round"
+            strokeDasharray="10 8"
+            animatedProps={flowProps}
+            opacity={1}
+          />
+        ) : null}
         <Circle
           cx={a.x - minX}
           cy={a.y - minY}
@@ -149,14 +194,12 @@ export function ConnectorLayer({ items, onLongPressConnector, dragVisual }: Prop
   const byId = useMemo(() => new Map(items.map((it) => [it.id, it])), [items]);
   const connectors = items.filter((it): it is ConnectorItem => it.type === 'connector');
 
-  if (connectors.length === 0) return null;
-
   return (
-    <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
+    <View pointerEvents="box-none" style={StyleSheet.absoluteFill}>
       {connectors.map((edge) => {
         const from = byId.get(edge.fromId);
         const to = byId.get(edge.toId);
-        if (!from || !to || from.type === 'connector' || to.type === 'connector') return null;
+        if (!from || !to) return null;
         return (
           <ConnectorEdge
             key={edge.id}
@@ -178,6 +221,5 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    zIndex: 50,
   },
 });

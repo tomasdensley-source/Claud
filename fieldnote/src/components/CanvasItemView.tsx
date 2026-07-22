@@ -374,7 +374,7 @@ export function CanvasItemView({
         }
         return (
           <View style={styles.fileCard}>
-            <Text style={styles.fileGlyph}>📄</Text>
+            <Ionicons name="document-outline" size={28} color={colors.clayDeep} />
             <Text style={styles.fileName} numberOfLines={2}>
               {item.name}
             </Text>
@@ -384,7 +384,7 @@ export function CanvasItemView({
       case 'folder':
         return (
           <View style={styles.fileCard}>
-            <Text style={styles.fileGlyph}>📁</Text>
+            <Ionicons name="folder-outline" size={28} color={colors.clayDeep} />
             <Text style={styles.fileName} numberOfLines={2}>
               {item.name}
             </Text>

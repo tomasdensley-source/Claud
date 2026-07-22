@@ -10,6 +10,65 @@ import {
 import { canCompleteTask, syncConnectorGlow } from './taskGraph';
 import { BoardItem } from '../types';
 
+test('json canvas round-trip keeps connector thickness and glow', () => {
+  const board = {
+    id: 'b',
+    name: 'B',
+    updatedAt: 1,
+    items: [
+      {
+        id: 'a',
+        type: 'task' as const,
+        x: 0,
+        y: 0,
+        width: 100,
+        height: 60,
+        zIndex: 1,
+        text: 'A',
+        done: false,
+        dependsOn: [],
+      },
+      {
+        id: 'b',
+        type: 'task' as const,
+        x: 200,
+        y: 0,
+        width: 100,
+        height: 60,
+        zIndex: 2,
+        text: 'B',
+        done: false,
+        dependsOn: ['a'],
+      },
+      {
+        id: 'edge',
+        type: 'connector' as const,
+        x: 0,
+        y: 0,
+        width: 1,
+        height: 1,
+        zIndex: 3,
+        fromId: 'a',
+        toId: 'b',
+        thickness: 5,
+        glowing: true,
+        color: '#cb7d46',
+      },
+    ],
+  };
+  const doc = boardToJsonCanvas(board);
+  const edge = doc.edges?.find((e) => e.id === 'edge');
+  assert.equal(edge?.metadata?.fieldnote?.thickness, 5);
+  assert.equal(edge?.metadata?.fieldnote?.glowing, true);
+  const back = jsonCanvasToItems(doc);
+  const restored = back.find((it) => it.id === 'edge');
+  assert.ok(restored && restored.type === 'connector');
+  if (restored && restored.type === 'connector') {
+    assert.equal(restored.thickness, 5);
+    assert.equal(restored.glowing, true);
+  }
+});
+
 test('json canvas round-trip keeps text and edges', () => {
   const items: BoardItem[] = [
     {

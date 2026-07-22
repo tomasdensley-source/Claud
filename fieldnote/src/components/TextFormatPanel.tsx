@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useBoard } from '../store/BoardContext';
+import { useChromeSlot } from '../chrome/ChromeLayoutContext';
 import { colors, radii, shadows } from '../theme';
 import { hapticSelection } from '../lib/haptics';
 
@@ -15,12 +16,25 @@ interface Props {
  */
 export function TextFormatPanel({ onEdit }: Props) {
   const { currentBoard, selectedIds, updateItems, applyColorToSelected } = useBoard();
+  const { width: winW } = useWindowDimensions();
   const [moreOpen, setMoreOpen] = useState(false);
   const selected = currentBoard.items.filter((it) => selectedIds.includes(it.id));
   const editable = selected.filter(
     (it) => it.type === 'text' || it.type === 'task' || it.type === 'mindmap',
   );
-  if (editable.length === 0) return null;
+
+  const preferred = React.useMemo(
+    () => ({
+      x: Math.max(12, winW - 292),
+      y: 58,
+      width: 280,
+      height: moreOpen ? 148 : 92,
+    }),
+    [moreOpen, winW],
+  );
+  const slot = useChromeSlot('format', preferred, editable.length > 0);
+
+  if (editable.length === 0 || !slot) return null;
 
   const hasText = editable.some((it) => it.type === 'text');
   const primary = editable[0];
@@ -93,7 +107,10 @@ export function TextFormatPanel({ onEdit }: Props) {
   };
 
   return (
-    <View style={[styles.wrap, shadows.control]} pointerEvents="box-none">
+    <View
+      style={[styles.wrap, shadows.control, { left: slot.left, top: slot.top, right: undefined }]}
+      pointerEvents="box-none"
+    >
       <Text style={styles.label}>Format{editable.length > 1 ? ` · ${editable.length}` : ''}</Text>
       <View style={styles.row}>
         {onEdit ? (
@@ -190,8 +207,6 @@ export function TextFormatPanel({ onEdit }: Props) {
 const styles = StyleSheet.create({
   wrap: {
     position: 'absolute',
-    top: 58,
-    right: 12,
     zIndex: 45,
     backgroundColor: colors.walnut,
     borderRadius: radii.control,

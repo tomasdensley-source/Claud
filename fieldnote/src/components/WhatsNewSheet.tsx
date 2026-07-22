@@ -6,7 +6,7 @@ import { ModalShell } from './panels/ModalShell';
 import { colors, radii } from '../theme';
 import { hapticSelection } from '../lib/haptics';
 
-const SEEN_KEY = 'fieldnote.whatsNew.1.6.1';
+const SEEN_KEY = 'fieldnote.whatsNew.1.6.2';
 
 const TIPS: { icon: keyof typeof Ionicons.glyphMap; title: string; body: string }[] = [
   {
@@ -25,9 +25,9 @@ const TIPS: { icon: keyof typeof Ionicons.glyphMap; title: string; body: string 
     body: 'Double-tap empty canvas to drop a Markdown note where your finger is.',
   },
   {
-    icon: 'expand-outline',
-    title: 'Side resize handles',
-    body: 'Select a card — corners and mid-edge handles stretch width or height alone.',
+    icon: 'git-commit-outline',
+    title: 'Water-flow tasks',
+    body: 'Hold a task 3 seconds to complete. Open dependencies glow with a flowing stroke.',
   },
 ];
 
@@ -71,9 +71,9 @@ export function WhatsNewSheet({ force = false, onCloseForce }: Props) {
     <ModalShell
       visible={visible}
       onClose={dismiss}
-      eyebrow="FIELDNOTE 1.6.1"
+      eyebrow="FIELDNOTE 1.6.2"
       title="Try these on the board"
-      subtitle="The last build could fail to open. This one should launch cleanly — and these moves are meant to be felt immediately."
+      subtitle="Finish Line build — pan, resize, water-flow tasks, and a toolbar you can move."
       icon="sparkles-outline"
       wide
     >

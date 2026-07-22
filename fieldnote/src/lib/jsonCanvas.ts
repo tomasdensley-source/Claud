@@ -65,6 +65,7 @@ export interface JsonCanvasEdge {
   toSide?: ConnectorSide;
   color?: string;
   label?: string;
+  metadata?: { fieldnote?: { thickness?: number; glowing?: boolean } };
 }
 
 const COLOR_MAP: Record<string, string> = {
@@ -97,6 +98,9 @@ export function boardToJsonCanvas(board: Board): JsonCanvasFile {
 
   for (const it of board.items) {
     if (it.type === 'connector') {
+      const edgeMeta: { thickness?: number; glowing?: boolean } = {};
+      if (typeof it.thickness === 'number') edgeMeta.thickness = it.thickness;
+      if (it.glowing) edgeMeta.glowing = true;
       edges.push({
         id: it.id,
         fromNode: it.fromId,
@@ -104,6 +108,9 @@ export function boardToJsonCanvas(board: Board): JsonCanvasFile {
         fromSide: it.fromSide,
         toSide: it.toSide,
         color: it.color,
+        ...(Object.keys(edgeMeta).length
+          ? { metadata: { fieldnote: edgeMeta } }
+          : {}),
       });
       continue;
     }
@@ -512,6 +519,7 @@ export function jsonCanvasToItems(doc: JsonCanvasFile): BoardItem[] {
   }
 
   for (const edge of doc.edges ?? []) {
+    const edgeMeta = edge.metadata?.fieldnote;
     items.push({
       id: edge.id || uid('edge'),
       type: 'connector',
@@ -525,8 +533,11 @@ export function jsonCanvasToItems(doc: JsonCanvasFile): BoardItem[] {
       fromSide: edge.fromSide,
       toSide: edge.toSide,
       color: mapColor(edge.color) ?? colors.ink,
-      thickness: 2,
-      glowing: false,
+      thickness:
+        typeof edgeMeta?.thickness === 'number' && Number.isFinite(edgeMeta.thickness)
+          ? Math.max(1, Math.min(16, edgeMeta.thickness))
+          : 2,
+      glowing: Boolean(edgeMeta?.glowing),
     });
   }
 

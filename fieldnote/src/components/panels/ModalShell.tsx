@@ -6,6 +6,7 @@ import {
   Text,
   View,
   ScrollView,
+  useWindowDimensions,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, radii, shadows } from '../../theme';
@@ -19,7 +20,7 @@ interface Props {
   onClose: () => void;
   children: React.ReactNode;
   wide?: boolean;
-  /** center = classic modal; edge = bottom sheet (default). */
+  /** center = classic modal; edge = bottom (phone) or right (≥600dp). */
   variant?: 'center' | 'edge';
 }
 
@@ -34,7 +35,10 @@ export function ModalShell({
   wide,
   variant = 'edge',
 }: Props) {
+  const { width } = useWindowDimensions();
   const edge = variant === 'edge';
+  const sideSheet = edge && width >= 600;
+
   return (
     <Modal
       visible={visible}
@@ -42,13 +46,22 @@ export function ModalShell({
       animationType={edge ? 'slide' : 'fade'}
       onRequestClose={onClose}
     >
-      <View style={[styles.backdrop, edge ? styles.backdropEdge : styles.backdropCenter]}>
+      <View
+        style={[
+          styles.backdrop,
+          edge
+            ? sideSheet
+              ? styles.backdropSide
+              : styles.backdropEdge
+            : styles.backdropCenter,
+        ]}
+      >
         <Pressable style={StyleSheet.absoluteFill} onPress={onClose} />
         <View
           style={[
             styles.card,
-            edge ? styles.cardEdge : styles.cardCenter,
-            wide && styles.wide,
+            edge ? (sideSheet ? styles.cardSide : styles.cardEdge) : styles.cardCenter,
+            wide && !sideSheet && styles.wide,
             shadows.control,
           ]}
         >
@@ -87,6 +100,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(28,22,18,0.22)',
     justifyContent: 'flex-end',
   },
+  backdropSide: {
+    backgroundColor: 'rgba(28,22,18,0.22)',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
   card: {
     backgroundColor: colors.paper,
     overflow: 'hidden',
@@ -106,6 +124,17 @@ const styles = StyleSheet.create({
     maxHeight: '88%',
     alignSelf: 'stretch',
     maxWidth: '100%',
+  },
+  cardSide: {
+    width: 400,
+    maxWidth: '44%',
+    height: '100%',
+    maxHeight: '100%',
+    borderTopLeftRadius: radii.modal,
+    borderBottomLeftRadius: radii.modal,
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0,
+    alignSelf: 'stretch',
   },
   wide: {
     maxWidth: 640,

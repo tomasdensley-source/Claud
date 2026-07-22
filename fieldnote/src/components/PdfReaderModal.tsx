@@ -48,11 +48,13 @@ function getWebView(): WebViewComponent | null {
   }
 }
 
-/** In-app PDF reader — WebView when available, external open as fallback. */
+/** In-app PDF reader — WebView when available, external open as fallback.
+ * Large PDFs soft-fail to external open to protect Android memory. */
 export function PdfReaderModal({ visible, uri, name, pageCount, onClose }: Props) {
   const WebView = useMemo(() => getWebView(), []);
   const [failed, setFailed] = useState(false);
   const [zoom, setZoom] = useState(1);
+  const largeDoc = (pageCount ?? 0) > 80;
 
   useEffect(() => {
     setFailed(false);
@@ -68,6 +70,8 @@ export function PdfReaderModal({ visible, uri, name, pageCount, onClose }: Props
       // ignore
     }
   };
+
+  const preferExternal = largeDoc || failed || !WebView;
 
   return (
     <Modal visible={visible} animationType="slide" onRequestClose={onClose}>
@@ -89,7 +93,7 @@ export function PdfReaderModal({ visible, uri, name, pageCount, onClose }: Props
             </Text>
             <Text style={styles.meta}>
               {pageCount ? `~${pageCount} pages · ` : ''}
-              In-app reader
+              {largeDoc ? 'Large PDF — external recommended' : 'In-app reader'}
             </Text>
           </View>
           <Pressable onPress={openExternal} style={styles.iconBtn} accessibilityLabel="Open externally">
@@ -98,7 +102,7 @@ export function PdfReaderModal({ visible, uri, name, pageCount, onClose }: Props
         </View>
 
         <View style={styles.stage}>
-          {WebView && !failed ? (
+          {!preferExternal ? (
             <WebView
               source={{ uri }}
               style={[styles.webview, { transform: [{ scale: zoom }] }]}
@@ -120,8 +124,9 @@ export function PdfReaderModal({ visible, uri, name, pageCount, onClose }: Props
               <Ionicons name="document-text-outline" size={48} color={colors.clayDeep} />
               <Text style={styles.fallbackTitle}>{name}</Text>
               <Text style={styles.fallbackBody}>
-                Native PDF preview is unavailable here. Open the file in another app, or reinstall
-                Fieldnote after a build that includes WebView.
+                {largeDoc
+                  ? 'This PDF is large. Open it externally to keep Fieldnote smooth.'
+                  : 'Native PDF preview is unavailable here. Open the file in another app, or reinstall Fieldnote after a build that includes WebView.'}
               </Text>
               <Pressable style={styles.primary} onPress={openExternal}>
                 <Text style={styles.primaryText}>Open externally</Text>

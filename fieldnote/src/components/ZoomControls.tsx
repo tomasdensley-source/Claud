@@ -1,9 +1,10 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, radii, shadows } from '../theme';
 import { formatZoomPercent } from '../lib/camera';
 import { hapticImpact, hapticSelection, hapticWarning } from '../lib/haptics';
+import { useChromeSlot } from '../chrome/ChromeLayoutContext';
 
 interface Props {
   scale: number;
@@ -55,9 +56,23 @@ export function ZoomControls({
   maxScale = 80,
 }: Props) {
   const selectionMode = selectedCount > 0;
+  const { width: winW, height: winH } = useWindowDimensions();
+  const barW = selectionMode ? 280 : 220;
+  const preferred = React.useMemo(
+    () => ({
+      x: Math.max(12, winW - barW - 12),
+      y: Math.max(80, winH - 64),
+      width: barW,
+      height: 48,
+    }),
+    [barW, winH, winW],
+  );
+  const slot = useChromeSlot(selectionMode ? 'selection' : 'zoom', preferred, true);
+  const left = slot?.left ?? preferred.x;
+  const top = slot?.top ?? preferred.y;
 
   return (
-    <View style={styles.wrap}>
+    <View style={[styles.wrap, { left, top, right: undefined, bottom: undefined }]}>
       <View style={[styles.bar, shadows.control, selectionMode && styles.selectionBar]}>
         {selectionMode ? (
           <>
@@ -173,8 +188,6 @@ export function ZoomControls({
 const styles = StyleSheet.create({
   wrap: {
     position: 'absolute',
-    right: 12,
-    bottom: 18,
     gap: 8,
     zIndex: 40,
     alignItems: 'flex-end',
