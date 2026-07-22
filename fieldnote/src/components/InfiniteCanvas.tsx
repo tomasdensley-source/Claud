@@ -2,11 +2,11 @@ import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from '
 import { Dimensions, StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
+  cancelAnimation,
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withDecay,
-  withSpring,
 } from 'react-native-reanimated';
 import { useBoard } from '../store/BoardContext';
 import { colors } from '../theme';
@@ -16,11 +16,10 @@ import { LiveStrokeOverlay } from './LiveStrokeOverlay';
 import { ConnectorLayer } from './ConnectorLayer';
 import { BoardItem } from '../types';
 import {
-  MAX_SCALE,
-  MIN_SCALE,
   centerOnPoint,
   clampScale,
   fitTransform,
+  isPositiveFinite,
   screenToWorld,
   softClampScale,
   worldToScreen,
@@ -716,60 +715,21 @@ export function InfiniteCanvas({
     reportCameraCenter();
   }, [reportCameraCenter, reportScale, scale]);
 
-  // Two-finger pan — disabled while pinching so pinch alone owns tx/ty.
-  const twoFingerPan = useMemo(
-    () =>
-      Gesture.Pan()
-        .minPointers(GESTURE.NAV_MIN_POINTERS)
-        .maxPointers(2)
-        .averageTouches(true)
-        .onBegin(() => {
-          'worklet';
-          if (pinching.value) return;
-          savedTx.value = tx.value;
-          savedTy.value = ty.value;
-        })
-        .onUpdate((e) => {
-          'worklet';
-          if (pinching.value) {
-            // Keep pan's baseline in sync with pinch-written camera so release does not jump.
-            savedTx.value = tx.value - e.translationX;
-            savedTy.value = ty.value - e.translationY;
-            return;
-          }
-          tx.value = savedTx.value + e.translationX;
-          ty.value = savedTy.value + e.translationY;
-        })
-        .onEnd((e) => {
-          'worklet';
-          if (pinching.value) {
-            runOnJS(endPanReport)();
-            return;
-          }
-          tx.value = withDecay({
-            velocity: e.velocityX,
-            deceleration: 0.997,
-          });
-          ty.value = withDecay(
-            {
-              velocity: e.velocityY,
-              deceleration: 0.997,
-            },
-            (finished) => {
-              if (finished) runOnJS(endPanReport)();
-            },
-          );
-        }),
-    [endPanReport, pinching, savedTx, savedTy, tx, ty],
-  );
-
+  /**
+   * Pinch is the ONLY two-finger camera writer.
+   * zoomAboutStartFocal already pans via midpoint drift — a simultaneous
+   * two-finger Pan was racing pinch for tx/ty and made zoom unusable.
+   */
   const pinchGesture = useMemo(
     () =>
       Gesture.Pinch()
         .onStart((e) => {
           'worklet';
+          cancelAnimation(scale);
+          cancelAnimation(tx);
+          cancelAnimation(ty);
           pinching.value = true;
-          savedScale.value = scale.value;
+          savedScale.value = isPositiveFinite(scale.value) ? scale.value : 1;
           savedTx.value = tx.value;
           savedTy.value = ty.value;
           pinchStartFocalX.value = e.focalX;
@@ -777,19 +737,17 @@ export function InfiniteCanvas({
         })
         .onUpdate((e) => {
           'worklet';
-          // Soft clamp during gesture. Guard non-finite scale for Android.
-          const raw = savedScale.value * e.scale;
-          const nextScale = softClampScale(
-            Number.isFinite(raw) && raw > 0 ? raw : savedScale.value,
-          );
-          // One writer: pin start-focal world point to current midpoint (zoom + drift).
+          const base = isPositiveFinite(savedScale.value) ? savedScale.value : 1;
+          const factor = isPositiveFinite(e.scale) ? e.scale : 1;
+          const raw = base * factor;
+          const nextScale = softClampScale(isPositiveFinite(raw) ? raw : base);
           const cam = zoomAboutStartFocal(
             nextScale,
             pinchStartFocalX.value,
             pinchStartFocalY.value,
             e.focalX,
             e.focalY,
-            savedScale.value,
+            base,
             savedTx.value,
             savedTy.value,
             true,
@@ -801,18 +759,17 @@ export function InfiniteCanvas({
         .onEnd((e) => {
           'worklet';
           pinching.value = false;
-          const current = scale.value > 0 && Number.isFinite(scale.value) ? scale.value : 1;
-          const hard = Math.min(MAX_SCALE, Math.max(MIN_SCALE, current));
+          const current = isPositiveFinite(scale.value) ? scale.value : 1;
+          const hard = clampScale(current);
           if (hard !== current) {
-            const cam = zoomAboutFocal(hard, e.focalX, e.focalY, current, tx.value, ty.value);
-            scale.value = withSpring(cam.scale, { damping: 22, stiffness: 220 });
-            tx.value = withSpring(cam.tx, { damping: 22, stiffness: 220 });
-            ty.value = withSpring(cam.ty, { damping: 22, stiffness: 220 }, (finished) => {
-              if (finished) runOnJS(endPanReport)();
-            });
-          } else {
-            runOnJS(endPanReport)();
+            const fx = e.focalX === e.focalX ? e.focalX : pinchStartFocalX.value;
+            const fy = e.focalY === e.focalY ? e.focalY : pinchStartFocalY.value;
+            const cam = zoomAboutFocal(hard, fx, fy, current, tx.value, ty.value);
+            scale.value = cam.scale;
+            tx.value = cam.tx;
+            ty.value = cam.ty;
           }
+          runOnJS(endPanReport)();
         })
         .onFinalize(() => {
           'worklet';
@@ -898,16 +855,23 @@ export function InfiniteCanvas({
         .minDistance(GESTURE.PAN_MIN_DIST)
         .onBegin(() => {
           'worklet';
+          cancelAnimation(tx);
+          cancelAnimation(ty);
           savedTx.value = tx.value;
           savedTy.value = ty.value;
         })
         .onUpdate((e) => {
           'worklet';
+          if (pinching.value) return;
           tx.value = savedTx.value + e.translationX;
           ty.value = savedTy.value + e.translationY;
         })
         .onEnd((e) => {
           'worklet';
+          if (pinching.value) {
+            runOnJS(endPanReport)();
+            return;
+          }
           tx.value = withDecay({
             velocity: e.velocityX,
             deceleration: 0.997,
@@ -922,7 +886,7 @@ export function InfiniteCanvas({
             },
           );
         }),
-    [endPanReport, savedTx, savedTy, tx, ty],
+    [endPanReport, pinching, savedTx, savedTy, tx, ty],
   );
 
   const marqueeStart = useCallback(
@@ -1061,37 +1025,30 @@ export function InfiniteCanvas({
     [endStroke, moveStroke, startStroke],
   );
 
-  // Pinch + two-finger pan (pan yields while pinching).
-  const twoFingerNav = useMemo(
-    () => Gesture.Simultaneous(pinchGesture, twoFingerPan),
-    [pinchGesture, twoFingerPan],
-  );
-
+  // Pinch alone owns all two-finger camera motion (scale + focal drift pan).
   const composed = useMemo(() => {
     if (tool === 'draw') {
-      return Gesture.Simultaneous(twoFingerNav, drawGesture);
+      return Gesture.Simultaneous(pinchGesture, drawGesture);
     }
     if (tool === 'multi') {
-      // Multi ON: marquee with one finger; pan requires two fingers.
       return Gesture.Simultaneous(
-        twoFingerNav,
+        pinchGesture,
         Gesture.Exclusive(doubleTapGesture, longPressGesture, marqueeGesture, tapGesture),
       );
     }
     if (tool === 'lasso') {
       return Gesture.Simultaneous(
-        twoFingerNav,
+        pinchGesture,
         Gesture.Exclusive(doubleTapGesture, longPressGesture, lassoGesture, tapGesture),
       );
     }
-    // Default select: one-finger pan; pinch zoom; optional two-finger pan.
     return Gesture.Simultaneous(
-      twoFingerNav,
+      pinchGesture,
       Gesture.Exclusive(doubleTapGesture, longPressGesture, oneFingerPan, tapGesture),
     );
   }, [
     tool,
-    twoFingerNav,
+    pinchGesture,
     drawGesture,
     longPressGesture,
     marqueeGesture,

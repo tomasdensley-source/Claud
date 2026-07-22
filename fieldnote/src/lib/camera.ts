@@ -6,10 +6,8 @@
  * Architecture:
  * - Shared values (scale, tx, ty) live on the canvas gesture plane (NOT transformed).
  * - World layer uses static transformOrigin 'top left' + animated translate/scale.
- * - Pinch always zooms about the focal point (finger midpoint).
- * - Soft rubber-band past MIN/MAX during gesture; spring-back on release.
- * - Two-finger pan supports velocity decay (momentum).
- * - Soft clamps exist only to avoid float blow-ups — range is effectively infinite.
+ * - Pinch is the ONLY two-finger camera writer (scale + focal follow = pan-while-zoom).
+ * - Soft rubber-band past MIN/MAX during gesture; hard clamp on release.
  */
 
 export const MIN_SCALE = 0.01; // 1% — map of the whole board
@@ -19,16 +17,22 @@ export const MAX_SCALE = 80; // 8000% — deep into ink/type
 export const ELASTIC_MIN = MIN_SCALE * 0.55;
 export const ELASTIC_MAX = MAX_SCALE * 1.35;
 
+/** Worklet-safe finite check — avoid Number.isFinite on the UI thread. */
+export function isPositiveFinite(n: number): boolean {
+  'worklet';
+  return n === n && n !== Infinity && n !== -Infinity && n > 0;
+}
+
 export function clampScale(scale: number): number {
   'worklet';
-  if (!Number.isFinite(scale) || scale <= 0) return 1;
+  if (!isPositiveFinite(scale)) return 1;
   return Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale));
 }
 
 /** Allow temporary overshoot while pinching; still bounds catastrophic values. */
 export function softClampScale(scale: number): number {
   'worklet';
-  if (!Number.isFinite(scale) || scale <= 0) return 1;
+  if (!isPositiveFinite(scale)) return 1;
   if (scale < MIN_SCALE) {
     const t = (MIN_SCALE - scale) / Math.max(MIN_SCALE - ELASTIC_MIN, 0.001);
     const resisted = MIN_SCALE - (MIN_SCALE - ELASTIC_MIN) * Math.min(1, t) * 0.45;
@@ -50,7 +54,7 @@ export function screenToWorld(
   ty: number,
 ): { x: number; y: number } {
   'worklet';
-  const s = scale === 0 ? MIN_SCALE : scale;
+  const s = isPositiveFinite(scale) ? scale : 1;
   return {
     x: (screenX - tx) / s,
     y: (screenY - ty) / s,
@@ -65,9 +69,10 @@ export function worldToScreen(
   ty: number,
 ): { x: number; y: number } {
   'worklet';
+  const s = isPositiveFinite(scale) ? scale : 1;
   return {
-    x: worldX * scale + tx,
-    y: worldY * scale + ty,
+    x: worldX * s + tx,
+    y: worldY * s + ty,
   };
 }
 
@@ -98,7 +103,7 @@ export function zoomAboutFocal(
 /**
  * Pinch zoom that also follows finger midpoint drift.
  * Pins the world point under the START focal to the CURRENT focal so scale
- * and two-finger translation share one writer (no pan/pinch fight).
+ * and two-finger translation share one writer — no separate pan gesture needed.
  */
 export function zoomAboutStartFocal(
   nextScale: number,
@@ -112,14 +117,16 @@ export function zoomAboutStartFocal(
   soft = false,
 ): { scale: number; tx: number; ty: number } {
   'worklet';
-  const safePrev = prevScale > 0 ? prevScale : 1;
+  const safePrev = isPositiveFinite(prevScale) ? prevScale : 1;
   const s = soft ? softClampScale(nextScale) : clampScale(nextScale);
   const worldX = (startFocalX - prevTx) / safePrev;
   const worldY = (startFocalY - prevTy) / safePrev;
+  const fx = currentFocalX === currentFocalX ? currentFocalX : startFocalX;
+  const fy = currentFocalY === currentFocalY ? currentFocalY : startFocalY;
   return {
     scale: s,
-    tx: currentFocalX - worldX * s,
-    ty: currentFocalY - worldY * s,
+    tx: fx - worldX * s,
+    ty: fy - worldY * s,
   };
 }
 

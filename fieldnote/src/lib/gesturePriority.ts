@@ -2,22 +2,23 @@
  * Fieldnote gesture priority (Android).
  *
  * Default (select tool):
- * 1. Pinch zoom — owns scale + translate about start focal (no sideways fight).
- * 2. One-finger empty-space pan (map-like). Two-finger pan also works when not pinching.
+ * 1. Pinch zoom — sole two-finger camera writer (scale + focal drift pan).
+ * 2. One-finger empty-space pan (map-like).
  * 3. One-finger object drag / resize / task hold.
  * 4. Long-press empty → contextual add.
  * 5. Tap empty → clear selection.
  *
  * Multi tool ON (opt-in):
- * 1. Pinch zoom (same focal math).
- * 2. Two-finger pan (one-finger pan disabled).
- * 3. One-finger empty-space marquee / additive select.
- * 4. Long-press empty → contextual add.
- * 5. Tap empty → clear selection.
+ * 1. Pinch zoom (same sole writer).
+ * 2. One-finger empty-space marquee / additive select.
+ * 3. Long-press empty → contextual add.
+ * 4. Tap empty → clear selection.
  *
  * Draw tool:
- * 1. Pinch + two-finger pan for navigation.
+ * 1. Pinch for navigation (zoom + drift).
  * 2. One-finger ink stroke.
+ *
+ * Never Simultaneous(pinch, twoFingerPan) — both wrote tx/ty and made zoom unusable.
  */
 
 import { MAX_SCALE, MIN_SCALE } from './camera';

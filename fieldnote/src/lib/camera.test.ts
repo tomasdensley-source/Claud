@@ -8,6 +8,7 @@ import {
   clampScale,
   fitTransform,
   formatZoomPercent,
+  isPositiveFinite,
   screenToWorld,
   softClampScale,
   worldToScreen,
@@ -22,6 +23,17 @@ test('clampScale keeps zoom in near-infinite range', () => {
   assert.equal(clampScale(0.05), 0.05);
   assert.equal(clampScale(32), 32);
   assert.equal(clampScale(NaN), 1);
+  assert.equal(clampScale(-2), 1);
+  assert.equal(clampScale(Infinity), 1);
+});
+
+test('isPositiveFinite rejects NaN Infinity and non-positive', () => {
+  assert.equal(isPositiveFinite(1), true);
+  assert.equal(isPositiveFinite(0.01), true);
+  assert.equal(isPositiveFinite(0), false);
+  assert.equal(isPositiveFinite(-1), false);
+  assert.equal(isPositiveFinite(NaN), false);
+  assert.equal(isPositiveFinite(Infinity), false);
 });
 
 test('softClampScale allows elastic overshoot then resists', () => {
@@ -30,6 +42,7 @@ test('softClampScale allows elastic overshoot then resists', () => {
   assert.ok(softClampScale(MAX_SCALE * 1.2) > MAX_SCALE);
   assert.ok(softClampScale(MAX_SCALE * 1.2) <= ELASTIC_MAX);
   assert.equal(softClampScale(1), 1);
+  assert.equal(softClampScale(NaN), 1);
 });
 
 test('screen/world round-trip', () => {
@@ -77,6 +90,13 @@ test('zoomAboutStartFocal follows midpoint drift without losing the start world 
   const screen = worldToScreen(world.x, world.y, next.scale, next.tx, next.ty);
   assert.ok(Math.abs(screen.x - curFx) < 0.001);
   assert.ok(Math.abs(screen.y - curFy) < 0.001);
+});
+
+test('pure two-finger drift with scale≈1 still pans via start focal', () => {
+  const next = zoomAboutStartFocal(1, 200, 200, 260, 180, 1, 0, 0);
+  assert.equal(next.scale, 1);
+  assert.ok(Math.abs(next.tx - 60) < 0.001);
+  assert.ok(Math.abs(next.ty - -20) < 0.001);
 });
 
 test('fitTransform can zoom out below the old 25% floor', () => {
