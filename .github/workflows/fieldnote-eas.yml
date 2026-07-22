@@ -17,12 +17,16 @@ on:
         description: 'EAS build profile (preview = installable APK)'
         required: false
         default: 'preview'
-  # Tag trigger so the build can be kicked off from a feature branch before the
-  # PR merges (workflow_dispatch only works from the default branch). Pushing a
-  # tag like `eas-build-1` runs this workflow at that commit.
+  # Trigger from the feature branch before the PR merges (workflow_dispatch only
+  # works from the default branch, and this environment's git proxy blocks tag
+  # pushes). Bumping fieldnote/eas-trigger.txt and pushing runs this workflow at
+  # that commit — a controlled, on-demand trigger that unrelated pushes skip.
   push:
-    tags:
-      - 'eas-build-*'
+    branches:
+      - 'claude/**'
+    paths:
+      - 'fieldnote/eas-trigger.txt'
+      - '.github/workflows/fieldnote-eas.yml'
 
 defaults:
   run:
