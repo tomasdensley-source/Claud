@@ -42,3 +42,8 @@
 43. Connector midpoint long-press → color/thickness/delete edit.
 44. `updateConnectorStyle` in BoardContext.
 45. Palette remains folded by default; auto-closes when irrelevant.
+46. **Fix zoom crash**: mark camera helpers as Reanimated worklets (pinch called softClampScale on UI thread).
+47. **Fix zoom crash**: drop world-sized 4000×4000 connector SVG — per-edge tight bounds.
+48. **Fix zoom crash**: live stroke overlay uses stroke bounds, not full-world canvas.
+49. **Fix zoom crash**: disable Android hardware texture on world layer while zooming.
+50. Images use `resizeMethod="resize"` under camera zoom.

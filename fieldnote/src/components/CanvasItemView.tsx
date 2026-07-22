@@ -159,7 +159,15 @@ export function CanvasItemView({
         if (!source) {
           return <View style={styles.imageFallback} />;
         }
-        return <Image source={source} style={styles.image} resizeMode="cover" />;
+        return (
+          <Image
+            source={source}
+            style={styles.image}
+            resizeMode="cover"
+            // Android: prevent decode/draw of oversized bitmaps under camera zoom.
+            resizeMethod="resize"
+          />
+        );
       }
       case 'task': {
         const glow = item.done ? 1 : Math.max(0, Math.min(1, holdProgress));

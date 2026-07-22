@@ -3,19 +3,24 @@ import { StyleSheet, View } from 'react-native';
 import { colors } from '../theme';
 
 const STEP = 80;
+/** Cap line count — avoid huge display lists under Android zoom transforms. */
+const MAX_LINES = 52;
 
 interface Props {
   worldSize: number;
   fillColor?: string;
 }
 
-/** Subtle paper grid drawn once under board items. */
+/**
+ * Paper grid as thin Views (not a world-sized SVG bitmap).
+ * Android crashes when a ~4000×4000 SVG/hardware layer is scaled.
+ */
 export function GridBackground({ worldSize, fillColor }: Props) {
   const lines = useMemo(() => {
-    const count = Math.ceil(worldSize / STEP);
-    const vertical = Array.from({ length: count + 1 }, (_, i) => i * STEP);
-    const horizontal = vertical;
-    return { vertical, horizontal };
+    const step = Math.max(STEP, Math.ceil(worldSize / MAX_LINES));
+    const coords: number[] = [];
+    for (let v = 0; v <= worldSize + 0.5; v += step) coords.push(Math.min(worldSize, v));
+    return coords;
   }, [worldSize]);
 
   return (
@@ -30,10 +35,10 @@ export function GridBackground({ worldSize, fillColor }: Props) {
       ]}
       pointerEvents="none"
     >
-      {lines.vertical.map((x) => (
+      {lines.map((x) => (
         <View key={`v-${x}`} style={[styles.v, { left: x }]} />
       ))}
-      {lines.horizontal.map((y) => (
+      {lines.map((y) => (
         <View key={`h-${y}`} style={[styles.h, { top: y }]} />
       ))}
     </View>
@@ -45,6 +50,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     top: 0,
+    overflow: 'hidden',
   },
   v: {
     position: 'absolute',

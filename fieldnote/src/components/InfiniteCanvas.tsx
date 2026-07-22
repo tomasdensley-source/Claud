@@ -717,10 +717,13 @@ export function InfiniteCanvas({
         })
         .onUpdate((e) => {
           'worklet';
-          // Soft clamp during gesture for elastic feel past hard limits.
-          const next = softClampScale(savedScale.value * e.scale);
-          const worldX = (e.focalX - savedTx.value) / savedScale.value;
-          const worldY = (e.focalY - savedTy.value) / savedScale.value;
+          // Soft clamp during gesture — camera.softClampScale is a worklet.
+          // Also guard non-finite scale so Android never gets NaN transforms.
+          const raw = savedScale.value * e.scale;
+          const next = softClampScale(Number.isFinite(raw) && raw > 0 ? raw : savedScale.value);
+          const safePrev = savedScale.value > 0 ? savedScale.value : 1;
+          const worldX = (e.focalX - savedTx.value) / safePrev;
+          const worldY = (e.focalY - savedTy.value) / safePrev;
           scale.value = next;
           tx.value = e.focalX - worldX * next;
           ty.value = e.focalY - worldY * next;
@@ -728,10 +731,11 @@ export function InfiniteCanvas({
         .onEnd((e) => {
           'worklet';
           pinching.value = false;
-          const hard = Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale.value));
-          if (hard !== scale.value) {
-            const worldX = (e.focalX - tx.value) / scale.value;
-            const worldY = (e.focalY - ty.value) / scale.value;
+          const current = scale.value > 0 && Number.isFinite(scale.value) ? scale.value : 1;
+          const hard = Math.min(MAX_SCALE, Math.max(MIN_SCALE, current));
+          if (hard !== current) {
+            const worldX = (e.focalX - tx.value) / current;
+            const worldY = (e.focalY - ty.value) / current;
             scale.value = withSpring(hard, { damping: 22, stiffness: 220 });
             tx.value = withSpring(e.focalX - worldX * hard, { damping: 22, stiffness: 220 });
             ty.value = withSpring(e.focalY - worldY * hard, {
@@ -1280,6 +1284,9 @@ export function InfiniteCanvas({
           <Animated.View
             style={[styles.world, styles.worldOrigin, animatedStyle]}
             collapsable={false}
+            // Avoid Android hardware-layer bitmaps of the 4000×4000 world while zooming.
+            renderToHardwareTextureAndroid={false}
+            needsOffscreenAlphaCompositing={false}
           >
             <GridBackground worldSize={WORLD} fillColor={canvasFill} />
             <ConnectorLayer

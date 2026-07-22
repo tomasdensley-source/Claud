@@ -9,10 +9,10 @@ interface Props {
   points: { x: number; y: number }[];
 }
 
-function pointsToPath(points: { x: number; y: number }[]): string {
+function pointsToPath(points: { x: number; y: number }[], ox: number, oy: number): string {
   if (points.length === 0) return '';
   return points
-    .map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x.toFixed(1)} ${p.y.toFixed(1)}`)
+    .map((p, i) => `${i === 0 ? 'M' : 'L'}${(p.x - ox).toFixed(1)} ${(p.y - oy).toFixed(1)}`)
     .join(' ');
 }
 
@@ -31,24 +31,60 @@ function getSkia() {
   }
 }
 
-/** Live stroke overlay — Skia when linked, SVG fallback otherwise. */
-export function LiveStrokeOverlay({ worldSize, color, width, points }: Props) {
+/**
+ * Live stroke — tight bounds only (never a full-world 4000×4000 canvas).
+ * Full-world Skia/SVG surfaces crash Android when the camera zooms.
+ */
+export function LiveStrokeOverlay({ color, width, points }: Props) {
+  const bounds = useMemo(() => {
+    if (points.length === 0) return null;
+    let minX = Infinity;
+    let minY = Infinity;
+    let maxX = -Infinity;
+    let maxY = -Infinity;
+    for (const p of points) {
+      minX = Math.min(minX, p.x);
+      minY = Math.min(minY, p.y);
+      maxX = Math.max(maxX, p.x);
+      maxY = Math.max(maxY, p.y);
+    }
+    const pad = Math.max(24, width * 4);
+    return {
+      left: minX - pad,
+      top: minY - pad,
+      width: Math.max(48, maxX - minX + pad * 2),
+      height: Math.max(48, maxY - minY + pad * 2),
+      ox: minX - pad,
+      oy: minY - pad,
+    };
+  }, [points, width]);
+
   const Skia = getSkia();
 
   const skPath = useMemo(() => {
-    if (!Skia || points.length === 0) return null;
+    if (!Skia || !bounds || points.length === 0) return null;
     const path = Skia.Skia.Path.Make();
     points.forEach((p, i) => {
-      if (i === 0) path.moveTo(p.x, p.y);
-      else path.lineTo(p.x, p.y);
+      const x = p.x - bounds.ox;
+      const y = p.y - bounds.oy;
+      if (i === 0) path.moveTo(x, y);
+      else path.lineTo(x, y);
     });
     return path;
-  }, [Skia, points]);
+  }, [Skia, bounds, points]);
+
+  if (!bounds) return null;
 
   if (Skia && skPath) {
     const { Canvas, Path: SkPath } = Skia;
     return (
-      <View pointerEvents="none" style={[styles.fill, { width: worldSize, height: worldSize }]}>
+      <View
+        pointerEvents="none"
+        style={[
+          styles.fill,
+          { left: bounds.left, top: bounds.top, width: bounds.width, height: bounds.height },
+        ]}
+      >
         <Canvas style={StyleSheet.absoluteFill}>
           <SkPath
             path={skPath}
@@ -64,10 +100,16 @@ export function LiveStrokeOverlay({ worldSize, color, width, points }: Props) {
   }
 
   return (
-    <View pointerEvents="none" style={[styles.fill, { width: worldSize, height: worldSize }]}>
-      <Svg width={worldSize} height={worldSize}>
+    <View
+      pointerEvents="none"
+      style={[
+        styles.fill,
+        { left: bounds.left, top: bounds.top, width: bounds.width, height: bounds.height },
+      ]}
+    >
+      <Svg width={bounds.width} height={bounds.height}>
         <Path
-          d={pointsToPath(points)}
+          d={pointsToPath(points, bounds.ox, bounds.oy)}
           stroke={color}
           strokeWidth={width}
           fill="none"
@@ -82,7 +124,5 @@ export function LiveStrokeOverlay({ worldSize, color, width, points }: Props) {
 const styles = StyleSheet.create({
   fill: {
     position: 'absolute',
-    left: 0,
-    top: 0,
   },
 });

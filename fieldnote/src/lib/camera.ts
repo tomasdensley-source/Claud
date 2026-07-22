@@ -20,12 +20,14 @@ export const ELASTIC_MIN = MIN_SCALE * 0.55;
 export const ELASTIC_MAX = MAX_SCALE * 1.35;
 
 export function clampScale(scale: number): number {
+  'worklet';
   if (!Number.isFinite(scale) || scale <= 0) return 1;
   return Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale));
 }
 
 /** Allow temporary overshoot while pinching; still bounds catastrophic values. */
 export function softClampScale(scale: number): number {
+  'worklet';
   if (!Number.isFinite(scale) || scale <= 0) return 1;
   if (scale < MIN_SCALE) {
     const t = (MIN_SCALE - scale) / Math.max(MIN_SCALE - ELASTIC_MIN, 0.001);
@@ -47,6 +49,7 @@ export function screenToWorld(
   tx: number,
   ty: number,
 ): { x: number; y: number } {
+  'worklet';
   const s = scale === 0 ? MIN_SCALE : scale;
   return {
     x: (screenX - tx) / s,
@@ -61,6 +64,7 @@ export function worldToScreen(
   tx: number,
   ty: number,
 ): { x: number; y: number } {
+  'worklet';
   return {
     x: worldX * scale + tx,
     y: worldY * scale + ty,
@@ -77,6 +81,7 @@ export function zoomAboutFocal(
   prevTy: number,
   soft = false,
 ): { scale: number; tx: number; ty: number } {
+  'worklet';
   const safePrev = prevScale > 0 ? prevScale : 1;
   const s = soft ? softClampScale(nextScale) : clampScale(nextScale);
   const worldX = (focalX - prevTx) / safePrev;

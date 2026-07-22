@@ -12,6 +12,8 @@ Skia + Reanimated · Gesture Handler · expo-haptics · expo-sqlite + FileSystem
 - Two-finger pan+pinch **always** wins
 - Range **0.01×–80×** with elastic rubber-band + spring snap-back
 - Two-finger pan momentum (`withDecay`)
+- Camera math is worklet-safe (pinch must not call plain JS on UI thread)
+- No world-sized SVG/Skia surfaces (Android “bitmap too large” on zoom)
 
 ## Implementation status
 

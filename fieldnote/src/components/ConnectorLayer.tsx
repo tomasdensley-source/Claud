@@ -2,10 +2,10 @@ import React, { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Svg, { Circle, Line } from 'react-native-svg';
+import { runOnJS } from 'react-native-reanimated';
 import { BoardItem, ConnectorItem } from '../types';
 import { colors } from '../theme';
 import { GESTURE } from '../lib/gesturePriority';
-import { runOnJS } from 'react-native-reanimated';
 
 interface Props {
   items: BoardItem[];
@@ -33,106 +33,127 @@ function anchorPoint(
   }
 }
 
-function ConnectorHit({
-  id,
-  x,
-  y,
+/**
+ * Per-edge SVG (tight bounds) — avoids one giant 4000×4000 Android bitmap
+ * that crashes when the world layer is scaled.
+ */
+function ConnectorEdge({
+  edge,
+  from,
+  to,
   onLongPress,
 }: {
-  id: string;
-  x: number;
-  y: number;
+  edge: ConnectorItem;
+  from: BoardItem;
+  to: BoardItem;
   onLongPress?: (id: string) => void;
 }) {
+  const a = anchorPoint(from, edge.fromSide);
+  const b = anchorPoint(to, edge.toSide);
+  const pad = 24;
+  const minX = Math.min(a.x, b.x) - pad;
+  const minY = Math.min(a.y, b.y) - pad;
+  const width = Math.max(48, Math.abs(b.x - a.x) + pad * 2);
+  const height = Math.max(48, Math.abs(b.y - a.y) + pad * 2);
+  const stroke = edge.glowing ? colors.amber : edge.color ?? colors.ink;
+  const strokeWidth = edge.glowing ? (edge.thickness ?? 2) + 1.5 : edge.thickness ?? 2;
+  const midX = (a.x + b.x) / 2;
+  const midY = (a.y + b.y) / 2;
+
   const gesture = useMemo(
     () =>
       Gesture.LongPress()
         .minDuration(GESTURE.LONG_PRESS_MS)
         .maxDistance(18)
+        .enabled(!!onLongPress)
         .onEnd((_e, success) => {
           'worklet';
-          if (success && onLongPress) runOnJS(onLongPress)(id);
+          if (success && onLongPress) runOnJS(onLongPress)(edge.id);
         }),
-    [id, onLongPress],
+    [edge.id, onLongPress],
   );
 
   return (
-    <GestureDetector gesture={gesture}>
-      <View
-        collapsable={false}
-        accessibilityLabel="Edit connector"
-        style={[styles.hit, { left: x - 18, top: y - 18 }]}
-      />
-    </GestureDetector>
+    <View
+      pointerEvents="box-none"
+      style={{
+        position: 'absolute',
+        left: minX,
+        top: minY,
+        width,
+        height,
+        zIndex: 40,
+      }}
+    >
+      <Svg width={width} height={height} pointerEvents="none">
+        <Line
+          x1={a.x - minX}
+          y1={a.y - minY}
+          x2={b.x - minX}
+          y2={b.y - minY}
+          stroke={stroke}
+          strokeWidth={strokeWidth}
+          strokeLinecap="round"
+          opacity={edge.glowing ? 1 : 0.75}
+        />
+        <Circle
+          cx={a.x - minX}
+          cy={a.y - minY}
+          r={5}
+          fill={colors.paperStrong}
+          stroke={stroke}
+          strokeWidth={2}
+        />
+        <Circle
+          cx={b.x - minX}
+          cy={b.y - minY}
+          r={5}
+          fill={colors.paperStrong}
+          stroke={stroke}
+          strokeWidth={2}
+        />
+      </Svg>
+      {onLongPress ? (
+        <GestureDetector gesture={gesture}>
+          <View
+            collapsable={false}
+            accessibilityLabel="Edit connector"
+            style={[
+              styles.hit,
+              {
+                left: midX - minX - 18,
+                top: midY - minY - 18,
+              },
+            ]}
+          />
+        </GestureDetector>
+      ) : null}
+    </View>
   );
 }
 
-export function ConnectorLayer({ items, worldSize, onLongPressConnector }: Props) {
+export function ConnectorLayer({ items, onLongPressConnector }: Props) {
   const byId = useMemo(() => new Map(items.map((it) => [it.id, it])), [items]);
   const connectors = items.filter((it): it is ConnectorItem => it.type === 'connector');
 
   if (connectors.length === 0) return null;
 
-  const hits = connectors
-    .map((edge) => {
-      const from = byId.get(edge.fromId);
-      const to = byId.get(edge.toId);
-      if (!from || !to || from.type === 'connector' || to.type === 'connector') return null;
-      const a = anchorPoint(from, edge.fromSide);
-      const b = anchorPoint(to, edge.toSide);
-      return {
-        id: edge.id,
-        midX: (a.x + b.x) / 2,
-        midY: (a.y + b.y) / 2,
-      };
-    })
-    .filter(Boolean) as { id: string; midX: number; midY: number }[];
-
   return (
-    <View style={[StyleSheet.absoluteFill, { width: worldSize, height: worldSize }]} pointerEvents="box-none">
-      <Svg
-        width={worldSize}
-        height={worldSize}
-        style={StyleSheet.absoluteFill}
-        pointerEvents="none"
-      >
-        {connectors.map((edge) => {
-          const from = byId.get(edge.fromId);
-          const to = byId.get(edge.toId);
-          if (!from || !to || from.type === 'connector' || to.type === 'connector') return null;
-          const a = anchorPoint(from, edge.fromSide);
-          const b = anchorPoint(to, edge.toSide);
-          const stroke = edge.glowing ? colors.amber : edge.color ?? colors.ink;
-          const width = edge.glowing ? (edge.thickness ?? 2) + 1.5 : edge.thickness ?? 2;
-          return (
-            <React.Fragment key={edge.id}>
-              <Line
-                x1={a.x}
-                y1={a.y}
-                x2={b.x}
-                y2={b.y}
-                stroke={stroke}
-                strokeWidth={width}
-                strokeLinecap="round"
-                opacity={edge.glowing ? 1 : 0.75}
-              />
-              <Circle cx={a.x} cy={a.y} r={5} fill={colors.paperStrong} stroke={stroke} strokeWidth={2} />
-              <Circle cx={b.x} cy={b.y} r={5} fill={colors.paperStrong} stroke={stroke} strokeWidth={2} />
-            </React.Fragment>
-          );
-        })}
-      </Svg>
-      {onLongPressConnector
-        ? hits.map((h) => (
-            <ConnectorHit
-              key={h.id}
-              id={h.id}
-              x={h.midX}
-              y={h.midY}
-              onLongPress={onLongPressConnector}
-            />
-          ))
-        : null}
+    <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
+      {connectors.map((edge) => {
+        const from = byId.get(edge.fromId);
+        const to = byId.get(edge.toId);
+        if (!from || !to || from.type === 'connector' || to.type === 'connector') return null;
+        return (
+          <ConnectorEdge
+            key={edge.id}
+            edge={edge}
+            from={from}
+            to={to}
+            onLongPress={onLongPressConnector}
+          />
+        );
+      })}
     </View>
   );
 }
