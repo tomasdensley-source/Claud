@@ -24,6 +24,7 @@ import { PasteAiPanel, ExportCanvasPanel } from './src/components/panels/PasteAi
 import { PlacesPanel } from './src/components/panels/PlacesPanel';
 import { SnapshotsPanel } from './src/components/panels/SnapshotsPanel';
 import { MindMapToolbar } from './src/components/MindMapToolbar';
+import { ExitRegionChip } from './src/components/ExitRegionChip';
 import { colors } from './src/theme';
 import { MAX_SCALE, MIN_SCALE, clampScale } from './src/lib/camera';
 import { ColorTarget } from './src/lib/colorManager';
@@ -31,6 +32,7 @@ import { pickAndBuildFileItems, pickAndBuildPhotoItems } from './src/lib/files';
 import { createMindMapTree } from './src/lib/mindMap';
 import { placeAtPoint } from './src/lib/placement';
 import { setHapticsEnabled } from './src/lib/haptics';
+import { deriveChromeMode, visibleSlots } from './src/chrome/disclosure';
 
 class ErrorBoundary extends Component<
   { children: ReactNode },
@@ -90,6 +92,8 @@ function FieldnoteApp() {
     addItems,
     applyColorToSelected,
     setEditingId,
+    editingId,
+    focusedRegionId,
   } = useBoard();
   const { width, height } = useViewportSize();
   const [scale, setScale] = useState(0.7);
@@ -123,6 +127,32 @@ function FieldnoteApp() {
   const selectedItems = useMemo(
     () => currentBoard.items.filter((it) => selectedIds.includes(it.id)),
     [currentBoard.items, selectedIds],
+  );
+
+  const hasMindMapSelection = selectedItems.some((it) => it.type === 'mindmap');
+  const formatRelevant = selectedItems.some(
+    (it) => it.type === 'text' || it.type === 'task' || it.type === 'mindmap',
+  );
+
+  const chromeMode = useMemo(
+    () =>
+      deriveChromeMode({
+        tool,
+        selectedTypes: selectedItems.map((it) => it.type),
+        editing: editingId != null,
+        focusedRegion: focusedRegionId != null,
+        hasMindMapSelection,
+      }),
+    [tool, selectedItems, editingId, focusedRegionId, hasMindMapSelection],
+  );
+
+  const slots = useMemo(
+    () =>
+      visibleSlots(chromeMode, {
+        toast: toast != null,
+        format: formatRelevant && tool !== 'draw',
+      }),
+    [chromeMode, toast, formatRelevant, tool],
   );
 
   const allowedTargets = useMemo((): ColorTarget[] => {
@@ -188,52 +218,61 @@ function FieldnoteApp() {
         </ErrorBoundary>
         <BoardBadge />
         <Toolbar />
-        <MindMapToolbar />
-        <VerticalColorPalette
-          lit={paletteLit}
-          color={drawColor}
-          target={colorTarget}
-          onColor={onColor}
-          onTarget={setColorTarget}
-          allowedTargets={allowedTargets}
-        />
-        {tool !== 'draw' ? <TextFormatPanel onEdit={onFormatEdit} /> : null}
-        <Minimap
-          items={currentBoard.items}
-          onNavigate={(x, y) => setCenterRequest({ x, y, token: Date.now() })}
-          onFit={() => setFitRequest((n) => n + 1)}
-        />
-        {tool === 'draw' ? (
+        {slots.has('mindmapToolbar') ? <MindMapToolbar /> : null}
+        {slots.has('color') ? (
+          <VerticalColorPalette
+            lit={paletteLit}
+            color={drawColor}
+            target={colorTarget}
+            onColor={onColor}
+            onTarget={setColorTarget}
+            allowedTargets={allowedTargets}
+          />
+        ) : null}
+        {slots.has('format') ? <TextFormatPanel onEdit={onFormatEdit} /> : null}
+        {slots.has('minimap') ? (
+          <Minimap
+            items={currentBoard.items}
+            onNavigate={(x, y) => setCenterRequest({ x, y, token: Date.now() })}
+            onFit={() => setFitRequest((n) => n + 1)}
+          />
+        ) : null}
+        {slots.has('drawInk') ? (
           <DrawPalette width={drawWidth} onWidth={setDrawWidth} />
         ) : null}
-        <ZoomControls
-          scale={scale}
-          selectedCount={selectedIds.length}
-          canUndo={canUndo}
-          canRedo={canRedo}
-          onZoomIn={() => requestZoom(scale * 1.25)}
-          onZoomOut={() => requestZoom(scale / 1.25)}
-          onResetZoom={() => requestZoom(1)}
-          onFit={() => setFitRequest((n) => n + 1)}
-          onDuplicate={() => {
-            duplicateSelected();
-            showToast('Duplicated');
-          }}
-          onDelete={() => {
-            deleteSelected();
-            showToast('Deleted');
-          }}
-          onUndo={undo}
-          onRedo={redo}
-          onBringFront={bringToFront}
-          onSendBack={sendToBack}
-          onToggleLock={toggleLockSelected}
-          anyLocked={currentBoard.items.some(
-            (it) => selectedIds.includes(it.id) && Boolean(it.locked),
-          )}
-          minScale={MIN_SCALE}
-          maxScale={MAX_SCALE}
-        />
+        {slots.has('zoom') || slots.has('selection') ? (
+          <ZoomControls
+            scale={scale}
+            selectedCount={selectedIds.length}
+            canUndo={canUndo}
+            canRedo={canRedo}
+            onZoomIn={() => requestZoom(scale * 1.25)}
+            onZoomOut={() => requestZoom(scale / 1.25)}
+            onResetZoom={() => requestZoom(1)}
+            onFit={() => setFitRequest((n) => n + 1)}
+            onDuplicate={() => {
+              duplicateSelected();
+              showToast('Duplicated');
+            }}
+            onDelete={() => {
+              deleteSelected();
+              showToast('Deleted');
+            }}
+            onUndo={undo}
+            onRedo={redo}
+            onBringFront={bringToFront}
+            onSendBack={sendToBack}
+            onToggleLock={toggleLockSelected}
+            anyLocked={currentBoard.items.some(
+              (it) => selectedIds.includes(it.id) && Boolean(it.locked),
+            )}
+            minScale={MIN_SCALE}
+            maxScale={MAX_SCALE}
+          />
+        ) : null}
+        {slots.has('exitRegion') ? (
+          <ExitRegionChip onExit={() => showToast('Left region')} />
+        ) : null}
         <Toast
           message={toast}
           onDone={() => setToast(null)}

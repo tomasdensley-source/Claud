@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { BoardItem } from '../types';
 import { colors, radii, shadows } from '../theme';
+import { useChromeSlot } from '../chrome/ChromeLayoutContext';
 
 interface Props {
   items: BoardItem[];
@@ -35,9 +36,13 @@ export function Minimap({ items, onNavigate, onFit }: Props) {
     };
   }, [items]);
 
+  const preferred = useMemo(() => ({ x: 240, y: 54, width: SIZE + 16, height: SIZE + 16 }), []);
+  const slot = useChromeSlot('minimap', preferred, true);
+  if (!slot) return null;
+
   return (
     <Pressable
-      style={[styles.box, shadows.control]}
+      style={[styles.box, shadows.control, { left: slot.left, top: slot.top, right: undefined }]}
       onPress={(e) => {
         const { locationX, locationY } = e.nativeEvent;
         const wx = layout.minX + (locationX / SIZE) * layout.w;
@@ -80,8 +85,6 @@ export function Minimap({ items, onNavigate, onFit }: Props) {
 const styles = StyleSheet.create({
   box: {
     position: 'absolute',
-    right: 12,
-    top: 54,
     width: SIZE,
     height: SIZE,
     borderRadius: radii.control,

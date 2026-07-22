@@ -45,7 +45,7 @@ export function PasteAiPanel({ visible, onClose, onToast }: Props) {
       visible={visible}
       onClose={onClose}
       title="Paste AI Board"
-      subtitle="Paste JSON Canvas from any LLM. Replace or merge — a recovery snapshot is saved first."
+      subtitle="Paste JSON Canvas from any LLM. Merge is default; Replace saves a recovery snapshot first."
       icon="sparkles-outline"
     >
       <TextInput
@@ -75,11 +75,11 @@ export function PasteAiPanel({ visible, onClose, onToast }: Props) {
           <Text style={styles.secondaryText}>Clear</Text>
         </Pressable>
       </View>
-      <Pressable style={styles.primary} onPress={() => void runPaste()}>
-        <Text style={styles.primaryText}>Replace board (Paste AI)</Text>
+      <Pressable style={styles.primary} onPress={runImportMerge}>
+        <Text style={styles.primaryText}>Merge onto current board</Text>
       </Pressable>
-      <Pressable style={styles.merge} onPress={runImportMerge}>
-        <Text style={styles.mergeText}>Merge onto current board</Text>
+      <Pressable style={styles.merge} onPress={() => void runPaste()}>
+        <Text style={styles.mergeText}>Replace board (saves snapshot first)</Text>
       </Pressable>
     </ModalShell>
   );

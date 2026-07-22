@@ -407,7 +407,7 @@ export function CanvasItemView({
         : item.backgroundColor ?? colors.paper,
       borderColor: selected ? colors.selection : 'transparent',
       borderWidth: selected ? 1.5 : 0,
-      overflow: selected ? ('visible' as const) : ('hidden' as const),
+      overflow: 'hidden' as const,
     },
     item.type === 'region' && styles.regionOuter,
   ];

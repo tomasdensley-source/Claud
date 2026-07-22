@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   runOnJS,
@@ -8,7 +8,6 @@ import Animated, {
   withDecay,
   withSpring,
 } from 'react-native-reanimated';
-import { Ionicons } from '@expo/vector-icons';
 import { useBoard } from '../store/BoardContext';
 import { colors } from '../theme';
 import { CanvasItemView } from './CanvasItemView';
@@ -428,7 +427,6 @@ export function InfiniteCanvas({
     beginHistory,
     focusedRegionId,
     enterRegion,
-    exitRegion,
     exportRegion,
     updateDrawingStyle,
     updateConnectorStyle,
@@ -1658,21 +1656,6 @@ export function InfiniteCanvas({
           </Animated.View>
         </View>
       </GestureDetector>
-      {focusedRegion ? (
-        <Pressable
-          style={styles.exitRegion}
-          onPress={() => {
-            exitRegion();
-            onToast('Left region');
-          }}
-          accessibilityLabel={`Exit ${focusedRegion.label || 'region'}`}
-        >
-          <Ionicons name="arrow-back" size={16} color={colors.cream} />
-          <Text style={styles.exitRegionText} numberOfLines={1}>
-            {focusedRegion.label || 'Region'}
-          </Text>
-        </Pressable>
-      ) : null}
       <PdfReaderModal
         visible={pdfViewer != null}
         uri={pdfViewer?.uri ?? ''}
@@ -1747,25 +1730,5 @@ const styles = StyleSheet.create({
   resizeHandlePrimary: {
     backgroundColor: colors.clayDeep,
     borderColor: colors.cream,
-  },
-  exitRegion: {
-    position: 'absolute',
-    top: 12,
-    left: 12,
-    zIndex: 40,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    maxWidth: 220,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 12,
-    backgroundColor: colors.walnut,
-  },
-  exitRegionText: {
-    color: colors.cream,
-    fontWeight: '700',
-    fontSize: 13,
-    flexShrink: 1,
   },
 });

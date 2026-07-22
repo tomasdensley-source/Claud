@@ -2,7 +2,7 @@
 
 **Authoritative specification** — Mobile-first infinite canvas for spatial thinking (Android primary).  
 Source: Fieldnote Android Expo React Native App Blueprint (Cursor).  
-**Execution contract:** `docs/COMBINED_PLAN.md` (v1.5.0).
+**Execution contract:** `docs/COMBINED_PLAN.md` (v2 — Batches 0–12 complete; current app 1.5.2).
 
 ## Recommended stack
 Skia + Reanimated · Gesture Handler · expo-haptics · expo-sqlite + FileSystem · JSON Canvas · image/document pickers · Share Sheet · Hermes.
