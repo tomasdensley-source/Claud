@@ -170,6 +170,7 @@ function sanitizeItem(raw: unknown, index: number): BoardItem | null {
           typeof item.sizeBytes === 'number' && Number.isFinite(item.sizeBytes)
             ? Math.max(0, item.sizeBytes)
             : undefined,
+        coverUri: typeof item.coverUri === 'string' ? item.coverUri : undefined,
       };
     case 'folder':
       return {
@@ -177,6 +178,32 @@ function sanitizeItem(raw: unknown, index: number): BoardItem | null {
         type: 'folder',
         name: asString(item.name, 'Folder'),
         fileCount: Math.max(0, asNumber(item.fileCount, 0)),
+        childIds: Array.isArray(item.childIds)
+          ? item.childIds.filter((id: unknown): id is string => typeof id === 'string')
+          : [],
+        working: Boolean(item.working),
+      };
+    case 'audio':
+      return {
+        ...base,
+        type: 'audio',
+        title: asString(item.title, 'Audio'),
+        uri: asString(item.uri),
+        durationMs:
+          typeof item.durationMs === 'number' && Number.isFinite(item.durationMs)
+            ? item.durationMs
+            : undefined,
+        coverUri: typeof item.coverUri === 'string' ? item.coverUri : undefined,
+      };
+    case 'playlist':
+      return {
+        ...base,
+        type: 'playlist',
+        title: asString(item.title, 'Playlist'),
+        trackIds: Array.isArray(item.trackIds)
+          ? item.trackIds.filter((id: unknown): id is string => typeof id === 'string')
+          : [],
+        coverUri: typeof item.coverUri === 'string' ? item.coverUri : undefined,
       };
     case 'connector': {
       const side = (v: unknown): 'left' | 'right' | 'top' | 'bottom' | 'center' | undefined =>

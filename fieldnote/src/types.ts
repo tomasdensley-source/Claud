@@ -8,7 +8,9 @@ export type ItemType =
   | 'drawing'
   | 'file'
   | 'folder'
-  | 'connector';
+  | 'connector'
+  | 'audio'
+  | 'playlist';
 
 export type TextRole = 'title' | 'body' | 'note';
 
@@ -88,12 +90,33 @@ export interface FileItem extends BoardItemBase {
   mimeType?: string;
   pageCount?: number;
   sizeBytes?: number;
+  /** Cached first-page / branded cover image URI when available. */
+  coverUri?: string;
 }
 
 export interface FolderItem extends BoardItemBase {
   type: 'folder';
   name: string;
   fileCount: number;
+  /** Child board item ids hosted in this working folder. */
+  childIds?: string[];
+  working?: boolean;
+}
+
+export interface AudioItem extends BoardItemBase {
+  type: 'audio';
+  title: string;
+  uri: string;
+  durationMs?: number;
+  coverUri?: string;
+}
+
+export interface PlaylistItem extends BoardItemBase {
+  type: 'playlist';
+  title: string;
+  /** Ordered AudioItem ids on this board. */
+  trackIds: string[];
+  coverUri?: string;
 }
 
 export interface ConnectorItem extends BoardItemBase {
@@ -117,7 +140,9 @@ export type BoardItem =
   | DrawingItem
   | FileItem
   | FolderItem
-  | ConnectorItem;
+  | ConnectorItem
+  | AudioItem
+  | PlaylistItem;
 
 export interface Board {
   id: string;

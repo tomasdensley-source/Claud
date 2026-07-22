@@ -95,6 +95,7 @@ interface BoardContextValue {
   sendToBack: () => void;
   toggleMindMapCollapse: (id: string) => void;
   tidySelectedMindMap: () => void;
+  repairBoardLayout: () => void;
   setMindMapDepth: (depth: number | 'all') => void;
   mindMapDepth: number | 'all';
   exportJsonCanvas: () => string;
@@ -506,6 +507,22 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
       return tidyMindMap(items, target.id);
     });
   }, [selectedIds, updateItems]);
+
+  const repairBoardLayout = useCallback(() => {
+    updateItems((items) => {
+      let next = layoutRepair(items);
+      const roots = next.filter(
+        (it) =>
+          it.type === 'mindmap' &&
+          !next.some((o) => o.type === 'mindmap' && o.children.includes(it.id)),
+      );
+      roots.forEach((r) => {
+        next = tidyMindMap(next, r.id);
+      });
+      return next;
+    });
+    void hapticImpact('medium');
+  }, [updateItems]);
 
   const exportJsonCanvas = useCallback(() => {
     const board = boardsRef.current.find((b) => b.id === currentBoardIdRef.current);
@@ -1163,6 +1180,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     sendToBack,
     toggleMindMapCollapse,
     tidySelectedMindMap,
+    repairBoardLayout,
     setMindMapDepth,
     mindMapDepth,
     exportJsonCanvas,

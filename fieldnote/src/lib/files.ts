@@ -8,7 +8,7 @@ import { estimatePdfPages, isPdfAsset } from './pdf';
 export type PlaceFilesResult = DraftBoardItem[];
 
 /** Soft-copy picked media into documentDirectory; fall back to cache/source uri. */
-async function persistLocalUri(sourceUri: string, nameHint?: string): Promise<string> {
+export async function persistLocalUri(sourceUri: string, nameHint?: string): Promise<string> {
   try {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     const FileSystem = require('expo-file-system');

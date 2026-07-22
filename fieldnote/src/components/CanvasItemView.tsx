@@ -14,6 +14,7 @@ import { SEED_IMAGES } from '../lib/seedImages';
 import { MarkdownView, looksLikeMarkdown } from './MarkdownView';
 import { formatFileSize, isPdfAsset } from '../lib/pdf';
 import { hapticSelection } from '../lib/haptics';
+import { AudioCardPlayer } from './AudioCardPlayer';
 
 interface Props {
   item: BoardItem;
@@ -335,6 +336,16 @@ export function CanvasItemView({
         if (pdf) {
           return (
             <View style={styles.pdfCover}>
+              {item.coverUri ? (
+                <Image source={{ uri: item.coverUri }} style={styles.pdfCoverImage} resizeMode="cover" />
+              ) : (
+                <View style={styles.pdfPagePreview}>
+                  <View style={styles.pdfPageLine} />
+                  <View style={[styles.pdfPageLine, { width: '72%' }]} />
+                  <View style={[styles.pdfPageLine, { width: '84%' }]} />
+                  <View style={[styles.pdfPageLine, { width: '60%' }]} />
+                </View>
+              )}
               <View style={styles.pdfSpine} />
               <View style={styles.pdfBody}>
                 <Text style={styles.pdfBadge}>PDF</Text>
@@ -376,9 +387,29 @@ export function CanvasItemView({
             <Text style={styles.fileName} numberOfLines={2}>
               {item.name}
             </Text>
-            <Text style={styles.fileMeta}>{item.fileCount} files</Text>
+            <Text style={styles.fileMeta}>
+              {item.fileCount} files{item.working ? ' · working' : ''}
+            </Text>
           </View>
         );
+      case 'audio':
+        return <AudioCardPlayer title={item.title} uri={item.uri} coverUri={item.coverUri} />;
+      case 'playlist': {
+        const count = item.trackIds?.length ?? 0;
+        return (
+          <View style={styles.fileCard}>
+            <Text style={styles.fileGlyph}>🎧</Text>
+            <Text style={styles.fileName} numberOfLines={2}>
+              {item.title}
+            </Text>
+            <Text style={styles.fileMeta}>
+              {count} track{count === 1 ? '' : 's'}
+            </Text>
+          </View>
+        );
+      }
+      case 'connector':
+        return null;
       default:
         return null;
     }
@@ -565,15 +596,45 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     backgroundColor: colors.paperStrong,
   },
+  pdfCoverImage: {
+    position: 'absolute',
+    left: 14,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    opacity: 0.35,
+  },
+  pdfPagePreview: {
+    position: 'absolute',
+    left: 22,
+    right: 12,
+    top: 14,
+    bottom: 14,
+    borderRadius: 8,
+    backgroundColor: 'rgba(255,252,247,0.9)',
+    borderWidth: 1,
+    borderColor: 'rgba(52,38,29,0.08)',
+    padding: 10,
+    gap: 6,
+    justifyContent: 'center',
+  },
+  pdfPageLine: {
+    height: 4,
+    width: '90%',
+    borderRadius: 2,
+    backgroundColor: 'rgba(88,64,40,0.14)',
+  },
   pdfSpine: {
     width: 14,
     backgroundColor: colors.clayDeep,
+    zIndex: 2,
   },
   pdfBody: {
     flex: 1,
     padding: 12,
     gap: 6,
     justifyContent: 'center',
+    zIndex: 2,
   },
   pdfBadge: {
     alignSelf: 'flex-start',

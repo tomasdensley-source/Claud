@@ -15,6 +15,7 @@ export function MindMapToolbar() {
     addMindMapChild,
     addMindMapSibling,
     tidySelectedMindMap,
+    repairBoardLayout,
     setMindMapDepth,
     mindMapDepth,
     toggleMindMapCollapse,
@@ -63,6 +64,15 @@ export function MindMapToolbar() {
           tidySelectedMindMap();
         }}
         icon={<Ionicons name="git-network-outline" size={18} color={colors.cream} />}
+      />
+      <ToolBtn
+        label="Repair"
+        accessibilityLabel="Repair map layout"
+        onPress={() => {
+          void hapticSelection();
+          repairBoardLayout();
+        }}
+        icon={<Ionicons name="construct-outline" size={18} color={colors.cream} />}
       />
       <ToolBtn
         label={depthLabel}

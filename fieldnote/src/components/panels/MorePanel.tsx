@@ -20,6 +20,7 @@ export function MorePanel({ visible, onClose }: Props) {
     setPanel,
     resetToSeed,
     tidySelectedMindMap,
+    repairBoardLayout,
     setMindMapDepth,
     mindMapDepth,
     selectedIds,
@@ -75,6 +76,15 @@ export function MorePanel({ visible, onClose }: Props) {
         title="Recovery snapshots"
         subtitle="Restore a recent board backup"
         onPress={() => setPanel('snapshots')}
+      />
+      <Row
+        icon="construct-outline"
+        title="Repair Map"
+        subtitle="Normalize overlaps and tidy mind-map trees"
+        onPress={() => {
+          repairBoardLayout();
+          onClose();
+        }}
       />
       <Row
         icon="git-network-outline"

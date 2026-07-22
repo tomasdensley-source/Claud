@@ -1,6 +1,8 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { runOnJS } from 'react-native-reanimated';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useBoard } from '../store/BoardContext';
 import { useChromeSlot } from '../chrome/ChromeLayoutContext';
@@ -9,8 +11,10 @@ import { PanelKind } from '../types';
 import { hapticImpact, hapticSelection } from '../lib/haptics';
 
 const COLLAPSED_KEY = 'fieldnote.toolbarCollapsed';
+const POSE_KEY = 'fieldnote.toolbarPose';
 const RAIL_W = 52;
 const COLLAPSED_W = 40;
+const EDGE_SNAP = 28;
 
 type ToolBtn = {
   key: string;
@@ -19,6 +23,8 @@ type ToolBtn = {
   tool?: 'select' | 'draw' | 'multi' | 'lasso';
   icon: React.ReactNode;
 };
+
+type Pose = { x: number; y: number };
 
 const softShadow = {
   shadowColor: '#1a120c',
@@ -40,14 +46,22 @@ export function Toolbar() {
     canUndo,
     selectedIds,
   } = useBoard();
+  const { width: winW, height: winH } = useWindowDimensions();
   const [collapsed, setCollapsed] = React.useState(false);
+  const [pose, setPose] = React.useState<Pose>({ x: 10, y: 54 });
   const [loaded, setLoaded] = React.useState(false);
+  const dragOrigin = React.useRef<Pose>({ x: 10, y: 54 });
 
   React.useEffect(() => {
     void (async () => {
       try {
         const raw = await AsyncStorage.getItem(COLLAPSED_KEY);
         if (raw === '1' || raw === 'true') setCollapsed(true);
+        const poseRaw = await AsyncStorage.getItem(POSE_KEY);
+        if (poseRaw) {
+          const parsed = JSON.parse(poseRaw) as Pose;
+          if (Number.isFinite(parsed.x) && Number.isFinite(parsed.y)) setPose(parsed);
+        }
       } catch {
         // ignore
       } finally {
@@ -61,14 +75,71 @@ export function Toolbar() {
     void AsyncStorage.setItem(COLLAPSED_KEY, next ? '1' : '0').catch(() => undefined);
   }, []);
 
+  const persistPose = React.useCallback((next: Pose) => {
+    setPose(next);
+    void AsyncStorage.setItem(POSE_KEY, JSON.stringify(next)).catch(() => undefined);
+  }, []);
+
+  const clampPose = React.useCallback(
+    (x: number, y: number): Pose => {
+      const w = collapsed ? COLLAPSED_W : RAIL_W;
+      const h = collapsed ? COLLAPSED_W : 340;
+      let nx = Math.max(6, Math.min(x, winW - w - 6));
+      let ny = Math.max(8, Math.min(y, winH - h - 8));
+      if (nx < EDGE_SNAP) nx = 10;
+      if (nx > winW - w - EDGE_SNAP) nx = winW - w - 10;
+      return { x: nx, y: ny };
+    },
+    [collapsed, winH, winW],
+  );
+
+  const applyDrag = React.useCallback(
+    (tx: number, ty: number) => {
+      const next = clampPose(dragOrigin.current.x + tx, dragOrigin.current.y + ty);
+      setPose(next);
+    },
+    [clampPose],
+  );
+
+  const endDrag = React.useCallback(
+    (tx: number, ty: number) => {
+      const next = clampPose(dragOrigin.current.x + tx, dragOrigin.current.y + ty);
+      persistPose(next);
+      void hapticSelection();
+    },
+    [clampPose, persistPose],
+  );
+
+  const beginDrag = React.useCallback(() => {
+    dragOrigin.current = pose;
+  }, [pose]);
+
+  const gripGesture = React.useMemo(    () =>
+      Gesture.Pan()
+        .maxPointers(1)
+        .onBegin(() => {
+          'worklet';
+          runOnJS(beginDrag)();
+        })
+        .onUpdate((e) => {
+          'worklet';
+          runOnJS(applyDrag)(e.translationX, e.translationY);
+        })
+        .onEnd((e) => {
+          'worklet';
+          runOnJS(endDrag)(e.translationX, e.translationY);
+        }),
+    [applyDrag, beginDrag, endDrag],
+  );
+
   const preferred = React.useMemo(
     () => ({
-      x: 10,
-      y: 54,
+      x: pose.x,
+      y: pose.y,
       width: collapsed ? COLLAPSED_W : RAIL_W,
       height: collapsed ? COLLAPSED_W : 320,
     }),
-    [collapsed],
+    [collapsed, pose.x, pose.y],
   );
   const slot = useChromeSlot('toolbar', preferred, true);
   const left = slot?.left ?? preferred.x;
@@ -135,21 +206,29 @@ export function Toolbar() {
 
   if (collapsed) {
     return (
-      <Pressable
-        style={[styles.collapsed, softShadow, { left, top }]}
-        onPress={() => {
-          void hapticSelection();
-          persistCollapsed(false);
-        }}
-        accessibilityLabel="Show canvas tools"
-      >
-        <Ionicons name="chevron-forward" size={18} color={colors.cream} />
-      </Pressable>
+      <GestureDetector gesture={gripGesture}>
+        <Pressable
+          style={[styles.collapsed, softShadow, { left, top }]}
+          onPress={() => {
+            void hapticSelection();
+            persistCollapsed(false);
+          }}
+          accessibilityLabel="Show canvas tools. Drag grip to move."
+        >
+          <Ionicons name="chevron-forward" size={18} color={colors.cream} />
+        </Pressable>
+      </GestureDetector>
     );
   }
 
   return (
     <View style={[styles.rail, softShadow, { left, top }]}>
+      <GestureDetector gesture={gripGesture}>
+        <View style={styles.grip} accessibilityLabel="Move toolbar">
+          <View style={styles.gripBar} />
+          <View style={styles.gripBar} />
+        </View>
+      </GestureDetector>
       <View style={styles.head}>
         <Pressable
           onPress={() => {
@@ -227,6 +306,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
     gap: 2,
     zIndex: 40,
+  },
+  grip: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 3,
+    paddingVertical: 6,
+    marginBottom: 2,
+  },
+  gripBar: {
+    width: 18,
+    height: 2,
+    borderRadius: 2,
+    backgroundColor: 'rgba(255,248,236,0.35)',
   },
   collapsed: {
     position: 'absolute',

@@ -29,6 +29,12 @@ export interface FieldnoteNodeMeta {
   markdown?: boolean;
   alt?: string;
   assetKey?: string;
+  title?: string;
+  durationMs?: number;
+  coverUri?: string;
+  trackIds?: string[];
+  childIds?: string[];
+  working?: boolean;
 }
 
 export interface JsonCanvasFile {
@@ -264,6 +270,57 @@ export function boardToJsonCanvas(board: Board): JsonCanvasFile {
       continue;
     }
 
+    if (it.type === 'audio') {
+      nodes.push(
+        withMeta(
+          {
+            id: it.id,
+            type: 'file',
+            x: it.x,
+            y: it.y,
+            width: it.width,
+            height: it.height,
+            file: it.uri,
+            label: it.title,
+            color: it.backgroundColor,
+          },
+          {
+            kind: 'audio',
+            title: it.title,
+            durationMs: it.durationMs,
+            coverUri: it.coverUri,
+          },
+        ),
+      );
+      continue;
+    }
+
+    if (it.type === 'playlist') {
+      nodes.push(
+        withMeta(
+          {
+            id: it.id,
+            type: 'text',
+            x: it.x,
+            y: it.y,
+            width: it.width,
+            height: it.height,
+            text: it.title,
+            color: it.backgroundColor,
+          },
+          {
+            kind: 'playlist',
+            title: it.title,
+            trackIds: it.trackIds,
+            coverUri: it.coverUri,
+          },
+        ),
+      );
+      continue;
+    }
+
+    if (it.type !== 'text') continue;
+
     // text
     nodes.push(
       withMeta(
@@ -356,6 +413,35 @@ export function jsonCanvasToItems(doc: JsonCanvasFile): BoardItem[] {
         type: 'folder',
         name: meta.name || node.text || node.label || 'Folder',
         fileCount: typeof meta.fileCount === 'number' ? meta.fileCount : 0,
+        childIds: Array.isArray(meta.childIds)
+          ? meta.childIds.filter((id): id is string => typeof id === 'string')
+          : [],
+        working: Boolean(meta.working),
+      });
+      continue;
+    }
+
+    if (meta?.kind === 'audio') {
+      items.push({
+        ...base,
+        type: 'audio',
+        title: meta.title || node.label || 'Audio',
+        uri: node.file || node.url || '',
+        durationMs: typeof meta.durationMs === 'number' ? meta.durationMs : undefined,
+        coverUri: typeof meta.coverUri === 'string' ? meta.coverUri : undefined,
+      });
+      continue;
+    }
+
+    if (meta?.kind === 'playlist') {
+      items.push({
+        ...base,
+        type: 'playlist',
+        title: meta.title || node.text || 'Playlist',
+        trackIds: Array.isArray(meta.trackIds)
+          ? meta.trackIds.filter((id): id is string => typeof id === 'string')
+          : [],
+        coverUri: typeof meta.coverUri === 'string' ? meta.coverUri : undefined,
       });
       continue;
     }

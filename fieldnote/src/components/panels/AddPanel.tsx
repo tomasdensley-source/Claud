@@ -1,11 +1,12 @@
 import React from 'react';
+import * as DocumentPicker from 'expo-document-picker';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { ModalShell } from './ModalShell';
 import { useBoard } from '../../store/BoardContext';
 import { colors, radii } from '../../theme';
-import { pickAndBuildFileItems, pickAndBuildPhotoItems } from '../../lib/files';
-import { placeCentered } from '../../lib/placement';
+import { persistLocalUri, pickAndBuildFileItems, pickAndBuildPhotoItems } from '../../lib/files';
+import { placeAtPoint, placeCentered } from '../../lib/placement';
 import { createMindMapTree } from '../../lib/mindMap';
 
 interface Props {
@@ -141,12 +142,62 @@ export function AddPanel({ visible, onClose, viewCenter, onPlaced }: Props) {
       y,
       width: 240,
       height: 140,
-      name: 'Folder',
+      name: 'Working folder',
       fileCount: 0,
+      childIds: [],
+      working: true,
       backgroundColor: colors.paperStrong,
     });
-    onPlaced?.('Folder card added');
+    onPlaced?.('Working folder added');
     onClose();
+  };
+
+  const addPlaylist = () => {
+    const { x, y } = placeAtCenter(280, 120);
+    addItem({
+      type: 'playlist',
+      x,
+      y,
+      width: 280,
+      height: 120,
+      title: 'Playlist',
+      trackIds: [],
+      backgroundColor: colors.paperStrong,
+    });
+    onPlaced?.('Playlist added');
+    onClose();
+  };
+
+  const pickAudio = async () => {
+    try {
+      const result = await DocumentPicker.getDocumentAsync({
+        type: ['audio/*'],
+        multiple: true,
+        copyToCacheDirectory: true,
+      });
+      if (result.canceled || !result.assets?.length) return;
+      const items = [];
+      for (let i = 0; i < result.assets.length; i++) {
+        const asset = result.assets[i];
+        const uri = await persistLocalUri(asset.uri, asset.name);
+        const { x, y } = placeAtPoint(viewCenter, 280, 100, i);
+        items.push({
+          type: 'audio' as const,
+          x,
+          y,
+          width: 280,
+          height: 100,
+          title: asset.name ?? `Audio ${i + 1}`,
+          uri,
+          backgroundColor: colors.paperStrong,
+        });
+      }
+      addItems(items);
+      onPlaced?.(items.length === 1 ? 'Audio placed' : `${items.length} audio clips placed`);
+      onClose();
+    } catch (e) {
+      onPlaced?.(`Could not open audio: ${String(e)}`);
+    }
   };
 
   return (
@@ -175,8 +226,15 @@ export function AddPanel({ visible, onClose, viewCenter, onPlaced }: Props) {
       <Pressable style={styles.secondaryBtn} onPress={chooseFolder}>
         <Ionicons name="folder-open-outline" size={20} color={colors.ink} />
         <View style={{ flex: 1 }}>
-          <Text style={styles.secondaryTitle}>Folder card</Text>
-          <Text style={styles.secondarySub}>Place a folder label on the board.</Text>
+          <Text style={styles.secondaryTitle}>Working folder</Text>
+          <Text style={styles.secondarySub}>Route upcoming uploads into this folder card.</Text>
+        </View>
+      </Pressable>
+      <Pressable style={styles.secondaryBtn} onPress={() => void pickAudio()}>
+        <Ionicons name="musical-notes-outline" size={20} color={colors.ink} />
+        <View style={{ flex: 1 }}>
+          <Text style={styles.secondaryTitle}>Audio</Text>
+          <Text style={styles.secondarySub}>Place audio clips you can play on the board.</Text>
         </View>
       </Pressable>
 
@@ -200,6 +258,11 @@ export function AddPanel({ visible, onClose, viewCenter, onPlaced }: Props) {
           label="Region"
           onPress={addRegion}
           icon={<Ionicons name="grid-outline" size={22} color={colors.ink} />}
+        />
+        <CreateBtn
+          label="Playlist"
+          onPress={addPlaylist}
+          icon={<Ionicons name="list-outline" size={22} color={colors.ink} />}
         />
         <CreateBtn
           label="Rect"

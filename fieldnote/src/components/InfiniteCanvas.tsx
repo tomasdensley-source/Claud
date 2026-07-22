@@ -23,6 +23,7 @@ import {
   fitTransform,
   screenToWorld,
   softClampScale,
+  worldToScreen,
   zoomAboutFocal,
   zoomAboutStartFocal,
 } from '../lib/camera';
@@ -42,8 +43,8 @@ const WORLD = 4000;
 const MIN_BOX_W = 72;
 const MIN_BOX_H = 56;
 
-type ResizeCorner = 'nw' | 'ne' | 'sw' | 'se';
-
+type ResizeHandle = 'nw' | 'ne' | 'sw' | 'se' | 'n' | 'e' | 's' | 'w';
+type ResizeCorner = ResizeHandle; // legacy alias
 interface Props {
   viewportWidth: number;
   viewportHeight: number;
@@ -156,7 +157,17 @@ function ResizeHandle({
         ? { right: -size / 2, top: -size / 2 }
         : corner === 'sw'
           ? { left: -size / 2, bottom: -size / 2 }
-          : { right: -size / 2, bottom: -size / 2 };
+          : corner === 'se'
+            ? { right: -size / 2, bottom: -size / 2 }
+            : corner === 'n'
+              ? { left: '50%' as unknown as number, marginLeft: -size / 2, top: -size / 2 }
+              : corner === 's'
+                ? { left: '50%' as unknown as number, marginLeft: -size / 2, bottom: -size / 2 }
+                : corner === 'w'
+                  ? { top: '50%' as unknown as number, marginTop: -size / 2, left: -size / 2 }
+                  : { top: '50%' as unknown as number, marginTop: -size / 2, right: -size / 2 };
+
+  const isSide = corner === 'n' || corner === 's' || corner === 'e' || corner === 'w';
 
   return (
     <GestureDetector gesture={gesture}>
@@ -167,8 +178,8 @@ function ResizeHandle({
           styles.resizeHandle,
           pos,
           {
-            width: size,
-            height: size,
+            width: isSide && (corner === 'n' || corner === 's') ? size * 1.4 : size,
+            height: isSide && (corner === 'e' || corner === 'w') ? size * 1.4 : size,
             borderRadius: size / 2,
           },
           corner === 'se' && styles.resizeHandlePrimary,
@@ -344,7 +355,7 @@ const BoardItemNode = memo(function BoardItemNode({
     );
   }
 
-  const corners: ResizeCorner[] = ['nw', 'ne', 'sw', 'se'];
+  const corners: ResizeHandle[] = ['nw', 'ne', 'sw', 'se', 'n', 'e', 's', 'w'];
 
   return (
     <View collapsable={false} style={frameStyle}>
@@ -417,6 +428,7 @@ export function InfiniteCanvas({
     selectInPolygon,
     clearSelection,
     updateItems,
+    addItem,
     resizeItemBox,
     updateText,
     toggleTask,
@@ -824,11 +836,46 @@ export function InfiniteCanvas({
     () =>
       Gesture.Tap()
         .maxDuration(250)
+        .numberOfTaps(1)
         .onEnd(() => {
           'worklet';
           runOnJS(clearSel)();
         }),
     [clearSel],
+  );
+
+  const createNoteAtScreen = useCallback(
+    (sx: number, sy: number) => {
+      const world = screenToWorld(sx, sy, scale.value, tx.value, ty.value);
+      addItem({
+        type: 'text',
+        x: world.x - 150,
+        y: world.y - 70,
+        width: 300,
+        height: 140,
+        backgroundColor: colors.paper,
+        color: colors.ink,
+        text: '',
+        fontSize: 22,
+        role: 'body',
+        markdown: true,
+      });
+      void hapticImpact('light');
+      onToast('Note added');
+    },
+    [addItem, onToast, scale, tx, ty],
+  );
+
+  const doubleTapGesture = useMemo(
+    () =>
+      Gesture.Tap()
+        .numberOfTaps(2)
+        .maxDuration(280)
+        .onEnd((e) => {
+          'worklet';
+          runOnJS(createNoteAtScreen)(e.x, e.y);
+        }),
+    [createNoteAtScreen],
   );
 
   const longPressGesture = useMemo(
@@ -1028,19 +1075,19 @@ export function InfiniteCanvas({
       // Multi ON: marquee with one finger; pan requires two fingers.
       return Gesture.Simultaneous(
         twoFingerNav,
-        Gesture.Exclusive(longPressGesture, marqueeGesture, tapGesture),
+        Gesture.Exclusive(doubleTapGesture, longPressGesture, marqueeGesture, tapGesture),
       );
     }
     if (tool === 'lasso') {
       return Gesture.Simultaneous(
         twoFingerNav,
-        Gesture.Exclusive(longPressGesture, lassoGesture, tapGesture),
+        Gesture.Exclusive(doubleTapGesture, longPressGesture, lassoGesture, tapGesture),
       );
     }
     // Default select: one-finger pan; pinch zoom; optional two-finger pan.
     return Gesture.Simultaneous(
       twoFingerNav,
-      Gesture.Exclusive(longPressGesture, oneFingerPan, tapGesture),
+      Gesture.Exclusive(doubleTapGesture, longPressGesture, oneFingerPan, tapGesture),
     );
   }, [
     tool,
@@ -1051,6 +1098,7 @@ export function InfiniteCanvas({
     lassoGesture,
     oneFingerPan,
     tapGesture,
+    doubleTapGesture,
   ]);
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -1328,10 +1376,30 @@ export function InfiniteCanvas({
         height: primary.height,
       };
       const aligned = computeAlignmentGuides(moving, others);
-      setDragVisual({ ids, dx: dx + aligned.dx, dy: dy + aligned.dy });
+      const adx = dx + aligned.dx;
+      const ady = dy + aligned.dy;
+      setDragVisual({ ids, dx: adx, dy: ady });
       setAlignGuides(aligned.guides);
+
+      // Edge-pan: nudge camera when dragged object nears viewport edges.
+      const cx = primary.x + adx + primary.width / 2;
+      const cy = primary.y + ady + primary.height / 2;
+      const screen = worldToScreen(cx, cy, scale.value, tx.value, ty.value);
+      const margin = 56;
+      let panX = 0;
+      let panY = 0;
+      if (screen.x < margin) panX = (margin - screen.x) * 0.35;
+      else if (screen.x > viewportWidth - margin) panX = (viewportWidth - margin - screen.x) * 0.35;
+      if (screen.y < margin) panY = (margin - screen.y) * 0.35;
+      else if (screen.y > viewportHeight - margin) {
+        panY = (viewportHeight - margin - screen.y) * 0.35;
+      }
+      if (panX !== 0 || panY !== 0) {
+        tx.value = tx.value + panX;
+        ty.value = ty.value + panY;
+      }
     },
-    [currentBoard.items],
+    [currentBoard.items, scale, tx, ty, viewportHeight, viewportWidth],
   );
 
   const dragVisualRef = useRef(dragVisual);
@@ -1402,18 +1470,28 @@ export function InfiniteCanvas({
         w = startW + dxWorld;
         h = startH - dyWorld;
         y = startY + dyWorld;
-      } else {
+      } else if (c === 'nw') {
         w = startW - dxWorld;
         h = startH - dyWorld;
         x = startX + dxWorld;
         y = startY + dyWorld;
+      } else if (c === 'n') {
+        h = startH - dyWorld;
+        y = startY + dyWorld;
+      } else if (c === 's') {
+        h = startH + dyWorld;
+      } else if (c === 'e') {
+        w = startW + dxWorld;
+      } else if (c === 'w') {
+        w = startW - dxWorld;
+        x = startX + dxWorld;
       }
       if (w < MIN_BOX_W) {
-        if (c === 'nw' || c === 'sw') x = startX + startW - MIN_BOX_W;
+        if (c === 'nw' || c === 'sw' || c === 'w') x = startX + startW - MIN_BOX_W;
         w = MIN_BOX_W;
       }
       if (h < MIN_BOX_H) {
-        if (c === 'nw' || c === 'ne') y = startY + startH - MIN_BOX_H;
+        if (c === 'nw' || c === 'ne' || c === 'n') y = startY + startH - MIN_BOX_H;
         h = MIN_BOX_H;
       }
       resizeItemBox(r.id, { x, y, width: w, height: h }, false);
