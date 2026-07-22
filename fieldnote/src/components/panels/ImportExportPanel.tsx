@@ -13,8 +13,13 @@ interface Props {
 type Mode = 'export' | 'import';
 
 export function ImportExportPanel({ visible, onClose }: Props) {
-  const { currentBoard, exportBoardAsJSONCanvas, importJSONCanvas, repairCurrentBoard } =
-    useBoard();
+  const {
+    currentBoard,
+    exportBoardAsJSONCanvas,
+    importJSONCanvas,
+    repairCurrentBoard,
+    showToast,
+  } = useBoard();
   const [mode, setMode] = useState<Mode>('export');
   const [pasted, setPasted] = useState('');
 
@@ -28,11 +33,10 @@ export function ImportExportPanel({ visible, onClose }: Props) {
     const doIt = () => {
       const result = importJSONCanvas(pasted, importMode);
       if (!result.ok) {
-        Alert.alert('Could not import', result.issues.join('\n') || 'Unknown error.');
+        showToast(result.issues[0] ?? 'Could not import that board.');
         return;
       }
-      const suffix = result.issues.length ? `\n\n${result.issues.join('\n')}` : '';
-      Alert.alert('Board imported', `Added ${result.count} card(s).${suffix}`);
+      showToast(`Added ${result.count} card(s)`, { undoable: true });
       setPasted('');
       onClose();
     };
@@ -53,10 +57,10 @@ export function ImportExportPanel({ visible, onClose }: Props) {
   const runRepair = () => {
     const result = repairCurrentBoard();
     if (!result.changed) {
-      Alert.alert('Nothing to repair', 'This board already looks tidy.');
+      showToast('Nothing to repair — this board already looks tidy.');
       return;
     }
-    Alert.alert('Board repaired', result.issues.join('\n'));
+    showToast(result.issues[0] ?? 'Board repaired', { undoable: true });
   };
 
   return (

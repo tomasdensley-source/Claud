@@ -78,6 +78,15 @@ interface BoardContextValue {
   setPaletteTarget: (target: PaletteTarget) => void;
   setPaletteSlot: (index: number, color: string) => void;
   applyPaletteColor: (color: string) => void;
+  toast: ToastState | null;
+  showToast: (text: string, opts?: { undoable?: boolean }) => void;
+  dismissToast: () => void;
+}
+
+export interface ToastState {
+  id: number;
+  text: string;
+  undoable: boolean;
 }
 
 export interface ImportOutcome {
@@ -108,6 +117,8 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
   const [paletteTarget, setPaletteTarget] = useState<PaletteTarget>('frame');
   const [paletteSlots, setPaletteSlots] = useState<string[]>(DEFAULT_PALETTE_SLOTS);
   const paletteReady = useRef(false);
+  const [toast, setToast] = useState<ToastState | null>(null);
+  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const boardsRef = useRef(boards);
   boardsRef.current = boards;
@@ -143,6 +154,27 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     if (!paletteReady.current) return;
     void savePaletteSlots(paletteSlots);
   }, [paletteSlots]);
+
+  useEffect(
+    () => () => {
+      if (toastTimer.current) clearTimeout(toastTimer.current);
+    },
+    [],
+  );
+
+  const dismissToast = useCallback(() => {
+    if (toastTimer.current) clearTimeout(toastTimer.current);
+    setToast(null);
+  }, []);
+
+  const showToast = useCallback((text: string, opts?: { undoable?: boolean }) => {
+    if (toastTimer.current) clearTimeout(toastTimer.current);
+    const id = Date.now();
+    setToast({ id, text, undoable: Boolean(opts?.undoable) });
+    toastTimer.current = setTimeout(() => {
+      setToast((cur) => (cur?.id === id ? null : cur));
+    }, 3500);
+  }, []);
 
   useEffect(() => {
     if (!ready) return;
@@ -265,9 +297,11 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
 
   const deleteSelected = useCallback(() => {
     if (selectedIds.length === 0) return;
+    const count = selectedIds.length;
     updateItems((items) => items.filter((it) => !selectedIds.includes(it.id)));
     setSelectedIds([]);
-  }, [selectedIds, updateItems]);
+    showToast(count === 1 ? 'Deleted 1 card' : `Deleted ${count} cards`, { undoable: true });
+  }, [selectedIds, showToast, updateItems]);
 
   const duplicateSelected = useCallback(() => {
     if (selectedIds.length === 0) return;
@@ -501,6 +535,9 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     setPaletteTarget,
     setPaletteSlot,
     applyPaletteColor,
+    toast,
+    showToast,
+    dismissToast,
   };
 
   return <BoardContext.Provider value={value}>{children}</BoardContext.Provider>;

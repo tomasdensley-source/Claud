@@ -313,3 +313,17 @@ current; EAS/APK build link attached to the release PR from CI.
   and shape stroke (previously hardcoded to `colors.ink`), so "body" coloring has a
   visible, consistent effect across item types rather than only affecting plain text
   cards. Gate: `tsc --noEmit && npm test` (13/13) green.
+- **Batch 3 (partial) — landed.** Compact top-anchored, auto-dismissing notifications
+  with Undo (bug #17), scoped out of the full "Floating UI Engine" batch: a generic
+  panel collision-avoidance placement engine and the movable/snapping toolbar have no
+  real overlap problem to solve yet in the current fixed layout, so building that
+  machinery now would be speculative — deferred until a batch actually needs it (the
+  toolbar move/grip/snap is still tracked as its own follow-up). `BoardContext` gained
+  `toast`/`showToast`/`dismissToast`; `src/components/Toast.tsx` renders a fading pill
+  below the board-name badge. Wired to `deleteSelected` ("Deleted N card(s)") and to
+  the Import/export panel's informational outcomes (import success/failure, repair
+  result) — all of which already push undo history, so "Undo" in the toast genuinely
+  works. Destructive *confirmations* (reset board, clear storage, replace board) stay
+  as native `Alert.alert` — those need a blocking choice, which is a different problem
+  than bug #17's "notifications are obtrusive." Gate: `tsc --noEmit && npm test`
+  (13/13) green.

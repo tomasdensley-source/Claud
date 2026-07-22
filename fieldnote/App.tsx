@@ -7,6 +7,7 @@ import { BoardProvider, useBoard } from './src/store/BoardContext';
 import { InfiniteCanvas, useViewportSize } from './src/components/InfiniteCanvas';
 import { Toolbar } from './src/components/Toolbar';
 import { Palette } from './src/components/Palette';
+import { Toast } from './src/components/Toast';
 import { ZoomControls } from './src/components/ZoomControls';
 import { Minimap } from './src/components/Minimap';
 import { BoardBadge } from './src/components/BoardBadge';
@@ -88,6 +89,7 @@ function FieldnoteApp() {
         <BoardBadge />
         <Toolbar />
         <Palette />
+        <Toast />
         <Minimap
           items={currentBoard.items}
           onNavigate={(x, y) => setCenterRequest({ x, y, token: Date.now() })}
