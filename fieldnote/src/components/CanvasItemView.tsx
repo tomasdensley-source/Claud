@@ -7,6 +7,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import Svg, { Ellipse, Line, Path, Rect as SvgRect } from 'react-native-svg';
 import { BoardItem } from '../types';
 import { colors, radii, shadows } from '../theme';
@@ -398,7 +399,7 @@ export function CanvasItemView({
         const count = item.trackIds?.length ?? 0;
         return (
           <View style={styles.fileCard}>
-            <Text style={styles.fileGlyph}>🎧</Text>
+            <Ionicons name="list-outline" size={28} color={colors.clayDeep} />
             <Text style={styles.fileName} numberOfLines={2}>
               {item.title}
             </Text>

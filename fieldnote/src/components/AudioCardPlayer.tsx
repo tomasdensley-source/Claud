@@ -10,11 +10,22 @@ type Props = {
   coverUri?: string;
 };
 
-/** Soft-require expo-av so launch never dies if native module is missing. */
-function getAudio(): typeof import('expo-av') | null {
+type AudioModule = {
+  createAudioPlayer?: (source: { uri: string }) => {
+    play: () => void;
+    pause: () => void;
+    release?: () => void;
+    playing?: boolean;
+    addListener?: (event: string, cb: (status: { playing?: boolean; didJustFinish?: boolean }) => void) => { remove: () => void };
+  };
+  setAudioModeAsync?: (mode: Record<string, unknown>) => Promise<void>;
+};
+
+/** Soft-require expo-audio so a missing native module never kills launch. */
+function getAudio(): AudioModule | null {
   try {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
-    return require('expo-av') as typeof import('expo-av');
+    return require('expo-audio') as AudioModule;
   } catch {
     return null;
   }
@@ -24,43 +35,51 @@ export function AudioCardPlayer({ title, uri }: Props) {
   const [playing, setPlaying] = useState(false);
   const [error, setError] = useState<string | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const soundRef = React.useRef<any>(null);
+  const playerRef = React.useRef<any>(null);
+  const subRef = React.useRef<{ remove: () => void } | null>(null);
 
   useEffect(() => {
     return () => {
-      void soundRef.current?.unloadAsync?.().catch(() => undefined);
-      soundRef.current = null;
+      try {
+        subRef.current?.remove();
+        playerRef.current?.pause?.();
+        playerRef.current?.release?.();
+      } catch {
+        // ignore cleanup errors
+      }
+      subRef.current = null;
+      playerRef.current = null;
     };
   }, []);
 
   const toggle = async () => {
     void hapticSelection();
-    const AV = getAudio();
-    if (!AV?.Audio) {
+    const Audio = getAudio();
+    if (!Audio?.createAudioPlayer) {
       setError('Audio unavailable on this build');
       return;
     }
     try {
-      if (!soundRef.current) {
-        await AV.Audio.setAudioModeAsync({
-          playsInSilentModeIOS: true,
-          staysActiveInBackground: false,
+      if (!playerRef.current) {
+        await Audio.setAudioModeAsync?.({
+          playsInSilentMode: true,
+          shouldPlayInBackground: false,
         });
-        const { sound } = await AV.Audio.Sound.createAsync({ uri });
-        soundRef.current = sound;
-        sound.setOnPlaybackStatusUpdate((status: { isLoaded?: boolean; didJustFinish?: boolean; isPlaying?: boolean }) => {
-          if (!status.isLoaded) return;
-          if (status.didJustFinish) setPlaying(false);
-          if (typeof status.isPlaying === 'boolean') setPlaying(status.isPlaying);
-        });
+        const player = Audio.createAudioPlayer({ uri });
+        playerRef.current = player;
+        subRef.current =
+          player.addListener?.('playbackStatusUpdate', (status) => {
+            if (status.didJustFinish) setPlaying(false);
+            if (typeof status.playing === 'boolean') setPlaying(status.playing);
+          }) ?? null;
       }
-      const sound = soundRef.current;
-      if (!sound) return;
+      const player = playerRef.current;
+      if (!player) return;
       if (playing) {
-        await sound.pauseAsync();
+        player.pause();
         setPlaying(false);
       } else {
-        await sound.playAsync();
+        player.play();
         setPlaying(true);
       }
       setError(null);

@@ -227,6 +227,7 @@ export function Toolbar() {
         <View style={styles.grip} accessibilityLabel="Move toolbar">
           <View style={styles.gripBar} />
           <View style={styles.gripBar} />
+          <View style={styles.gripBar} />
         </View>
       </GestureDetector>
       <View style={styles.head}>
@@ -311,14 +312,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 3,
-    paddingVertical: 6,
-    marginBottom: 2,
+    paddingVertical: 8,
+    marginBottom: 4,
+    borderRadius: 10,
+    backgroundColor: 'rgba(255,248,236,0.08)',
   },
   gripBar: {
-    width: 18,
-    height: 2,
+    width: 22,
+    height: 2.5,
     borderRadius: 2,
-    backgroundColor: 'rgba(255,248,236,0.35)',
+    backgroundColor: 'rgba(255,248,236,0.55)',
   },
   collapsed: {
     position: 'absolute',

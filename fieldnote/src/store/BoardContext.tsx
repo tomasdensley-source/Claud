@@ -213,10 +213,11 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     };
   }, [currentBoardId, ready]);
 
-  const currentBoard = useMemo(
-    () => boards.find((b) => b.id === currentBoardId) ?? boards[0],
-    [boards, currentBoardId],
-  );
+  const currentBoard = useMemo(() => {
+    const found = boards.find((b) => b.id === currentBoardId) ?? boards[0];
+    if (found) return found;
+    return createMainBoard();
+  }, [boards, currentBoardId]);
 
   const itemCount = useMemo(
     () => boards.reduce((n, b) => n + b.items.length, 0),

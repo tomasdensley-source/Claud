@@ -43,8 +43,8 @@ const WORLD = 4000;
 const MIN_BOX_W = 72;
 const MIN_BOX_H = 56;
 
-type ResizeHandle = 'nw' | 'ne' | 'sw' | 'se' | 'n' | 'e' | 's' | 'w';
-type ResizeCorner = ResizeHandle; // legacy alias
+type ResizeHandleKind = 'nw' | 'ne' | 'sw' | 'se' | 'n' | 'e' | 's' | 'w';
+type ResizeCorner = ResizeHandleKind;
 interface Props {
   viewportWidth: number;
   viewportHeight: number;
@@ -355,7 +355,7 @@ const BoardItemNode = memo(function BoardItemNode({
     );
   }
 
-  const corners: ResizeHandle[] = ['nw', 'ne', 'sw', 'se', 'n', 'e', 's', 'w'];
+  const corners: ResizeHandleKind[] = ['nw', 'ne', 'sw', 'se', 'n', 'e', 's', 'w'];
 
   return (
     <View collapsable={false} style={frameStyle}>

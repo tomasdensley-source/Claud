@@ -25,6 +25,7 @@ import { PlacesPanel } from './src/components/panels/PlacesPanel';
 import { SnapshotsPanel } from './src/components/panels/SnapshotsPanel';
 import { MindMapToolbar } from './src/components/MindMapToolbar';
 import { ExitRegionChip } from './src/components/ExitRegionChip';
+import { WhatsNewSheet } from './src/components/WhatsNewSheet';
 import { colors } from './src/theme';
 import { MAX_SCALE, MIN_SCALE, clampScale } from './src/lib/camera';
 import { ColorTarget } from './src/lib/colorManager';
@@ -445,6 +446,10 @@ function FieldnoteApp() {
           visible={panel === 'snapshots'}
           onClose={() => setPanel(null)}
           onToast={showToast}
+        />
+        <WhatsNewSheet
+          force={panel === 'whatsNew'}
+          onCloseForce={() => setPanel(null)}
         />
       </View>
     </SafeAreaView>

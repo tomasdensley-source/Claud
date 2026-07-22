@@ -21,6 +21,8 @@ const ALLOWED_TYPES = new Set<ItemType>([
   'file',
   'folder',
   'connector',
+  'audio',
+  'playlist',
 ]);
 
 function asNumber(value: unknown, fallback: number): number {

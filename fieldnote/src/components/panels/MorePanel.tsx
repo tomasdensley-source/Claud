@@ -87,6 +87,12 @@ export function MorePanel({ visible, onClose }: Props) {
         }}
       />
       <Row
+        icon="sparkles-outline"
+        title="What's new in 1.6"
+        subtitle="Pan, toolbar grip, double-tap note, side resize"
+        onPress={() => setPanel('whatsNew')}
+      />
+      <Row
         icon="git-network-outline"
         title="Tidy mind map"
         subtitle={selectedIds.length ? 'Reflow selected mind-map root' : 'Select a mind-map node first'}
@@ -154,26 +160,28 @@ export function GesturesPanel({ visible, onClose }: Props) {
         <View style={styles.col}>
           <Text style={styles.colTitle}>On your phone</Text>
           <Tip title="One finger empty" body="Pan the board (map-like). Turn on Multi for marquee." />
+          <Tip title="Double-tap empty" body="Drop a Markdown note at that spot" />
           <Tip title="Pinch" body="Zoom about your fingers — no sideways jump" />
-          <Tip title="One finger on a card" body="Move or resize that object" />
+          <Tip title="One finger on a card" body="Move it; handles resize corners and sides" />
           <Tip title="Hold empty space" body="Compact add: Files / Device / New" />
-          <Tip title="Hold a title" body="Edit after the confirm pulse" />
+          <Tip title="Toolbar grip" body="Drag the dotted bar to move the tool rail" />
           <Tip title="Multi tool" body="Marquee with one finger; two fingers to pan" />
           <Tip title="Lasso tool" body="Draw a freehand loop to select cards inside" />
         </View>
         <View style={styles.col}>
           <Text style={styles.colTitle}>Board tips</Text>
+          <Tip title="Working folder" body="Add → Working folder routes uploads into that card" />
+          <Tip title="Repair Map" body="More → Repair Map untangles overlaps and mind maps" />
           <Tip title="Color tab" body="Opens only when drawing or selecting" />
           <Tip title="Frame / Body" body="Toggle what the palette recolors" />
           <Tip title="Fit" body="Frame every card on the board" />
           <Tip title="Undo toast" body="Top toast can undo the last change" />
           <Tip title="Draw" body="One finger inks; two fingers still navigate" />
-          <Tip title="Bring forward" body="Selection bar arrows change stack order" />
         </View>
       </View>
       <View style={styles.tipBanner}>
         <Text style={styles.tipBannerText}>
-          Tip: Pan with one finger by default. Turn on Multi for marquee select. Long-press empty for add.
+          Tip: One-finger pan is the default. Double-tap empty for a note. Drag the toolbar grip to move tools.
         </Text>
       </View>
     </ModalShell>

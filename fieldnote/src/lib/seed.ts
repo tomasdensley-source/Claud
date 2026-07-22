@@ -13,7 +13,7 @@ export function createSeedItems(): BoardItem[] {
       zIndex: 1,
       backgroundColor: colors.paper,
       color: colors.ink,
-      text: 'A place for unfinished ideas.\n\nCollect the pieces. Move them until they make sense.',
+      text: 'A place for unfinished ideas.\n\n**Try now:** drag empty space to pan · double-tap for a note · grab the toolbar grip to move tools.',
       fontSize: 42,
       role: 'title',
       fontWeight: '500',
