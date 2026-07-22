@@ -1,6 +1,6 @@
 {
   "name": "fieldnote",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "main": "index.ts",
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",

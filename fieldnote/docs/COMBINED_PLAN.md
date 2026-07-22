@@ -2,7 +2,7 @@
 
 **Status legend:** `[ ]` pending · `[~]` in progress · `[x]` done  
 **Branch:** `cursor/fieldnote-app-icon-7fc8`  
-**Program version:** Batches 0–12 shipped as **1.5.0**; post-ship polish **1.5.1** (gestures) / **1.5.2** (Phase 2 early)  
+**Program version:** Batches 0–12 shipped as **1.5.0**; patches **1.5.1** (gestures) / **1.5.2** (Phase 2 early) / **1.5.3** (disclosure DoD close-out)  
 **Last updated:** 2026-07-22 autonomous agent  
 **Authoritative product:** Android Expo infinite canvas (`/workspace/fieldnote`)
 
