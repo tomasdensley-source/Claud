@@ -5,12 +5,18 @@ import Animated, {
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
+  withDecay,
 } from 'react-native-reanimated';
 import Svg, { Circle, Defs, Pattern, Rect } from 'react-native-svg';
 import { useBoard } from '../store/BoardContext';
 import { colors } from '../theme';
 import { CanvasItemView } from './CanvasItemView';
 import { BoardItem } from '../types';
+import { clampScale } from '../lib/camera';
+
+// Below this pointer velocity (px/s) we don't fling — avoids stray momentum from
+// releasing a pinch or a deliberate stop.
+const MOMENTUM_MIN_VELOCITY = 90;
 
 // Item drag is handled via selected-item pan gesture below.
 
@@ -113,7 +119,7 @@ export function InfiniteCanvas({
     if (!zoomRequest) return;
     const cx = (viewportWidth / 2 - tx.value) / scale.value;
     const cy = (viewportHeight / 2 - ty.value) / scale.value;
-    const s = zoomRequest.scale;
+    const s = clampScale(zoomRequest.scale);
     applyTransform(s, viewportWidth / 2 - cx * s, viewportHeight / 2 - cy * s);
   }, [zoomRequest, applyTransform, scale, tx, ty, viewportHeight, viewportWidth]);
 
@@ -202,6 +208,16 @@ export function InfiniteCanvas({
     .onUpdate((e) => {
       tx.value = startTx.value + e.translationX;
       ty.value = startTy.value + e.translationY;
+    })
+    .onEnd((e) => {
+      // Gentle momentum so a flick keeps gliding, then eases to rest. Skip tiny
+      // velocities (deliberate stops, pinch releases) so the canvas doesn't drift.
+      if (Math.abs(e.velocityX) > MOMENTUM_MIN_VELOCITY) {
+        tx.value = withDecay({ velocity: e.velocityX, deceleration: 0.992 });
+      }
+      if (Math.abs(e.velocityY) > MOMENTUM_MIN_VELOCITY) {
+        ty.value = withDecay({ velocity: e.velocityY, deceleration: 0.992 });
+      }
     });
 
   const pinchGesture = Gesture.Pinch()
@@ -211,7 +227,11 @@ export function InfiniteCanvas({
       startTy.value = ty.value;
     })
     .onUpdate((e) => {
-      const next = Math.min(2.5, Math.max(0.25, startScale.value * e.scale));
+      // Wide-range zoom (0.01x–50x). Keep the world point under the fingers fixed
+      // even when the raw pinch would push past a limit: we clamp the scale first,
+      // then recompute the translation from that clamped scale so there is no
+      // drift or jump at the extremes.
+      const next = clampScale(startScale.value * e.scale);
       const focalX = e.focalX;
       const focalY = e.focalY;
       const worldX = (focalX - startTx.value) / startScale.value;
@@ -246,8 +266,14 @@ export function InfiniteCanvas({
 
   const itemPanGesture = Gesture.Pan()
     .manualActivation(true)
-    .onTouchesDown((_e, state) => {
+    .onTouchesDown((e, state) => {
       if (tool === 'draw' || selectedIds.length === 0) {
+        state.fail();
+        return;
+      }
+      // Two-finger navigation always wins: the moment a second finger lands, this
+      // item drag yields so pan/pinch take over cleanly.
+      if (e.numberOfTouches >= 2) {
         state.fail();
         return;
       }

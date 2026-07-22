@@ -14,6 +14,7 @@ import { BoardsPanel } from './src/components/panels/BoardsPanel';
 import { FilesPanel } from './src/components/panels/FilesPanel';
 import { SearchPanel } from './src/components/panels/SearchPanel';
 import { GesturesPanel, MorePanel, StoragePanel } from './src/components/panels/MorePanel';
+import { clampScale } from './src/lib/camera';
 import { colors } from './src/theme';
 
 function FieldnoteApp() {
@@ -57,7 +58,7 @@ function FieldnoteApp() {
   }, [currentBoard.items]);
 
   const requestZoom = useCallback((next: number) => {
-    setZoomRequest({ scale: Math.min(2.5, Math.max(0.25, next)), token: Date.now() });
+    setZoomRequest({ scale: clampScale(next), token: Date.now() });
   }, []);
 
   if (!ready) {
