@@ -17,6 +17,7 @@ interface Props {
   selected: boolean;
   editing: boolean;
   scale: number;
+  gestureManaged?: boolean;
   onSelect: () => void;
   onLongPress: () => void;
   onChangeText: (text: string) => void;
@@ -39,6 +40,7 @@ export function CanvasItemView({
   selected,
   editing,
   scale,
+  gestureManaged = false,
   onSelect,
   onLongPress,
   onChangeText,
@@ -48,7 +50,7 @@ export function CanvasItemView({
   onResizeMove,
   onResizeEnd,
 }: Props) {
-  const handleSize = Math.max(12, 14 / scale);
+  const handleSize = Math.max(14, 16 / scale);
 
   const content = useMemo(() => {
     switch (item.type) {
@@ -230,72 +232,87 @@ export function CanvasItemView({
   const transparentBg =
     item.type === 'drawing' || item.type === 'shape' || item.type === 'region';
 
+  const shellStyle = [
+    styles.item,
+    shadows.card,
+    {
+      backgroundColor: transparentBg
+        ? 'transparent'
+        : item.backgroundColor ?? colors.paper,
+      borderColor: selected ? colors.selection : 'transparent',
+      borderWidth: selected ? 2 : 0,
+    },
+    item.type === 'region' && styles.regionOuter,
+  ];
+
+  const handles =
+    selected && !editing ? (
+      <>
+        <View
+          style={[
+            styles.handle,
+            { width: handleSize, height: handleSize, left: -handleSize / 2, top: -handleSize / 2 },
+          ]}
+          pointerEvents="none"
+        />
+        <View
+          style={[
+            styles.handle,
+            { width: handleSize, height: handleSize, right: -handleSize / 2, top: -handleSize / 2 },
+          ]}
+          pointerEvents="none"
+        />
+        <View
+          style={[
+            styles.handle,
+            { width: handleSize, height: handleSize, left: -handleSize / 2, bottom: -handleSize / 2 },
+          ]}
+          pointerEvents="none"
+        />
+        <View
+          style={[
+            styles.handle,
+            styles.resizeHandle,
+            {
+              width: handleSize + 6,
+              height: handleSize + 6,
+              right: -(handleSize + 6) / 2,
+              bottom: -(handleSize + 6) / 2,
+            },
+          ]}
+          onStartShouldSetResponder={() => true}
+          onMoveShouldSetResponder={() => true}
+          onResponderTerminationRequest={() => false}
+          onResponderGrant={(e) => {
+            onResizeStart?.(e.nativeEvent.pageX, e.nativeEvent.pageY);
+          }}
+          onResponderMove={(e) => {
+            onResizeMove?.(e.nativeEvent.pageX, e.nativeEvent.pageY);
+          }}
+          onResponderRelease={() => onResizeEnd?.()}
+          onResponderTerminate={() => onResizeEnd?.()}
+        />
+      </>
+    ) : null;
+
+  if (gestureManaged) {
+    return (
+      <View style={shellStyle}>
+        {content}
+        {handles}
+      </View>
+    );
+  }
+
   return (
     <Pressable
       onPress={onSelect}
       onLongPress={onLongPress}
       delayLongPress={420}
-      style={[
-        styles.item,
-        shadows.card,
-        {
-          backgroundColor: transparentBg
-            ? 'transparent'
-            : item.backgroundColor ?? colors.paper,
-          borderColor: selected ? colors.selection : 'transparent',
-          borderWidth: selected ? 2 : 0,
-        },
-        item.type === 'region' && styles.regionOuter,
-      ]}
+      style={shellStyle}
     >
       {content}
-      {selected ? (
-        <>
-          <View
-            style={[
-              styles.handle,
-              { width: handleSize, height: handleSize, left: -handleSize / 2, top: -handleSize / 2 },
-            ]}
-            pointerEvents="none"
-          />
-          <View
-            style={[
-              styles.handle,
-              { width: handleSize, height: handleSize, right: -handleSize / 2, top: -handleSize / 2 },
-            ]}
-            pointerEvents="none"
-          />
-          <View
-            style={[
-              styles.handle,
-              { width: handleSize, height: handleSize, left: -handleSize / 2, bottom: -handleSize / 2 },
-            ]}
-            pointerEvents="none"
-          />
-          <View
-            style={[
-              styles.handle,
-              styles.resizeHandle,
-              {
-                width: handleSize + 4,
-                height: handleSize + 4,
-                right: -(handleSize + 4) / 2,
-                bottom: -(handleSize + 4) / 2,
-              },
-            ]}
-            onStartShouldSetResponder={() => true}
-            onMoveShouldSetResponder={() => true}
-            onResponderGrant={(e) => {
-              onResizeStart?.(e.nativeEvent.pageX, e.nativeEvent.pageY);
-            }}
-            onResponderMove={(e) => {
-              onResizeMove?.(e.nativeEvent.pageX, e.nativeEvent.pageY);
-            }}
-            onResponderRelease={() => onResizeEnd?.()}
-            onResponderTerminate={() => onResizeEnd?.()}
-          />
-        </>
-      ) : null}
+      {handles}
     </Pressable>
   );
 }

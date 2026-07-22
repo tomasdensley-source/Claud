@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Alert, Dimensions, StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
@@ -6,6 +6,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
+import Svg, { Path } from 'react-native-svg';
 import { useBoard } from '../store/BoardContext';
 import { colors } from '../theme';
 import { CanvasItemView } from './CanvasItemView';
@@ -53,6 +54,183 @@ function boundsOf(items: BoardItem[]) {
   return { minX, minY, maxX, maxY };
 }
 
+function pointsToPath(points: { x: number; y: number }[]): string {
+  if (points.length === 0) return '';
+  return points
+    .map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x.toFixed(1)} ${p.y.toFixed(1)}`)
+    .join(' ');
+}
+
+type DragVisual = { ids: string[]; dx: number; dy: number };
+
+interface BoardItemNodeProps {
+  item: BoardItem;
+  selected: boolean;
+  editing: boolean;
+  scale: number;
+  tool: string;
+  dragDx: number;
+  dragDy: number;
+  onSelect: (id: string) => void;
+  onLongPressEdit: (id: string) => void;
+  onDragStart: (id: string) => void;
+  onDragMove: (dx: number, dy: number) => void;
+  onDragEnd: () => void;
+  onChangeText: (id: string, text: string) => void;
+  onToggleTask: (id: string) => void;
+  onEndEdit: () => void;
+  onResizeStart: (id: string, width: number, height: number, pageX: number, pageY: number) => void;
+  onResizeMove: (pageX: number, pageY: number) => void;
+  onResizeEnd: () => void;
+}
+
+const BoardItemNode = memo(function BoardItemNode({
+  item,
+  selected,
+  editing,
+  scale,
+  tool,
+  dragDx,
+  dragDy,
+  onSelect,
+  onLongPressEdit,
+  onDragStart,
+  onDragMove,
+  onDragEnd,
+  onChangeText,
+  onToggleTask,
+  onEndEdit,
+  onResizeStart,
+  onResizeMove,
+  onResizeEnd,
+}: BoardItemNodeProps) {
+  const dragging = dragDx !== 0 || dragDy !== 0;
+
+  const tap = useMemo(
+    () =>
+      Gesture.Tap()
+        .maxDuration(250)
+        .onEnd(() => {
+          'worklet';
+          runOnJS(onSelect)(item.id);
+        }),
+    [item.id, onSelect],
+  );
+
+  const longPress = useMemo(
+    () =>
+      Gesture.LongPress()
+        .minDuration(420)
+        .maxDistance(14)
+        .onEnd((_e, success) => {
+          'worklet';
+          if (success) runOnJS(onLongPressEdit)(item.id);
+        }),
+    [item.id, onLongPressEdit],
+  );
+
+  const drag = useMemo(
+    () =>
+      Gesture.Pan()
+        .maxPointers(1)
+        .minDistance(4)
+        .averageTouches(false)
+        .onStart(() => {
+          'worklet';
+          runOnJS(onDragStart)(item.id);
+        })
+        .onUpdate((e) => {
+          'worklet';
+          runOnJS(onDragMove)(e.translationX / scale, e.translationY / scale);
+        })
+        .onEnd(() => {
+          'worklet';
+          runOnJS(onDragEnd)();
+        })
+        .onFinalize((_e, success) => {
+          'worklet';
+          // Commit even if the gesture was interrupted after movement began.
+          if (!success) runOnJS(onDragEnd)();
+        }),
+    [item.id, onDragEnd, onDragMove, onDragStart, scale],
+  );
+
+  const composed = useMemo(
+    () => Gesture.Exclusive(drag, longPress, tap),
+    [drag, longPress, tap],
+  );
+
+  // Drawings/regions don't block empty canvas unless selected.
+  const passThrough =
+    tool === 'draw' ||
+    ((item.type === 'drawing' || item.type === 'region') && !selected);
+
+  if (passThrough) {
+    return (
+      <View
+        pointerEvents="none"
+        style={{
+          position: 'absolute',
+          left: item.x + dragDx,
+          top: item.y + dragDy,
+          width: item.width,
+          height: item.height,
+          zIndex: item.zIndex + (selected ? 1000 : 0),
+          opacity: dragging ? 0.92 : 1,
+        }}
+      >
+        <CanvasItemView
+          item={{ ...item, x: 0, y: 0 }}
+          selected={selected}
+          editing={false}
+          scale={scale}
+          gestureManaged
+          onSelect={() => undefined}
+          onLongPress={() => undefined}
+          onChangeText={() => undefined}
+          onToggleTask={() => undefined}
+          onEndEdit={() => undefined}
+        />
+      </View>
+    );
+  }
+
+  return (
+    <GestureDetector gesture={composed}>
+      <View
+        collapsable={false}
+        style={{
+          position: 'absolute',
+          left: item.x + dragDx,
+          top: item.y + dragDy,
+          width: item.width,
+          height: item.height,
+          zIndex: item.zIndex + (selected ? 1000 : 0),
+          opacity: dragging ? 0.92 : 1,
+        }}
+      >
+        <CanvasItemView
+          item={{ ...item, x: 0, y: 0 }}
+          selected={selected}
+          editing={editing}
+          scale={scale}
+          gestureManaged
+          onSelect={() => onSelect(item.id)}
+          onLongPress={() => onLongPressEdit(item.id)}
+          onChangeText={(text) => onChangeText(item.id, text)}
+          onToggleTask={() => onToggleTask(item.id)}
+          onEndEdit={onEndEdit}
+          onResizeStart={(pageX, pageY) =>
+            onResizeStart(item.id, item.width, item.height, pageX, pageY)
+          }
+          onResizeMove={onResizeMove}
+          onResizeEnd={onResizeEnd}
+        />
+      </View>
+    </GestureDetector>
+  );
+});
+
 export function InfiniteCanvas({
   viewportWidth,
   viewportHeight,
@@ -67,15 +245,17 @@ export function InfiniteCanvas({
     currentBoard,
     selectedIds,
     tool,
+    drawColor,
+    drawWidth,
     select,
     clearSelection,
     moveItems,
     resizeItem,
     updateText,
     toggleTask,
-    appendDrawingPoint,
     addItem,
     addItems,
+    addDrawingStroke,
     setPanel,
     beginHistory,
   } = useBoard();
@@ -90,24 +270,33 @@ export function InfiniteCanvas({
 
   const [editingId, setEditingId] = useState<string | null>(null);
   const [scaleState, setScaleState] = useState(0.7);
+  const [dragVisual, setDragVisual] = useState<DragVisual | null>(null);
+  const [liveStroke, setLiveStroke] = useState<{
+    color: string;
+    width: number;
+    points: { x: number; y: number }[];
+  } | null>(null);
+
   const didInitialFit = useRef(false);
   const lastViewport = useRef({ w: viewportWidth, h: viewportHeight });
-
-  const drawingIdRef = useRef<string | null>(null);
   const toolRef = useRef(tool);
   const selectedRef = useRef(selectedIds);
   const scaleRef = useRef(scaleState);
+  const dragIdsRef = useRef<string[]>([]);
+  const dragCommittedRef = useRef(false);
+  const liveStrokeRef = useRef<{ x: number; y: number }[]>([]);
+  const strokeRafRef = useRef<number | null>(null);
+  const resizeRef = useRef<{
+    id: string;
+    startW: number;
+    startH: number;
+    pageX: number;
+    pageY: number;
+  } | null>(null);
+
   toolRef.current = tool;
   selectedRef.current = selectedIds;
   scaleRef.current = scaleState;
-
-  const dragIdsRef = useRef<string[]>([]);
-  const dragMovedRef = useRef(false);
-  const dragHistoryRef = useRef(false);
-  const lastPageRef = useRef({ x: 0, y: 0 });
-  const resizeRef = useRef<{ id: string; startW: number; startH: number; pageX: number; pageY: number } | null>(
-    null,
-  );
 
   const reportScale = useCallback(
     (s: number) => {
@@ -154,12 +343,10 @@ export function InfiniteCanvas({
 
   useEffect(() => {
     if (!zoomRequest) return;
-    const focalX = viewportWidth / 2;
-    const focalY = viewportHeight / 2;
     const next = zoomAboutFocal(
       zoomRequest.scale,
-      focalX,
-      focalY,
+      viewportWidth / 2,
+      viewportHeight / 2,
       scale.value,
       tx.value,
       ty.value,
@@ -179,7 +366,6 @@ export function InfiniteCanvas({
     applyTransform(next.scale, next.tx, next.ty);
   }, [centerRequest, applyTransform, scale, viewportHeight, viewportWidth]);
 
-  // Fit once on first ready layout; on rotate keep world center pinned (no forced re-fit).
   useEffect(() => {
     if (viewportWidth < 32 || viewportHeight < 32) return;
     if (!didInitialFit.current) {
@@ -190,13 +376,7 @@ export function InfiniteCanvas({
     }
     const prev = lastViewport.current;
     if (prev.w === viewportWidth && prev.h === viewportHeight) return;
-    const worldCenter = screenToWorld(
-      prev.w / 2,
-      prev.h / 2,
-      scale.value,
-      tx.value,
-      ty.value,
-    );
+    const worldCenter = screenToWorld(prev.w / 2, prev.h / 2, scale.value, tx.value, ty.value);
     lastViewport.current = { w: viewportWidth, h: viewportHeight };
     const next = centerOnPoint(
       worldCenter.x,
@@ -281,26 +461,71 @@ export function InfiniteCanvas({
     [addItem, addItems, onToast, placeFilesAt, scale, setPanel, tx, ty],
   );
 
-  const drawAt = useCallback(
-    (x: number, y: number, start: boolean) => {
-      const world = screenToWorld(x, y, scale.value, tx.value, ty.value);
-      if (start) drawingIdRef.current = null;
-      drawingIdRef.current = appendDrawingPoint(drawingIdRef.current, world, start);
+  const flushLiveStrokePreview = useCallback(() => {
+    strokeRafRef.current = null;
+    const points = liveStrokeRef.current;
+    if (points.length === 0) return;
+    setLiveStroke({
+      color: drawColor,
+      width: drawWidth,
+      points: points.slice(),
+    });
+  }, [drawColor, drawWidth]);
+
+  const strokeDoneRef = useRef(false);
+
+  const startStroke = useCallback(
+    (screenX: number, screenY: number) => {
+      strokeDoneRef.current = false;
+      const world = screenToWorld(screenX, screenY, scale.value, tx.value, ty.value);
+      liveStrokeRef.current = [world];
+      setLiveStroke({ color: drawColor, width: drawWidth, points: [world] });
     },
-    [appendDrawingPoint, scale, tx, ty],
+    [drawColor, drawWidth, scale, tx, ty],
   );
+
+  const moveStroke = useCallback(
+    (screenX: number, screenY: number) => {
+      if (strokeDoneRef.current) return;
+      const world = screenToWorld(screenX, screenY, scale.value, tx.value, ty.value);
+      const pts = liveStrokeRef.current;
+      const last = pts[pts.length - 1];
+      if (last && Math.hypot(world.x - last.x, world.y - last.y) < 1.2) return;
+      pts.push(world);
+      if (strokeRafRef.current == null) {
+        strokeRafRef.current = requestAnimationFrame(flushLiveStrokePreview);
+      }
+    },
+    [flushLiveStrokePreview, scale, tx, ty],
+  );
+
+  const endStroke = useCallback(() => {
+    if (strokeDoneRef.current) return;
+    strokeDoneRef.current = true;
+    if (strokeRafRef.current != null) {
+      cancelAnimationFrame(strokeRafRef.current);
+      strokeRafRef.current = null;
+    }
+    const points = liveStrokeRef.current;
+    liveStrokeRef.current = [];
+    setLiveStroke(null);
+    if (points.length < 2) return;
+    addDrawingStroke(points, drawColor, drawWidth);
+  }, [addDrawingStroke, drawColor, drawWidth]);
 
   const endPanReport = useCallback(() => {
     reportScale(scale.value);
     reportCameraCenter();
   }, [reportCameraCenter, reportScale, scale]);
 
-  // One-finger pan only — never fights two-finger pinch.
+  // Empty-canvas pan; item GestureDetectors take touches on cards first.
   const panGesture = useMemo(
     () =>
       Gesture.Pan()
         .minPointers(1)
         .maxPointers(1)
+        .minDistance(8)
+        .averageTouches(false)
         .onBegin(() => {
           'worklet';
           if (pinching.value) return;
@@ -353,10 +578,12 @@ export function InfiniteCanvas({
 
   const tapGesture = useMemo(
     () =>
-      Gesture.Tap().onEnd(() => {
-        'worklet';
-        runOnJS(clearSel)();
-      }),
+      Gesture.Tap()
+        .maxDuration(250)
+        .onEnd(() => {
+          'worklet';
+          runOnJS(clearSel)();
+        }),
     [clearSel],
   );
 
@@ -376,36 +603,94 @@ export function InfiniteCanvas({
     () =>
       Gesture.Pan()
         .maxPointers(1)
+        .minDistance(0)
         .onBegin((e) => {
           'worklet';
-          runOnJS(drawAt)(e.x, e.y, true);
+          runOnJS(startStroke)(e.x, e.y);
         })
         .onUpdate((e) => {
           'worklet';
-          runOnJS(drawAt)(e.x, e.y, false);
+          runOnJS(moveStroke)(e.x, e.y);
+        })
+        .onEnd(() => {
+          'worklet';
+          runOnJS(endStroke)();
         }),
-    [drawAt],
+    [endStroke, moveStroke, startStroke],
+  );
+
+  // In draw mode, require two fingers to pan so one finger always draws.
+  const drawPanGesture = useMemo(
+    () =>
+      Gesture.Pan()
+        .minPointers(2)
+        .maxPointers(2)
+        .onBegin(() => {
+          'worklet';
+          savedTx.value = tx.value;
+          savedTy.value = ty.value;
+        })
+        .onUpdate((e) => {
+          'worklet';
+          tx.value = savedTx.value + e.translationX;
+          ty.value = savedTy.value + e.translationY;
+        })
+        .onEnd(() => {
+          'worklet';
+          runOnJS(endPanReport)();
+        }),
+    [endPanReport, savedTx, savedTy, tx, ty],
   );
 
   const composed = useMemo(() => {
     if (tool === 'draw') {
-      return Gesture.Simultaneous(pinchGesture, Gesture.Exclusive(drawGesture, panGesture));
+      return Gesture.Simultaneous(
+        pinchGesture,
+        Gesture.Exclusive(drawGesture, drawPanGesture),
+      );
     }
     return Gesture.Simultaneous(
       pinchGesture,
       panGesture,
       Gesture.Exclusive(longPressGesture, tapGesture),
     );
-  }, [tool, pinchGesture, panGesture, drawGesture, longPressGesture, tapGesture]);
+  }, [
+    tool,
+    pinchGesture,
+    panGesture,
+    drawGesture,
+    drawPanGesture,
+    longPressGesture,
+    tapGesture,
+  ]);
 
-  // Top-left origin so translate+scale math matches screenToWorld / pinch focal math.
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: tx.value }, { translateY: ty.value }, { scale: scale.value }],
     transformOrigin: 'top left',
   }));
 
-  const startItemDrag = useCallback(
-    (id: string, pageX: number, pageY: number) => {
+  const onSelectItem = useCallback(
+    (id: string) => {
+      if (toolRef.current === 'multi') select([id], true);
+      else select([id], false);
+      setEditingId(null);
+    },
+    [select],
+  );
+
+  const onLongPressEdit = useCallback(
+    (id: string) => {
+      select([id], false);
+      const item = currentBoard.items.find((it) => it.id === id);
+      if (item && (item.type === 'text' || item.type === 'task' || item.type === 'mindmap')) {
+        setEditingId(id);
+      }
+    },
+    [currentBoard.items, select],
+  );
+
+  const onDragStart = useCallback(
+    (id: string) => {
       const selected = selectedRef.current;
       const ids =
         toolRef.current === 'multi'
@@ -416,9 +701,8 @@ export function InfiniteCanvas({
             ? selected
             : [id];
       dragIdsRef.current = ids;
-      dragMovedRef.current = false;
-      dragHistoryRef.current = false;
-      lastPageRef.current = { x: pageX, y: pageY };
+      dragCommittedRef.current = false;
+      setDragVisual({ ids, dx: 0, dy: 0 });
       if (toolRef.current === 'multi') {
         if (!selected.includes(id)) select([id], true);
       } else if (!(selected.includes(id) && selected.length > 1)) {
@@ -429,30 +713,29 @@ export function InfiniteCanvas({
     [select],
   );
 
-  const moveItemDrag = useCallback(
-    (pageX: number, pageY: number) => {
-      const ids = dragIdsRef.current;
-      if (ids.length === 0) return;
-      const s = scaleRef.current || 1;
-      const dx = (pageX - lastPageRef.current.x) / s;
-      const dy = (pageY - lastPageRef.current.y) / s;
-      lastPageRef.current = { x: pageX, y: pageY };
-      if (dx === 0 && dy === 0) return;
-      if (!dragHistoryRef.current) {
-        beginHistory();
-        dragHistoryRef.current = true;
-      }
-      dragMovedRef.current = true;
-      moveItems(ids, dx, dy, false);
-    },
-    [beginHistory, moveItems],
-  );
-
-  const endItemDrag = useCallback(() => {
-    dragIdsRef.current = [];
-    dragMovedRef.current = false;
-    dragHistoryRef.current = false;
+  const onDragMove = useCallback((dx: number, dy: number) => {
+    const ids = dragIdsRef.current;
+    if (ids.length === 0) return;
+    setDragVisual({ ids, dx, dy });
   }, []);
+
+  const dragVisualRef = useRef(dragVisual);
+  dragVisualRef.current = dragVisual;
+
+  const onDragEndStable = useCallback(() => {
+    if (dragCommittedRef.current) return;
+    dragCommittedRef.current = true;
+    const ids = dragIdsRef.current;
+    const visual = dragVisualRef.current;
+    const dx = visual?.dx ?? 0;
+    const dy = visual?.dy ?? 0;
+    dragIdsRef.current = [];
+    setDragVisual(null);
+    if (ids.length === 0) return;
+    if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) return;
+    beginHistory();
+    moveItems(ids, dx, dy, false);
+  }, [beginHistory, moveItems]);
 
   const startResize = useCallback(
     (id: string, width: number, height: number, pageX: number, pageY: number) => {
@@ -468,9 +751,7 @@ export function InfiniteCanvas({
       const r = resizeRef.current;
       if (!r) return;
       const s = scaleRef.current || 1;
-      const dw = (pageX - r.pageX) / s;
-      const dh = (pageY - r.pageY) / s;
-      resizeItem(r.id, r.startW + dw, r.startH + dh, false);
+      resizeItem(r.id, r.startW + (pageX - r.pageX) / s, r.startH + (pageY - r.pageY) / s, false);
     },
     [resizeItem],
   );
@@ -479,75 +760,64 @@ export function InfiniteCanvas({
     resizeRef.current = null;
   }, []);
 
+  // Stable z-order render: lower first, selected later for handles.
+  const sortedItems = useMemo(
+    () =>
+      [...currentBoard.items].sort((a, b) => {
+        const az = a.zIndex + (selectedIds.includes(a.id) ? 100000 : 0);
+        const bz = b.zIndex + (selectedIds.includes(b.id) ? 100000 : 0);
+        return az - bz;
+      }),
+    [currentBoard.items, selectedIds],
+  );
+
   return (
     <View style={[styles.root, { width: viewportWidth, height: viewportHeight }]}>
-      {/* Fixed viewport hit target — gestures use screen-space coords. */}
       <GestureDetector gesture={composed}>
         <View style={styles.gesturePlane} collapsable={false}>
           <Animated.View style={[styles.world, animatedStyle]} collapsable={false}>
             <GridBackground worldSize={WORLD} />
-            {currentBoard.items.map((item) => {
+            {sortedItems.map((item) => {
               const selected = selectedIds.includes(item.id);
-              const passThrough = item.type === 'drawing' && !selected && tool !== 'draw';
+              const dragging = dragVisual?.ids.includes(item.id);
               return (
-                <View
+                <BoardItemNode
                   key={item.id}
-                  pointerEvents={passThrough ? 'none' : 'box-none'}
-                  style={{
-                    position: 'absolute',
-                    left: item.x,
-                    top: item.y,
-                    width: item.width,
-                    height: item.height,
-                    zIndex: item.zIndex + (selected ? 1000 : 0),
-                  }}
-                >
-                  <View
-                    onStartShouldSetResponder={() => toolRef.current !== 'draw'}
-                    onMoveShouldSetResponder={() => toolRef.current !== 'draw'}
-                    onResponderGrant={(e) => {
-                      startItemDrag(item.id, e.nativeEvent.pageX, e.nativeEvent.pageY);
-                    }}
-                    onResponderMove={(e) => {
-                      moveItemDrag(e.nativeEvent.pageX, e.nativeEvent.pageY);
-                    }}
-                    onResponderRelease={endItemDrag}
-                    onResponderTerminate={endItemDrag}
-                    style={styles.itemHit}
-                  >
-                    <CanvasItemView
-                      item={{ ...item, x: 0, y: 0 }}
-                      selected={selected}
-                      editing={editingId === item.id}
-                      scale={scaleState}
-                      onSelect={() => {
-                        if (tool === 'multi') select([item.id], true);
-                        else select([item.id], false);
-                        setEditingId(null);
-                      }}
-                      onLongPress={() => {
-                        select([item.id], false);
-                        if (
-                          item.type === 'text' ||
-                          item.type === 'task' ||
-                          item.type === 'mindmap'
-                        ) {
-                          setEditingId(item.id);
-                        }
-                      }}
-                      onChangeText={(text) => updateText(item.id, text)}
-                      onToggleTask={() => toggleTask(item.id)}
-                      onEndEdit={() => setEditingId(null)}
-                      onResizeStart={(pageX, pageY) =>
-                        startResize(item.id, item.width, item.height, pageX, pageY)
-                      }
-                      onResizeMove={moveResize}
-                      onResizeEnd={endResize}
-                    />
-                  </View>
-                </View>
+                  item={item}
+                  selected={selected}
+                  editing={editingId === item.id}
+                  scale={scaleState}
+                  tool={tool}
+                  dragDx={dragging ? dragVisual!.dx : 0}
+                  dragDy={dragging ? dragVisual!.dy : 0}
+                  onSelect={onSelectItem}
+                  onLongPressEdit={onLongPressEdit}
+                  onDragStart={onDragStart}
+                  onDragMove={onDragMove}
+                  onDragEnd={onDragEndStable}
+                  onChangeText={updateText}
+                  onToggleTask={toggleTask}
+                  onEndEdit={() => setEditingId(null)}
+                  onResizeStart={startResize}
+                  onResizeMove={moveResize}
+                  onResizeEnd={endResize}
+                />
               );
             })}
+            {liveStroke && liveStroke.points.length > 0 ? (
+              <View pointerEvents="none" style={StyleSheet.absoluteFill}>
+                <Svg width={WORLD} height={WORLD}>
+                  <Path
+                    d={pointsToPath(liveStroke.points)}
+                    stroke={liveStroke.color}
+                    strokeWidth={liveStroke.width}
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </Svg>
+              </View>
+            ) : null}
           </Animated.View>
         </View>
       </GestureDetector>
@@ -591,9 +861,5 @@ const styles = StyleSheet.create({
     width: WORLD,
     height: WORLD,
     backgroundColor: colors.canvas,
-  },
-  itemHit: {
-    width: '100%',
-    height: '100%',
   },
 });

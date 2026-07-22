@@ -58,6 +58,11 @@ interface BoardContextValue {
     point: { x: number; y: number },
     startNewPath: boolean,
   ) => string;
+  addDrawingStroke: (
+    worldPoints: { x: number; y: number }[],
+    color: string,
+    width: number,
+  ) => string | null;
 }
 
 const BoardContext = createContext<BoardContextValue | null>(null);
@@ -421,7 +426,6 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
           let height = it.height;
           let paths = it.paths;
 
-          // Expand bounds left/up when the stroke goes outside the box.
           if (localX < pad) {
             const shift = pad - localX;
             originX -= shift;
@@ -461,6 +465,46 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
       return targetId;
     },
     [drawColor, drawWidth, updateItems],
+  );
+
+  const addDrawingStroke = useCallback(
+    (worldPoints: { x: number; y: number }[], color: string, width: number) => {
+      if (worldPoints.length === 0) return null;
+      const pad = Math.max(24, width * 4);
+      let minX = Infinity;
+      let minY = Infinity;
+      let maxX = -Infinity;
+      let maxY = -Infinity;
+      for (const p of worldPoints) {
+        minX = Math.min(minX, p.x);
+        minY = Math.min(minY, p.y);
+        maxX = Math.max(maxX, p.x);
+        maxY = Math.max(maxY, p.y);
+      }
+      const x = minX - pad;
+      const y = minY - pad;
+      const itemWidth = Math.max(pad * 2, maxX - minX + pad * 2);
+      const itemHeight = Math.max(pad * 2, maxY - minY + pad * 2);
+      const localPoints = worldPoints.map((p) => ({ x: p.x - x, y: p.y - y }));
+      const id = uid('drawing');
+      const zIndex =
+        (boardsRef.current
+          .find((b) => b.id === currentBoardIdRef.current)
+          ?.items.reduce((m, it) => Math.max(m, it.zIndex), 0) ?? 0) + 1;
+      const item: BoardItem = {
+        id,
+        type: 'drawing',
+        x,
+        y,
+        width: itemWidth,
+        height: itemHeight,
+        zIndex,
+        paths: [{ color, width, points: localPoints }],
+      };
+      updateItems((items) => [...items, item], true);
+      return id;
+    },
+    [updateItems],
   );
 
   const value: BoardContextValue = {
@@ -503,6 +547,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     beginHistory,
     resetToSeed,
     appendDrawingPoint,
+    addDrawingStroke,
   };
 
   return <BoardContext.Provider value={value}>{children}</BoardContext.Provider>;
