@@ -37,32 +37,19 @@ Skia + Reanimated · Gesture Handler · expo-haptics · expo-sqlite + FileSystem
 - [x] Snap-to-grid on object drop
 - [x] Mind-map nodes: no manual resize handles
 - [x] Connector color/thickness hold-edit (midpoint long-press)
-- [ ] Full collision application to every chrome piece every frame
-- [ ] Keyboard-aware text-format reposition
-
-### 3. Objects
-- [x] Markdown-formatted text cards
-- [x] Task 3s progressive glow hold-complete + water-flow
-- [x] Mind-map collapse / depth / tidy (no manual resize)
-- [x] Colored regions + zoom-into background takeover
-- [x] Drawing layer (Skia live stroke + SVG) + stroke hold-edit
-- [x] Connector color/thickness hold-edit
-- [x] Box resize handles (text/task/region/shape/file/image; not mindmap/drawing)
-- [x] PDF cover cards + in-app WebView reader
+- [x] Full collision application to every chrome piece every frame
+- [x] Keyboard-aware text-format reposition
+- [x] Compact text-formatting panel (selected text/task)
 - [x] Snap-to-grid on object drop
-
-### 4. Data & Android
-- [x] SQLite dual-write + AsyncStorage migrate
-- [x] JSON Canvas import/export + Paste AI Board
-- [x] Multi-board duplicate/archive/recents
-- [x] Landmarks / Places
-- [x] Region Markdown /.canvas export
+- [x] Mind-map nodes: no manual resize handles
+- [x] Connector color/thickness hold-edit (midpoint long-press)
+- [x] Landmark zoom persistence (SQLite)
+- [x] Graph hygiene on delete/duplicate/import
 - [ ] Region PNG/PDF/ZIP export
 - [ ] Voice dictation capture
 - [ ] Full a11y audit
-
-### 5. Quality
-- [x] Centralized soft haptics
+- [ ] Lasso selection (marquee covers rect selection)
+- [ ] Multi-touch nav while actively dragging a connector endpoint
 - [ ] Full Skia scene graph
 - [ ] Large-canvas virtualization
 - [ ] Full Android verification matrix
