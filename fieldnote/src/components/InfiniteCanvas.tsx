@@ -33,6 +33,7 @@ import { descendantCount, visibleMindMapIds } from '../lib/mindMap';
 import { shareText } from '../lib/share';
 import { isPdfAsset } from '../lib/pdf';
 import { snapPoint } from '../lib/snap';
+import { assignRegionParents } from '../lib/regions';
 import { PdfReaderModal } from './PdfReaderModal';
 
 const WORLD = 4000;
@@ -288,9 +289,15 @@ const BoardItemNode = memo(function BoardItemNode({
 
   const composed = useMemo(() => {
     // Task hold has priority over drag so the 3s glow can finish.
-    if (isTask) return Gesture.Exclusive(taskHold, drag, tap);
+    // Edit long-press only when hold is disabled (done or blocked).
+    if (isTask) {
+      const holdEnabled =
+        item.type === 'task' && !item.done && !taskBlocked;
+      if (holdEnabled) return Gesture.Exclusive(taskHold, drag, tap);
+      return Gesture.Exclusive(drag, longPress, tap);
+    }
     return Gesture.Exclusive(drag, longPress, tap);
-  }, [drag, isTask, longPress, tap, taskHold]);
+  }, [drag, isTask, item, longPress, tap, taskBlocked, taskHold]);
 
   // Unselected drawings/regions pass through so draw + marquee hit the canvas.
   const passThrough =
@@ -412,8 +419,9 @@ export function InfiniteCanvas({
     exportRegion,
     updateDrawingStyle,
     updateConnectorStyle,
-    deleteSelected,
+    deleteItems,
     setDrawColor,
+    setEditingId: setBoardEditingId,
   } = useBoard();
 
   const scale = useSharedValue(0.7);
@@ -424,7 +432,14 @@ export function InfiniteCanvas({
   const savedTy = useSharedValue(0);
   const pinching = useSharedValue(false);
 
-  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingId, setEditingIdLocal] = useState<string | null>(null);
+  const setEditingId = useCallback(
+    (id: string | null) => {
+      setEditingIdLocal(id);
+      setBoardEditingId(id);
+    },
+    [setBoardEditingId],
+  );
   const [scaleState, setScaleState] = useState(0.7);
   const [dragVisual, setDragVisual] = useState<DragVisual | null>(null);
   const [holdState, setHoldState] = useState<{ id: string; progress: number } | null>(null);
@@ -858,28 +873,33 @@ export function InfiniteCanvas({
         .onEnd(() => {
           'worklet';
           runOnJS(endStroke)();
+        })
+        .onFinalize(() => {
+          'worklet';
+          runOnJS(endStroke)();
         }),
     [endStroke, moveStroke, startStroke],
   );
 
+  // Full-screen 2-finger nav — always wins over objects (Batch 4).
+  const navOverlay = useMemo(
+    () => Gesture.Simultaneous(pinchGesture, twoFingerPan),
+    [pinchGesture, twoFingerPan],
+  );
+
   const composed = useMemo(() => {
     if (tool === 'draw') {
-      // One finger draws; two-finger pan is exclusive alternative; pinch simultaneous.
-      return Gesture.Simultaneous(
-        pinchGesture,
-        Gesture.Exclusive(drawGesture, twoFingerPan),
-      );
+      // One-finger draw simultaneous with 2-finger nav (nav activates at 2 pointers).
+      return Gesture.Simultaneous(navOverlay, drawGesture);
     }
     return Gesture.Simultaneous(
-      navigationGesture,
+      navOverlay,
       Gesture.Exclusive(longPressGesture, marqueeGesture, tapGesture),
     );
   }, [
     tool,
-    pinchGesture,
+    navOverlay,
     drawGesture,
-    twoFingerPan,
-    navigationGesture,
     longPressGesture,
     marqueeGesture,
     tapGesture,
@@ -955,8 +975,7 @@ export function InfiniteCanvas({
             text: 'Delete',
             style: 'destructive',
             onPress: () => {
-              select([id], false);
-              deleteSelected();
+              deleteItems([id]);
               onToast('Stroke deleted');
             },
           },
@@ -985,8 +1004,7 @@ export function InfiniteCanvas({
             text: 'Delete',
             style: 'destructive',
             onPress: () => {
-              select([id], false);
-              deleteSelected();
+              deleteItems([id]);
               onToast('Connector deleted');
             },
           },
@@ -1037,7 +1055,7 @@ export function InfiniteCanvas({
     },
     [
       currentBoard.items,
-      deleteSelected,
+      deleteItems,
       drawColor,
       enterRegion,
       exportRegion,
@@ -1074,15 +1092,14 @@ export function InfiniteCanvas({
           text: 'Delete',
           style: 'destructive',
           onPress: () => {
-            select([id], false);
-            deleteSelected();
+            deleteItems([id]);
             onToast('Connector deleted');
           },
         },
         { text: 'Cancel', style: 'cancel' },
       ]);
     },
-    [currentBoard.items, deleteSelected, drawColor, onToast, select, updateConnectorStyle],
+    [currentBoard.items, deleteItems, drawColor, onToast, select, updateConnectorStyle],
   );
 
   const onDragStart = useCallback(
@@ -1131,14 +1148,15 @@ export function InfiniteCanvas({
     if (ids.length === 0) return;
     if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) return;
     beginHistory();
-    // Snap each dropped object to the grid (blueprint alignment).
     updateItems(
-      (items) =>
-        items.map((it) => {
+      (items) => {
+        const moved = items.map((it) => {
           if (!ids.includes(it.id) || it.locked) return it;
           const snapped = snapPoint({ x: it.x + dx, y: it.y + dy });
           return { ...it, x: snapped.x, y: snapped.y };
-        }),
+        });
+        return assignRegionParents(moved);
+      },
       false,
     );
   }, [beginHistory, updateItems]);
@@ -1293,6 +1311,7 @@ export function InfiniteCanvas({
               items={currentBoard.items}
               worldSize={WORLD}
               onLongPressConnector={onEditConnector}
+              dragVisual={dragVisual}
             />
             {sortedItems.map((item) => {
               const selected = selectedIds.includes(item.id);

@@ -287,7 +287,7 @@ export function CanvasItemView({
                 cy="50%"
                 rx="42%"
                 ry="38%"
-                stroke={colors.ink}
+                stroke={item.color ?? colors.ink}
                 strokeWidth={3}
                 fill={item.backgroundColor ?? 'transparent'}
               />
@@ -297,7 +297,7 @@ export function CanvasItemView({
                 y1="50%"
                 x2="92%"
                 y2="50%"
-                stroke={colors.ink}
+                stroke={item.color ?? colors.ink}
                 strokeWidth={4}
               />
             ) : (
@@ -307,7 +307,7 @@ export function CanvasItemView({
                 width="84%"
                 height="76%"
                 rx={12}
-                stroke={colors.ink}
+                stroke={item.color ?? colors.ink}
                 strokeWidth={3}
                 fill={item.backgroundColor ?? 'transparent'}
               />

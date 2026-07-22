@@ -32,8 +32,20 @@ import {
 } from '../lib/jsonCanvas';
 import { saveSnapshot } from '../lib/snapshots';
 import { hapticImpact, hapticSuccess, hapticWarning } from '../lib/haptics';
+import {
+  ensureUniqueIds,
+  expandMindMapSelection,
+  pruneDeletedIds,
+  remapIds,
+} from '../lib/graphHygiene';
 
 export type Tool = 'select' | 'draw' | 'multi';
+
+type HistoryEntry = {
+  boards: Board[];
+  currentBoardId: string;
+  selectedIds: string[];
+};
 
 interface BoardContextValue {
   ready: boolean;
@@ -74,6 +86,7 @@ interface BoardContextValue {
   addItems: (items: DraftBoardItem[]) => string[];
   replaceBoardItems: (items: BoardItem[], recordHistory?: boolean) => void;
   deleteSelected: () => void;
+  deleteItems: (ids: string[]) => void;
   duplicateSelected: () => void;
   bringToFront: () => void;
   sendToBack: () => void;
@@ -100,6 +113,10 @@ interface BoardContextValue {
   updateConnectorStyle: (id: string, patch: { color?: string; thickness?: number }) => void;
   addLandmarkAt: (name: string, x: number, y: number, zoom?: number) => Promise<Landmark>;
   deleteLandmark: (id: string) => Promise<void>;
+  addMindMapChild: (parentId: string) => string | null;
+  addMindMapSibling: (nodeId: string) => string | null;
+  editingId: string | null;
+  setEditingId: (id: string | null) => void;
   undo: () => void;
   redo: () => void;
   beginHistory: () => void;
@@ -131,17 +148,20 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
   const [drawColor, setDrawColorState] = useState<string>(colors.ink);
   const [drawWidth, setDrawWidth] = useState(3);
   const [panel, setPanel] = useState<PanelKind>(null);
-  const [history, setHistory] = useState<Board[][]>([]);
-  const [future, setFuture] = useState<Board[][]>([]);
+  const [history, setHistory] = useState<HistoryEntry[]>([]);
+  const [future, setFuture] = useState<HistoryEntry[]>([]);
   const [lastSavedAt, setLastSavedAt] = useState<number | null>(null);
   const [mindMapDepth, setMindMapDepth] = useState<number | 'all'>('all');
   const [focusedRegionId, setFocusedRegionId] = useState<string | null>(null);
   const [landmarks, setLandmarks] = useState<Landmark[]>([]);
+  const [editingId, setEditingIdState] = useState<string | null>(null);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const boardsRef = useRef(boards);
   const currentBoardIdRef = useRef(currentBoardId);
+  const selectedIdsRef = useRef(selectedIds);
   boardsRef.current = boards;
   currentBoardIdRef.current = currentBoardId;
+  selectedIdsRef.current = selectedIds;
 
   useEffect(() => {
     let cancelled = false;
@@ -199,9 +219,26 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
   );
 
   const pushHistory = useCallback(() => {
-    setHistory((h) => [...h.slice(-50), cloneBoards(boardsRef.current)]);
+    setHistory((h) => [
+      ...h.slice(-50),
+      {
+        boards: cloneBoards(boardsRef.current),
+        currentBoardId: currentBoardIdRef.current,
+        selectedIds: [...selectedIdsRef.current],
+      },
+    ]);
     setFuture([]);
   }, []);
+
+  const setEditingId = useCallback(
+    (id: string | null) => {
+      if (id && id !== editingId) {
+        pushHistory();
+      }
+      setEditingIdState(id);
+    },
+    [editingId, pushHistory],
+  );
 
   const replaceCurrentItems = useCallback(
     (items: BoardItem[], recordHistory: boolean) => {
@@ -275,10 +312,17 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
             if (it.type === 'region') return { ...it, frameColor: color, backgroundColor: color };
             return { ...it, backgroundColor: color };
           }
+          if (it.type === 'drawing') {
+            return {
+              ...it,
+              color,
+              paths: it.paths.map((p) => ({ ...p, color })),
+            };
+          }
           if (it.type === 'text' || it.type === 'task' || it.type === 'mindmap') {
             return { ...it, color };
           }
-          if (it.type === 'connector' || it.type === 'drawing' || it.type === 'shape') {
+          if (it.type === 'connector' || it.type === 'shape') {
             return { ...it, color };
           }
           return { ...it, color };
@@ -452,7 +496,11 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
         const doc = parseJsonCanvas(raw);
         const imported = layoutRepair(jsonCanvasToItems(doc));
         if (imported.length === 0) return { ok: false, error: 'No nodes found' };
-        updateItems((items) => assignRegionParents(syncConnectorGlow([...items, ...imported])));
+        updateItems((items) => {
+          const existing = new Set(items.map((i) => i.id));
+          const { items: unique } = ensureUniqueIds(imported, existing);
+          return assignRegionParents(syncConnectorGlow([...items, ...unique]));
+        });
         return { ok: true, count: imported.length };
       } catch (e) {
         return { ok: false, error: String(e) };
@@ -512,29 +560,51 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     [updateItems],
   );
 
+  const deleteItems = useCallback(
+    (ids: string[]) => {
+      if (ids.length === 0) return;
+      const deleted = new Set(ids);
+      updateItems((items) => pruneDeletedIds(items, deleted));
+      setSelectedIds((prev) => prev.filter((id) => !deleted.has(id)));
+      if (focusedRegionId && deleted.has(focusedRegionId)) {
+        setFocusedRegionId(null);
+      }
+      void hapticImpact('medium');
+    },
+    [focusedRegionId, updateItems],
+  );
+
   const deleteSelected = useCallback(() => {
-    if (selectedIds.length === 0) return;
-    updateItems((items) => items.filter((it) => !selectedIds.includes(it.id)));
-    setSelectedIds([]);
-    void hapticImpact('medium');
-  }, [selectedIds, updateItems]);
+    deleteItems(selectedIdsRef.current);
+  }, [deleteItems]);
 
   const duplicateSelected = useCallback(() => {
-    if (selectedIds.length === 0) return;
+    const selected = selectedIdsRef.current;
+    if (selected.length === 0) return;
     const board = boardsRef.current.find((b) => b.id === currentBoardIdRef.current);
     if (!board) return;
-    const copies: BoardItem[] = [];
-    const newIds: string[] = [];
-    board.items.forEach((it) => {
-      if (!selectedIds.includes(it.id)) return;
-      const id = uid(it.type);
-      newIds.push(id);
-      copies.push({ ...JSON.parse(JSON.stringify(it)), id, x: it.x + 28, y: it.y + 28 });
+    const expanded = expandMindMapSelection(board.items, selected);
+    const idMap = new Map<string, string>();
+    const selectedSet = new Set(expanded);
+    expanded.forEach((oldId) => {
+      const it = board.items.find((i) => i.id === oldId);
+      if (it) idMap.set(oldId, uid(it.type));
     });
-    updateItems((items) => [...items, ...copies]);
+    const copies: BoardItem[] = [];
+    board.items.forEach((it) => {
+      if (!selectedSet.has(it.id)) return;
+      if (it.type === 'connector') {
+        if (!idMap.has(it.fromId) || !idMap.has(it.toId)) return;
+      }
+      const raw = JSON.parse(JSON.stringify(it)) as BoardItem;
+      copies.push({ ...raw, x: it.x + 28, y: it.y + 28 });
+    });
+    const remapped = remapIds(copies, idMap);
+    const newIds = remapped.map((c) => c.id);
+    updateItems((items) => [...items, ...remapped]);
     setSelectedIds(newIds);
     void hapticImpact('light');
-  }, [selectedIds, updateItems]);
+  }, [updateItems]);
 
   const bringToFront = useCallback(() => {
     if (selectedIds.length === 0) return;
@@ -735,13 +805,112 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     setLandmarks((prev) => prev.filter((l) => l.id !== id));
   }, []);
 
+  const addMindMapChild = useCallback(
+    (parentId: string) => {
+      const board = boardsRef.current.find((b) => b.id === currentBoardIdRef.current);
+      if (!board) return null;
+      const parent = board.items.find((it) => it.id === parentId && it.type === 'mindmap');
+      if (!parent || parent.type !== 'mindmap') return null;
+      const id = uid('mindmap');
+      const child = {
+        id,
+        type: 'mindmap' as const,
+        x: parent.x,
+        y: parent.y + parent.height + 36,
+        width: 160,
+        height: 64,
+        zIndex: parent.zIndex + 1,
+        backgroundColor: parent.backgroundColor ?? colors.paper,
+        color: parent.color,
+        text: 'Child',
+        children: [] as string[],
+      };
+      updateItems((items) =>
+        items
+          .map((it) =>
+            it.id === parentId && it.type === 'mindmap'
+              ? { ...it, children: [...it.children, id], collapsed: false }
+              : it,
+          )
+          .concat(child),
+      );
+      setSelectedIds([id]);
+      return id;
+    },
+    [updateItems],
+  );
+
+  const addMindMapSibling = useCallback(
+    (nodeId: string) => {
+      const board = boardsRef.current.find((b) => b.id === currentBoardIdRef.current);
+      if (!board) return null;
+      const node = board.items.find((it) => it.id === nodeId && it.type === 'mindmap');
+      if (!node || node.type !== 'mindmap') return null;
+      const parent = board.items.find(
+        (it) => it.type === 'mindmap' && it.children.includes(nodeId),
+      );
+      if (!parent || parent.type !== 'mindmap') {
+        return addMindMapChild(nodeId);
+      }
+      const id = uid('mindmap');
+      const sibling = {
+        id,
+        type: 'mindmap' as const,
+        x: node.x + node.width + 24,
+        y: node.y,
+        width: 160,
+        height: 64,
+        zIndex: node.zIndex,
+        backgroundColor: node.backgroundColor ?? colors.paper,
+        color: node.color,
+        text: 'Sibling',
+        children: [] as string[],
+      };
+      updateItems((items) =>
+        items
+          .map((it) =>
+            it.id === parent.id && it.type === 'mindmap'
+              ? { ...it, children: [...it.children, id] }
+              : it,
+          )
+          .concat(sibling),
+      );
+      setSelectedIds([id]);
+      return id;
+    },
+    [addMindMapChild, updateItems],
+  );
+
+  // Drop region focus if the region was deleted.
+  useEffect(() => {
+    if (!focusedRegionId) return;
+    const board = boards.find((b) => b.id === currentBoardId);
+    if (!board?.items.some((it) => it.id === focusedRegionId && it.type === 'region')) {
+      setFocusedRegionId(null);
+    }
+  }, [boards, currentBoardId, focusedRegionId]);
+
   const undo = useCallback(() => {
     setHistory((h) => {
       if (h.length === 0) return h;
       const prev = h[h.length - 1];
-      setFuture((f) => [cloneBoards(boardsRef.current), ...f].slice(0, 50));
-      setBoards(prev);
-      setSelectedIds([]);
+      setFuture((f) =>
+        [
+          {
+            boards: cloneBoards(boardsRef.current),
+            currentBoardId: currentBoardIdRef.current,
+            selectedIds: [...selectedIdsRef.current],
+          },
+          ...f,
+        ].slice(0, 50),
+      );
+      setBoards(prev.boards);
+      const stillThere = prev.boards.some((b) => b.id === prev.currentBoardId);
+      setCurrentBoardId(stillThere ? prev.currentBoardId : prev.boards[0]?.id ?? 'main');
+      setSelectedIds(prev.selectedIds.filter((id) =>
+        prev.boards.some((b) => b.items.some((it) => it.id === id)),
+      ));
+      setEditingIdState(null);
       void hapticImpact('medium');
       return h.slice(0, -1);
     });
@@ -751,9 +920,21 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     setFuture((f) => {
       if (f.length === 0) return f;
       const [next, ...rest] = f;
-      setHistory((h) => [...h, cloneBoards(boardsRef.current)].slice(-50));
-      setBoards(next);
-      setSelectedIds([]);
+      setHistory((h) =>
+        [
+          ...h,
+          {
+            boards: cloneBoards(boardsRef.current),
+            currentBoardId: currentBoardIdRef.current,
+            selectedIds: [...selectedIdsRef.current],
+          },
+        ].slice(-50),
+      );
+      setBoards(next.boards);
+      const stillThere = next.boards.some((b) => b.id === next.currentBoardId);
+      setCurrentBoardId(stillThere ? next.currentBoardId : next.boards[0]?.id ?? 'main');
+      setSelectedIds(next.selectedIds);
+      setEditingIdState(null);
       void hapticImpact('medium');
       return rest;
     });
@@ -922,6 +1103,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     addItems,
     replaceBoardItems,
     deleteSelected,
+    deleteItems,
     duplicateSelected,
     bringToFront,
     sendToBack,
@@ -945,6 +1127,10 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     updateConnectorStyle,
     addLandmarkAt,
     deleteLandmark,
+    addMindMapChild,
+    addMindMapSibling,
+    editingId,
+    setEditingId,
     undo,
     redo,
     beginHistory,

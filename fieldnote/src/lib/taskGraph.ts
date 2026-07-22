@@ -23,7 +23,8 @@ export function isDependencySatisfied(
   if (deps.length === 0) return true;
   return deps.every((id) => {
     const dep = tasks.get(id);
-    return dep?.done === true;
+    // Missing deps do not permanently block (deleted / corrupt ids).
+    return !dep || dep.done === true;
   });
 }
 

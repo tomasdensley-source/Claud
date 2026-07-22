@@ -92,3 +92,90 @@ export function anchorTopCenter(
     insets,
   );
 }
+
+export function anchorTopRight(
+  width: number,
+  height: number,
+  viewport: { width: number; height: number },
+  insets: SafeInsets,
+): Rect {
+  return clampRectToSafeArea(
+    {
+      x: viewport.width - insets.right - PANEL_GAP - width,
+      y: insets.top + PANEL_GAP,
+      width,
+      height,
+    },
+    viewport,
+    insets,
+  );
+}
+
+export function anchorBottomRight(
+  width: number,
+  height: number,
+  viewport: { width: number; height: number },
+  insets: SafeInsets,
+): Rect {
+  return clampRectToSafeArea(
+    {
+      x: viewport.width - insets.right - PANEL_GAP - width,
+      y: viewport.height - insets.bottom - PANEL_GAP - height,
+      width,
+      height,
+    },
+    viewport,
+    insets,
+  );
+}
+
+export function anchorLeftRail(
+  width: number,
+  height: number,
+  viewport: { width: number; height: number },
+  insets: SafeInsets,
+  belowY?: number,
+): Rect {
+  return clampRectToSafeArea(
+    {
+      x: insets.left + PANEL_GAP,
+      y: belowY ?? insets.top + PANEL_GAP + 44,
+      width,
+      height,
+    },
+    viewport,
+    insets,
+  );
+}
+
+export interface LayoutSlot {
+  id: string;
+  preferred: Rect;
+  priority: number;
+  visible: boolean;
+}
+
+/** Place visible slots high-priority first; lower priority yields to blockers. */
+export function resolveAll(
+  slots: LayoutSlot[],
+  viewport: { width: number; height: number },
+  insets: SafeInsets,
+): Map<string, Rect> {
+  const ordered = slots
+    .filter((s) => s.visible)
+    .slice()
+    .sort((a, b) => b.priority - a.priority);
+  const placed: { id: string; rect: Rect }[] = [];
+  const out = new Map<string, Rect>();
+  for (const slot of ordered) {
+    const rect = resolveCollisions(
+      slot.preferred,
+      placed.map((p) => p.rect),
+      viewport,
+      insets,
+    );
+    placed.push({ id: slot.id, rect });
+    out.set(slot.id, rect);
+  }
+  return out;
+}

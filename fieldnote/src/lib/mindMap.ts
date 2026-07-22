@@ -24,14 +24,8 @@ export function visibleMindMapIds(
     node.children.forEach((childId) => walk(childId, level + 1));
   };
   roots.forEach((r) => walk(r.id, 1));
-  // Standalone mindmaps with no graph links stay visible.
-  maps.forEach((m) => {
-    if (![...byId.values()].some((o) => o.children.includes(m.id))) {
-      // already walked as root
-    } else if (!visible.has(m.id) && depth === 'all') {
-      visible.add(m.id);
-    }
-  });
+  // Do NOT re-add collapsed/hidden children when depth === 'all'.
+  // Roots with no parent links are already walked above.
   return visible;
 }
 
@@ -93,4 +87,41 @@ export function descendantCount(item: MindMapItem, items: BoardItem[]): number {
   };
   walk(item.id);
   return count;
+}
+
+/** Create a root + real child mind-map nodes (never fake label ids). */
+export function createMindMapTree(
+  anchor: { x: number; y: number },
+  labels?: { root?: string; branches?: string[] },
+  makeId: (prefix: string) => string = (p) =>
+    `${p}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`,
+): MindMapItem[] {
+  const branches = labels?.branches ?? ['Branch', 'Branch'];
+  const rootId = makeId('mindmap');
+  const childIds = branches.map(() => makeId('mindmap'));
+  const root: MindMapItem = {
+    id: rootId,
+    type: 'mindmap',
+    x: anchor.x,
+    y: anchor.y,
+    width: 200,
+    height: 72,
+    zIndex: 1,
+    backgroundColor: '#faf6ee',
+    text: labels?.root ?? 'Idea',
+    children: childIds,
+  };
+  const kids: MindMapItem[] = childIds.map((id, i) => ({
+    id,
+    type: 'mindmap',
+    x: anchor.x + (i - (childIds.length - 1) / 2) * 160,
+    y: anchor.y + 110,
+    width: 160,
+    height: 64,
+    zIndex: 1,
+    backgroundColor: '#faf6ee',
+    text: branches[i] ?? 'Branch',
+    children: [],
+  }));
+  return [root, ...kids];
 }

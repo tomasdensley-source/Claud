@@ -4,6 +4,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { BoardProvider, useBoard } from './src/store/BoardContext';
+import { ChromeLayoutProvider } from './src/chrome/ChromeLayoutContext';
 import { InfiniteCanvas, useViewportSize } from './src/components/InfiniteCanvas';
 import { Toolbar } from './src/components/Toolbar';
 import { ZoomControls } from './src/components/ZoomControls';
@@ -365,7 +366,9 @@ export default function App() {
       <SafeAreaProvider>
         <ErrorBoundary>
           <BoardProvider>
-            <FieldnoteApp />
+            <ChromeLayoutProvider>
+              <FieldnoteApp />
+            </ChromeLayoutProvider>
           </BoardProvider>
         </ErrorBoundary>
       </SafeAreaProvider>

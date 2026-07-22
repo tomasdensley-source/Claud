@@ -6,6 +6,7 @@ import { useBoard } from '../../store/BoardContext';
 import { colors, radii } from '../../theme';
 import { pickAndBuildFileItems, pickAndBuildPhotoItems } from '../../lib/files';
 import { placeCentered } from '../../lib/placement';
+import { createMindMapTree } from '../../lib/mindMap';
 
 interface Props {
   visible: boolean;
@@ -57,16 +58,23 @@ export function AddPanel({ visible, onClose, viewCenter, onPlaced }: Props) {
 
   const addMindMap = () => {
     const { x, y } = placeAtCenter(280, 180);
-    addItem({
-      type: 'mindmap',
-      x,
-      y,
-      width: 280,
-      height: 180,
-      backgroundColor: colors.paper,
-      text: 'Idea',
-      children: ['Branch', 'Branch'],
-    });
+    const tree = createMindMapTree(
+      { x, y },
+      { root: 'Idea', branches: ['Branch', 'Branch'] },
+    );
+    addItems(
+      tree.map((node) => ({
+        type: 'mindmap' as const,
+        id: node.id,
+        x: node.x,
+        y: node.y,
+        width: node.width,
+        height: node.height,
+        backgroundColor: colors.paper,
+        text: node.text,
+        children: node.children,
+      })),
+    );
     onPlaced?.('Mind map added');
     onClose();
   };

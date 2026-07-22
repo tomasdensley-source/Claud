@@ -11,6 +11,15 @@ interface Props {
   items: BoardItem[];
   worldSize: number;
   onLongPressConnector?: (id: string) => void;
+  dragVisual?: { ids: string[]; dx: number; dy: number } | null;
+}
+
+function withDrag(
+  item: BoardItem,
+  dragVisual?: { ids: string[]; dx: number; dy: number } | null,
+): BoardItem {
+  if (!dragVisual || !dragVisual.ids.includes(item.id)) return item;
+  return { ...item, x: item.x + dragVisual.dx, y: item.y + dragVisual.dy };
 }
 
 function anchorPoint(
@@ -42,14 +51,18 @@ function ConnectorEdge({
   from,
   to,
   onLongPress,
+  dragVisual,
 }: {
   edge: ConnectorItem;
   from: BoardItem;
   to: BoardItem;
   onLongPress?: (id: string) => void;
+  dragVisual?: { ids: string[]; dx: number; dy: number } | null;
 }) {
-  const a = anchorPoint(from, edge.fromSide);
-  const b = anchorPoint(to, edge.toSide);
+  const aFrom = withDrag(from, dragVisual);
+  const aTo = withDrag(to, dragVisual);
+  const a = anchorPoint(aFrom, edge.fromSide);
+  const b = anchorPoint(aTo, edge.toSide);
   const pad = 24;
   const minX = Math.min(a.x, b.x) - pad;
   const minY = Math.min(a.y, b.y) - pad;
@@ -132,7 +145,7 @@ function ConnectorEdge({
   );
 }
 
-export function ConnectorLayer({ items, onLongPressConnector }: Props) {
+export function ConnectorLayer({ items, onLongPressConnector, dragVisual }: Props) {
   const byId = useMemo(() => new Map(items.map((it) => [it.id, it])), [items]);
   const connectors = items.filter((it): it is ConnectorItem => it.type === 'connector');
 
@@ -151,6 +164,7 @@ export function ConnectorLayer({ items, onLongPressConnector }: Props) {
             from={from}
             to={to}
             onLongPress={onLongPressConnector}
+            dragVisual={dragVisual}
           />
         );
       })}
