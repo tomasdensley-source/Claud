@@ -235,7 +235,7 @@ export function CanvasItemView({
     <Pressable
       onPress={onSelect}
       onLongPress={onLongPress}
-      delayLongPress={420}
+      delayLongPress={500}
       style={[
         styles.item,
         shadows.card,

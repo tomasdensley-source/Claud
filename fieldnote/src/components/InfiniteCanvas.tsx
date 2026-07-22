@@ -13,6 +13,7 @@ import { colors } from '../theme';
 import { CanvasItemView } from './CanvasItemView';
 import { BoardItem } from '../types';
 import { clampScale } from '../lib/camera';
+import { haptics } from '../lib/haptics';
 
 // Below this pointer velocity (px/s) we don't fling — avoids stray momentum from
 // releasing a pinch or a deliberate stop.
@@ -63,6 +64,7 @@ export function InfiniteCanvas({
     select,
     clearSelection,
     moveItems,
+    moveItemsCommitWithSnap,
     updateText,
     toggleTask,
     appendDrawingPoint,
@@ -179,13 +181,17 @@ export function InfiniteCanvas({
       const ady = dy - lastMoveCommit.current.dy;
       lastMoveCommit.current = { dx, dy };
       if (adx === 0 && ady === 0 && !commit) return;
-      moveItems(ids, adx, ady, commit);
       if (commit) {
+        // Only snap at drop — a live per-frame version would need continuous
+        // guide-line UI to feel intentional rather than jittery.
+        moveItemsCommitWithSnap(ids, adx, ady);
         lastMoveCommit.current = { dx: 0, dy: 0 };
         movingIdsRef.current = [];
+      } else {
+        moveItems(ids, adx, ady, false);
       }
     },
-    [moveItems],
+    [moveItems, moveItemsCommitWithSnap],
   );
 
   const drawAt = useCallback(
@@ -342,6 +348,7 @@ export function InfiniteCanvas({
               onLongPress={() => {
                 select([item.id], false);
                 if (item.type === 'text' || item.type === 'task' || item.type === 'mindmap') {
+                  haptics.light();
                   setEditingId(item.id);
                 }
               }}

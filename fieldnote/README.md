@@ -21,6 +21,9 @@ Built for **Android** (Expo Go + installable APK).
   5 persistent custom slots (hold a slot to save the last color used)
 - Compact, top-anchored, auto-dismissing notifications with Undo — replaces
   centered alerts for deletes, imports, and board repairs
+- Purposeful haptics on key actions (edit, toggle task, delete, color, drop);
+  ~500ms deliberate hold-to-edit; gentle alignment snapping when you drop a
+  dragged card near another one's edge or center
 - Minimap + zoom controls + Fit board
 - Long-press cards to edit; hold empty canvas to open Add
 
@@ -37,6 +40,8 @@ src/
   lib/camera.ts            Zoom/pan clamp + coordinate math
   lib/jsoncanvas.ts        JSON Canvas 1.0 import/export
   lib/normalize.ts         Coordinate repair for broken/AI-generated boards
+  lib/snapping.ts          Alignment-snap math for item dragging
+  lib/haptics.ts           Thin, always-safe expo-haptics wrapper
   components/Palette.tsx  Vertical color palette (frame/body, custom slots)
   components/Toast.tsx    Compact top notification with Undo
   components/              Canvas, toolbar, minimap, panels

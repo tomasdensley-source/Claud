@@ -18,6 +18,8 @@ import {
 } from '../lib/storage';
 import { parseJSONCanvas, serializeJSONCanvas } from '../lib/jsoncanvas';
 import { repairBoardItems } from '../lib/normalize';
+import { computeSnapDelta } from '../lib/snapping';
+import { haptics } from '../lib/haptics';
 import { colors } from '../theme';
 
 type Tool = 'select' | 'draw' | 'multi';
@@ -50,6 +52,7 @@ interface BoardContextValue {
   clearSelection: () => void;
   updateItems: (updater: (items: BoardItem[]) => BoardItem[], pushHistory?: boolean) => void;
   moveItems: (ids: string[], dx: number, dy: number, commit?: boolean) => void;
+  moveItemsCommitWithSnap: (ids: string[], dx: number, dy: number) => void;
   resizeItem: (id: string, width: number, height: number, commit?: boolean) => void;
   updateText: (id: string, text: string) => void;
   toggleTask: (id: string) => void;
@@ -244,6 +247,30 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     [updateItems],
   );
 
+  // Applies the final increment of a drag and, for a single dragged item,
+  // gently snaps it into alignment with any other item's edge/center that's
+  // close by. Only fires at drop (commit) — see docs/COMBINED_PLAN.md Batch 4
+  // for why continuous live snapping was scoped out.
+  const moveItemsCommitWithSnap = useCallback(
+    (ids: string[], dx: number, dy: number) => {
+      updateItems((items) => {
+        const moved = items.map((it) =>
+          ids.includes(it.id) ? { ...it, x: it.x + dx, y: it.y + dy } : it,
+        );
+        if (ids.length !== 1) return moved;
+        const movingItem = moved.find((it) => it.id === ids[0]);
+        if (!movingItem) return moved;
+        const others = moved.filter((it) => it.id !== ids[0]);
+        const snap = computeSnapDelta(movingItem, others);
+        if (snap.dx === 0 && snap.dy === 0) return moved;
+        return moved.map((it) =>
+          it.id === ids[0] ? { ...it, x: it.x + snap.dx, y: it.y + snap.dy } : it,
+        );
+      }, true);
+    },
+    [updateItems],
+  );
+
   const resizeItem = useCallback(
     (id: string, width: number, height: number, commit = false) => {
       updateItems(
@@ -274,9 +301,16 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
 
   const toggleTask = useCallback(
     (id: string) => {
+      let nowDone = false;
       updateItems((items) =>
-        items.map((it) => (it.id === id && it.type === 'task' ? { ...it, done: !it.done } : it)),
+        items.map((it) => {
+          if (it.id !== id || it.type !== 'task') return it;
+          nowDone = !it.done;
+          return { ...it, done: nowDone };
+        }),
       );
+      if (nowDone) haptics.success();
+      else haptics.light();
     },
     [updateItems],
   );
@@ -300,6 +334,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     const count = selectedIds.length;
     updateItems((items) => items.filter((it) => !selectedIds.includes(it.id)));
     setSelectedIds([]);
+    haptics.warning();
     showToast(count === 1 ? 'Deleted 1 card' : `Deleted ${count} cards`, { undoable: true });
   }, [selectedIds, showToast, updateItems]);
 
@@ -446,10 +481,12 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
             ),
           true,
         );
+        haptics.light();
         return;
       }
       if (tool === 'draw') {
         setDrawColorState(color);
+        haptics.light();
       }
     },
     [paletteTarget, selectedIds, tool, updateItems],
@@ -511,6 +548,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     clearSelection,
     updateItems,
     moveItems,
+    moveItemsCommitWithSnap,
     resizeItem,
     updateText,
     toggleTask,

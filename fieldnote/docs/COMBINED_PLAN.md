@@ -327,3 +327,23 @@ current; EAS/APK build link attached to the release PR from CI.
   as native `Alert.alert` — those need a blocking choice, which is a different problem
   than bug #17's "notifications are obtrusive." Gate: `tsc --noEmit && npm test`
   (13/13) green.
+- **Batch 4 (partial) — landed.** `expo-haptics` added (pinned to the SDK 57 version
+  from `expo`'s own `bundledNativeModules.json`, since `expo install` couldn't reach
+  the React Native Directory compatibility check from this sandbox's network). New
+  `src/lib/haptics.ts` — a thin, always-safe wrapper (never throws, so a haptics
+  failure can't interrupt the action it's confirming). Wired to: task toggle
+  (success/light), delete (warning), palette color apply (light), palette slot save
+  (medium), and entering hold-to-edit (light). Hold-to-edit's `delayLongPress` bumped
+  420ms → 500ms per the brief's "~500ms deliberate hold-to-edit." New
+  `src/lib/snapping.ts` (`computeSnapDelta`, pure + unit tested) implements gentle
+  alignment snapping: dropping a single dragged item near another item's edge or
+  center nudges it into exact alignment via a new `moveItemsCommitWithSnap` in
+  `BoardContext`, computed synchronously inside one `items.map` pass (no ref/async
+  state-timing edge cases). Scope note: snapping only fires at drop, not continuously
+  during the drag — live guide-lines are a visual feature for the polish batch, and a
+  per-frame version without them would just be silent jitter. Also deferred: the
+  compact 3-button add menu ("From file tree / From this device / Add New") — its
+  first button has no real destination yet, since Fieldnote has no folder-tree/working-
+  directories concept until Batch 9; shipping it now would be a button that does
+  nothing. Edge-panning while dragging is deferred alongside the movable toolbar from
+  Batch 3 as its own follow-up. Gate: `tsc --noEmit && npm test` (19/19) green.

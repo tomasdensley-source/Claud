@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useBoard } from '../store/BoardContext';
+import { haptics } from '../lib/haptics';
 import { colors, radii, shadows } from '../theme';
 
 // A handful of preset swatches from Fieldnote's own palette, distinct from the
@@ -103,7 +104,10 @@ export function Palette() {
             color={c}
             empty={!c}
             onPress={() => c && pick(c)}
-            onLongPress={() => setPaletteSlot(i, lastColor)}
+            onLongPress={() => {
+              haptics.medium();
+              setPaletteSlot(i, lastColor);
+            }}
           />
         ))}
       </View>
