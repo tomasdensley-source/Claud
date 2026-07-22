@@ -92,29 +92,26 @@ export function GesturesPanel({ visible, onClose }: Props) {
       <View style={styles.columns}>
         <View style={styles.col}>
           <Text style={styles.colTitle}>On your phone</Text>
-          <Tip title="Tap a card" body="Select without opening the keyboard" />
+          <Tip title="Two fingers" body="Always pan and pinch — even over cards" />
+          <Tip title="One finger empty" body="Drag a marquee to select" />
+          <Tip title="One finger on a card" body="Move or resize that object" />
+          <Tip title="Hold empty space" body="Compact add: Files / Device / New" />
           <Tip title="Hold a title" body="Edit after the confirm pulse" />
-          <Tip title="Drag empty space" body="Move around the canvas" />
-          <Tip title="Pinch" body="Zoom in or out" />
-          <Tip title="Hold empty space" body="Add files, photos, or a note at that spot" />
-          <Tip title="Multi button" body="Select several cards, then drag as a group" />
-          <Tip title="Corner handle" body="Drag the clay handle to resize" />
-          <Tip title="Zoom + / −" body="Zooms toward the center of the screen" />
+          <Tip title="Multi + marquee" body="Add to the current selection" />
         </View>
         <View style={styles.col}>
           <Text style={styles.colTitle}>Board tips</Text>
+          <Tip title="Color tab" body="Opens only when drawing or selecting" />
+          <Tip title="Frame / Body" body="Toggle what the palette recolors" />
           <Tip title="Fit" body="Frame every card on the board" />
-          <Tip title="100%" body="Tap the zoom percent to reset" />
-          <Tip title="Undo / Redo" body="Bottom bar history buttons" />
-          <Tip title="Files panel" body="Jump the camera to a placed file" />
-          <Tip title="Draw palette" body="Change ink color and stroke width" />
+          <Tip title="Undo toast" body="Top toast can undo the last change" />
+          <Tip title="Draw" body="One finger inks; two fingers still navigate" />
           <Tip title="Bring forward" body="Selection bar arrows change stack order" />
         </View>
       </View>
       <View style={styles.tipBanner}>
         <Text style={styles.tipBannerText}>
-          Tip: Pinch zooms under your fingers. Drag cards to move them. In Draw, one finger inks and
-          two fingers pan.
+          Tip: Navigation is always two-finger. Long-press empty space for the compact add menu.
         </Text>
       </View>
     </ModalShell>

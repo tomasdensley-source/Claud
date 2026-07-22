@@ -15,6 +15,7 @@ const ALLOWED_TYPES = new Set<ItemType>([
   'drawing',
   'file',
   'folder',
+  'connector',
 ]);
 
 function asNumber(value: unknown, fallback: number): number {
@@ -61,6 +62,12 @@ function sanitizeItem(raw: unknown, index: number): BoardItem | null {
     zIndex: asNumber(item.zIndex, index),
     backgroundColor: typeof item.backgroundColor === 'string' ? item.backgroundColor : undefined,
     color: typeof item.color === 'string' ? item.color : undefined,
+    parentId: typeof item.parentId === 'string' ? item.parentId : item.parentId === null ? null : undefined,
+    locked: Boolean(item.locked),
+    opacity:
+      typeof item.opacity === 'number' && Number.isFinite(item.opacity)
+        ? Math.min(1, Math.max(0.05, item.opacity))
+        : undefined,
   };
 
   switch (type as ItemType) {
@@ -72,6 +79,7 @@ function sanitizeItem(raw: unknown, index: number): BoardItem | null {
         fontSize: Math.max(10, asNumber(item.fontSize, 16)),
         role: (item.role as 'title' | 'body' | 'note') || 'note',
         fontWeight: (item.fontWeight as '400' | '500' | '600' | '700') || '400',
+        markdown: Boolean(item.markdown),
       };
     case 'image':
       return {
@@ -90,6 +98,10 @@ function sanitizeItem(raw: unknown, index: number): BoardItem | null {
         type: 'task',
         text: asString(item.text, 'Task'),
         done: Boolean(item.done),
+        dependsOn: Array.isArray(item.dependsOn)
+          ? item.dependsOn.filter((id): id is string => typeof id === 'string')
+          : undefined,
+        markdown: Boolean(item.markdown),
       };
     case 'mindmap':
       return {
@@ -99,12 +111,15 @@ function sanitizeItem(raw: unknown, index: number): BoardItem | null {
         children: Array.isArray(item.children)
           ? item.children.filter((c): c is string => typeof c === 'string')
           : [],
+        collapsed: Boolean(item.collapsed),
+        branchColor: typeof item.branchColor === 'string' ? item.branchColor : undefined,
       };
     case 'region':
       return {
         ...base,
         type: 'region',
         label: asString(item.label, 'Region'),
+        frameColor: typeof item.frameColor === 'string' ? item.frameColor : undefined,
       };
     case 'shape': {
       const shape = item.shape === 'ellipse' || item.shape === 'line' ? item.shape : 'rect';
@@ -150,6 +165,22 @@ function sanitizeItem(raw: unknown, index: number): BoardItem | null {
         name: asString(item.name, 'Folder'),
         fileCount: Math.max(0, asNumber(item.fileCount, 0)),
       };
+    case 'connector': {
+      const side = (v: unknown): 'left' | 'right' | 'top' | 'bottom' | 'center' | undefined =>
+        v === 'left' || v === 'right' || v === 'top' || v === 'bottom' || v === 'center'
+          ? v
+          : undefined;
+      return {
+        ...base,
+        type: 'connector',
+        fromId: asString(item.fromId),
+        toId: asString(item.toId),
+        fromSide: side(item.fromSide),
+        toSide: side(item.toSide),
+        thickness: Math.max(1, asNumber(item.thickness, 2)),
+        glowing: Boolean(item.glowing),
+      };
+    }
     default:
       return null;
   }

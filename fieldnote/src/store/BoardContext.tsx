@@ -33,7 +33,9 @@ interface BoardContextValue {
   setDrawWidth: (w: number) => void;
   select: (ids: string[], additive?: boolean) => void;
   selectAll: () => void;
+  selectInRect: (rect: { x: number; y: number; width: number; height: number }, additive?: boolean) => void;
   clearSelection: () => void;
+  applyColorToSelected: (color: string, target: 'frame' | 'body') => void;
   updateItems: (updater: (items: BoardItem[]) => BoardItem[], pushHistory?: boolean) => void;
   moveItems: (ids: string[], dx: number, dy: number, commit?: boolean) => void;
   resizeItem: (id: string, width: number, height: number, commit?: boolean) => void;
@@ -177,7 +179,51 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     setSelectedIds(board ? board.items.map((it) => it.id) : []);
   }, []);
 
+  const selectInRect = useCallback((rect: { x: number; y: number; width: number; height: number }, additive = false) => {
+    const board = boardsRef.current.find((b) => b.id === currentBoardIdRef.current);
+    if (!board) return;
+    const left = Math.min(rect.x, rect.x + rect.width);
+    const top = Math.min(rect.y, rect.y + rect.height);
+    const right = Math.max(rect.x, rect.x + rect.width);
+    const bottom = Math.max(rect.y, rect.y + rect.height);
+    const hits = board.items
+      .filter((it) => {
+        if (it.type === 'connector') return false;
+        const ix2 = it.x + it.width;
+        const iy2 = it.y + it.height;
+        return it.x < right && ix2 > left && it.y < bottom && iy2 > top;
+      })
+      .map((it) => it.id);
+    setSelectedIds((prev) => {
+      if (!additive) return hits;
+      return Array.from(new Set([...prev, ...hits]));
+    });
+  }, []);
+
   const clearSelection = useCallback(() => setSelectedIds([]), []);
+
+  const applyColorToSelected = useCallback(
+    (color: string, target: 'frame' | 'body') => {
+      if (selectedIds.length === 0) return;
+      updateItems((items) =>
+        items.map((it) => {
+          if (!selectedIds.includes(it.id)) return it;
+          if (target === 'frame') {
+            if (it.type === 'region') return { ...it, frameColor: color, backgroundColor: color };
+            return { ...it, backgroundColor: color };
+          }
+          if (it.type === 'text' || it.type === 'task' || it.type === 'mindmap') {
+            return { ...it, color };
+          }
+          if (it.type === 'connector' || it.type === 'drawing' || it.type === 'shape') {
+            return { ...it, color };
+          }
+          return { ...it, color };
+        }),
+      );
+    },
+    [selectedIds, updateItems],
+  );
 
   const moveItems = useCallback(
     (ids: string[], dx: number, dy: number, _commit = false) => {
@@ -185,7 +231,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
       updateItems(
         (items) =>
           items.map((it) =>
-            ids.includes(it.id) ? { ...it, x: it.x + dx, y: it.y + dy } : it,
+            ids.includes(it.id) && !it.locked ? { ...it, x: it.x + dx, y: it.y + dy } : it,
           ),
         false,
       );
@@ -526,7 +572,9 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     setDrawWidth,
     select,
     selectAll,
+    selectInRect,
     clearSelection,
+    applyColorToSelected,
     updateItems,
     moveItems,
     resizeItem,

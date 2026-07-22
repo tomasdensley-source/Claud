@@ -1,28 +1,26 @@
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Alert, Dimensions, StyleSheet, View } from 'react-native';
+import { Dimensions, StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
-import Svg, { Path } from 'react-native-svg';
 import { useBoard } from '../store/BoardContext';
 import { colors } from '../theme';
 import { CanvasItemView } from './CanvasItemView';
 import { GridBackground } from './GridBackground';
+import { LiveStrokeOverlay } from './LiveStrokeOverlay';
 import { BoardItem } from '../types';
 import {
-  MAX_SCALE,
-  MIN_SCALE,
   centerOnPoint,
   clampScale,
   fitTransform,
   screenToWorld,
   zoomAboutFocal,
 } from '../lib/camera';
-import { pickAndBuildFileItems, pickAndBuildPhotoItems } from '../lib/files';
-import { placeAtPoint } from '../lib/placement';
+import { GESTURE } from '../lib/gesturePriority';
+import { hapticImpact } from '../lib/haptics';
 
 const WORLD = 4000;
 
@@ -32,6 +30,12 @@ interface Props {
   onScaleChange: (scale: number) => void;
   onCameraCenterChange: (center: { x: number; y: number }) => void;
   onToast: (message: string) => void;
+  onContextualAdd: (req: {
+    screenX: number;
+    screenY: number;
+    worldX: number;
+    worldY: number;
+  }) => void;
   fitRequest: number;
   zoomRequest: { scale: number; token: number } | null;
   centerRequest: { x: number; y: number; token: number } | null;
@@ -52,13 +56,6 @@ function boundsOf(items: BoardItem[]) {
     maxY = Math.max(maxY, it.y + it.height);
   }
   return { minX, minY, maxX, maxY };
-}
-
-function pointsToPath(points: { x: number; y: number }[]): string {
-  if (points.length === 0) return '';
-  return points
-    .map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x.toFixed(1)} ${p.y.toFixed(1)}`)
-    .join(' ');
 }
 
 type DragVisual = { ids: string[]; dx: number; dy: number };
@@ -237,6 +234,7 @@ export function InfiniteCanvas({
   onScaleChange,
   onCameraCenterChange,
   onToast,
+  onContextualAdd,
   fitRequest,
   zoomRequest,
   centerRequest,
@@ -248,15 +246,13 @@ export function InfiniteCanvas({
     drawColor,
     drawWidth,
     select,
+    selectInRect,
     clearSelection,
     moveItems,
     resizeItem,
     updateText,
     toggleTask,
-    addItem,
-    addItems,
     addDrawingStroke,
-    setPanel,
     beginHistory,
   } = useBoard();
 
@@ -275,6 +271,12 @@ export function InfiniteCanvas({
     color: string;
     width: number;
     points: { x: number; y: number }[];
+  } | null>(null);
+  const [marquee, setMarquee] = useState<{
+    x: number;
+    y: number;
+    width: number;
+    height: number;
   } | null>(null);
 
   const didInitialFit = useRef(false);
@@ -394,71 +396,18 @@ export function InfiniteCanvas({
     setEditingId(null);
   }, [clearSelection]);
 
-  const placeFilesAt = useCallback(
-    async (screenX: number, screenY: number) => {
-      const world = screenToWorld(screenX, screenY, scale.value, tx.value, ty.value);
-      try {
-        const items = await pickAndBuildFileItems(world);
-        if (items.length === 0) return;
-        addItems(items);
-        onToast(items.length === 1 ? 'File placed' : `${items.length} files placed`);
-      } catch (e) {
-        Alert.alert('Could not open files', String(e));
-      }
-    },
-    [addItems, onToast, scale, tx, ty],
-  );
-
   const onLongPressEmpty = useCallback(
     (screenX: number, screenY: number) => {
       const world = screenToWorld(screenX, screenY, scale.value, tx.value, ty.value);
-      Alert.alert('Add here', 'What would you like to place?', [
-        {
-          text: 'Files',
-          onPress: () => {
-            void placeFilesAt(screenX, screenY);
-          },
-        },
-        {
-          text: 'Photos',
-          onPress: async () => {
-            try {
-              const items = await pickAndBuildPhotoItems(world);
-              if (items.length === 0) return;
-              addItems(items);
-              onToast(items.length === 1 ? 'Photo placed' : `${items.length} photos placed`);
-            } catch (e) {
-              Alert.alert('Could not open photos', String(e));
-            }
-          },
-        },
-        {
-          text: 'Text note',
-          onPress: () => {
-            const { x, y } = placeAtPoint(world, 300, 140);
-            addItem({
-              type: 'text',
-              x,
-              y,
-              width: 300,
-              height: 140,
-              backgroundColor: colors.paper,
-              color: colors.ink,
-              text: '',
-              fontSize: 22,
-              role: 'body',
-            });
-            onToast('Note added');
-          },
-        },
-        {
-          text: 'More…',
-          onPress: () => setPanel('add'),
-        },
-        { text: 'Cancel', style: 'cancel' },
-      ]);
+      void hapticImpact('medium');
+      onContextualAdd({
+        screenX,
+        screenY,
+        worldX: world.x,
+        worldY: world.y,
+      });
     },
-    [addItem, addItems, onToast, placeFilesAt, scale, setPanel, tx, ty],
+    [onContextualAdd, scale, tx, ty],
   );
 
   const flushLiveStrokePreview = useCallback(() => {
@@ -518,23 +467,20 @@ export function InfiniteCanvas({
     reportCameraCenter();
   }, [reportCameraCenter, reportScale, scale]);
 
-  // Empty-canvas pan; item GestureDetectors take touches on cards first.
-  const panGesture = useMemo(
+  // Blueprint: two-finger navigation ALWAYS controls pan (even over objects).
+  const twoFingerPan = useMemo(
     () =>
       Gesture.Pan()
-        .minPointers(1)
-        .maxPointers(1)
-        .minDistance(8)
-        .averageTouches(false)
+        .minPointers(GESTURE.NAV_MIN_POINTERS)
+        .maxPointers(2)
+        .averageTouches(true)
         .onBegin(() => {
           'worklet';
-          if (pinching.value) return;
           savedTx.value = tx.value;
           savedTy.value = ty.value;
         })
         .onUpdate((e) => {
           'worklet';
-          if (pinching.value) return;
           tx.value = savedTx.value + e.translationX;
           ty.value = savedTy.value + e.translationY;
         })
@@ -542,7 +488,7 @@ export function InfiniteCanvas({
           'worklet';
           runOnJS(endPanReport)();
         }),
-    [endPanReport, pinching, savedTx, savedTy, tx, ty],
+    [endPanReport, savedTx, savedTy, tx, ty],
   );
 
   const pinchGesture = useMemo(
@@ -557,7 +503,10 @@ export function InfiniteCanvas({
         })
         .onUpdate((e) => {
           'worklet';
-          const next = Math.min(MAX_SCALE, Math.max(MIN_SCALE, savedScale.value * e.scale));
+          const next = Math.min(
+            GESTURE.PINCH_MAX_SCALE,
+            Math.max(GESTURE.PINCH_MIN_SCALE, savedScale.value * e.scale),
+          );
           const worldX = (e.focalX - savedTx.value) / savedScale.value;
           const worldY = (e.focalY - savedTy.value) / savedScale.value;
           scale.value = next;
@@ -576,6 +525,11 @@ export function InfiniteCanvas({
     [endPanReport, pinching, savedScale, savedTx, savedTy, scale, tx, ty],
   );
 
+  const navigationGesture = useMemo(
+    () => Gesture.Simultaneous(pinchGesture, twoFingerPan),
+    [pinchGesture, twoFingerPan],
+  );
+
   const tapGesture = useMemo(
     () =>
       Gesture.Tap()
@@ -590,13 +544,72 @@ export function InfiniteCanvas({
   const longPressGesture = useMemo(
     () =>
       Gesture.LongPress()
-        .minDuration(420)
-        .maxDistance(18)
+        .minDuration(GESTURE.LONG_PRESS_MS)
+        .maxDistance(GESTURE.LONG_PRESS_MAX_DIST)
         .onEnd((e, success) => {
           'worklet';
           if (success) runOnJS(onLongPressEmpty)(e.x, e.y);
         }),
     [onLongPressEmpty],
+  );
+
+  const marqueeStart = useCallback(
+    (x: number, y: number) => {
+      const world = screenToWorld(x, y, scale.value, tx.value, ty.value);
+      setMarquee({ x: world.x, y: world.y, width: 0, height: 0 });
+    },
+    [scale, tx, ty],
+  );
+
+  const marqueeMove = useCallback(
+    (x: number, y: number, txScreen: number, tyScreen: number) => {
+      const origin = screenToWorld(
+        x - txScreen,
+        y - tyScreen,
+        scale.value,
+        tx.value,
+        ty.value,
+      );
+      const cur = screenToWorld(x, y, scale.value, tx.value, ty.value);
+      setMarquee({
+        x: origin.x,
+        y: origin.y,
+        width: cur.x - origin.x,
+        height: cur.y - origin.y,
+      });
+    },
+    [scale, tx, ty],
+  );
+
+  const marqueeEnd = useCallback(() => {
+    setMarquee((rect) => {
+      if (rect && (Math.abs(rect.width) > 8 || Math.abs(rect.height) > 8)) {
+        selectInRect(rect, toolRef.current === 'multi');
+        void hapticImpact('light');
+      }
+      return null;
+    });
+  }, [selectInRect]);
+
+  // One-finger empty space = marquee (not pan). Navigation is two-finger only.
+  const marqueeGesture = useMemo(
+    () =>
+      Gesture.Pan()
+        .maxPointers(1)
+        .minDistance(GESTURE.MARQUEE_MIN_DIST)
+        .onBegin((e) => {
+          'worklet';
+          runOnJS(marqueeStart)(e.x, e.y);
+        })
+        .onUpdate((e) => {
+          'worklet';
+          runOnJS(marqueeMove)(e.x, e.y, e.translationX, e.translationY);
+        })
+        .onEnd(() => {
+          'worklet';
+          runOnJS(marqueeEnd)();
+        }),
+    [marqueeEnd, marqueeMove, marqueeStart],
   );
 
   const drawGesture = useMemo(
@@ -619,50 +632,15 @@ export function InfiniteCanvas({
     [endStroke, moveStroke, startStroke],
   );
 
-  // In draw mode, require two fingers to pan so one finger always draws.
-  const drawPanGesture = useMemo(
-    () =>
-      Gesture.Pan()
-        .minPointers(2)
-        .maxPointers(2)
-        .onBegin(() => {
-          'worklet';
-          savedTx.value = tx.value;
-          savedTy.value = ty.value;
-        })
-        .onUpdate((e) => {
-          'worklet';
-          tx.value = savedTx.value + e.translationX;
-          ty.value = savedTy.value + e.translationY;
-        })
-        .onEnd(() => {
-          'worklet';
-          runOnJS(endPanReport)();
-        }),
-    [endPanReport, savedTx, savedTy, tx, ty],
-  );
-
   const composed = useMemo(() => {
     if (tool === 'draw') {
-      return Gesture.Simultaneous(
-        pinchGesture,
-        Gesture.Exclusive(drawGesture, drawPanGesture),
-      );
+      return Gesture.Simultaneous(navigationGesture, drawGesture);
     }
     return Gesture.Simultaneous(
-      pinchGesture,
-      panGesture,
-      Gesture.Exclusive(longPressGesture, tapGesture),
+      navigationGesture,
+      Gesture.Exclusive(longPressGesture, marqueeGesture, tapGesture),
     );
-  }, [
-    tool,
-    pinchGesture,
-    panGesture,
-    drawGesture,
-    drawPanGesture,
-    longPressGesture,
-    tapGesture,
-  ]);
+  }, [tool, navigationGesture, drawGesture, longPressGesture, marqueeGesture, tapGesture]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: tx.value }, { translateY: ty.value }, { scale: scale.value }],
@@ -805,18 +783,27 @@ export function InfiniteCanvas({
               );
             })}
             {liveStroke && liveStroke.points.length > 0 ? (
-              <View pointerEvents="none" style={StyleSheet.absoluteFill}>
-                <Svg width={WORLD} height={WORLD}>
-                  <Path
-                    d={pointsToPath(liveStroke.points)}
-                    stroke={liveStroke.color}
-                    strokeWidth={liveStroke.width}
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </Svg>
-              </View>
+              <LiveStrokeOverlay
+                worldSize={WORLD}
+                color={liveStroke.color}
+                width={liveStroke.width}
+                points={liveStroke.points}
+              />
+            ) : null}
+            {marquee ? (
+              <View
+                pointerEvents="none"
+                style={{
+                  position: 'absolute',
+                  left: Math.min(marquee.x, marquee.x + marquee.width),
+                  top: Math.min(marquee.y, marquee.y + marquee.height),
+                  width: Math.max(1, Math.abs(marquee.width)),
+                  height: Math.max(1, Math.abs(marquee.height)),
+                  borderWidth: 1.5,
+                  borderColor: colors.clayDeep,
+                  backgroundColor: 'rgba(203,125,70,0.12)',
+                }}
+              />
             ) : null}
           </Animated.View>
         </View>

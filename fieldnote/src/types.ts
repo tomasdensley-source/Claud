@@ -7,9 +7,12 @@ export type ItemType =
   | 'shape'
   | 'drawing'
   | 'file'
-  | 'folder';
+  | 'folder'
+  | 'connector';
 
 export type TextRole = 'title' | 'body' | 'note';
+
+export type ConnectorSide = 'left' | 'right' | 'top' | 'bottom' | 'center';
 
 export interface BoardItemBase {
   id: string;
@@ -21,6 +24,10 @@ export interface BoardItemBase {
   zIndex: number;
   backgroundColor?: string;
   color?: string;
+  /** Nested region membership (colored frames hold children). */
+  parentId?: string | null;
+  locked?: boolean;
+  opacity?: number;
 }
 
 export interface TextItem extends BoardItemBase {
@@ -29,6 +36,8 @@ export interface TextItem extends BoardItemBase {
   fontSize: number;
   role?: TextRole;
   fontWeight?: '400' | '500' | '600' | '700';
+  /** Lightweight Markdown source (exportable). */
+  markdown?: boolean;
 }
 
 export interface ImageItem extends BoardItemBase {
@@ -42,17 +51,24 @@ export interface TaskItem extends BoardItemBase {
   type: 'task';
   text: string;
   done: boolean;
+  /** Task IDs that must complete before this task can finish (water-flow). */
+  dependsOn?: string[];
+  markdown?: boolean;
 }
 
 export interface MindMapItem extends BoardItemBase {
   type: 'mindmap';
   text: string;
   children: string[];
+  collapsed?: boolean;
+  branchColor?: string;
 }
 
 export interface RegionItem extends BoardItemBase {
   type: 'region';
   label: string;
+  /** Frame fill — regions take over background when zoomed into. */
+  frameColor?: string;
 }
 
 export interface ShapeItem extends BoardItemBase {
@@ -78,6 +94,17 @@ export interface FolderItem extends BoardItemBase {
   fileCount: number;
 }
 
+export interface ConnectorItem extends BoardItemBase {
+  type: 'connector';
+  fromId: string;
+  toId: string;
+  fromSide?: ConnectorSide;
+  toSide?: ConnectorSide;
+  thickness?: number;
+  /** When true, dependency edge is satisfied / glowing. */
+  glowing?: boolean;
+}
+
 export type BoardItem =
   | TextItem
   | ImageItem
@@ -87,13 +114,15 @@ export type BoardItem =
   | ShapeItem
   | DrawingItem
   | FileItem
-  | FolderItem;
+  | FolderItem
+  | ConnectorItem;
 
 export interface Board {
   id: string;
   name: string;
   items: BoardItem[];
   updatedAt: number;
+  thumbnailUri?: string;
 }
 
 export interface AppState {
@@ -111,6 +140,7 @@ export type DraftBoardItem = BoardItem extends infer T
     ? Omit<T, 'id' | 'zIndex'> & { id?: string; zIndex?: number }
     : never
   : never;
+
 export type PanelKind =
   | null
   | 'add'
@@ -120,3 +150,18 @@ export type PanelKind =
   | 'more'
   | 'gestures'
   | 'storage';
+
+export interface MarqueeRect {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+export interface ContextualAddRequest {
+  screenX: number;
+  screenY: number;
+  worldX: number;
+  worldY: number;
+  token: number;
+}

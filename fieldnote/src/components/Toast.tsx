@@ -1,23 +1,36 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { colors, radii, shadows } from '../theme';
 
 interface Props {
   message: string | null;
   onDone: () => void;
+  onUndo?: () => void;
 }
 
-export function Toast({ message, onDone }: Props) {
+/** Top toast with Undo + dismiss (blueprint). */
+export function Toast({ message, onDone, onUndo }: Props) {
   useEffect(() => {
     if (!message) return;
-    const t = setTimeout(onDone, 2200);
+    const t = setTimeout(onDone, 2800);
     return () => clearTimeout(t);
   }, [message, onDone]);
 
   if (!message) return null;
   return (
-    <View style={[styles.wrap, shadows.control]} pointerEvents="none">
-      <Text style={styles.text}>{message}</Text>
+    <View style={[styles.wrap, shadows.control]}>
+      <Text style={styles.text} numberOfLines={2}>
+        {message}
+      </Text>
+      {onUndo ? (
+        <Pressable onPress={onUndo} style={styles.undo} hitSlop={8}>
+          <Text style={styles.undoText}>Undo</Text>
+        </Pressable>
+      ) : null}
+      <Pressable onPress={onDone} style={styles.close} accessibilityLabel="Dismiss">
+        <Ionicons name="close" size={16} color={colors.cream} />
+      </Pressable>
     </View>
   );
 }
@@ -25,21 +38,40 @@ export function Toast({ message, onDone }: Props) {
 const styles = StyleSheet.create({
   wrap: {
     position: 'absolute',
-    left: 72,
-    right: 72,
-    bottom: 92,
+    top: 56,
+    alignSelf: 'center',
+    maxWidth: '86%',
+    minWidth: 180,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
     backgroundColor: colors.walnut,
     borderRadius: radii.control,
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-    zIndex: 80,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    zIndex: 95,
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.14)',
   },
   text: {
     color: colors.cream,
-    textAlign: 'center',
     fontWeight: '600',
     fontSize: 13,
+    flexShrink: 1,
+  },
+  undo: {
+    paddingHorizontal: 6,
+    paddingVertical: 4,
+  },
+  undoText: {
+    color: colors.clay,
+    fontWeight: '700',
+    fontSize: 13,
+  },
+  close: {
+    width: 28,
+    height: 28,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

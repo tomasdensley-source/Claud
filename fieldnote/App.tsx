@@ -1,5 +1,5 @@
 import React, { Component, ErrorInfo, ReactNode, useCallback, useState } from 'react';
-import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -10,6 +10,8 @@ import { ZoomControls } from './src/components/ZoomControls';
 import { Minimap } from './src/components/Minimap';
 import { BoardBadge } from './src/components/BoardBadge';
 import { DrawPalette } from './src/components/DrawPalette';
+import { VerticalColorPalette } from './src/components/VerticalColorPalette';
+import { ContextualAddMenu } from './src/components/ContextualAddMenu';
 import { Toast } from './src/components/Toast';
 import { AddPanel } from './src/components/panels/AddPanel';
 import { BoardsPanel } from './src/components/panels/BoardsPanel';
@@ -18,6 +20,9 @@ import { SearchPanel } from './src/components/panels/SearchPanel';
 import { GesturesPanel, MorePanel, StoragePanel } from './src/components/panels/MorePanel';
 import { colors } from './src/theme';
 import { MAX_SCALE, MIN_SCALE, clampScale } from './src/lib/camera';
+import { ColorTarget } from './src/lib/colorManager';
+import { pickAndBuildFileItems, pickAndBuildPhotoItems } from './src/lib/files';
+import { placeAtPoint } from './src/lib/placement';
 
 class ErrorBoundary extends Component<
   { children: ReactNode },
@@ -72,11 +77,21 @@ function FieldnoteApp() {
     canRedo,
     bringToFront,
     sendToBack,
+    addItem,
+    addItems,
+    applyColorToSelected,
   } = useBoard();
   const { width, height } = useViewportSize();
   const [scale, setScale] = useState(0.7);
   const [cameraCenter, setCameraCenter] = useState({ x: 700, y: 500 });
   const [toast, setToast] = useState<string | null>(null);
+  const [colorTarget, setColorTarget] = useState<ColorTarget>('body');
+  const [contextual, setContextual] = useState<{
+    screenX: number;
+    screenY: number;
+    worldX: number;
+    worldY: number;
+  } | null>(null);
   const [fitRequest, setFitRequest] = useState(0);
   const [zoomRequest, setZoomRequest] = useState<{ scale: number; token: number } | null>(null);
   const [centerRequest, setCenterRequest] = useState<{
@@ -92,6 +107,16 @@ function FieldnoteApp() {
   const showToast = useCallback((message: string) => {
     setToast(message);
   }, []);
+
+  const paletteLit = tool === 'draw' || selectedIds.length > 0;
+
+  const onColor = useCallback(
+    (c: string) => {
+      setDrawColor(c);
+      if (selectedIds.length > 0) applyColorToSelected(c, colorTarget);
+    },
+    [applyColorToSelected, colorTarget, selectedIds.length, setDrawColor],
+  );
 
   if (!ready) {
     return (
@@ -114,6 +139,7 @@ function FieldnoteApp() {
             onScaleChange={setScale}
             onCameraCenterChange={setCameraCenter}
             onToast={showToast}
+            onContextualAdd={(req) => setContextual(req)}
             fitRequest={fitRequest}
             zoomRequest={zoomRequest}
             centerRequest={centerRequest}
@@ -121,6 +147,13 @@ function FieldnoteApp() {
         </ErrorBoundary>
         <BoardBadge />
         <Toolbar />
+        <VerticalColorPalette
+          lit={paletteLit}
+          color={drawColor}
+          target={colorTarget}
+          onColor={onColor}
+          onTarget={setColorTarget}
+        />
         <Minimap
           items={currentBoard.items}
           onNavigate={(x, y) => setCenterRequest({ x, y, token: Date.now() })}
@@ -158,7 +191,103 @@ function FieldnoteApp() {
           minScale={MIN_SCALE}
           maxScale={MAX_SCALE}
         />
-        <Toast message={toast} onDone={() => setToast(null)} />
+        <Toast message={toast} onDone={() => setToast(null)} onUndo={canUndo ? undo : undefined} />
+        <ContextualAddMenu
+          visible={contextual != null}
+          x={contextual?.screenX ?? 0}
+          y={contextual?.screenY ?? 0}
+          onClose={() => setContextual(null)}
+          onInternal={() => {
+            setContextual(null);
+            setPanel('files');
+          }}
+          onDevice={async () => {
+            const anchor = contextual
+              ? { x: contextual.worldX, y: contextual.worldY }
+              : cameraCenter;
+            setContextual(null);
+            Alert.alert('From device', undefined, [
+              {
+                text: 'Files',
+                onPress: async () => {
+                  try {
+                    const items = await pickAndBuildFileItems(anchor);
+                    if (!items.length) return;
+                    addItems(items);
+                    showToast(items.length === 1 ? 'File placed' : `${items.length} files placed`);
+                  } catch (e) {
+                    Alert.alert('Could not open files', String(e));
+                  }
+                },
+              },
+              {
+                text: 'Photos',
+                onPress: async () => {
+                  try {
+                    const items = await pickAndBuildPhotoItems(anchor);
+                    if (!items.length) return;
+                    addItems(items);
+                    showToast(items.length === 1 ? 'Photo placed' : `${items.length} photos placed`);
+                  } catch (e) {
+                    Alert.alert('Could not open photos', String(e));
+                  }
+                },
+              },
+              { text: 'Cancel', style: 'cancel' },
+            ]);
+          }}
+          onNewObject={() => {
+            const anchor = contextual
+              ? { x: contextual.worldX, y: contextual.worldY }
+              : cameraCenter;
+            setContextual(null);
+            Alert.alert('New object', undefined, [
+              {
+                text: 'Text',
+                onPress: () => {
+                  const { x, y } = placeAtPoint(anchor, 300, 140);
+                  addItem({
+                    type: 'text',
+                    x,
+                    y,
+                    width: 300,
+                    height: 140,
+                    backgroundColor: colors.paper,
+                    color: colors.ink,
+                    text: '',
+                    fontSize: 22,
+                    role: 'body',
+                    markdown: true,
+                  });
+                  showToast('Note added');
+                },
+              },
+              {
+                text: 'Task',
+                onPress: () => {
+                  const { x, y } = placeAtPoint(anchor, 280, 100);
+                  addItem({
+                    type: 'task',
+                    x,
+                    y,
+                    width: 280,
+                    height: 100,
+                    backgroundColor: colors.paperStrong,
+                    text: 'New task',
+                    done: false,
+                    dependsOn: [],
+                  });
+                  showToast('Task added');
+                },
+              },
+              {
+                text: 'More…',
+                onPress: () => setPanel('add'),
+              },
+              { text: 'Cancel', style: 'cancel' },
+            ]);
+          }}
+        />
 
         <AddPanel
           visible={panel === 'add'}
