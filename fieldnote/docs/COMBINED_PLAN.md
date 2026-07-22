@@ -22,7 +22,7 @@
 | 9 | Mind UI + PDF + regions (B9,14,U7) | [x] |
 | 10 | Softness + disclosure (U18–20) | [x] |
 | 11 | Persistence (B18–20) | [x] |
-| 12 | Verify + EAS 1.5.0 | [ ] |
+| 12 | Verify + EAS 1.5.0 | [x] |
 
 ---
 
