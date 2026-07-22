@@ -22,6 +22,9 @@ interface Props {
   onChangeText: (text: string) => void;
   onToggleTask: () => void;
   onEndEdit: () => void;
+  onResizeStart?: (pageX: number, pageY: number) => void;
+  onResizeMove?: (pageX: number, pageY: number) => void;
+  onResizeEnd?: () => void;
 }
 
 function pointsToPath(points: { x: number; y: number }[]): string {
@@ -41,8 +44,11 @@ export function CanvasItemView({
   onChangeText,
   onToggleTask,
   onEndEdit,
+  onResizeStart,
+  onResizeMove,
+  onResizeEnd,
 }: Props) {
-  const handleSize = Math.max(10, 12 / scale);
+  const handleSize = Math.max(12, 14 / scale);
 
   const content = useMemo(() => {
     switch (item.type) {
@@ -245,10 +251,49 @@ export function CanvasItemView({
       {content}
       {selected ? (
         <>
-          <View style={[styles.handle, { width: handleSize, height: handleSize, left: -handleSize / 2, top: -handleSize / 2 }]} />
-          <View style={[styles.handle, { width: handleSize, height: handleSize, right: -handleSize / 2, top: -handleSize / 2 }]} />
-          <View style={[styles.handle, { width: handleSize, height: handleSize, left: -handleSize / 2, bottom: -handleSize / 2 }]} />
-          <View style={[styles.handle, { width: handleSize, height: handleSize, right: -handleSize / 2, bottom: -handleSize / 2 }]} />
+          <View
+            style={[
+              styles.handle,
+              { width: handleSize, height: handleSize, left: -handleSize / 2, top: -handleSize / 2 },
+            ]}
+            pointerEvents="none"
+          />
+          <View
+            style={[
+              styles.handle,
+              { width: handleSize, height: handleSize, right: -handleSize / 2, top: -handleSize / 2 },
+            ]}
+            pointerEvents="none"
+          />
+          <View
+            style={[
+              styles.handle,
+              { width: handleSize, height: handleSize, left: -handleSize / 2, bottom: -handleSize / 2 },
+            ]}
+            pointerEvents="none"
+          />
+          <View
+            style={[
+              styles.handle,
+              styles.resizeHandle,
+              {
+                width: handleSize + 4,
+                height: handleSize + 4,
+                right: -(handleSize + 4) / 2,
+                bottom: -(handleSize + 4) / 2,
+              },
+            ]}
+            onStartShouldSetResponder={() => true}
+            onMoveShouldSetResponder={() => true}
+            onResponderGrant={(e) => {
+              onResizeStart?.(e.nativeEvent.pageX, e.nativeEvent.pageY);
+            }}
+            onResponderMove={(e) => {
+              onResizeMove?.(e.nativeEvent.pageX, e.nativeEvent.pageY);
+            }}
+            onResponderRelease={() => onResizeEnd?.()}
+            onResponderTerminate={() => onResizeEnd?.()}
+          />
         </>
       ) : null}
     </Pressable>
@@ -386,5 +431,10 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: colors.ink,
     borderRadius: 999,
+  },
+  resizeHandle: {
+    backgroundColor: colors.clayDeep,
+    borderColor: colors.cream,
+    zIndex: 5,
   },
 });

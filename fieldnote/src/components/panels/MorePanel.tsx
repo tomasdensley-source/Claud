@@ -96,21 +96,25 @@ export function GesturesPanel({ visible, onClose }: Props) {
           <Tip title="Hold a title" body="Edit after the confirm pulse" />
           <Tip title="Drag empty space" body="Move around the canvas" />
           <Tip title="Pinch" body="Zoom in or out" />
-          <Tip title="Hold empty space" body="Open Add here" />
-          <Tip title="Multi button" body="Select several cards" />
+          <Tip title="Hold empty space" body="Add files, photos, or a note at that spot" />
+          <Tip title="Multi button" body="Select several cards, then drag as a group" />
+          <Tip title="Corner handle" body="Drag the clay handle to resize" />
+          <Tip title="Zoom + / −" body="Zooms toward the center of the screen" />
         </View>
         <View style={styles.col}>
-          <Text style={styles.colTitle}>With a keyboard</Text>
-          <Tip title="Ctrl / ⌘ F" body="Find anything" />
-          <Tip title="Ctrl / ⌘ A" body="Select visible cards" />
-          <Tip title="Ctrl / ⌘ C, V" body="Copy and paste cards" />
-          <Tip title="F" body="Fit the whole board" />
-          <Tip title="1" body="Return to 100%" />
-          <Tip title="?" body="Open this guide" />
+          <Text style={styles.colTitle}>Board tips</Text>
+          <Tip title="Fit" body="Frame every card on the board" />
+          <Tip title="100%" body="Tap the zoom percent to reset" />
+          <Tip title="Undo / Redo" body="Bottom bar history buttons" />
+          <Tip title="Files panel" body="Jump the camera to a placed file" />
+          <Tip title="Draw palette" body="Change ink color and stroke width" />
+          <Tip title="Bring forward" body="Selection bar arrows change stack order" />
         </View>
       </View>
       <View style={styles.tipBanner}>
-        <Text style={styles.tipBannerText}>Tip: Two fingers always pan and zoom while drawing.</Text>
+        <Text style={styles.tipBannerText}>
+          Tip: Pinch zooms under your fingers. One finger pans. Hold empty space to add files.
+        </Text>
       </View>
     </ModalShell>
   );

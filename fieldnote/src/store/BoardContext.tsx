@@ -12,7 +12,7 @@ import { createMainBoard, uid } from '../lib/seed';
 import { clearAllBoards, loadBoards, saveBoards } from '../lib/storage';
 import { colors } from '../theme';
 
-type Tool = 'select' | 'draw' | 'multi';
+export type Tool = 'select' | 'draw' | 'multi';
 
 interface BoardContextValue {
   ready: boolean;
@@ -21,13 +21,18 @@ interface BoardContextValue {
   selectedIds: string[];
   tool: Tool;
   drawColor: string;
+  drawWidth: number;
   panel: PanelKind;
   canUndo: boolean;
   canRedo: boolean;
+  lastSavedAt: number | null;
+  itemCount: number;
   setPanel: (p: PanelKind) => void;
   setTool: (t: Tool) => void;
   setDrawColor: (c: string) => void;
+  setDrawWidth: (w: number) => void;
   select: (ids: string[], additive?: boolean) => void;
+  selectAll: () => void;
   clearSelection: () => void;
   updateItems: (updater: (items: BoardItem[]) => BoardItem[], pushHistory?: boolean) => void;
   moveItems: (ids: string[], dx: number, dy: number, commit?: boolean) => void;
@@ -35,14 +40,18 @@ interface BoardContextValue {
   updateText: (id: string, text: string) => void;
   toggleTask: (id: string) => void;
   addItem: (item: DraftBoardItem) => string;
+  addItems: (items: DraftBoardItem[]) => string[];
   deleteSelected: () => void;
   duplicateSelected: () => void;
+  bringToFront: () => void;
+  sendToBack: () => void;
   createBoard: (name?: string) => void;
   renameBoard: (id: string, name: string) => void;
   switchBoard: (id: string) => void;
   deleteBoard: (id: string) => void;
   undo: () => void;
   redo: () => void;
+  beginHistory: () => void;
   resetToSeed: () => Promise<void>;
   appendDrawingPoint: (
     itemId: string | null,
@@ -64,12 +73,16 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [tool, setTool] = useState<Tool>('select');
   const [drawColor, setDrawColorState] = useState<string>(colors.ink);
+  const [drawWidth, setDrawWidth] = useState(3);
   const [panel, setPanel] = useState<PanelKind>(null);
   const [history, setHistory] = useState<Board[][]>([]);
   const [future, setFuture] = useState<Board[][]>([]);
+  const [lastSavedAt, setLastSavedAt] = useState<number | null>(null);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const boardsRef = useRef(boards);
+  const currentBoardIdRef = useRef(currentBoardId);
   boardsRef.current = boards;
+  currentBoardIdRef.current = currentBoardId;
 
   useEffect(() => {
     let cancelled = false;
@@ -98,8 +111,8 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     if (!ready) return;
     if (saveTimer.current) clearTimeout(saveTimer.current);
     saveTimer.current = setTimeout(() => {
-      void saveBoards(boards, currentBoardId);
-    }, 350);
+      void saveBoards(boards, currentBoardId).then(() => setLastSavedAt(Date.now()));
+    }, 400);
     return () => {
       if (saveTimer.current) clearTimeout(saveTimer.current);
     };
@@ -110,8 +123,13 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     [boards, currentBoardId],
   );
 
+  const itemCount = useMemo(
+    () => boards.reduce((n, b) => n + b.items.length, 0),
+    [boards],
+  );
+
   const pushHistory = useCallback(() => {
-    setHistory((h) => [...h.slice(-40), cloneBoards(boardsRef.current)]);
+    setHistory((h) => [...h.slice(-50), cloneBoards(boardsRef.current)]);
     setFuture([]);
   }, []);
 
@@ -120,19 +138,21 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
       if (recordHistory) pushHistory();
       setBoards((prev) =>
         prev.map((b) =>
-          b.id === currentBoardId ? { ...b, items, updatedAt: Date.now() } : b,
+          b.id === currentBoardIdRef.current ? { ...b, items, updatedAt: Date.now() } : b,
         ),
       );
     },
-    [currentBoardId, pushHistory],
+    [pushHistory],
   );
 
   const updateItems = useCallback(
     (updater: (items: BoardItem[]) => BoardItem[], recordHistory = true) => {
-      const next = updater(currentBoard.items);
+      const board = boardsRef.current.find((b) => b.id === currentBoardIdRef.current);
+      if (!board) return;
+      const next = updater(board.items);
       replaceCurrentItems(next, recordHistory);
     },
-    [currentBoard.items, replaceCurrentItems],
+    [replaceCurrentItems],
   );
 
   const select = useCallback((ids: string[], additive = false) => {
@@ -147,20 +167,30 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
+  const selectAll = useCallback(() => {
+    const board = boardsRef.current.find((b) => b.id === currentBoardIdRef.current);
+    setSelectedIds(board ? board.items.map((it) => it.id) : []);
+  }, []);
+
   const clearSelection = useCallback(() => setSelectedIds([]), []);
 
   const moveItems = useCallback(
-    (ids: string[], dx: number, dy: number, commit = false) => {
+    (ids: string[], dx: number, dy: number, _commit = false) => {
+      if (dx === 0 && dy === 0) return;
       updateItems(
         (items) =>
           items.map((it) =>
             ids.includes(it.id) ? { ...it, x: it.x + dx, y: it.y + dy } : it,
           ),
-        commit,
+        false,
       );
     },
     [updateItems],
   );
+
+  const beginHistory = useCallback(() => {
+    pushHistory();
+  }, [pushHistory]);
 
   const resizeItem = useCallback(
     (id: string, width: number, height: number, commit = false) => {
@@ -168,7 +198,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
         (items) =>
           items.map((it) =>
             it.id === id
-              ? { ...it, width: Math.max(80, width), height: Math.max(60, height) }
+              ? { ...it, width: Math.max(64, width), height: Math.max(48, height) }
               : it,
           ),
         commit,
@@ -179,12 +209,14 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
 
   const updateText = useCallback(
     (id: string, text: string) => {
-      updateItems((items) =>
-        items.map((it) =>
-          it.id === id && (it.type === 'text' || it.type === 'task' || it.type === 'mindmap')
-            ? { ...it, text }
-            : it,
-        ),
+      updateItems(
+        (items) =>
+          items.map((it) =>
+            it.id === id && (it.type === 'text' || it.type === 'task' || it.type === 'mindmap')
+              ? { ...it, text }
+              : it,
+          ),
+        false,
       );
     },
     [updateItems],
@@ -202,15 +234,35 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
   const addItem = useCallback(
     (partial: DraftBoardItem) => {
       const id = partial.id || uid(partial.type);
+      const board = boardsRef.current.find((b) => b.id === currentBoardIdRef.current);
       const zIndex =
         partial.zIndex ||
-        currentBoard.items.reduce((m, it) => Math.max(m, it.zIndex), 0) + 1;
+        (board?.items.reduce((m, it) => Math.max(m, it.zIndex), 0) ?? 0) + 1;
       const item = { ...partial, id, zIndex } as BoardItem;
       updateItems((items) => [...items, item]);
       setSelectedIds([id]);
       return id;
     },
-    [currentBoard.items, updateItems],
+    [updateItems],
+  );
+
+  const addItems = useCallback(
+    (partials: DraftBoardItem[]) => {
+      if (partials.length === 0) return [];
+      const board = boardsRef.current.find((b) => b.id === currentBoardIdRef.current);
+      let z = board?.items.reduce((m, it) => Math.max(m, it.zIndex), 0) ?? 0;
+      const ids: string[] = [];
+      const created: BoardItem[] = partials.map((partial) => {
+        const id = partial.id || uid(partial.type);
+        ids.push(id);
+        z += 1;
+        return { ...partial, id, zIndex: partial.zIndex ?? z } as BoardItem;
+      });
+      updateItems((items) => [...items, ...created]);
+      setSelectedIds(ids);
+      return ids;
+    },
+    [updateItems],
   );
 
   const deleteSelected = useCallback(() => {
@@ -221,9 +273,11 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
 
   const duplicateSelected = useCallback(() => {
     if (selectedIds.length === 0) return;
+    const board = boardsRef.current.find((b) => b.id === currentBoardIdRef.current);
+    if (!board) return;
     const copies: BoardItem[] = [];
     const newIds: string[] = [];
-    currentBoard.items.forEach((it) => {
+    board.items.forEach((it) => {
       if (!selectedIds.includes(it.id)) return;
       const id = uid(it.type);
       newIds.push(id);
@@ -231,29 +285,59 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     });
     updateItems((items) => [...items, ...copies]);
     setSelectedIds(newIds);
-  }, [selectedIds, currentBoard.items, updateItems]);
+  }, [selectedIds, updateItems]);
 
-  const createBoard = useCallback((name?: string) => {
-    pushHistory();
-    const board: Board = {
-      id: uid('board'),
-      name: name ?? `Board ${boardsRef.current.length + 1}`,
-      items: [],
-      updatedAt: Date.now(),
-    };
-    setBoards((prev) => [...prev, board]);
-    setCurrentBoardId(board.id);
-    setSelectedIds([]);
-  }, [pushHistory]);
+  const bringToFront = useCallback(() => {
+    if (selectedIds.length === 0) return;
+    updateItems((items) => {
+      const maxZ = items.reduce((m, it) => Math.max(m, it.zIndex), 0);
+      let next = maxZ + 1;
+      return items.map((it) =>
+        selectedIds.includes(it.id) ? { ...it, zIndex: next++ } : it,
+      );
+    });
+  }, [selectedIds, updateItems]);
+
+  const sendToBack = useCallback(() => {
+    if (selectedIds.length === 0) return;
+    updateItems((items) => {
+      const minZ = items.reduce((m, it) => Math.min(m, it.zIndex), 0);
+      let next = minZ - selectedIds.length;
+      return items.map((it) =>
+        selectedIds.includes(it.id) ? { ...it, zIndex: next++ } : it,
+      );
+    });
+  }, [selectedIds, updateItems]);
+
+  const createBoard = useCallback(
+    (name?: string) => {
+      pushHistory();
+      const board: Board = {
+        id: uid('board'),
+        name: name ?? `Board ${boardsRef.current.length + 1}`,
+        items: [],
+        updatedAt: Date.now(),
+      };
+      setBoards((prev) => [...prev, board]);
+      setCurrentBoardId(board.id);
+      setSelectedIds([]);
+      setTool('select');
+    },
+    [pushHistory],
+  );
 
   const renameBoard = useCallback((id: string, name: string) => {
-    setBoards((prev) => prev.map((b) => (b.id === id ? { ...b, name, updatedAt: Date.now() } : b)));
+    const trimmed = name.trim() || 'Untitled board';
+    setBoards((prev) =>
+      prev.map((b) => (b.id === id ? { ...b, name: trimmed, updatedAt: Date.now() } : b)),
+    );
   }, []);
 
   const switchBoard = useCallback((id: string) => {
     setCurrentBoardId(id);
     setSelectedIds([]);
     setPanel(null);
+    setTool('select');
   }, []);
 
   const deleteBoard = useCallback(
@@ -262,20 +346,21 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
       pushHistory();
       setBoards((prev) => {
         const next = prev.filter((b) => b.id !== id);
-        if (id === currentBoardId) setCurrentBoardId(next[0].id);
+        if (id === currentBoardIdRef.current) setCurrentBoardId(next[0].id);
         return next;
       });
       setSelectedIds([]);
     },
-    [currentBoardId, pushHistory],
+    [pushHistory],
   );
 
   const undo = useCallback(() => {
     setHistory((h) => {
       if (h.length === 0) return h;
       const prev = h[h.length - 1];
-      setFuture((f) => [cloneBoards(boardsRef.current), ...f].slice(0, 40));
+      setFuture((f) => [cloneBoards(boardsRef.current), ...f].slice(0, 50));
       setBoards(prev);
+      setSelectedIds([]);
       return h.slice(0, -1);
     });
   }, []);
@@ -284,8 +369,9 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     setFuture((f) => {
       if (f.length === 0) return f;
       const [next, ...rest] = f;
-      setHistory((h) => [...h, cloneBoards(boardsRef.current)].slice(-40));
+      setHistory((h) => [...h, cloneBoards(boardsRef.current)].slice(-50));
       setBoards(next);
+      setSelectedIds([]);
       return rest;
     });
   }, []);
@@ -298,22 +384,28 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     setSelectedIds([]);
     setHistory([]);
     setFuture([]);
+    setTool('select');
+    setPanel(null);
   }, []);
 
   const appendDrawingPoint = useCallback(
     (itemId: string | null, point: { x: number; y: number }, startNewPath: boolean) => {
       let targetId = itemId;
+      const pad = 48;
       if (!targetId) {
         targetId = uid('drawing');
         const item: BoardItem = {
           id: targetId,
           type: 'drawing',
-          x: point.x - 40,
-          y: point.y - 40,
-          width: 320,
-          height: 320,
-          zIndex: currentBoard.items.reduce((m, it) => Math.max(m, it.zIndex), 0) + 1,
-          paths: [{ color: drawColor, width: 3, points: [{ x: 40, y: 40 }] }],
+          x: point.x - pad,
+          y: point.y - pad,
+          width: pad * 2,
+          height: pad * 2,
+          zIndex:
+            (boardsRef.current
+              .find((b) => b.id === currentBoardIdRef.current)
+              ?.items.reduce((m, it) => Math.max(m, it.zIndex), 0) ?? 0) + 1,
+          paths: [{ color: drawColor, width: drawWidth, points: [{ x: pad, y: pad }] }],
         };
         updateItems((items) => [...items, item], true);
         return targetId;
@@ -321,24 +413,54 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
       updateItems((items) =>
         items.map((it) => {
           if (it.id !== targetId || it.type !== 'drawing') return it;
-          const local = { x: point.x - it.x, y: point.y - it.y };
-          const paths = [...it.paths];
+          let originX = it.x;
+          let originY = it.y;
+          let localX = point.x - originX;
+          let localY = point.y - originY;
+          let width = it.width;
+          let height = it.height;
+          let paths = it.paths;
+
+          // Expand bounds left/up when the stroke goes outside the box.
+          if (localX < pad) {
+            const shift = pad - localX;
+            originX -= shift;
+            width += shift;
+            localX += shift;
+            paths = paths.map((p) => ({
+              ...p,
+              points: p.points.map((pt) => ({ x: pt.x + shift, y: pt.y })),
+            }));
+          }
+          if (localY < pad) {
+            const shift = pad - localY;
+            originY -= shift;
+            height += shift;
+            localY += shift;
+            paths = paths.map((p) => ({
+              ...p,
+              points: p.points.map((pt) => ({ x: pt.x, y: pt.y + shift })),
+            }));
+          }
+          if (localX + pad > width) width = localX + pad;
+          if (localY + pad > height) height = localY + pad;
+
+          const local = { x: localX, y: localY };
+          paths = [...paths];
           if (startNewPath || paths.length === 0) {
-            paths.push({ color: drawColor, width: 3, points: [local] });
+            paths.push({ color: drawColor, width: drawWidth, points: [local] });
           } else {
             const last = { ...paths[paths.length - 1] };
             last.points = [...last.points, local];
             paths[paths.length - 1] = last;
           }
-          const maxX = Math.max(it.width, local.x + 40);
-          const maxY = Math.max(it.height, local.y + 40);
-          return { ...it, paths, width: maxX, height: maxY };
+          return { ...it, x: originX, y: originY, paths, width, height };
         }),
         false,
       );
       return targetId;
     },
-    [currentBoard.items, drawColor, updateItems],
+    [drawColor, drawWidth, updateItems],
   );
 
   const value: BoardContextValue = {
@@ -348,13 +470,18 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     selectedIds,
     tool,
     drawColor,
+    drawWidth,
     panel,
     canUndo: history.length > 0,
     canRedo: future.length > 0,
+    lastSavedAt,
+    itemCount,
     setPanel,
     setTool,
     setDrawColor: setDrawColorState,
+    setDrawWidth,
     select,
+    selectAll,
     clearSelection,
     updateItems,
     moveItems,
@@ -362,14 +489,18 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     updateText,
     toggleTask,
     addItem,
+    addItems,
     deleteSelected,
     duplicateSelected,
+    bringToFront,
+    sendToBack,
     createBoard,
     renameBoard,
     switchBoard,
     deleteBoard,
     undo,
     redo,
+    beginHistory,
     resetToSeed,
     appendDrawingPoint,
   };

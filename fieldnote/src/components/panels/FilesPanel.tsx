@@ -1,19 +1,21 @@
 import React, { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
-import * as DocumentPicker from 'expo-document-picker';
 import { Ionicons } from '@expo/vector-icons';
 import { ModalShell } from './ModalShell';
 import { useBoard } from '../../store/BoardContext';
 import { colors, radii } from '../../theme';
+import { pickAndBuildFileItems } from '../../lib/files';
 
 interface Props {
   visible: boolean;
   onClose: () => void;
   viewCenter: { x: number; y: number };
+  onFocusItem: (x: number, y: number) => void;
+  onPlaced?: (label: string) => void;
 }
 
-export function FilesPanel({ visible, onClose, viewCenter }: Props) {
-  const { currentBoard, addItem, select, setPanel } = useBoard();
+export function FilesPanel({ visible, onClose, viewCenter, onFocusItem, onPlaced }: Props) {
+  const { currentBoard, addItem, addItems, select, setPanel } = useBoard();
   const [query, setQuery] = useState('');
 
   const files = useMemo(
@@ -31,28 +33,14 @@ export function FilesPanel({ visible, onClose, viewCenter }: Props) {
         : it.type === 'image'
           ? it.alt ?? 'Image'
           : '';
-    return name.toLowerCase().includes(query.toLowerCase());
+    return name.toLowerCase().includes(query.trim().toLowerCase());
   });
 
   const upload = async () => {
-    const result = await DocumentPicker.getDocumentAsync({
-      multiple: true,
-      copyToCacheDirectory: true,
-    });
-    if (result.canceled) return;
-    result.assets.forEach((asset, i) => {
-      addItem({
-        type: 'file',
-        x: viewCenter.x - 120 + i * 20,
-        y: viewCenter.y - 60 + i * 20,
-        width: 240,
-        height: 120,
-        name: asset.name,
-        uri: asset.uri,
-        mimeType: asset.mimeType,
-        backgroundColor: colors.paperStrong,
-      });
-    });
+    const items = await pickAndBuildFileItems(viewCenter);
+    if (items.length === 0) return;
+    addItems(items);
+    onPlaced?.(items.length === 1 ? 'File uploaded' : `${items.length} files uploaded`);
   };
 
   return (
@@ -60,7 +48,7 @@ export function FilesPanel({ visible, onClose, viewCenter }: Props) {
       visible={visible}
       onClose={onClose}
       title="Working files"
-      subtitle="Files stay on this device until you place them."
+      subtitle="Tap a file to select it and jump the camera there."
       icon="folder-outline"
     >
       <View style={styles.actions}>
@@ -81,6 +69,7 @@ export function FilesPanel({ visible, onClose, viewCenter }: Props) {
               fileCount: 0,
               backgroundColor: colors.paperStrong,
             });
+            onPlaced?.('Folder card added');
           }}
         >
           <Ionicons name="folder-open-outline" size={16} color={colors.ink} />
@@ -94,11 +83,17 @@ export function FilesPanel({ visible, onClose, viewCenter }: Props) {
         placeholder="Search working files"
         placeholderTextColor={colors.mutedInk}
         style={styles.search}
+        autoCorrect={false}
+        clearButtonMode="while-editing"
       />
+
+      <Text style={styles.count}>
+        {filtered.length} of {files.length} on this board
+      </Text>
 
       {filtered.length === 0 ? (
         <View style={styles.empty}>
-          <Text style={styles.emptyTitle}>{files.length} files on this device</Text>
+          <Text style={styles.emptyTitle}>No matching files</Text>
           <Text style={styles.emptySub}>
             Upload files or choose photos from Add to keep them with this board.
           </Text>
@@ -117,13 +112,22 @@ export function FilesPanel({ visible, onClose, viewCenter }: Props) {
               style={styles.row}
               onPress={() => {
                 select([it.id]);
+                onFocusItem(it.x + it.width / 2, it.y + it.height / 2);
                 setPanel(null);
                 onClose();
               }}
             >
-              <Text style={styles.glyph}>
-                {it.type === 'folder' ? '📁' : it.type === 'image' ? '🖼' : '📄'}
-              </Text>
+              <Ionicons
+                name={
+                  it.type === 'folder'
+                    ? 'folder'
+                    : it.type === 'image'
+                      ? 'image'
+                      : 'document-text'
+                }
+                size={22}
+                color={colors.clayDeep}
+              />
               <View style={{ flex: 1 }}>
                 <Text style={styles.name}>{label}</Text>
                 <Text style={styles.meta}>{it.type}</Text>
@@ -170,6 +174,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(52,38,29,0.08)',
   },
+  count: {
+    color: colors.mutedInk,
+    fontSize: 12,
+    fontWeight: '600',
+  },
   empty: {
     padding: 18,
     borderRadius: radii.control,
@@ -185,7 +194,6 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     backgroundColor: colors.paperStrong,
   },
-  glyph: { fontSize: 22 },
   name: { color: colors.ink, fontWeight: '600' },
   meta: { color: colors.mutedInk, fontSize: 12 },
 });

@@ -9,6 +9,8 @@ interface Props {
   onFit: () => void;
 }
 
+const SIZE = 112;
+
 export function Minimap({ items, onNavigate, onFit }: Props) {
   const layout = useMemo(() => {
     if (items.length === 0) {
@@ -24,7 +26,7 @@ export function Minimap({ items, onNavigate, onFit }: Props) {
       maxX = Math.max(maxX, it.x + it.width);
       maxY = Math.max(maxY, it.y + it.height);
     });
-    const pad = 40;
+    const pad = 48;
     return {
       minX: minX - pad,
       minY: minY - pad,
@@ -38,8 +40,8 @@ export function Minimap({ items, onNavigate, onFit }: Props) {
       style={[styles.box, shadows.control]}
       onPress={(e) => {
         const { locationX, locationY } = e.nativeEvent;
-        const wx = layout.minX + (locationX / 104) * layout.w;
-        const wy = layout.minY + (locationY / 104) * layout.h;
+        const wx = layout.minX + (locationX / SIZE) * layout.w;
+        const wy = layout.minY + (locationY / SIZE) * layout.h;
         onNavigate(wx, wy);
       }}
       onLongPress={onFit}
@@ -51,7 +53,6 @@ export function Minimap({ items, onNavigate, onFit }: Props) {
             key={it.id}
             style={[
               styles.dot,
-              it.type === 'image' ? styles.imageDot : styles.textDot,
               {
                 left: `${((it.x - layout.minX) / layout.w) * 100}%`,
                 top: `${((it.y - layout.minY) / layout.h) * 100}%`,
@@ -60,9 +61,13 @@ export function Minimap({ items, onNavigate, onFit }: Props) {
                 backgroundColor:
                   it.type === 'image'
                     ? '#8aa4b0'
-                    : it.backgroundColor === '#E9B27F'
-                      ? '#E9B27F'
-                      : '#d9c6a8',
+                    : it.type === 'file' || it.type === 'folder'
+                      ? '#c9a27a'
+                      : it.type === 'drawing'
+                        ? '#9b8b78'
+                        : it.backgroundColor === '#E9B27F'
+                          ? '#E9B27F'
+                          : '#d9c6a8',
               },
             ]}
           />
@@ -77,8 +82,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 12,
     top: 54,
-    width: 104,
-    height: 104,
+    width: SIZE,
+    height: SIZE,
     borderRadius: radii.control,
     backgroundColor: colors.walnut,
     borderWidth: 1,
@@ -96,6 +101,4 @@ const styles = StyleSheet.create({
     position: 'absolute',
     borderRadius: 2,
   },
-  textDot: {},
-  imageDot: {},
 });

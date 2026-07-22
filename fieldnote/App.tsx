@@ -1,4 +1,4 @@
-import React, { Component, ErrorInfo, ReactNode, useCallback, useMemo, useState } from 'react';
+import React, { Component, ErrorInfo, ReactNode, useCallback, useState } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
@@ -9,12 +9,15 @@ import { Toolbar } from './src/components/Toolbar';
 import { ZoomControls } from './src/components/ZoomControls';
 import { Minimap } from './src/components/Minimap';
 import { BoardBadge } from './src/components/BoardBadge';
+import { DrawPalette } from './src/components/DrawPalette';
+import { Toast } from './src/components/Toast';
 import { AddPanel } from './src/components/panels/AddPanel';
 import { BoardsPanel } from './src/components/panels/BoardsPanel';
 import { FilesPanel } from './src/components/panels/FilesPanel';
 import { SearchPanel } from './src/components/panels/SearchPanel';
 import { GesturesPanel, MorePanel, StoragePanel } from './src/components/panels/MorePanel';
 import { colors } from './src/theme';
+import { MAX_SCALE, MIN_SCALE, clampScale } from './src/lib/camera';
 
 class ErrorBoundary extends Component<
   { children: ReactNode },
@@ -56,11 +59,24 @@ function FieldnoteApp() {
     selectedIds,
     panel,
     setPanel,
+    tool,
+    drawColor,
+    drawWidth,
+    setDrawColor,
+    setDrawWidth,
     deleteSelected,
     duplicateSelected,
+    undo,
+    redo,
+    canUndo,
+    canRedo,
+    bringToFront,
+    sendToBack,
   } = useBoard();
   const { width, height } = useViewportSize();
   const [scale, setScale] = useState(0.7);
+  const [cameraCenter, setCameraCenter] = useState({ x: 700, y: 500 });
+  const [toast, setToast] = useState<string | null>(null);
   const [fitRequest, setFitRequest] = useState(0);
   const [zoomRequest, setZoomRequest] = useState<{ scale: number; token: number } | null>(null);
   const [centerRequest, setCenterRequest] = useState<{
@@ -69,25 +85,12 @@ function FieldnoteApp() {
     token: number;
   } | null>(null);
 
-  const viewCenter = useMemo(() => {
-    if (currentBoard.items.length === 0) {
-      return { x: 600, y: 400 };
-    }
-    let minX = Infinity;
-    let minY = Infinity;
-    let maxX = -Infinity;
-    let maxY = -Infinity;
-    currentBoard.items.forEach((it) => {
-      minX = Math.min(minX, it.x);
-      minY = Math.min(minY, it.y);
-      maxX = Math.max(maxX, it.x + it.width);
-      maxY = Math.max(maxY, it.y + it.height);
-    });
-    return { x: (minX + maxX) / 2, y: (minY + maxY) / 2 };
-  }, [currentBoard.items]);
-
   const requestZoom = useCallback((next: number) => {
-    setZoomRequest({ scale: Math.min(2.5, Math.max(0.25, next)), token: Date.now() });
+    setZoomRequest({ scale: clampScale(next), token: Date.now() });
+  }, []);
+
+  const showToast = useCallback((message: string) => {
+    setToast(message);
   }, []);
 
   if (!ready) {
@@ -109,6 +112,8 @@ function FieldnoteApp() {
             viewportWidth={width}
             viewportHeight={height}
             onScaleChange={setScale}
+            onCameraCenterChange={setCameraCenter}
+            onToast={showToast}
             fitRequest={fitRequest}
             zoomRequest={zoomRequest}
             centerRequest={centerRequest}
@@ -121,27 +126,53 @@ function FieldnoteApp() {
           onNavigate={(x, y) => setCenterRequest({ x, y, token: Date.now() })}
           onFit={() => setFitRequest((n) => n + 1)}
         />
+        {tool === 'draw' ? (
+          <DrawPalette
+            color={drawColor}
+            width={drawWidth}
+            onColor={setDrawColor}
+            onWidth={setDrawWidth}
+          />
+        ) : null}
         <ZoomControls
           scale={scale}
           selectedCount={selectedIds.length}
+          canUndo={canUndo}
+          canRedo={canRedo}
           onZoomIn={() => requestZoom(scale * 1.15)}
           onZoomOut={() => requestZoom(scale / 1.15)}
           onResetZoom={() => requestZoom(1)}
           onFit={() => setFitRequest((n) => n + 1)}
-          onDuplicate={duplicateSelected}
-          onDelete={deleteSelected}
+          onDuplicate={() => {
+            duplicateSelected();
+            showToast('Duplicated');
+          }}
+          onDelete={() => {
+            deleteSelected();
+            showToast('Deleted');
+          }}
+          onUndo={undo}
+          onRedo={redo}
+          onBringFront={bringToFront}
+          onSendBack={sendToBack}
+          minScale={MIN_SCALE}
+          maxScale={MAX_SCALE}
         />
+        <Toast message={toast} onDone={() => setToast(null)} />
 
         <AddPanel
           visible={panel === 'add'}
           onClose={() => setPanel(null)}
-          viewCenter={viewCenter}
+          viewCenter={cameraCenter}
+          onPlaced={(label) => showToast(label)}
         />
         <BoardsPanel visible={panel === 'boards'} onClose={() => setPanel(null)} />
         <FilesPanel
           visible={panel === 'files'}
           onClose={() => setPanel(null)}
-          viewCenter={viewCenter}
+          viewCenter={cameraCenter}
+          onFocusItem={(x, y) => setCenterRequest({ x, y, token: Date.now() })}
+          onPlaced={(label) => showToast(label)}
         />
         <SearchPanel
           visible={panel === 'search'}

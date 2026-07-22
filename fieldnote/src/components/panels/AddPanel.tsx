@@ -1,25 +1,24 @@
 import React from 'react';
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
-import * as DocumentPicker from 'expo-document-picker';
-import * as ImagePicker from 'expo-image-picker';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { ModalShell } from './ModalShell';
 import { useBoard } from '../../store/BoardContext';
 import { colors, radii } from '../../theme';
+import { pickAndBuildFileItems, pickAndBuildPhotoItems } from '../../lib/files';
+import { placeCentered } from '../../lib/placement';
 
 interface Props {
   visible: boolean;
   onClose: () => void;
   viewCenter: { x: number; y: number };
+  onPlaced?: (label: string) => void;
 }
 
-export function AddPanel({ visible, onClose, viewCenter }: Props) {
-  const { addItem } = useBoard();
+export function AddPanel({ visible, onClose, viewCenter, onPlaced }: Props) {
+  const { addItem, addItems } = useBoard();
 
-  const placeAtCenter = (w: number, h: number) => ({
-    x: viewCenter.x - w / 2,
-    y: viewCenter.y - h / 2,
-  });
+  const placeAtCenter = (w: number, h: number, index = 0) =>
+    placeCentered(viewCenter, w, h, index);
 
   const addText = () => {
     const { x, y } = placeAtCenter(320, 140);
@@ -35,6 +34,7 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
       fontSize: 22,
       role: 'body',
     });
+    onPlaced?.('Text note added');
     onClose();
   };
 
@@ -50,6 +50,7 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
       text: 'New task',
       done: false,
     });
+    onPlaced?.('Task added');
     onClose();
   };
 
@@ -65,6 +66,7 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
       text: 'Idea',
       children: ['Branch', 'Branch'],
     });
+    onPlaced?.('Mind map added');
     onClose();
   };
 
@@ -78,44 +80,32 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
       height: 240,
       label: 'Region',
     });
+    onPlaced?.('Region added');
+    onClose();
+  };
+
+  const addShape = (shape: 'rect' | 'ellipse') => {
+    const { x, y } = placeAtCenter(220, 160);
+    addItem({
+      type: 'shape',
+      x,
+      y,
+      width: 220,
+      height: 160,
+      shape,
+      color: colors.clayDeep,
+      backgroundColor: 'rgba(233,178,127,0.25)',
+    });
+    onPlaced?.(shape === 'rect' ? 'Rectangle added' : 'Ellipse added');
     onClose();
   };
 
   const pickFiles = async () => {
     try {
-      const result = await DocumentPicker.getDocumentAsync({
-        multiple: true,
-        copyToCacheDirectory: true,
-      });
-      if (result.canceled) return;
-      result.assets.forEach((asset, i) => {
-        const isImage = (asset.mimeType ?? '').startsWith('image/');
-        const { x, y } = placeAtCenter(280, isImage ? 280 : 120);
-        if (isImage) {
-          addItem({
-            type: 'image',
-            x: x + i * 24,
-            y: y + i * 24,
-            width: 280,
-            height: 280,
-            uri: asset.uri,
-            alt: asset.name,
-            backgroundColor: colors.paper,
-          });
-        } else {
-          addItem({
-            type: 'file',
-            x: x + i * 24,
-            y: y + i * 24,
-            width: 240,
-            height: 120,
-            name: asset.name,
-            uri: asset.uri,
-            mimeType: asset.mimeType,
-            backgroundColor: colors.paperStrong,
-          });
-        }
-      });
+      const items = await pickAndBuildFileItems(viewCenter);
+      if (items.length === 0) return;
+      addItems(items);
+      onPlaced?.(items.length === 1 ? 'File placed' : `${items.length} files placed`);
       onClose();
     } catch (e) {
       Alert.alert('Could not open files', String(e));
@@ -123,29 +113,15 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
   };
 
   const pickImages = async () => {
-    const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (!perm.granted) {
-      Alert.alert('Permission needed', 'Allow photo library access to place images.');
-      return;
+    try {
+      const items = await pickAndBuildPhotoItems(viewCenter);
+      if (items.length === 0) return;
+      addItems(items);
+      onPlaced?.(items.length === 1 ? 'Photo placed' : `${items.length} photos placed`);
+      onClose();
+    } catch (e) {
+      Alert.alert('Could not open photos', String(e));
     }
-    const result = await ImagePicker.launchImageLibraryAsync({
-      allowsMultipleSelection: true,
-      quality: 0.9,
-    });
-    if (result.canceled) return;
-    result.assets.forEach((asset, i) => {
-      const { x, y } = placeAtCenter(300, 300);
-      addItem({
-        type: 'image',
-        x: x + i * 24,
-        y: y + i * 24,
-        width: 300,
-        height: Math.round(300 * (asset.height / Math.max(asset.width, 1))),
-        uri: asset.uri,
-        backgroundColor: colors.paper,
-      });
-    });
-    onClose();
   };
 
   const chooseFolder = () => {
@@ -160,6 +136,7 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
       fileCount: 0,
       backgroundColor: colors.paperStrong,
     });
+    onPlaced?.('Folder card added');
     onClose();
   };
 
@@ -168,7 +145,7 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
       visible={visible}
       onClose={onClose}
       title="Add to Fieldnote"
-      subtitle="Choose one thing, then return to your board."
+      subtitle="Items place at the center of your current view."
       icon="sparkles-outline"
     >
       <Text style={styles.section}>From your device</Text>
@@ -189,14 +166,14 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
       <Pressable style={styles.secondaryBtn} onPress={chooseFolder}>
         <Ionicons name="folder-open-outline" size={20} color={colors.ink} />
         <View style={{ flex: 1 }}>
-          <Text style={styles.secondaryTitle}>Choose folder</Text>
-          <Text style={styles.secondarySub}>Place the whole folder as one panel.</Text>
+          <Text style={styles.secondaryTitle}>Folder card</Text>
+          <Text style={styles.secondarySub}>Place a folder label on the board.</Text>
         </View>
       </Pressable>
 
       <View style={styles.createHead}>
         <Text style={styles.section}>Create</Text>
-        <Text style={styles.hint}>Add at the center of the current view.</Text>
+        <Text style={styles.hint}>Added at the live camera center.</Text>
       </View>
       <View style={styles.createRow}>
         <CreateBtn label="Text" onPress={addText} icon={<Text style={styles.tIcon}>T</Text>} />
@@ -214,6 +191,16 @@ export function AddPanel({ visible, onClose, viewCenter }: Props) {
           label="Region"
           onPress={addRegion}
           icon={<Ionicons name="grid-outline" size={22} color={colors.ink} />}
+        />
+        <CreateBtn
+          label="Rect"
+          onPress={() => addShape('rect')}
+          icon={<Ionicons name="square-outline" size={22} color={colors.ink} />}
+        />
+        <CreateBtn
+          label="Ellipse"
+          onPress={() => addShape('ellipse')}
+          icon={<Ionicons name="ellipse-outline" size={22} color={colors.ink} />}
         />
       </View>
     </ModalShell>

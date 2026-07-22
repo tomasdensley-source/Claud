@@ -14,7 +14,7 @@ type ToolBtn = {
 };
 
 export function Toolbar() {
-  const { panel, setPanel, tool, setTool, clearSelection } = useBoard();
+  const { panel, setPanel, tool, setTool, clearSelection, selectAll, undo, canUndo } = useBoard();
   const [collapsed, setCollapsed] = React.useState(false);
 
   const buttons: ToolBtn[] = [
@@ -98,7 +98,18 @@ export function Toolbar() {
                 setPanel(null);
               }
             }}
+            onLongPress={() => {
+              if (btn.key === 'multi') selectAll();
+              if (btn.key === 'more' && canUndo) undo();
+            }}
             accessibilityLabel={btn.label}
+            accessibilityHint={
+              btn.key === 'multi'
+                ? 'Long press to select all cards'
+                : btn.key === 'more'
+                  ? 'Long press to undo'
+                  : undefined
+            }
           >
             {btn.icon}
             <Text style={styles.label} numberOfLines={1}>

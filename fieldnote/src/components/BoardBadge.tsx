@@ -5,7 +5,14 @@ import { useBoard } from '../store/BoardContext';
 import { colors, radii, shadows } from '../theme';
 
 export function BoardBadge() {
-  const { currentBoard } = useBoard();
+  const { currentBoard, lastSavedAt, itemCount } = useBoard();
+  const savedLabel =
+    lastSavedAt == null
+      ? 'Ready'
+      : Date.now() - lastSavedAt < 2500
+        ? 'Saved'
+        : 'Local';
+
   return (
     <View style={[styles.badge, shadows.control]}>
       <Text style={styles.eyebrow}>CURRENT BOARD</Text>
@@ -13,6 +20,10 @@ export function BoardBadge() {
         <Ionicons name="grid" size={14} color={colors.clayDeep} />
         <Text style={styles.name} numberOfLines={1}>
           {currentBoard.name}
+        </Text>
+        <View style={styles.dot} />
+        <Text style={styles.meta}>
+          {savedLabel} · {currentBoard.items.length}/{itemCount}
         </Text>
       </View>
     </View>
@@ -31,7 +42,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(52,38,29,0.08)',
     zIndex: 40,
-    maxWidth: '62%',
+    maxWidth: '78%',
   },
   eyebrow: {
     color: colors.mutedInk,
@@ -48,6 +59,18 @@ const styles = StyleSheet.create({
   name: {
     color: colors.ink,
     fontSize: 14,
+    fontWeight: '600',
+    flexShrink: 1,
+  },
+  dot: {
+    width: 6,
+    height: 6,
+    borderRadius: 999,
+    backgroundColor: colors.saveDot,
+  },
+  meta: {
+    color: colors.mutedInk,
+    fontSize: 11,
     fontWeight: '600',
   },
 });
