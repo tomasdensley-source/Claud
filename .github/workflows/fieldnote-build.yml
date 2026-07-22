@@ -65,17 +65,25 @@ jobs:
       - name: Generate native Android project (Expo prebuild)
         run: npx expo prebuild --platform android --no-install
 
-      - name: Build debug APK
-        run: ./gradlew :app:assembleDebug
+      # Build a RELEASE APK, not debug: a debug RN/Expo APK expects a Metro
+      # dev server at launch and won't run standalone on a phone. The release
+      # variant embeds the JS bundle and is signed with the debug.keystore
+      # that `expo prebuild` generates (release signingConfig = debug in the
+      # template), so it installs and runs on any device with no extra
+      # secrets. Minify/ProGuard stays off (Expo default), avoiding
+      # missing-rule crashes. This mirrors what `eas build --profile preview`
+      # produces (internal-distribution APK), without needing an Expo account.
+      - name: Build release APK
+        run: ./gradlew :app:assembleRelease
         working-directory: fieldnote/android
 
       - name: Rename APK
-        run: cp fieldnote/android/app/build/outputs/apk/debug/app-debug.apk fieldnote-debug.apk
+        run: cp fieldnote/android/app/build/outputs/apk/release/app-release.apk fieldnote-1.5.0.apk
         working-directory: .
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: fieldnote-android-apk
-          path: fieldnote-debug.apk
+          path: fieldnote-1.5.0.apk
           if-no-files-found: error

@@ -73,11 +73,15 @@ Install **Expo Go** on your Android phone, then scan the QR code.
 ## Download an installable APK (CI)
 
 Every push/PR runs `.github/workflows/fieldnote-build.yml`, which type-checks,
-runs smoke tests, and builds a debug Android APK via `expo prebuild` + Gradle.
+runs smoke tests, and builds a **standalone release** Android APK via
+`expo prebuild` + Gradle (`:app:assembleRelease`). The release variant embeds
+the JS bundle and is signed with the debug keystore Expo generates, so the APK
+runs on any device without a Metro dev server — the same kind of artifact
+`eas build --profile preview` makes, but with no Expo account required.
 
-1. Open the repo **Actions** tab → latest **Fieldnote Build** run  
-2. Download the **`fieldnote-android-apk`** artifact (`fieldnote-debug.apk`)  
-3. Install on Android (allow unknown sources if prompted)
+1. Open the repo **Actions** tab → latest **Fieldnote Build** run
+2. Download the **`fieldnote-android-apk`** artifact (`fieldnote-1.5.0.apk`)
+3. Install on Android (allow unknown sources / "install unknown apps" if prompted)
 
 ## EAS Build (optional)
 
