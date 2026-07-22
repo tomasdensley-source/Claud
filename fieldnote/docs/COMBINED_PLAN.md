@@ -10,18 +10,18 @@
 | Batch | Scope | Status |
 |-------|--------|--------|
 | Plan doc | This file exhaustive | [x] |
-| 0 | Foundations scaffolds | [ ] |
-| 1 | deleteItems + graph prune (B1,15,16) | [ ] |
-| 2 | Mind-map model (B2,6,17) | [ ] |
-| 3 | History + task edit (B3,4,5) | [ ] |
-| 4 | Gestures + live connectors (B10–13) | [ ] |
-| 5 | Live chrome (U1,6,8,14–16) | [ ] |
-| 6 | Kill Alerts + edge sheets (U3,12,13) | [ ] |
-| 7 | Color + format (B7,8,U2,5,9,10) | [ ] |
-| 8 | Dense tools (U4,11,17) | [ ] |
-| 9 | Mind UI + PDF + regions (B9,14,U7) | [ ] |
-| 10 | Softness + disclosure (U18–20) | [ ] |
-| 11 | Persistence (B18–20) | [ ] |
+| 0 | Foundations scaffolds | [x] |
+| 1 | deleteItems + graph prune (B1,15,16) | [x] |
+| 2 | Mind-map model (B2,6,17) | [x] |
+| 3 | History + task edit (B3,4,5) | [x] |
+| 4 | Gestures + live connectors (B10–13) | [x] |
+| 5 | Live chrome (U1,6,8,14–16) | [x] |
+| 6 | Kill Alerts + edge sheets (U3,12,13) | [x] |
+| 7 | Color + format (B7,8,U2,5,9,10) | [x] |
+| 8 | Dense tools (U4,11,17) | [x] |
+| 9 | Mind UI + PDF + regions (B9,14,U7) | [x] |
+| 10 | Softness + disclosure (U18–20) | [x] |
+| 11 | Persistence (B18–20) | [x] |
 | 12 | Verify + EAS 1.5.0 | [ ] |
 
 ---
