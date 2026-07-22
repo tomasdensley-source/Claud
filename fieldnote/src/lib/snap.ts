@@ -44,7 +44,8 @@ export function computeAlignmentGuides(
   let bestDy = 0;
   let bestAbsX = threshold + 1;
   let bestAbsY = threshold + 1;
-  const guides: GuideLine[] = [];
+  let guideX: GuideLine | null = null;
+  let guideY: GuideLine | null = null;
 
   for (const o of others) {
     if (o.id === moving.id) continue;
@@ -55,7 +56,7 @@ export function computeAlignmentGuides(
     const oB = o.y + o.height;
     const oCy = o.y + o.height / 2;
 
-    const xCandidates: { delta: number; value: number; kind: GuideLine['kind'] }[] = [
+    const xCandidates: { delta: number; value: number; kind: Extract<GuideLine, { axis: 'x' }>['kind'] }[] = [
       { delta: oL - left, value: oL, kind: 'left' },
       { delta: oCx - cx, value: oCx, kind: 'center' },
       { delta: oR - right, value: oR, kind: 'right' },
@@ -67,10 +68,11 @@ export function computeAlignmentGuides(
       if (a <= threshold && a < bestAbsX) {
         bestAbsX = a;
         bestDx = c.delta;
+        guideX = { axis: 'x', value: c.value, kind: c.kind };
       }
     }
 
-    const yCandidates: { delta: number; value: number; kind: GuideLine['kind'] }[] = [
+    const yCandidates: { delta: number; value: number; kind: Extract<GuideLine, { axis: 'y' }>['kind'] }[] = [
       { delta: oT - top, value: oT, kind: 'top' },
       { delta: oCy - cy, value: oCy, kind: 'center' },
       { delta: oB - bottom, value: oB, kind: 'bottom' },
@@ -82,18 +84,20 @@ export function computeAlignmentGuides(
       if (a <= threshold && a < bestAbsY) {
         bestAbsY = a;
         bestDy = c.delta;
+        guideY = { axis: 'y', value: c.value, kind: c.kind };
       }
     }
   }
 
-  if (bestAbsX <= threshold) {
-    guides.push({ axis: 'x', value: moving.x + bestDx + moving.width / 2, kind: 'center' });
-  }
-  if (bestAbsY <= threshold) {
-    guides.push({ axis: 'y', value: moving.y + bestDy + moving.height / 2, kind: 'center' });
-  }
+  const guides: GuideLine[] = [];
+  if (guideX && bestAbsX <= threshold) guides.push(guideX);
+  if (guideY && bestAbsY <= threshold) guides.push(guideY);
 
-  return { dx: bestAbsX <= threshold ? bestDx : 0, dy: bestAbsY <= threshold ? bestDy : 0, guides };
+  return {
+    dx: bestAbsX <= threshold ? bestDx : 0,
+    dy: bestAbsY <= threshold ? bestDy : 0,
+    guides,
+  };
 }
 
 /** Point-in-polygon (ray cast) for lasso selection. */

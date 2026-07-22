@@ -1,6 +1,5 @@
 import * as DocumentPicker from 'expo-document-picker';
 import * as ImagePicker from 'expo-image-picker';
-import { Alert } from 'react-native';
 import { DraftBoardItem } from '../types';
 import { colors } from '../theme';
 import { placeAtPoint } from './placement';
@@ -98,8 +97,7 @@ export async function pickAndBuildPhotoItems(
 ): Promise<PlaceFilesResult> {
   const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
   if (!perm.granted) {
-    Alert.alert('Permission needed', 'Allow photo library access to place images.');
-    return [];
+    throw new Error('Allow photo library access to place images.');
   }
   const result = await ImagePicker.launchImageLibraryAsync({
     allowsMultipleSelection: true,

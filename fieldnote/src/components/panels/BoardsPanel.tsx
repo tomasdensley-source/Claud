@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from 'react';
-import { Alert, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ModalShell } from './ModalShell';
+import { FloatingActionSheet } from '../FloatingActionSheet';
 import { useBoard } from '../../store/BoardContext';
 import { colors, radii } from '../../theme';
 
@@ -23,6 +24,7 @@ export function BoardsPanel({ visible, onClose }: Props) {
   } = useBoard();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [name, setName] = useState('');
+  const [boardMenu, setBoardMenu] = useState<{ id: string; name: string } | null>(null);
 
   const sorted = useMemo(
     () => [...boards].sort((a, b) => b.updatedAt - a.updatedAt),
@@ -116,20 +118,7 @@ export function BoardsPanel({ visible, onClose }: Props) {
               <Pressable
                 hitSlop={8}
                 accessibilityLabel={`Archive or delete ${board.name}`}
-                onPress={() => {
-                  Alert.alert(board.name, undefined, [
-                    {
-                      text: 'Archive',
-                      onPress: () => void archiveBoard(board.id),
-                    },
-                    {
-                      text: 'Delete',
-                      style: 'destructive',
-                      onPress: () => deleteBoard(board.id),
-                    },
-                    { text: 'Cancel', style: 'cancel' },
-                  ]);
-                }}
+                onPress={() => setBoardMenu({ id: board.id, name: board.name })}
               >
                 <Ionicons name="ellipsis-horizontal" size={18} color={colors.mutedInk} />
               </Pressable>
@@ -137,6 +126,26 @@ export function BoardsPanel({ visible, onClose }: Props) {
           </Pressable>
         );
       })}
+      <FloatingActionSheet
+        visible={boardMenu != null}
+        title={boardMenu?.name}
+        actions={[
+          {
+            label: 'Archive',
+            onPress: () => {
+              if (boardMenu) void archiveBoard(boardMenu.id);
+            },
+          },
+          {
+            label: 'Delete',
+            destructive: true,
+            onPress: () => {
+              if (boardMenu) deleteBoard(boardMenu.id);
+            },
+          },
+        ]}
+        onClose={() => setBoardMenu(null)}
+      />
     </ModalShell>
   );
 }

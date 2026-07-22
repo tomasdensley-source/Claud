@@ -106,6 +106,12 @@ export function Toolbar() {
       ),
     },
     {
+      key: 'lasso',
+      label: 'Lasso',
+      tool: 'lasso',
+      icon: <Ionicons name="scan-outline" size={18} color={colors.cream} />,
+    },
+    {
       key: 'draw',
       label: 'Draw',
       tool: 'draw',

@@ -1,7 +1,8 @@
-import React from 'react';
-import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ModalShell } from './ModalShell';
+import { FloatingActionSheet } from '../FloatingActionSheet';
 import { useBoard } from '../../store/BoardContext';
 import { colors, radii } from '../../theme';
 
@@ -23,6 +24,7 @@ export function MorePanel({ visible, onClose }: Props) {
     mindMapDepth,
     selectedIds,
   } = useBoard();
+  const [confirmReset, setConfirmReset] = useState(false);
 
   return (
     <ModalShell
@@ -69,6 +71,12 @@ export function MorePanel({ visible, onClose }: Props) {
         onPress={() => setPanel('pasteAi')}
       />
       <Row
+        icon="time-outline"
+        title="Recovery snapshots"
+        subtitle="Restore a recent board backup"
+        onPress={() => setPanel('snapshots')}
+      />
+      <Row
         icon="git-network-outline"
         title="Tidy mind map"
         subtitle={selectedIds.length ? 'Reflow selected mind-map root' : 'Select a mind-map node first'}
@@ -102,19 +110,21 @@ export function MorePanel({ visible, onClose }: Props) {
         icon="refresh-outline"
         title="Reset to demo board"
         subtitle="Clears local boards and restores seed content"
-        onPress={() => {
-          Alert.alert('Reset Fieldnote?', 'This replaces saved boards with the demo board.', [
-            { text: 'Cancel', style: 'cancel' },
-            {
-              text: 'Reset',
-              style: 'destructive',
-              onPress: async () => {
-                await resetToSeed();
-                onClose();
-              },
+        onPress={() => setConfirmReset(true)}
+      />
+      <FloatingActionSheet
+        visible={confirmReset}
+        title="Reset Fieldnote?"
+        actions={[
+          {
+            label: 'Reset to demo',
+            destructive: true,
+            onPress: () => {
+              void resetToSeed().then(() => onClose());
             },
-          ]);
-        }}
+          },
+        ]}
+        onClose={() => setConfirmReset(false)}
       />
     </ModalShell>
   );
@@ -139,6 +149,7 @@ export function GesturesPanel({ visible, onClose }: Props) {
           <Tip title="Hold empty space" body="Compact add: Files / Device / New" />
           <Tip title="Hold a title" body="Edit after the confirm pulse" />
           <Tip title="Multi tool" body="Marquee with one finger; two fingers to pan" />
+          <Tip title="Lasso tool" body="Draw a freehand loop to select cards inside" />
         </View>
         <View style={styles.col}>
           <Text style={styles.colTitle}>Board tips</Text>
@@ -162,6 +173,7 @@ export function GesturesPanel({ visible, onClose }: Props) {
 export function StoragePanel({ visible, onClose }: Props) {
   const { boards, resetToSeed } = useBoard();
   const itemCount = boards.reduce((n, b) => n + b.items.length, 0);
+  const [confirmClear, setConfirmClear] = useState(false);
 
   return (
     <ModalShell
@@ -179,24 +191,23 @@ export function StoragePanel({ visible, onClose }: Props) {
         Waiting before editing protects your saved work. Boards autosave as you move and write.
         Clearing app data or uninstalling removes local boards.
       </Text>
-      <Pressable
-        style={styles.danger}
-        onPress={() => {
-          Alert.alert('Clear all local boards?', undefined, [
-            { text: 'Cancel', style: 'cancel' },
-            {
-              text: 'Clear',
-              style: 'destructive',
-              onPress: async () => {
-                await resetToSeed();
-                onClose();
-              },
-            },
-          ]);
-        }}
-      >
+      <Pressable style={styles.danger} onPress={() => setConfirmClear(true)}>
         <Text style={styles.dangerText}>Clear local data & restore demo</Text>
       </Pressable>
+      <FloatingActionSheet
+        visible={confirmClear}
+        title="Clear all local boards?"
+        actions={[
+          {
+            label: 'Clear & restore demo',
+            destructive: true,
+            onPress: () => {
+              void resetToSeed().then(() => onClose());
+            },
+          },
+        ]}
+        onClose={() => setConfirmClear(false)}
+      />
     </ModalShell>
   );
 }

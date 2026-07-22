@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ModalShell } from './ModalShell';
 import { useBoard } from '../../store/BoardContext';
@@ -20,11 +20,11 @@ export function PasteAiPanel({ visible, onClose, onToast }: Props) {
   const runPaste = async () => {
     const result = pasteAiBoard(text);
     if (!result.ok) {
-      Alert.alert('Paste failed', result.error ?? 'Unknown error');
+      onToast(result.error ?? 'Paste failed');
       return;
     }
     await hapticSuccess();
-    onToast(`Imported ${result.count} items`);
+    onToast(`Replaced board · ${result.count} items (snapshot saved)`);
     setText('');
     onClose();
   };
@@ -32,10 +32,10 @@ export function PasteAiPanel({ visible, onClose, onToast }: Props) {
   const runImportMerge = () => {
     const result = importJsonCanvasText(text);
     if (!result.ok) {
-      Alert.alert('Import failed', result.error ?? 'Unknown error');
+      onToast(result.error ?? 'Import failed');
       return;
     }
-    onToast(`Merged ${result.count} items`);
+    onToast(`Merged ${result.count} items (snapshot saved)`);
     setText('');
     onClose();
   };
@@ -45,7 +45,7 @@ export function PasteAiPanel({ visible, onClose, onToast }: Props) {
       visible={visible}
       onClose={onClose}
       title="Paste AI Board"
-      subtitle="Paste JSON Canvas from any LLM. Preview stays local."
+      subtitle="Paste JSON Canvas from any LLM. Replace or merge — a recovery snapshot is saved first."
       icon="sparkles-outline"
     >
       <TextInput
@@ -64,7 +64,7 @@ export function PasteAiPanel({ visible, onClose, onToast }: Props) {
           onPress={async () => {
             const clip = await readClipboardText();
             if (clip) setText(clip);
-            else Alert.alert('Clipboard empty');
+            else onToast('Clipboard empty');
           }}
         >
           <Ionicons name="clipboard-outline" size={16} color={colors.ink} />
@@ -75,7 +75,7 @@ export function PasteAiPanel({ visible, onClose, onToast }: Props) {
           <Text style={styles.secondaryText}>Clear</Text>
         </Pressable>
       </View>
-      <Pressable style={styles.primary} onPress={runPaste}>
+      <Pressable style={styles.primary} onPress={() => void runPaste()}>
         <Text style={styles.primaryText}>Replace board (Paste AI)</Text>
       </Pressable>
       <Pressable style={styles.merge} onPress={runImportMerge}>

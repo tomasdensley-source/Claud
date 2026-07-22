@@ -28,8 +28,10 @@ Skia + Reanimated · Gesture Handler · expo-haptics · expo-sqlite + FileSystem
 - [x] Soft haptics + Reduce Motion mute
 - [x] Infinite zoom + focal pinch + pan momentum
 - [x] Draw: one-finger ink; two-finger nav
+- [x] Lasso freehand selection
+- [x] Live alignment guides on drag
+- [x] Lock selected (no drag/resize)
 - [ ] Multi-touch nav while actively dragging a connector endpoint
-- [ ] Lasso selection (marquee covers rect selection)
 
 ### 2. UI polish
 - [x] Vertical folded color palette + frame/body toggle

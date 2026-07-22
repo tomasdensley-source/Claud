@@ -30,7 +30,8 @@ import {
   repairAiJson,
   stringifyJsonCanvas,
 } from '../lib/jsonCanvas';
-import { saveSnapshot, listSnapshots, loadSnapshot } from '../lib/snapshots';
+import { saveSnapshot, loadSnapshot } from '../lib/snapshots';
+import { pointInPolygon } from '../lib/snap';
 import { hapticImpact, hapticSuccess, hapticWarning, hapticSelection } from '../lib/haptics';
 import {
   ensureUniqueIds,
@@ -69,6 +70,7 @@ interface BoardContextValue {
   select: (ids: string[], additive?: boolean) => void;
   selectAll: () => void;
   selectInRect: (rect: { x: number; y: number; width: number; height: number }, additive?: boolean) => void;
+  selectInPolygon: (polygon: { x: number; y: number }[], additive?: boolean) => void;
   clearSelection: () => void;
   applyColorToSelected: (color: string, target: 'frame' | 'body') => void;
   updateItems: (updater: (items: BoardItem[]) => BoardItem[], pushHistory?: boolean) => void;
@@ -302,6 +304,25 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
+  const selectInPolygon = useCallback((polygon: { x: number; y: number }[], additive = false) => {
+    if (polygon.length < 3) return;
+    const board = boardsRef.current.find((b) => b.id === currentBoardIdRef.current);
+    if (!board) return;
+    const hits = board.items
+      .filter((it) => {
+        if (it.type === 'connector') return false;
+        return pointInPolygon(
+          { x: it.x + it.width / 2, y: it.y + it.height / 2 },
+          polygon,
+        );
+      })
+      .map((it) => it.id);
+    setSelectedIds((prev) => {
+      if (!additive) return hits;
+      return Array.from(new Set([...prev, ...hits]));
+    });
+  }, []);
+
   const clearSelection = useCallback(() => setSelectedIds([]), []);
 
   const applyColorToSelected = useCallback(
@@ -495,9 +516,11 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
   const importJsonCanvasText = useCallback(
     (raw: string): { ok: boolean; error?: string; count?: number } => {
       try {
-        const doc = parseJsonCanvas(raw);
+        const repaired = repairAiJson(raw);
+        const doc = parseJsonCanvas(repaired);
         const imported = layoutRepair(jsonCanvasToItems(doc));
         if (imported.length === 0) return { ok: false, error: 'No nodes found' };
+        void saveSnapshot(boardsRef.current, currentBoardIdRef.current, 'Before Paste AI merge');
         updateItems((items) => {
           const existing = new Set(items.map((i) => i.id));
           const { items: unique } = ensureUniqueIds(imported, existing);
@@ -1119,6 +1142,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     select,
     selectAll,
     selectInRect,
+    selectInPolygon,
     clearSelection,
     applyColorToSelected,
     updateItems,

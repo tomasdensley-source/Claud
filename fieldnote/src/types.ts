@@ -142,7 +142,7 @@ export interface AppState {
   boards: Board[];
   currentBoardId: string;
   selectedIds: string[];
-  tool: 'select' | 'draw' | 'multi';
+  tool: 'select' | 'draw' | 'multi' | 'lasso';
   drawColor: string;
   history: Board[][];
   future: Board[][];

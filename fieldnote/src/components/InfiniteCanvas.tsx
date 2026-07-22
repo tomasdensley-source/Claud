@@ -33,10 +33,11 @@ import { canCompleteTask } from '../lib/taskGraph';
 import { descendantCount, visibleMindMapIds } from '../lib/mindMap';
 import { shareText } from '../lib/share';
 import { isPdfAsset } from '../lib/pdf';
-import { snapPoint } from '../lib/snap';
+import { computeAlignmentGuides, GuideLine, snapPoint } from '../lib/snap';
 import { assignRegionParents } from '../lib/regions';
 import { PdfReaderModal } from './PdfReaderModal';
 import { FloatingActionSheet } from './FloatingActionSheet';
+import Svg, { Polyline } from 'react-native-svg';
 
 const WORLD = 4000;
 const MIN_BOX_W = 72;
@@ -211,6 +212,7 @@ const BoardItemNode = memo(function BoardItemNode({
   const canResize =
     selected &&
     !editing &&
+    !item.locked &&
     item.type !== 'drawing' &&
     item.type !== 'connector' &&
     item.type !== 'mindmap';
@@ -269,6 +271,7 @@ const BoardItemNode = memo(function BoardItemNode({
   const drag = useMemo(
     () =>
       Gesture.Pan()
+        .enabled(!item.locked)
         .maxPointers(1)
         .minDistance(isTask ? GESTURE.TASK_DRAG_MIN_DIST : GESTURE.OBJECT_DRAG_MIN_DIST)
         .averageTouches(false)
@@ -288,7 +291,7 @@ const BoardItemNode = memo(function BoardItemNode({
           'worklet';
           if (!success) runOnJS(onDragEnd)();
         }),
-    [isTask, item.id, onDragEnd, onDragMove, onDragStart, scale],
+    [isTask, item.id, item.locked, onDragEnd, onDragMove, onDragStart, scale],
   );
 
   const composed = useMemo(() => {
@@ -412,6 +415,7 @@ export function InfiniteCanvas({
     drawWidth,
     select,
     selectInRect,
+    selectInPolygon,
     clearSelection,
     updateItems,
     resizeItemBox,
@@ -470,6 +474,8 @@ export function InfiniteCanvas({
     width: number;
     height: number;
   } | null>(null);
+  const [lassoPath, setLassoPath] = useState<{ x: number; y: number }[] | null>(null);
+  const [alignGuides, setAlignGuides] = useState<GuideLine[]>([]);
   const [sheet, setSheet] = useState<null | {
     title: string;
     actions: { label: string; destructive?: boolean; onPress: () => void }[];
@@ -934,6 +940,58 @@ export function InfiniteCanvas({
     [marqueeEnd, marqueeMove, marqueeStart],
   );
 
+  const lassoStart = useCallback(
+    (x: number, y: number) => {
+      const world = screenToWorld(x, y, scale.value, tx.value, ty.value);
+      setLassoPath([world]);
+    },
+    [scale, tx, ty],
+  );
+
+  const lassoMove = useCallback(
+    (x: number, y: number) => {
+      const world = screenToWorld(x, y, scale.value, tx.value, ty.value);
+      setLassoPath((prev) => {
+        if (!prev || prev.length === 0) return [world];
+        const last = prev[prev.length - 1];
+        const dist = Math.hypot(world.x - last.x, world.y - last.y);
+        if (dist < 4) return prev;
+        return [...prev, world];
+      });
+    },
+    [scale, tx, ty],
+  );
+
+  const lassoEnd = useCallback(() => {
+    setLassoPath((path) => {
+      if (path && path.length >= 3) {
+        selectInPolygon(path, false);
+        void hapticImpact('light');
+      }
+      return null;
+    });
+  }, [selectInPolygon]);
+
+  const lassoGesture = useMemo(
+    () =>
+      Gesture.Pan()
+        .maxPointers(1)
+        .minDistance(GESTURE.MARQUEE_MIN_DIST)
+        .onBegin((e) => {
+          'worklet';
+          runOnJS(lassoStart)(e.x, e.y);
+        })
+        .onUpdate((e) => {
+          'worklet';
+          runOnJS(lassoMove)(e.x, e.y);
+        })
+        .onEnd(() => {
+          'worklet';
+          runOnJS(lassoEnd)();
+        }),
+    [lassoEnd, lassoMove, lassoStart],
+  );
+
   const drawGesture = useMemo(
     () =>
       Gesture.Pan()
@@ -975,6 +1033,12 @@ export function InfiniteCanvas({
         Gesture.Exclusive(longPressGesture, marqueeGesture, tapGesture),
       );
     }
+    if (tool === 'lasso') {
+      return Gesture.Simultaneous(
+        twoFingerNav,
+        Gesture.Exclusive(longPressGesture, lassoGesture, tapGesture),
+      );
+    }
     // Default select: one-finger pan; pinch zoom; optional two-finger pan.
     return Gesture.Simultaneous(
       twoFingerNav,
@@ -986,6 +1050,7 @@ export function InfiniteCanvas({
     drawGesture,
     longPressGesture,
     marqueeGesture,
+    lassoGesture,
     oneFingerPan,
     tapGesture,
   ]);
@@ -1199,8 +1264,14 @@ export function InfiniteCanvas({
 
   const onDragStart = useCallback(
     (id: string) => {
+      const tapped = currentBoard.items.find((it) => it.id === id);
+      if (tapped?.locked) {
+        select([id], false);
+        onToast('Locked — unlock from the selection bar');
+        return;
+      }
       const selected = selectedRef.current;
-      const ids =
+      const rawIds =
         toolRef.current === 'multi'
           ? selected.includes(id)
             ? selected
@@ -1208,9 +1279,19 @@ export function InfiniteCanvas({
           : selected.includes(id) && selected.length > 1
             ? selected
             : [id];
+      const ids = rawIds.filter((rid) => {
+        const it = currentBoard.items.find((x) => x.id === rid);
+        return it && !it.locked;
+      });
+      if (ids.length === 0) {
+        select([id], false);
+        onToast('Locked — unlock from the selection bar');
+        return;
+      }
       dragIdsRef.current = ids;
       dragCommittedRef.current = false;
       setDragVisual({ ids, dx: 0, dy: 0 });
+      setAlignGuides([]);
       if (toolRef.current === 'multi') {
         if (!selected.includes(id)) select([id], true);
       } else if (!(selected.includes(id) && selected.length > 1)) {
@@ -1219,14 +1300,41 @@ export function InfiniteCanvas({
       setEditingId(null);
       void hapticImpact('light');
     },
-    [select],
+    [currentBoard.items, onToast, select],
   );
 
-  const onDragMove = useCallback((dx: number, dy: number) => {
-    const ids = dragIdsRef.current;
-    if (ids.length === 0) return;
-    setDragVisual({ ids, dx, dy });
-  }, []);
+  const onDragMove = useCallback(
+    (dx: number, dy: number) => {
+      const ids = dragIdsRef.current;
+      if (ids.length === 0) return;
+      const primary = currentBoard.items.find((it) => it.id === ids[0]);
+      if (!primary) {
+        setDragVisual({ ids, dx, dy });
+        setAlignGuides([]);
+        return;
+      }
+      const others = currentBoard.items
+        .filter((it) => !ids.includes(it.id) && it.type !== 'connector')
+        .map((it) => ({
+          id: it.id,
+          x: it.x,
+          y: it.y,
+          width: it.width,
+          height: it.height,
+        }));
+      const moving = {
+        id: primary.id,
+        x: primary.x + dx,
+        y: primary.y + dy,
+        width: primary.width,
+        height: primary.height,
+      };
+      const aligned = computeAlignmentGuides(moving, others);
+      setDragVisual({ ids, dx: dx + aligned.dx, dy: dy + aligned.dy });
+      setAlignGuides(aligned.guides);
+    },
+    [currentBoard.items],
+  );
 
   const dragVisualRef = useRef(dragVisual);
   dragVisualRef.current = dragVisual;
@@ -1240,6 +1348,7 @@ export function InfiniteCanvas({
     const dy = visual?.dy ?? 0;
     dragIdsRef.current = [];
     setDragVisual(null);
+    setAlignGuides([]);
     if (ids.length === 0) return;
     if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) return;
     beginHistory();
@@ -1259,7 +1368,7 @@ export function InfiniteCanvas({
   const startResize = useCallback(
     (id: string, corner: ResizeCorner) => {
       const item = currentBoard.items.find((it) => it.id === id);
-      if (!item) return;
+      if (!item || item.locked) return;
       resizeRef.current = {
         id,
         corner,
@@ -1484,6 +1593,68 @@ export function InfiniteCanvas({
                 }}
               />
             ) : null}
+            {lassoPath && lassoPath.length > 1 ? (
+              (() => {
+                const xs = lassoPath.map((p) => p.x);
+                const ys = lassoPath.map((p) => p.y);
+                const pad = 8;
+                const minX = Math.min(...xs) - pad;
+                const minY = Math.min(...ys) - pad;
+                const maxX = Math.max(...xs) + pad;
+                const maxY = Math.max(...ys) + pad;
+                const w = Math.max(1, maxX - minX);
+                const h = Math.max(1, maxY - minY);
+                const pts = [...lassoPath, lassoPath[0]]
+                  .map((p) => `${p.x - minX},${p.y - minY}`)
+                  .join(' ');
+                return (
+                  <Svg
+                    pointerEvents="none"
+                    width={w}
+                    height={h}
+                    style={{ position: 'absolute', left: minX, top: minY }}
+                  >
+                    <Polyline
+                      points={pts}
+                      fill="rgba(203,125,70,0.10)"
+                      stroke={colors.clayDeep}
+                      strokeWidth={2}
+                    />
+                  </Svg>
+                );
+              })()
+            ) : null}
+            {alignGuides.map((g, i) =>
+              g.axis === 'x' ? (
+                <View
+                  key={`gx-${i}`}
+                  pointerEvents="none"
+                  style={{
+                    position: 'absolute',
+                    left: g.value,
+                    top: 0,
+                    width: StyleSheet.hairlineWidth * 2,
+                    height: WORLD,
+                    backgroundColor: colors.clayDeep,
+                    opacity: 0.85,
+                  }}
+                />
+              ) : (
+                <View
+                  key={`gy-${i}`}
+                  pointerEvents="none"
+                  style={{
+                    position: 'absolute',
+                    top: g.value,
+                    left: 0,
+                    height: StyleSheet.hairlineWidth * 2,
+                    width: WORLD,
+                    backgroundColor: colors.clayDeep,
+                    opacity: 0.85,
+                  }}
+                />
+              ),
+            )}
           </Animated.View>
         </View>
       </GestureDetector>

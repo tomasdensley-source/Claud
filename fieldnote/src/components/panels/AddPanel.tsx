@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { ModalShell } from './ModalShell';
 import { useBoard } from '../../store/BoardContext';
@@ -117,7 +117,7 @@ export function AddPanel({ visible, onClose, viewCenter, onPlaced }: Props) {
       onPlaced?.(items.length === 1 ? 'File placed' : `${items.length} files placed`);
       onClose();
     } catch (e) {
-      Alert.alert('Could not open files', String(e));
+      onPlaced?.(`Could not open files: ${String(e)}`);
     }
   };
 
@@ -129,7 +129,7 @@ export function AddPanel({ visible, onClose, viewCenter, onPlaced }: Props) {
       onPlaced?.(items.length === 1 ? 'Photo placed' : `${items.length} photos placed`);
       onClose();
     } catch (e) {
-      Alert.alert('Could not open photos', String(e));
+      onPlaced?.(`Could not open photos: ${String(e)}`);
     }
   };
 

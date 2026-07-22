@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Alert, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ModalShell } from './ModalShell';
+import { FloatingActionSheet } from '../FloatingActionSheet';
 import { useBoard } from '../../store/BoardContext';
 import { colors, radii } from '../../theme';
 
@@ -11,11 +12,20 @@ interface Props {
   viewCenter: { x: number; y: number };
   scale: number;
   onFocusPlace: (x: number, y: number, zoom?: number) => void;
+  onToast?: (msg: string) => void;
 }
 
-export function PlacesPanel({ visible, onClose, viewCenter, scale, onFocusPlace }: Props) {
+export function PlacesPanel({
+  visible,
+  onClose,
+  viewCenter,
+  scale,
+  onFocusPlace,
+  onToast,
+}: Props) {
   const { landmarks, addLandmarkAt, deleteLandmark } = useBoard();
   const [name, setName] = useState('');
+  const [confirmDelete, setConfirmDelete] = useState<{ id: string; name: string } | null>(null);
 
   return (
     <ModalShell
@@ -44,7 +54,7 @@ export function PlacesPanel({ visible, onClose, viewCenter, scale, onFocusPlace 
               scale,
             );
             setName('');
-            Alert.alert('Saved', lm.name);
+            onToast?.(`Saved ${lm.name}`);
           }}
         >
           <Ionicons name="add" size={18} color={colors.cream} />
@@ -74,22 +84,27 @@ export function PlacesPanel({ visible, onClose, viewCenter, scale, onFocusPlace 
             <Pressable
               hitSlop={8}
               accessibilityLabel={`Delete ${lm.name}`}
-              onPress={() => {
-                Alert.alert('Remove place?', lm.name, [
-                  { text: 'Cancel', style: 'cancel' },
-                  {
-                    text: 'Remove',
-                    style: 'destructive',
-                    onPress: () => void deleteLandmark(lm.id),
-                  },
-                ]);
-              }}
+              onPress={() => setConfirmDelete({ id: lm.id, name: lm.name })}
             >
               <Ionicons name="trash-outline" size={18} color={colors.mutedInk} />
             </Pressable>
           </Pressable>
         ))
       )}
+      <FloatingActionSheet
+        visible={confirmDelete != null}
+        title={confirmDelete ? `Remove ${confirmDelete.name}?` : undefined}
+        actions={[
+          {
+            label: 'Remove',
+            destructive: true,
+            onPress: () => {
+              if (confirmDelete) void deleteLandmark(confirmDelete.id);
+            },
+          },
+        ]}
+        onClose={() => setConfirmDelete(null)}
+      />
     </ModalShell>
   );
 }

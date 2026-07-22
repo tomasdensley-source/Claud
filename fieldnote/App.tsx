@@ -1,5 +1,5 @@
 import React, { Component, ErrorInfo, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
-import { AccessibilityInfo, ActivityIndicator, Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import { AccessibilityInfo, ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -22,6 +22,7 @@ import { SearchPanel } from './src/components/panels/SearchPanel';
 import { GesturesPanel, MorePanel, StoragePanel } from './src/components/panels/MorePanel';
 import { PasteAiPanel, ExportCanvasPanel } from './src/components/panels/PasteAiPanel';
 import { PlacesPanel } from './src/components/panels/PlacesPanel';
+import { SnapshotsPanel } from './src/components/panels/SnapshotsPanel';
 import { MindMapToolbar } from './src/components/MindMapToolbar';
 import { colors } from './src/theme';
 import { MAX_SCALE, MIN_SCALE, clampScale } from './src/lib/camera';
@@ -262,7 +263,7 @@ function FieldnoteApp() {
               addItems(items);
               showToast(items.length === 1 ? 'File placed' : `${items.length} files placed`);
             } catch (e) {
-              Alert.alert('Could not open files', String(e));
+              showToast(`Could not open files: ${String(e)}`);
             }
           }}
           onDevicePhotos={async () => {
@@ -274,7 +275,7 @@ function FieldnoteApp() {
               addItems(items);
               showToast(items.length === 1 ? 'Photo placed' : `${items.length} photos placed`);
             } catch (e) {
-              Alert.alert('Could not open photos', String(e));
+              showToast(`Could not open photos: ${String(e)}`);
             }
           }}
           onNewText={() => {
@@ -393,12 +394,18 @@ function FieldnoteApp() {
           onClose={() => setPanel(null)}
           viewCenter={cameraCenter}
           scale={scale}
+          onToast={showToast}
           onFocusPlace={(x, y, zoom) => {
             setCenterRequest({ x, y, token: Date.now() });
             if (typeof zoom === 'number' && Number.isFinite(zoom)) {
               setZoomRequest({ scale: clampScale(zoom), token: Date.now() });
             }
           }}
+        />
+        <SnapshotsPanel
+          visible={panel === 'snapshots'}
+          onClose={() => setPanel(null)}
+          onToast={showToast}
         />
       </View>
     </SafeAreaView>
