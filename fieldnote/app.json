@@ -2,7 +2,7 @@
   "expo": {
     "name": "Fieldnote",
     "slug": "fieldnote",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "orientation": "default",
     "icon": "./assets/icon.png",
     "scheme": "fieldnote",
@@ -22,7 +22,7 @@
     },
     "android": {
       "package": "com.fieldnote.canvas",
-      "versionCode": 13,
+      "versionCode": 14,
       "adaptiveIcon": {
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
@@ -47,7 +47,8 @@
         }
       ],
       "expo-system-ui",
-      "expo-sqlite"
+      "expo-sqlite",
+      "expo-sharing"
     ],
     "extra": {
       "eas": {

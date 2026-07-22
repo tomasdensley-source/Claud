@@ -44,7 +44,10 @@ export function ZoomControls({
     <View style={styles.wrap}>
       {selectedCount > 0 ? (
         <View style={[styles.bar, shadows.control, styles.selectionBar]}>
-          <Text style={styles.selectionText}>{selectedCount} selected</Text>
+          <View style={styles.badge}>
+            <Text style={styles.badgeText}>{selectedCount}</Text>
+          </View>
+          <Text style={styles.selectionText}>selected</Text>
           <Pressable onPress={onBringFront} style={styles.iconBtn} accessibilityLabel="Bring forward">
             <Ionicons name="arrow-up" size={18} color={colors.cream} />
           </Pressable>
@@ -170,5 +173,20 @@ const styles = StyleSheet.create({
     color: 'rgba(255,250,240,0.8)',
     fontSize: 12,
     marginRight: 6,
+  },
+  badge: {
+    minWidth: 22,
+    height: 22,
+    borderRadius: 999,
+    backgroundColor: colors.clayDeep,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 6,
+    marginRight: 4,
+  },
+  badgeText: {
+    color: colors.cream,
+    fontSize: 12,
+    fontWeight: '700',
   },
 });

@@ -11,6 +11,7 @@ import { colors } from '../theme';
 import { CanvasItemView } from './CanvasItemView';
 import { GridBackground } from './GridBackground';
 import { LiveStrokeOverlay } from './LiveStrokeOverlay';
+import { ConnectorLayer } from './ConnectorLayer';
 import { BoardItem } from '../types';
 import {
   centerOnPoint,
@@ -21,6 +22,8 @@ import {
 } from '../lib/camera';
 import { GESTURE } from '../lib/gesturePriority';
 import { hapticImpact } from '../lib/haptics';
+import { canCompleteTask } from '../lib/taskGraph';
+import { descendantCount, visibleMindMapIds } from '../lib/mindMap';
 
 const WORLD = 4000;
 
@@ -75,6 +78,10 @@ interface BoardItemNodeProps {
   onDragEnd: () => void;
   onChangeText: (id: string, text: string) => void;
   onToggleTask: (id: string) => void;
+  onHoldCompleteTask: (id: string) => void;
+  taskBlocked: boolean;
+  onToggleCollapse?: (id: string) => void;
+  descendantCount: number;
   onEndEdit: () => void;
   onResizeStart: (id: string, width: number, height: number, pageX: number, pageY: number) => void;
   onResizeMove: (pageX: number, pageY: number) => void;
@@ -96,6 +103,10 @@ const BoardItemNode = memo(function BoardItemNode({
   onDragEnd,
   onChangeText,
   onToggleTask,
+  onHoldCompleteTask,
+  taskBlocked,
+  onToggleCollapse,
+  descendantCount,
   onEndEdit,
   onResizeStart,
   onResizeMove,
@@ -186,6 +197,9 @@ const BoardItemNode = memo(function BoardItemNode({
           onLongPress={() => undefined}
           onChangeText={() => undefined}
           onToggleTask={() => undefined}
+          onHoldCompleteTask={() => undefined}
+          taskBlocked={false}
+          descendantCount={0}
           onEndEdit={() => undefined}
         />
       </View>
@@ -216,6 +230,14 @@ const BoardItemNode = memo(function BoardItemNode({
           onLongPress={() => onLongPressEdit(item.id)}
           onChangeText={(text) => onChangeText(item.id, text)}
           onToggleTask={() => onToggleTask(item.id)}
+          onHoldCompleteTask={() => onHoldCompleteTask(item.id)}
+          taskBlocked={taskBlocked}
+          onToggleCollapse={
+            onToggleCollapse && item.type === 'mindmap'
+              ? () => onToggleCollapse(item.id)
+              : undefined
+          }
+          descendantCount={descendantCount}
           onEndEdit={onEndEdit}
           onResizeStart={(pageX, pageY) =>
             onResizeStart(item.id, item.width, item.height, pageX, pageY)
@@ -252,6 +274,9 @@ export function InfiniteCanvas({
     resizeItem,
     updateText,
     toggleTask,
+    completeTask,
+    toggleMindMapCollapse,
+    mindMapDepth,
     addDrawingStroke,
     beginHistory,
   } = useBoard();
@@ -739,14 +764,36 @@ export function InfiniteCanvas({
   }, []);
 
   // Stable z-order render: lower first, selected later for handles.
-  const sortedItems = useMemo(
-    () =>
-      [...currentBoard.items].sort((a, b) => {
+  const sortedItems = useMemo(() => {
+    const visibleMaps = visibleMindMapIds(currentBoard.items, mindMapDepth);
+    return [...currentBoard.items]
+      .filter((it) => {
+        if (it.type === 'connector') return false;
+        if (it.type === 'mindmap' && !visibleMaps.has(it.id)) return false;
+        return true;
+      })
+      .sort((a, b) => {
         const az = a.zIndex + (selectedIds.includes(a.id) ? 100000 : 0);
         const bz = b.zIndex + (selectedIds.includes(b.id) ? 100000 : 0);
         return az - bz;
-      }),
-    [currentBoard.items, selectedIds],
+      });
+  }, [currentBoard.items, selectedIds, mindMapDepth]);
+
+  const onToggleTaskMsg = useCallback(
+    (id: string) => {
+      const result = toggleTask(id);
+      if (result.reason) onToast(result.reason);
+    },
+    [onToast, toggleTask],
+  );
+
+  const onHoldComplete = useCallback(
+    (id: string) => {
+      const result = completeTask(id);
+      if (!result.ok && result.reason) onToast(result.reason);
+      else if (result.ok) onToast('Task complete');
+    },
+    [completeTask, onToast],
   );
 
   return (
@@ -755,9 +802,12 @@ export function InfiniteCanvas({
         <View style={styles.gesturePlane} collapsable={false}>
           <Animated.View style={[styles.world, animatedStyle]} collapsable={false}>
             <GridBackground worldSize={WORLD} />
+            <ConnectorLayer items={currentBoard.items} worldSize={WORLD} />
             {sortedItems.map((item) => {
               const selected = selectedIds.includes(item.id);
               const dragging = dragVisual?.ids.includes(item.id);
+              const blocked =
+                item.type === 'task' ? !canCompleteTask(item, currentBoard.items) && !item.done : false;
               return (
                 <BoardItemNode
                   key={item.id}
@@ -774,7 +824,13 @@ export function InfiniteCanvas({
                   onDragMove={onDragMove}
                   onDragEnd={onDragEndStable}
                   onChangeText={updateText}
-                  onToggleTask={toggleTask}
+                  onToggleTask={onToggleTaskMsg}
+                  onHoldCompleteTask={onHoldComplete}
+                  taskBlocked={blocked}
+                  onToggleCollapse={toggleMindMapCollapse}
+                  descendantCount={
+                    item.type === 'mindmap' ? descendantCount(item, currentBoard.items) : 0
+                  }
                   onEndEdit={() => setEditingId(null)}
                   onResizeStart={startResize}
                   onResizeMove={moveResize}

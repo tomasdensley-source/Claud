@@ -149,7 +149,9 @@ export type PanelKind =
   | 'search'
   | 'more'
   | 'gestures'
-  | 'storage';
+  | 'storage'
+  | 'pasteAi'
+  | 'export';
 
 export interface MarqueeRect {
   x: number;

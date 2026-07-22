@@ -17,18 +17,32 @@ Source: product blueprint (gesture priority, Skia canvas, spatial objects, JSON 
 ### Priority 2 — Object model + JSON Canvas
 - [x] Expanded types: connectors, dependsOn, locked, parentId, markdown
 - [ ] SQLite persistence layer
-- [ ] JSON Canvas 1.0 import/export
+- [x] JSON Canvas 1.0 import/export (+ Paste AI Board)
 
 ### Priority 3 — Color system
 - [x] Vertical palette beside toolbar, folded by default
 - [x] Frame vs body color toggle
-- [ ] Persistent custom swatches in storage
+- [x] Persistent custom swatches in storage
 
 ### Priority 4 — Floating panels
 - [x] Shared panel placement / collision helpers
 - [x] Top toasts with Undo + dismiss
+- [x] Selection count badge in multi toolbar
 - [ ] Full collision engine for every floating chrome piece
 
-### Remaining priorities (5–11)
-Task water-flow, mind-map engine, region nesting, connectors editing,
-multi-board home, recovery snapshots, Paste AI Board, a11y polish.
+### Priority 5 — Tasks + water-flow
+- [x] 3-second progressive glow hold-to-complete
+- [x] Dependency gating + glowing connectors
+
+### Priority 6 — Mind maps
+- [x] Collapse control + descendant counts
+- [x] Visible-depth selector
+- [x] Tidy selected root
+
+### Priority 7 — Regions
+- [x] parentId assignment / nested containment helpers
+- [ ] Zoom-into-region background takeover camera mode
+
+### Priority 8–11
+Drawing stroke hold-edit, multi-board home thumbnails, landmarks,
+region export PNG/PDF, SQLite, a11y, full verification.

@@ -11,14 +11,25 @@ interface Props {
 }
 
 export function MorePanel({ visible, onClose }: Props) {
-  const { undo, redo, canUndo, canRedo, setPanel, resetToSeed } = useBoard();
+  const {
+    undo,
+    redo,
+    canUndo,
+    canRedo,
+    setPanel,
+    resetToSeed,
+    tidySelectedMindMap,
+    setMindMapDepth,
+    mindMapDepth,
+    selectedIds,
+  } = useBoard();
 
   return (
     <ModalShell
       visible={visible}
       onClose={onClose}
       title="Board controls"
-      subtitle="History, gestures, and storage."
+      subtitle="History, export, mind maps, and storage."
       icon="ellipsis-horizontal"
     >
       <Row
@@ -40,11 +51,35 @@ export function MorePanel({ visible, onClose }: Props) {
         }}
       />
       <Row
-        icon="grid-outline"
-        title="Edit regions"
-        subtitle="Regions group space on the board"
+        icon="share-outline"
+        title="Export JSON Canvas"
+        subtitle="Share Obsidian-compatible .canvas"
+        onPress={() => setPanel('export')}
+      />
+      <Row
+        icon="sparkles-outline"
+        title="Paste AI Board"
+        subtitle="Import JSON from any LLM"
+        onPress={() => setPanel('pasteAi')}
+      />
+      <Row
+        icon="git-network-outline"
+        title="Tidy mind map"
+        subtitle={selectedIds.length ? 'Reflow selected mind-map root' : 'Select a mind-map node first'}
+        disabled={selectedIds.length === 0}
         onPress={() => {
-          setPanel('add');
+          tidySelectedMindMap();
+          onClose();
+        }}
+      />
+      <Row
+        icon="layers-outline"
+        title={`Mind-map depth: ${mindMapDepth === 'all' ? 'All' : mindMapDepth}`}
+        subtitle="Tap to cycle 1 → 2 → 3 → 4 → All"
+        onPress={() => {
+          const order: Array<number | 'all'> = [1, 2, 3, 4, 'all'];
+          const idx = order.indexOf(mindMapDepth);
+          setMindMapDepth(order[(idx + 1) % order.length]);
         }}
       />
       <Row

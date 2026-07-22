@@ -4,10 +4,13 @@ import { createMainBoard, createSeedItems, uid } from './seed';
 
 test('seed board includes demo content', () => {
   const items = createSeedItems();
-  assert.equal(items.length, 5);
+  assert.ok(items.length >= 5);
   assert.ok(items.some((i) => i.type === 'text' && i.id === 'hero-title'));
   assert.ok(items.some((i) => i.type === 'image' && i.assetKey === 'pottery'));
   assert.ok(items.some((i) => i.type === 'image' && i.assetKey === 'wildflower'));
+  assert.ok(items.some((i) => i.type === 'task' && i.id === 'task-root'));
+  assert.ok(items.some((i) => i.type === 'connector' && i.id === 'flow-edge'));
+  assert.ok(items.some((i) => i.type === 'mindmap' && i.id === 'mind-root'));
 });
 
 test('main board defaults', () => {

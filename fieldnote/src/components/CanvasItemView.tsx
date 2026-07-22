@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Image,
   Pressable,
@@ -22,6 +22,10 @@ interface Props {
   onLongPress: () => void;
   onChangeText: (text: string) => void;
   onToggleTask: () => void;
+  onHoldCompleteTask?: () => void;
+  taskBlocked?: boolean;
+  onToggleCollapse?: () => void;
+  descendantCount?: number;
   onEndEdit: () => void;
   onResizeStart?: (pageX: number, pageY: number) => void;
   onResizeMove?: (pageX: number, pageY: number) => void;
@@ -45,12 +49,53 @@ export function CanvasItemView({
   onLongPress,
   onChangeText,
   onToggleTask,
+  onHoldCompleteTask,
+  taskBlocked = false,
+  onToggleCollapse,
+  descendantCount = 0,
   onEndEdit,
   onResizeStart,
   onResizeMove,
   onResizeEnd,
 }: Props) {
   const handleSize = Math.max(14, 16 / scale);
+  const [holdProgress, setHoldProgress] = useState(0);
+  const holdTimer = useRef<ReturnType<typeof setInterval> | null>(null);
+  const holdStarted = useRef(0);
+
+  useEffect(() => {
+    return () => {
+      if (holdTimer.current) clearInterval(holdTimer.current);
+    };
+  }, []);
+
+  const stopHold = () => {
+    if (holdTimer.current) clearInterval(holdTimer.current);
+    holdTimer.current = null;
+    setHoldProgress(0);
+  };
+
+  const startHold = () => {
+    if (item.type !== 'task' || item.done) {
+      onToggleTask();
+      return;
+    }
+    if (taskBlocked) {
+      onToggleTask();
+      return;
+    }
+    holdStarted.current = Date.now();
+    setHoldProgress(0.05);
+    holdTimer.current = setInterval(() => {
+      const elapsed = Date.now() - holdStarted.current;
+      const p = Math.min(1, elapsed / 3000);
+      setHoldProgress(p);
+      if (p >= 1) {
+        stopHold();
+        onHoldCompleteTask?.();
+      }
+    }, 50);
+  };
 
   const content = useMemo(() => {
     switch (item.type) {
@@ -101,9 +146,28 @@ export function CanvasItemView({
         }
         return <Image source={source} style={styles.image} resizeMode="cover" />;
       }
-      case 'task':
+      case 'task': {
+        const glow =
+          holdProgress <= 0
+            ? 0
+            : holdProgress < 0.33
+              ? 0.2
+              : holdProgress < 0.66
+                ? 0.45
+                : 0.75;
         return (
-          <Pressable style={styles.taskRow} onPress={onToggleTask}>
+          <Pressable
+            style={[
+              styles.taskRow,
+              {
+                backgroundColor: item.done
+                  ? 'rgba(47,158,107,0.18)'
+                  : `rgba(237,182,74,${glow})`,
+              },
+            ]}
+            onPressIn={startHold}
+            onPressOut={stopHold}
+          >
             <View style={[styles.checkbox, item.done && styles.checkboxDone]}>
               {item.done ? <Text style={styles.checkMark}>✓</Text> : null}
             </View>
@@ -116,16 +180,29 @@ export function CanvasItemView({
                 style={[styles.taskText, item.done && styles.taskDone]}
               />
             ) : (
-              <Text style={[styles.taskText, item.done && styles.taskDone]}>
-                {item.text || 'New task'}
-              </Text>
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.taskText, item.done && styles.taskDone]}>
+                  {item.text || 'New task'}
+                </Text>
+                {taskBlocked && !item.done ? (
+                  <Text style={styles.blockedHint}>Waiting on water-flow</Text>
+                ) : !item.done ? (
+                  <Text style={styles.blockedHint}>Hold 3s to complete</Text>
+                ) : null}
+              </View>
             )}
           </Pressable>
         );
+      }
       case 'mindmap':
         return (
           <View style={styles.mindmap}>
-            <View style={styles.mindmapHub}>
+            <View
+              style={[
+                styles.mindmapHub,
+                item.branchColor ? { backgroundColor: item.branchColor } : null,
+              ]}
+            >
               {editing ? (
                 <TextInput
                   autoFocus
@@ -138,21 +215,39 @@ export function CanvasItemView({
                 <Text style={styles.mindmapHubText}>{item.text || 'Idea'}</Text>
               )}
             </View>
-            <View style={styles.mindmapChildren}>
-              {(item.children.length ? item.children : ['Branch', 'Branch']).map((c, i) => (
-                <View key={`${c}-${i}`} style={styles.mindmapChild}>
-                  <Text style={styles.mindmapChildText}>{c}</Text>
-                </View>
-              ))}
-            </View>
+            {onToggleCollapse ? (
+              <Pressable style={styles.collapseBtn} onPress={onToggleCollapse}>
+                <Text style={styles.collapseText}>
+                  {item.collapsed ? `▸ ${descendantCount}` : '▾'}
+                </Text>
+              </Pressable>
+            ) : null}
+            {!item.collapsed ? (
+              <View style={styles.mindmapChildren}>
+                {(item.children.length ? item.children : ['Branch', 'Branch']).map((c, i) => (
+                  <View key={`${c}-${i}`} style={styles.mindmapChild}>
+                    <Text style={styles.mindmapChildText}>{c}</Text>
+                  </View>
+                ))}
+              </View>
+            ) : (
+              <Text style={styles.collapsedMeta}>{descendantCount} hidden</Text>
+            )}
           </View>
         );
       case 'region':
         return (
-          <View style={styles.region}>
+          <View
+            style={[
+              styles.region,
+              item.frameColor ? { backgroundColor: item.frameColor } : null,
+            ]}
+          >
             <Text style={styles.regionLabel}>{item.label || 'Region'}</Text>
           </View>
         );
+      case 'connector':
+        return null;
       case 'shape':
         return (
           <Svg width="100%" height="100%">
@@ -227,7 +322,16 @@ export function CanvasItemView({
       default:
         return null;
     }
-  }, [editing, item, onChangeText, onEndEdit, onToggleTask]);
+  }, [
+    editing,
+    item,
+    onChangeText,
+    onEndEdit,
+    onToggleCollapse,
+    descendantCount,
+    taskBlocked,
+    holdProgress,
+  ]);
 
   const transparentBg =
     item.type === 'drawing' || item.type === 'shape' || item.type === 'region';
@@ -373,6 +477,26 @@ const styles = StyleSheet.create({
   taskDone: {
     textDecorationLine: 'line-through',
     color: colors.mutedInk,
+  },
+  blockedHint: {
+    color: colors.mutedInk,
+    fontSize: 11,
+    marginTop: 4,
+  },
+  collapseBtn: {
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 999,
+    backgroundColor: 'rgba(52,38,29,0.08)',
+  },
+  collapseText: {
+    color: colors.ink,
+    fontWeight: '700',
+    fontSize: 12,
+  },
+  collapsedMeta: {
+    color: colors.mutedInk,
+    fontSize: 12,
   },
   mindmap: {
     flex: 1,

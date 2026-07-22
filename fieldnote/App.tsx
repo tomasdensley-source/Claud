@@ -18,6 +18,7 @@ import { BoardsPanel } from './src/components/panels/BoardsPanel';
 import { FilesPanel } from './src/components/panels/FilesPanel';
 import { SearchPanel } from './src/components/panels/SearchPanel';
 import { GesturesPanel, MorePanel, StoragePanel } from './src/components/panels/MorePanel';
+import { PasteAiPanel, ExportCanvasPanel } from './src/components/panels/PasteAiPanel';
 import { colors } from './src/theme';
 import { MAX_SCALE, MIN_SCALE, clampScale } from './src/lib/camera';
 import { ColorTarget } from './src/lib/colorManager';
@@ -311,6 +312,16 @@ function FieldnoteApp() {
         <MorePanel visible={panel === 'more'} onClose={() => setPanel(null)} />
         <GesturesPanel visible={panel === 'gestures'} onClose={() => setPanel(null)} />
         <StoragePanel visible={panel === 'storage'} onClose={() => setPanel(null)} />
+        <PasteAiPanel
+          visible={panel === 'pasteAi'}
+          onClose={() => setPanel(null)}
+          onToast={showToast}
+        />
+        <ExportCanvasPanel
+          visible={panel === 'export'}
+          onClose={() => setPanel(null)}
+          onToast={showToast}
+        />
       </View>
     </SafeAreaView>
   );

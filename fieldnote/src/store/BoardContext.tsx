@@ -11,6 +11,19 @@ import { Board, BoardItem, DraftBoardItem, PanelKind } from '../types';
 import { createMainBoard, uid } from '../lib/seed';
 import { clearAllBoards, loadBoards, saveBoards } from '../lib/storage';
 import { colors } from '../theme';
+import { canCompleteTask, syncConnectorGlow } from '../lib/taskGraph';
+import { tidyMindMap, toggleCollapsed } from '../lib/mindMap';
+import { assignRegionParents } from '../lib/regions';
+import {
+  boardToJsonCanvas,
+  jsonCanvasToItems,
+  layoutRepair,
+  parseJsonCanvas,
+  repairAiJson,
+  stringifyJsonCanvas,
+} from '../lib/jsonCanvas';
+import { saveSnapshot } from '../lib/snapshots';
+import { hapticSuccess } from '../lib/haptics';
 
 export type Tool = 'select' | 'draw' | 'multi';
 
@@ -40,13 +53,22 @@ interface BoardContextValue {
   moveItems: (ids: string[], dx: number, dy: number, commit?: boolean) => void;
   resizeItem: (id: string, width: number, height: number, commit?: boolean) => void;
   updateText: (id: string, text: string) => void;
-  toggleTask: (id: string) => void;
+  toggleTask: (id: string) => { ok: boolean; reason?: string };
+  completeTask: (id: string) => { ok: boolean; reason?: string };
   addItem: (item: DraftBoardItem) => string;
   addItems: (items: DraftBoardItem[]) => string[];
+  replaceBoardItems: (items: BoardItem[], recordHistory?: boolean) => void;
   deleteSelected: () => void;
   duplicateSelected: () => void;
   bringToFront: () => void;
   sendToBack: () => void;
+  toggleMindMapCollapse: (id: string) => void;
+  tidySelectedMindMap: () => void;
+  setMindMapDepth: (depth: number | 'all') => void;
+  mindMapDepth: number | 'all';
+  exportJsonCanvas: () => string;
+  importJsonCanvasText: (raw: string) => { ok: boolean; error?: string; count?: number };
+  pasteAiBoard: (raw: string) => { ok: boolean; error?: string; count?: number };
   createBoard: (name?: string) => void;
   renameBoard: (id: string, name: string) => void;
   switchBoard: (id: string) => void;
@@ -85,6 +107,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
   const [history, setHistory] = useState<Board[][]>([]);
   const [future, setFuture] = useState<Board[][]>([]);
   const [lastSavedAt, setLastSavedAt] = useState<number | null>(null);
+  const [mindMapDepth, setMindMapDepth] = useState<number | 'all'>('all');
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const boardsRef = useRef(boards);
   const currentBoardIdRef = useRef(currentBoardId);
@@ -274,12 +297,108 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
   );
 
   const toggleTask = useCallback(
-    (id: string) => {
-      updateItems((items) =>
-        items.map((it) => (it.id === id && it.type === 'task' ? { ...it, done: !it.done } : it)),
-      );
+    (id: string): { ok: boolean; reason?: string } => {
+      const board = boardsRef.current.find((b) => b.id === currentBoardIdRef.current);
+      if (!board) return { ok: false, reason: 'No board' };
+      const task = board.items.find((it) => it.id === id && it.type === 'task');
+      if (!task || task.type !== 'task') return { ok: false, reason: 'Not a task' };
+      if (task.done) {
+        updateItems((items) =>
+          syncConnectorGlow(
+            items.map((it) => (it.id === id && it.type === 'task' ? { ...it, done: false } : it)),
+          ),
+        );
+        return { ok: true };
+      }
+      return {
+        ok: false,
+        reason: 'Hold the task for 3 seconds to complete it',
+      };
     },
     [updateItems],
+  );
+
+  const completeTask = useCallback(
+    (id: string): { ok: boolean; reason?: string } => {
+      const board = boardsRef.current.find((b) => b.id === currentBoardIdRef.current);
+      if (!board) return { ok: false, reason: 'No board' };
+      const task = board.items.find((it) => it.id === id && it.type === 'task');
+      if (!task || task.type !== 'task') return { ok: false, reason: 'Not a task' };
+      if (task.done) return { ok: true };
+      if (!canCompleteTask(task, board.items)) {
+        return { ok: false, reason: 'Waiting on dependency water-flow' };
+      }
+      updateItems((items) =>
+        syncConnectorGlow(
+          items.map((it) => (it.id === id && it.type === 'task' ? { ...it, done: true } : it)),
+        ),
+      );
+      void hapticSuccess();
+      return { ok: true };
+    },
+    [updateItems],
+  );
+
+  const replaceBoardItems = useCallback(
+    (items: BoardItem[], recordHistory = true) => {
+      replaceCurrentItems(assignRegionParents(syncConnectorGlow(items)), recordHistory);
+    },
+    [replaceCurrentItems],
+  );
+
+  const toggleMindMapCollapse = useCallback(
+    (id: string) => {
+      updateItems((items) => toggleCollapsed(items, id));
+    },
+    [updateItems],
+  );
+
+  const tidySelectedMindMap = useCallback(() => {
+    const id = selectedIds[0];
+    if (!id) return;
+    updateItems((items) => {
+      const target = items.find((it) => it.id === id && it.type === 'mindmap');
+      if (!target) return items;
+      return tidyMindMap(items, target.id);
+    });
+  }, [selectedIds, updateItems]);
+
+  const exportJsonCanvas = useCallback(() => {
+    const board = boardsRef.current.find((b) => b.id === currentBoardIdRef.current);
+    if (!board) return stringifyJsonCanvas({ nodes: [], edges: [] });
+    return stringifyJsonCanvas(boardToJsonCanvas(board));
+  }, []);
+
+  const importJsonCanvasText = useCallback(
+    (raw: string): { ok: boolean; error?: string; count?: number } => {
+      try {
+        const doc = parseJsonCanvas(raw);
+        const imported = layoutRepair(jsonCanvasToItems(doc));
+        if (imported.length === 0) return { ok: false, error: 'No nodes found' };
+        updateItems((items) => assignRegionParents(syncConnectorGlow([...items, ...imported])));
+        return { ok: true, count: imported.length };
+      } catch (e) {
+        return { ok: false, error: String(e) };
+      }
+    },
+    [updateItems],
+  );
+
+  const pasteAiBoard = useCallback(
+    (raw: string): { ok: boolean; error?: string; count?: number } => {
+      try {
+        const repaired = repairAiJson(raw);
+        const doc = parseJsonCanvas(repaired);
+        const imported = layoutRepair(jsonCanvasToItems(doc));
+        if (imported.length === 0) return { ok: false, error: 'No nodes found' };
+        void saveSnapshot(boardsRef.current, currentBoardIdRef.current, 'Before Paste AI');
+        replaceBoardItems(imported, true);
+        return { ok: true, count: imported.length };
+      } catch (e) {
+        return { ok: false, error: String(e) };
+      }
+    },
+    [replaceBoardItems],
   );
 
   const addItem = useCallback(
@@ -580,12 +699,21 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     resizeItem,
     updateText,
     toggleTask,
+    completeTask,
     addItem,
     addItems,
+    replaceBoardItems,
     deleteSelected,
     duplicateSelected,
     bringToFront,
     sendToBack,
+    toggleMindMapCollapse,
+    tidySelectedMindMap,
+    setMindMapDepth,
+    mindMapDepth,
+    exportJsonCanvas,
+    importJsonCanvasText,
+    pasteAiBoard,
     createBoard,
     renameBoard,
     switchBoard,
