@@ -11,6 +11,7 @@ import { Minimap } from './src/components/Minimap';
 import { BoardBadge } from './src/components/BoardBadge';
 import { DrawPalette } from './src/components/DrawPalette';
 import { VerticalColorPalette } from './src/components/VerticalColorPalette';
+import { TextFormatPanel } from './src/components/TextFormatPanel';
 import { ContextualAddMenu } from './src/components/ContextualAddMenu';
 import { Toast } from './src/components/Toast';
 import { AddPanel } from './src/components/panels/AddPanel';
@@ -157,6 +158,7 @@ function FieldnoteApp() {
           onColor={onColor}
           onTarget={setColorTarget}
         />
+        {tool !== 'draw' ? <TextFormatPanel /> : null}
         <Minimap
           items={currentBoard.items}
           onNavigate={(x, y) => setCenterRequest({ x, y, token: Date.now() })}

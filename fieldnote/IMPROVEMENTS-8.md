@@ -1,4 +1,4 @@
-# Fieldnote improvements 938–980 (v1.4.0)
+# Fieldnote improvements 938–990 (v1.4.0 → 1.4.2)
 
 1. SQLite dual-write store with AsyncStorage migrate/fallback.
 2. Landmarks persistence (SQLite + AsyncStorage).
@@ -36,3 +36,9 @@
 37. Haptic warning on blocked tasks / delete; success on complete / new board.
 38. Respects Reduce Motion (mutes haptics when enabled).
 39. Mid-hold haptic ticks during the 3s task glow.
+40. Compact TextFormatPanel (size, bold, roles, Markdown list/todo wrap).
+41. Snap-to-grid on object drop (20px).
+42. Mind-map nodes excluded from manual resize handles.
+43. Connector midpoint long-press → color/thickness/delete edit.
+44. `updateConnectorStyle` in BoardContext.
+45. Palette remains folded by default; auto-closes when irrelevant.

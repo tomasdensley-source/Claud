@@ -97,6 +97,7 @@ interface BoardContextValue {
     format: 'markdown' | 'canvas',
   ) => { ok: boolean; text?: string; error?: string };
   updateDrawingStyle: (id: string, patch: { color?: string; width?: number }) => void;
+  updateConnectorStyle: (id: string, patch: { color?: string; thickness?: number }) => void;
   addLandmarkAt: (name: string, x: number, y: number, zoom?: number) => Promise<Landmark>;
   deleteLandmark: (id: string) => Promise<void>;
   undo: () => void;
@@ -695,6 +696,22 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     [updateItems],
   );
 
+  const updateConnectorStyle = useCallback(
+    (id: string, patch: { color?: string; thickness?: number }) => {
+      updateItems((items) =>
+        items.map((it) => {
+          if (it.id !== id || it.type !== 'connector') return it;
+          return {
+            ...it,
+            color: patch.color ?? it.color,
+            thickness: patch.thickness ?? it.thickness ?? 2,
+          };
+        }),
+      );
+    },
+    [updateItems],
+  );
+
   const addLandmarkAt = useCallback(
     async (name: string, x: number, y: number, zoom?: number) => {
       const landmark: Landmark = {
@@ -925,6 +942,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     exitRegion,
     exportRegion,
     updateDrawingStyle,
+    updateConnectorStyle,
     addLandmarkAt,
     deleteLandmark,
     undo,

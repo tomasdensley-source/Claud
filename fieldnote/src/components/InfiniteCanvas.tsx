@@ -32,6 +32,7 @@ import { canCompleteTask } from '../lib/taskGraph';
 import { descendantCount, visibleMindMapIds } from '../lib/mindMap';
 import { shareText } from '../lib/share';
 import { isPdfAsset } from '../lib/pdf';
+import { snapPoint } from '../lib/snap';
 import { PdfReaderModal } from './PdfReaderModal';
 
 const WORLD = 4000;
@@ -206,7 +207,8 @@ const BoardItemNode = memo(function BoardItemNode({
     selected &&
     !editing &&
     item.type !== 'drawing' &&
-    item.type !== 'connector';
+    item.type !== 'connector' &&
+    item.type !== 'mindmap';
   const handleSize = Math.max(18, Math.min(28, 22 / Math.max(0.45, scale)));
 
   const tap = useMemo(
@@ -395,7 +397,7 @@ export function InfiniteCanvas({
     select,
     selectInRect,
     clearSelection,
-    moveItems,
+    updateItems,
     resizeItemBox,
     updateText,
     toggleTask,
@@ -409,6 +411,7 @@ export function InfiniteCanvas({
     exitRegion,
     exportRegion,
     updateDrawingStyle,
+    updateConnectorStyle,
     deleteSelected,
     setDrawColor,
   } = useBoard();
@@ -957,6 +960,36 @@ export function InfiniteCanvas({
         ]);
         return;
       }
+      if (item.type === 'connector') {
+        void hapticImpact('medium');
+        Alert.alert('Edit connector', 'Color and thickness', [
+          {
+            text: 'Thinner',
+            onPress: () =>
+              updateConnectorStyle(id, { thickness: Math.max(1, (item.thickness ?? 2) - 1) }),
+          },
+          {
+            text: 'Thicker',
+            onPress: () =>
+              updateConnectorStyle(id, { thickness: Math.min(16, (item.thickness ?? 2) + 1) }),
+          },
+          {
+            text: 'Use palette color',
+            onPress: () => updateConnectorStyle(id, { color: drawColor }),
+          },
+          {
+            text: 'Delete',
+            style: 'destructive',
+            onPress: () => {
+              select([id], false);
+              deleteSelected();
+              onToast('Connector deleted');
+            },
+          },
+          { text: 'Cancel', style: 'cancel' },
+        ]);
+        return;
+      }
       if (item.type === 'region') {
         void hapticImpact('medium');
         Alert.alert(item.label || 'Region', undefined, [
@@ -1008,7 +1041,44 @@ export function InfiniteCanvas({
       select,
       setDrawColor,
       updateDrawingStyle,
+      updateConnectorStyle,
     ],
+  );
+
+  const onEditConnector = useCallback(
+    (id: string) => {
+      select([id], false);
+      const item = currentBoard.items.find((it) => it.id === id);
+      if (!item || item.type !== 'connector') return;
+      void hapticImpact('medium');
+      Alert.alert('Edit connector', 'Color and thickness', [
+        {
+          text: 'Thinner',
+          onPress: () =>
+            updateConnectorStyle(id, { thickness: Math.max(1, (item.thickness ?? 2) - 1) }),
+        },
+        {
+          text: 'Thicker',
+          onPress: () =>
+            updateConnectorStyle(id, { thickness: Math.min(16, (item.thickness ?? 2) + 1) }),
+        },
+        {
+          text: 'Use palette color',
+          onPress: () => updateConnectorStyle(id, { color: drawColor }),
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            select([id], false);
+            deleteSelected();
+            onToast('Connector deleted');
+          },
+        },
+        { text: 'Cancel', style: 'cancel' },
+      ]);
+    },
+    [currentBoard.items, deleteSelected, drawColor, onToast, select, updateConnectorStyle],
   );
 
   const onDragStart = useCallback(
@@ -1057,8 +1127,17 @@ export function InfiniteCanvas({
     if (ids.length === 0) return;
     if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) return;
     beginHistory();
-    moveItems(ids, dx, dy, false);
-  }, [beginHistory, moveItems]);
+    // Snap each dropped object to the grid (blueprint alignment).
+    updateItems(
+      (items) =>
+        items.map((it) => {
+          if (!ids.includes(it.id) || it.locked) return it;
+          const snapped = snapPoint({ x: it.x + dx, y: it.y + dy });
+          return { ...it, x: snapped.x, y: snapped.y };
+        }),
+      false,
+    );
+  }, [beginHistory, updateItems]);
 
   const startResize = useCallback(
     (id: string, corner: ResizeCorner) => {
@@ -1203,7 +1282,11 @@ export function InfiniteCanvas({
             collapsable={false}
           >
             <GridBackground worldSize={WORLD} fillColor={canvasFill} />
-            <ConnectorLayer items={currentBoard.items} worldSize={WORLD} />
+            <ConnectorLayer
+              items={currentBoard.items}
+              worldSize={WORLD}
+              onLongPressConnector={onEditConnector}
+            />
             {sortedItems.map((item) => {
               const selected = selectedIds.includes(item.id);
               const dragging = dragVisual?.ids.includes(item.id);
