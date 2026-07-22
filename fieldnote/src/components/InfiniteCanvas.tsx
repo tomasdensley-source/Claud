@@ -69,6 +69,7 @@ export function InfiniteCanvas({
     toggleTask,
     appendDrawingPoint,
     setPanel,
+    resizeItem,
   } = useBoard();
 
   const scale = useSharedValue(0.86);
@@ -355,6 +356,7 @@ export function InfiniteCanvas({
               onChangeText={(text) => updateText(item.id, text)}
               onToggleTask={() => toggleTask(item.id)}
               onEndEdit={() => setEditingId(null)}
+              onResize={(rect, commit) => resizeItem(item.id, rect, commit)}
             />
           ))}
         </Animated.View>

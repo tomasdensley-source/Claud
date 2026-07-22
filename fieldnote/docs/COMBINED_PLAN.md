@@ -257,7 +257,9 @@ Min-cut is the release gate; premium items are additive and land where verifiabl
 - [ ] Single-finger drag moves selected item only when started on it.
 - [ ] Long-press empty canvas → 3-button add menu; double-tap → new note.
 - [ ] Task 3s hold → progressive glow → haptic pop → done; blocked tasks don't complete.
-- [ ] Card resize handles on all sides/corners; min-size respected.
+- [ ] Card resize handles (4 corners, landed) actually resize; dragging a handle
+      doesn't also drag/move the whole card (nested-gesture precedence — flagged risk,
+      not yet device-verified); min-size respected; anchor corner never drifts.
 - [ ] Markdown renders (headings/lists/emphasis/code/links).
 - [ ] PDF cover + pages render; large MD/PDF no crash.
 - [ ] Palette folded by default; custom slots persist across restart; frame/body toggle.
@@ -347,3 +349,29 @@ current; EAS/APK build link attached to the release PR from CI.
   directories concept until Batch 9; shipping it now would be a button that does
   nothing. Edge-panning while dragging is deferred alongside the movable toolbar from
   Batch 3 as its own follow-up. Gate: `tsc --noEmit && npm test` (19/19) green.
+- **Batch 5/6 pull-forward — landed.** Bug #4: cards were not user-resizable. This
+  turned out to already be half-built and shipped inert: `CanvasItemView` rendered 4
+  corner "handle" `View`s on selection with zero gesture attached, and
+  `BoardContext.resizeItem` existed with zero call sites anywhere in the app — both
+  completely dead. Wired them together instead of building new UI. New
+  `src/lib/resize.ts` (`computeResizeRect`, pure + unit tested): given a corner, the
+  item's rect at drag start, and a delta, returns the new rect with the *opposite*
+  corner held fixed as the anchor, min-size clamped without letting the anchor drift.
+  `resizeItem`'s signature changed from `(id, width, height, commit)` to
+  `(id, rect, commit)` (safe — it had no callers) so a single call can move x/y and
+  resize together, needed for the tl/tr/bl handles where the anchor is the opposite
+  corner. Found and fixed a second bug in the same pass: the card's outer container had
+  `overflow: 'hidden'`, which would have clipped the handles — they sit at negative
+  offsets, half outside the card's own bounds — both visually and for touch, almost
+  certainly the reason they were left disconnected in the first place. Moved the clip
+  to a new inner `contentClip` wrapper around just the card's content, leaving the
+  outer card (and the handles positioned relative to it) unclipped.
+  **Residual risk, needs device QA:** each handle is its own nested `GestureDetector`
+  (a `Gesture.Pan`) inside the item view, itself nested inside `InfiniteCanvas`'s
+  single outer composed gesture and the existing per-item `itemPanGesture` (whole-card
+  drag). Nested-detector precedence for exactly this shape (child pan resolving before
+  a parent's manually-activated pan on the same touch) is exactly the sort of thing
+  that reads correctly in the gesture-handler docs but needs a real device to confirm
+  doesn't fight the whole-card drag when starting a touch on a handle — flagged, not
+  claimed as verified. Added to the Android QA checklist (§7). Gate: `tsc --noEmit &&
+  npm test` (26/26) green.

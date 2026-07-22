@@ -19,6 +19,7 @@ import {
 import { parseJSONCanvas, serializeJSONCanvas } from '../lib/jsoncanvas';
 import { repairBoardItems } from '../lib/normalize';
 import { computeSnapDelta } from '../lib/snapping';
+import { MIN_ITEM_HEIGHT, MIN_ITEM_WIDTH } from '../lib/resize';
 import { haptics } from '../lib/haptics';
 import { colors } from '../theme';
 
@@ -53,7 +54,11 @@ interface BoardContextValue {
   updateItems: (updater: (items: BoardItem[]) => BoardItem[], pushHistory?: boolean) => void;
   moveItems: (ids: string[], dx: number, dy: number, commit?: boolean) => void;
   moveItemsCommitWithSnap: (ids: string[], dx: number, dy: number) => void;
-  resizeItem: (id: string, width: number, height: number, commit?: boolean) => void;
+  resizeItem: (
+    id: string,
+    rect: { x?: number; y?: number; width: number; height: number },
+    commit?: boolean,
+  ) => void;
   updateText: (id: string, text: string) => void;
   toggleTask: (id: string) => void;
   addItem: (item: DraftBoardItem) => string;
@@ -272,12 +277,18 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
   );
 
   const resizeItem = useCallback(
-    (id: string, width: number, height: number, commit = false) => {
+    (id: string, rect: { x?: number; y?: number; width: number; height: number }, commit = false) => {
       updateItems(
         (items) =>
           items.map((it) =>
             it.id === id
-              ? { ...it, width: Math.max(80, width), height: Math.max(60, height) }
+              ? {
+                  ...it,
+                  ...(rect.x !== undefined ? { x: rect.x } : null),
+                  ...(rect.y !== undefined ? { y: rect.y } : null),
+                  width: Math.max(MIN_ITEM_WIDTH, rect.width),
+                  height: Math.max(MIN_ITEM_HEIGHT, rect.height),
+                }
               : it,
           ),
         commit,

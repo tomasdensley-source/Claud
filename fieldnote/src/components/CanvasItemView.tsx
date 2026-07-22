@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
   Image,
   Pressable,
@@ -6,11 +6,21 @@ import {
   Text,
   TextInput,
   View,
+  ViewStyle,
 } from 'react-native';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { runOnJS, useSharedValue } from 'react-native-reanimated';
 import Svg, { Ellipse, Line, Path, Rect as SvgRect } from 'react-native-svg';
 import { BoardItem } from '../types';
 import { colors, radii, shadows } from '../theme';
 import { SEED_IMAGES } from '../lib/seedImages';
+import {
+  computeResizeRect,
+  MIN_ITEM_HEIGHT,
+  MIN_ITEM_WIDTH,
+  ResizeCorner,
+  ResizeRect,
+} from '../lib/resize';
 
 interface Props {
   item: BoardItem;
@@ -22,6 +32,7 @@ interface Props {
   onChangeText: (text: string) => void;
   onToggleTask: () => void;
   onEndEdit: () => void;
+  onResize: (rect: ResizeRect, commit: boolean) => void;
 }
 
 function pointsToPath(points: { x: number; y: number }[]): string {
@@ -41,6 +52,7 @@ export function CanvasItemView({
   onChangeText,
   onToggleTask,
   onEndEdit,
+  onResize,
 }: Props) {
   const handleSize = Math.max(10, 12 / scale);
 
@@ -254,16 +266,94 @@ export function CanvasItemView({
         item.type === 'region' && styles.regionOuter,
       ]}
     >
-      {content}
+      <View style={[styles.contentClip, item.type === 'region' && styles.contentClipFlush]}>
+        {content}
+      </View>
       {selected ? (
         <>
-          <View style={[styles.handle, { width: handleSize, height: handleSize, left: -handleSize / 2, top: -handleSize / 2 }]} />
-          <View style={[styles.handle, { width: handleSize, height: handleSize, right: -handleSize / 2, top: -handleSize / 2 }]} />
-          <View style={[styles.handle, { width: handleSize, height: handleSize, left: -handleSize / 2, bottom: -handleSize / 2 }]} />
-          <View style={[styles.handle, { width: handleSize, height: handleSize, right: -handleSize / 2, bottom: -handleSize / 2 }]} />
+          <ResizeHandle
+            corner="tl"
+            size={handleSize}
+            positionStyle={{ left: -handleSize / 2, top: -handleSize / 2 }}
+            item={item}
+            scale={scale}
+            onResize={onResize}
+          />
+          <ResizeHandle
+            corner="tr"
+            size={handleSize}
+            positionStyle={{ right: -handleSize / 2, top: -handleSize / 2 }}
+            item={item}
+            scale={scale}
+            onResize={onResize}
+          />
+          <ResizeHandle
+            corner="bl"
+            size={handleSize}
+            positionStyle={{ left: -handleSize / 2, bottom: -handleSize / 2 }}
+            item={item}
+            scale={scale}
+            onResize={onResize}
+          />
+          <ResizeHandle
+            corner="br"
+            size={handleSize}
+            positionStyle={{ right: -handleSize / 2, bottom: -handleSize / 2 }}
+            item={item}
+            scale={scale}
+            onResize={onResize}
+          />
         </>
       ) : null}
     </Pressable>
+  );
+}
+
+function ResizeHandle({
+  corner,
+  size,
+  positionStyle,
+  item,
+  scale,
+  onResize,
+}: {
+  corner: ResizeCorner;
+  size: number;
+  positionStyle: ViewStyle;
+  item: BoardItem;
+  scale: number;
+  onResize: (rect: ResizeRect, commit: boolean) => void;
+}) {
+  const start = useSharedValue<ResizeRect>({
+    x: item.x,
+    y: item.y,
+    width: item.width,
+    height: item.height,
+  });
+
+  const commit = useCallback(
+    (dx: number, dy: number, isCommit: boolean) => {
+      const rect = computeResizeRect(corner, start.value, dx, dy, MIN_ITEM_WIDTH, MIN_ITEM_HEIGHT);
+      onResize(rect, isCommit);
+    },
+    [corner, onResize, start],
+  );
+
+  const pan = Gesture.Pan()
+    .onBegin(() => {
+      start.value = { x: item.x, y: item.y, width: item.width, height: item.height };
+    })
+    .onUpdate((e) => {
+      runOnJS(commit)(e.translationX / scale, e.translationY / scale, false);
+    })
+    .onEnd((e) => {
+      runOnJS(commit)(e.translationX / scale, e.translationY / scale, true);
+    });
+
+  return (
+    <GestureDetector gesture={pan}>
+      <View style={[styles.handle, positionStyle, { width: size, height: size }]} />
+    </GestureDetector>
   );
 }
 
@@ -271,8 +361,18 @@ const styles = StyleSheet.create({
   item: {
     position: 'absolute',
     borderRadius: radii.card,
+  },
+  // Clips content (text, images, drawings) to the card's rounded corners.
+  // Kept separate from the outer card so resize handles — positioned just
+  // outside the card's edges — aren't clipped along with it.
+  contentClip: {
+    flex: 1,
     overflow: 'hidden',
+    borderRadius: radii.card,
     padding: 18,
+  },
+  contentClipFlush: {
+    padding: 0,
   },
   text: {
     fontFamily: 'System',
@@ -356,7 +456,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   regionOuter: {
-    padding: 0,
     borderWidth: 2,
     borderStyle: 'dashed',
     borderColor: 'rgba(52,38,29,0.28)',

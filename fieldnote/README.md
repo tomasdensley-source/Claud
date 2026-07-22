@@ -24,6 +24,7 @@ Built for **Android** (Expo Go + installable APK).
 - Purposeful haptics on key actions (edit, toggle task, delete, color, drop);
   ~500ms deliberate hold-to-edit; gentle alignment snapping when you drop a
   dragged card near another one's edge or center
+- Resizable cards: drag any of the 4 corner handles on a selected card
 - Minimap + zoom controls + Fit board
 - Long-press cards to edit; hold empty canvas to open Add
 
@@ -42,6 +43,7 @@ src/
   lib/normalize.ts         Coordinate repair for broken/AI-generated boards
   lib/snapping.ts          Alignment-snap math for item dragging
   lib/haptics.ts           Thin, always-safe expo-haptics wrapper
+  lib/resize.ts            Corner-handle resize geometry
   components/Palette.tsx  Vertical color palette (frame/body, custom slots)
   components/Toast.tsx    Compact top notification with Undo
   components/              Canvas, toolbar, minimap, panels
