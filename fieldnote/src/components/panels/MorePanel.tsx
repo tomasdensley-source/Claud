@@ -113,7 +113,8 @@ export function GesturesPanel({ visible, onClose }: Props) {
       </View>
       <View style={styles.tipBanner}>
         <Text style={styles.tipBannerText}>
-          Tip: Pinch zooms under your fingers. One finger pans. Hold empty space to add files.
+          Tip: Pinch zooms under your fingers. Drag cards to move them. In Draw, one finger inks and
+          two fingers pan.
         </Text>
       </View>
     </ModalShell>
