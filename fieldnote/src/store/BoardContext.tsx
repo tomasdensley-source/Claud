@@ -7,14 +7,31 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Board, BoardItem, DraftBoardItem, PanelKind } from '../types';
+import { Board, BoardItem, DraftBoardItem, PaletteTarget, PanelKind } from '../types';
 import { createMainBoard, uid } from '../lib/seed';
-import { clearAllBoards, loadBoards, saveBoards } from '../lib/storage';
+import {
+  clearAllBoards,
+  loadBoards,
+  loadPaletteSlots,
+  saveBoards,
+  savePaletteSlots,
+} from '../lib/storage';
 import { parseJSONCanvas, serializeJSONCanvas } from '../lib/jsoncanvas';
 import { repairBoardItems } from '../lib/normalize';
 import { colors } from '../theme';
 
 type Tool = 'select' | 'draw' | 'multi';
+
+// Seeds for the palette's 5 persistent custom slots — a small starting set
+// from the existing Fieldnote palette, not a fixed requirement; every slot is
+// user-editable and persists across sessions independent of board content.
+const DEFAULT_PALETTE_SLOTS = [
+  colors.clay,
+  colors.amber,
+  colors.tipBlue,
+  colors.clayDeep,
+  colors.ink,
+];
 
 interface BoardContextValue {
   ready: boolean;
@@ -54,6 +71,13 @@ interface BoardContextValue {
   exportBoardAsJSONCanvas: () => string;
   importJSONCanvas: (raw: string, mode: 'replace' | 'append') => ImportOutcome;
   repairCurrentBoard: () => { changed: boolean; issues: string[] };
+  paletteOpen: boolean;
+  paletteTarget: PaletteTarget;
+  paletteSlots: string[];
+  setPaletteOpen: (open: boolean) => void;
+  setPaletteTarget: (target: PaletteTarget) => void;
+  setPaletteSlot: (index: number, color: string) => void;
+  applyPaletteColor: (color: string) => void;
 }
 
 export interface ImportOutcome {
@@ -78,6 +102,12 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
   const [panel, setPanel] = useState<PanelKind>(null);
   const [history, setHistory] = useState<Board[][]>([]);
   const [future, setFuture] = useState<Board[][]>([]);
+  // Default closed every launch — only the 5 custom slots persist, not whether
+  // the palette itself was left open.
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const [paletteTarget, setPaletteTarget] = useState<PaletteTarget>('frame');
+  const [paletteSlots, setPaletteSlots] = useState<string[]>(DEFAULT_PALETTE_SLOTS);
+  const paletteReady = useRef(false);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const boardsRef = useRef(boards);
   boardsRef.current = boards;
@@ -95,6 +125,24 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
       cancelled = true;
     };
   }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const slots = await loadPaletteSlots(DEFAULT_PALETTE_SLOTS);
+      if (cancelled) return;
+      setPaletteSlots(slots);
+      paletteReady.current = true;
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!paletteReady.current) return;
+    void savePaletteSlots(paletteSlots);
+  }, [paletteSlots]);
 
   useEffect(() => {
     if (!ready) return;
@@ -343,6 +391,36 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     [currentBoard.items, drawColor, updateItems],
   );
 
+  const setPaletteSlot = useCallback((index: number, color: string) => {
+    setPaletteSlots((prev) => prev.map((c, i) => (i === index ? color : c)));
+  }, []);
+
+  const applyPaletteColor = useCallback(
+    (color: string) => {
+      if (selectedIds.length > 0) {
+        updateItems(
+          (items) =>
+            items.map((it) =>
+              selectedIds.includes(it.id)
+                ? {
+                    ...it,
+                    ...(paletteTarget === 'frame'
+                      ? { backgroundColor: color }
+                      : { color }),
+                  }
+                : it,
+            ),
+          true,
+        );
+        return;
+      }
+      if (tool === 'draw') {
+        setDrawColorState(color);
+      }
+    },
+    [paletteTarget, selectedIds, tool, updateItems],
+  );
+
   const exportBoardAsJSONCanvas = useCallback(
     () => serializeJSONCanvas(currentBoard),
     [currentBoard],
@@ -416,6 +494,13 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     exportBoardAsJSONCanvas,
     importJSONCanvas,
     repairCurrentBoard,
+    paletteOpen,
+    paletteTarget,
+    paletteSlots,
+    setPaletteOpen,
+    setPaletteTarget,
+    setPaletteSlot,
+    applyPaletteColor,
   };
 
   return <BoardContext.Provider value={value}>{children}</BoardContext.Provider>;

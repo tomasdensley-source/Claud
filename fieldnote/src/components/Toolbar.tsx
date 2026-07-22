@@ -10,11 +10,13 @@ type ToolBtn = {
   label: string;
   panel?: PanelKind;
   tool?: 'select' | 'draw' | 'multi';
+  palette?: boolean;
   icon: React.ReactNode;
 };
 
 export function Toolbar() {
-  const { panel, setPanel, tool, setTool, clearSelection } = useBoard();
+  const { panel, setPanel, tool, setTool, clearSelection, paletteOpen, setPaletteOpen } =
+    useBoard();
   const [collapsed, setCollapsed] = React.useState(false);
 
   const buttons: ToolBtn[] = [
@@ -35,6 +37,12 @@ export function Toolbar() {
       label: 'Files',
       panel: 'files',
       icon: <Ionicons name="folder-outline" size={18} color={colors.cream} />,
+    },
+    {
+      key: 'color',
+      label: 'Color',
+      palette: true,
+      icon: <Ionicons name="color-palette-outline" size={18} color={colors.cream} />,
     },
     {
       key: 'multi',
@@ -84,13 +92,16 @@ export function Toolbar() {
       {buttons.map((btn) => {
         const active =
           (btn.panel && panel === btn.panel) ||
-          (btn.tool && tool === btn.tool);
+          (btn.tool && tool === btn.tool) ||
+          (btn.palette && paletteOpen);
         return (
           <Pressable
             key={btn.key}
             style={[styles.btn, active && styles.btnActive]}
             onPress={() => {
-              if (btn.panel) {
+              if (btn.palette) {
+                setPaletteOpen(!paletteOpen);
+              } else if (btn.panel) {
                 setPanel(panel === btn.panel ? null : btn.panel);
                 if (btn.panel === 'add') clearSelection();
               } else if (btn.tool) {

@@ -111,6 +111,8 @@ export type DraftBoardItem = BoardItem extends infer T
     ? Omit<T, 'id' | 'zIndex'> & { id?: string; zIndex?: number }
     : never
   : never;
+export type PaletteTarget = 'frame' | 'body';
+
 export type PanelKind =
   | null
   | 'add'

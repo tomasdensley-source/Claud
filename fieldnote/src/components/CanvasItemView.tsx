@@ -105,10 +105,20 @@ export function CanvasItemView({
                 value={item.text}
                 onChangeText={onChangeText}
                 onBlur={onEndEdit}
-                style={[styles.taskText, item.done && styles.taskDone]}
+                style={[
+                  styles.taskText,
+                  item.color ? { color: item.color } : null,
+                  item.done && styles.taskDone,
+                ]}
               />
             ) : (
-              <Text style={[styles.taskText, item.done && styles.taskDone]}>
+              <Text
+                style={[
+                  styles.taskText,
+                  item.color ? { color: item.color } : null,
+                  item.done && styles.taskDone,
+                ]}
+              >
                 {item.text || 'New task'}
               </Text>
             )}
@@ -124,10 +134,12 @@ export function CanvasItemView({
                   value={item.text}
                   onChangeText={onChangeText}
                   onBlur={onEndEdit}
-                  style={styles.mindmapHubText}
+                  style={[styles.mindmapHubText, item.color ? { color: item.color } : null]}
                 />
               ) : (
-                <Text style={styles.mindmapHubText}>{item.text || 'Idea'}</Text>
+                <Text style={[styles.mindmapHubText, item.color ? { color: item.color } : null]}>
+                  {item.text || 'Idea'}
+                </Text>
               )}
             </View>
             <View style={styles.mindmapChildren}>
@@ -145,7 +157,8 @@ export function CanvasItemView({
             <Text style={styles.regionLabel}>{item.label || 'Region'}</Text>
           </View>
         );
-      case 'shape':
+      case 'shape': {
+        const stroke = item.color ?? colors.ink;
         return (
           <Svg width="100%" height="100%">
             {item.shape === 'ellipse' ? (
@@ -154,19 +167,12 @@ export function CanvasItemView({
                 cy="50%"
                 rx="45%"
                 ry="40%"
-                stroke={colors.ink}
+                stroke={stroke}
                 strokeWidth={3}
                 fill={item.backgroundColor ?? 'transparent'}
               />
             ) : item.shape === 'line' ? (
-              <Line
-                x1="8%"
-                y1="50%"
-                x2="92%"
-                y2="50%"
-                stroke={colors.ink}
-                strokeWidth={4}
-              />
+              <Line x1="8%" y1="50%" x2="92%" y2="50%" stroke={stroke} strokeWidth={4} />
             ) : (
               <SvgRect
                 x="8%"
@@ -174,13 +180,14 @@ export function CanvasItemView({
                 width="84%"
                 height="76%"
                 rx={12}
-                stroke={colors.ink}
+                stroke={stroke}
                 strokeWidth={3}
                 fill={item.backgroundColor ?? 'transparent'}
               />
             )}
           </Svg>
         );
+      }
       case 'drawing':
         return (
           <Svg width="100%" height="100%">

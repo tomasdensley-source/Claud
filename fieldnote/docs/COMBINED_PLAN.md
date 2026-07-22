@@ -301,3 +301,15 @@ current; EAS/APK build link attached to the release PR from CI.
   Scope note: connectors/edges are intentionally not modeled yet — Fieldnote has no
   first-class connector item until Batch 8, so `edges` is always `[]` on export; that's
   a decision, not an oversight. Gate: `tsc --noEmit && npm test` (13/13) green.
+- **Batch 2 — landed.** Vertical color palette (`src/components/Palette.tsx`),
+  attached beside the toolbar and default-closed (bug #11) via a new "Color" toolbar
+  button. Frame vs. body target toggle (frame → `backgroundColor`, body → `color`),
+  8 preset swatches, and 5 persistent custom slots stored under their own AsyncStorage
+  key (`src/lib/storage.ts`) so clearing/resetting boards never discards saved colors.
+  Holding a slot saves the last color applied into it. `applyPaletteColor` in
+  `BoardContext` applies to the current selection (any number of items, any type) or,
+  with nothing selected and the draw tool active, becomes the draw color. Extended
+  `CanvasItemView` so `item.color` is actually honored by task text, mind-map hub text,
+  and shape stroke (previously hardcoded to `colors.ink`), so "body" coloring has a
+  visible, consistent effect across item types rather than only affecting plain text
+  cards. Gate: `tsc --noEmit && npm test` (13/13) green.

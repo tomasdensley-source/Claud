@@ -17,6 +17,8 @@ Built for **Android** (Expo Go + installable APK).
 - Working files panel, search, undo/redo, gestures guide, storage controls
 - Import/export boards as JSON Canvas 1.0 (lossless round-trip), plus a
   one-tap Repair Map for AI-generated boards with broken coordinates
+- Vertical color palette (default closed): frame vs. body toggle, 8 presets,
+  5 persistent custom slots (hold a slot to save the last color used)
 - Minimap + zoom controls + Fit board
 - Long-press cards to edit; hold empty canvas to open Add
 
@@ -33,6 +35,7 @@ src/
   lib/camera.ts            Zoom/pan clamp + coordinate math
   lib/jsoncanvas.ts        JSON Canvas 1.0 import/export
   lib/normalize.ts         Coordinate repair for broken/AI-generated boards
+  components/Palette.tsx  Vertical color palette (frame/body, custom slots)
   components/              Canvas, toolbar, minimap, panels
 eas.json                   EAS Build profiles (preview → APK)
 ```
