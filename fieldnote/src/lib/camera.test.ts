@@ -1,12 +1,15 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import {
+  ELASTIC_MAX,
+  ELASTIC_MIN,
   MAX_SCALE,
   MIN_SCALE,
   clampScale,
   fitTransform,
   formatZoomPercent,
   screenToWorld,
+  softClampScale,
   worldToScreen,
   zoomAboutFocal,
 } from './camera';
@@ -18,6 +21,14 @@ test('clampScale keeps zoom in near-infinite range', () => {
   assert.equal(clampScale(0.05), 0.05);
   assert.equal(clampScale(32), 32);
   assert.equal(clampScale(NaN), 1);
+});
+
+test('softClampScale allows elastic overshoot then resists', () => {
+  assert.ok(softClampScale(MIN_SCALE * 0.7) < MIN_SCALE);
+  assert.ok(softClampScale(MIN_SCALE * 0.7) >= ELASTIC_MIN);
+  assert.ok(softClampScale(MAX_SCALE * 1.2) > MAX_SCALE);
+  assert.ok(softClampScale(MAX_SCALE * 1.2) <= ELASTIC_MAX);
+  assert.equal(softClampScale(1), 1);
 });
 
 test('screen/world round-trip', () => {

@@ -408,6 +408,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
           items.map((it) => (it.id === id && it.type === 'task' ? { ...it, done: true } : it)),
         ),
       );
+      void hapticImpact('heavy');
       void hapticSuccess();
       return { ok: true };
     },

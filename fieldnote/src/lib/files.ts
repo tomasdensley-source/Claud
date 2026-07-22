@@ -4,6 +4,7 @@ import { Alert } from 'react-native';
 import { DraftBoardItem } from '../types';
 import { colors } from '../theme';
 import { placeAtPoint } from './placement';
+import { estimatePdfPages, isPdfAsset } from './pdf';
 
 export type PlaceFilesResult = DraftBoardItem[];
 
@@ -13,6 +14,7 @@ export async function pickAndBuildFileItems(
   const result = await DocumentPicker.getDocumentAsync({
     multiple: true,
     copyToCacheDirectory: true,
+    type: ['*/*', 'application/pdf', 'image/*'],
   });
   if (result.canceled) return [];
   return result.assets.map((asset, i) => {
@@ -30,6 +32,23 @@ export async function pickAndBuildFileItems(
         backgroundColor: colors.paper,
       };
     }
+    if (isPdfAsset(asset.name, asset.mimeType)) {
+      const pages = estimatePdfPages(asset.size);
+      const { x, y } = placeAtPoint(anchor, 220, 300, i);
+      return {
+        type: 'file' as const,
+        x,
+        y,
+        width: 220,
+        height: 300,
+        name: asset.name || 'Document.pdf',
+        uri: asset.uri,
+        mimeType: asset.mimeType ?? 'application/pdf',
+        pageCount: pages,
+        sizeBytes: asset.size,
+        backgroundColor: colors.paperStrong,
+      };
+    }
     const { x, y } = placeAtPoint(anchor, 240, 120, i);
     return {
       type: 'file' as const,
@@ -40,6 +59,7 @@ export async function pickAndBuildFileItems(
       name: asset.name || 'File',
       uri: asset.uri,
       mimeType: asset.mimeType,
+      sizeBytes: asset.size,
       backgroundColor: colors.paperStrong,
     };
   });

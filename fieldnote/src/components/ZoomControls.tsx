@@ -47,8 +47,8 @@ export function ZoomControls({
   onRedo,
   onBringFront,
   onSendBack,
-  minScale = 0.02,
-  maxScale = 64,
+  minScale = 0.01,
+  maxScale = 80,
 }: Props) {
   return (
     <View style={styles.wrap}>

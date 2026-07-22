@@ -12,6 +12,8 @@ import { BoardItem } from '../types';
 import { colors, radii, shadows } from '../theme';
 import { SEED_IMAGES } from '../lib/seedImages';
 import { MarkdownView, looksLikeMarkdown } from './MarkdownView';
+import { formatFileSize, isPdfAsset } from '../lib/pdf';
+import { hapticSelection } from '../lib/haptics';
 
 interface Props {
   item: BoardItem;
@@ -30,6 +32,7 @@ interface Props {
   onToggleCollapse?: () => void;
   descendantCount?: number;
   onEndEdit: () => void;
+  onOpenPdf?: () => void;
 }
 
 function pointsToPath(points: { x: number; y: number }[]): string {
@@ -55,6 +58,7 @@ export function CanvasItemView({
   onToggleCollapse,
   descendantCount = 0,
   onEndEdit,
+  onOpenPdf,
 }: Props) {
   const [localHold, setLocalHold] = useState(0);
   const holdTimer = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -158,16 +162,15 @@ export function CanvasItemView({
         return <Image source={source} style={styles.image} resizeMode="cover" />;
       }
       case 'task': {
-        const glow =
-          holdProgress <= 0
-            ? 0
-            : holdProgress < 0.33
-              ? 0.2
-              : holdProgress < 0.66
-                ? 0.45
-                : 0.75;
+        const glow = item.done ? 1 : Math.max(0, Math.min(1, holdProgress));
+        const glowBg = item.done
+          ? 'rgba(47,158,107,0.22)'
+          : `rgba(237,182,74,${0.08 + glow * 0.72})`;
+        const glowBorder = item.done
+          ? 'rgba(47,158,107,0.55)'
+          : `rgba(203,125,70,${0.15 + glow * 0.85})`;
         const taskBody =
-          !editing && item.markdown && looksLikeMarkdown(item.text || '') ? (
+          !editing && (item.markdown || looksLikeMarkdown(item.text || '')) ? (
             <MarkdownView source={item.text || ''} color={colors.ink} fontSize={16} />
           ) : (
             <Text style={[styles.taskText, item.done && styles.taskDone]}>
@@ -175,20 +178,28 @@ export function CanvasItemView({
             </Text>
           );
         return (
-          <Pressable
+          <View
             style={[
               styles.taskRow,
               {
-                backgroundColor: item.done
-                  ? 'rgba(47,158,107,0.18)'
-                  : `rgba(237,182,74,${glow})`,
-                borderRadius: 12,
-                padding: 4,
+                backgroundColor: glowBg,
+                borderColor: glowBorder,
+                borderWidth: 2,
+                borderRadius: 14,
+                padding: 8,
+                // Soft “light stays on” once complete.
+                shadowColor: item.done ? '#2f9e6b' : '#cb7d46',
+                shadowOpacity: item.done ? 0.35 : 0.15 + glow * 0.45,
+                shadowRadius: item.done ? 14 : 6 + glow * 16,
+                shadowOffset: { width: 0, height: 0 },
+                elevation: item.done ? 6 : Math.round(glow * 8),
               },
             ]}
-            onPressIn={gestureManaged ? undefined : startHold}
-            onPressOut={gestureManaged ? undefined : stopHold}
             pointerEvents={gestureManaged ? 'none' : 'auto'}
+            onStartShouldSetResponder={gestureManaged ? undefined : () => true}
+            onResponderGrant={gestureManaged ? undefined : startHold}
+            onResponderRelease={gestureManaged ? undefined : stopHold}
+            onResponderTerminate={gestureManaged ? undefined : stopHold}
           >
             <View style={[styles.checkbox, item.done && styles.checkboxDone]}>
               {item.done ? <Text style={styles.checkMark}>✓</Text> : null}
@@ -207,11 +218,15 @@ export function CanvasItemView({
                 {taskBlocked && !item.done ? (
                   <Text style={styles.blockedHint}>Waiting on water-flow</Text>
                 ) : !item.done ? (
-                  <Text style={styles.blockedHint}>Hold 3s to complete</Text>
-                ) : null}
+                  <Text style={styles.blockedHint}>
+                    {glow > 0.02 ? `Hold… ${Math.round(glow * 100)}%` : 'Hold 3s to complete'}
+                  </Text>
+                ) : (
+                  <Text style={styles.blockedHint}>Complete</Text>
+                )}
               </View>
             )}
-          </Pressable>
+          </View>
         );
       }
       case 'mindmap':
@@ -307,7 +322,36 @@ export function CanvasItemView({
             ))}
           </Svg>
         );
-      case 'file':
+      case 'file': {
+        const pdf = isPdfAsset(item.name, item.mimeType);
+        if (pdf) {
+          return (
+            <View style={styles.pdfCover}>
+              <View style={styles.pdfSpine} />
+              <View style={styles.pdfBody}>
+                <Text style={styles.pdfBadge}>PDF</Text>
+                <Text style={styles.fileName} numberOfLines={3}>
+                  {item.name}
+                </Text>
+                <Text style={styles.fileMeta}>
+                  {item.pageCount ? `~${item.pageCount} pages` : 'Document'}
+                  {item.sizeBytes ? ` · ${formatFileSize(item.sizeBytes)}` : ''}
+                </Text>
+                <Pressable
+                  style={styles.pdfOpen}
+                  onPress={() => {
+                    void hapticSelection();
+                    onOpenPdf?.();
+                  }}
+                  pointerEvents="auto"
+                  hitSlop={8}
+                >
+                  <Text style={styles.pdfOpenText}>Open</Text>
+                </Pressable>
+              </View>
+            </View>
+          );
+        }
         return (
           <View style={styles.fileCard}>
             <Text style={styles.fileGlyph}>📄</Text>
@@ -316,6 +360,7 @@ export function CanvasItemView({
             </Text>
           </View>
         );
+      }
       case 'folder':
         return (
           <View style={styles.fileCard}>
@@ -339,6 +384,7 @@ export function CanvasItemView({
     taskBlocked,
     holdProgress,
     gestureManaged,
+    onOpenPdf,
   ]);
 
   const transparentBg =
@@ -496,5 +542,47 @@ const styles = StyleSheet.create({
   fileMeta: {
     color: colors.mutedInk,
     fontSize: 13,
+  },
+  pdfCover: {
+    flex: 1,
+    flexDirection: 'row',
+    borderRadius: 14,
+    overflow: 'hidden',
+    backgroundColor: colors.paperStrong,
+  },
+  pdfSpine: {
+    width: 14,
+    backgroundColor: colors.clayDeep,
+  },
+  pdfBody: {
+    flex: 1,
+    padding: 12,
+    gap: 6,
+    justifyContent: 'center',
+  },
+  pdfBadge: {
+    alignSelf: 'flex-start',
+    color: colors.cream,
+    backgroundColor: colors.walnut,
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 0.8,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 6,
+    overflow: 'hidden',
+  },
+  pdfOpen: {
+    marginTop: 6,
+    alignSelf: 'flex-start',
+    backgroundColor: colors.clayDeep,
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+    borderRadius: 10,
+  },
+  pdfOpenText: {
+    color: colors.cream,
+    fontWeight: '700',
+    fontSize: 12,
   },
 });

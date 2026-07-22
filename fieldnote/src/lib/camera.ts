@@ -1,15 +1,43 @@
-/** Camera helpers: screen = world * scale + translate (origin top-left). */
-
 /**
- * Near-infinite zoom. Soft clamps only to avoid float blow-ups /
- * invisible content — not a creative limit.
+ * Fieldnote camera model
+ * ----------------------
+ * screen = world * scale + translate  (origin: top-left of world)
+ *
+ * Architecture:
+ * - Shared values (scale, tx, ty) live on the canvas gesture plane (NOT transformed).
+ * - World layer uses static transformOrigin 'top left' + animated translate/scale.
+ * - Pinch always zooms about the focal point (finger midpoint).
+ * - Soft rubber-band past MIN/MAX during gesture; spring-back on release.
+ * - Two-finger pan supports velocity decay (momentum).
+ * - Soft clamps exist only to avoid float blow-ups — range is effectively infinite.
  */
-export const MIN_SCALE = 0.02; // 2% — board as a distant map
-export const MAX_SCALE = 64; // 6400% — deep into a card
+
+export const MIN_SCALE = 0.01; // 1% — map of the whole board
+export const MAX_SCALE = 80; // 8000% — deep into ink/type
+
+/** How far past the hard limit the rubber-band may travel during a gesture. */
+export const ELASTIC_MIN = MIN_SCALE * 0.55;
+export const ELASTIC_MAX = MAX_SCALE * 1.35;
 
 export function clampScale(scale: number): number {
   if (!Number.isFinite(scale) || scale <= 0) return 1;
   return Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale));
+}
+
+/** Allow temporary overshoot while pinching; still bounds catastrophic values. */
+export function softClampScale(scale: number): number {
+  if (!Number.isFinite(scale) || scale <= 0) return 1;
+  if (scale < MIN_SCALE) {
+    const t = (MIN_SCALE - scale) / Math.max(MIN_SCALE - ELASTIC_MIN, 0.001);
+    const resisted = MIN_SCALE - (MIN_SCALE - ELASTIC_MIN) * Math.min(1, t) * 0.45;
+    return Math.max(ELASTIC_MIN, resisted);
+  }
+  if (scale > MAX_SCALE) {
+    const t = (scale - MAX_SCALE) / Math.max(ELASTIC_MAX - MAX_SCALE, 0.001);
+    const resisted = MAX_SCALE + (ELASTIC_MAX - MAX_SCALE) * Math.min(1, t) * 0.45;
+    return Math.min(ELASTIC_MAX, resisted);
+  }
+  return scale;
 }
 
 export function screenToWorld(
@@ -47,9 +75,10 @@ export function zoomAboutFocal(
   prevScale: number,
   prevTx: number,
   prevTy: number,
+  soft = false,
 ): { scale: number; tx: number; ty: number } {
   const safePrev = prevScale > 0 ? prevScale : 1;
-  const s = clampScale(nextScale);
+  const s = soft ? softClampScale(nextScale) : clampScale(nextScale);
   const worldX = (focalX - prevTx) / safePrev;
   const worldY = (focalY - prevTy) / safePrev;
   return {
@@ -70,7 +99,6 @@ export function fitTransform(
 ): { scale: number; tx: number; ty: number } {
   const w = Math.max(240, maxX - minX + pad * 2);
   const h = Math.max(240, maxY - minY + pad * 2);
-  // Fit may go very small for huge boards; avoid forced zoom-in past ~120%.
   const raw = Math.min(viewportWidth / w, viewportHeight / h);
   const scale = clampScale(Math.min(raw, 1.2));
   const cx = (minX + maxX) / 2;
@@ -97,11 +125,11 @@ export function centerOnPoint(
   };
 }
 
-/** Format zoom for the control chip (supports deep zoom). */
 export function formatZoomPercent(scale: number): string {
   const pct = scale * 100;
   if (pct >= 1000) return `${Math.round(pct / 100) * 100}%`;
   if (pct >= 100) return `${Math.round(pct)}%`;
   if (pct >= 10) return `${Math.round(pct)}%`;
-  return `${pct.toFixed(1)}%`;
+  if (pct >= 1) return `${pct.toFixed(1)}%`;
+  return `${pct.toFixed(2)}%`;
 }

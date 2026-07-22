@@ -16,8 +16,11 @@ export const GESTURE = {
   LONG_PRESS_MAX_DIST: 22,
   MARQUEE_MIN_DIST: 10,
   OBJECT_DRAG_MIN_DIST: 4,
+  /** Tasks: require more travel before drag steals the 3s hold. */
+  TASK_DRAG_MIN_DIST: 18,
+  TASK_HOLD_MS: 3000,
+  TASK_HOLD_MAX_DIST: 36,
   NAV_MIN_POINTERS: 2,
-  /** Keep pinch limits in sync with camera — near-infinite zoom. */
   PINCH_MIN_SCALE: MIN_SCALE,
   PINCH_MAX_SCALE: MAX_SCALE,
 } as const;

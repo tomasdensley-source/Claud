@@ -5,6 +5,8 @@ import Animated, {
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
+  withDecay,
+  withSpring,
 } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
 import { useBoard } from '../store/BoardContext';
@@ -21,6 +23,7 @@ import {
   clampScale,
   fitTransform,
   screenToWorld,
+  softClampScale,
   zoomAboutFocal,
 } from '../lib/camera';
 import { GESTURE } from '../lib/gesturePriority';
@@ -28,6 +31,8 @@ import { hapticImpact, hapticSelection } from '../lib/haptics';
 import { canCompleteTask } from '../lib/taskGraph';
 import { descendantCount, visibleMindMapIds } from '../lib/mindMap';
 import { shareText } from '../lib/share';
+import { isPdfAsset } from '../lib/pdf';
+import { PdfReaderModal } from './PdfReaderModal';
 
 const WORLD = 4000;
 const MIN_BOX_W = 72;
@@ -231,11 +236,13 @@ const BoardItemNode = memo(function BoardItemNode({
     [item.id, onLongPressEdit],
   );
 
+  // Hold-to-complete: glow starts on begin; completes at 3s; move cancels.
+  // Priority over drag so micro-jitter does not steal the hold.
   const taskHold = useMemo(
     () =>
       Gesture.LongPress()
-        .minDuration(3000)
-        .maxDistance(28)
+        .minDuration(GESTURE.TASK_HOLD_MS)
+        .maxDistance(GESTURE.TASK_HOLD_MAX_DIST)
         .enabled(isTask && item.type === 'task' && !item.done && !taskBlocked)
         .onBegin(() => {
           'worklet';
@@ -256,7 +263,7 @@ const BoardItemNode = memo(function BoardItemNode({
     () =>
       Gesture.Pan()
         .maxPointers(1)
-        .minDistance(8)
+        .minDistance(isTask ? GESTURE.TASK_DRAG_MIN_DIST : GESTURE.OBJECT_DRAG_MIN_DIST)
         .averageTouches(false)
         .onStart(() => {
           'worklet';
@@ -274,11 +281,12 @@ const BoardItemNode = memo(function BoardItemNode({
           'worklet';
           if (!success) runOnJS(onDragEnd)();
         }),
-    [item.id, onDragEnd, onDragMove, onDragStart, scale],
+    [isTask, item.id, onDragEnd, onDragMove, onDragStart, scale],
   );
 
   const composed = useMemo(() => {
-    if (isTask) return Gesture.Exclusive(drag, taskHold, tap);
+    // Task hold has priority over drag so the 3s glow can finish.
+    if (isTask) return Gesture.Exclusive(taskHold, drag, tap);
     return Gesture.Exclusive(drag, longPress, tap);
   }, [drag, isTask, longPress, tap, taskHold]);
 
@@ -417,6 +425,11 @@ export function InfiniteCanvas({
   const [scaleState, setScaleState] = useState(0.7);
   const [dragVisual, setDragVisual] = useState<DragVisual | null>(null);
   const [holdState, setHoldState] = useState<{ id: string; progress: number } | null>(null);
+  const [pdfViewer, setPdfViewer] = useState<{
+    uri: string;
+    name: string;
+    pageCount?: number;
+  } | null>(null);
   const [liveStroke, setLiveStroke] = useState<{
     color: string;
     width: number;
@@ -670,9 +683,21 @@ export function InfiniteCanvas({
           tx.value = savedTx.value + e.translationX;
           ty.value = savedTy.value + e.translationY;
         })
-        .onEnd(() => {
+        .onEnd((e) => {
           'worklet';
-          runOnJS(endPanReport)();
+          tx.value = withDecay({
+            velocity: e.velocityX,
+            deceleration: 0.997,
+          });
+          ty.value = withDecay(
+            {
+              velocity: e.velocityY,
+              deceleration: 0.997,
+            },
+            (finished) => {
+              if (finished) runOnJS(endPanReport)();
+            },
+          );
         }),
     [endPanReport, savedTx, savedTy, tx, ty],
   );
@@ -689,20 +714,32 @@ export function InfiniteCanvas({
         })
         .onUpdate((e) => {
           'worklet';
-          const next = Math.min(
-            MAX_SCALE,
-            Math.max(MIN_SCALE, savedScale.value * e.scale),
-          );
+          // Soft clamp during gesture for elastic feel past hard limits.
+          const next = softClampScale(savedScale.value * e.scale);
           const worldX = (e.focalX - savedTx.value) / savedScale.value;
           const worldY = (e.focalY - savedTy.value) / savedScale.value;
           scale.value = next;
           tx.value = e.focalX - worldX * next;
           ty.value = e.focalY - worldY * next;
         })
-        .onEnd(() => {
+        .onEnd((e) => {
           'worklet';
           pinching.value = false;
-          runOnJS(endPanReport)();
+          const hard = Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale.value));
+          if (hard !== scale.value) {
+            const worldX = (e.focalX - tx.value) / scale.value;
+            const worldY = (e.focalY - ty.value) / scale.value;
+            scale.value = withSpring(hard, { damping: 22, stiffness: 220 });
+            tx.value = withSpring(e.focalX - worldX * hard, { damping: 22, stiffness: 220 });
+            ty.value = withSpring(e.focalY - worldY * hard, {
+              damping: 22,
+              stiffness: 220,
+            }, (finished) => {
+              if (finished) runOnJS(endPanReport)();
+            });
+          } else {
+            runOnJS(endPanReport)();
+          }
         })
         .onFinalize(() => {
           'worklet';
@@ -847,12 +884,27 @@ export function InfiniteCanvas({
 
   const onSelectItem = useCallback(
     (id: string) => {
+      const item = currentBoard.items.find((it) => it.id === id);
+      if (
+        item &&
+        item.type === 'file' &&
+        isPdfAsset(item.name, item.mimeType) &&
+        selectedRef.current.includes(id)
+      ) {
+        setPdfViewer({
+          uri: item.uri,
+          name: item.name,
+          pageCount: item.pageCount,
+        });
+        void hapticSelection();
+        return;
+      }
       if (toolRef.current === 'multi') select([id], true);
       else select([id], false);
       setEditingId(null);
       void hapticSelection();
     },
-    [select],
+    [currentBoard.items, select],
   );
 
   const onLongPressEdit = useCallback(
@@ -862,6 +914,16 @@ export function InfiniteCanvas({
       if (!item) return;
       if (item.type === 'text' || item.type === 'task' || item.type === 'mindmap') {
         setEditingId(id);
+        void hapticImpact('medium');
+        return;
+      }
+      if (item.type === 'file' && isPdfAsset(item.name, item.mimeType)) {
+        void hapticImpact('medium');
+        setPdfViewer({
+          uri: item.uri,
+          name: item.name,
+          pageCount: item.pageCount,
+        });
         return;
       }
       if (item.type === 'drawing') {
@@ -1221,6 +1283,13 @@ export function InfiniteCanvas({
           </Text>
         </Pressable>
       ) : null}
+      <PdfReaderModal
+        visible={pdfViewer != null}
+        uri={pdfViewer?.uri ?? ''}
+        name={pdfViewer?.name ?? 'PDF'}
+        pageCount={pdfViewer?.pageCount}
+        onClose={() => setPdfViewer(null)}
+      />
     </View>
   );
 }

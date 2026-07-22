@@ -86,6 +86,8 @@ export interface FileItem extends BoardItemBase {
   name: string;
   uri: string;
   mimeType?: string;
+  pageCount?: number;
+  sizeBytes?: number;
 }
 
 export interface FolderItem extends BoardItemBase {

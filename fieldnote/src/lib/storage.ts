@@ -162,6 +162,14 @@ function sanitizeItem(raw: unknown, index: number): BoardItem | null {
         name: asString(item.name, 'File'),
         uri: asString(item.uri),
         mimeType: typeof item.mimeType === 'string' ? item.mimeType : undefined,
+        pageCount:
+          typeof item.pageCount === 'number' && Number.isFinite(item.pageCount)
+            ? Math.max(1, Math.round(item.pageCount))
+            : undefined,
+        sizeBytes:
+          typeof item.sizeBytes === 'number' && Number.isFinite(item.sizeBytes)
+            ? Math.max(0, item.sizeBytes)
+            : undefined,
       };
     case 'folder':
       return {
