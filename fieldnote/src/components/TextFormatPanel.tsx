@@ -1,22 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useBoard } from '../store/BoardContext';
 import { colors, radii, shadows } from '../theme';
 import { hapticSelection } from '../lib/haptics';
 
+interface Props {
+  onEdit?: () => void;
+}
+
 /**
  * Compact top-right text formatting panel (blueprint).
- * Progressive disclosure — only when a text/task/mindmap is selected.
+ * Progressive disclosure — primary always; secondary behind More.
  */
-export function TextFormatPanel() {
+export function TextFormatPanel({ onEdit }: Props) {
   const { currentBoard, selectedIds, updateItems, applyColorToSelected } = useBoard();
+  const [moreOpen, setMoreOpen] = useState(false);
   const selected = currentBoard.items.filter((it) => selectedIds.includes(it.id));
   const editable = selected.filter(
     (it) => it.type === 'text' || it.type === 'task' || it.type === 'mindmap',
   );
   if (editable.length === 0) return null;
 
+  const hasText = editable.some((it) => it.type === 'text');
   const primary = editable[0];
   const fontSize = primary.type === 'text' ? primary.fontSize : 16;
   const weight = primary.type === 'text' ? primary.fontWeight ?? '400' : '600';
@@ -90,50 +96,93 @@ export function TextFormatPanel() {
     <View style={[styles.wrap, shadows.control]} pointerEvents="box-none">
       <Text style={styles.label}>Format{editable.length > 1 ? ` · ${editable.length}` : ''}</Text>
       <View style={styles.row}>
-        <Pressable style={styles.btn} onPress={() => bumpSize(-2)} accessibilityLabel="Smaller text">
-          <Text style={styles.btnText}>A−</Text>
-        </Pressable>
-        <Text style={styles.meta}>{mixedSize ? '—' : fontSize}</Text>
-        <Pressable style={styles.btn} onPress={() => bumpSize(2)} accessibilityLabel="Larger text">
-          <Text style={styles.btnText}>A+</Text>
-        </Pressable>
-        <Pressable
-          style={[styles.btn, weight === '700' && styles.btnActive]}
-          onPress={toggleBold}
-          accessibilityLabel="Bold"
-        >
-          <Text style={[styles.btnText, { fontWeight: '800' }]}>B</Text>
-        </Pressable>
-        <Pressable style={styles.btn} onPress={() => wrapMarkdown('**')} accessibilityLabel="Markdown bold">
-          <Text style={styles.btnText}>** </Text>
-        </Pressable>
-        <Pressable style={styles.btn} onPress={() => wrapMarkdown('_')} accessibilityLabel="Markdown italic">
-          <Text style={[styles.btnText, { fontStyle: 'italic' }]}>I</Text>
-        </Pressable>
-      </View>
-      <View style={styles.row}>
-        {(['title', 'body', 'note'] as const).map((role) => (
-          <Pressable key={role} style={styles.chip} onPress={() => setRole(role)}>
-            <Text style={styles.chipText}>{role}</Text>
+        {onEdit ? (
+          <Pressable
+            style={styles.btn}
+            onPress={() => {
+              void hapticSelection();
+              onEdit();
+            }}
+            accessibilityLabel="Edit"
+          >
+            <Ionicons name="create-outline" size={15} color={colors.cream} />
           </Pressable>
-        ))}
-        <Pressable style={styles.chip} onPress={() => prefixLines('- ')} accessibilityLabel="Bullet list">
-          <Text style={styles.chipText}>List</Text>
-        </Pressable>
-        <Pressable style={styles.chip} onPress={() => prefixLines('- [ ] ')} accessibilityLabel="Checklist">
-          <Text style={styles.chipText}>Todo</Text>
-        </Pressable>
+        ) : null}
+        {hasText ? (
+          <>
+            <Pressable style={styles.btn} onPress={() => bumpSize(-2)} accessibilityLabel="Smaller text">
+              <Text style={styles.btnText}>A−</Text>
+            </Pressable>
+            <Text style={styles.meta}>{mixedSize ? '—' : fontSize}</Text>
+            <Pressable style={styles.btn} onPress={() => bumpSize(2)} accessibilityLabel="Larger text">
+              <Text style={styles.btnText}>A+</Text>
+            </Pressable>
+            <Pressable
+              style={[styles.btn, weight === '700' && styles.btnActive]}
+              onPress={toggleBold}
+              accessibilityLabel="Bold"
+            >
+              <Text style={[styles.btnText, { fontWeight: '800' }]}>B</Text>
+            </Pressable>
+          </>
+        ) : (
+          <>
+            <Pressable style={styles.btn} onPress={() => wrapMarkdown('**')} accessibilityLabel="Markdown bold">
+              <Text style={styles.btnText}>**</Text>
+            </Pressable>
+            <Pressable style={styles.btn} onPress={() => wrapMarkdown('_')} accessibilityLabel="Markdown italic">
+              <Text style={[styles.btnText, { fontStyle: 'italic' }]}>I</Text>
+            </Pressable>
+          </>
+        )}
         <Pressable
-          style={styles.chip}
+          style={[styles.btn, moreOpen && styles.btnActive]}
           onPress={() => {
             void hapticSelection();
-            applyColorToSelected(colors.ink, 'body');
+            setMoreOpen((v) => !v);
           }}
-          accessibilityLabel="Ink body color"
+          accessibilityLabel={moreOpen ? 'Hide more formatting' : 'More formatting'}
         >
-          <Ionicons name="color-fill-outline" size={14} color={colors.cream} />
+          <Text style={styles.btnText}>More</Text>
         </Pressable>
       </View>
+      {moreOpen ? (
+        <View style={styles.row}>
+          {hasText
+            ? (['title', 'body', 'note'] as const).map((role) => (
+                <Pressable key={role} style={styles.chip} onPress={() => setRole(role)}>
+                  <Text style={styles.chipText}>{role}</Text>
+                </Pressable>
+              ))
+            : null}
+          {hasText ? (
+            <>
+              <Pressable style={styles.btn} onPress={() => wrapMarkdown('**')} accessibilityLabel="Markdown bold">
+                <Text style={styles.btnText}>**</Text>
+              </Pressable>
+              <Pressable style={styles.btn} onPress={() => wrapMarkdown('_')} accessibilityLabel="Markdown italic">
+                <Text style={[styles.btnText, { fontStyle: 'italic' }]}>I</Text>
+              </Pressable>
+            </>
+          ) : null}
+          <Pressable style={styles.chip} onPress={() => prefixLines('- ')} accessibilityLabel="Bullet list">
+            <Text style={styles.chipText}>List</Text>
+          </Pressable>
+          <Pressable style={styles.chip} onPress={() => prefixLines('- [ ] ')} accessibilityLabel="Checklist">
+            <Text style={styles.chipText}>Todo</Text>
+          </Pressable>
+          <Pressable
+            style={styles.chip}
+            onPress={() => {
+              void hapticSelection();
+              applyColorToSelected(colors.ink, 'body');
+            }}
+            accessibilityLabel="Ink body color"
+          >
+            <Ionicons name="color-fill-outline" size={14} color={colors.cream} />
+          </Pressable>
+        </View>
+      ) : null}
     </View>
   );
 }
@@ -150,7 +199,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(255,255,255,0.12)',
     padding: 8,
     gap: 6,
-    maxWidth: 260,
+    maxWidth: 280,
   },
   label: {
     color: 'rgba(255,248,233,0.65)',

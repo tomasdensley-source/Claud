@@ -1,10 +1,16 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useBoard } from '../store/BoardContext';
-import { colors, radii, shadows } from '../theme';
+import { useChromeSlot } from '../chrome/ChromeLayoutContext';
+import { colors, radii } from '../theme';
 import { PanelKind } from '../types';
 import { hapticImpact, hapticSelection } from '../lib/haptics';
+
+const COLLAPSED_KEY = 'fieldnote.toolbarCollapsed';
+const RAIL_W = 52;
+const COLLAPSED_W = 40;
 
 type ToolBtn = {
   key: string;
@@ -14,9 +20,59 @@ type ToolBtn = {
   icon: React.ReactNode;
 };
 
+const softShadow = {
+  shadowColor: '#1a120c',
+  shadowOffset: { width: 0, height: 4 },
+  shadowOpacity: 0.16,
+  shadowRadius: 10,
+  elevation: 4,
+};
+
 export function Toolbar() {
-  const { panel, setPanel, tool, setTool, clearSelection, selectAll, undo, canUndo } = useBoard();
+  const {
+    panel,
+    setPanel,
+    tool,
+    setTool,
+    clearSelection,
+    selectAll,
+    undo,
+    canUndo,
+    selectedIds,
+  } = useBoard();
   const [collapsed, setCollapsed] = React.useState(false);
+  const [loaded, setLoaded] = React.useState(false);
+
+  React.useEffect(() => {
+    void (async () => {
+      try {
+        const raw = await AsyncStorage.getItem(COLLAPSED_KEY);
+        if (raw === '1' || raw === 'true') setCollapsed(true);
+      } catch {
+        // ignore
+      } finally {
+        setLoaded(true);
+      }
+    })();
+  }, []);
+
+  const persistCollapsed = React.useCallback((next: boolean) => {
+    setCollapsed(next);
+    void AsyncStorage.setItem(COLLAPSED_KEY, next ? '1' : '0').catch(() => undefined);
+  }, []);
+
+  const preferred = React.useMemo(
+    () => ({
+      x: 10,
+      y: 54,
+      width: collapsed ? COLLAPSED_W : RAIL_W,
+      height: collapsed ? COLLAPSED_W : 320,
+    }),
+    [collapsed],
+  );
+  const slot = useChromeSlot('toolbar', preferred, true);
+  const left = slot?.left ?? preferred.x;
+  const top = slot?.top ?? preferred.y;
 
   const buttons: ToolBtn[] = [
     {
@@ -41,7 +97,13 @@ export function Toolbar() {
       key: 'multi',
       label: 'Multi',
       tool: 'multi',
-      icon: <MaterialCommunityIcons name="checkbox-multiple-marked-outline" size={18} color={colors.cream} />,
+      icon: (
+        <MaterialCommunityIcons
+          name="checkbox-multiple-marked-outline"
+          size={18}
+          color={colors.cream}
+        />
+      ),
     },
     {
       key: 'draw',
@@ -63,13 +125,15 @@ export function Toolbar() {
     },
   ];
 
+  if (!loaded) return null;
+
   if (collapsed) {
     return (
       <Pressable
-        style={[styles.collapsed, shadows.control]}
+        style={[styles.collapsed, softShadow, { left, top }]}
         onPress={() => {
           void hapticSelection();
-          setCollapsed(false);
+          persistCollapsed(false);
         }}
         accessibilityLabel="Show canvas tools"
       >
@@ -79,12 +143,12 @@ export function Toolbar() {
   }
 
   return (
-    <View style={[styles.rail, shadows.control]}>
+    <View style={[styles.rail, softShadow, { left, top }]}>
       <View style={styles.head}>
         <Pressable
           onPress={() => {
             void hapticSelection();
-            setCollapsed(true);
+            persistCollapsed(true);
           }}
           style={styles.headBtn}
           accessibilityLabel="Hide tools"
@@ -94,8 +158,8 @@ export function Toolbar() {
       </View>
       {buttons.map((btn) => {
         const active =
-          (btn.panel && panel === btn.panel) ||
-          (btn.tool && tool === btn.tool);
+          (btn.panel && panel === btn.panel) || (btn.tool && tool === btn.tool);
+        const multiCount = btn.key === 'multi' ? selectedIds.length : 0;
         return (
           <Pressable
             key={btn.key}
@@ -115,7 +179,11 @@ export function Toolbar() {
               if (btn.key === 'multi') selectAll();
               if (btn.key === 'more' && canUndo) undo();
             }}
-            accessibilityLabel={btn.label}
+            accessibilityLabel={
+              btn.key === 'multi' && multiCount > 0
+                ? `Multi, ${multiCount} selected`
+                : btn.label
+            }
             accessibilityHint={
               btn.key === 'multi'
                 ? 'Long press to select all cards'
@@ -124,10 +192,16 @@ export function Toolbar() {
                   : undefined
             }
           >
-            {btn.icon}
-            <Text style={styles.label} numberOfLines={1}>
-              {btn.label}
-            </Text>
+            <View style={styles.iconWrap}>
+              {btn.icon}
+              {btn.key === 'multi' && multiCount > 0 ? (
+                <View style={styles.badge}>
+                  <Text style={styles.badgeText}>
+                    {multiCount > 99 ? '99+' : String(multiCount)}
+                  </Text>
+                </View>
+              ) : null}
+            </View>
           </Pressable>
         );
       })}
@@ -138,9 +212,7 @@ export function Toolbar() {
 const styles = StyleSheet.create({
   rail: {
     position: 'absolute',
-    left: 10,
-    top: 54,
-    width: 58,
+    width: RAIL_W,
     backgroundColor: colors.walnut,
     borderRadius: radii.toolbar,
     borderWidth: 1,
@@ -152,10 +224,8 @@ const styles = StyleSheet.create({
   },
   collapsed: {
     position: 'absolute',
-    left: 10,
-    top: 54,
-    width: 40,
-    height: 40,
+    width: COLLAPSED_W,
+    height: COLLAPSED_W,
     borderRadius: 14,
     backgroundColor: colors.walnut,
     alignItems: 'center',
@@ -164,7 +234,7 @@ const styles = StyleSheet.create({
   },
   head: {
     alignItems: 'center',
-    marginBottom: 4,
+    marginBottom: 2,
   },
   headBtn: {
     width: 34,
@@ -173,20 +243,36 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   btn: {
-    minHeight: 48,
+    minHeight: 42,
     borderRadius: 14,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 2,
     paddingVertical: 6,
   },
   btnActive: {
     backgroundColor: 'rgba(203,125,70,0.54)',
   },
-  label: {
-    color: 'rgba(255,250,240,0.82)',
-    fontSize: 8,
+  iconWrap: {
+    width: 28,
+    height: 28,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  badge: {
+    position: 'absolute',
+    top: -4,
+    right: -8,
+    minWidth: 16,
+    height: 16,
+    borderRadius: 999,
+    backgroundColor: colors.clayDeep,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 3,
+  },
+  badgeText: {
+    color: colors.cream,
+    fontSize: 9,
     fontWeight: '700',
-    maxWidth: 48,
   },
 });

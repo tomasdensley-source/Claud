@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { colors, radii, shadows } from '../theme';
+import { colors, radii } from '../theme';
 import {
   ColorTarget,
   DEFAULT_SWATCHES,
@@ -19,12 +19,36 @@ interface Props {
   target: ColorTarget;
   onColor: (color: string) => void;
   onTarget: (target: ColorTarget) => void;
+  /** When length is 1, Frame/Body toggle is hidden and that target is used. */
+  allowedTargets?: ColorTarget[];
 }
 
+const softShadow = {
+  shadowColor: '#1a120c',
+  shadowOffset: { width: 0, height: 4 },
+  shadowOpacity: 0.14,
+  shadowRadius: 8,
+  elevation: 3,
+};
+
 /** Vertical color palette — folded by default; opens only when lit/relevant. */
-export function VerticalColorPalette({ lit, color, target, onColor, onTarget }: Props) {
+export function VerticalColorPalette({
+  lit,
+  color,
+  target,
+  onColor,
+  onTarget,
+  allowedTargets,
+}: Props) {
   const [folded, setFolded] = useState(true);
   const [swatches, setSwatches] = useState(DEFAULT_SWATCHES);
+
+  const targets =
+    allowedTargets && allowedTargets.length > 0
+      ? allowedTargets
+      : (['frame', 'body'] as ColorTarget[]);
+  const showToggle = targets.length > 1;
+  const effectiveTarget = targets.includes(target) ? target : targets[0];
 
   useEffect(() => {
     void (async () => {
@@ -39,6 +63,10 @@ export function VerticalColorPalette({ lit, color, target, onColor, onTarget }: 
       void savePaletteFolded(true);
     }
   }, [lit, folded]);
+
+  useEffect(() => {
+    if (effectiveTarget !== target) onTarget(effectiveTarget);
+  }, [effectiveTarget, target, onTarget]);
 
   const toggle = async () => {
     if (!lit && folded) return;
@@ -57,9 +85,9 @@ export function VerticalColorPalette({ lit, color, target, onColor, onTarget }: 
   };
 
   return (
-    <View style={[styles.wrap, shadows.control]} pointerEvents="box-none">
+    <View style={[styles.wrap, softShadow]} pointerEvents="box-none">
       <Pressable
-        style={[styles.tab, lit && styles.tabLit]}
+        style={[styles.tab, lit && styles.tabLit, !folded && lit && styles.tabOpen]}
         onPress={toggle}
         accessibilityLabel={folded ? 'Open color palette' : 'Close color palette'}
       >
@@ -72,20 +100,26 @@ export function VerticalColorPalette({ lit, color, target, onColor, onTarget }: 
       </Pressable>
       {!folded && lit ? (
         <View style={styles.panel}>
-          <View style={styles.toggleRow}>
-            <Pressable
-              style={[styles.toggle, target === 'frame' && styles.toggleOn]}
-              onPress={() => onTarget('frame')}
-            >
-              <Text style={styles.toggleText}>Frame</Text>
-            </Pressable>
-            <Pressable
-              style={[styles.toggle, target === 'body' && styles.toggleOn]}
-              onPress={() => onTarget('body')}
-            >
-              <Text style={styles.toggleText}>Body</Text>
-            </Pressable>
-          </View>
+          {showToggle ? (
+            <View style={styles.toggleRow}>
+              {targets.includes('frame') ? (
+                <Pressable
+                  style={[styles.toggle, effectiveTarget === 'frame' && styles.toggleOn]}
+                  onPress={() => onTarget('frame')}
+                >
+                  <Text style={styles.toggleText}>Frame</Text>
+                </Pressable>
+              ) : null}
+              {targets.includes('body') ? (
+                <Pressable
+                  style={[styles.toggle, effectiveTarget === 'body' && styles.toggleOn]}
+                  onPress={() => onTarget('body')}
+                >
+                  <Text style={styles.toggleText}>Body</Text>
+                </Pressable>
+              ) : null}
+            </View>
+          ) : null}
           <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
             {swatches.map((c) => (
               <Pressable
@@ -130,6 +164,9 @@ const styles = StyleSheet.create({
   tabLit: {
     opacity: 1,
     backgroundColor: colors.walnutRaised,
+  },
+  tabOpen: {
+    borderColor: 'rgba(227,174,122,0.35)',
   },
   preview: {
     width: 14,

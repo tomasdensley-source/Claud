@@ -19,6 +19,8 @@ interface Props {
   onClose: () => void;
   children: React.ReactNode;
   wide?: boolean;
+  /** center = classic modal; edge = bottom sheet (default). */
+  variant?: 'center' | 'edge';
 }
 
 export function ModalShell({
@@ -30,12 +32,26 @@ export function ModalShell({
   onClose,
   children,
   wide,
+  variant = 'edge',
 }: Props) {
+  const edge = variant === 'edge';
   return (
-    <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
-      <View style={styles.backdrop}>
+    <Modal
+      visible={visible}
+      transparent
+      animationType={edge ? 'slide' : 'fade'}
+      onRequestClose={onClose}
+    >
+      <View style={[styles.backdrop, edge ? styles.backdropEdge : styles.backdropCenter]}>
         <Pressable style={StyleSheet.absoluteFill} onPress={onClose} />
-        <View style={[styles.card, wide && styles.wide, shadows.control]}>
+        <View
+          style={[
+            styles.card,
+            edge ? styles.cardEdge : styles.cardCenter,
+            wide && styles.wide,
+            shadows.control,
+          ]}
+        >
           <View style={styles.header}>
             <View style={styles.headerLeft}>
               <Ionicons name={icon} size={18} color={colors.cream} />
@@ -61,18 +77,35 @@ export function ModalShell({
 const styles = StyleSheet.create({
   backdrop: {
     flex: 1,
+  },
+  backdropCenter: {
     backgroundColor: colors.overlay,
     justifyContent: 'center',
     padding: 16,
   },
+  backdropEdge: {
+    backgroundColor: 'rgba(28,22,18,0.22)',
+    justifyContent: 'flex-end',
+  },
   card: {
     backgroundColor: colors.paper,
-    borderRadius: radii.modal,
     overflow: 'hidden',
+    width: '100%',
+  },
+  cardCenter: {
+    borderRadius: radii.modal,
     maxHeight: '88%',
     alignSelf: 'center',
-    width: '100%',
     maxWidth: 520,
+  },
+  cardEdge: {
+    borderTopLeftRadius: radii.modal,
+    borderTopRightRadius: radii.modal,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+    maxHeight: '88%',
+    alignSelf: 'stretch',
+    maxWidth: '100%',
   },
   wide: {
     maxWidth: 640,

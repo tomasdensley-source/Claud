@@ -3,35 +3,15 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { colors, radii, shadows } from '../theme';
 import { hapticSelection } from '../lib/haptics';
 
-const SWATCHES = ['#34261d', '#cb7d46', '#2f6fed', '#2f9e6b', '#c43c3c', '#ffffff'];
-
 interface Props {
-  color: string;
   width: number;
-  onColor: (c: string) => void;
   onWidth: (w: number) => void;
 }
 
-export function DrawPalette({ color, width, onColor, onWidth }: Props) {
+/** Stroke width chips only — colors live on VerticalColorPalette. */
+export function DrawPalette({ width, onWidth }: Props) {
   return (
     <View style={[styles.wrap, shadows.control]}>
-      <View style={styles.row}>
-        {SWATCHES.map((c) => (
-          <Pressable
-            key={c}
-            onPress={() => {
-              void hapticSelection();
-              onColor(c);
-            }}
-            style={[
-              styles.swatch,
-              { backgroundColor: c, borderColor: c === '#ffffff' ? '#ccc' : c },
-              color === c && styles.swatchActive,
-            ]}
-            accessibilityLabel={`Draw color ${c}`}
-          />
-        ))}
-      </View>
       <View style={styles.row}>
         {[2, 4, 8].map((w) => (
           <Pressable
@@ -68,16 +48,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-  },
-  swatch: {
-    width: 22,
-    height: 22,
-    borderRadius: 999,
-    borderWidth: 2,
-  },
-  swatchActive: {
-    transform: [{ scale: 1.15 }],
-    borderColor: colors.cream,
   },
   widthBtn: {
     width: 28,

@@ -50,94 +50,104 @@ export function ZoomControls({
   minScale = 0.01,
   maxScale = 80,
 }: Props) {
+  const selectionMode = selectedCount > 0;
+
   return (
     <View style={styles.wrap}>
-      {selectedCount > 0 ? (
-        <View style={[styles.bar, shadows.control, styles.selectionBar]}>
-          <View style={styles.badge}>
-            <Text style={styles.badgeText}>{selectedCount}</Text>
-          </View>
-          <Text style={styles.selectionText}>selected</Text>
-          <Pressable
-            onPress={() => buzz(onBringFront, 'light')}
-            style={styles.iconBtn}
-            accessibilityLabel="Bring forward"
-          >
-            <Ionicons name="arrow-up" size={18} color={colors.cream} />
-          </Pressable>
-          <Pressable
-            onPress={() => buzz(onSendBack, 'light')}
-            style={styles.iconBtn}
-            accessibilityLabel="Send backward"
-          >
-            <Ionicons name="arrow-down" size={18} color={colors.cream} />
-          </Pressable>
-          <Pressable
-            onPress={() => buzz(onDuplicate, 'medium')}
-            style={styles.iconBtn}
-            accessibilityLabel="Duplicate"
-          >
-            <Ionicons name="copy-outline" size={18} color={colors.cream} />
-          </Pressable>
-          <Pressable
-            onPress={() => buzz(onDelete, 'warn')}
-            style={styles.iconBtn}
-            accessibilityLabel="Delete"
-          >
-            <Ionicons name="trash-outline" size={18} color={colors.cream} />
-          </Pressable>
-        </View>
-      ) : null}
-      <View style={[styles.bar, shadows.control]}>
-        <Pressable
-          onPress={() => buzz(onUndo, 'medium')}
-          disabled={!canUndo}
-          style={[styles.iconBtn, !canUndo && styles.disabled]}
-          accessibilityLabel="Undo"
-        >
-          <Ionicons name="arrow-undo" size={18} color={colors.cream} />
-        </Pressable>
-        <Pressable
-          onPress={() => buzz(onRedo, 'medium')}
-          disabled={!canRedo}
-          style={[styles.iconBtn, !canRedo && styles.disabled]}
-          accessibilityLabel="Redo"
-        >
-          <Ionicons name="arrow-redo" size={18} color={colors.cream} />
-        </Pressable>
-        <View style={styles.divider} />
-        <Pressable
-          onPress={() => buzz(onZoomOut)}
-          disabled={scale <= minScale + 0.001}
-          style={[styles.iconBtn, scale <= minScale + 0.001 && styles.disabled]}
-          accessibilityLabel="Zoom out"
-        >
-          <Ionicons name="remove" size={20} color={colors.cream} />
-        </Pressable>
-        <Pressable
-          onPress={() => buzz(onResetZoom, 'light')}
-          style={styles.zoomPct}
-          accessibilityLabel="Reset zoom"
-        >
-          <Text style={styles.zoomText}>{formatZoomPercent(scale)}</Text>
-        </Pressable>
-        <Pressable
-          onPress={() => buzz(onZoomIn)}
-          disabled={scale >= maxScale - 0.001}
-          style={[styles.iconBtn, scale >= maxScale - 0.001 && styles.disabled]}
-          accessibilityLabel="Zoom in"
-        >
-          <Ionicons name="add" size={20} color={colors.cream} />
-        </Pressable>
-        <View style={styles.divider} />
-        <Pressable
-          onPress={() => buzz(onFit, 'medium')}
-          style={styles.fitBtn}
-          accessibilityLabel="Fit entire board"
-        >
-          <Ionicons name="expand-outline" size={18} color={colors.cream} />
-          <Text style={styles.fitText}>Fit</Text>
-        </Pressable>
+      <View style={[styles.bar, shadows.control, selectionMode && styles.selectionBar]}>
+        {selectionMode ? (
+          <>
+            <Text style={styles.selectionText}>selected</Text>
+            <Pressable
+              onPress={() => buzz(onBringFront, 'light')}
+              style={styles.iconBtn}
+              accessibilityLabel="Bring forward"
+            >
+              <Ionicons name="arrow-up" size={18} color={colors.cream} />
+            </Pressable>
+            <Pressable
+              onPress={() => buzz(onSendBack, 'light')}
+              style={styles.iconBtn}
+              accessibilityLabel="Send backward"
+            >
+              <Ionicons name="arrow-down" size={18} color={colors.cream} />
+            </Pressable>
+            <Pressable
+              onPress={() => buzz(onDuplicate, 'medium')}
+              style={styles.iconBtn}
+              accessibilityLabel="Duplicate"
+            >
+              <Ionicons name="copy-outline" size={18} color={colors.cream} />
+            </Pressable>
+            <Pressable
+              onPress={() => buzz(onDelete, 'warn')}
+              style={styles.iconBtn}
+              accessibilityLabel="Delete"
+            >
+              <Ionicons name="trash-outline" size={18} color={colors.cream} />
+            </Pressable>
+            <View style={styles.divider} />
+            <Pressable
+              onPress={() => buzz(onResetZoom, 'light')}
+              style={styles.zoomPctCompact}
+              accessibilityLabel="Reset zoom"
+            >
+              <Text style={styles.zoomTextCompact}>{formatZoomPercent(scale)}</Text>
+            </Pressable>
+          </>
+        ) : (
+          <>
+            <Pressable
+              onPress={() => buzz(onUndo, 'medium')}
+              disabled={!canUndo}
+              style={[styles.iconBtn, !canUndo && styles.disabled]}
+              accessibilityLabel="Undo"
+            >
+              <Ionicons name="arrow-undo" size={18} color={colors.cream} />
+            </Pressable>
+            <Pressable
+              onPress={() => buzz(onRedo, 'medium')}
+              disabled={!canRedo}
+              style={[styles.iconBtn, !canRedo && styles.disabled]}
+              accessibilityLabel="Redo"
+            >
+              <Ionicons name="arrow-redo" size={18} color={colors.cream} />
+            </Pressable>
+            <View style={styles.divider} />
+            <Pressable
+              onPress={() => buzz(onZoomOut)}
+              disabled={scale <= minScale + 0.001}
+              style={[styles.iconBtn, scale <= minScale + 0.001 && styles.disabled]}
+              accessibilityLabel="Zoom out"
+            >
+              <Ionicons name="remove" size={20} color={colors.cream} />
+            </Pressable>
+            <Pressable
+              onPress={() => buzz(onResetZoom, 'light')}
+              style={styles.zoomPct}
+              accessibilityLabel="Reset zoom"
+            >
+              <Text style={styles.zoomText}>{formatZoomPercent(scale)}</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => buzz(onZoomIn)}
+              disabled={scale >= maxScale - 0.001}
+              style={[styles.iconBtn, scale >= maxScale - 0.001 && styles.disabled]}
+              accessibilityLabel="Zoom in"
+            >
+              <Ionicons name="add" size={20} color={colors.cream} />
+            </Pressable>
+            <View style={styles.divider} />
+            <Pressable
+              onPress={() => buzz(onFit, 'medium')}
+              style={styles.fitBtn}
+              accessibilityLabel="Fit entire board"
+            >
+              <Ionicons name="expand-outline" size={18} color={colors.cream} />
+              <Text style={styles.fitText}>Fit</Text>
+            </Pressable>
+          </>
+        )}
       </View>
     </View>
   );
@@ -180,10 +190,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 6,
   },
+  zoomPctCompact: {
+    minWidth: 44,
+    alignItems: 'center',
+    paddingHorizontal: 4,
+  },
   zoomText: {
     color: colors.cream,
     fontWeight: '700',
     fontSize: 12,
+  },
+  zoomTextCompact: {
+    color: 'rgba(255,250,240,0.88)',
+    fontWeight: '700',
+    fontSize: 11,
   },
   divider: {
     width: 1,
@@ -207,20 +227,5 @@ const styles = StyleSheet.create({
     color: 'rgba(255,250,240,0.8)',
     fontSize: 12,
     marginRight: 6,
-  },
-  badge: {
-    minWidth: 22,
-    height: 22,
-    borderRadius: 999,
-    backgroundColor: colors.clayDeep,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 6,
-    marginRight: 4,
-  },
-  badgeText: {
-    color: colors.cream,
-    fontSize: 12,
-    fontWeight: '700',
   },
 });
