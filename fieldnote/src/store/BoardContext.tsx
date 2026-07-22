@@ -595,7 +595,33 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
         z += 1;
         return { ...partial, id, zIndex: partial.zIndex ?? z } as BoardItem;
       });
-      updateItems((items) => [...items, ...created]);
+      const selected = selectedIdsRef.current;
+      const workingFolderId = board?.items.find(
+        (it) =>
+          it.type === 'folder' &&
+          it.working &&
+          (selected.includes(it.id) || selected.length === 0),
+      )?.id;
+      // Prefer explicitly selected working folder; else first working folder on board.
+      const folderId =
+        board?.items.find((it) => it.type === 'folder' && it.working && selected.includes(it.id))
+          ?.id ??
+        (selected.length === 0
+          ? board?.items.find((it) => it.type === 'folder' && it.working)?.id
+          : undefined) ??
+        workingFolderId;
+
+      updateItems((items) => {
+        let next = [...items, ...created];
+        if (folderId) {
+          next = next.map((it) => {
+            if (it.id !== folderId || it.type !== 'folder') return it;
+            const childIds = Array.from(new Set([...(it.childIds ?? []), ...ids]));
+            return { ...it, childIds, fileCount: childIds.length };
+          });
+        }
+        return next;
+      });
       setSelectedIds(ids);
       return ids;
     },
