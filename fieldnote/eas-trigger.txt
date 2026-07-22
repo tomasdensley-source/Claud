@@ -1,1 +1,1 @@
-eas build request: 1
+eas build request: 2 (crash-on-launch fix — dropped Reanimated Layout Animations)
