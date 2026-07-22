@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
   Linking,
@@ -53,6 +53,11 @@ export function PdfReaderModal({ visible, uri, name, pageCount, onClose }: Props
   const WebView = useMemo(() => getWebView(), []);
   const [failed, setFailed] = useState(false);
   const [zoom, setZoom] = useState(1);
+
+  useEffect(() => {
+    setFailed(false);
+    setZoom(1);
+  }, [uri, visible]);
 
   const openExternal = async () => {
     void hapticSelection();

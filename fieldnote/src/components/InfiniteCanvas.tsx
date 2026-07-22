@@ -104,6 +104,7 @@ interface BoardItemNodeProps {
   onResizeCornerStart: (id: string, corner: ResizeCorner) => void;
   onResizeCornerMove: (dxWorld: number, dyWorld: number) => void;
   onResizeCornerEnd: () => void;
+  onOpenPdf?: (id: string) => void;
 }
 
 function ResizeHandle({
@@ -201,6 +202,7 @@ const BoardItemNode = memo(function BoardItemNode({
   onResizeCornerStart,
   onResizeCornerMove,
   onResizeCornerEnd,
+  onOpenPdf,
 }: BoardItemNodeProps) {
   const dragging = dragDx !== 0 || dragDy !== 0;
   const isTask = item.type === 'task';
@@ -364,6 +366,11 @@ const BoardItemNode = memo(function BoardItemNode({
             }
             descendantCount={descendantCount}
             onEndEdit={onEndEdit}
+            onOpenPdf={
+              onOpenPdf && item.type === 'file' && isPdfAsset(item.name, item.mimeType)
+                ? () => onOpenPdf(item.id)
+                : undefined
+            }
           />
         </View>
       </GestureDetector>
@@ -1290,6 +1297,20 @@ export function InfiniteCanvas({
     [clearHoldTimer, completeTask, onToast],
   );
 
+  const onOpenPdf = useCallback(
+    (id: string) => {
+      const item = currentBoard.items.find((it) => it.id === id);
+      if (!item || item.type !== 'file' || !isPdfAsset(item.name, item.mimeType)) return;
+      setPdfViewer({
+        uri: item.uri,
+        name: item.name,
+        pageCount: item.pageCount,
+      });
+      void hapticSelection();
+    },
+    [currentBoard.items],
+  );
+
   return (
     <View
       style={[
@@ -1348,6 +1369,7 @@ export function InfiniteCanvas({
                   onResizeCornerStart={startResize}
                   onResizeCornerMove={moveResize}
                   onResizeCornerEnd={endResize}
+                  onOpenPdf={onOpenPdf}
                 />
               );
             })}

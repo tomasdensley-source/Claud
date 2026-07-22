@@ -1,11 +1,35 @@
 /**
  * JSON Canvas 1.0 (Obsidian-compatible) import/export.
  * Spec: https://jsoncanvas.org/
+ * Fieldnote extras live under node.metadata.fieldnote (ignored by Obsidian).
  */
 
 import { Board, BoardItem, ConnectorSide, DraftBoardItem } from '../types';
 import { uid } from './seed';
 import { colors } from '../theme';
+
+export interface FieldnoteNodeMeta {
+  kind?: string;
+  paths?: { color: string; width: number; points: { x: number; y: number }[] }[];
+  shape?: 'rect' | 'ellipse' | 'line';
+  dependsOn?: string[];
+  children?: string[];
+  collapsed?: boolean;
+  branchColor?: string;
+  done?: boolean;
+  name?: string;
+  mimeType?: string;
+  pageCount?: number;
+  sizeBytes?: number;
+  fileCount?: number;
+  label?: string;
+  frameColor?: string;
+  fontSize?: number;
+  role?: string;
+  markdown?: boolean;
+  alt?: string;
+  assetKey?: string;
+}
 
 export interface JsonCanvasFile {
   nodes?: JsonCanvasNode[];
@@ -24,6 +48,7 @@ export interface JsonCanvasNode {
   file?: string;
   url?: string;
   label?: string;
+  metadata?: { fieldnote?: FieldnoteNodeMeta };
 }
 
 export interface JsonCanvasEdge {
@@ -52,6 +77,14 @@ function mapColor(c?: string): string | undefined {
   return undefined;
 }
 
+function withMeta(
+  node: JsonCanvasNode,
+  meta: FieldnoteNodeMeta | undefined,
+): JsonCanvasNode {
+  if (!meta || Object.keys(meta).length === 0) return node;
+  return { ...node, metadata: { fieldnote: meta } };
+}
+
 export function boardToJsonCanvas(board: Board): JsonCanvasFile {
   const nodes: JsonCanvasNode[] = [];
   const edges: JsonCanvasEdge[] = [];
@@ -68,58 +101,198 @@ export function boardToJsonCanvas(board: Board): JsonCanvasFile {
       });
       continue;
     }
-    if (it.type === 'drawing' || it.type === 'shape') continue;
+
+    if (it.type === 'drawing') {
+      nodes.push(
+        withMeta(
+          {
+            id: it.id,
+            type: 'text',
+            x: it.x,
+            y: it.y,
+            width: it.width,
+            height: it.height,
+            text: '',
+            color: it.color ?? it.backgroundColor,
+          },
+          { kind: 'drawing', paths: it.paths },
+        ),
+      );
+      continue;
+    }
+
+    if (it.type === 'shape') {
+      nodes.push(
+        withMeta(
+          {
+            id: it.id,
+            type: 'text',
+            x: it.x,
+            y: it.y,
+            width: it.width,
+            height: it.height,
+            text: '',
+            color: it.color ?? it.backgroundColor,
+          },
+          { kind: 'shape', shape: it.shape },
+        ),
+      );
+      continue;
+    }
 
     if (it.type === 'region') {
-      nodes.push({
-        id: it.id,
-        type: 'group',
-        x: it.x,
-        y: it.y,
-        width: it.width,
-        height: it.height,
-        color: it.frameColor ?? it.backgroundColor,
-        label: it.label,
-      });
+      nodes.push(
+        withMeta(
+          {
+            id: it.id,
+            type: 'group',
+            x: it.x,
+            y: it.y,
+            width: it.width,
+            height: it.height,
+            color: it.frameColor ?? it.backgroundColor,
+            label: it.label,
+          },
+          {
+            kind: 'region',
+            label: it.label,
+            frameColor: it.frameColor,
+          },
+        ),
+      );
       continue;
     }
 
     if (it.type === 'file' || it.type === 'image') {
-      nodes.push({
-        id: it.id,
-        type: 'file',
-        x: it.x,
-        y: it.y,
-        width: it.width,
-        height: it.height,
-        file: it.type === 'file' ? it.uri : it.uri,
-        color: it.backgroundColor,
-      });
+      const meta: FieldnoteNodeMeta =
+        it.type === 'file'
+          ? {
+              kind: 'file',
+              name: it.name,
+              mimeType: it.mimeType,
+              pageCount: it.pageCount,
+              sizeBytes: it.sizeBytes,
+            }
+          : {
+              kind: 'image',
+              alt: it.alt,
+              assetKey: it.assetKey,
+            };
+      nodes.push(
+        withMeta(
+          {
+            id: it.id,
+            type: 'file',
+            x: it.x,
+            y: it.y,
+            width: it.width,
+            height: it.height,
+            file: it.uri,
+            color: it.backgroundColor,
+            label: it.type === 'file' ? it.name : it.alt,
+          },
+          meta,
+        ),
+      );
       continue;
     }
 
-    const text =
-      it.type === 'text' || it.type === 'task' || it.type === 'mindmap'
-        ? it.type === 'task'
-          ? `${it.done ? '[x]' : '[ ]'} ${it.text}`
-          : it.text
-        : it.type === 'folder'
-          ? it.name
-          : '';
+    if (it.type === 'folder') {
+      nodes.push(
+        withMeta(
+          {
+            id: it.id,
+            type: 'text',
+            x: it.x,
+            y: it.y,
+            width: it.width,
+            height: it.height,
+            text: it.name,
+            color: it.color ?? it.backgroundColor,
+          },
+          { kind: 'folder', name: it.name, fileCount: it.fileCount },
+        ),
+      );
+      continue;
+    }
 
-    nodes.push({
-      id: it.id,
-      type: 'text',
-      x: it.x,
-      y: it.y,
-      width: it.width,
-      height: it.height,
-      text,
-      color: it.color ?? it.backgroundColor,
-    });
+    if (it.type === 'task') {
+      nodes.push(
+        withMeta(
+          {
+            id: it.id,
+            type: 'text',
+            x: it.x,
+            y: it.y,
+            width: it.width,
+            height: it.height,
+            text: `${it.done ? '[x]' : '[ ]'} ${it.text}`,
+            color: it.color ?? it.backgroundColor,
+          },
+          {
+            kind: 'task',
+            dependsOn: it.dependsOn,
+            done: it.done,
+            markdown: it.markdown,
+          },
+        ),
+      );
+      continue;
+    }
+
+    if (it.type === 'mindmap') {
+      nodes.push(
+        withMeta(
+          {
+            id: it.id,
+            type: 'text',
+            x: it.x,
+            y: it.y,
+            width: it.width,
+            height: it.height,
+            text: it.text,
+            color: it.color ?? it.backgroundColor,
+          },
+          {
+            kind: 'mindmap',
+            children: it.children,
+            collapsed: it.collapsed,
+            branchColor: it.branchColor,
+          },
+        ),
+      );
+      continue;
+    }
+
+    // text
+    nodes.push(
+      withMeta(
+        {
+          id: it.id,
+          type: 'text',
+          x: it.x,
+          y: it.y,
+          width: it.width,
+          height: it.height,
+          text: it.text,
+          color: it.color ?? it.backgroundColor,
+        },
+        {
+          kind: 'text',
+          fontSize: it.fontSize,
+          role: it.role,
+          markdown: it.markdown,
+        },
+      ),
+    );
   }
 
   return { nodes, edges };
+}
+
+function readMeta(node: JsonCanvasNode): FieldnoteNodeMeta | undefined {
+  const meta = node.metadata?.fieldnote;
+  return meta && typeof meta === 'object' ? meta : undefined;
 }
 
 export function jsonCanvasToItems(doc: JsonCanvasFile): BoardItem[] {
@@ -127,6 +300,7 @@ export function jsonCanvasToItems(doc: JsonCanvasFile): BoardItem[] {
   let z = 1;
 
   for (const node of doc.nodes ?? []) {
+    const meta = readMeta(node);
     const base = {
       id: node.id || uid('node'),
       x: node.x,
@@ -138,32 +312,88 @@ export function jsonCanvasToItems(doc: JsonCanvasFile): BoardItem[] {
       backgroundColor: mapColor(node.color) ?? colors.paper,
     };
 
-    if (node.type === 'group') {
+    if (meta?.kind === 'drawing' && Array.isArray(meta.paths)) {
       items.push({
         ...base,
-        type: 'region',
-        label: node.label || 'Region',
-        frameColor: mapColor(node.color),
+        type: 'drawing',
+        paths: meta.paths.map((p) => ({
+          color: typeof p.color === 'string' ? p.color : colors.ink,
+          width: typeof p.width === 'number' ? p.width : 3,
+          points: Array.isArray(p.points)
+            ? p.points
+                .filter((pt) => pt && typeof pt.x === 'number' && typeof pt.y === 'number')
+                .map((pt) => ({ x: pt.x, y: pt.y }))
+            : [],
+        })),
       });
       continue;
     }
 
-    if (node.type === 'file' || node.type === 'link') {
+    if (meta?.kind === 'shape') {
+      const shape =
+        meta.shape === 'ellipse' || meta.shape === 'line' ? meta.shape : 'rect';
+      items.push({ ...base, type: 'shape', shape });
+      continue;
+    }
+
+    if (meta?.kind === 'mindmap' || (meta?.children && Array.isArray(meta.children))) {
+      items.push({
+        ...base,
+        type: 'mindmap',
+        text: node.text ?? 'Idea',
+        children: Array.isArray(meta?.children)
+          ? meta!.children!.filter((c): c is string => typeof c === 'string')
+          : [],
+        collapsed: Boolean(meta?.collapsed),
+        branchColor: typeof meta?.branchColor === 'string' ? meta.branchColor : undefined,
+      });
+      continue;
+    }
+
+    if (meta?.kind === 'folder') {
+      items.push({
+        ...base,
+        type: 'folder',
+        name: meta.name || node.text || node.label || 'Folder',
+        fileCount: typeof meta.fileCount === 'number' ? meta.fileCount : 0,
+      });
+      continue;
+    }
+
+    if (node.type === 'group' || meta?.kind === 'region') {
+      items.push({
+        ...base,
+        type: 'region',
+        label: meta?.label || node.label || 'Region',
+        frameColor: meta?.frameColor ?? mapColor(node.color),
+      });
+      continue;
+    }
+
+    if (node.type === 'file' || node.type === 'link' || meta?.kind === 'file' || meta?.kind === 'image') {
       const uri = node.file || node.url || '';
-      const isImage = /\.(png|jpe?g|webp|gif)$/i.test(uri);
+      const isImage =
+        meta?.kind === 'image' || /\.(png|jpe?g|webp|gif)$/i.test(uri);
       if (isImage) {
         items.push({
           ...base,
           type: 'image',
           uri,
-          alt: node.label || 'Image',
+          alt: meta?.alt || node.label || 'Image',
+          assetKey:
+            meta?.assetKey === 'pottery' || meta?.assetKey === 'wildflower'
+              ? meta.assetKey
+              : undefined,
         });
       } else {
         items.push({
           ...base,
           type: 'file',
-          name: node.label || node.file || node.url || 'File',
+          name: meta?.name || node.label || node.file || node.url || 'File',
           uri,
+          mimeType: meta?.mimeType,
+          pageCount: meta?.pageCount,
+          sizeBytes: meta?.sizeBytes,
         });
       }
       continue;
@@ -171,25 +401,28 @@ export function jsonCanvasToItems(doc: JsonCanvasFile): BoardItem[] {
 
     const raw = node.text ?? '';
     const taskMatch = raw.match(/^\s*\[([ xX])\]\s*(.*)$/s);
-    if (taskMatch) {
+    if (meta?.kind === 'task' || taskMatch) {
       items.push({
         ...base,
         type: 'task',
-        text: taskMatch[2] || 'Task',
-        done: taskMatch[1].toLowerCase() === 'x',
-        dependsOn: [],
-        markdown: true,
+        text: taskMatch ? taskMatch[2] || 'Task' : raw || 'Task',
+        done: meta?.done ?? (taskMatch ? taskMatch[1].toLowerCase() === 'x' : false),
+        dependsOn: Array.isArray(meta?.dependsOn)
+          ? meta!.dependsOn!.filter((id): id is string => typeof id === 'string')
+          : [],
+        markdown: meta?.markdown ?? true,
       });
-    } else {
-      items.push({
-        ...base,
-        type: 'text',
-        text: raw,
-        fontSize: 18,
-        role: 'body',
-        markdown: true,
-      });
+      continue;
     }
+
+    items.push({
+      ...base,
+      type: 'text',
+      text: raw,
+      fontSize: typeof meta?.fontSize === 'number' ? meta.fontSize : 18,
+      role: (meta?.role as 'title' | 'body' | 'note') || 'body',
+      markdown: meta?.markdown ?? true,
+    });
   }
 
   for (const edge of doc.edges ?? []) {

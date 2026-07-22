@@ -33,7 +33,7 @@ test('json canvas round-trip keeps text and edges', () => {
       zIndex: 2,
       text: 'Do it',
       done: false,
-      dependsOn: [],
+      dependsOn: ['a'],
     },
     {
       id: 'e1',
@@ -59,6 +59,56 @@ test('json canvas round-trip keeps text and edges', () => {
   const back = jsonCanvasToItems(parsed);
   assert.ok(back.some((it) => it.type === 'text'));
   assert.ok(back.some((it) => it.type === 'connector'));
+  const task = back.find((it) => it.type === 'task');
+  assert.ok(task && task.type === 'task');
+  assert.deepEqual(task.dependsOn, ['a']);
+});
+
+test('fieldnote metadata round-trips drawing shape mindmap', () => {
+  const items: BoardItem[] = [
+    {
+      id: 'd1',
+      type: 'drawing',
+      x: 0,
+      y: 0,
+      width: 100,
+      height: 80,
+      zIndex: 1,
+      paths: [{ color: '#111', width: 3, points: [{ x: 1, y: 2 }, { x: 3, y: 4 }] }],
+    },
+    {
+      id: 's1',
+      type: 'shape',
+      x: 10,
+      y: 10,
+      width: 80,
+      height: 60,
+      zIndex: 2,
+      shape: 'ellipse',
+    },
+    {
+      id: 'm1',
+      type: 'mindmap',
+      x: 40,
+      y: 40,
+      width: 120,
+      height: 64,
+      zIndex: 3,
+      text: 'Root',
+      children: ['m2'],
+      collapsed: true,
+    },
+  ];
+  const doc = boardToJsonCanvas({ id: 'b', name: 'B', items, updatedAt: 1 });
+  assert.equal(doc.nodes?.length, 3);
+  assert.ok(doc.nodes?.every((n) => n.metadata?.fieldnote));
+  const back = jsonCanvasToItems(doc);
+  assert.ok(back.some((it) => it.type === 'drawing'));
+  assert.ok(back.some((it) => it.type === 'shape' && it.shape === 'ellipse'));
+  const mm = back.find((it) => it.type === 'mindmap');
+  assert.ok(mm && mm.type === 'mindmap');
+  assert.deepEqual(mm.children, ['m2']);
+  assert.equal(mm.collapsed, true);
 });
 
 test('repairAiJson extracts object from prose', () => {

@@ -46,6 +46,11 @@ async function openDb(): Promise<SqliteDb | null> {
           created_at INTEGER NOT NULL
         );
       `);
+      try {
+        await db.execAsync('ALTER TABLE landmarks ADD COLUMN zoom REAL');
+      } catch {
+        // Column already exists on upgraded installs.
+      }
       return db;
     } catch (e) {
       console.warn('Fieldnote SQLite unavailable; using AsyncStorage only', e);
@@ -146,6 +151,7 @@ export interface LandmarkRow {
   name: string;
   x: number;
   y: number;
+  zoom?: number;
   createdAt: number;
 }
 
@@ -159,6 +165,7 @@ export async function sqliteListLandmarks(boardId: string): Promise<LandmarkRow[
       name: string;
       x: number;
       y: number;
+      zoom: number | null;
       created_at: number;
     }>('SELECT * FROM landmarks WHERE board_id = ? ORDER BY created_at DESC', boardId);
     return rows.map((r) => ({
@@ -167,6 +174,8 @@ export async function sqliteListLandmarks(boardId: string): Promise<LandmarkRow[
       name: r.name,
       x: r.x,
       y: r.y,
+      zoom:
+        typeof r.zoom === 'number' && Number.isFinite(r.zoom) ? r.zoom : undefined,
       createdAt: r.created_at,
     }));
   } catch {
@@ -179,13 +188,14 @@ export async function sqliteUpsertLandmark(landmark: LandmarkRow): Promise<boole
   if (!db) return false;
   try {
     await db.runAsync(
-      `INSERT OR REPLACE INTO landmarks (id, board_id, name, x, y, created_at)
-       VALUES (?, ?, ?, ?, ?, ?)`,
+      `INSERT OR REPLACE INTO landmarks (id, board_id, name, x, y, zoom, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
       landmark.id,
       landmark.boardId,
       landmark.name,
       landmark.x,
       landmark.y,
+      landmark.zoom ?? null,
       landmark.createdAt,
     );
     return true;

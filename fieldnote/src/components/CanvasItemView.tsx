@@ -400,13 +400,13 @@ export function CanvasItemView({
 
   const shellStyle = [
     styles.item,
-    shadows.card,
+    selected ? shadows.card : styles.restShadow,
     {
       backgroundColor: transparentBg
         ? 'transparent'
         : item.backgroundColor ?? colors.paper,
       borderColor: selected ? colors.selection : 'transparent',
-      borderWidth: selected ? 2 : 0,
+      borderWidth: selected ? 1.5 : 0,
       overflow: selected ? ('visible' as const) : ('hidden' as const),
     },
     item.type === 'region' && styles.regionOuter,
@@ -435,6 +435,13 @@ const styles = StyleSheet.create({
     borderRadius: radii.card,
     overflow: 'hidden',
     padding: 18,
+  },
+  restShadow: {
+    shadowColor: '#3d2a18',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.04,
+    shadowRadius: 4,
+    elevation: 1,
   },
   text: {
     fontFamily: 'System',

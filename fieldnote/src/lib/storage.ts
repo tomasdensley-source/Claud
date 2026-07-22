@@ -296,7 +296,17 @@ export async function loadLandmarks(boardId: string): Promise<Landmark[]> {
   try {
     const { sqliteListLandmarks } = await import('./sqliteStore');
     const sql = await sqliteListLandmarks(boardId);
-    if (sql.length > 0) return sql;
+    if (sql.length > 0) {
+      return sql.map((l) => ({
+        id: l.id,
+        boardId: l.boardId,
+        name: l.name,
+        x: l.x,
+        y: l.y,
+        zoom: l.zoom,
+        createdAt: l.createdAt,
+      }));
+    }
   } catch {
     // fall through
   }
@@ -304,7 +314,20 @@ export async function loadLandmarks(boardId: string): Promise<Landmark[]> {
     const raw = await AsyncStorage.getItem(LANDMARKS_KEY);
     if (!raw) return [];
     const all = JSON.parse(raw) as Landmark[];
-    return Array.isArray(all) ? all.filter((l) => l.boardId === boardId) : [];
+    return Array.isArray(all)
+      ? all
+          .filter((l) => l && l.boardId === boardId)
+          .map((l) => ({
+            id: String(l.id),
+            boardId: String(l.boardId),
+            name: String(l.name || 'Place'),
+            x: typeof l.x === 'number' ? l.x : 0,
+            y: typeof l.y === 'number' ? l.y : 0,
+            zoom:
+              typeof l.zoom === 'number' && Number.isFinite(l.zoom) ? l.zoom : undefined,
+            createdAt: typeof l.createdAt === 'number' ? l.createdAt : Date.now(),
+          }))
+      : [];
   } catch {
     return [];
   }
@@ -313,7 +336,15 @@ export async function loadLandmarks(boardId: string): Promise<Landmark[]> {
 export async function saveLandmark(landmark: Landmark): Promise<void> {
   try {
     const { sqliteUpsertLandmark } = await import('./sqliteStore');
-    await sqliteUpsertLandmark(landmark);
+    await sqliteUpsertLandmark({
+      id: landmark.id,
+      boardId: landmark.boardId,
+      name: landmark.name,
+      x: landmark.x,
+      y: landmark.y,
+      zoom: landmark.zoom,
+      createdAt: landmark.createdAt,
+    });
   } catch {
     // ignore
   }
