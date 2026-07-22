@@ -17,6 +17,7 @@ import { FilesPanel } from './src/components/panels/FilesPanel';
 import { SearchPanel } from './src/components/panels/SearchPanel';
 import { GesturesPanel, MorePanel, StoragePanel } from './src/components/panels/MorePanel';
 import { ImportExportPanel } from './src/components/panels/ImportExportPanel';
+import { ErrorBoundary } from './src/components/ErrorBoundary';
 import { clampScale } from './src/lib/camera';
 import { colors } from './src/theme';
 
@@ -134,11 +135,13 @@ function FieldnoteApp() {
 export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaProvider>
-        <BoardProvider>
-          <FieldnoteApp />
-        </BoardProvider>
-      </SafeAreaProvider>
+      <ErrorBoundary>
+        <SafeAreaProvider>
+          <BoardProvider>
+            <FieldnoteApp />
+          </BoardProvider>
+        </SafeAreaProvider>
+      </ErrorBoundary>
     </GestureHandlerRootView>
   );
 }

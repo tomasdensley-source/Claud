@@ -1,1 +1,1 @@
-eas build request: 2 (crash-on-launch fix — dropped Reanimated Layout Animations)
+eas build request: 3 (add on-screen ErrorBoundary to surface the crash cause)
