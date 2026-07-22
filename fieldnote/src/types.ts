@@ -42,6 +42,10 @@ export interface TaskItem extends BoardItemBase {
   type: 'task';
   text: string;
   done: boolean;
+  // Ids of other tasks that must be done first. Dangling/foreign ids never
+  // block — see src/lib/taskBlocking.ts. No UI creates this yet (arrives
+  // with connectors); the data model and blocking logic land ahead of it.
+  dependsOn?: string[];
 }
 
 export interface MindMapItem extends BoardItemBase {

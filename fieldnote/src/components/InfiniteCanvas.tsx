@@ -14,6 +14,7 @@ import { CanvasItemView } from './CanvasItemView';
 import { BoardItem } from '../types';
 import { clampScale } from '../lib/camera';
 import { haptics } from '../lib/haptics';
+import { isTaskBlocked } from '../lib/taskBlocking';
 
 // Below this pointer velocity (px/s) we don't fling — avoids stray momentum from
 // releasing a pinch or a deliberate stop.
@@ -357,6 +358,7 @@ export function InfiniteCanvas({
               onToggleTask={() => toggleTask(item.id)}
               onEndEdit={() => setEditingId(null)}
               onResize={(rect, commit) => resizeItem(item.id, rect, commit)}
+              blocked={item.type === 'task' && isTaskBlocked(item, currentBoard.items)}
             />
           ))}
         </Animated.View>

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import {
   Image,
   Pressable,
@@ -9,11 +9,19 @@ import {
   ViewStyle,
 } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import { runOnJS, useSharedValue } from 'react-native-reanimated';
+import Animated, {
+  cancelAnimation,
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import Svg, { Ellipse, Line, Path, Rect as SvgRect } from 'react-native-svg';
 import { BoardItem } from '../types';
 import { colors, radii, shadows } from '../theme';
 import { SEED_IMAGES } from '../lib/seedImages';
+import { MarkdownBlocks, MarkdownInline } from './Markdown';
+import { haptics } from '../lib/haptics';
 import {
   computeResizeRect,
   MIN_ITEM_HEIGHT,
@@ -21,6 +29,9 @@ import {
   ResizeCorner,
   ResizeRect,
 } from '../lib/resize';
+
+// Deliberate hold-to-complete duration for incomplete, unblocked tasks.
+const TASK_HOLD_MS = 3000;
 
 interface Props {
   item: BoardItem;
@@ -33,6 +44,7 @@ interface Props {
   onToggleTask: () => void;
   onEndEdit: () => void;
   onResize: (rect: ResizeRect, commit: boolean) => void;
+  blocked?: boolean;
 }
 
 function pointsToPath(points: { x: number; y: number }[]): string {
@@ -53,8 +65,46 @@ export function CanvasItemView({
   onToggleTask,
   onEndEdit,
   onResize,
+  blocked = false,
 }: Props) {
   const handleSize = Math.max(10, 12 / scale);
+  const taskGlow = useSharedValue(0);
+  const taskHoldCompleted = useRef(false);
+
+  const taskGlowStyle = useAnimatedStyle(() => ({
+    opacity: taskGlow.value * 0.35,
+  }));
+
+  const completeTask = useCallback(() => {
+    haptics.success();
+    onToggleTask();
+  }, [onToggleTask]);
+
+  const onTaskPressIn = useCallback(() => {
+    if (item.type !== 'task') return;
+    if (item.done || blocked) return;
+    taskHoldCompleted.current = false;
+    taskGlow.value = withTiming(1, { duration: TASK_HOLD_MS }, (finished) => {
+      if (finished) {
+        taskHoldCompleted.current = true;
+        runOnJS(completeTask)();
+      }
+    });
+  }, [item, blocked, taskGlow, completeTask]);
+
+  const onTaskPressOut = useCallback(() => {
+    if (item.type !== 'task' || taskHoldCompleted.current) return;
+    cancelAnimation(taskGlow);
+    taskGlow.value = withTiming(0, { duration: 150 });
+  }, [item, taskGlow]);
+
+  const onTaskPress = useCallback(() => {
+    if (item.type !== 'task') return;
+    if (!item.done) return;
+    // Completion is hold-only (see onTaskPressIn); a quick tap only undoes it.
+    haptics.light();
+    onToggleTask();
+  }, [item, onToggleTask]);
 
   const content = useMemo(() => {
     switch (item.type) {
@@ -80,9 +130,22 @@ export function CanvasItemView({
             />
           );
         }
+        if (!item.text) {
+          return (
+            <Text
+              style={[
+                styles.text,
+                { color: item.color ?? colors.ink, fontSize: item.fontSize, fontWeight: item.fontWeight ?? '400' },
+              ]}
+            >
+              Write something...
+            </Text>
+          );
+        }
         return (
-          <Text
-            style={[
+          <MarkdownBlocks
+            source={item.text}
+            baseStyle={[
               styles.text,
               {
                 color: item.color ?? colors.ink,
@@ -90,9 +153,7 @@ export function CanvasItemView({
                 fontWeight: item.fontWeight ?? '400',
               },
             ]}
-          >
-            {item.text || 'Write something...'}
-          </Text>
+          />
         );
       case 'image': {
         const source = item.assetKey
@@ -107,7 +168,16 @@ export function CanvasItemView({
       }
       case 'task':
         return (
-          <Pressable style={styles.taskRow} onPress={onToggleTask}>
+          <Pressable
+            style={[styles.taskRow, blocked && styles.taskBlocked]}
+            onPress={onTaskPress}
+            onPressIn={onTaskPressIn}
+            onPressOut={onTaskPressOut}
+          >
+            <Animated.View
+              pointerEvents="none"
+              style={[StyleSheet.absoluteFill, styles.taskGlow, taskGlowStyle]}
+            />
             <View style={[styles.checkbox, item.done && styles.checkboxDone]}>
               {item.done ? <Text style={styles.checkMark}>✓</Text> : null}
             </View>
@@ -123,16 +193,17 @@ export function CanvasItemView({
                   item.done && styles.taskDone,
                 ]}
               />
-            ) : (
-              <Text
-                style={[
+            ) : item.text ? (
+              <MarkdownInline
+                source={item.text}
+                baseStyle={[
                   styles.taskText,
                   item.color ? { color: item.color } : null,
                   item.done && styles.taskDone,
                 ]}
-              >
-                {item.text || 'New task'}
-              </Text>
+              />
+            ) : (
+              <Text style={[styles.taskText, item.done && styles.taskDone]}>New task</Text>
             )}
           </Pressable>
         );
@@ -238,7 +309,18 @@ export function CanvasItemView({
       default:
         return null;
     }
-  }, [editing, item, onChangeText, onEndEdit, onToggleTask]);
+  }, [
+    editing,
+    item,
+    onChangeText,
+    onEndEdit,
+    onToggleTask,
+    blocked,
+    onTaskPress,
+    onTaskPressIn,
+    onTaskPressOut,
+    taskGlowStyle,
+  ]);
 
   const transparentBg =
     item.type === 'drawing' || item.type === 'shape' || item.type === 'region';
@@ -391,6 +473,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     gap: 12,
+  },
+  taskBlocked: {
+    opacity: 0.55,
+  },
+  taskGlow: {
+    borderRadius: radii.card,
+    backgroundColor: colors.amber,
   },
   checkbox: {
     width: 22,

@@ -25,6 +25,10 @@ Built for **Android** (Expo Go + installable APK).
   ~500ms deliberate hold-to-edit; gentle alignment snapping when you drop a
   dragged card near another one's edge or center
 - Resizable cards: drag any of the 4 corner handles on a selected card
+- Text cards render Markdown (headings, lists, bold/italic, inline code,
+  links); task labels render inline Markdown too
+- Tasks complete with a deliberate 3s hold (progressive glow + haptic pop),
+  not an accidental tap; a quick tap only un-completes a done task
 - Minimap + zoom controls + Fit board
 - Long-press cards to edit; hold empty canvas to open Add
 
@@ -44,6 +48,9 @@ src/
   lib/snapping.ts          Alignment-snap math for item dragging
   lib/haptics.ts           Thin, always-safe expo-haptics wrapper
   lib/resize.ts            Corner-handle resize geometry
+  lib/markdown.ts          Dependency-free Markdown subset (parse only)
+  lib/taskBlocking.ts      isTaskBlocked — task dependency primitive
+  components/Markdown.tsx Renders parsed Markdown to RN Text/View
   components/Palette.tsx  Vertical color palette (frame/body, custom slots)
   components/Toast.tsx    Compact top notification with Undo
   components/              Canvas, toolbar, minimap, panels

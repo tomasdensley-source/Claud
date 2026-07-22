@@ -375,3 +375,31 @@ current; EAS/APK build link attached to the release PR from CI.
   doesn't fight the whole-card drag when starting a touch on a handle — flagged, not
   claimed as verified. Added to the Android QA checklist (§7). Gate: `tsc --noEmit &&
   npm test` (26/26) green.
+- **Batch 6 (partial) — landed.** Markdown rendering (bug #5) and the task 3s
+  progressive-glow hold-to-complete (bug #3). New `src/lib/markdown.ts` — a small,
+  dependency-free parser (pure + unit tested): headings (1-3), bullet/ordered lists
+  (auto-numbered by position, restarts after a break), bold, italic, inline code, and
+  links. Deliberately not full CommonMark — block quotes, tables, and fenced code
+  blocks are out of scope; Fieldnote cards hold short notes, not documents. New
+  `src/components/Markdown.tsx` renders parsed blocks/spans to RN Text/View
+  (`MarkdownBlocks` for text cards' full block+inline rendering, `MarkdownInline` for a
+  task's single-line label). Links render styled (underline + accent) but aren't
+  tappable — wiring a tap target inside an already-nested card (selection Pressable,
+  resize handles) is its own gesture-precedence question, kept out of this pass.
+  Rendering only applies in the non-editing view; editing still shows raw Markdown
+  source in the existing `TextInput`, a deliberately simple non-WYSIWYG split.
+  Task completion: replaced instant tap-to-toggle with a ~3s hold — `onPressIn` starts
+  a Reanimated `withTiming(1, {duration:3000})` driving a glow overlay's opacity,
+  completing (`haptics.success()` + mark done) only if held the full duration;
+  releasing early cancels and fades the glow back out. A quick tap now only
+  un-completes an already-done task (`haptics.light()`) — completing a task can no
+  longer happen by accident, matching "hold-to-complete" as the fix for the brief's
+  bug #3 ("3-second progressive glow + hold-to-complete is broken"). Also added the
+  `dependsOn?: string[]` field to `TaskItem` and `src/lib/taskBlocking.ts`
+  (`isTaskBlocked`, pure + unit tested: blocked while any dependency task isn't done;
+  dangling ids and non-task ids never block) — a blocked task's hold-to-complete is
+  disabled and the card dims. No UI creates `dependsOn` yet (there's no connector/link
+  system to draw a dependency from); this lands the data model and blocking logic
+  ahead of Batch 8's connectors so that batch only has to add the "glowing arrow"
+  visual and a way to draw the link, not invent the underlying logic too.
+  Gate: `tsc --noEmit && npm test` (40/40) green.
