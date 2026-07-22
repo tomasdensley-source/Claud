@@ -25,6 +25,7 @@ import {
   screenToWorld,
   softClampScale,
   zoomAboutFocal,
+  zoomAboutStartFocal,
 } from '../lib/camera';
 import { GESTURE } from '../lib/gesturePriority';
 import { hapticImpact, hapticSelection } from '../lib/haptics';
@@ -438,6 +439,8 @@ export function InfiniteCanvas({
   const savedScale = useSharedValue(1);
   const savedTx = useSharedValue(0);
   const savedTy = useSharedValue(0);
+  const pinchStartFocalX = useSharedValue(0);
+  const pinchStartFocalY = useSharedValue(0);
   const pinching = useSharedValue(false);
 
   const [editingId, setEditingIdLocal] = useState<string | null>(null);
@@ -697,13 +700,151 @@ export function InfiniteCanvas({
     reportCameraCenter();
   }, [reportCameraCenter, reportScale, scale]);
 
-  // Blueprint: two-finger navigation ALWAYS controls pan (even over objects).
+  // Two-finger pan — disabled while pinching so pinch alone owns tx/ty.
   const twoFingerPan = useMemo(
     () =>
       Gesture.Pan()
         .minPointers(GESTURE.NAV_MIN_POINTERS)
         .maxPointers(2)
         .averageTouches(true)
+        .onBegin(() => {
+          'worklet';
+          if (pinching.value) return;
+          savedTx.value = tx.value;
+          savedTy.value = ty.value;
+        })
+        .onUpdate((e) => {
+          'worklet';
+          if (pinching.value) {
+            // Keep pan's baseline in sync with pinch-written camera so release does not jump.
+            savedTx.value = tx.value - e.translationX;
+            savedTy.value = ty.value - e.translationY;
+            return;
+          }
+          tx.value = savedTx.value + e.translationX;
+          ty.value = savedTy.value + e.translationY;
+        })
+        .onEnd((e) => {
+          'worklet';
+          if (pinching.value) {
+            runOnJS(endPanReport)();
+            return;
+          }
+          tx.value = withDecay({
+            velocity: e.velocityX,
+            deceleration: 0.997,
+          });
+          ty.value = withDecay(
+            {
+              velocity: e.velocityY,
+              deceleration: 0.997,
+            },
+            (finished) => {
+              if (finished) runOnJS(endPanReport)();
+            },
+          );
+        }),
+    [endPanReport, pinching, savedTx, savedTy, tx, ty],
+  );
+
+  const pinchGesture = useMemo(
+    () =>
+      Gesture.Pinch()
+        .onStart((e) => {
+          'worklet';
+          pinching.value = true;
+          savedScale.value = scale.value;
+          savedTx.value = tx.value;
+          savedTy.value = ty.value;
+          pinchStartFocalX.value = e.focalX;
+          pinchStartFocalY.value = e.focalY;
+        })
+        .onUpdate((e) => {
+          'worklet';
+          // Soft clamp during gesture. Guard non-finite scale for Android.
+          const raw = savedScale.value * e.scale;
+          const nextScale = softClampScale(
+            Number.isFinite(raw) && raw > 0 ? raw : savedScale.value,
+          );
+          // One writer: pin start-focal world point to current midpoint (zoom + drift).
+          const cam = zoomAboutStartFocal(
+            nextScale,
+            pinchStartFocalX.value,
+            pinchStartFocalY.value,
+            e.focalX,
+            e.focalY,
+            savedScale.value,
+            savedTx.value,
+            savedTy.value,
+            true,
+          );
+          scale.value = cam.scale;
+          tx.value = cam.tx;
+          ty.value = cam.ty;
+        })
+        .onEnd((e) => {
+          'worklet';
+          pinching.value = false;
+          const current = scale.value > 0 && Number.isFinite(scale.value) ? scale.value : 1;
+          const hard = Math.min(MAX_SCALE, Math.max(MIN_SCALE, current));
+          if (hard !== current) {
+            const cam = zoomAboutFocal(hard, e.focalX, e.focalY, current, tx.value, ty.value);
+            scale.value = withSpring(cam.scale, { damping: 22, stiffness: 220 });
+            tx.value = withSpring(cam.tx, { damping: 22, stiffness: 220 });
+            ty.value = withSpring(cam.ty, { damping: 22, stiffness: 220 }, (finished) => {
+              if (finished) runOnJS(endPanReport)();
+            });
+          } else {
+            runOnJS(endPanReport)();
+          }
+        })
+        .onFinalize(() => {
+          'worklet';
+          pinching.value = false;
+        }),
+    [
+      endPanReport,
+      pinchStartFocalX,
+      pinchStartFocalY,
+      pinching,
+      savedScale,
+      savedTx,
+      savedTy,
+      scale,
+      tx,
+      ty,
+    ],
+  );
+
+  const tapGesture = useMemo(
+    () =>
+      Gesture.Tap()
+        .maxDuration(250)
+        .onEnd(() => {
+          'worklet';
+          runOnJS(clearSel)();
+        }),
+    [clearSel],
+  );
+
+  const longPressGesture = useMemo(
+    () =>
+      Gesture.LongPress()
+        .minDuration(GESTURE.LONG_PRESS_MS)
+        .maxDistance(GESTURE.LONG_PRESS_MAX_DIST)
+        .onEnd((e, success) => {
+          'worklet';
+          if (success) runOnJS(onLongPressEmpty)(e.x, e.y);
+        }),
+    [onLongPressEmpty],
+  );
+
+  // Default select: one-finger empty space pans the map.
+  const oneFingerPan = useMemo(
+    () =>
+      Gesture.Pan()
+        .maxPointers(1)
+        .minDistance(GESTURE.PAN_MIN_DIST)
         .onBegin(() => {
           'worklet';
           savedTx.value = tx.value;
@@ -731,84 +872,6 @@ export function InfiniteCanvas({
           );
         }),
     [endPanReport, savedTx, savedTy, tx, ty],
-  );
-
-  const pinchGesture = useMemo(
-    () =>
-      Gesture.Pinch()
-        .onBegin(() => {
-          'worklet';
-          pinching.value = true;
-          savedScale.value = scale.value;
-          savedTx.value = tx.value;
-          savedTy.value = ty.value;
-        })
-        .onUpdate((e) => {
-          'worklet';
-          // Soft clamp during gesture — camera.softClampScale is a worklet.
-          // Also guard non-finite scale so Android never gets NaN transforms.
-          const raw = savedScale.value * e.scale;
-          const next = softClampScale(Number.isFinite(raw) && raw > 0 ? raw : savedScale.value);
-          const safePrev = savedScale.value > 0 ? savedScale.value : 1;
-          const worldX = (e.focalX - savedTx.value) / safePrev;
-          const worldY = (e.focalY - savedTy.value) / safePrev;
-          scale.value = next;
-          tx.value = e.focalX - worldX * next;
-          ty.value = e.focalY - worldY * next;
-        })
-        .onEnd((e) => {
-          'worklet';
-          pinching.value = false;
-          const current = scale.value > 0 && Number.isFinite(scale.value) ? scale.value : 1;
-          const hard = Math.min(MAX_SCALE, Math.max(MIN_SCALE, current));
-          if (hard !== current) {
-            const worldX = (e.focalX - tx.value) / current;
-            const worldY = (e.focalY - ty.value) / current;
-            scale.value = withSpring(hard, { damping: 22, stiffness: 220 });
-            tx.value = withSpring(e.focalX - worldX * hard, { damping: 22, stiffness: 220 });
-            ty.value = withSpring(e.focalY - worldY * hard, {
-              damping: 22,
-              stiffness: 220,
-            }, (finished) => {
-              if (finished) runOnJS(endPanReport)();
-            });
-          } else {
-            runOnJS(endPanReport)();
-          }
-        })
-        .onFinalize(() => {
-          'worklet';
-          pinching.value = false;
-        }),
-    [endPanReport, pinching, savedScale, savedTx, savedTy, scale, tx, ty],
-  );
-
-  const navigationGesture = useMemo(
-    () => Gesture.Simultaneous(pinchGesture, twoFingerPan),
-    [pinchGesture, twoFingerPan],
-  );
-
-  const tapGesture = useMemo(
-    () =>
-      Gesture.Tap()
-        .maxDuration(250)
-        .onEnd(() => {
-          'worklet';
-          runOnJS(clearSel)();
-        }),
-    [clearSel],
-  );
-
-  const longPressGesture = useMemo(
-    () =>
-      Gesture.LongPress()
-        .minDuration(GESTURE.LONG_PRESS_MS)
-        .maxDistance(GESTURE.LONG_PRESS_MAX_DIST)
-        .onEnd((e, success) => {
-          'worklet';
-          if (success) runOnJS(onLongPressEmpty)(e.x, e.y);
-        }),
-    [onLongPressEmpty],
   );
 
   const marqueeStart = useCallback(
@@ -842,14 +905,15 @@ export function InfiniteCanvas({
   const marqueeEnd = useCallback(() => {
     setMarquee((rect) => {
       if (rect && (Math.abs(rect.width) > 8 || Math.abs(rect.height) > 8)) {
-        selectInRect(rect, toolRef.current === 'multi');
+        // Multi mode: always additive rect select.
+        selectInRect(rect, true);
         void hapticImpact('light');
       }
       return null;
     });
   }, [selectInRect]);
 
-  // One-finger empty space = marquee (not pan). Navigation is two-finger only.
+  // Multi tool only: one-finger empty space = marquee.
   const marqueeGesture = useMemo(
     () =>
       Gesture.Pan()
@@ -894,27 +958,35 @@ export function InfiniteCanvas({
     [endStroke, moveStroke, startStroke],
   );
 
-  // Full-screen 2-finger nav — always wins over objects (Batch 4).
-  const navOverlay = useMemo(
+  // Pinch + two-finger pan (pan yields while pinching).
+  const twoFingerNav = useMemo(
     () => Gesture.Simultaneous(pinchGesture, twoFingerPan),
     [pinchGesture, twoFingerPan],
   );
 
   const composed = useMemo(() => {
     if (tool === 'draw') {
-      // One-finger draw simultaneous with 2-finger nav (nav activates at 2 pointers).
-      return Gesture.Simultaneous(navOverlay, drawGesture);
+      return Gesture.Simultaneous(twoFingerNav, drawGesture);
     }
+    if (tool === 'multi') {
+      // Multi ON: marquee with one finger; pan requires two fingers.
+      return Gesture.Simultaneous(
+        twoFingerNav,
+        Gesture.Exclusive(longPressGesture, marqueeGesture, tapGesture),
+      );
+    }
+    // Default select: one-finger pan; pinch zoom; optional two-finger pan.
     return Gesture.Simultaneous(
-      navOverlay,
-      Gesture.Exclusive(longPressGesture, marqueeGesture, tapGesture),
+      twoFingerNav,
+      Gesture.Exclusive(longPressGesture, oneFingerPan, tapGesture),
     );
   }, [
     tool,
-    navOverlay,
+    twoFingerNav,
     drawGesture,
     longPressGesture,
     marqueeGesture,
+    oneFingerPan,
     tapGesture,
   ]);
 

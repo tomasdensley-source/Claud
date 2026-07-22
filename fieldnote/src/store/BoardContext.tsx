@@ -30,8 +30,8 @@ import {
   repairAiJson,
   stringifyJsonCanvas,
 } from '../lib/jsonCanvas';
-import { saveSnapshot } from '../lib/snapshots';
-import { hapticImpact, hapticSuccess, hapticWarning } from '../lib/haptics';
+import { saveSnapshot, listSnapshots, loadSnapshot } from '../lib/snapshots';
+import { hapticImpact, hapticSuccess, hapticWarning, hapticSelection } from '../lib/haptics';
 import {
   ensureUniqueIds,
   expandMindMapSelection,
@@ -39,7 +39,7 @@ import {
   remapIds,
 } from '../lib/graphHygiene';
 
-export type Tool = 'select' | 'draw' | 'multi';
+export type Tool = 'select' | 'draw' | 'multi' | 'lasso';
 
 type HistoryEntry = {
   boards: Board[];
@@ -88,6 +88,7 @@ interface BoardContextValue {
   deleteSelected: () => void;
   deleteItems: (ids: string[]) => void;
   duplicateSelected: () => void;
+  toggleLockSelected: () => void;
   bringToFront: () => void;
   sendToBack: () => void;
   toggleMindMapCollapse: (id: string) => void;
@@ -121,6 +122,7 @@ interface BoardContextValue {
   redo: () => void;
   beginHistory: () => void;
   resetToSeed: () => Promise<void>;
+  restoreSnapshot: (id: string) => Promise<{ ok: boolean; error?: string }>;
   appendDrawingPoint: (
     itemId: string | null,
     point: { x: number; y: number },
@@ -606,6 +608,19 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     void hapticImpact('light');
   }, [updateItems]);
 
+  const toggleLockSelected = useCallback(() => {
+    const ids = selectedIdsRef.current;
+    if (ids.length === 0) return;
+    updateItems((items) => {
+      const selected = items.filter((it) => ids.includes(it.id));
+      const shouldLock = selected.some((it) => !it.locked);
+      return items.map((it) =>
+        ids.includes(it.id) ? { ...it, locked: shouldLock } : it,
+      );
+    });
+    void hapticSelection();
+  }, [updateItems]);
+
   const bringToFront = useCallback(() => {
     if (selectedIds.length === 0) return;
     updateItems((items) => {
@@ -952,7 +967,21 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     setPanel(null);
     setFocusedRegionId(null);
     setLandmarks([]);
+    setEditingIdState(null);
   }, []);
+
+  const restoreSnapshot = useCallback(async (id: string) => {
+    const snap = await loadSnapshot(id);
+    if (!snap) return { ok: false as const, error: 'Snapshot not found' };
+    pushHistory();
+    setBoards(cloneBoards(snap.boards));
+    setCurrentBoardId(snap.currentBoardId);
+    setSelectedIds([]);
+    setEditingIdState(null);
+    setFocusedRegionId(null);
+    void hapticSuccess();
+    return { ok: true as const };
+  }, [pushHistory]);
 
   const appendDrawingPoint = useCallback(
     (itemId: string | null, point: { x: number; y: number }, startNewPath: boolean) => {
@@ -1105,6 +1134,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     deleteSelected,
     deleteItems,
     duplicateSelected,
+    toggleLockSelected,
     bringToFront,
     sendToBack,
     toggleMindMapCollapse,
@@ -1135,6 +1165,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     redo,
     beginHistory,
     resetToSeed,
+    restoreSnapshot,
     appendDrawingPoint,
     addDrawingStroke,
   };

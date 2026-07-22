@@ -1,12 +1,23 @@
 /**
- * Fieldnote gesture priority (Android blueprint).
+ * Fieldnote gesture priority (Android).
  *
- * Highest → lowest:
- * 1. Two-finger navigation (pan + pinch) — always wins, even over objects/UI chrome.
- * 2. One-finger object manipulation (drag / resize / connector).
- * 3. One-finger empty-space marquee (select mode) or draw stroke (draw mode).
- * 4. Long-press empty → contextual add (movement-tolerant ~0.5s).
- * 5. Tap empty → clear selection / dismiss edit.
+ * Default (select tool):
+ * 1. Pinch zoom — owns scale + translate about start focal (no sideways fight).
+ * 2. One-finger empty-space pan (map-like). Two-finger pan also works when not pinching.
+ * 3. One-finger object drag / resize / task hold.
+ * 4. Long-press empty → contextual add.
+ * 5. Tap empty → clear selection.
+ *
+ * Multi tool ON (opt-in):
+ * 1. Pinch zoom (same focal math).
+ * 2. Two-finger pan (one-finger pan disabled).
+ * 3. One-finger empty-space marquee / additive select.
+ * 4. Long-press empty → contextual add.
+ * 5. Tap empty → clear selection.
+ *
+ * Draw tool:
+ * 1. Pinch + two-finger pan for navigation.
+ * 2. One-finger ink stroke.
  */
 
 import { MAX_SCALE, MIN_SCALE } from './camera';
@@ -15,6 +26,8 @@ export const GESTURE = {
   LONG_PRESS_MS: 480,
   LONG_PRESS_MAX_DIST: 22,
   MARQUEE_MIN_DIST: 10,
+  /** Empty-space one-finger pan (select mode). */
+  PAN_MIN_DIST: 2,
   OBJECT_DRAG_MIN_DIST: 4,
   /** Tasks: require more travel before drag steals the 3s hold. */
   TASK_DRAG_MIN_DIST: 18,
@@ -29,6 +42,7 @@ export type GestureLane =
   | 'navigation'
   | 'object'
   | 'marquee'
+  | 'pan'
   | 'draw'
   | 'contextual'
   | 'tap';

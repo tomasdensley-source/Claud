@@ -16,7 +16,7 @@ type ToolBtn = {
   key: string;
   label: string;
   panel?: PanelKind;
-  tool?: 'select' | 'draw' | 'multi';
+  tool?: 'select' | 'draw' | 'multi' | 'lasso';
   icon: React.ReactNode;
 };
 

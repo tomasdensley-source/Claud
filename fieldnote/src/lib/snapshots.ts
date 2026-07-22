@@ -44,3 +44,9 @@ export async function loadSnapshot(id: string): Promise<BoardSnapshot | null> {
   const all = await listSnapshots();
   return all.find((s) => s.id === id) ?? null;
 }
+
+export async function deleteSnapshot(id: string): Promise<void> {
+  const all = await listSnapshots();
+  const next = all.filter((s) => s.id !== id);
+  await AsyncStorage.setItem(SNAP_KEY, JSON.stringify(next));
+}

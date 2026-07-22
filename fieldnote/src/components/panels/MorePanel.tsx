@@ -133,12 +133,12 @@ export function GesturesPanel({ visible, onClose }: Props) {
       <View style={styles.columns}>
         <View style={styles.col}>
           <Text style={styles.colTitle}>On your phone</Text>
-          <Tip title="Two fingers" body="Always pan and pinch — zoom from 2% to 6400%" />
-          <Tip title="One finger empty" body="Drag a marquee to select" />
+          <Tip title="One finger empty" body="Pan the board (map-like). Turn on Multi for marquee." />
+          <Tip title="Pinch" body="Zoom about your fingers — no sideways jump" />
           <Tip title="One finger on a card" body="Move or resize that object" />
           <Tip title="Hold empty space" body="Compact add: Files / Device / New" />
           <Tip title="Hold a title" body="Edit after the confirm pulse" />
-          <Tip title="Multi + marquee" body="Add to the current selection" />
+          <Tip title="Multi tool" body="Marquee with one finger; two fingers to pan" />
         </View>
         <View style={styles.col}>
           <Text style={styles.colTitle}>Board tips</Text>
@@ -152,7 +152,7 @@ export function GesturesPanel({ visible, onClose }: Props) {
       </View>
       <View style={styles.tipBanner}>
         <Text style={styles.tipBannerText}>
-          Tip: Navigation is always two-finger. Long-press empty space for the compact add menu.
+          Tip: Pan with one finger by default. Turn on Multi for marquee select. Long-press empty for add.
         </Text>
       </View>
     </ModalShell>

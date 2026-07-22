@@ -82,14 +82,44 @@ export function zoomAboutFocal(
   soft = false,
 ): { scale: number; tx: number; ty: number } {
   'worklet';
+  return zoomAboutStartFocal(
+    nextScale,
+    focalX,
+    focalY,
+    focalX,
+    focalY,
+    prevScale,
+    prevTx,
+    prevTy,
+    soft,
+  );
+}
+
+/**
+ * Pinch zoom that also follows finger midpoint drift.
+ * Pins the world point under the START focal to the CURRENT focal so scale
+ * and two-finger translation share one writer (no pan/pinch fight).
+ */
+export function zoomAboutStartFocal(
+  nextScale: number,
+  startFocalX: number,
+  startFocalY: number,
+  currentFocalX: number,
+  currentFocalY: number,
+  prevScale: number,
+  prevTx: number,
+  prevTy: number,
+  soft = false,
+): { scale: number; tx: number; ty: number } {
+  'worklet';
   const safePrev = prevScale > 0 ? prevScale : 1;
   const s = soft ? softClampScale(nextScale) : clampScale(nextScale);
-  const worldX = (focalX - prevTx) / safePrev;
-  const worldY = (focalY - prevTy) / safePrev;
+  const worldX = (startFocalX - prevTx) / safePrev;
+  const worldY = (startFocalY - prevTy) / safePrev;
   return {
     scale: s,
-    tx: focalX - worldX * s,
-    ty: focalY - worldY * s,
+    tx: currentFocalX - worldX * s,
+    ty: currentFocalY - worldY * s,
   };
 }
 

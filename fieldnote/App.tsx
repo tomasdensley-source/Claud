@@ -78,6 +78,7 @@ function FieldnoteApp() {
     setDrawWidth,
     deleteSelected,
     duplicateSelected,
+    toggleLockSelected,
     undo,
     redo,
     canUndo,
@@ -225,6 +226,10 @@ function FieldnoteApp() {
           onRedo={redo}
           onBringFront={bringToFront}
           onSendBack={sendToBack}
+          onToggleLock={toggleLockSelected}
+          anyLocked={currentBoard.items.some(
+            (it) => selectedIds.includes(it.id) && Boolean(it.locked),
+          )}
           minScale={MIN_SCALE}
           maxScale={MAX_SCALE}
         />

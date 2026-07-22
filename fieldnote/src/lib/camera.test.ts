@@ -12,6 +12,7 @@ import {
   softClampScale,
   worldToScreen,
   zoomAboutFocal,
+  zoomAboutStartFocal,
 } from './camera';
 
 test('clampScale keeps zoom in near-infinite range', () => {
@@ -52,6 +53,30 @@ test('zoomAboutFocal keeps focal world point pinned at deep zoom', () => {
   const after = screenToWorld(focalX, focalY, next.scale, next.tx, next.ty);
   assert.ok(Math.abs(before.x - after.x) < 0.001);
   assert.ok(Math.abs(before.y - after.y) < 0.001);
+});
+
+test('zoomAboutStartFocal follows midpoint drift without losing the start world point', () => {
+  const prevScale = 1;
+  const prevTx = 0;
+  const prevTy = 0;
+  const startFx = 100;
+  const startFy = 100;
+  const curFx = 140;
+  const curFy = 80;
+  const next = zoomAboutStartFocal(
+    2,
+    startFx,
+    startFy,
+    curFx,
+    curFy,
+    prevScale,
+    prevTx,
+    prevTy,
+  );
+  const world = screenToWorld(startFx, startFy, prevScale, prevTx, prevTy);
+  const screen = worldToScreen(world.x, world.y, next.scale, next.tx, next.ty);
+  assert.ok(Math.abs(screen.x - curFx) < 0.001);
+  assert.ok(Math.abs(screen.y - curFy) < 0.001);
 });
 
 test('fitTransform can zoom out below the old 25% floor', () => {

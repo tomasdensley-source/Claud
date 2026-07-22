@@ -165,7 +165,8 @@ export type PanelKind =
   | 'storage'
   | 'pasteAi'
   | 'export'
-  | 'places';
+  | 'places'
+  | 'snapshots';
 
 export interface MarqueeRect {
   x: number;

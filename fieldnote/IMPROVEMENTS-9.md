@@ -1,8 +1,15 @@
-# Fieldnote improvements — v1.5.0 (Combined Plan)
+# Fieldnote improvements — v1.5.1
 
+## Gestures (this release)
+1. **Pinch no longer drifts sideways** — pinch is the sole writer of translate during zoom (`zoomAboutStartFocal`); two-finger pan yields while pinching and resyncs its baseline.
+2. **Default one-finger pan** — empty-space drag pans the board like a map.
+3. **Multi is opt-in** — turn on Multi for marquee / additive select; then pan requires two fingers.
+4. Gesture help copy + blueprint updated to match.
+
+## From v1.5.0 (Combined Plan)
 Executed Combined Plan batches 0–11 toward blueprint calm+correct canvas.
 
-## Correctness
+### Correctness
 1. `deleteItems(ids)` — no stale select-then-delete
 2. Graph hygiene prune/remap/ensureUniqueIds/expandMindMapSelection
 3. Missing task deps treated as satisfied
@@ -20,7 +27,7 @@ Executed Combined Plan batches 0–11 toward blueprint calm+correct canvas.
 15. Landmark SQLite `zoom` column + migration
 16. Media copy to documentDirectory (soft)
 
-## UI
+### UI
 17. ChromeLayoutProvider + disclosure modes
 18. FloatingActionSheet replaces canvas Alerts
 19. Contextual add root/device/new submenus

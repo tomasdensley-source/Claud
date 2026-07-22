@@ -20,6 +20,8 @@ interface Props {
   onRedo?: () => void;
   onBringFront?: () => void;
   onSendBack?: () => void;
+  onToggleLock?: () => void;
+  anyLocked?: boolean;
   minScale?: number;
   maxScale?: number;
 }
@@ -47,6 +49,8 @@ export function ZoomControls({
   onRedo,
   onBringFront,
   onSendBack,
+  onToggleLock,
+  anyLocked = false,
   minScale = 0.01,
   maxScale = 80,
 }: Props) {
@@ -72,6 +76,19 @@ export function ZoomControls({
             >
               <Ionicons name="arrow-down" size={18} color={colors.cream} />
             </Pressable>
+            {onToggleLock ? (
+              <Pressable
+                onPress={() => buzz(onToggleLock, 'medium')}
+                style={styles.iconBtn}
+                accessibilityLabel={anyLocked ? 'Unlock selected' : 'Lock selected'}
+              >
+                <Ionicons
+                  name={anyLocked ? 'lock-closed' : 'lock-open'}
+                  size={18}
+                  color={colors.cream}
+                />
+              </Pressable>
+            ) : null}
             <Pressable
               onPress={() => buzz(onDuplicate, 'medium')}
               style={styles.iconBtn}
