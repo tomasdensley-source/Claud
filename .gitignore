@@ -1,1 +1,8 @@
 book/build/
+node_modules/
+dist/
+.tmptest/
+*.jks
+credentials.json
+.env*.local
+.DS_Store
