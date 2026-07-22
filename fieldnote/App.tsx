@@ -19,6 +19,7 @@ import { FilesPanel } from './src/components/panels/FilesPanel';
 import { SearchPanel } from './src/components/panels/SearchPanel';
 import { GesturesPanel, MorePanel, StoragePanel } from './src/components/panels/MorePanel';
 import { PasteAiPanel, ExportCanvasPanel } from './src/components/panels/PasteAiPanel';
+import { PlacesPanel } from './src/components/panels/PlacesPanel';
 import { colors } from './src/theme';
 import { MAX_SCALE, MIN_SCALE, clampScale } from './src/lib/camera';
 import { ColorTarget } from './src/lib/colorManager';
@@ -173,8 +174,8 @@ function FieldnoteApp() {
           selectedCount={selectedIds.length}
           canUndo={canUndo}
           canRedo={canRedo}
-          onZoomIn={() => requestZoom(scale * 1.15)}
-          onZoomOut={() => requestZoom(scale / 1.15)}
+          onZoomIn={() => requestZoom(scale * 1.25)}
+          onZoomOut={() => requestZoom(scale / 1.25)}
           onResetZoom={() => requestZoom(1)}
           onFit={() => setFitRequest((n) => n + 1)}
           onDuplicate={() => {
@@ -321,6 +322,18 @@ function FieldnoteApp() {
           visible={panel === 'export'}
           onClose={() => setPanel(null)}
           onToast={showToast}
+        />
+        <PlacesPanel
+          visible={panel === 'places'}
+          onClose={() => setPanel(null)}
+          viewCenter={cameraCenter}
+          scale={scale}
+          onFocusPlace={(x, y, zoom) => {
+            setCenterRequest({ x, y, token: Date.now() });
+            if (typeof zoom === 'number' && Number.isFinite(zoom)) {
+              setZoomRequest({ scale: clampScale(zoom), token: Date.now() });
+            }
+          }}
         />
       </View>
     </SafeAreaView>

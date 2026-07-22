@@ -51,6 +51,12 @@ export function MorePanel({ visible, onClose }: Props) {
         }}
       />
       <Row
+        icon="locate-outline"
+        title="Places"
+        subtitle="Save and jump to landmarks on this board"
+        onPress={() => setPanel('places')}
+      />
+      <Row
         icon="share-outline"
         title="Export JSON Canvas"
         subtitle="Share Obsidian-compatible .canvas"
@@ -127,7 +133,7 @@ export function GesturesPanel({ visible, onClose }: Props) {
       <View style={styles.columns}>
         <View style={styles.col}>
           <Text style={styles.colTitle}>On your phone</Text>
-          <Tip title="Two fingers" body="Always pan and pinch — even over cards" />
+          <Tip title="Two fingers" body="Always pan and pinch — zoom from 2% to 6400%" />
           <Tip title="One finger empty" body="Drag a marquee to select" />
           <Tip title="One finger on a card" body="Move or resize that object" />
           <Tip title="Hold empty space" body="Compact add: Files / Device / New" />

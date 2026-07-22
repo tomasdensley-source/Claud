@@ -30,9 +30,10 @@ export function AddPanel({ visible, onClose, viewCenter, onPlaced }: Props) {
       height: 140,
       backgroundColor: colors.paper,
       color: colors.ink,
-      text: '',
+      text: '# Note\n\nWrite **markdown** here.',
       fontSize: 22,
       role: 'body',
+      markdown: true,
     });
     onPlaced?.('Text note added');
     onClose();

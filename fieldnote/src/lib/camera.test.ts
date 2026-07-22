@@ -1,17 +1,23 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import {
+  MAX_SCALE,
+  MIN_SCALE,
   clampScale,
   fitTransform,
+  formatZoomPercent,
   screenToWorld,
   worldToScreen,
   zoomAboutFocal,
 } from './camera';
 
-test('clampScale keeps zoom in range', () => {
-  assert.equal(clampScale(0.01), 0.25);
-  assert.equal(clampScale(9), 2.5);
+test('clampScale keeps zoom in near-infinite range', () => {
+  assert.equal(clampScale(0.001), MIN_SCALE);
+  assert.equal(clampScale(999), MAX_SCALE);
   assert.equal(clampScale(1), 1);
+  assert.equal(clampScale(0.05), 0.05);
+  assert.equal(clampScale(32), 32);
+  assert.equal(clampScale(NaN), 1);
 });
 
 test('screen/world round-trip', () => {
@@ -24,23 +30,27 @@ test('screen/world round-trip', () => {
   assert.ok(Math.abs(screen.y - 300) < 0.001);
 });
 
-test('zoomAboutFocal keeps focal world point pinned', () => {
-  const prevScale = 1;
-  const prevTx = 0;
-  const prevTy = 0;
+test('zoomAboutFocal keeps focal world point pinned at deep zoom', () => {
+  const prevScale = 0.05;
+  const prevTx = 10;
+  const prevTy = -30;
   const focalX = 180;
   const focalY = 240;
-  const next = zoomAboutFocal(2, focalX, focalY, prevScale, prevTx, prevTy);
+  const next = zoomAboutFocal(12, focalX, focalY, prevScale, prevTx, prevTy);
   const before = screenToWorld(focalX, focalY, prevScale, prevTx, prevTy);
   const after = screenToWorld(focalX, focalY, next.scale, next.tx, next.ty);
   assert.ok(Math.abs(before.x - after.x) < 0.001);
   assert.ok(Math.abs(before.y - after.y) < 0.001);
 });
 
-test('fitTransform centers content', () => {
-  const t = fitTransform(400, 800, 0, 0, 200, 200, 0);
-  assert.ok(t.scale > 0);
-  const cx = screenToWorld(200, 400, t.scale, t.tx, t.ty);
-  assert.ok(Math.abs(cx.x - 100) < 0.5);
-  assert.ok(Math.abs(cx.y - 100) < 0.5);
+test('fitTransform can zoom out below the old 25% floor', () => {
+  const t = fitTransform(400, 800, 0, 0, 20000, 20000, 0);
+  assert.ok(t.scale < 0.25);
+  assert.ok(t.scale >= MIN_SCALE);
+});
+
+test('formatZoomPercent covers deep zoom labels', () => {
+  assert.equal(formatZoomPercent(1), '100%');
+  assert.equal(formatZoomPercent(0.05), '5.0%');
+  assert.ok(formatZoomPercent(40).endsWith('%'));
 });

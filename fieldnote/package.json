@@ -1,6 +1,6 @@
 {
   "name": "fieldnote",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "main": "index.ts",
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",
@@ -39,7 +39,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "typecheck": "tsc --noEmit",
-    "test": "npx tsc src/lib/seed.ts src/lib/seed.test.ts src/lib/camera.ts src/lib/camera.test.ts src/lib/panelLayout.ts src/lib/panelLayout.test.ts src/lib/jsonCanvas.ts src/lib/jsonCanvas.test.ts src/lib/taskGraph.ts src/theme.ts src/types.ts --ignoreConfig --outDir .tmptest --module commonjs --target es2020 --skipLibCheck --esModuleInterop --types node && node --test .tmptest/lib/seed.test.js .tmptest/lib/camera.test.js .tmptest/lib/panelLayout.test.js .tmptest/lib/jsonCanvas.test.js && rm -rf .tmptest"
+    "test": "npx tsc src/lib/seed.ts src/lib/seed.test.ts src/lib/camera.ts src/lib/camera.test.ts src/lib/panelLayout.ts src/lib/panelLayout.test.ts src/lib/jsonCanvas.ts src/lib/jsonCanvas.test.ts src/lib/taskGraph.ts src/lib/markdown.test.ts src/theme.ts src/types.ts --ignoreConfig --outDir .tmptest --module commonjs --target es2020 --skipLibCheck --esModuleInterop --types node && node --test .tmptest/lib/seed.test.js .tmptest/lib/camera.test.js .tmptest/lib/panelLayout.test.js .tmptest/lib/jsonCanvas.test.js .tmptest/lib/markdown.test.js && rm -rf .tmptest"
   },
   "private": true
 }

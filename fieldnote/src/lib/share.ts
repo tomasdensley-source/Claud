@@ -2,7 +2,11 @@
  * Soft wrappers for sharing / clipboard — never crash if native module missing.
  */
 
-export async function shareText(text: string, dialogTitle = 'Share from Fieldnote'): Promise<boolean> {
+export async function shareText(
+  text: string,
+  dialogTitle = 'Share from Fieldnote',
+  opts?: { filename?: string; mimeType?: string },
+): Promise<boolean> {
   try {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     const Sharing = require('expo-sharing');
@@ -10,12 +14,14 @@ export async function shareText(text: string, dialogTitle = 'Share from Fieldnot
     const FileSystem = require('expo-file-system');
     const available = await Sharing.isAvailableAsync();
     if (!available) return false;
-    const path = `${FileSystem.cacheDirectory}fieldnote-export.canvas`;
+    const filename = opts?.filename ?? 'fieldnote-export.canvas';
+    const mimeType = opts?.mimeType ?? 'application/json';
+    const path = `${FileSystem.cacheDirectory}${filename}`;
     await FileSystem.writeAsStringAsync(path, text);
     await Sharing.shareAsync(path, {
-      mimeType: 'application/json',
+      mimeType,
       dialogTitle,
-      UTI: 'public.json',
+      UTI: mimeType === 'text/markdown' ? 'public.plain-text' : 'public.json',
     });
     return true;
   } catch (e) {

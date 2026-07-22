@@ -123,6 +123,17 @@ export interface Board {
   items: BoardItem[];
   updatedAt: number;
   thumbnailUri?: string;
+  archived?: boolean;
+}
+
+export interface Landmark {
+  id: string;
+  boardId: string;
+  name: string;
+  x: number;
+  y: number;
+  zoom?: number;
+  createdAt: number;
 }
 
 export interface AppState {
@@ -151,7 +162,8 @@ export type PanelKind =
   | 'gestures'
   | 'storage'
   | 'pasteAi'
-  | 'export';
+  | 'export'
+  | 'places';
 
 export interface MarqueeRect {
   x: number;

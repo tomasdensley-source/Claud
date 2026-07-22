@@ -1,11 +1,12 @@
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Dimensions, StyleSheet, View } from 'react-native';
+import { Alert, Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
+import { Ionicons } from '@expo/vector-icons';
 import { useBoard } from '../store/BoardContext';
 import { colors } from '../theme';
 import { CanvasItemView } from './CanvasItemView';
@@ -14,6 +15,8 @@ import { LiveStrokeOverlay } from './LiveStrokeOverlay';
 import { ConnectorLayer } from './ConnectorLayer';
 import { BoardItem } from '../types';
 import {
+  MAX_SCALE,
+  MIN_SCALE,
   centerOnPoint,
   clampScale,
   fitTransform,
@@ -24,8 +27,13 @@ import { GESTURE } from '../lib/gesturePriority';
 import { hapticImpact } from '../lib/haptics';
 import { canCompleteTask } from '../lib/taskGraph';
 import { descendantCount, visibleMindMapIds } from '../lib/mindMap';
+import { shareText } from '../lib/share';
 
 const WORLD = 4000;
+const MIN_BOX_W = 72;
+const MIN_BOX_H = 56;
+
+type ResizeCorner = 'nw' | 'ne' | 'sw' | 'se';
 
 interface Props {
   viewportWidth: number;
@@ -71,6 +79,7 @@ interface BoardItemNodeProps {
   tool: string;
   dragDx: number;
   dragDy: number;
+  holdProgress: number;
   onSelect: (id: string) => void;
   onLongPressEdit: (id: string) => void;
   onDragStart: (id: string) => void;
@@ -78,14 +87,85 @@ interface BoardItemNodeProps {
   onDragEnd: () => void;
   onChangeText: (id: string, text: string) => void;
   onToggleTask: (id: string) => void;
+  onTaskHoldBegin: (id: string) => void;
+  onTaskHoldEnd: (id: string) => void;
   onHoldCompleteTask: (id: string) => void;
   taskBlocked: boolean;
   onToggleCollapse?: (id: string) => void;
   descendantCount: number;
   onEndEdit: () => void;
-  onResizeStart: (id: string, width: number, height: number, pageX: number, pageY: number) => void;
-  onResizeMove: (pageX: number, pageY: number) => void;
-  onResizeEnd: () => void;
+  onResizeCornerStart: (id: string, corner: ResizeCorner) => void;
+  onResizeCornerMove: (dxWorld: number, dyWorld: number) => void;
+  onResizeCornerEnd: () => void;
+}
+
+function ResizeHandle({
+  corner,
+  size,
+  scale,
+  onStart,
+  onMove,
+  onEnd,
+}: {
+  corner: ResizeCorner;
+  size: number;
+  scale: number;
+  onStart: () => void;
+  onMove: (dxWorld: number, dyWorld: number) => void;
+  onEnd: () => void;
+}) {
+  const gesture = useMemo(
+    () =>
+      Gesture.Pan()
+        .maxPointers(1)
+        .minDistance(0)
+        .hitSlop(12)
+        .onStart(() => {
+          'worklet';
+          runOnJS(onStart)();
+        })
+        .onUpdate((e) => {
+          'worklet';
+          runOnJS(onMove)(e.translationX / scale, e.translationY / scale);
+        })
+        .onEnd(() => {
+          'worklet';
+          runOnJS(onEnd)();
+        })
+        .onFinalize((_e, success) => {
+          'worklet';
+          if (!success) runOnJS(onEnd)();
+        }),
+    [onEnd, onMove, onStart, scale],
+  );
+
+  const pos =
+    corner === 'nw'
+      ? { left: -size / 2, top: -size / 2 }
+      : corner === 'ne'
+        ? { right: -size / 2, top: -size / 2 }
+        : corner === 'sw'
+          ? { left: -size / 2, bottom: -size / 2 }
+          : { right: -size / 2, bottom: -size / 2 };
+
+  return (
+    <GestureDetector gesture={gesture}>
+      <View
+        collapsable={false}
+        accessibilityLabel={`Resize ${corner}`}
+        style={[
+          styles.resizeHandle,
+          pos,
+          {
+            width: size,
+            height: size,
+            borderRadius: size / 2,
+          },
+          corner === 'se' && styles.resizeHandlePrimary,
+        ]}
+      />
+    </GestureDetector>
+  );
 }
 
 const BoardItemNode = memo(function BoardItemNode({
@@ -96,6 +176,7 @@ const BoardItemNode = memo(function BoardItemNode({
   tool,
   dragDx,
   dragDy,
+  holdProgress,
   onSelect,
   onLongPressEdit,
   onDragStart,
@@ -103,16 +184,25 @@ const BoardItemNode = memo(function BoardItemNode({
   onDragEnd,
   onChangeText,
   onToggleTask,
+  onTaskHoldBegin,
+  onTaskHoldEnd,
   onHoldCompleteTask,
   taskBlocked,
   onToggleCollapse,
   descendantCount,
   onEndEdit,
-  onResizeStart,
-  onResizeMove,
-  onResizeEnd,
+  onResizeCornerStart,
+  onResizeCornerMove,
+  onResizeCornerEnd,
 }: BoardItemNodeProps) {
   const dragging = dragDx !== 0 || dragDy !== 0;
+  const isTask = item.type === 'task';
+  const canResize =
+    selected &&
+    !editing &&
+    item.type !== 'drawing' &&
+    item.type !== 'connector';
+  const handleSize = Math.max(18, Math.min(28, 22 / Math.max(0.45, scale)));
 
   const tap = useMemo(
     () =>
@@ -120,9 +210,13 @@ const BoardItemNode = memo(function BoardItemNode({
         .maxDuration(250)
         .onEnd(() => {
           'worklet';
-          runOnJS(onSelect)(item.id);
+          if (isTask && item.type === 'task' && item.done) {
+            runOnJS(onToggleTask)(item.id);
+          } else {
+            runOnJS(onSelect)(item.id);
+          }
         }),
-    [item.id, onSelect],
+    [isTask, item, onSelect, onToggleTask],
   );
 
   const longPress = useMemo(
@@ -137,11 +231,32 @@ const BoardItemNode = memo(function BoardItemNode({
     [item.id, onLongPressEdit],
   );
 
+  const taskHold = useMemo(
+    () =>
+      Gesture.LongPress()
+        .minDuration(3000)
+        .maxDistance(28)
+        .enabled(isTask && item.type === 'task' && !item.done && !taskBlocked)
+        .onBegin(() => {
+          'worklet';
+          runOnJS(onTaskHoldBegin)(item.id);
+        })
+        .onStart(() => {
+          'worklet';
+          runOnJS(onHoldCompleteTask)(item.id);
+        })
+        .onFinalize(() => {
+          'worklet';
+          runOnJS(onTaskHoldEnd)(item.id);
+        }),
+    [isTask, item, onHoldCompleteTask, onTaskHoldBegin, onTaskHoldEnd, taskBlocked],
+  );
+
   const drag = useMemo(
     () =>
       Gesture.Pan()
         .maxPointers(1)
-        .minDistance(4)
+        .minDistance(8)
         .averageTouches(false)
         .onStart(() => {
           'worklet';
@@ -157,42 +272,42 @@ const BoardItemNode = memo(function BoardItemNode({
         })
         .onFinalize((_e, success) => {
           'worklet';
-          // Commit even if the gesture was interrupted after movement began.
           if (!success) runOnJS(onDragEnd)();
         }),
     [item.id, onDragEnd, onDragMove, onDragStart, scale],
   );
 
-  const composed = useMemo(
-    () => Gesture.Exclusive(drag, longPress, tap),
-    [drag, longPress, tap],
-  );
+  const composed = useMemo(() => {
+    if (isTask) return Gesture.Exclusive(drag, taskHold, tap);
+    return Gesture.Exclusive(drag, longPress, tap);
+  }, [drag, isTask, longPress, tap, taskHold]);
 
-  // Drawings/regions don't block empty canvas unless selected.
+  // Unselected drawings/regions pass through so draw + marquee hit the canvas.
   const passThrough =
     tool === 'draw' ||
     ((item.type === 'drawing' || item.type === 'region') && !selected);
 
+  const frameStyle = {
+    position: 'absolute' as const,
+    left: item.x + dragDx,
+    top: item.y + dragDy,
+    width: item.width,
+    height: item.height,
+    zIndex: item.zIndex + (selected ? 1000 : 0),
+    opacity: dragging ? 0.92 : 1,
+    overflow: 'visible' as const,
+  };
+
   if (passThrough) {
     return (
-      <View
-        pointerEvents="none"
-        style={{
-          position: 'absolute',
-          left: item.x + dragDx,
-          top: item.y + dragDy,
-          width: item.width,
-          height: item.height,
-          zIndex: item.zIndex + (selected ? 1000 : 0),
-          opacity: dragging ? 0.92 : 1,
-        }}
-      >
+      <View pointerEvents="none" style={frameStyle}>
         <CanvasItemView
           item={{ ...item, x: 0, y: 0 }}
           selected={selected}
           editing={false}
           scale={scale}
           gestureManaged
+          holdProgress={0}
           onSelect={() => undefined}
           onLongPress={() => undefined}
           onChangeText={() => undefined}
@@ -206,47 +321,49 @@ const BoardItemNode = memo(function BoardItemNode({
     );
   }
 
+  const corners: ResizeCorner[] = ['nw', 'ne', 'sw', 'se'];
+
   return (
-    <GestureDetector gesture={composed}>
-      <View
-        collapsable={false}
-        style={{
-          position: 'absolute',
-          left: item.x + dragDx,
-          top: item.y + dragDy,
-          width: item.width,
-          height: item.height,
-          zIndex: item.zIndex + (selected ? 1000 : 0),
-          opacity: dragging ? 0.92 : 1,
-        }}
-      >
-        <CanvasItemView
-          item={{ ...item, x: 0, y: 0 }}
-          selected={selected}
-          editing={editing}
-          scale={scale}
-          gestureManaged
-          onSelect={() => onSelect(item.id)}
-          onLongPress={() => onLongPressEdit(item.id)}
-          onChangeText={(text) => onChangeText(item.id, text)}
-          onToggleTask={() => onToggleTask(item.id)}
-          onHoldCompleteTask={() => onHoldCompleteTask(item.id)}
-          taskBlocked={taskBlocked}
-          onToggleCollapse={
-            onToggleCollapse && item.type === 'mindmap'
-              ? () => onToggleCollapse(item.id)
-              : undefined
-          }
-          descendantCount={descendantCount}
-          onEndEdit={onEndEdit}
-          onResizeStart={(pageX, pageY) =>
-            onResizeStart(item.id, item.width, item.height, pageX, pageY)
-          }
-          onResizeMove={onResizeMove}
-          onResizeEnd={onResizeEnd}
-        />
-      </View>
-    </GestureDetector>
+    <View collapsable={false} style={frameStyle}>
+      <GestureDetector gesture={composed}>
+        <View collapsable={false} style={styles.itemHit}>
+          <CanvasItemView
+            item={{ ...item, x: 0, y: 0 }}
+            selected={selected}
+            editing={editing}
+            scale={scale}
+            gestureManaged
+            holdProgress={holdProgress}
+            onSelect={() => onSelect(item.id)}
+            onLongPress={() => onLongPressEdit(item.id)}
+            onChangeText={(text) => onChangeText(item.id, text)}
+            onToggleTask={() => onToggleTask(item.id)}
+            onHoldCompleteTask={() => onHoldCompleteTask(item.id)}
+            taskBlocked={taskBlocked}
+            onToggleCollapse={
+              onToggleCollapse && item.type === 'mindmap'
+                ? () => onToggleCollapse(item.id)
+                : undefined
+            }
+            descendantCount={descendantCount}
+            onEndEdit={onEndEdit}
+          />
+        </View>
+      </GestureDetector>
+      {canResize
+        ? corners.map((corner) => (
+            <ResizeHandle
+              key={corner}
+              corner={corner}
+              size={handleSize}
+              scale={scale}
+              onStart={() => onResizeCornerStart(item.id, corner)}
+              onMove={onResizeCornerMove}
+              onEnd={onResizeCornerEnd}
+            />
+          ))
+        : null}
+    </View>
   );
 });
 
@@ -271,7 +388,7 @@ export function InfiniteCanvas({
     selectInRect,
     clearSelection,
     moveItems,
-    resizeItem,
+    resizeItemBox,
     updateText,
     toggleTask,
     completeTask,
@@ -279,6 +396,13 @@ export function InfiniteCanvas({
     mindMapDepth,
     addDrawingStroke,
     beginHistory,
+    focusedRegionId,
+    enterRegion,
+    exitRegion,
+    exportRegion,
+    updateDrawingStyle,
+    deleteSelected,
+    setDrawColor,
   } = useBoard();
 
   const scale = useSharedValue(0.7);
@@ -292,6 +416,7 @@ export function InfiniteCanvas({
   const [editingId, setEditingId] = useState<string | null>(null);
   const [scaleState, setScaleState] = useState(0.7);
   const [dragVisual, setDragVisual] = useState<DragVisual | null>(null);
+  const [holdState, setHoldState] = useState<{ id: string; progress: number } | null>(null);
   const [liveStroke, setLiveStroke] = useState<{
     color: string;
     width: number;
@@ -306,6 +431,8 @@ export function InfiniteCanvas({
 
   const didInitialFit = useRef(false);
   const lastViewport = useRef({ w: viewportWidth, h: viewportHeight });
+  const lastFitRequest = useRef(0);
+  const lastFocusedRegionId = useRef<string | null>(null);
   const toolRef = useRef(tool);
   const selectedRef = useRef(selectedIds);
   const scaleRef = useRef(scaleState);
@@ -313,12 +440,14 @@ export function InfiniteCanvas({
   const dragCommittedRef = useRef(false);
   const liveStrokeRef = useRef<{ x: number; y: number }[]>([]);
   const strokeRafRef = useRef<number | null>(null);
+  const holdTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const resizeRef = useRef<{
     id: string;
+    corner: ResizeCorner;
+    startX: number;
+    startY: number;
     startW: number;
     startH: number;
-    pageX: number;
-    pageY: number;
   } | null>(null);
 
   toolRef.current = tool;
@@ -365,7 +494,9 @@ export function InfiniteCanvas({
   }, [applyTransform, currentBoard.items, viewportHeight, viewportWidth]);
 
   useEffect(() => {
-    if (fitRequest > 0) fitBoard();
+    if (fitRequest <= 0 || fitRequest === lastFitRequest.current) return;
+    lastFitRequest.current = fitRequest;
+    fitBoard();
   }, [fitRequest, fitBoard]);
 
   useEffect(() => {
@@ -379,7 +510,9 @@ export function InfiniteCanvas({
       ty.value,
     );
     applyTransform(next.scale, next.tx, next.ty);
-  }, [zoomRequest, applyTransform, scale, tx, ty, viewportHeight, viewportWidth]);
+    // tokenized request — only zoomRequest identity should re-run
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [zoomRequest]);
 
   useEffect(() => {
     if (!centerRequest) return;
@@ -391,7 +524,34 @@ export function InfiniteCanvas({
       viewportHeight,
     );
     applyTransform(next.scale, next.tx, next.ty);
-  }, [centerRequest, applyTransform, scale, viewportHeight, viewportWidth]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [centerRequest]);
+
+  const focusedRegion = useMemo(() => {
+    if (!focusedRegionId) return null;
+    const it = currentBoard.items.find((i) => i.id === focusedRegionId && i.type === 'region');
+    return it && it.type === 'region' ? it : null;
+  }, [currentBoard.items, focusedRegionId]);
+
+  useEffect(() => {
+    if (focusedRegionId === lastFocusedRegionId.current) return;
+    lastFocusedRegionId.current = focusedRegionId;
+    if (!focusedRegionId || !focusedRegion) return;
+    const t = fitTransform(
+      viewportWidth,
+      viewportHeight,
+      focusedRegion.x,
+      focusedRegion.y,
+      focusedRegion.x + focusedRegion.width,
+      focusedRegion.y + focusedRegion.height,
+      40,
+    );
+    applyTransform(t.scale, t.tx, t.ty);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [focusedRegionId, focusedRegion]);
+
+  const canvasFill =
+    focusedRegion?.frameColor ?? focusedRegion?.backgroundColor ?? colors.canvas;
 
   useEffect(() => {
     if (viewportWidth < 32 || viewportHeight < 32) return;
@@ -529,8 +689,8 @@ export function InfiniteCanvas({
         .onUpdate((e) => {
           'worklet';
           const next = Math.min(
-            GESTURE.PINCH_MAX_SCALE,
-            Math.max(GESTURE.PINCH_MIN_SCALE, savedScale.value * e.scale),
+            MAX_SCALE,
+            Math.max(MIN_SCALE, savedScale.value * e.scale),
           );
           const worldX = (e.focalX - savedTx.value) / savedScale.value;
           const worldY = (e.focalY - savedTy.value) / savedScale.value;
@@ -659,17 +819,29 @@ export function InfiniteCanvas({
 
   const composed = useMemo(() => {
     if (tool === 'draw') {
-      return Gesture.Simultaneous(navigationGesture, drawGesture);
+      // One finger draws; two-finger pan is exclusive alternative; pinch simultaneous.
+      return Gesture.Simultaneous(
+        pinchGesture,
+        Gesture.Exclusive(drawGesture, twoFingerPan),
+      );
     }
     return Gesture.Simultaneous(
       navigationGesture,
       Gesture.Exclusive(longPressGesture, marqueeGesture, tapGesture),
     );
-  }, [tool, navigationGesture, drawGesture, longPressGesture, marqueeGesture, tapGesture]);
+  }, [
+    tool,
+    pinchGesture,
+    drawGesture,
+    twoFingerPan,
+    navigationGesture,
+    longPressGesture,
+    marqueeGesture,
+    tapGesture,
+  ]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: tx.value }, { translateY: ty.value }, { scale: scale.value }],
-    transformOrigin: 'top left',
   }));
 
   const onSelectItem = useCallback(
@@ -685,11 +857,94 @@ export function InfiniteCanvas({
     (id: string) => {
       select([id], false);
       const item = currentBoard.items.find((it) => it.id === id);
-      if (item && (item.type === 'text' || item.type === 'task' || item.type === 'mindmap')) {
+      if (!item) return;
+      if (item.type === 'text' || item.type === 'task' || item.type === 'mindmap') {
         setEditingId(id);
+        return;
+      }
+      if (item.type === 'drawing') {
+        void hapticImpact('medium');
+        Alert.alert('Edit stroke', 'Adjust ink on this drawing', [
+          {
+            text: 'Thinner',
+            onPress: () => updateDrawingStyle(id, { width: Math.max(1, (item.paths[0]?.width ?? 3) - 1) }),
+          },
+          {
+            text: 'Thicker',
+            onPress: () => updateDrawingStyle(id, { width: Math.min(24, (item.paths[0]?.width ?? 3) + 2) }),
+          },
+          {
+            text: 'Use palette color',
+            onPress: () => {
+              updateDrawingStyle(id, { color: drawColor });
+              setDrawColor(drawColor);
+            },
+          },
+          {
+            text: 'Delete',
+            style: 'destructive',
+            onPress: () => {
+              select([id], false);
+              deleteSelected();
+              onToast('Stroke deleted');
+            },
+          },
+          { text: 'Cancel', style: 'cancel' },
+        ]);
+        return;
+      }
+      if (item.type === 'region') {
+        void hapticImpact('medium');
+        Alert.alert(item.label || 'Region', undefined, [
+          {
+            text: 'Enter region',
+            onPress: () => {
+              enterRegion(id);
+              onToast(`Inside ${item.label || 'region'}`);
+            },
+          },
+          {
+            text: 'Export Markdown',
+            onPress: async () => {
+              const result = exportRegion(id, 'markdown');
+              if (!result.ok || !result.text) {
+                Alert.alert('Export failed', result.error ?? 'Unknown error');
+                return;
+              }
+              const ok = await shareText(result.text, 'Export region', {
+                filename: 'fieldnote-region.md',
+                mimeType: 'text/markdown',
+              });
+              onToast(ok ? 'Region shared' : 'Could not share');
+            },
+          },
+          {
+            text: 'Export .canvas',
+            onPress: async () => {
+              const result = exportRegion(id, 'canvas');
+              if (!result.ok || !result.text) {
+                Alert.alert('Export failed', result.error ?? 'Unknown error');
+                return;
+              }
+              const ok = await shareText(result.text, 'Export region canvas');
+              onToast(ok ? 'Region .canvas shared' : 'Could not share');
+            },
+          },
+          { text: 'Cancel', style: 'cancel' },
+        ]);
       }
     },
-    [currentBoard.items, select],
+    [
+      currentBoard.items,
+      deleteSelected,
+      drawColor,
+      enterRegion,
+      exportRegion,
+      onToast,
+      select,
+      setDrawColor,
+      updateDrawingStyle,
+    ],
   );
 
   const onDragStart = useCallback(
@@ -741,27 +996,93 @@ export function InfiniteCanvas({
   }, [beginHistory, moveItems]);
 
   const startResize = useCallback(
-    (id: string, width: number, height: number, pageX: number, pageY: number) => {
-      resizeRef.current = { id, startW: width, startH: height, pageX, pageY };
+    (id: string, corner: ResizeCorner) => {
+      const item = currentBoard.items.find((it) => it.id === id);
+      if (!item) return;
+      resizeRef.current = {
+        id,
+        corner,
+        startX: item.x,
+        startY: item.y,
+        startW: item.width,
+        startH: item.height,
+      };
       beginHistory();
       select([id], false);
     },
-    [beginHistory, select],
+    [beginHistory, currentBoard.items, select],
   );
 
   const moveResize = useCallback(
-    (pageX: number, pageY: number) => {
+    (dxWorld: number, dyWorld: number) => {
       const r = resizeRef.current;
       if (!r) return;
-      const s = scaleRef.current || 1;
-      resizeItem(r.id, r.startW + (pageX - r.pageX) / s, r.startH + (pageY - r.pageY) / s, false);
+      const { startX, startY, startW, startH, corner: c } = r;
+      let x = startX;
+      let y = startY;
+      let w = startW;
+      let h = startH;
+      if (c === 'se') {
+        w = startW + dxWorld;
+        h = startH + dyWorld;
+      } else if (c === 'sw') {
+        w = startW - dxWorld;
+        h = startH + dyWorld;
+        x = startX + dxWorld;
+      } else if (c === 'ne') {
+        w = startW + dxWorld;
+        h = startH - dyWorld;
+        y = startY + dyWorld;
+      } else {
+        w = startW - dxWorld;
+        h = startH - dyWorld;
+        x = startX + dxWorld;
+        y = startY + dyWorld;
+      }
+      if (w < MIN_BOX_W) {
+        if (c === 'nw' || c === 'sw') x = startX + startW - MIN_BOX_W;
+        w = MIN_BOX_W;
+      }
+      if (h < MIN_BOX_H) {
+        if (c === 'nw' || c === 'ne') y = startY + startH - MIN_BOX_H;
+        h = MIN_BOX_H;
+      }
+      resizeItemBox(r.id, { x, y, width: w, height: h }, false);
     },
-    [resizeItem],
+    [resizeItemBox],
   );
 
   const endResize = useCallback(() => {
     resizeRef.current = null;
   }, []);
+
+  const clearHoldTimer = useCallback(() => {
+    if (holdTimerRef.current) {
+      clearInterval(holdTimerRef.current);
+      holdTimerRef.current = null;
+    }
+  }, []);
+
+  const onTaskHoldBegin = useCallback(
+    (id: string) => {
+      clearHoldTimer();
+      const started = Date.now();
+      setHoldState({ id, progress: 0.05 });
+      holdTimerRef.current = setInterval(() => {
+        const p = Math.min(0.99, (Date.now() - started) / 3000);
+        setHoldState({ id, progress: p });
+      }, 50);
+    },
+    [clearHoldTimer],
+  );
+
+  const onTaskHoldEnd = useCallback(
+    (id: string) => {
+      clearHoldTimer();
+      setHoldState((prev) => (prev?.id === id ? null : prev));
+    },
+    [clearHoldTimer],
+  );
 
   // Stable z-order render: lower first, selected later for handles.
   const sortedItems = useMemo(() => {
@@ -789,19 +1110,29 @@ export function InfiniteCanvas({
 
   const onHoldComplete = useCallback(
     (id: string) => {
+      clearHoldTimer();
+      setHoldState(null);
       const result = completeTask(id);
       if (!result.ok && result.reason) onToast(result.reason);
       else if (result.ok) onToast('Task complete');
     },
-    [completeTask, onToast],
+    [clearHoldTimer, completeTask, onToast],
   );
 
   return (
-    <View style={[styles.root, { width: viewportWidth, height: viewportHeight }]}>
+    <View
+      style={[
+        styles.root,
+        { width: viewportWidth, height: viewportHeight, backgroundColor: canvasFill },
+      ]}
+    >
       <GestureDetector gesture={composed}>
         <View style={styles.gesturePlane} collapsable={false}>
-          <Animated.View style={[styles.world, animatedStyle]} collapsable={false}>
-            <GridBackground worldSize={WORLD} />
+          <Animated.View
+            style={[styles.world, styles.worldOrigin, animatedStyle]}
+            collapsable={false}
+          >
+            <GridBackground worldSize={WORLD} fillColor={canvasFill} />
             <ConnectorLayer items={currentBoard.items} worldSize={WORLD} />
             {sortedItems.map((item) => {
               const selected = selectedIds.includes(item.id);
@@ -818,6 +1149,7 @@ export function InfiniteCanvas({
                   tool={tool}
                   dragDx={dragging ? dragVisual!.dx : 0}
                   dragDy={dragging ? dragVisual!.dy : 0}
+                  holdProgress={holdState?.id === item.id ? holdState.progress : 0}
                   onSelect={onSelectItem}
                   onLongPressEdit={onLongPressEdit}
                   onDragStart={onDragStart}
@@ -825,6 +1157,8 @@ export function InfiniteCanvas({
                   onDragEnd={onDragEndStable}
                   onChangeText={updateText}
                   onToggleTask={onToggleTaskMsg}
+                  onTaskHoldBegin={onTaskHoldBegin}
+                  onTaskHoldEnd={onTaskHoldEnd}
                   onHoldCompleteTask={onHoldComplete}
                   taskBlocked={blocked}
                   onToggleCollapse={toggleMindMapCollapse}
@@ -832,9 +1166,9 @@ export function InfiniteCanvas({
                     item.type === 'mindmap' ? descendantCount(item, currentBoard.items) : 0
                   }
                   onEndEdit={() => setEditingId(null)}
-                  onResizeStart={startResize}
-                  onResizeMove={moveResize}
-                  onResizeEnd={endResize}
+                  onResizeCornerStart={startResize}
+                  onResizeCornerMove={moveResize}
+                  onResizeCornerEnd={endResize}
                 />
               );
             })}
@@ -864,6 +1198,21 @@ export function InfiniteCanvas({
           </Animated.View>
         </View>
       </GestureDetector>
+      {focusedRegion ? (
+        <Pressable
+          style={styles.exitRegion}
+          onPress={() => {
+            exitRegion();
+            onToast('Left region');
+          }}
+          accessibilityLabel={`Exit ${focusedRegion.label || 'region'}`}
+        >
+          <Ionicons name="arrow-back" size={16} color={colors.cream} />
+          <Text style={styles.exitRegionText} numberOfLines={1}>
+            {focusedRegion.label || 'Region'}
+          </Text>
+        </Pressable>
+      ) : null}
     </View>
   );
 }
@@ -898,11 +1247,51 @@ const styles = StyleSheet.create({
   },
   gesturePlane: {
     ...StyleSheet.absoluteFill,
-    backgroundColor: colors.canvas,
+    backgroundColor: 'transparent',
   },
   world: {
     width: WORLD,
     height: WORLD,
-    backgroundColor: colors.canvas,
+    backgroundColor: 'transparent',
+  },
+  worldOrigin: {
+    // Keep camera math (screen = world * scale + translate) aligned on Android.
+    transformOrigin: 'top left',
+  },
+  itemHit: {
+    width: '100%',
+    height: '100%',
+  },
+  resizeHandle: {
+    position: 'absolute',
+    backgroundColor: colors.paperStrong,
+    borderWidth: 2,
+    borderColor: colors.ink,
+    zIndex: 20,
+    elevation: 12,
+  },
+  resizeHandlePrimary: {
+    backgroundColor: colors.clayDeep,
+    borderColor: colors.cream,
+  },
+  exitRegion: {
+    position: 'absolute',
+    top: 12,
+    left: 12,
+    zIndex: 40,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    maxWidth: 220,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 12,
+    backgroundColor: colors.walnut,
+  },
+  exitRegionText: {
+    color: colors.cream,
+    fontWeight: '700',
+    fontSize: 13,
+    flexShrink: 1,
   },
 });

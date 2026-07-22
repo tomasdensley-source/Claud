@@ -7,13 +7,21 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Board, BoardItem, DraftBoardItem, PanelKind } from '../types';
+import { Board, BoardItem, DraftBoardItem, Landmark, PanelKind } from '../types';
 import { createMainBoard, uid } from '../lib/seed';
-import { clearAllBoards, loadBoards, saveBoards } from '../lib/storage';
+import {
+  archiveBoardLocal,
+  clearAllBoards,
+  loadBoards,
+  loadLandmarks,
+  removeLandmark,
+  saveBoards,
+  saveLandmark,
+} from '../lib/storage';
 import { colors } from '../theme';
 import { canCompleteTask, syncConnectorGlow } from '../lib/taskGraph';
 import { tidyMindMap, toggleCollapsed } from '../lib/mindMap';
-import { assignRegionParents } from '../lib/regions';
+import { assignRegionParents, regionToJsonCanvas, regionToMarkdown } from '../lib/regions';
 import {
   boardToJsonCanvas,
   jsonCanvasToItems,
@@ -40,6 +48,8 @@ interface BoardContextValue {
   canRedo: boolean;
   lastSavedAt: number | null;
   itemCount: number;
+  focusedRegionId: string | null;
+  landmarks: Landmark[];
   setPanel: (p: PanelKind) => void;
   setTool: (t: Tool) => void;
   setDrawColor: (c: string) => void;
@@ -52,6 +62,11 @@ interface BoardContextValue {
   updateItems: (updater: (items: BoardItem[]) => BoardItem[], pushHistory?: boolean) => void;
   moveItems: (ids: string[], dx: number, dy: number, commit?: boolean) => void;
   resizeItem: (id: string, width: number, height: number, commit?: boolean) => void;
+  resizeItemBox: (
+    id: string,
+    next: { x: number; y: number; width: number; height: number },
+    commit?: boolean,
+  ) => void;
   updateText: (id: string, text: string) => void;
   toggleTask: (id: string) => { ok: boolean; reason?: string };
   completeTask: (id: string) => { ok: boolean; reason?: string };
@@ -73,6 +88,17 @@ interface BoardContextValue {
   renameBoard: (id: string, name: string) => void;
   switchBoard: (id: string) => void;
   deleteBoard: (id: string) => void;
+  duplicateBoard: (id: string) => void;
+  archiveBoard: (id: string) => Promise<void>;
+  enterRegion: (regionId: string) => void;
+  exitRegion: () => void;
+  exportRegion: (
+    regionId: string,
+    format: 'markdown' | 'canvas',
+  ) => { ok: boolean; text?: string; error?: string };
+  updateDrawingStyle: (id: string, patch: { color?: string; width?: number }) => void;
+  addLandmarkAt: (name: string, x: number, y: number, zoom?: number) => Promise<Landmark>;
+  deleteLandmark: (id: string) => Promise<void>;
   undo: () => void;
   redo: () => void;
   beginHistory: () => void;
@@ -108,6 +134,8 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
   const [future, setFuture] = useState<Board[][]>([]);
   const [lastSavedAt, setLastSavedAt] = useState<number | null>(null);
   const [mindMapDepth, setMindMapDepth] = useState<number | 'all'>('all');
+  const [focusedRegionId, setFocusedRegionId] = useState<string | null>(null);
+  const [landmarks, setLandmarks] = useState<Landmark[]>([]);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const boardsRef = useRef(boards);
   const currentBoardIdRef = useRef(currentBoardId);
@@ -147,6 +175,17 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
       if (saveTimer.current) clearTimeout(saveTimer.current);
     };
   }, [boards, currentBoardId, ready]);
+
+  useEffect(() => {
+    if (!ready) return;
+    let cancelled = false;
+    void loadLandmarks(currentBoardId).then((list) => {
+      if (!cancelled) setLandmarks(list);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [currentBoardId, ready]);
 
   const currentBoard = useMemo(
     () => boards.find((b) => b.id === currentBoardId) ?? boards[0],
@@ -281,15 +320,48 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     [updateItems],
   );
 
+  const resizeItemBox = useCallback(
+    (
+      id: string,
+      next: { x: number; y: number; width: number; height: number },
+      commit = false,
+    ) => {
+      updateItems(
+        (items) =>
+          items.map((it) =>
+            it.id === id
+              ? {
+                  ...it,
+                  x: next.x,
+                  y: next.y,
+                  width: Math.max(72, next.width),
+                  height: Math.max(56, next.height),
+                }
+              : it,
+          ),
+        commit,
+      );
+    },
+    [updateItems],
+  );
+
   const updateText = useCallback(
     (id: string, text: string) => {
       updateItems(
         (items) =>
-          items.map((it) =>
-            it.id === id && (it.type === 'text' || it.type === 'task' || it.type === 'mindmap')
-              ? { ...it, text }
-              : it,
-          ),
+          items.map((it) => {
+            if (it.id !== id) return it;
+            if (it.type === 'text') {
+              const markdown =
+                it.markdown ||
+                /(^|\n)#{1,3}\s|\*\*[^*]+\*\*|`[^`]+`|(^|\n)[-*+]\s/.test(text);
+              return { ...it, text, markdown: markdown || it.markdown };
+            }
+            if (it.type === 'task' || it.type === 'mindmap') {
+              return { ...it, text };
+            }
+            return it;
+          }),
         false,
       );
     },
@@ -508,6 +580,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     setSelectedIds([]);
     setPanel(null);
     setTool('select');
+    setFocusedRegionId(null);
   }, []);
 
   const deleteBoard = useCallback(
@@ -520,9 +593,122 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
         return next;
       });
       setSelectedIds([]);
+      setFocusedRegionId(null);
     },
     [pushHistory],
   );
+
+  const duplicateBoard = useCallback(
+    (id: string) => {
+      const src = boardsRef.current.find((b) => b.id === id);
+      if (!src) return;
+      pushHistory();
+      const copy = cloneBoards([src])[0];
+      copy.id = uid('board');
+      copy.name = `${src.name} copy`;
+      copy.updatedAt = Date.now();
+      copy.archived = false;
+      setBoards((prev) => [...prev, copy]);
+      setCurrentBoardId(copy.id);
+      setSelectedIds([]);
+      setFocusedRegionId(null);
+      setTool('select');
+    },
+    [pushHistory],
+  );
+
+  const archiveBoard = useCallback(
+    async (id: string) => {
+      if (boardsRef.current.length <= 1) return;
+      const board = boardsRef.current.find((b) => b.id === id);
+      if (!board) return;
+      pushHistory();
+      await archiveBoardLocal(board);
+      setBoards((prev) => {
+        const next = prev.filter((b) => b.id !== id);
+        if (id === currentBoardIdRef.current && next[0]) setCurrentBoardId(next[0].id);
+        return next;
+      });
+      setSelectedIds([]);
+      setFocusedRegionId(null);
+    },
+    [pushHistory],
+  );
+
+  const enterRegion = useCallback((regionId: string) => {
+    const board = boardsRef.current.find((b) => b.id === currentBoardIdRef.current);
+    const region = board?.items.find((it) => it.id === regionId && it.type === 'region');
+    if (!region) return;
+    setFocusedRegionId(regionId);
+    setSelectedIds([]);
+    setPanel(null);
+    void hapticSuccess();
+  }, []);
+
+  const exitRegion = useCallback(() => {
+    setFocusedRegionId(null);
+  }, []);
+
+  const exportRegion = useCallback(
+    (regionId: string, format: 'markdown' | 'canvas') => {
+      const board = boardsRef.current.find((b) => b.id === currentBoardIdRef.current);
+      if (!board) return { ok: false as const, error: 'No board' };
+      const region = board.items.find((it) => it.id === regionId && it.type === 'region');
+      if (!region) return { ok: false as const, error: 'Region not found' };
+      try {
+        const text =
+          format === 'markdown'
+            ? regionToMarkdown(board.items, regionId)
+            : regionToJsonCanvas(board, regionId);
+        return { ok: true as const, text };
+      } catch (e) {
+        return { ok: false as const, error: String(e) };
+      }
+    },
+    [],
+  );
+
+  const updateDrawingStyle = useCallback(
+    (id: string, patch: { color?: string; width?: number }) => {
+      updateItems((items) =>
+        items.map((it) => {
+          if (it.id !== id || it.type !== 'drawing') return it;
+          return {
+            ...it,
+            paths: it.paths.map((p) => ({
+              ...p,
+              color: patch.color ?? p.color,
+              width: patch.width ?? p.width,
+            })),
+          };
+        }),
+      );
+    },
+    [updateItems],
+  );
+
+  const addLandmarkAt = useCallback(
+    async (name: string, x: number, y: number, zoom?: number) => {
+      const landmark: Landmark = {
+        id: uid('lm'),
+        boardId: currentBoardIdRef.current,
+        name: name.trim() || 'Place',
+        x,
+        y,
+        zoom,
+        createdAt: Date.now(),
+      };
+      await saveLandmark(landmark);
+      setLandmarks((prev) => [landmark, ...prev.filter((l) => l.id !== landmark.id)]);
+      return landmark;
+    },
+    [],
+  );
+
+  const deleteLandmark = useCallback(async (id: string) => {
+    await removeLandmark(id);
+    setLandmarks((prev) => prev.filter((l) => l.id !== id));
+  }, []);
 
   const undo = useCallback(() => {
     setHistory((h) => {
@@ -556,6 +742,8 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     setFuture([]);
     setTool('select');
     setPanel(null);
+    setFocusedRegionId(null);
+    setLandmarks([]);
   }, []);
 
   const appendDrawingPoint = useCallback(
@@ -685,6 +873,8 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     canRedo: future.length > 0,
     lastSavedAt,
     itemCount,
+    focusedRegionId,
+    landmarks,
     setPanel,
     setTool,
     setDrawColor: setDrawColorState,
@@ -697,6 +887,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     updateItems,
     moveItems,
     resizeItem,
+    resizeItemBox,
     updateText,
     toggleTask,
     completeTask,
@@ -718,6 +909,14 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     renameBoard,
     switchBoard,
     deleteBoard,
+    duplicateBoard,
+    archiveBoard,
+    enterRegion,
+    exitRegion,
+    exportRegion,
+    updateDrawingStyle,
+    addLandmarkAt,
+    deleteLandmark,
     undo,
     redo,
     beginHistory,

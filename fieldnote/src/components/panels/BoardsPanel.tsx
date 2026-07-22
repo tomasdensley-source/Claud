@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Alert, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ModalShell } from './ModalShell';
@@ -18,20 +18,28 @@ export function BoardsPanel({ visible, onClose }: Props) {
     switchBoard,
     renameBoard,
     deleteBoard,
+    duplicateBoard,
+    archiveBoard,
   } = useBoard();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [name, setName] = useState('');
+
+  const sorted = useMemo(
+    () => [...boards].sort((a, b) => b.updatedAt - a.updatedAt),
+    [boards],
+  );
 
   return (
     <ModalShell
       visible={visible}
       onClose={onClose}
       title="Saved boards"
-      subtitle="Everything stays on this device."
+      subtitle="Recents first. Everything stays on this device."
       icon="grid-outline"
     >
       <Pressable
         style={styles.newBtn}
+        accessibilityLabel="Create new board"
         onPress={() => {
           createBoard();
           onClose();
@@ -41,13 +49,14 @@ export function BoardsPanel({ visible, onClose }: Props) {
         <Text style={styles.newText}>New board</Text>
       </Pressable>
 
-      {boards.map((board) => {
+      {sorted.map((board) => {
         const active = board.id === currentBoard.id;
         const editing = editingId === board.id;
         return (
           <Pressable
             key={board.id}
             style={[styles.row, active && styles.rowActive]}
+            accessibilityLabel={`${board.name}${active ? ', current' : ''}`}
             onPress={() => {
               switchBoard(board.id);
               onClose();
@@ -93,21 +102,36 @@ export function BoardsPanel({ visible, onClose }: Props) {
               </Text>
             </View>
             {active ? <Ionicons name="checkmark-circle" size={20} color={colors.clayDeep} /> : null}
+            <Pressable
+              hitSlop={8}
+              accessibilityLabel={`Duplicate ${board.name}`}
+              onPress={() => {
+                duplicateBoard(board.id);
+                onClose();
+              }}
+            >
+              <Ionicons name="copy-outline" size={18} color={colors.mutedInk} />
+            </Pressable>
             {!active ? (
               <Pressable
+                hitSlop={8}
+                accessibilityLabel={`Archive or delete ${board.name}`}
                 onPress={() => {
-                  Alert.alert('Delete board?', board.name, [
-                    { text: 'Cancel', style: 'cancel' },
+                  Alert.alert(board.name, undefined, [
+                    {
+                      text: 'Archive',
+                      onPress: () => void archiveBoard(board.id),
+                    },
                     {
                       text: 'Delete',
                       style: 'destructive',
                       onPress: () => deleteBoard(board.id),
                     },
+                    { text: 'Cancel', style: 'cancel' },
                   ]);
                 }}
-                hitSlop={8}
               >
-                <Ionicons name="trash-outline" size={18} color={colors.mutedInk} />
+                <Ionicons name="ellipsis-horizontal" size={18} color={colors.mutedInk} />
               </Pressable>
             ) : null}
           </Pressable>

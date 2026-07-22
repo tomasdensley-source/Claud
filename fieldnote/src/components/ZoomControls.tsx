@@ -2,6 +2,7 @@ import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, radii, shadows } from '../theme';
+import { formatZoomPercent } from '../lib/camera';
 
 interface Props {
   scale: number;
@@ -37,8 +38,8 @@ export function ZoomControls({
   onRedo,
   onBringFront,
   onSendBack,
-  minScale = 0.25,
-  maxScale = 2.5,
+  minScale = 0.02,
+  maxScale = 64,
 }: Props) {
   return (
     <View style={styles.wrap}>
@@ -89,7 +90,7 @@ export function ZoomControls({
           <Ionicons name="remove" size={20} color={colors.cream} />
         </Pressable>
         <Pressable onPress={onResetZoom} style={styles.zoomPct} accessibilityLabel="Reset zoom">
-          <Text style={styles.zoomText}>{Math.round(scale * 100)}%</Text>
+          <Text style={styles.zoomText}>{formatZoomPercent(scale)}</Text>
         </Pressable>
         <Pressable
           onPress={onZoomIn}
@@ -142,14 +143,14 @@ const styles = StyleSheet.create({
     opacity: 0.35,
   },
   zoomPct: {
-    minWidth: 48,
+    minWidth: 64,
     alignItems: 'center',
-    paddingHorizontal: 4,
+    paddingHorizontal: 6,
   },
   zoomText: {
     color: colors.cream,
-    fontWeight: '600',
-    fontSize: 13,
+    fontWeight: '700',
+    fontSize: 12,
   },
   divider: {
     width: 1,

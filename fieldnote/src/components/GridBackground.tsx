@@ -6,10 +6,11 @@ const STEP = 80;
 
 interface Props {
   worldSize: number;
+  fillColor?: string;
 }
 
 /** Subtle paper grid drawn once under board items. */
-export function GridBackground({ worldSize }: Props) {
+export function GridBackground({ worldSize, fillColor }: Props) {
   const lines = useMemo(() => {
     const count = Math.ceil(worldSize / STEP);
     const vertical = Array.from({ length: count + 1 }, (_, i) => i * STEP);
@@ -18,7 +19,17 @@ export function GridBackground({ worldSize }: Props) {
   }, [worldSize]);
 
   return (
-    <View style={[styles.root, { width: worldSize, height: worldSize }]} pointerEvents="none">
+    <View
+      style={[
+        styles.root,
+        {
+          width: worldSize,
+          height: worldSize,
+          backgroundColor: fillColor ?? colors.canvas,
+        },
+      ]}
+      pointerEvents="none"
+    >
       {lines.vertical.map((x) => (
         <View key={`v-${x}`} style={[styles.v, { left: x }]} />
       ))}

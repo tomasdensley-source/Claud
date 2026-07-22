@@ -11,6 +11,7 @@ import Svg, { Ellipse, Line, Path, Rect as SvgRect } from 'react-native-svg';
 import { BoardItem } from '../types';
 import { colors, radii, shadows } from '../theme';
 import { SEED_IMAGES } from '../lib/seedImages';
+import { MarkdownView, looksLikeMarkdown } from './MarkdownView';
 
 interface Props {
   item: BoardItem;
@@ -18,6 +19,8 @@ interface Props {
   editing: boolean;
   scale: number;
   gestureManaged?: boolean;
+  /** External 0–1 hold progress for task water-flow (gesture-driven). */
+  holdProgress?: number;
   onSelect: () => void;
   onLongPress: () => void;
   onChangeText: (text: string) => void;
@@ -27,9 +30,6 @@ interface Props {
   onToggleCollapse?: () => void;
   descendantCount?: number;
   onEndEdit: () => void;
-  onResizeStart?: (pageX: number, pageY: number) => void;
-  onResizeMove?: (pageX: number, pageY: number) => void;
-  onResizeEnd?: () => void;
 }
 
 function pointsToPath(points: { x: number; y: number }[]): string {
@@ -43,8 +43,9 @@ export function CanvasItemView({
   item,
   selected,
   editing,
-  scale,
+  scale: _scale,
   gestureManaged = false,
+  holdProgress: holdProgressProp,
   onSelect,
   onLongPress,
   onChangeText,
@@ -54,14 +55,11 @@ export function CanvasItemView({
   onToggleCollapse,
   descendantCount = 0,
   onEndEdit,
-  onResizeStart,
-  onResizeMove,
-  onResizeEnd,
 }: Props) {
-  const handleSize = Math.max(14, 16 / scale);
-  const [holdProgress, setHoldProgress] = useState(0);
+  const [localHold, setLocalHold] = useState(0);
   const holdTimer = useRef<ReturnType<typeof setInterval> | null>(null);
   const holdStarted = useRef(0);
+  const holdProgress = holdProgressProp ?? localHold;
 
   useEffect(() => {
     return () => {
@@ -72,10 +70,11 @@ export function CanvasItemView({
   const stopHold = () => {
     if (holdTimer.current) clearInterval(holdTimer.current);
     holdTimer.current = null;
-    setHoldProgress(0);
+    setLocalHold(0);
   };
 
   const startHold = () => {
+    if (gestureManaged) return;
     if (item.type !== 'task' || item.done) {
       onToggleTask();
       return;
@@ -85,11 +84,11 @@ export function CanvasItemView({
       return;
     }
     holdStarted.current = Date.now();
-    setHoldProgress(0.05);
+    setLocalHold(0.05);
     holdTimer.current = setInterval(() => {
       const elapsed = Date.now() - holdStarted.current;
       const p = Math.min(1, elapsed / 3000);
-      setHoldProgress(p);
+      setLocalHold(p);
       if (p >= 1) {
         stopHold();
         onHoldCompleteTask?.();
@@ -99,7 +98,9 @@ export function CanvasItemView({
 
   const content = useMemo(() => {
     switch (item.type) {
-      case 'text':
+      case 'text': {
+        const showMarkdown =
+          !editing && (item.markdown === true || looksLikeMarkdown(item.text || ''));
         if (editing) {
           return (
             <TextInput
@@ -116,8 +117,17 @@ export function CanvasItemView({
                   fontWeight: item.fontWeight ?? '400',
                 },
               ]}
-              placeholder="Write something..."
+              placeholder={'# Heading\n\nWrite **markdown**...'}
               placeholderTextColor={colors.mutedInk}
+            />
+          );
+        }
+        if (showMarkdown) {
+          return (
+            <MarkdownView
+              source={item.text || ''}
+              color={item.color ?? colors.ink}
+              fontSize={item.fontSize}
             />
           );
         }
@@ -135,6 +145,7 @@ export function CanvasItemView({
             {item.text || 'Write something...'}
           </Text>
         );
+      }
       case 'image': {
         const source = item.assetKey
           ? SEED_IMAGES[item.assetKey]
@@ -155,6 +166,14 @@ export function CanvasItemView({
               : holdProgress < 0.66
                 ? 0.45
                 : 0.75;
+        const taskBody =
+          !editing && item.markdown && looksLikeMarkdown(item.text || '') ? (
+            <MarkdownView source={item.text || ''} color={colors.ink} fontSize={16} />
+          ) : (
+            <Text style={[styles.taskText, item.done && styles.taskDone]}>
+              {item.text || 'New task'}
+            </Text>
+          );
         return (
           <Pressable
             style={[
@@ -163,10 +182,13 @@ export function CanvasItemView({
                 backgroundColor: item.done
                   ? 'rgba(47,158,107,0.18)'
                   : `rgba(237,182,74,${glow})`,
+                borderRadius: 12,
+                padding: 4,
               },
             ]}
-            onPressIn={startHold}
-            onPressOut={stopHold}
+            onPressIn={gestureManaged ? undefined : startHold}
+            onPressOut={gestureManaged ? undefined : stopHold}
+            pointerEvents={gestureManaged ? 'none' : 'auto'}
           >
             <View style={[styles.checkbox, item.done && styles.checkboxDone]}>
               {item.done ? <Text style={styles.checkMark}>✓</Text> : null}
@@ -181,9 +203,7 @@ export function CanvasItemView({
               />
             ) : (
               <View style={{ flex: 1 }}>
-                <Text style={[styles.taskText, item.done && styles.taskDone]}>
-                  {item.text || 'New task'}
-                </Text>
+                {taskBody}
                 {taskBlocked && !item.done ? (
                   <Text style={styles.blockedHint}>Waiting on water-flow</Text>
                 ) : !item.done ? (
@@ -199,8 +219,8 @@ export function CanvasItemView({
           <View style={styles.mindmap}>
             <View
               style={[
-                styles.mindmapHub,
-                item.branchColor ? { backgroundColor: item.branchColor } : null,
+                styles.mindmapNode,
+                item.branchColor ? { borderColor: item.branchColor } : null,
               ]}
             >
               {editing ? (
@@ -209,30 +229,19 @@ export function CanvasItemView({
                   value={item.text}
                   onChangeText={onChangeText}
                   onBlur={onEndEdit}
-                  style={styles.mindmapHubText}
+                  style={styles.mindmapText}
                 />
               ) : (
-                <Text style={styles.mindmapHubText}>{item.text || 'Idea'}</Text>
+                <Text style={styles.mindmapText}>{item.text || 'Idea'}</Text>
               )}
             </View>
             {onToggleCollapse ? (
-              <Pressable style={styles.collapseBtn} onPress={onToggleCollapse}>
+              <Pressable onPress={onToggleCollapse} style={styles.collapseBtn} hitSlop={8}>
                 <Text style={styles.collapseText}>
                   {item.collapsed ? `▸ ${descendantCount}` : '▾'}
                 </Text>
               </Pressable>
             ) : null}
-            {!item.collapsed ? (
-              <View style={styles.mindmapChildren}>
-                {(item.children.length ? item.children : ['Branch', 'Branch']).map((c, i) => (
-                  <View key={`${c}-${i}`} style={styles.mindmapChild}>
-                    <Text style={styles.mindmapChildText}>{c}</Text>
-                  </View>
-                ))}
-              </View>
-            ) : (
-              <Text style={styles.collapsedMeta}>{descendantCount} hidden</Text>
-            )}
           </View>
         );
       case 'region':
@@ -246,8 +255,6 @@ export function CanvasItemView({
             <Text style={styles.regionLabel}>{item.label || 'Region'}</Text>
           </View>
         );
-      case 'connector':
-        return null;
       case 'shape':
         return (
           <Svg width="100%" height="100%">
@@ -255,8 +262,8 @@ export function CanvasItemView({
               <Ellipse
                 cx="50%"
                 cy="50%"
-                rx="45%"
-                ry="40%"
+                rx="42%"
+                ry="38%"
                 stroke={colors.ink}
                 strokeWidth={3}
                 fill={item.backgroundColor ?? 'transparent'}
@@ -331,6 +338,7 @@ export function CanvasItemView({
     descendantCount,
     taskBlocked,
     holdProgress,
+    gestureManaged,
   ]);
 
   const transparentBg =
@@ -345,67 +353,13 @@ export function CanvasItemView({
         : item.backgroundColor ?? colors.paper,
       borderColor: selected ? colors.selection : 'transparent',
       borderWidth: selected ? 2 : 0,
+      overflow: selected ? ('visible' as const) : ('hidden' as const),
     },
     item.type === 'region' && styles.regionOuter,
   ];
 
-  const handles =
-    selected && !editing ? (
-      <>
-        <View
-          style={[
-            styles.handle,
-            { width: handleSize, height: handleSize, left: -handleSize / 2, top: -handleSize / 2 },
-          ]}
-          pointerEvents="none"
-        />
-        <View
-          style={[
-            styles.handle,
-            { width: handleSize, height: handleSize, right: -handleSize / 2, top: -handleSize / 2 },
-          ]}
-          pointerEvents="none"
-        />
-        <View
-          style={[
-            styles.handle,
-            { width: handleSize, height: handleSize, left: -handleSize / 2, bottom: -handleSize / 2 },
-          ]}
-          pointerEvents="none"
-        />
-        <View
-          style={[
-            styles.handle,
-            styles.resizeHandle,
-            {
-              width: handleSize + 6,
-              height: handleSize + 6,
-              right: -(handleSize + 6) / 2,
-              bottom: -(handleSize + 6) / 2,
-            },
-          ]}
-          onStartShouldSetResponder={() => true}
-          onMoveShouldSetResponder={() => true}
-          onResponderTerminationRequest={() => false}
-          onResponderGrant={(e) => {
-            onResizeStart?.(e.nativeEvent.pageX, e.nativeEvent.pageY);
-          }}
-          onResponderMove={(e) => {
-            onResizeMove?.(e.nativeEvent.pageX, e.nativeEvent.pageY);
-          }}
-          onResponderRelease={() => onResizeEnd?.()}
-          onResponderTerminate={() => onResizeEnd?.()}
-        />
-      </>
-    ) : null;
-
   if (gestureManaged) {
-    return (
-      <View style={shellStyle}>
-        {content}
-        {handles}
-      </View>
-    );
+    return <View style={shellStyle}>{content}</View>;
   }
 
   return (
@@ -416,7 +370,6 @@ export function CanvasItemView({
       style={shellStyle}
     >
       {content}
-      {handles}
     </Pressable>
   );
 }
@@ -470,9 +423,9 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   taskText: {
-    flex: 1,
     color: colors.ink,
-    fontSize: 20,
+    fontSize: 16,
+    fontWeight: '600',
   },
   taskDone: {
     textDecorationLine: 'line-through',
@@ -482,56 +435,34 @@ const styles = StyleSheet.create({
     color: colors.mutedInk,
     fontSize: 11,
     marginTop: 4,
-  },
-  collapseBtn: {
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 999,
-    backgroundColor: 'rgba(52,38,29,0.08)',
-  },
-  collapseText: {
-    color: colors.ink,
-    fontWeight: '700',
-    fontSize: 12,
-  },
-  collapsedMeta: {
-    color: colors.mutedInk,
-    fontSize: 12,
+    fontWeight: '600',
   },
   mindmap: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 14,
-  },
-  mindmapHub: {
-    backgroundColor: colors.clay,
-    paddingHorizontal: 18,
-    paddingVertical: 12,
-    borderRadius: 999,
-  },
-  mindmapHubText: {
-    color: colors.ink,
-    fontWeight: '600',
-    fontSize: 18,
-  },
-  mindmapChildren: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
     justifyContent: 'center',
   },
-  mindmapChild: {
+  mindmapNode: {
+    borderWidth: 2,
+    borderColor: colors.clayDeep,
+    borderRadius: 16,
+    padding: 12,
     backgroundColor: colors.paperStrong,
-    borderRadius: 12,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderWidth: 1,
-    borderColor: 'rgba(52,38,29,0.12)',
   },
-  mindmapChildText: {
+  mindmapText: {
     color: colors.ink,
-    fontSize: 14,
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  collapseBtn: {
+    marginTop: 6,
+    alignSelf: 'flex-start',
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+  },
+  collapseText: {
+    color: colors.mutedInk,
+    fontWeight: '700',
+    fontSize: 12,
   },
   regionOuter: {
     padding: 0,
@@ -565,17 +496,5 @@ const styles = StyleSheet.create({
   fileMeta: {
     color: colors.mutedInk,
     fontSize: 13,
-  },
-  handle: {
-    position: 'absolute',
-    backgroundColor: colors.paperStrong,
-    borderWidth: 2,
-    borderColor: colors.ink,
-    borderRadius: 999,
-  },
-  resizeHandle: {
-    backgroundColor: colors.clayDeep,
-    borderColor: colors.cream,
-    zIndex: 5,
   },
 });

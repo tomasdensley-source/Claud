@@ -9,14 +9,17 @@
  * 5. Tap empty → clear selection / dismiss edit.
  */
 
+import { MAX_SCALE, MIN_SCALE } from './camera';
+
 export const GESTURE = {
   LONG_PRESS_MS: 480,
   LONG_PRESS_MAX_DIST: 22,
   MARQUEE_MIN_DIST: 10,
   OBJECT_DRAG_MIN_DIST: 4,
   NAV_MIN_POINTERS: 2,
-  PINCH_MIN_SCALE: 0.2,
-  PINCH_MAX_SCALE: 2.8,
+  /** Keep pinch limits in sync with camera — near-infinite zoom. */
+  PINCH_MIN_SCALE: MIN_SCALE,
+  PINCH_MAX_SCALE: MAX_SCALE,
 } as const;
 
 export type GestureLane =

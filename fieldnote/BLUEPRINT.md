@@ -16,8 +16,9 @@ Source: product blueprint (gesture priority, Skia canvas, spatial objects, JSON 
 
 ### Priority 2 — Object model + JSON Canvas
 - [x] Expanded types: connectors, dependsOn, locked, parentId, markdown
-- [ ] SQLite persistence layer
+- [x] SQLite persistence layer (dual-write + AsyncStorage migrate)
 - [x] JSON Canvas 1.0 import/export (+ Paste AI Board)
+- [x] Formatted Markdown rendering on text cards
 
 ### Priority 3 — Color system
 - [x] Vertical palette beside toolbar, folded by default
@@ -41,8 +42,15 @@ Source: product blueprint (gesture priority, Skia canvas, spatial objects, JSON 
 
 ### Priority 7 — Regions
 - [x] parentId assignment / nested containment helpers
-- [ ] Zoom-into-region background takeover camera mode
+- [x] Zoom-into-region background takeover camera mode
 
 ### Priority 8–11
-Drawing stroke hold-edit, multi-board home thumbnails, landmarks,
-region export PNG/PDF, SQLite, a11y, full verification.
+- [x] Drawing stroke hold-edit
+- [x] Multi-board duplicate/archive/recents
+- [x] Landmarks / Places
+- [x] Region export Markdown/.canvas
+- [x] Box resize handles (4 corners)
+- [ ] Region PNG/PDF export
+- [ ] Full Skia scene graph
+- [ ] Reduced-motion / a11y pass
+- [ ] Full verification

@@ -1,9 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Board, BoardItem, ItemType } from '../types';
+import { Board, BoardItem, ItemType, Landmark } from '../types';
 import { createMainBoard } from './seed';
+import { sqliteLoadBoards, sqliteSaveBoards } from './sqliteStore';
+
+export type { Landmark };
 
 const STORAGE_KEY = 'fieldnote.boards.v1';
 const CURRENT_KEY = 'fieldnote.currentBoardId.v1';
+const LANDMARKS_KEY = 'fieldnote.landmarks.v1';
+const ARCHIVED_KEY = 'fieldnote.archivedBoards.v1';
 
 const ALLOWED_TYPES = new Set<ItemType>([
   'text',
@@ -199,32 +204,56 @@ function sanitizeBoard(raw: unknown, index: number): Board | null {
     name: asString(board.name, index === 0 ? 'Main board' : `Board ${index + 1}`),
     items,
     updatedAt: asNumber(board.updatedAt, Date.now()),
+    archived: Boolean(board.archived),
+    thumbnailUri: typeof board.thumbnailUri === 'string' ? board.thumbnailUri : undefined,
   };
+}
+
+async function loadFromAsync(): Promise<{ boards: Board[]; currentBoardId: string }> {
+  const [raw, current] = await Promise.all([
+    AsyncStorage.getItem(STORAGE_KEY),
+    AsyncStorage.getItem(CURRENT_KEY),
+  ]);
+  if (!raw) {
+    const main = createMainBoard();
+    return { boards: [main], currentBoardId: main.id };
+  }
+  const parsed = JSON.parse(raw) as unknown;
+  const boards = Array.isArray(parsed)
+    ? parsed
+        .map((board, index) => sanitizeBoard(board, index))
+        .filter((board): board is Board => board !== null)
+        .filter((b) => !b.archived)
+    : [];
+  if (boards.length === 0) {
+    const main = createMainBoard();
+    return { boards: [main], currentBoardId: main.id };
+  }
+  const currentBoardId =
+    current && boards.some((b) => b.id === current) ? current : boards[0].id;
+  return { boards, currentBoardId };
 }
 
 export async function loadBoards(): Promise<{ boards: Board[]; currentBoardId: string }> {
   try {
-    const [raw, current] = await Promise.all([
-      AsyncStorage.getItem(STORAGE_KEY),
-      AsyncStorage.getItem(CURRENT_KEY),
-    ]);
-    if (!raw) {
-      const main = createMainBoard();
-      return { boards: [main], currentBoardId: main.id };
+    const fromSql = await sqliteLoadBoards();
+    if (fromSql && fromSql.boards.length > 0) {
+      const boards = fromSql.boards
+        .map((b, i) => sanitizeBoard(b, i))
+        .filter((b): b is Board => b !== null);
+      if (boards.length > 0) {
+        return {
+          boards,
+          currentBoardId: boards.some((b) => b.id === fromSql.currentBoardId)
+            ? fromSql.currentBoardId
+            : boards[0].id,
+        };
+      }
     }
-    const parsed = JSON.parse(raw) as unknown;
-    const boards = Array.isArray(parsed)
-      ? parsed
-          .map((board, index) => sanitizeBoard(board, index))
-          .filter((board): board is Board => board !== null)
-      : [];
-    if (boards.length === 0) {
-      const main = createMainBoard();
-      return { boards: [main], currentBoardId: main.id };
-    }
-    const currentBoardId =
-      current && boards.some((b) => b.id === current) ? current : boards[0].id;
-    return { boards, currentBoardId };
+    const fromAsync = await loadFromAsync();
+    // Migrate AsyncStorage → SQLite when possible.
+    void sqliteSaveBoards(fromAsync.boards, fromAsync.currentBoardId);
+    return fromAsync;
   } catch {
     const main = createMainBoard();
     return { boards: [main], currentBoardId: main.id };
@@ -236,6 +265,7 @@ export async function saveBoards(boards: Board[], currentBoardId: string): Promi
     await Promise.all([
       AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(boards)),
       AsyncStorage.setItem(CURRENT_KEY, currentBoardId),
+      sqliteSaveBoards(boards, currentBoardId),
     ]);
   } catch (error) {
     console.warn('Fieldnote failed to save boards', error);
@@ -247,4 +277,94 @@ export async function clearAllBoards(): Promise<void> {
     AsyncStorage.removeItem(STORAGE_KEY),
     AsyncStorage.removeItem(CURRENT_KEY),
   ]);
+  try {
+    await sqliteSaveBoards([], 'main');
+  } catch {
+    // ignore
+  }
 }
+
+export async function loadLandmarks(boardId: string): Promise<Landmark[]> {
+  try {
+    const { sqliteListLandmarks } = await import('./sqliteStore');
+    const sql = await sqliteListLandmarks(boardId);
+    if (sql.length > 0) return sql;
+  } catch {
+    // fall through
+  }
+  try {
+    const raw = await AsyncStorage.getItem(LANDMARKS_KEY);
+    if (!raw) return [];
+    const all = JSON.parse(raw) as Landmark[];
+    return Array.isArray(all) ? all.filter((l) => l.boardId === boardId) : [];
+  } catch {
+    return [];
+  }
+}
+
+export async function saveLandmark(landmark: Landmark): Promise<void> {
+  try {
+    const { sqliteUpsertLandmark } = await import('./sqliteStore');
+    await sqliteUpsertLandmark(landmark);
+  } catch {
+    // ignore
+  }
+  try {
+    const raw = await AsyncStorage.getItem(LANDMARKS_KEY);
+    const all: Landmark[] = raw ? (JSON.parse(raw) as Landmark[]) : [];
+    const next = [landmark, ...all.filter((l) => l.id !== landmark.id)].slice(0, 100);
+    await AsyncStorage.setItem(LANDMARKS_KEY, JSON.stringify(next));
+  } catch {
+    // ignore
+  }
+}
+
+export async function removeLandmark(id: string): Promise<void> {
+  try {
+    const { sqliteDeleteLandmark } = await import('./sqliteStore');
+    await sqliteDeleteLandmark(id);
+  } catch {
+    // ignore
+  }
+  try {
+    const raw = await AsyncStorage.getItem(LANDMARKS_KEY);
+    const all: Landmark[] = raw ? (JSON.parse(raw) as Landmark[]) : [];
+    await AsyncStorage.setItem(
+      LANDMARKS_KEY,
+      JSON.stringify(all.filter((l) => l.id !== id)),
+    );
+  } catch {
+    // ignore
+  }
+}
+
+export async function archiveBoardLocal(board: Board): Promise<void> {
+  try {
+    const raw = await AsyncStorage.getItem(ARCHIVED_KEY);
+    const all: Board[] = raw ? (JSON.parse(raw) as Board[]) : [];
+    const next = [{ ...board, archived: true }, ...all.filter((b) => b.id !== board.id)].slice(
+      0,
+      30,
+    );
+    await AsyncStorage.setItem(ARCHIVED_KEY, JSON.stringify(next));
+  } catch {
+    // ignore
+  }
+}
+
+export async function listArchivedBoards(): Promise<Board[]> {
+  try {
+    const raw = await AsyncStorage.getItem(ARCHIVED_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as unknown;
+    return Array.isArray(parsed)
+      ? parsed
+          .map((b, i) => sanitizeBoard(b, i))
+          .filter((b): b is Board => b !== null)
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+export { sanitizeBoard, sanitizeItem };
