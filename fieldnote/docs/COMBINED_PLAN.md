@@ -22,7 +22,7 @@
 | 9 | Audio, playlists, folder tree | [x] |
 | 10 | PDF covers & media polish | [x] |
 | 11 | Multi-board, search, export, AI | [x] |
-| 12 | Premium polish, haptics, EAS verify | [~] |
+| 12 | Premium polish, haptics, EAS verify | [x] |
 
 ---
 
