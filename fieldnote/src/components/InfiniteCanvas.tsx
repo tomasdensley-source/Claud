@@ -11,10 +11,11 @@ import Svg, { Circle, Defs, Pattern, Rect } from 'react-native-svg';
 import { useBoard } from '../store/BoardContext';
 import { colors } from '../theme';
 import { CanvasItemView } from './CanvasItemView';
-import { BoardItem } from '../types';
+import { BoardItem, RegionItem } from '../types';
 import { clampScale } from '../lib/camera';
 import { haptics } from '../lib/haptics';
 import { isTaskBlocked } from '../lib/taskBlocking';
+import { computeRegionDepth, sortItemsForRender } from '../lib/regionLayers';
 
 // Below this pointer velocity (px/s) we don't fling — avoids stray momentum from
 // releasing a pinch or a deliberate stop.
@@ -330,18 +331,28 @@ export function InfiniteCanvas({
     );
   }, []);
 
+  const renderItems = useMemo(
+    () => sortItemsForRender(currentBoard.items),
+    [currentBoard.items],
+  );
+  const regions = useMemo(
+    () => currentBoard.items.filter((it): it is RegionItem => it.type === 'region'),
+    [currentBoard.items],
+  );
+
   return (
     <View style={[styles.root, { width: viewportWidth, height: viewportHeight }]}>
       <GestureDetector gesture={composed}>
         <Animated.View style={[styles.world, animatedStyle]}>
           {grid}
-          {currentBoard.items.map((item) => (
+          {renderItems.map((item) => (
             <CanvasItemView
               key={item.id}
               item={item}
               selected={selectedIds.includes(item.id)}
               editing={editingId === item.id}
               scale={scaleState}
+              regionDepth={item.type === 'region' ? computeRegionDepth(item, regions) : 0}
               onSelect={() => {
                 if (tool === 'multi') select([item.id], true);
                 else select([item.id], false);

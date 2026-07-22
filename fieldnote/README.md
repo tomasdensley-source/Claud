@@ -29,6 +29,8 @@ Built for **Android** (Expo Go + installable APK).
   links); task labels render inline Markdown too
 - Tasks complete with a deliberate 3s hold (progressive glow + haptic pop),
   not an accidental tap; a quick tap only un-completes a done task
+- Colored regions layer as distinct nested background sections — computed
+  purely from geometry (which region contains which), no extra setup
 - Minimap + zoom controls + Fit board
 - Long-press cards to edit; hold empty canvas to open Add
 
@@ -51,6 +53,7 @@ src/
   lib/markdown.ts          Dependency-free Markdown subset (parse only)
   lib/taskBlocking.ts      isTaskBlocked — task dependency primitive
   components/Markdown.tsx Renders parsed Markdown to RN Text/View
+  lib/regionLayers.ts      Region nesting depth + background render order
   components/Palette.tsx  Vertical color palette (frame/body, custom slots)
   components/Toast.tsx    Compact top notification with Undo
   components/              Canvas, toolbar, minimap, panels

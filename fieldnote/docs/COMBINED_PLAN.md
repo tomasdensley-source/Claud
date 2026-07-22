@@ -403,3 +403,26 @@ current; EAS/APK build link attached to the release PR from CI.
   ahead of Batch 8's connectors so that batch only has to add the "glowing arrow"
   visual and a way to draw the link, not invent the underlying logic too.
   Gate: `tsc --noEmit && npm test` (40/40) green.
+- **Batch 7 (partial) — landed.** Region background layering (bug #14). Scoped down
+  from the full Batch 7 ("Mind Maps & Colored Regions") to just the regions half —
+  the mind-map half needs a real data-model decision first: today a `MindMapItem` is
+  one card holding an array of text-label `children` strings, not separate positioned
+  board items connected by real hierarchy. Branch-local collapse with hidden-child
+  counts, a global depth selector, Tidy layout, and subtree movement all assume actual
+  linked node items, which don't exist yet — building any of that now would mean
+  redesigning the mind-map data model first, not a quick addition. Flagging it as its
+  own follow-up rather than attempting a partial version of it.
+  Regions, by contrast, already are real positioned board items, so "distinct nestable
+  background layers" needed no data-model change: new `src/lib/regionLayers.ts`
+  (pure + unit tested) — `computeRegionDepth` counts how many *other* regions fully
+  contain a given region by bounding-box containment (0 = top-level, 1 = nested one
+  level in, ...), and `sortItemsForRender` puts regions first in render order,
+  largest-area first. Turned up a real second issue while wiring this in: React
+  Native's paint order follows each view's `zIndex` *style*, not children array order
+  — so the render-order sort alone would have changed nothing visually. Fixed by also
+  giving regions a computed `zIndex` of `-1000 + depth` (always behind every non-region
+  item; deeper-nested regions still paint over the larger region they sit inside) in
+  `CanvasItemView`, and by giving each nesting depth a distinct tint (not just a
+  darker/lighter version of one color) via a small `REGION_TINTS` lookup — depth 0
+  matches the original single-tint color and opacity exactly, so an existing board
+  with one region looks unchanged. Gate: `tsc --noEmit && npm test` (47/47) green.

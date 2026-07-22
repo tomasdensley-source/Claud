@@ -33,6 +33,21 @@ import {
 // Deliberate hold-to-complete duration for incomplete, unblocked tasks.
 const TASK_HOLD_MS = 3000;
 
+// Distinct tints per region nesting depth (see src/lib/regionLayers.ts). Depth
+// 0 matches the original single-tint color/opacity exactly, so existing
+// boards with one region look unchanged; deeper nesting gets a visibly
+// different hue rather than just a darker version of the same one.
+const REGION_TINTS = [
+  'rgba(233,178,127,0.12)',
+  'rgba(216,230,232,0.20)',
+  'rgba(237,182,74,0.22)',
+  'rgba(203,125,70,0.24)',
+];
+
+function regionTint(depth: number): string {
+  return REGION_TINTS[Math.min(depth, REGION_TINTS.length - 1)];
+}
+
 interface Props {
   item: BoardItem;
   selected: boolean;
@@ -45,6 +60,7 @@ interface Props {
   onEndEdit: () => void;
   onResize: (rect: ResizeRect, commit: boolean) => void;
   blocked?: boolean;
+  regionDepth?: number;
 }
 
 function pointsToPath(points: { x: number; y: number }[]): string {
@@ -66,6 +82,7 @@ export function CanvasItemView({
   onEndEdit,
   onResize,
   blocked = false,
+  regionDepth = 0,
 }: Props) {
   const handleSize = Math.max(10, 12 / scale);
   const taskGlow = useSharedValue(0);
@@ -338,7 +355,15 @@ export function CanvasItemView({
           top: item.y,
           width: item.width,
           height: item.height,
-          zIndex: item.zIndex + (selected ? 1000 : 0),
+          // Regions always paint behind every other item type; deeper-nested
+          // regions still paint over the larger region containing them
+          // (bug #14 — see src/lib/regionLayers.ts). RN's paint order follows
+          // this style, not the children array order, so this — not just
+          // render-order sorting — is what actually makes layering visible.
+          zIndex:
+            item.type === 'region'
+              ? -1000 + regionDepth + (selected ? 1000 : 0)
+              : item.zIndex + (selected ? 1000 : 0),
           backgroundColor: transparentBg
             ? 'transparent'
             : item.backgroundColor ?? colors.paper,
@@ -346,6 +371,7 @@ export function CanvasItemView({
           borderWidth: selected ? 2 : 0,
         },
         item.type === 'region' && styles.regionOuter,
+        item.type === 'region' && { backgroundColor: regionTint(regionDepth) },
       ]}
     >
       <View style={[styles.contentClip, item.type === 'region' && styles.contentClipFlush]}>
