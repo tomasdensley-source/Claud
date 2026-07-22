@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Alert, Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   runOnJS,
@@ -35,6 +35,7 @@ import { isPdfAsset } from '../lib/pdf';
 import { snapPoint } from '../lib/snap';
 import { assignRegionParents } from '../lib/regions';
 import { PdfReaderModal } from './PdfReaderModal';
+import { FloatingActionSheet } from './FloatingActionSheet';
 
 const WORLD = 4000;
 const MIN_BOX_W = 72;
@@ -466,6 +467,11 @@ export function InfiniteCanvas({
     width: number;
     height: number;
   } | null>(null);
+  const [sheet, setSheet] = useState<null | {
+    title: string;
+    actions: { label: string; destructive?: boolean; onPress: () => void }[];
+    anchor?: { x: number; y: number };
+  }>(null);
 
   const didInitialFit = useRef(false);
   const lastViewport = useRef({ w: viewportWidth, h: viewportHeight });
@@ -962,102 +968,110 @@ export function InfiniteCanvas({
       }
       if (item.type === 'drawing') {
         void hapticImpact('medium');
-        Alert.alert('Edit stroke', 'Adjust ink on this drawing', [
-          {
-            text: 'Thinner',
-            onPress: () => updateDrawingStyle(id, { width: Math.max(1, (item.paths[0]?.width ?? 3) - 1) }),
-          },
-          {
-            text: 'Thicker',
-            onPress: () => updateDrawingStyle(id, { width: Math.min(24, (item.paths[0]?.width ?? 3) + 2) }),
-          },
-          {
-            text: 'Use palette color',
-            onPress: () => {
-              updateDrawingStyle(id, { color: drawColor });
-              setDrawColor(drawColor);
+        setSheet({
+          title: 'Edit stroke',
+          actions: [
+            {
+              label: 'Thinner',
+              onPress: () =>
+                updateDrawingStyle(id, { width: Math.max(1, (item.paths[0]?.width ?? 3) - 1) }),
             },
-          },
-          {
-            text: 'Delete',
-            style: 'destructive',
-            onPress: () => {
-              deleteItems([id]);
-              onToast('Stroke deleted');
+            {
+              label: 'Thicker',
+              onPress: () =>
+                updateDrawingStyle(id, { width: Math.min(24, (item.paths[0]?.width ?? 3) + 2) }),
             },
-          },
-          { text: 'Cancel', style: 'cancel' },
-        ]);
+            {
+              label: 'Use palette color',
+              onPress: () => {
+                updateDrawingStyle(id, { color: drawColor });
+                setDrawColor(drawColor);
+              },
+            },
+            {
+              label: 'Delete',
+              destructive: true,
+              onPress: () => {
+                deleteItems([id]);
+                onToast('Stroke deleted');
+              },
+            },
+          ],
+        });
         return;
       }
       if (item.type === 'connector') {
         void hapticImpact('medium');
-        Alert.alert('Edit connector', 'Color and thickness', [
-          {
-            text: 'Thinner',
-            onPress: () =>
-              updateConnectorStyle(id, { thickness: Math.max(1, (item.thickness ?? 2) - 1) }),
-          },
-          {
-            text: 'Thicker',
-            onPress: () =>
-              updateConnectorStyle(id, { thickness: Math.min(16, (item.thickness ?? 2) + 1) }),
-          },
-          {
-            text: 'Use palette color',
-            onPress: () => updateConnectorStyle(id, { color: drawColor }),
-          },
-          {
-            text: 'Delete',
-            style: 'destructive',
-            onPress: () => {
-              deleteItems([id]);
-              onToast('Connector deleted');
+        setSheet({
+          title: 'Edit connector',
+          actions: [
+            {
+              label: 'Thinner',
+              onPress: () =>
+                updateConnectorStyle(id, { thickness: Math.max(1, (item.thickness ?? 2) - 1) }),
             },
-          },
-          { text: 'Cancel', style: 'cancel' },
-        ]);
+            {
+              label: 'Thicker',
+              onPress: () =>
+                updateConnectorStyle(id, { thickness: Math.min(16, (item.thickness ?? 2) + 1) }),
+            },
+            {
+              label: 'Use palette color',
+              onPress: () => updateConnectorStyle(id, { color: drawColor }),
+            },
+            {
+              label: 'Delete',
+              destructive: true,
+              onPress: () => {
+                deleteItems([id]);
+                onToast('Connector deleted');
+              },
+            },
+          ],
+        });
         return;
       }
       if (item.type === 'region') {
         void hapticImpact('medium');
-        Alert.alert(item.label || 'Region', undefined, [
-          {
-            text: 'Enter region',
-            onPress: () => {
-              enterRegion(id);
-              onToast(`Inside ${item.label || 'region'}`);
+        setSheet({
+          title: item.label || 'Region',
+          actions: [
+            {
+              label: 'Enter region',
+              onPress: () => {
+                enterRegion(id);
+                onToast(`Inside ${item.label || 'region'}`);
+              },
             },
-          },
-          {
-            text: 'Export Markdown',
-            onPress: async () => {
-              const result = exportRegion(id, 'markdown');
-              if (!result.ok || !result.text) {
-                Alert.alert('Export failed', result.error ?? 'Unknown error');
-                return;
-              }
-              const ok = await shareText(result.text, 'Export region', {
-                filename: 'fieldnote-region.md',
-                mimeType: 'text/markdown',
-              });
-              onToast(ok ? 'Region shared' : 'Could not share');
+            {
+              label: 'Export Markdown',
+              onPress: async () => {
+                const result = exportRegion(id, 'markdown');
+                if (!result.ok || !result.text) {
+                  onToast(result.error ?? 'Export failed');
+                  return;
+                }
+                const ok = await shareText(result.text, 'Export region', {
+                  filename: 'fieldnote-region.md',
+                  mimeType: 'text/markdown',
+                });
+                onToast(ok ? 'Region shared' : 'Could not share');
+              },
             },
-          },
-          {
-            text: 'Export .canvas',
-            onPress: async () => {
-              const result = exportRegion(id, 'canvas');
-              if (!result.ok || !result.text) {
-                Alert.alert('Export failed', result.error ?? 'Unknown error');
-                return;
-              }
-              const ok = await shareText(result.text, 'Export region canvas');
-              onToast(ok ? 'Region .canvas shared' : 'Could not share');
+            {
+              label: 'Export .canvas',
+              onPress: async () => {
+                const result = exportRegion(id, 'canvas');
+                if (!result.ok || !result.text) {
+                  onToast(result.error ?? 'Export failed');
+                  return;
+                }
+                const ok = await shareText(result.text, 'Export region canvas');
+                onToast(ok ? 'Region .canvas shared' : 'Could not share');
+              },
             },
-          },
-          { text: 'Cancel', style: 'cancel' },
-        ]);
+          ],
+        });
       }
     },
     [
@@ -1080,31 +1094,33 @@ export function InfiniteCanvas({
       const item = currentBoard.items.find((it) => it.id === id);
       if (!item || item.type !== 'connector') return;
       void hapticImpact('medium');
-      Alert.alert('Edit connector', 'Color and thickness', [
-        {
-          text: 'Thinner',
-          onPress: () =>
-            updateConnectorStyle(id, { thickness: Math.max(1, (item.thickness ?? 2) - 1) }),
-        },
-        {
-          text: 'Thicker',
-          onPress: () =>
-            updateConnectorStyle(id, { thickness: Math.min(16, (item.thickness ?? 2) + 1) }),
-        },
-        {
-          text: 'Use palette color',
-          onPress: () => updateConnectorStyle(id, { color: drawColor }),
-        },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: () => {
-            deleteItems([id]);
-            onToast('Connector deleted');
+      setSheet({
+        title: 'Edit connector',
+        actions: [
+          {
+            label: 'Thinner',
+            onPress: () =>
+              updateConnectorStyle(id, { thickness: Math.max(1, (item.thickness ?? 2) - 1) }),
           },
-        },
-        { text: 'Cancel', style: 'cancel' },
-      ]);
+          {
+            label: 'Thicker',
+            onPress: () =>
+              updateConnectorStyle(id, { thickness: Math.min(16, (item.thickness ?? 2) + 1) }),
+          },
+          {
+            label: 'Use palette color',
+            onPress: () => updateConnectorStyle(id, { color: drawColor }),
+          },
+          {
+            label: 'Delete',
+            destructive: true,
+            onPress: () => {
+              deleteItems([id]);
+              onToast('Connector deleted');
+            },
+          },
+        ],
+      });
     },
     [currentBoard.items, deleteItems, drawColor, onToast, select, updateConnectorStyle],
   );
@@ -1420,6 +1436,13 @@ export function InfiniteCanvas({
         name={pdfViewer?.name ?? 'PDF'}
         pageCount={pdfViewer?.pageCount}
         onClose={() => setPdfViewer(null)}
+      />
+      <FloatingActionSheet
+        visible={sheet != null}
+        title={sheet?.title}
+        actions={sheet?.actions ?? []}
+        anchor={sheet?.anchor}
+        onClose={() => setSheet(null)}
       />
     </View>
   );
