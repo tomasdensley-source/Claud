@@ -1,1 +1,1 @@
-eas build request: 3 (add on-screen ErrorBoundary to surface the crash cause)
+eas build request: 4 (MINIMAL diagnostic — bare screen, isolate native vs JS crash)
