@@ -21,6 +21,14 @@ import { computeRegionDepth, sortItemsForRender } from '../lib/regionLayers';
 // releasing a pinch or a deliberate stop.
 const MOMENTUM_MIN_VELOCITY = 90;
 
+// Dot grid spacing in world units, and the on-screen tile range worth drawing.
+// Outside that range the dots are either too dense to read or so far apart they
+// add nothing, so the grid is skipped — which also keeps the drawn surface
+// bounded at extreme zoom.
+const GRID_SPACING = 28;
+const MIN_GRID_TILE = 6;
+const MAX_GRID_TILE = 160;
+
 // Item drag is handled via selected-item pan gesture below.
 
 const WORLD = 4000;
@@ -317,19 +325,54 @@ export function InfiniteCanvas({
     ],
   }));
 
+  // Dot grid.
+  //
+  // This used to be a single WORLD x WORLD (4000x4000) <Svg> with a tiled
+  // <Pattern> — ~16M pixels and ~20k tile repetitions. On Android that
+  // exceeds the GPU's maximum texture size and crashes inside react-native-
+  // svg's *native* renderer the moment the canvas mounts, which a JS error
+  // boundary cannot catch (this was the launch crash).
+  //
+  // Instead the grid is drawn once at viewport size (plus a one-tile bleed)
+  // and lives outside the transformed world. It follows the camera by
+  // translating within a single tile — the standard infinite-grid trick — so
+  // it still reads as part of the canvas while the drawn surface stays small
+  // and bounded no matter how far you pan or zoom.
+  const tileSize = GRID_SPACING * scaleState;
+  const gridVisible = tileSize >= MIN_GRID_TILE && tileSize <= MAX_GRID_TILE;
+
+  const gridAnimatedStyle = useAnimatedStyle(() => {
+    const tile = GRID_SPACING * scale.value;
+    if (tile <= 0) return { transform: [{ translateX: 0 }, { translateY: 0 }] };
+    // Wrap the offset into [-tile, 0] so one tile of bleed always covers the edge.
+    const ox = (tx.value % tile) - tile;
+    const oy = (ty.value % tile) - tile;
+    return { transform: [{ translateX: ox }, { translateY: oy }] };
+  });
+
   const grid = useMemo(() => {
-    const size = 28;
+    if (!gridVisible) return null;
+    const w = viewportWidth + tileSize * 2;
+    const h = viewportHeight + tileSize * 2;
+    const r = Math.max(0.8, 1.2 * scaleState);
     return (
-      <Svg width={WORLD} height={WORLD} style={StyleSheet.absoluteFill}>
+      <Svg width={w} height={h}>
         <Defs>
-          <Pattern id="dots" x="0" y="0" width={size} height={size} patternUnits="userSpaceOnUse">
-            <Circle cx={2} cy={2} r={1.2} fill={colors.canvasGrid} />
+          <Pattern
+            id="dots"
+            x="0"
+            y="0"
+            width={tileSize}
+            height={tileSize}
+            patternUnits="userSpaceOnUse"
+          >
+            <Circle cx={r} cy={r} r={r} fill={colors.canvasGrid} />
           </Pattern>
         </Defs>
-        <Rect x="0" y="0" width={WORLD} height={WORLD} fill="url(#dots)" />
+        <Rect x="0" y="0" width={w} height={h} fill="url(#dots)" />
       </Svg>
     );
-  }, []);
+  }, [gridVisible, tileSize, scaleState, viewportWidth, viewportHeight]);
 
   const renderItems = useMemo(
     () => sortItemsForRender(currentBoard.items),
@@ -342,9 +385,15 @@ export function InfiniteCanvas({
 
   return (
     <View style={[styles.root, { width: viewportWidth, height: viewportHeight }]}>
+      {/* Grid sits behind the world and is translated (never scaled) so its
+          drawn surface stays viewport-sized. */}
+      {grid ? (
+        <Animated.View pointerEvents="none" style={[styles.grid, gridAnimatedStyle]}>
+          {grid}
+        </Animated.View>
+      ) : null}
       <GestureDetector gesture={composed}>
         <Animated.View style={[styles.world, animatedStyle]}>
-          {grid}
           {renderItems.map((item) => (
             <CanvasItemView
               key={item.id}
@@ -391,6 +440,11 @@ const styles = StyleSheet.create({
   root: {
     backgroundColor: colors.canvas,
     overflow: 'hidden',
+  },
+  grid: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
   },
   world: {
     width: WORLD,

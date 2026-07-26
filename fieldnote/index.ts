@@ -1,10 +1,9 @@
-// ⚠️ TEMPORARY DIAGNOSTIC ENTRY — the real app (./App) is untouched and is
-// reachable as stage 6 inside StagedDiagnostic. The gesture-handler
-// side-effect import stays out of the entry on purpose so stage 1 can test
-// it explicitly rather than it running before any stage is chosen.
+import 'react-native-gesture-handler';
 import { registerRootComponent } from 'expo';
 
-import { StagedDiagnostic } from './src/components/StagedDiagnostic';
+import App from './App';
 
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);
-registerRootComponent(StagedDiagnostic);
+// It also ensures that whether you load the app in Expo Go or in a native build,
+// the environment is set up appropriately
+registerRootComponent(App);
