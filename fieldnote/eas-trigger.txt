@@ -1,1 +1,1 @@
-eas build request: 4 (MINIMAL diagnostic — bare screen, isolate native vs JS crash)
+eas build request: 5 (STAGED diagnostic — tap through layers to find the crashing one)
