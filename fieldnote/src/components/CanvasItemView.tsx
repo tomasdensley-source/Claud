@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import {
   Image,
   Pressable,
@@ -6,11 +6,47 @@ import {
   Text,
   TextInput,
   View,
+  ViewStyle,
 } from 'react-native';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import Animated, {
+  cancelAnimation,
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import Svg, { Ellipse, Line, Path, Rect as SvgRect } from 'react-native-svg';
 import { BoardItem } from '../types';
 import { colors, radii, shadows } from '../theme';
 import { SEED_IMAGES } from '../lib/seedImages';
+import { MarkdownBlocks, MarkdownInline } from './Markdown';
+import { haptics } from '../lib/haptics';
+import {
+  computeResizeRect,
+  MIN_ITEM_HEIGHT,
+  MIN_ITEM_WIDTH,
+  ResizeCorner,
+  ResizeRect,
+} from '../lib/resize';
+
+// Deliberate hold-to-complete duration for incomplete, unblocked tasks.
+const TASK_HOLD_MS = 3000;
+
+// Distinct tints per region nesting depth (see src/lib/regionLayers.ts). Depth
+// 0 matches the original single-tint color/opacity exactly, so existing
+// boards with one region look unchanged; deeper nesting gets a visibly
+// different hue rather than just a darker version of the same one.
+const REGION_TINTS = [
+  'rgba(233,178,127,0.12)',
+  'rgba(216,230,232,0.20)',
+  'rgba(237,182,74,0.22)',
+  'rgba(203,125,70,0.24)',
+];
+
+function regionTint(depth: number): string {
+  return REGION_TINTS[Math.min(depth, REGION_TINTS.length - 1)];
+}
 
 interface Props {
   item: BoardItem;
@@ -22,6 +58,9 @@ interface Props {
   onChangeText: (text: string) => void;
   onToggleTask: () => void;
   onEndEdit: () => void;
+  onResize: (rect: ResizeRect, commit: boolean) => void;
+  blocked?: boolean;
+  regionDepth?: number;
 }
 
 function pointsToPath(points: { x: number; y: number }[]): string {
@@ -41,8 +80,48 @@ export function CanvasItemView({
   onChangeText,
   onToggleTask,
   onEndEdit,
+  onResize,
+  blocked = false,
+  regionDepth = 0,
 }: Props) {
   const handleSize = Math.max(10, 12 / scale);
+  const taskGlow = useSharedValue(0);
+  const taskHoldCompleted = useRef(false);
+
+  const taskGlowStyle = useAnimatedStyle(() => ({
+    opacity: taskGlow.value * 0.35,
+  }));
+
+  const completeTask = useCallback(() => {
+    haptics.success();
+    onToggleTask();
+  }, [onToggleTask]);
+
+  const onTaskPressIn = useCallback(() => {
+    if (item.type !== 'task') return;
+    if (item.done || blocked) return;
+    taskHoldCompleted.current = false;
+    taskGlow.value = withTiming(1, { duration: TASK_HOLD_MS }, (finished) => {
+      if (finished) {
+        taskHoldCompleted.current = true;
+        runOnJS(completeTask)();
+      }
+    });
+  }, [item, blocked, taskGlow, completeTask]);
+
+  const onTaskPressOut = useCallback(() => {
+    if (item.type !== 'task' || taskHoldCompleted.current) return;
+    cancelAnimation(taskGlow);
+    taskGlow.value = withTiming(0, { duration: 150 });
+  }, [item, taskGlow]);
+
+  const onTaskPress = useCallback(() => {
+    if (item.type !== 'task') return;
+    if (!item.done) return;
+    // Completion is hold-only (see onTaskPressIn); a quick tap only undoes it.
+    haptics.light();
+    onToggleTask();
+  }, [item, onToggleTask]);
 
   const content = useMemo(() => {
     switch (item.type) {
@@ -68,9 +147,22 @@ export function CanvasItemView({
             />
           );
         }
+        if (!item.text) {
+          return (
+            <Text
+              style={[
+                styles.text,
+                { color: item.color ?? colors.ink, fontSize: item.fontSize, fontWeight: item.fontWeight ?? '400' },
+              ]}
+            >
+              Write something...
+            </Text>
+          );
+        }
         return (
-          <Text
-            style={[
+          <MarkdownBlocks
+            source={item.text}
+            baseStyle={[
               styles.text,
               {
                 color: item.color ?? colors.ink,
@@ -78,9 +170,7 @@ export function CanvasItemView({
                 fontWeight: item.fontWeight ?? '400',
               },
             ]}
-          >
-            {item.text || 'Write something...'}
-          </Text>
+          />
         );
       case 'image': {
         const source = item.assetKey
@@ -95,7 +185,16 @@ export function CanvasItemView({
       }
       case 'task':
         return (
-          <Pressable style={styles.taskRow} onPress={onToggleTask}>
+          <Pressable
+            style={[styles.taskRow, blocked && styles.taskBlocked]}
+            onPress={onTaskPress}
+            onPressIn={onTaskPressIn}
+            onPressOut={onTaskPressOut}
+          >
+            <Animated.View
+              pointerEvents="none"
+              style={[StyleSheet.absoluteFill, styles.taskGlow, taskGlowStyle]}
+            />
             <View style={[styles.checkbox, item.done && styles.checkboxDone]}>
               {item.done ? <Text style={styles.checkMark}>✓</Text> : null}
             </View>
@@ -105,12 +204,23 @@ export function CanvasItemView({
                 value={item.text}
                 onChangeText={onChangeText}
                 onBlur={onEndEdit}
-                style={[styles.taskText, item.done && styles.taskDone]}
+                style={[
+                  styles.taskText,
+                  item.color ? { color: item.color } : null,
+                  item.done && styles.taskDone,
+                ]}
+              />
+            ) : item.text ? (
+              <MarkdownInline
+                source={item.text}
+                baseStyle={[
+                  styles.taskText,
+                  item.color ? { color: item.color } : null,
+                  item.done && styles.taskDone,
+                ]}
               />
             ) : (
-              <Text style={[styles.taskText, item.done && styles.taskDone]}>
-                {item.text || 'New task'}
-              </Text>
+              <Text style={[styles.taskText, item.done && styles.taskDone]}>New task</Text>
             )}
           </Pressable>
         );
@@ -124,10 +234,12 @@ export function CanvasItemView({
                   value={item.text}
                   onChangeText={onChangeText}
                   onBlur={onEndEdit}
-                  style={styles.mindmapHubText}
+                  style={[styles.mindmapHubText, item.color ? { color: item.color } : null]}
                 />
               ) : (
-                <Text style={styles.mindmapHubText}>{item.text || 'Idea'}</Text>
+                <Text style={[styles.mindmapHubText, item.color ? { color: item.color } : null]}>
+                  {item.text || 'Idea'}
+                </Text>
               )}
             </View>
             <View style={styles.mindmapChildren}>
@@ -145,7 +257,8 @@ export function CanvasItemView({
             <Text style={styles.regionLabel}>{item.label || 'Region'}</Text>
           </View>
         );
-      case 'shape':
+      case 'shape': {
+        const stroke = item.color ?? colors.ink;
         return (
           <Svg width="100%" height="100%">
             {item.shape === 'ellipse' ? (
@@ -154,19 +267,12 @@ export function CanvasItemView({
                 cy="50%"
                 rx="45%"
                 ry="40%"
-                stroke={colors.ink}
+                stroke={stroke}
                 strokeWidth={3}
                 fill={item.backgroundColor ?? 'transparent'}
               />
             ) : item.shape === 'line' ? (
-              <Line
-                x1="8%"
-                y1="50%"
-                x2="92%"
-                y2="50%"
-                stroke={colors.ink}
-                strokeWidth={4}
-              />
+              <Line x1="8%" y1="50%" x2="92%" y2="50%" stroke={stroke} strokeWidth={4} />
             ) : (
               <SvgRect
                 x="8%"
@@ -174,13 +280,14 @@ export function CanvasItemView({
                 width="84%"
                 height="76%"
                 rx={12}
-                stroke={colors.ink}
+                stroke={stroke}
                 strokeWidth={3}
                 fill={item.backgroundColor ?? 'transparent'}
               />
             )}
           </Svg>
         );
+      }
       case 'drawing':
         return (
           <Svg width="100%" height="100%">
@@ -219,7 +326,18 @@ export function CanvasItemView({
       default:
         return null;
     }
-  }, [editing, item, onChangeText, onEndEdit, onToggleTask]);
+  }, [
+    editing,
+    item,
+    onChangeText,
+    onEndEdit,
+    onToggleTask,
+    blocked,
+    onTaskPress,
+    onTaskPressIn,
+    onTaskPressOut,
+    taskGlowStyle,
+  ]);
 
   const transparentBg =
     item.type === 'drawing' || item.type === 'shape' || item.type === 'region';
@@ -228,7 +346,7 @@ export function CanvasItemView({
     <Pressable
       onPress={onSelect}
       onLongPress={onLongPress}
-      delayLongPress={420}
+      delayLongPress={500}
       style={[
         styles.item,
         shadows.card,
@@ -237,7 +355,15 @@ export function CanvasItemView({
           top: item.y,
           width: item.width,
           height: item.height,
-          zIndex: item.zIndex + (selected ? 1000 : 0),
+          // Regions always paint behind every other item type; deeper-nested
+          // regions still paint over the larger region containing them
+          // (bug #14 — see src/lib/regionLayers.ts). RN's paint order follows
+          // this style, not the children array order, so this — not just
+          // render-order sorting — is what actually makes layering visible.
+          zIndex:
+            item.type === 'region'
+              ? -1000 + regionDepth + (selected ? 1000 : 0)
+              : item.zIndex + (selected ? 1000 : 0),
           backgroundColor: transparentBg
             ? 'transparent'
             : item.backgroundColor ?? colors.paper,
@@ -245,18 +371,97 @@ export function CanvasItemView({
           borderWidth: selected ? 2 : 0,
         },
         item.type === 'region' && styles.regionOuter,
+        item.type === 'region' && { backgroundColor: regionTint(regionDepth) },
       ]}
     >
-      {content}
+      <View style={[styles.contentClip, item.type === 'region' && styles.contentClipFlush]}>
+        {content}
+      </View>
       {selected ? (
         <>
-          <View style={[styles.handle, { width: handleSize, height: handleSize, left: -handleSize / 2, top: -handleSize / 2 }]} />
-          <View style={[styles.handle, { width: handleSize, height: handleSize, right: -handleSize / 2, top: -handleSize / 2 }]} />
-          <View style={[styles.handle, { width: handleSize, height: handleSize, left: -handleSize / 2, bottom: -handleSize / 2 }]} />
-          <View style={[styles.handle, { width: handleSize, height: handleSize, right: -handleSize / 2, bottom: -handleSize / 2 }]} />
+          <ResizeHandle
+            corner="tl"
+            size={handleSize}
+            positionStyle={{ left: -handleSize / 2, top: -handleSize / 2 }}
+            item={item}
+            scale={scale}
+            onResize={onResize}
+          />
+          <ResizeHandle
+            corner="tr"
+            size={handleSize}
+            positionStyle={{ right: -handleSize / 2, top: -handleSize / 2 }}
+            item={item}
+            scale={scale}
+            onResize={onResize}
+          />
+          <ResizeHandle
+            corner="bl"
+            size={handleSize}
+            positionStyle={{ left: -handleSize / 2, bottom: -handleSize / 2 }}
+            item={item}
+            scale={scale}
+            onResize={onResize}
+          />
+          <ResizeHandle
+            corner="br"
+            size={handleSize}
+            positionStyle={{ right: -handleSize / 2, bottom: -handleSize / 2 }}
+            item={item}
+            scale={scale}
+            onResize={onResize}
+          />
         </>
       ) : null}
     </Pressable>
+  );
+}
+
+function ResizeHandle({
+  corner,
+  size,
+  positionStyle,
+  item,
+  scale,
+  onResize,
+}: {
+  corner: ResizeCorner;
+  size: number;
+  positionStyle: ViewStyle;
+  item: BoardItem;
+  scale: number;
+  onResize: (rect: ResizeRect, commit: boolean) => void;
+}) {
+  const start = useSharedValue<ResizeRect>({
+    x: item.x,
+    y: item.y,
+    width: item.width,
+    height: item.height,
+  });
+
+  const commit = useCallback(
+    (dx: number, dy: number, isCommit: boolean) => {
+      const rect = computeResizeRect(corner, start.value, dx, dy, MIN_ITEM_WIDTH, MIN_ITEM_HEIGHT);
+      onResize(rect, isCommit);
+    },
+    [corner, onResize, start],
+  );
+
+  const pan = Gesture.Pan()
+    .onBegin(() => {
+      start.value = { x: item.x, y: item.y, width: item.width, height: item.height };
+    })
+    .onUpdate((e) => {
+      runOnJS(commit)(e.translationX / scale, e.translationY / scale, false);
+    })
+    .onEnd((e) => {
+      runOnJS(commit)(e.translationX / scale, e.translationY / scale, true);
+    });
+
+  return (
+    <GestureDetector gesture={pan}>
+      <View style={[styles.handle, positionStyle, { width: size, height: size }]} />
+    </GestureDetector>
   );
 }
 
@@ -264,8 +469,18 @@ const styles = StyleSheet.create({
   item: {
     position: 'absolute',
     borderRadius: radii.card,
+  },
+  // Clips content (text, images, drawings) to the card's rounded corners.
+  // Kept separate from the outer card so resize handles — positioned just
+  // outside the card's edges — aren't clipped along with it.
+  contentClip: {
+    flex: 1,
     overflow: 'hidden',
+    borderRadius: radii.card,
     padding: 18,
+  },
+  contentClipFlush: {
+    padding: 0,
   },
   text: {
     fontFamily: 'System',
@@ -284,6 +499,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     gap: 12,
+  },
+  taskBlocked: {
+    opacity: 0.55,
+  },
+  taskGlow: {
+    borderRadius: radii.card,
+    backgroundColor: colors.amber,
   },
   checkbox: {
     width: 22,
@@ -349,7 +571,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   regionOuter: {
-    padding: 0,
     borderWidth: 2,
     borderStyle: 'dashed',
     borderColor: 'rgba(52,38,29,0.28)',
