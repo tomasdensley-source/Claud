@@ -51,3 +51,9 @@ unzip Unified_Vault_2026-05-23.zip      # → open the "✦ My Vault ✦" folder
 > See the disclosure in the integration report; rotate any real keys.
 
 Supersedes the earlier `Merged_Vault` (Graphy-merge-only) artifact and the Pass-1 two-part bundle.
+
+## The Writings of Thomas Densley (`writings/`)
+
+The 11 October 2026 single-file compilation of 214 works (about 1.12 million words), plus a numbered catalog,
+a searchable HTML reader, a 1,545-page PDF reading edition, a themes-and-reading-order analysis, and a report
+comparing it with the vault export, the distilled v7 corpus and `book/`. See `writings/README.md`.

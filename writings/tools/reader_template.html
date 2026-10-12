@@ -1,0 +1,356 @@
+<title>The Writings of Thomas Densley</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,500;1,600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a register (left) beside a reading desk (right); on phones the register is a drawer. */
+:root {
+  --paper: #f5f6f2;
+  --sheet: #fbfcf9;
+  --ink: #1c2420;
+  --muted: #5b6660;
+  --rule: #d9ddd5;
+  --forest: #2f5a43;
+  --brass: #8a6a22;
+  --mark: #efe3b8;
+  --display: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+  --body: "Literata", "Iowan Old Style", Georgia, serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  --side: 21rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #121714; --sheet: #171d19; --ink: #e3e7e1; --muted: #9aa59e; --rule: #2c3530;
+    --forest: #8cc3a2; --brass: #d6b25e; --mark: #4a3f1c; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #121714; --sheet: #171d19; --ink: #e3e7e1; --muted: #9aa59e; --rule: #2c3530;
+  --forest: #8cc3a2; --brass: #d6b25e; --mark: #4a3f1c; color-scheme: dark;
+}
+html, body { height: 100%; }
+body { background: var(--paper); color: var(--ink); font: 400 1rem/1.6 var(--body); }
+* { box-sizing: border-box; }
+a { color: var(--forest); }
+button, input, select { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+
+.app { display: grid; grid-template-columns: var(--side) minmax(0, 1fr); height: 100%; }
+.register { border-right: 1px solid var(--rule); display: flex; flex-direction: column; min-height: 0; background: var(--paper); }
+.reg-head { padding: 1.1rem 1rem .8rem; display: grid; gap: .7rem; border-bottom: 1px solid var(--rule); }
+.reg-title { font: italic 600 1.45rem/1.1 var(--display); margin: 0; letter-spacing: .01em; }
+.reg-title button { all: unset; cursor: pointer; }
+.reg-stats { font: 400 .72rem/1.3 var(--mono); color: var(--muted); letter-spacing: .03em; }
+.search { width: 100%; padding: .5rem .65rem; border: 1px solid var(--rule); background: var(--sheet); border-radius: 4px; }
+.filters { display: flex; flex-wrap: wrap; gap: .3rem; }
+.chip { border: 1px solid var(--rule); background: transparent; padding: .1rem .5rem; border-radius: 999px; font: 400 .72rem/1.6 var(--mono); cursor: pointer; color: var(--muted); }
+.chip[aria-pressed="true"] { background: var(--forest); border-color: var(--forest); color: var(--sheet); }
+.reg-list { overflow-y: auto; flex: 1; padding: .3rem 0 2rem; }
+.sec-name { font: 500 .68rem/1 var(--mono); text-transform: uppercase; letter-spacing: .09em; color: var(--brass); padding: 1rem 1rem .35rem; }
+.entry { display: grid; grid-template-columns: 2.6rem minmax(0, 1fr) auto; gap: .5rem; align-items: baseline; width: 100%; text-align: left; border: 0; background: none; padding: .28rem 1rem; cursor: pointer; }
+.entry:hover { background: var(--sheet); }
+.entry[aria-current="true"] { background: var(--sheet); box-shadow: inset 3px 0 0 var(--forest); }
+.entry .no, .entry .wc { font: 400 .7rem/1.4 var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.entry .t { font-size: .88rem; line-height: 1.35; overflow-wrap: anywhere; }
+.entry .t.dup { color: var(--muted); }
+.result { display: block; width: 100%; text-align: left; border: 0; border-bottom: 1px solid var(--rule); background: none; padding: .6rem 1rem; cursor: pointer; }
+.result:hover { background: var(--sheet); }
+.result .rt { font-size: .88rem; font-weight: 600; }
+.result .rs { font-size: .8rem; color: var(--muted); line-height: 1.45; margin-top: .2rem; overflow-wrap: anywhere; }
+.result mark, .doc mark { background: var(--mark); color: inherit; padding: 0 .1em; }
+.empty { padding: 1rem; color: var(--muted); font-size: .88rem; }
+
+.desk { overflow-y: auto; min-width: 0; background: var(--sheet); }
+.topbar { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; gap: .6rem; padding: .55rem 1rem; background: var(--sheet); border-bottom: 1px solid var(--rule); }
+.topbar .crumb { font: 400 .72rem/1.3 var(--mono); color: var(--muted); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.btn { border: 1px solid var(--rule); background: var(--paper); border-radius: 4px; padding: .25rem .6rem; font: 400 .75rem/1.5 var(--mono); cursor: pointer; }
+.btn:hover { border-color: var(--forest); }
+.btn[disabled] { opacity: .4; cursor: default; }
+.menu { display: none; }
+.page { max-width: 42rem; margin: 0 auto; padding: 2.4rem 1.25rem 5rem; }
+.eyebrow { font: 500 .7rem/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--brass); }
+.page h1.title { font: 600 clamp(1.9rem, 4.5vw, 2.7rem)/1.08 var(--display); margin: .6rem 0 .8rem; text-wrap: balance; }
+.meta { display: flex; flex-wrap: wrap; gap: .35rem 1.1rem; font: 400 .74rem/1.5 var(--mono); color: var(--muted); padding-bottom: 1rem; border-bottom: 1px solid var(--rule); }
+.meta b { font-weight: 500; color: var(--ink); }
+.abstract { font-style: italic; color: var(--muted); margin: 1.1rem 0 0; }
+.notice { margin-top: .9rem; font-size: .85rem; border-left: 2px solid var(--brass); padding: .2rem 0 .2rem .8rem; color: var(--muted); }
+.notice button { all: unset; color: var(--forest); text-decoration: underline; cursor: pointer; }
+.doc { margin-top: 2rem; font-size: 1.04rem; line-height: 1.72; overflow-wrap: break-word; }
+.doc h1, .doc h2, .doc h3, .doc h4 { font-family: var(--display); font-weight: 600; line-height: 1.15; text-wrap: balance; margin: 2em 0 .5em; }
+.doc h1 { font-size: 1.9rem; } .doc h2 { font-size: 1.6rem; } .doc h3 { font-size: 1.35rem; } .doc h4 { font-size: 1.15rem; }
+.doc p { margin: 0 0 1em; }
+.doc blockquote { margin: 1.2em 0; padding-left: 1em; border-left: 2px solid var(--rule); color: var(--muted); }
+.doc hr { border: 0; border-top: 1px solid var(--rule); margin: 2em auto; width: 40%; }
+.doc pre, .doc table { display: block; overflow-x: auto; max-width: 100%; }
+.doc pre { font: .82rem/1.5 var(--mono); background: var(--paper); padding: .8rem; border-radius: 4px; white-space: pre-wrap; }
+.doc code { font: .86em var(--mono); }
+.doc table { border-collapse: collapse; font-size: .9rem; }
+.doc td, .doc th { border: 1px solid var(--rule); padding: .3rem .5rem; vertical-align: top; }
+.doc img { max-width: 100%; }
+.more { display: flex; justify-content: center; margin: 2rem 0; }
+.pager { display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.pager button { all: unset; cursor: pointer; max-width: 48%; }
+.pager small { display: block; font: 400 .7rem/1.4 var(--mono); color: var(--muted); }
+.pager span { font-family: var(--display); font-size: 1.15rem; font-weight: 600; color: var(--forest); }
+.pager .next { text-align: right; margin-left: auto; }
+
+.home .lede { font-size: 1.1rem; }
+.figures { display: grid; grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin: 1.6rem 0; }
+.figures div { background: var(--sheet); padding: .8rem .9rem; }
+.figures b { display: block; font: 600 1.7rem/1 var(--display); font-variant-numeric: tabular-nums; }
+.figures small { font: 400 .68rem/1.3 var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .07em; }
+.bars { display: grid; gap: .35rem; margin: 1rem 0 2rem; }
+.bar { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr) 5.5rem; gap: .6rem; align-items: center; font: 400 .74rem/1.2 var(--mono); }
+.bar i { display: block; height: .6rem; background: var(--forest); border-radius: 1px; min-width: 2px; }
+.bar span:last-child { text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; }
+.start { display: grid; gap: .5rem; padding: 0; list-style: none; }
+.start button { all: unset; cursor: pointer; color: var(--forest); font-weight: 600; }
+.home h2 { font: 600 1.45rem/1.2 var(--display); margin: 2.2rem 0 .6rem; }
+
+@media (max-width: 52rem) {
+  .app { grid-template-columns: minmax(0, 1fr); }
+  .register { position: fixed; inset: 0 auto 0 0; width: min(88vw, 22rem); z-index: 5; transform: translateX(-102%); transition: transform .2s ease; box-shadow: 0 0 0 100vmax transparent; padding-top: env(safe-area-inset-top, 0px); }
+  .register.open { transform: none; box-shadow: 0 0 0 100vmax rgba(0,0,0,.35); }
+  .menu { display: inline-block; }
+  .topbar { top: env(safe-area-inset-top, 0px); }
+}
+@media (prefers-reduced-motion: reduce) { .register { transition: none; } }
+</style>
+
+<div class="app">
+  <aside class="register" id="register" aria-label="Contents">
+    <div class="reg-head">
+      <h2 class="reg-title"><button id="homeBtn" type="button">The Writings of Thomas Densley</button></h2>
+      <div class="reg-stats" id="stats"></div>
+      <input class="search" id="q" type="search" placeholder="Search all 1.1 million words" aria-label="Search the writings" autocomplete="off">
+      <div class="filters" id="filters" role="group" aria-label="Filter by form"></div>
+    </div>
+    <nav class="reg-list" id="list"></nav>
+  </aside>
+  <main class="desk" id="desk">
+    <div class="topbar">
+      <button class="btn menu" id="menuBtn" type="button" aria-controls="register">Contents</button>
+      <div class="crumb" id="crumb">Index</div>
+      <button class="btn" id="prevBtn" type="button" aria-label="Previous work">←</button>
+      <button class="btn" id="nextBtn" type="button" aria-label="Next work">→</button>
+      <button class="btn" id="themeBtn" type="button" aria-label="Switch light or dark">◐</button>
+    </div>
+    <article class="page" id="page"></article>
+  </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+<script id="data" type="application/json">__DATA__</script>
+<script>
+(function () {
+  const W = JSON.parse(document.getElementById('data').textContent);
+  const byId = Object.fromEntries(W.map(w => [w.id, w]));
+  const total = W.reduce((s, w) => s + w.words, 0);
+  const $ = id => document.getElementById(id);
+  const fmt = n => n.toLocaleString('en-US');
+  const esc = s => s.replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  };
+  const CHUNK = 60000; // characters rendered per step for very long works
+
+  const forms = [...new Set(W.map(w => w.form))].sort((a, b) =>
+    W.filter(w => w.form === b).reduce((s, w) => s + w.words, 0) - W.filter(w => w.form === a).reduce((s, w) => s + w.words, 0));
+  let active = new Set();
+  let current = null;
+  let query = '';
+
+  $('stats').textContent = `${W.length} works · ${fmt(total)} words · ${new Set(W.map(w => w.section)).size} sections`;
+
+  // Filters
+  $('filters').innerHTML = forms.map(f => `<button class="chip" type="button" aria-pressed="false" data-form="${esc(f)}">${esc(f)}</button>`).join('');
+  $('filters').addEventListener('click', e => {
+    const b = e.target.closest('.chip'); if (!b) return;
+    const f = b.dataset.form;
+    active.has(f) ? active.delete(f) : active.add(f);
+    b.setAttribute('aria-pressed', active.has(f));
+    renderList();
+  });
+
+  function visible(w) { return !active.size || active.has(w.form); }
+
+  function renderList() {
+    if (query.length >= 3) return renderResults();
+    let html = '', sec = null;
+    for (const w of W) {
+      if (!visible(w)) continue;
+      if (w.section !== sec) { sec = w.section; html += `<div class="sec-name">${esc(sec)}</div>`; }
+      html += `<button class="entry" type="button" data-id="${w.id}" aria-current="${current === w.id}">
+        <span class="no">${w.id.slice(1)}</span><span class="t${w.contained_in ? ' dup' : ''}">${esc(w.title)}</span><span class="wc">${fmt(w.words)}</span></button>`;
+    }
+    $('list').innerHTML = html || '<div class="empty">No works match these filters.</div>';
+  }
+
+  function renderResults() {
+    const q = query.toLowerCase();
+    const out = []; let hits = 0;
+    for (const w of W) {
+      if (!visible(w)) continue;
+      const lb = w.body.toLowerCase();
+      let i = lb.indexOf(q), n = 0, first = i;
+      const inTitle = w.title.toLowerCase().includes(q);
+      while (i !== -1 && n < 999) { n++; i = lb.indexOf(q, i + q.length); }
+      if (!n && !inTitle) continue;
+      hits += n;
+      let snip = '';
+      if (first !== -1) {
+        const a = Math.max(0, first - 70), b = Math.min(w.body.length, first + q.length + 90);
+        const s = w.body.slice(a, b).replace(/\s+/g, ' ');
+        const k = s.toLowerCase().indexOf(q);
+        snip = (a ? '…' : '') + esc(s.slice(0, k)) + '<mark>' + esc(s.slice(k, k + q.length)) + '</mark>' + esc(s.slice(k + q.length)) + '…';
+      }
+      out.push({ w, n, snip, inTitle });
+    }
+    out.sort((x, y) => (y.inTitle - x.inTitle) || (y.n - x.n));
+    $('list').innerHTML = `<div class="sec-name">${out.length} works · ${fmt(hits)} matches</div>` +
+      (out.map(r => `<button class="result" type="button" data-id="${r.w.id}"><div class="rt">${esc(r.w.title)} <span class="reg-stats">${r.n ? r.n + '×' : 'title'}</span></div><div class="rs">${r.snip || esc(r.w.section)}</div></button>`).join('')
+       || '<div class="empty">Nothing found. Try a shorter phrase.</div>');
+  }
+
+  let qTimer;
+  $('q').addEventListener('input', e => {
+    clearTimeout(qTimer);
+    qTimer = setTimeout(() => { query = e.target.value.trim(); renderList(); }, 180);
+  });
+  $('list').addEventListener('click', e => {
+    const b = e.target.closest('[data-id]'); if (!b) return;
+    open(b.dataset.id, query.length >= 3 ? query : '');
+    $('register').classList.remove('open');
+  });
+
+  function md(text) {
+    text = text.replace(/!?\[\[([^\]|]+)\|([^\]]+)\]\]/g, '$2').replace(/!?\[\[([^\]]+)\]\]/g, '$1');
+    const html = marked.parse(text, { gfm: true, breaks: false });
+    return DOMPurify.sanitize(html, { FORBID_TAGS: ['style', 'iframe', 'form'], FORBID_ATTR: ['style'] });
+  }
+
+  function cut(body, from) {
+    if (body.length - from <= CHUNK * 1.3) return body.length;
+    const i = body.indexOf('\n\n', from + CHUNK);
+    return i === -1 ? body.length : i;
+  }
+
+  function pct(x) { return x == null ? '—' : Math.round(x * 100) + '%'; }
+
+  function open(id, highlight) {
+    const w = byId[id]; if (!w) return home();
+    current = id;
+    try { history.replaceState(null, '', '#' + id); } catch (e) {}
+    store.set('densley-last', id);
+    const i = W.indexOf(w);
+    $('crumb').textContent = `${w.id} · ${w.section}`;
+    $('prevBtn').disabled = i === 0; $('nextBtn').disabled = i === W.length - 1;
+    const parent = w.contained_in && byId[w.contained_in];
+    const minutes = Math.max(1, Math.round(w.words / 240));
+    $('page').innerHTML = `
+      <div class="eyebrow">${esc(w.section)} · ${esc(w.form)}</div>
+      <h1 class="title">${esc(w.title)}</h1>
+      <div class="meta"><span><b>${fmt(w.words)}</b> words</span><span>about ${minutes < 60 ? minutes + ' min' : (minutes / 60).toFixed(1) + ' h'}</span>
+        <span>in distilled v7 <b>${pct(w.in_distilled)}</b></span><span>in vault export <b>${pct(w.in_export)}</b></span>
+        <span title="${esc(w.source)}">file: ${esc(w.source.length > 64 ? w.source.slice(0, 61) + '…' : w.source)}</span></div>
+      <p class="abstract">${esc(w.summary)}</p>
+      ${parent ? `<div class="notice">Most of this text is also in <button type="button" data-open="${parent.id}">${esc(parent.title)}</button> (${parent.id}).</div>` : ''}
+      <div class="doc" id="doc"></div>
+      <div class="more" id="more"></div>
+      <nav class="pager">${i > 0 ? `<button type="button" data-open="${W[i - 1].id}"><small>Previous</small><span>${esc(W[i - 1].title)}</span></button>` : ''}
+        ${i < W.length - 1 ? `<button class="next" type="button" data-open="${W[i + 1].id}"><small>Next</small><span>${esc(W[i + 1].title)}</span></button>` : ''}</nav>`;
+    let pos = 0;
+    const step = () => {
+      const end = cut(w.body, pos);
+      $('doc').insertAdjacentHTML('beforeend', md(w.body.slice(pos, end)));
+      pos = end;
+      const left = w.body.length - pos;
+      $('more').innerHTML = left > 0 ? `<button class="btn" type="button" id="moreBtn">Continue reading · ${Math.round(100 * pos / w.body.length)}% shown</button>` : '';
+    };
+    step();
+    if (highlight) {
+      const lb = w.body.toLowerCase().indexOf(highlight.toLowerCase());
+      while (lb > pos && pos < w.body.length) step();
+      markIn($('doc'), highlight);
+    } else {
+      $('desk').scrollTop = 0;
+    }
+    $('more').onclick = e => { if (e.target.id === 'moreBtn') step(); };
+    renderList();
+    const cur = $('list').querySelector(`[data-id="${id}"]`);
+    if (cur && cur.scrollIntoView && !highlight) cur.scrollIntoView({ block: 'nearest' });
+  }
+
+  function markIn(root, q) {
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    const lq = q.toLowerCase(); let first = null, node, count = 0;
+    const nodes = []; while ((node = walker.nextNode())) nodes.push(node);
+    for (const n of nodes) {
+      const t = n.nodeValue, k = t.toLowerCase().indexOf(lq);
+      if (k === -1 || count > 300) continue;
+      const m = document.createElement('mark');
+      const after = n.splitText(k); after.splitText(q.length);
+      m.textContent = after.nodeValue; after.replaceWith(m);
+      count++; if (!first) first = m;
+    }
+    if (first) first.scrollIntoView({ block: 'center' });
+  }
+
+  function home() {
+    current = null;
+    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+    $('crumb').textContent = 'Index';
+    $('prevBtn').disabled = true; $('nextBtn').disabled = false;
+    const byForm = forms.map(f => [f, W.filter(w => w.form === f)]);
+    const max = Math.max(...byForm.map(([, ws]) => ws.reduce((s, w) => s + w.words, 0)));
+    const unique = W.filter(w => !w.contained_in);
+    const uniqueWords = unique.reduce((s, w) => s + w.words, 0);
+    const last = store.get('densley-last');
+    const picks = ['w210', 'w050', 'w049', 'w048', 'w155', 'w081', 'w149'].filter(id => byId[id]);
+    $('page').innerHTML = `<div class="home">
+      <div class="eyebrow">Compiled 11 October 2026 from the Drive folder “Writings”</div>
+      <h1 class="title">The Writings of Thomas Densley</h1>
+      <p class="lede">Every work in the compiled file, word for word, with search across the whole text. Choose a work from the contents, or search for a term such as <em>Record</em>, <em>Carcosa</em> or <em>evaporation</em>.</p>
+      <div class="figures">
+        <div><b>${W.length}</b><small>works</small></div>
+        <div><b>${(total / 1e6).toFixed(2)}M</b><small>words</small></div>
+        <div><b>${unique.length}</b><small>not repeated elsewhere in the file</small></div>
+        <div><b>${new Set(W.map(w => w.section)).size}</b><small>sections</small></div>
+      </div>
+      ${last && byId[last] ? `<p>Continue where you left off: <button class="btn" type="button" data-open="${last}">${esc(byId[last].title)}</button></p>` : ''}
+      <h2>Where to start</h2>
+      <ul class="start">${picks.map(id => `<li><button type="button" data-open="${id}">${esc(byId[id].title)}</button> <span class="reg-stats">${fmt(byId[id].words)} words</span><br><span class="abstract" style="margin:0">${esc(byId[id].summary)}</span></li>`).join('')}</ul>
+      <h2>Words by form</h2>
+      <div class="bars">${byForm.map(([f, ws]) => { const n = ws.reduce((s, w) => s + w.words, 0); return `<div class="bar"><span>${esc(f)}</span><i style="width:${(100 * n / max).toFixed(1)}%"></i><span>${fmt(n)}</span></div>`; }).join('')}</div>
+      <p class="abstract">Works shown in grey in the contents are mostly contained in a longer work in this file (an earlier edition, an excerpt or a copy). Without them, the file holds about ${fmt(uniqueWords)} words. The two percentages on each work show how much of its text also appears in the distilled v7 corpus and the May 2026 vault export in the repository.</p>
+    </div>`;
+    $('desk').scrollTop = 0;
+    renderList();
+  }
+
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-open]'); if (b) open(b.dataset.open);
+  });
+  $('homeBtn').onclick = home;
+  $('prevBtn').onclick = () => { const i = W.findIndex(w => w.id === current); if (i > 0) open(W[i - 1].id); };
+  $('nextBtn').onclick = () => { const i = W.findIndex(w => w.id === current); open(W[Math.min(W.length - 1, i + 1)].id); };
+  $('menuBtn').onclick = e => { e.stopPropagation(); $('register').classList.toggle('open'); };
+  $('desk').addEventListener('click', () => $('register').classList.remove('open'));
+  $('themeBtn').onclick = () => {
+    const r = document.documentElement;
+    const dark = r.dataset.theme ? r.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    r.dataset.theme = dark ? 'light' : 'dark';
+  };
+  document.addEventListener('keydown', e => {
+    if (e.target.matches('input')) return;
+    if (e.key === 'ArrowRight' && current) $('nextBtn').click();
+    if (e.key === 'ArrowLeft' && current) $('prevBtn').click();
+    if (e.key === '/') { e.preventDefault(); $('q').focus(); }
+  });
+
+  const h = location.hash.slice(1);
+  byId[h] ? open(h) : home();
+})();
+</script>

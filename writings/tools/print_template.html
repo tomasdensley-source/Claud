@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>The Writings of Thomas Densley</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+@page { size: 6in 9in; margin: 0.7in 0.6in 0.75in; }
+:root { --ink: #1c2420; --muted: #5b6660; --rule: #c9cec5; --forest: #2f5a43; --brass: #8a6a22; }
+body { margin: 0; color: var(--ink); background: #fff; font: 400 9.6pt/1.5 "Literata", Georgia, serif; hyphens: auto; }
+.cover { height: 7.4in; display: flex; flex-direction: column; justify-content: center; break-after: page; }
+.cover h1 { font: 600 34pt/1.05 "Cormorant Garamond", Georgia, serif; margin: 0 0 .25in; }
+.cover p { color: var(--muted); max-width: 4in; }
+.small { font: 400 7.5pt/1.5 "IBM Plex Mono", monospace; color: var(--muted); letter-spacing: .03em; }
+.toc { break-after: page; }
+.toc h2 { font: 600 18pt "Cormorant Garamond", serif; margin: 0 0 .15in; }
+.toc .s { font: 400 7pt "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .08em; color: var(--brass); margin: .12in 0 .03in; }
+.toc div.e { display: flex; gap: .1in; font-size: 8.4pt; line-height: 1.35; }
+.toc div.e span:first-child { flex: 1; }
+.toc div.e span:last-child { font: 7pt "IBM Plex Mono", monospace; color: var(--muted); }
+section.sec > h1 { font: 600 26pt/1.1 "Cormorant Garamond", serif; break-before: page; margin: 2.2in 0 0; }
+article { break-before: page; }
+article > header .eyebrow { font: 400 7pt "IBM Plex Mono", monospace; letter-spacing: .1em; text-transform: uppercase; color: var(--brass); }
+article > header h2 { font: 600 20pt/1.1 "Cormorant Garamond", serif; margin: .08in 0 .08in; }
+article > header .small { padding-bottom: .1in; border-bottom: .5pt solid var(--rule); margin-bottom: .2in; }
+.doc h3, .doc h4, .doc h5, .doc h6 { font-family: "Cormorant Garamond", serif; font-weight: 600; line-height: 1.15; break-after: avoid; margin: 1.3em 0 .4em; }
+.doc h3 { font-size: 15pt; } .doc h4 { font-size: 13pt; } .doc h5, .doc h6 { font-size: 11.5pt; }
+.doc p { margin: 0 0 .7em; orphans: 2; widows: 2; }
+.doc blockquote { margin: .8em 0; padding-left: .8em; border-left: 1pt solid var(--rule); color: var(--muted); }
+.doc hr { border: 0; border-top: .5pt solid var(--rule); width: 30%; margin: 1.2em auto; }
+.doc pre { font: 7.5pt/1.4 "IBM Plex Mono", monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+.doc code { font: 8pt "IBM Plex Mono", monospace; overflow-wrap: anywhere; }
+.doc table { border-collapse: collapse; font-size: 8pt; width: 100%; } .doc td, .doc th { border: .5pt solid var(--rule); padding: 2pt 4pt; vertical-align: top; overflow-wrap: anywhere; }
+.doc img { display: none; }
+.doc a { color: inherit; text-decoration: none; }
+.doc li { margin-bottom: .2em; }
+</style></head><body>
+<div id="out"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+<script id="data" type="application/json">__DATA__</script>
+<script>
+const W = JSON.parse(document.getElementById('data').textContent);
+const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt = n => n.toLocaleString('en-US');
+function md(t) {
+  t = t.replace(/!?\[\[([^\]|]+)\|([^\]]+)\]\]/g, '$2').replace(/!?\[\[([^\]]+)\]\]/g, '$1');
+  // Work bodies start at h3 so sections (h1) and work titles (h2) lead the outline.
+  t = t.replace(/^(#{1,4}) /gm, (m, h) => '#'.repeat(Math.min(6, h.length + 2)) + ' ');
+  return DOMPurify.sanitize(marked.parse(t, { gfm: true }), { FORBID_TAGS: ['style', 'iframe', 'form'], FORBID_ATTR: ['style'] });
+}
+const total = W.reduce((s, w) => s + w.words, 0);
+let html = `<div class="cover"><div class="small">Reading edition · compiled 11 October 2026</div><h1>The Writings of Thomas Densley</h1>
+<p>${W.length} works, ${fmt(total)} words. The full compiled file holds 214 works. This edition leaves out works whose text is already contained in a longer work here, and the vault working files (inventories, monolith splits, plans). The wording of every included work is unchanged. Numbers such as w209 match the catalog and the reader.</p></div>`;
+html += '<div class="toc"><h2>Contents</h2>';
+let sec = null;
+for (const w of W) {
+  if (w.section !== sec) { sec = w.section; html += `<div class="s">${esc(sec)}</div>`; }
+  html += `<div class="e"><span>${esc(w.title)}</span><span>${w.id} · ${fmt(w.words)}</span></div>`;
+}
+html += '</div>';
+sec = null;
+for (const w of W) {
+  if (w.section !== sec) { if (sec !== null) html += '</section>'; sec = w.section; html += `<section class="sec"><h1>${esc(sec)}</h1>`; }
+  html += `<article><header><div class="eyebrow">${esc(w.section)} · ${w.id}</div><h2>${esc(w.title)}</h2>
+    <div class="small">${fmt(w.words)} words · ${esc(w.source)}</div></header><div class="doc">${md(w.body)}</div></article>`;
+}
+html += '</section>';
+document.getElementById('out').innerHTML = html;
+document.fonts.ready.then(() => { document.body.dataset.ready = '1'; });
+</script></body></html>
