@@ -1,0 +1,50 @@
+start usage $2.7156, budget $5.00, 48 jobs
+G01 recraft/recraft-v4.1-pro: OK
+U01 openai/gpt-image-2: OK
+U02 recraft/recraft-v4.1-pro: OK
+U03 black-forest-labs/flux.2-max: OK
+G02 bytedance-seed/seedream-5-0-pro: OK
+U04 google/gemini-3-pro-image: OK
+U05 recraft/recraft-v4-styles-pro: FAILED HTTP 400 b'{"error":{"message":"Provider returned error","code":400,"metadata":{"raw":"{\\"code\\":\\"invalid_request_parameter\\",\\"message\\":\\"style references are required for model recraftv4_styles_pro\\"}","prov'
+U06 bytedance-seed/seedream-5-0-pro: OK
+G03 openai/gpt-image-2: OK
+U07 x-ai/grok-imagine-image-quality: OK
+U08 google/gemini-3-pro-image: OK
+U09 krea/krea-2-large: OK
+G04 qwen/qwen-image-3-pro: OK
+U10 tencent/hy-image-v3.5-preview: OK
+U11 qwen/qwen-image-3-pro: OK
+U12 microsoft/mai-image-2.5-pro: OK
+G05 x-ai/grok-imagine-image-quality: OK
+U13 black-forest-labs/flux.2-max: OK
+U14 openai/gpt-image-2: OK
+U15 google/gemini-3-pro-image: OK
+G06 sourceful/riverflow-v2.5-pro: OK
+U16 bytedance-seed/seedream-5-0-pro: OK
+U17 recraft/recraft-v4-styles-pro: FAILED HTTP 400 b'{"error":{"message":"Provider returned error","code":400,"metadata":{"raw":"{\\"code\\":\\"invalid_request_parameter\\",\\"message\\":\\"style references are required for model recraftv4_styles_pro\\"}","prov'
+U18 sourceful/riverflow-v2.5-pro: OK
+G07 microsoft/mai-image-2.5-pro: OK
+U19 krea/krea-2-large: OK
+U20 microsoft/mai-image-2.6: OK
+U21 qwen/qwen-image-3-pro: OK
+G08 microsoft/mai-image-2.6: OK
+U22 openai/gpt-image-2: OK
+U23 x-ai/grok-imagine-image-quality: OK
+U24 google/gemini-3-pro-image: OK
+G09 google/gemini-2.5-flash-image: OK
+U25 bytedance-seed/seedream-5-0-pro: OK
+U26 microsoft/mai-image-2.5-pro: OK
+U27 recraft/recraft-v4.1-pro: OK
+G10 bytedance-seed/seedream-5-0-pro: OK
+U28 black-forest-labs/flux.2-max: OK
+U29 sourceful/riverflow-v2.5-pro: OK
+U30 recraft/recraft-v4-styles-pro: FAILED HTTP 400 b'{"error":{"message":"Provider returned error","code":400,"metadata":{"raw":"{\\"code\\":\\"invalid_request_parameter\\",\\"message\\":\\"style references are required for model recraftv4_styles_pro\\"}","prov'
+G11 recraft/recraft-v4.1-pro: OK
+U31 google/gemini-3-pro-image: OK
+U32 bytedance-seed/seedream-5-0-pro: OK
+U33 openai/gpt-image-2: OK
+G12 openai/gpt-image-2: OK
+U34 x-ai/grok-imagine-image-quality: OK
+U35 microsoft/mai-image-2.6: OK
+U36 google/gemini-3-pro-image: OK
+spent $0.0000
