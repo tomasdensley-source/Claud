@@ -937,6 +937,9 @@ if __name__ == "__main__":
     elif cmd == "set-tagged-id":
         set_tagged_id(sys.argv[2], sys.argv[3])
         print("ok", sys.argv[2], sys.argv[3])
+    elif cmd == "patch-tagged-id":
+        set_tagged_id(sys.argv[2], sys.argv[3])
+        print("ok", sys.argv[2], sys.argv[3])
     elif cmd == "upload-json":
         sid = sys.argv[2]
         prep = WORK / f"{sid}.upload.json"
