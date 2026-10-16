@@ -1,0 +1,56 @@
+#!/usr/bin/env python3
+"""Download batch 58 MP3s via gdown (shared Drive folder)."""
+import json
+import subprocess
+import sys
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from pathlib import Path
+
+JSONL = Path("/tmp/drive-inventory/gap-19-21.jsonl")
+SLICE_START, SLICE_END = 1596, 1743
+OUT = Path("/tmp/gap19-work/mp3")
+GDOWN = "/home/ubuntu/.local/bin/gdown"
+
+
+def load_tracks() -> list[dict]:
+    lines = JSONL.read_text().strip().split("\n")
+    return [json.loads(lines[i - 1]) for i in range(SLICE_START, SLICE_END + 1)]
+
+
+def download_one(t: dict) -> tuple[str, str]:
+    fid = t["id"]
+    out = OUT / f"{fid}.mp3"
+    if out.exists() and out.stat().st_size > 5000:
+        return fid, "skip"
+    r = subprocess.run(
+        [GDOWN, fid, "-O", str(out)],
+        capture_output=True,
+        text=True,
+        timeout=300,
+    )
+    if r.returncode != 0 or not out.exists():
+        return fid, f"fail: {(r.stderr or r.stdout)[:240]}"
+    return fid, f"ok {out.stat().st_size}"
+
+
+def main() -> None:
+    tracks = load_tracks()
+    workers = int(sys.argv[1]) if len(sys.argv) > 1 else 8
+    OUT.mkdir(parents=True, exist_ok=True)
+    ok = skip = fail = 0
+    with ThreadPoolExecutor(max_workers=workers) as ex:
+        futs = {ex.submit(download_one, t): t for t in tracks}
+        for fut in as_completed(futs):
+            fid, status = fut.result()
+            if status.startswith("skip"):
+                skip += 1
+            elif status.startswith("ok"):
+                ok += 1
+            else:
+                fail += 1
+                print(fid, status, file=sys.stderr)
+    print(json.dumps({"ok": ok, "skip": skip, "fail": fail, "total": len(tracks)}))
+
+
+if __name__ == "__main__":
+    main()
