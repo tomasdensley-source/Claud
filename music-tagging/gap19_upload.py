@@ -69,10 +69,15 @@ def try_mcp_call(payload: dict) -> dict | None:
 
 
 def payload_for_sid(sid: str) -> dict:
-    mp3 = WORK / "tagged" / f"{sid}.mp3"
+    mp3 = WORK / "mp3" / f"{sid}.tagged.mp3"
+    if not mp3.exists():
+        mp3 = WORK / "tagged" / f"{sid}.mp3"
     if not mp3.exists():
         mp3 = WORK / f"{sid}.tagged.mp3"
-    meta = json.loads((WORK / f"{sid}.json").read_text())
+    meta_path = WORK / "mp3" / f"{sid}.json"
+    if not meta_path.exists():
+        meta_path = WORK / f"{sid}.json"
+    meta = json.loads(meta_path.read_text())
     return {
         "title": meta["filename"],
         "parentId": PARENT,
