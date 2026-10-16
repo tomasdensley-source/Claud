@@ -1,0 +1,210 @@
+<title>S24 Ultra Artist Wallpapers</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,500;0,600;1,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a gallery wall — one quiet header with the Drive action, then a grid of tall 9:19.5 plates with museum-style labels. */
+:root {
+  --paper: #f4f1ea;
+  --wall: #ebe6dc;
+  --ink: #1d1c1a;
+  --muted: #6b665d;
+  --rule: #d6cfc2;
+  --lapis: #23408e;
+  --lapis-ink: #ffffff;
+  --ok: #2f6b3a;
+  --warn: #8a5a00;
+  --bad: #a3271f;
+  --display: "EB Garamond", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #15161a; --wall: #1d1f25; --ink: #ece8df; --muted: #a29d93; --rule: #33363f;
+    --lapis: #8fa8ff; --lapis-ink: #0f1430; --ok: #7fc28b; --warn: #e2b25a; --bad: #ff8f86;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #15161a; --wall: #1d1f25; --ink: #ece8df; --muted: #a29d93; --rule: #33363f;
+  --lapis: #8fa8ff; --lapis-ink: #0f1430; --ok: #7fc28b; --warn: #e2b25a; --bad: #ff8f86;
+  color-scheme: dark;
+}
+body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-block: 28px 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header { display: grid; gap: 18px; grid-template-columns: minmax(0, 1fr); border-bottom: 1px solid var(--rule); padding-bottom: 22px; }
+h1 { font-family: var(--display); font-weight: 600; font-size: clamp(30px, 6vw, 44px); line-height: 1.05; margin: 0; text-wrap: balance; }
+.spec { font-family: var(--mono); font-size: 13px; color: var(--muted); letter-spacing: .02em; margin: 6px 0 0; }
+.drive { display: grid; gap: 10px; background: var(--wall); border: 1px solid var(--rule); border-radius: 10px; padding: 16px; }
+.drive-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+.drive p { margin: 0; min-width: 0; }
+.folder { font-weight: 600; }
+.folder a { color: var(--lapis); }
+button { font: 600 15px/1 var(--body); border-radius: 8px; cursor: pointer; padding: 12px 16px; border: 1px solid transparent; }
+button:focus-visible { outline: 3px solid var(--lapis); outline-offset: 2px; }
+.primary { background: var(--lapis); color: var(--lapis-ink); }
+.primary:disabled { opacity: .55; cursor: default; }
+.ghost { background: transparent; color: var(--ink); border-color: var(--rule); padding: 8px 12px; font-size: 13px; font-weight: 500; }
+.ghost:disabled { opacity: .5; cursor: default; }
+.msg { font-size: 14px; color: var(--muted); }
+.msg.bad { color: var(--bad); } .msg.ok { color: var(--ok); } .msg.warn { color: var(--warn); }
+.bar { height: 6px; border-radius: 3px; background: var(--rule); overflow: hidden; }
+.bar > i { display: block; height: 100%; width: 0; background: var(--lapis); transition: width .3s ease; }
+.grid { display: grid; gap: 28px 18px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); margin-top: 26px; }
+figure { margin: 0; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.plate { aspect-ratio: 1440 / 3120; width: 100%; max-width: 100%; border-radius: 6px; overflow: hidden; background: var(--wall);
+  box-shadow: 0 1px 0 var(--rule), 0 8px 24px -16px rgba(0,0,0,.45); }
+.plate img { width: 100%; height: 100%; object-fit: cover; display: block; }
+figcaption { display: grid; gap: 2px; min-width: 0; }
+.name { font-family: var(--display); font-size: 18px; font-weight: 600; line-height: 1.15; }
+.era { font-size: 12.5px; color: var(--muted); line-height: 1.35; }
+.foot { display: flex; flex-wrap: wrap; gap: 6px 8px; align-items: center; margin-top: 4px; }
+.chip { font-family: var(--mono); font-size: 11px; letter-spacing: .02em; padding: 3px 7px; border-radius: 999px; border: 1px solid var(--rule); color: var(--muted); white-space: nowrap; }
+.chip.ok { color: var(--ok); border-color: currentColor; }
+.chip.bad { color: var(--bad); border-color: currentColor; }
+.chip.busy { color: var(--lapis); border-color: currentColor; }
+.note { margin-top: 36px; font-size: 13px; color: var(--muted); max-width: 65ch; }
+@media (prefers-reduced-motion: reduce) { .bar > i { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1>S24 Ultra Artist Wallpapers</h1>
+      <p class="spec" id="spec"></p>
+    </div>
+    <section class="drive" aria-labelledby="drive-h">
+      <div class="drive-row">
+        <p id="drive-h" class="folder">Google Drive folder: <a id="folder-link" target="_blank" rel="noopener"></a></p>
+        <button class="primary" id="upload" type="button">Upload all to Google Drive</button>
+      </div>
+      <div class="bar" aria-hidden="true"><i id="bar"></i></div>
+      <p class="msg" id="msg" role="status" aria-live="polite">Uploads go straight from this page into the folder above, using your own Google Drive connection. Files already in the folder are skipped.</p>
+    </section>
+  </header>
+  <div class="grid" id="grid"></div>
+  <p class="note">Every image is a 1440 × 3120 PNG (19.5:9), the Galaxy S24 Ultra's native screen size, generated through OpenRouter. Each is an original composition in the artist's manner, not a reproduction of an existing work.</p>
+</div>
+
+<script>
+const DATA = /*DATA*/;
+const DRIVE = "Google Drive";
+const $ = (id) => document.getElementById(id);
+$("spec").textContent = `${DATA.items.length} wallpapers · 1440 × 3120 px · 19.5:9`;
+$("folder-link").textContent = DATA.folder.title;
+$("folder-link").href = DATA.folder.url;
+$("upload").textContent = `Upload all ${DATA.items.length} to Google Drive`;
+
+const chips = {};
+const grid = $("grid");
+for (const it of DATA.items) {
+  const fig = document.createElement("figure");
+  const plate = document.createElement("div"); plate.className = "plate";
+  const img = document.createElement("img"); img.src = it.thumb; img.alt = `${it.name} style wallpaper`; img.loading = "lazy";
+  plate.appendChild(img);
+  const cap = document.createElement("figcaption");
+  const nm = document.createElement("span"); nm.className = "name"; nm.textContent = it.name;
+  const era = document.createElement("span"); era.className = "era"; era.textContent = it.era;
+  const foot = document.createElement("div"); foot.className = "foot";
+  const chip = document.createElement("span"); chip.className = "chip"; chip.textContent = "Not uploaded";
+  const save = document.createElement("button"); save.className = "ghost"; save.type = "button"; save.textContent = "Save PNG"; save.hidden = true;
+  save.addEventListener("click", () => saveOne(it, save));
+  foot.append(chip, save);
+  cap.append(nm, era, foot);
+  fig.append(plate, cap);
+  grid.appendChild(fig);
+  chips[it.file] = { chip, save };
+}
+
+function setChip(file, text, cls) { const c = chips[file].chip; c.textContent = text; c.className = "chip" + (cls ? " " + cls : ""); }
+function say(text, cls) { const m = $("msg"); m.textContent = text; m.className = "msg" + (cls ? " " + cls : ""); }
+
+const fixFor = {
+  server_not_connected: "Google Drive isn't connected for your account. Add it in claude.ai Settings → Connectors, then tap Upload again.",
+  selection_required: "You have more than one Google Drive connector. Choose one when claude.ai asks, then tap Upload again.",
+  needs_reauth: "Your Google Drive connection has expired. Reconnect it in claude.ai Settings → Connectors, then tap Upload again.",
+  not_in_manifest: "Google Drive is turned off for this page. Allow it from this page's Permissions menu, then tap Upload again.",
+  approval_required: "Uploading needs your approval. Tap Upload again and choose Allow when claude.ai asks.",
+  blocked_by_policy: "Your organization's policy blocks this Google Drive action, so the files can't be uploaded from here.",
+  not_granted: "Connectors aren't available in this view. Open the page on claude.ai or in the Claude app to upload.",
+  capability_disabled: "Connectors aren't available in this view. Open the page on claude.ai or in the Claude app to upload.",
+};
+
+let mcp = null, downloads = null, busy = false;
+(async () => {
+  try { mcp = await window.claude?.use?.("mcp"); } catch { mcp = null; }
+  if (!mcp) { $("upload").disabled = true; say("Uploading needs the Claude app or claude.ai. In this view, open the page there to upload.", "warn"); }
+})();
+(async () => {
+  try { downloads = await window.claude?.use?.("downloads"); } catch { downloads = null; }
+  if (downloads) for (const k in chips) chips[k].save.hidden = false;
+})();
+
+async function existingTitles() {
+  const titles = new Set(); let pageToken;
+  for (let i = 0; i < 10; i++) {
+    const input = { query: `parentId = '${DATA.folder.id}'`, excludeContentSnippets: true, pageSize: 100 };
+    if (pageToken) input.pageToken = pageToken;
+    const res = await mcp.callTool(DRIVE, "search_files", input, { cache: false });
+    const p = res.payload || {};
+    for (const f of p.files || []) if (f && f.title) titles.add(f.title);
+    pageToken = p.nextPageToken;
+    if (!pageToken || !(p.files || []).length) break;
+  }
+  return titles;
+}
+
+$("upload").addEventListener("click", async () => {
+  if (!mcp || busy) return;
+  busy = true; $("upload").disabled = true;
+  try {
+    const list = await mcp.listTools();
+    if (!list.fileArgs) { say("This view can't send files to Google Drive. Open this page on claude.ai in a browser or in the Claude app and try again, or use the Save PNG buttons.", "warn"); return; }
+    say("Checking what's already in the folder…");
+    let have;
+    try { have = await existingTitles(); }
+    catch (e) { say(fixFor[e?.code] || `Couldn't read the Drive folder (${e?.code || "error"}). Tap Upload again in a moment.`, "bad"); return; }
+    let done = 0, failed = 0; const total = DATA.items.length;
+    const step = () => { $("bar").style.width = `${Math.round(100 * (done + failed) / total)}%`; };
+    for (const it of DATA.items) {
+      if (have.has(it.file)) { setChip(it.file, "In Drive", "ok"); done++; step(); continue; }
+      setChip(it.file, "Uploading…", "busy");
+      say(`Uploading ${it.name} (${done + failed + 1} of ${total})…`);
+      try {
+        const blob = await (await fetch(it.file_url)).blob();
+        await mcp.callTool(DRIVE, "create_file", {
+          title: it.file, parentId: DATA.folder.id, contentMimeType: "image/png", disableConversionToGoogleType: true,
+          base64Content: { $file: { data: blob, name: it.file, type: "image/png" } },
+        }, { cache: false });
+        setChip(it.file, "In Drive", "ok"); done++;
+      } catch (e) {
+        failed++;
+        if (fixFor[e?.code]) { setChip(it.file, "Not uploaded", "bad"); say(fixFor[e.code], "bad"); step(); return; }
+        const unsure = e?.code === "server_unavailable" || e?.code === "upstream_error" || e?.code === "cancelled";
+        setChip(it.file, unsure ? "Check Drive" : "Failed", "bad");
+      }
+      step();
+    }
+    if (failed === 0) say(`All ${total} wallpapers are in “${DATA.folder.title}”.`, "ok");
+    else say(`${done} of ${total} are in Drive. ${failed} didn't go through. Tap Upload again; files already in the folder are skipped.`, "warn");
+  } catch (e) {
+    say(fixFor[e?.code] || `Upload stopped (${e?.code || "error"}). Tap Upload again; files already in the folder are skipped.`, "bad");
+  } finally { busy = false; $("upload").disabled = false; }
+});
+
+async function saveOne(it, btn) {
+  if (!downloads) return;
+  btn.disabled = true;
+  try {
+    const blob = await (await fetch(it.file_url)).blob();
+    await downloads.save({ filename: it.file, data: blob });
+    btn.textContent = "Saved";
+  } catch (e) {
+    if (e?.code === "declined") btn.textContent = "Save PNG";
+    else if (e?.code === "rate_limited") btn.textContent = "Try again";
+    else { btn.textContent = "Can't save here"; return; }
+  } finally { if (btn.textContent !== "Can't save here") btn.disabled = false; }
+}
+</script>
