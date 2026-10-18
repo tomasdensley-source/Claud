@@ -6,6 +6,8 @@ import { StatusBar } from 'expo-status-bar';
 import { BoardProvider, useBoard } from './src/store/BoardContext';
 import { InfiniteCanvas, useViewportSize } from './src/components/InfiniteCanvas';
 import { Toolbar } from './src/components/Toolbar';
+import { Palette } from './src/components/Palette';
+import { Toast } from './src/components/Toast';
 import { ZoomControls } from './src/components/ZoomControls';
 import { Minimap } from './src/components/Minimap';
 import { BoardBadge } from './src/components/BoardBadge';
@@ -14,6 +16,9 @@ import { BoardsPanel } from './src/components/panels/BoardsPanel';
 import { FilesPanel } from './src/components/panels/FilesPanel';
 import { SearchPanel } from './src/components/panels/SearchPanel';
 import { GesturesPanel, MorePanel, StoragePanel } from './src/components/panels/MorePanel';
+import { ImportExportPanel } from './src/components/panels/ImportExportPanel';
+import { ErrorBoundary } from './src/components/ErrorBoundary';
+import { clampScale } from './src/lib/camera';
 import { colors } from './src/theme';
 
 function FieldnoteApp() {
@@ -57,7 +62,7 @@ function FieldnoteApp() {
   }, [currentBoard.items]);
 
   const requestZoom = useCallback((next: number) => {
-    setZoomRequest({ scale: Math.min(2.5, Math.max(0.25, next)), token: Date.now() });
+    setZoomRequest({ scale: clampScale(next), token: Date.now() });
   }, []);
 
   if (!ready) {
@@ -84,6 +89,8 @@ function FieldnoteApp() {
         />
         <BoardBadge />
         <Toolbar />
+        <Palette />
+        <Toast />
         <Minimap
           items={currentBoard.items}
           onNavigate={(x, y) => setCenterRequest({ x, y, token: Date.now() })}
@@ -117,6 +124,7 @@ function FieldnoteApp() {
           onFocusItem={(x, y) => setCenterRequest({ x, y, token: Date.now() })}
         />
         <MorePanel visible={panel === 'more'} onClose={() => setPanel(null)} />
+        <ImportExportPanel visible={panel === 'jsoncanvas'} onClose={() => setPanel(null)} />
         <GesturesPanel visible={panel === 'gestures'} onClose={() => setPanel(null)} />
         <StoragePanel visible={panel === 'storage'} onClose={() => setPanel(null)} />
       </View>
@@ -127,11 +135,13 @@ function FieldnoteApp() {
 export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaProvider>
-        <BoardProvider>
-          <FieldnoteApp />
-        </BoardProvider>
-      </SafeAreaProvider>
+      <ErrorBoundary>
+        <SafeAreaProvider>
+          <BoardProvider>
+            <FieldnoteApp />
+          </BoardProvider>
+        </SafeAreaProvider>
+      </ErrorBoundary>
     </GestureHandlerRootView>
   );
 }

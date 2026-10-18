@@ -4,6 +4,7 @@ import { createMainBoard } from './seed';
 
 const STORAGE_KEY = 'fieldnote.boards.v1';
 const CURRENT_KEY = 'fieldnote.currentBoardId.v1';
+const PALETTE_KEY = 'fieldnote.paletteSlots.v1';
 
 export async function loadBoards(): Promise<{ boards: Board[]; currentBoardId: string }> {
   try {
@@ -41,4 +42,22 @@ export async function clearAllBoards(): Promise<void> {
     AsyncStorage.removeItem(STORAGE_KEY),
     AsyncStorage.removeItem(CURRENT_KEY),
   ]);
+}
+
+// Persists the palette's custom color slots only — separate from board content
+// so resetting/clearing boards never discards a user's saved colors.
+export async function loadPaletteSlots(fallback: string[]): Promise<string[]> {
+  try {
+    const raw = await AsyncStorage.getItem(PALETTE_KEY);
+    if (!raw) return fallback;
+    const slots = JSON.parse(raw) as unknown;
+    if (!Array.isArray(slots) || slots.some((s) => typeof s !== 'string')) return fallback;
+    return slots as string[];
+  } catch {
+    return fallback;
+  }
+}
+
+export async function savePaletteSlots(slots: string[]): Promise<void> {
+  await AsyncStorage.setItem(PALETTE_KEY, JSON.stringify(slots));
 }

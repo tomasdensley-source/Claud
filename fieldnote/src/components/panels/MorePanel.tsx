@@ -48,6 +48,12 @@ export function MorePanel({ visible, onClose }: Props) {
         }}
       />
       <Row
+        icon="swap-horizontal-outline"
+        title="Import / export"
+        subtitle="JSON Canvas — share boards or paste an AI-generated one"
+        onPress={() => setPanel('jsoncanvas')}
+      />
+      <Row
         icon="help-circle-outline"
         title="Gestures & shortcuts"
         onPress={() => setPanel('gestures')}

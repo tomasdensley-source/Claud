@@ -7,12 +7,34 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Board, BoardItem, DraftBoardItem, PanelKind } from '../types';
+import { Board, BoardItem, DraftBoardItem, PaletteTarget, PanelKind } from '../types';
 import { createMainBoard, uid } from '../lib/seed';
-import { clearAllBoards, loadBoards, saveBoards } from '../lib/storage';
+import {
+  clearAllBoards,
+  loadBoards,
+  loadPaletteSlots,
+  saveBoards,
+  savePaletteSlots,
+} from '../lib/storage';
+import { parseJSONCanvas, serializeJSONCanvas } from '../lib/jsoncanvas';
+import { repairBoardItems } from '../lib/normalize';
+import { computeSnapDelta } from '../lib/snapping';
+import { MIN_ITEM_HEIGHT, MIN_ITEM_WIDTH } from '../lib/resize';
+import { haptics } from '../lib/haptics';
 import { colors } from '../theme';
 
 type Tool = 'select' | 'draw' | 'multi';
+
+// Seeds for the palette's 5 persistent custom slots — a small starting set
+// from the existing Fieldnote palette, not a fixed requirement; every slot is
+// user-editable and persists across sessions independent of board content.
+const DEFAULT_PALETTE_SLOTS = [
+  colors.clay,
+  colors.amber,
+  colors.tipBlue,
+  colors.clayDeep,
+  colors.ink,
+];
 
 interface BoardContextValue {
   ready: boolean;
@@ -31,7 +53,12 @@ interface BoardContextValue {
   clearSelection: () => void;
   updateItems: (updater: (items: BoardItem[]) => BoardItem[], pushHistory?: boolean) => void;
   moveItems: (ids: string[], dx: number, dy: number, commit?: boolean) => void;
-  resizeItem: (id: string, width: number, height: number, commit?: boolean) => void;
+  moveItemsCommitWithSnap: (ids: string[], dx: number, dy: number) => void;
+  resizeItem: (
+    id: string,
+    rect: { x?: number; y?: number; width: number; height: number },
+    commit?: boolean,
+  ) => void;
   updateText: (id: string, text: string) => void;
   toggleTask: (id: string) => void;
   addItem: (item: DraftBoardItem) => string;
@@ -49,6 +76,31 @@ interface BoardContextValue {
     point: { x: number; y: number },
     startNewPath: boolean,
   ) => string;
+  exportBoardAsJSONCanvas: () => string;
+  importJSONCanvas: (raw: string, mode: 'replace' | 'append') => ImportOutcome;
+  repairCurrentBoard: () => { changed: boolean; issues: string[] };
+  paletteOpen: boolean;
+  paletteTarget: PaletteTarget;
+  paletteSlots: string[];
+  setPaletteOpen: (open: boolean) => void;
+  setPaletteTarget: (target: PaletteTarget) => void;
+  setPaletteSlot: (index: number, color: string) => void;
+  applyPaletteColor: (color: string) => void;
+  toast: ToastState | null;
+  showToast: (text: string, opts?: { undoable?: boolean }) => void;
+  dismissToast: () => void;
+}
+
+export interface ToastState {
+  id: number;
+  text: string;
+  undoable: boolean;
+}
+
+export interface ImportOutcome {
+  ok: boolean;
+  issues: string[];
+  count?: number;
 }
 
 const BoardContext = createContext<BoardContextValue | null>(null);
@@ -67,6 +119,14 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
   const [panel, setPanel] = useState<PanelKind>(null);
   const [history, setHistory] = useState<Board[][]>([]);
   const [future, setFuture] = useState<Board[][]>([]);
+  // Default closed every launch — only the 5 custom slots persist, not whether
+  // the palette itself was left open.
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const [paletteTarget, setPaletteTarget] = useState<PaletteTarget>('frame');
+  const [paletteSlots, setPaletteSlots] = useState<string[]>(DEFAULT_PALETTE_SLOTS);
+  const paletteReady = useRef(false);
+  const [toast, setToast] = useState<ToastState | null>(null);
+  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const boardsRef = useRef(boards);
   boardsRef.current = boards;
@@ -83,6 +143,45 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     return () => {
       cancelled = true;
     };
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const slots = await loadPaletteSlots(DEFAULT_PALETTE_SLOTS);
+      if (cancelled) return;
+      setPaletteSlots(slots);
+      paletteReady.current = true;
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!paletteReady.current) return;
+    void savePaletteSlots(paletteSlots);
+  }, [paletteSlots]);
+
+  useEffect(
+    () => () => {
+      if (toastTimer.current) clearTimeout(toastTimer.current);
+    },
+    [],
+  );
+
+  const dismissToast = useCallback(() => {
+    if (toastTimer.current) clearTimeout(toastTimer.current);
+    setToast(null);
+  }, []);
+
+  const showToast = useCallback((text: string, opts?: { undoable?: boolean }) => {
+    if (toastTimer.current) clearTimeout(toastTimer.current);
+    const id = Date.now();
+    setToast({ id, text, undoable: Boolean(opts?.undoable) });
+    toastTimer.current = setTimeout(() => {
+      setToast((cur) => (cur?.id === id ? null : cur));
+    }, 3500);
   }, []);
 
   useEffect(() => {
@@ -153,13 +252,43 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     [updateItems],
   );
 
+  // Applies the final increment of a drag and, for a single dragged item,
+  // gently snaps it into alignment with any other item's edge/center that's
+  // close by. Only fires at drop (commit) — see docs/COMBINED_PLAN.md Batch 4
+  // for why continuous live snapping was scoped out.
+  const moveItemsCommitWithSnap = useCallback(
+    (ids: string[], dx: number, dy: number) => {
+      updateItems((items) => {
+        const moved = items.map((it) =>
+          ids.includes(it.id) ? { ...it, x: it.x + dx, y: it.y + dy } : it,
+        );
+        if (ids.length !== 1) return moved;
+        const movingItem = moved.find((it) => it.id === ids[0]);
+        if (!movingItem) return moved;
+        const others = moved.filter((it) => it.id !== ids[0]);
+        const snap = computeSnapDelta(movingItem, others);
+        if (snap.dx === 0 && snap.dy === 0) return moved;
+        return moved.map((it) =>
+          it.id === ids[0] ? { ...it, x: it.x + snap.dx, y: it.y + snap.dy } : it,
+        );
+      }, true);
+    },
+    [updateItems],
+  );
+
   const resizeItem = useCallback(
-    (id: string, width: number, height: number, commit = false) => {
+    (id: string, rect: { x?: number; y?: number; width: number; height: number }, commit = false) => {
       updateItems(
         (items) =>
           items.map((it) =>
             it.id === id
-              ? { ...it, width: Math.max(80, width), height: Math.max(60, height) }
+              ? {
+                  ...it,
+                  ...(rect.x !== undefined ? { x: rect.x } : null),
+                  ...(rect.y !== undefined ? { y: rect.y } : null),
+                  width: Math.max(MIN_ITEM_WIDTH, rect.width),
+                  height: Math.max(MIN_ITEM_HEIGHT, rect.height),
+                }
               : it,
           ),
         commit,
@@ -183,9 +312,16 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
 
   const toggleTask = useCallback(
     (id: string) => {
+      let nowDone = false;
       updateItems((items) =>
-        items.map((it) => (it.id === id && it.type === 'task' ? { ...it, done: !it.done } : it)),
+        items.map((it) => {
+          if (it.id !== id || it.type !== 'task') return it;
+          nowDone = !it.done;
+          return { ...it, done: nowDone };
+        }),
       );
+      if (nowDone) haptics.success();
+      else haptics.light();
     },
     [updateItems],
   );
@@ -206,9 +342,12 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
 
   const deleteSelected = useCallback(() => {
     if (selectedIds.length === 0) return;
+    const count = selectedIds.length;
     updateItems((items) => items.filter((it) => !selectedIds.includes(it.id)));
     setSelectedIds([]);
-  }, [selectedIds, updateItems]);
+    haptics.warning();
+    showToast(count === 1 ? 'Deleted 1 card' : `Deleted ${count} cards`, { undoable: true });
+  }, [selectedIds, showToast, updateItems]);
 
   const duplicateSelected = useCallback(() => {
     if (selectedIds.length === 0) return;
@@ -332,6 +471,77 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     [currentBoard.items, drawColor, updateItems],
   );
 
+  const setPaletteSlot = useCallback((index: number, color: string) => {
+    setPaletteSlots((prev) => prev.map((c, i) => (i === index ? color : c)));
+  }, []);
+
+  const applyPaletteColor = useCallback(
+    (color: string) => {
+      if (selectedIds.length > 0) {
+        updateItems(
+          (items) =>
+            items.map((it) =>
+              selectedIds.includes(it.id)
+                ? {
+                    ...it,
+                    ...(paletteTarget === 'frame'
+                      ? { backgroundColor: color }
+                      : { color }),
+                  }
+                : it,
+            ),
+          true,
+        );
+        haptics.light();
+        return;
+      }
+      if (tool === 'draw') {
+        setDrawColorState(color);
+        haptics.light();
+      }
+    },
+    [paletteTarget, selectedIds, tool, updateItems],
+  );
+
+  const exportBoardAsJSONCanvas = useCallback(
+    () => serializeJSONCanvas(currentBoard),
+    [currentBoard],
+  );
+
+  const importJSONCanvas = useCallback(
+    (raw: string, mode: 'replace' | 'append'): ImportOutcome => {
+      const result = parseJSONCanvas(raw);
+      if (result.items.length === 0) {
+        return { ok: false, issues: result.issues };
+      }
+      if (mode === 'replace') {
+        pushHistory();
+        replaceCurrentItems(result.items, false);
+      } else {
+        const existingIds = new Set(currentBoard.items.map((it) => it.id));
+        let maxZ = currentBoard.items.reduce((m, it) => Math.max(m, it.zIndex), 0);
+        const appended = result.items.map((it) => {
+          let id = it.id;
+          while (existingIds.has(id)) id = uid(it.type);
+          existingIds.add(id);
+          maxZ += 1;
+          return { ...it, id, zIndex: maxZ };
+        });
+        updateItems((items) => [...items, ...appended], true);
+      }
+      return { ok: true, issues: result.issues, count: result.items.length };
+    },
+    [currentBoard.items, pushHistory, replaceCurrentItems, updateItems],
+  );
+
+  const repairCurrentBoard = useCallback(() => {
+    const result = repairBoardItems(currentBoard.items);
+    if (result.changed) {
+      replaceCurrentItems(result.items, true);
+    }
+    return { changed: result.changed, issues: result.issues };
+  }, [currentBoard.items, replaceCurrentItems]);
+
   const value: BoardContextValue = {
     ready,
     boards,
@@ -349,6 +559,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     clearSelection,
     updateItems,
     moveItems,
+    moveItemsCommitWithSnap,
     resizeItem,
     updateText,
     toggleTask,
@@ -363,6 +574,19 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     redo,
     resetToSeed,
     appendDrawingPoint,
+    exportBoardAsJSONCanvas,
+    importJSONCanvas,
+    repairCurrentBoard,
+    paletteOpen,
+    paletteTarget,
+    paletteSlots,
+    setPaletteOpen,
+    setPaletteTarget,
+    setPaletteSlot,
+    applyPaletteColor,
+    toast,
+    showToast,
+    dismissToast,
   };
 
   return <BoardContext.Provider value={value}>{children}</BoardContext.Provider>;

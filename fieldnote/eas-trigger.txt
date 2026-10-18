@@ -1,0 +1,1 @@
+eas build request: 6 (FIX: viewport-sized grid — resolves native launch crash)
