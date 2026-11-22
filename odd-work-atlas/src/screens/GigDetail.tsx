@@ -126,14 +126,18 @@ export function GigDetail({ id }: { id: string }) {
       <div className="detail-hero">
         <Tile gig={gig} size={72} />
         <div className="detail-hero-main">
-          <div className="detail-cat">{gig.category}</div>
           <div className="badges">
             <StageBadge stage={gig.stage} />
             <FlagBadges gig={gig} />
           </div>
         </div>
       </div>
-      <p className="detail-desc">{gig.description}</p>
+      <div className="card pad-card about-card">
+        <div className="about-label">What it is</div>
+        <p className="about-text">{gig.description || 'No description yet.'}</p>
+        <div className="about-label">Category</div>
+        <p className="about-cat">{gig.category}</p>
+      </div>
 
       {gig.neverRecommend && (
         <div className="banner never">

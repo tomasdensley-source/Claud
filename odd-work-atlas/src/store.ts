@@ -2,6 +2,7 @@ import { useSyncExternalStore } from 'react';
 import seed from './data/seed.json';
 import {
   ADDED_RECORDS,
+  CATEGORY_FIX,
   LIST_TOP10,
   LIST_TOP25,
   NEEDLE_CATEGORY,
@@ -50,7 +51,7 @@ export function buildSeedState(): AppState {
       id: slug(r.name),
       name: r.name,
       platform: r.name,
-      category: r.category,
+      category: CATEGORY_FIX[r.name] ?? r.category,
       stage: r.stage as Stage,
       description: r.description,
       note: r.note,
@@ -112,13 +113,30 @@ export function buildSeedState(): AppState {
 
 let loadedFromStorage = false;
 
+let migrated = false;
+
+/** Updates saved data from older versions without touching the user's own edits. */
+function migrate(s: AppState): AppState {
+  let changed = false;
+  const gigs = s.gigs.map((g) => {
+    const fix = CATEGORY_FIX[g.name];
+    if (fix && (g.category === 'Your active gigs' || g.category === 'Field Services / Product Demonstration')) {
+      changed = true;
+      return { ...g, category: fix };
+    }
+    return g;
+  });
+  if (changed) migrated = true;
+  return changed ? { ...s, gigs } : s;
+}
+
 function load(): AppState {
   try {
     const raw = localStorage.getItem(KEY);
     loadedFromStorage = !!raw;
     if (raw) {
       const parsed = JSON.parse(raw) as AppState;
-      if (parsed && parsed.schema === 1 && Array.isArray(parsed.gigs)) return parsed;
+      if (parsed && parsed.schema === 1 && Array.isArray(parsed.gigs)) return migrate(parsed);
     }
   } catch {
     /* fall through to seed */
@@ -130,7 +148,10 @@ let state: AppState = load();
 
 /** If app storage was wiped but the private auto-backup survived, bring it back. */
 export async function restoreFromAutoBackupIfNeeded(): Promise<boolean> {
-  if (loadedFromStorage) return false;
+  if (loadedFromStorage) {
+    if (migrated) persist(); // save the upgraded data back
+    return false;
+  }
   const raw = await readAutoBackup();
   if (raw) {
     try {

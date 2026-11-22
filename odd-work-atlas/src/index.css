@@ -1435,3 +1435,30 @@ p {
   background: #fff;
   box-shadow: 0 0 0 1px rgba(24, 33, 31, 0.08), 0 1px 3px rgba(24, 33, 31, 0.06);
 }
+
+/* "What it is" card on the gig page */
+.about-card {
+  margin-top: 14px;
+}
+.about-label {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.about-text {
+  margin: 4px 0 14px;
+  font-size: var(--fs-md);
+  line-height: 1.55;
+}
+.about-cat {
+  margin-top: 4px;
+  font-weight: 700;
+  color: var(--accent-deep);
+}
+.cat-badge {
+  background: var(--surface) !important;
+  border: 1.5px solid var(--line);
+  color: var(--ink-2) !important;
+}

@@ -103,8 +103,9 @@ export function GigRow({
           {gig.pinned && <Icon name="pin" size={16} className="pin-mark" />}
           {gig.name}
         </div>
-        <div className="gig-row-sub">{sub ?? gig.category}</div>
+        <div className="gig-row-sub">{sub ?? gig.description}</div>
         <div className="badges">
+          <span className="badge cat-badge">{gig.category}</span>
           <StageBadge stage={gig.stage} />
           <FlagBadges gig={gig} />
         </div>

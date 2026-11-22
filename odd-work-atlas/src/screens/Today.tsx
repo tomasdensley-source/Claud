@@ -131,7 +131,6 @@ export function Today() {
                   key={g.id}
                   gig={g}
                   onOpen={() => open(g.id)}
-                  sub={g.nextStep || g.category}
                   right={
                     r.perHour == null ? undefined : (
                       <div className="rate-col">
@@ -154,7 +153,7 @@ export function Today() {
         ) : (
           <div className="card list">
             {mine.slice(0, 8).map((g) => (
-              <GigRow key={g.id} gig={g} onOpen={() => open(g.id)} sub={g.nextStep || g.category} />
+              <GigRow key={g.id} gig={g} onOpen={() => open(g.id)} sub={g.nextStep || g.description} />
             ))}
             {mine.length > 8 && (
               <button className="list-more" onClick={() => nav.setTab('pipeline')}>
@@ -172,7 +171,7 @@ export function Today() {
         ) : (
           <div className="card list">
             {theirs.map((g) => (
-              <GigRow key={g.id} gig={g} onOpen={() => open(g.id)} sub={g.nextStep || g.category} />
+              <GigRow key={g.id} gig={g} onOpen={() => open(g.id)} sub={g.nextStep || g.description} />
             ))}
           </div>
         )}

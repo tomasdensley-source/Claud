@@ -97,7 +97,7 @@ export function Pipeline() {
             {isOpen && (
               <div className="card list">
                 {list.map((g) => (
-                  <GigRow key={g.id} gig={g} onOpen={() => nav.push({ kind: 'gig', id: g.id })} sub={g.nextStep || g.category} />
+                  <GigRow key={g.id} gig={g} onOpen={() => nav.push({ kind: 'gig', id: g.id })} />
                 ))}
               </div>
             )}

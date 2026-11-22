@@ -130,6 +130,19 @@ export const OVERLAY: Record<string, Overlay> = {
   },
 };
 
+/**
+ * "Your active gigs" was a list, not a kind of work, and CDS had a one-off
+ * category. These put each one in the Atlas category that matches its work.
+ */
+export const CATEGORY_FIX: Record<string, string> = {
+  AmRide: 'Drive & Courier',
+  'Facebook Marketplace Selling': 'Selling & Creator',
+  Instawork: 'Shift Work & Staffing',
+  'TaskRabbit (general)': 'Home, Yard & Assets',
+  'TaskRabbit — Christmas Lights Setup': 'Home, Yard & Assets',
+  'CDS (Club Demonstration Services)': 'Shift Work & Staffing',
+};
+
 /** Needle rule: these exist as records only and are never recommended. */
 export const NEEDLE_CATEGORY = 'Health & Plasma';
 export const NEEDLE_REASON = 'Needle rule: plasma donation is never recommended.';
