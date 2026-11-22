@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Odd-Work Atlas</string>
+    <string name="title_activity_main">Odd-Work Atlas</string>
+    <string name="package_name">com.densley.oddworkatlas</string>
+    <string name="custom_url_scheme">com.densley.oddworkatlas</string>
+</resources>
