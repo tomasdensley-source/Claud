@@ -21,7 +21,7 @@ import { useNav } from '../nav';
 import { matches, queue } from '../selectors';
 import { recommendable } from '../metrics';
 import type { Gig } from '../types';
-import { Btn, Empty, FlagBadges, Header, StageBadge, Tile } from '../ui/kit';
+import { Btn, Empty, Fab, FlagBadges, Header, StageRoute, Tile } from '../ui/kit';
 import { Icon } from '../ui/Icon';
 import { tap } from '../native';
 
@@ -38,14 +38,14 @@ function Row({ gig, index }: { gig: Gig; index: number }) {
         <Icon name="grip" />
       </button>
       <span className="queue-num">{index + 1}</span>
-      <button className="queue-main" onClick={() => nav.push({ kind: 'gig', id: gig.id })}>
-        <Tile gig={gig} size={44} />
+      <button className="queue-main press" onClick={() => nav.push({ kind: 'gig', id: gig.id })}>
+        <Tile gig={gig} size={52} />
         <div className="gig-row-main">
           <div className="gig-row-name">{gig.name}</div>
           <div className="gig-row-sub">{gig.nextStep || gig.description}</div>
-          <div className="badges">
-            <StageBadge stage={gig.stage} />
-            <FlagBadges gig={gig} />
+          <div className="gig-row-foot">
+            <StageRoute stage={gig.stage} />
+            <span className="badges"><FlagBadges gig={gig} /></span>
           </div>
         </div>
       </button>
@@ -129,20 +129,9 @@ export function Queue() {
   };
 
   return (
+    <>
     <div className="screen">
-      <Header
-        title="Priority queue"
-        subtitle="Pinned first. Drag the handle to reorder."
-        actions={
-          <button
-            className="icon-btn accent-bg"
-            aria-label="Add a gig to the queue"
-            onClick={() => nav.openSheet({ title: 'Add to queue', render: (close) => <AddSheet close={close} /> })}
-          >
-            <Icon name="plus" />
-          </button>
-        }
-      />
+      <Header title="Priority queue" subtitle="Pinned gigs stay on top. Drag the handle to reorder." />
       {list.length === 0 ? (
         <>
           <Empty icon="queue" title="Your queue is empty" body="Add the gigs you want to apply to or work next." />
@@ -163,7 +152,9 @@ export function Queue() {
           </SortableContext>
         </DndContext>
       )}
-      <div className="bottom-space" />
+      <div className="bottom-space fab-space" />
     </div>
+    <Fab label="Add a gig" icon="plus" onClick={() => nav.openSheet({ title: 'Add to queue', render: (close) => <AddSheet close={close} /> })} />
+    </>
   );
 }

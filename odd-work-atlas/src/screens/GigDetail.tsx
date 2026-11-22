@@ -3,7 +3,7 @@ import { addToQueue, removeFromQueue, updateGig, useAppState } from '../store';
 import { useDirty, useNav } from '../nav';
 import { belowFloor, effectiveFloor, money, offerClearsFloor, perHour, perMile, prettyDate, prettyTime, rates } from '../metrics';
 import { FLAG_KEYS, FLAG_LABEL, STAGES, STAGE_LABEL, type Gig, type NoSkillTier } from '../types';
-import { Btn, Chip, Empty, FlagBadges, Header, Section, StageBadge, Stat, Tile } from '../ui/kit';
+import { ActionDock, Btn, Chip, Empty, FlagBadges, Header, Section, StageRoute, Stat, Tile } from '../ui/kit';
 import { Icon } from '../ui/Icon';
 import { openExternal, tap } from '../native';
 import { EventSheet, FloorSheet, JobSheet, OfferSheet, TextSheet } from './sheets';
@@ -103,6 +103,8 @@ export function GigDetail({ id }: { id: string }) {
     <div className="screen">
       <Header
         title={gig.name}
+        subtitle={gig.category}
+        lead={<Tile gig={gig} size={88} />}
         onBack={nav.back}
         actions={
           !gig.neverRecommend && !gig.flags.closed ? (
@@ -123,21 +125,16 @@ export function GigDetail({ id }: { id: string }) {
         }
       />
 
-      <div className="detail-hero">
-        <Tile gig={gig} size={72} />
-        <div className="detail-hero-main">
-          <div className="badges">
-            <StageBadge stage={gig.stage} />
-            <FlagBadges gig={gig} />
-          </div>
+      <div className="detail-status">
+        <StageRoute stage={gig.stage} size="lg" />
+        <div className="badges">
+          <FlagBadges gig={gig} />
         </div>
       </div>
-      <div className="card pad-card about-card">
-        <div className="about-label">What it is</div>
+      <section className="about">
+        <h2 className="about-label">What it is</h2>
         <p className="about-text">{gig.description || 'No description yet.'}</p>
-        <div className="about-label">Category</div>
-        <p className="about-cat">{gig.category}</p>
-      </div>
+      </section>
 
       {gig.neverRecommend && (
         <div className="banner never">
@@ -171,63 +168,47 @@ export function GigDetail({ id }: { id: string }) {
 
       {!gig.flags.closed && (
         <button
-          className="next-card"
+          className="next-card press"
           onClick={() =>
             sheet('Next step', (close) => (
               <TextSheet label="What happens next, and who does it" initial={gig.nextStep} multiline onSave={(v) => updateGig(gig.id, { nextStep: v })} close={close} />
             ))
           }
         >
-          <div className="next-label">
+          <span className="next-label">
             <Icon name={gig.flags.waitingOnThem && !gig.flags.waitingOnMe ? 'hourglass' : 'hand'} size={18} />
             {gig.flags.waitingOnMe ? 'Your move' : gig.flags.waitingOnThem ? 'Their move' : 'Next step'}
-          </div>
-          <div className="next-text">{gig.nextStep || 'Tap to write the next step.'}</div>
+          </span>
+          <span className="next-text">{gig.nextStep || 'Tap to write the next step.'}</span>
+          <span className="next-edit"><Icon name="edit" size={18} /> Edit</span>
         </button>
       )}
 
-      <div className="action-grid">
+      <ActionDock>
         {gig.appUrl ? (
-          <button className="action" onClick={() => openExternal(gig.appUrl!)}>
+          <button className="dock-btn press" onClick={() => openExternal(gig.appUrl!)}>
             <Icon name="external" />
             <span>Open app</span>
           </button>
         ) : (
-          <div className="action disabled" aria-label="No app">
+          <span className="dock-btn off" aria-label="This gig has no app">
             <Icon name="ban" />
             <span>No app</span>
-          </div>
+          </span>
         )}
-        {gig.reviewUrl ? (
-          <button className="action" onClick={() => openExternal(gig.reviewUrl!)}>
-            <Icon name="play" />
-            <span>Review video</span>
-          </button>
-        ) : (
-          <button
-            className="action subtle"
-            onClick={() =>
-              sheet('Review video link', (close) => (
-                <TextSheet label="YouTube review link" initial="" placeholder="https://www.youtube.com/watch?v=" inputMode="url" onSave={(v) => updateGig(gig.id, { reviewUrl: v || null })} close={close} />
-              ))
-            }
-          >
-            <Icon name="play" />
-            <span>Add review</span>
-          </button>
-        )}
-        <button className="action" onClick={() => sheet('Add a job', (close) => <JobSheet gig={gig} close={close} />)}>
+        <button className="dock-btn main press" onClick={() => sheet('Add a job', (close) => <JobSheet gig={gig} close={close} />)}>
           <Icon name="plus" />
           <span>Add job</span>
         </button>
         {gig.neverRecommend || gig.flags.closed ? (
-          <div className="action disabled">
+          <span className="dock-btn off">
             <Icon name="queue" />
             <span>Not queueable</span>
-          </div>
+          </span>
         ) : (
           <button
-            className={`action ${queued ? 'on' : ''}`}
+            className={`dock-btn press ${queued ? 'on' : ''}`}
+            aria-pressed={queued}
             onClick={() => {
               tap();
               if (queued) {
@@ -243,7 +224,7 @@ export function GigDetail({ id }: { id: string }) {
             <span>{queued ? 'In queue' : 'Add to queue'}</span>
           </button>
         )}
-      </div>
+      </ActionDock>
 
       <Section title="Money">
         <div className="stats">
@@ -270,7 +251,7 @@ export function GigDetail({ id }: { id: string }) {
                   <div className="job-main">
                     <strong>{money(j.gross, 2)}</strong>
                     <span>
-                      {j.shiftHours} hr + {j.driveMinutes} min drive · {j.miles} mi{j.memo ? ` · ${j.memo}` : ''}
+                      {j.shiftHours} hr work, {j.driveMinutes} min drive, {j.miles} mi{j.memo ? `. ${j.memo}` : ''}
                     </span>
                   </div>
                   <div className="rate-col">
@@ -306,7 +287,7 @@ export function GigDetail({ id }: { id: string }) {
                 <div className="event-main">
                   <div className="event-title">{e.title}</div>
                   <div className="event-sub">
-                    {prettyDate(e.date)} · {e.confirmed ? 'Confirmed' : 'Not confirmed, kept off the calendar'}
+                    {prettyDate(e.date)}. {e.confirmed ? 'Confirmed' : 'Not confirmed, so it stays off Today'}
                   </div>
                 </div>
               </button>
@@ -361,6 +342,10 @@ export function GigDetail({ id }: { id: string }) {
           <div className="detail-line">
             <span>Review video</span>
             {gig.reviewUrl ? (
+              <span className="detail-links">
+                <button className="link-btn" onClick={() => openExternal(gig.reviewUrl!)}>
+                  <Icon name="play" size={18} /> Watch
+                </button>
               <button
                 className="link-btn"
                 onClick={() =>
@@ -371,8 +356,18 @@ export function GigDetail({ id }: { id: string }) {
               >
                 Edit link
               </button>
+              </span>
             ) : (
-              <strong>None yet</strong>
+              <button
+                className="link-btn"
+                onClick={() =>
+                  sheet('Review video link', (close) => (
+                    <TextSheet label="YouTube review link" initial="" placeholder="https://www.youtube.com/watch?v=" inputMode="url" onSave={(v) => updateGig(gig.id, { reviewUrl: v || null })} close={close} />
+                  ))
+                }
+              >
+                <Icon name="plus" size={18} /> Add link
+              </button>
             )}
           </div>
           <div className="detail-line">

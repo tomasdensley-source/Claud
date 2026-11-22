@@ -2,22 +2,20 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import logoIds from '../data/logos.json';
 import { Icon, type IconName } from './Icon';
 import type { Gig } from '../types';
-import { STAGE_LABEL } from '../types';
+import { STAGES, STAGE_LABEL } from '../types';
 import { tap } from '../native';
 
 // Category tones: one family of soft tiles with deep ink, so every gig gets a
 // designed two-tone monogram while the app keeps one signature accent.
 const TONES = [
-  ['#E3F1EE', '#0B5C55'],
-  ['#E6EEFB', '#1F4C9A'],
-  ['#F5EBDD', '#7A4A12'],
-  ['#EEE8F8', '#55348F'],
-  ['#E5F2E3', '#2F6A28'],
-  ['#FBE7E4', '#93342A'],
-  ['#E2F0F6', '#155E78'],
-  ['#F7EED6', '#6E5410'],
-  ['#F3E6F0', '#7E2F67'],
-  ['#E9ECEF', '#3A4651'],
+  ['#D3EAE3', '#0A5248'],
+  ['#DCE7F2', '#1E4A73'],
+  ['#F6E6BF', '#6B4A00'],
+  ['#E4E2F1', '#463C7A'],
+  ['#DDEBD5', '#2F5A1E'],
+  ['#D5E8EC', '#145466'],
+  ['#EFE3CF', '#5E4316'],
+  ['#E2E8E6', '#33433F'],
 ];
 
 function hash(s: string) {
@@ -53,7 +51,7 @@ export function Tile({ gig, size = 48 }: { gig: Pick<Gig, 'id' | 'name' | 'categ
         height={size}
         loading="lazy"
         decoding="async"
-        style={{ borderRadius: size * 0.26 }}
+        style={{ borderRadius: size * 0.3 }}
         onError={() => setBroken(true)}
       />
     );
@@ -73,6 +71,25 @@ export function StageBadge({ stage }: { stage: Gig['stage'] }) {
   return <span className={`badge stage-${stage}`}>{STAGE_LABEL[stage]}</span>;
 }
 
+/**
+ * The pipeline is a sequence, so a gig's stage is drawn as a short route:
+ * six stops, filled up to the current one, with the last stop a gold coin.
+ * The stage name always sits next to it, so color is never the only signal.
+ */
+export function StageRoute({ stage, size = 'sm' }: { stage: Gig['stage']; size?: 'sm' | 'lg' }) {
+  const at = STAGES.indexOf(stage);
+  return (
+    <span className={`route route-${size}`} role="img" aria-label={`Stage: ${STAGE_LABEL[stage]}, step ${at + 1} of 6`}>
+      <span className="route-stops" aria-hidden="true">
+        {STAGES.map((st, i) => (
+          <span key={st} className={`stop ${i <= at ? 'done' : ''} ${i === at ? 'here' : ''} ${i === STAGES.length - 1 ? 'coin' : ''}`} />
+        ))}
+      </span>
+      <span className="route-label">{STAGE_LABEL[stage]}</span>
+    </span>
+  );
+}
+
 export function FlagBadges({ gig }: { gig: Gig }) {
   const out: ReactNode[] = [];
   if (gig.flags.closed) out.push(<span key="c" className="badge flag-closed">Closed</span>);
@@ -89,28 +106,36 @@ export function GigRow({
   onOpen,
   right,
   sub,
+  showCategory = true,
 }: {
   gig: Gig;
   onOpen: () => void;
   right?: ReactNode;
   sub?: ReactNode;
+  showCategory?: boolean;
 }) {
+  const hasFlags =
+    gig.flags.closed || gig.flags.blocked || gig.flags.waitlisted || gig.flags.waitingOnMe || gig.flags.waitingOnThem || gig.neverRecommend;
   return (
-    <button className="gig-row" onClick={() => { tap(); onOpen(); }}>
-      <Tile gig={gig} />
+    <button className="gig-row press" onClick={() => { tap(); onOpen(); }}>
+      <Tile gig={gig} size={52} />
       <div className="gig-row-main">
         <div className="gig-row-name">
           {gig.pinned && <Icon name="pin" size={16} className="pin-mark" />}
-          {gig.name}
+          <span>{gig.name}</span>
         </div>
+        {showCategory && <div className="gig-row-cat">{gig.category}</div>}
         <div className="gig-row-sub">{sub ?? gig.description}</div>
-        <div className="badges">
-          <span className="badge cat-badge">{gig.category}</span>
-          <StageBadge stage={gig.stage} />
-          <FlagBadges gig={gig} />
+        <div className="gig-row-foot">
+          <StageRoute stage={gig.stage} />
+          {hasFlags && (
+            <span className="badges">
+              <FlagBadges gig={gig} />
+            </span>
+          )}
         </div>
       </div>
-      {right ?? <Icon name="chevron" size={20} className="muted" />}
+      {right ?? <Icon name="chevron" size={22} className="row-chevron" />}
     </button>
   );
 }
@@ -120,25 +145,55 @@ export function Header({
   subtitle,
   onBack,
   actions,
+  lead,
 }: {
   title: string;
   subtitle?: string;
   onBack?: () => void;
   actions?: ReactNode;
+  lead?: ReactNode;
 }) {
+  const bigRef = useRef<HTMLDivElement>(null);
+  const [compact, setCompact] = useState(false);
+  useEffect(() => {
+    const el = bigRef.current;
+    const root = el?.closest('.screen');
+    if (!el || !root || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver(([e]) => setCompact(!e.isIntersecting), { root, threshold: 0, rootMargin: '-64px 0px 0px 0px' });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   return (
-    <header className="header">
-      {onBack && (
-        <button className="icon-btn" onClick={onBack} aria-label="Back">
-          <Icon name="back" />
-        </button>
-      )}
-      <div className="header-titles">
+    <>
+      <div className={`appbar ${compact ? 'compact' : ''}`}>
+        {onBack && (
+          <button className="icon-btn" onClick={onBack} aria-label="Back">
+            <Icon name="back" />
+          </button>
+        )}
+        <div className="appbar-title" aria-hidden={!compact}>{title}</div>
+        <div className="header-actions">{actions}</div>
+      </div>
+      <header className="header" ref={bigRef}>
+        {lead}
         <h1>{title}</h1>
         {subtitle && <p>{subtitle}</p>}
-      </div>
-      <div className="header-actions">{actions}</div>
-    </header>
+      </header>
+    </>
+  );
+}
+
+/** Up to three actions, docked low where the thumb reaches (One UI interaction area). */
+export function ActionDock({ children }: { children: ReactNode }) {
+  return <div className="dock" role="toolbar">{children}</div>;
+}
+
+export function Fab({ label, icon, onClick }: { label: string; icon: IconName; onClick: () => void }) {
+  return (
+    <button className="fab press" onClick={() => { tap(); onClick(); }}>
+      <Icon name={icon} />
+      <span>{label}</span>
+    </button>
   );
 }
 
@@ -171,7 +226,7 @@ export function Empty({ icon, title, body }: { icon: IconName; title: string; bo
 
 export function Chip({ on, children, onClick }: { on?: boolean; children: ReactNode; onClick: () => void }) {
   return (
-    <button className={`chip ${on ? 'on' : ''}`} onClick={() => { tap(); onClick(); }} aria-pressed={!!on}>
+    <button className={`chip press ${on ? 'on' : ''}`} onClick={() => { tap(); onClick(); }} aria-pressed={!!on}>
       {on && <Icon name="check" size={16} />}
       {children}
     </button>
@@ -198,7 +253,7 @@ export function Btn({
   return (
     <button
       type={type}
-      className={`btn btn-${kind} ${full ? 'full' : ''}`}
+      className={`btn press btn-${kind} ${full ? 'full' : ''}`}
       onClick={() => { tap(); onClick?.(); }}
       disabled={disabled}
     >

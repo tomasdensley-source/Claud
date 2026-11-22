@@ -59,7 +59,7 @@ const splashSizes = {
 };
 const splash = async (w, h, file) => {
   const s = Math.round(Math.min(w, h) * 0.34);
-  await sharp({ create: { width: w, height: h, channels: 4, background: '#F6F5F1' } })
+  await sharp({ create: { width: w, height: h, channels: 4, background: '#EDF3F0' } })
     .composite([{ input: await shaped(s, false), left: Math.round((w - s) / 2), top: Math.round((h - s) / 2) }])
     .png()
     .toFile(file);

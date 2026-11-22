@@ -83,13 +83,13 @@ export function Money() {
         <>
           <Section title="Best and worst">
             <div className="stats">
-              <Stat label={`Best $/hr · ${withHour[0]?.gig.name ?? ''}`} value={perHour(withHour[0]?.r.perHour ?? null)} tone="good" />
-              <Stat label={`Best $/mi · ${withMile[0]?.gig.name ?? ''}`} value={perMile(withMile[0]?.r.perMile ?? null)} tone="good" />
+              <Stat label={`Best per hour: ${withHour[0]?.gig.name ?? ''}`} value={perHour(withHour[0]?.r.perHour ?? null)} tone="good" />
+              <Stat label={`Best per mile: ${withMile[0]?.gig.name ?? ''}`} value={perMile(withMile[0]?.r.perMile ?? null)} tone="good" />
               {withHour.length > 1 && (
-                <Stat label={`Worst $/hr · ${worstHour.gig.name}`} value={perHour(worstHour.r.perHour)} tone="bad" />
+                <Stat label={`Lowest per hour: ${worstHour.gig.name}`} value={perHour(worstHour.r.perHour)} tone="bad" />
               )}
               {withMile.length > 1 && (
-                <Stat label={`Worst $/mi · ${worstMile.gig.name}`} value={perMile(worstMile.r.perMile)} tone="bad" />
+                <Stat label={`Lowest per mile: ${worstMile.gig.name}`} value={perMile(worstMile.r.perMile)} tone="bad" />
               )}
             </div>
           </Section>
@@ -106,7 +106,7 @@ export function Money() {
                     </div>
                     <div className="bar"><span style={{ width: `${(r.gross / maxGross) * 100}%` }} /></div>
                     <div className="money-sub">
-                      {perHour(r.perHour)} · {perMile(r.perMile)} · {r.jobs} job{r.jobs === 1 ? '' : 's'}
+                      {perHour(r.perHour)}, {perMile(r.perMile)}, {r.jobs} job{r.jobs === 1 ? '' : 's'}
                     </div>
                   </div>
                 </button>

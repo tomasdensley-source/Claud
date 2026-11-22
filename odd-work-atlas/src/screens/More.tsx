@@ -107,7 +107,7 @@ export function More() {
             right ones on top.
           </p>
           <p className="detail-small">
-            {s.gigs.length} gigs · {jobs} jobs logged · home base {s.settings.home}
+            {s.gigs.length} gigs and {jobs} jobs logged. Home base: {s.settings.home}.
           </p>
           <Btn
             kind="danger"

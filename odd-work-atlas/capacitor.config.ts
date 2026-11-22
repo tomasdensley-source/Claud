@@ -4,9 +4,9 @@ const config: CapacitorConfig = {
   appId: 'com.densley.oddworkatlas',
   appName: 'Odd-Work Atlas',
   webDir: 'dist',
-  backgroundColor: '#F6F5F1',
+  backgroundColor: '#EDF3F0',
   android: {
-    backgroundColor: '#F6F5F1',
+    backgroundColor: '#EDF3F0',
   },
 };
 

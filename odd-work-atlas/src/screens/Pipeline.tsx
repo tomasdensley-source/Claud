@@ -75,7 +75,7 @@ export function Pipeline() {
         </Chip>
         {(['waitingOnMe', 'waitingOnThem', 'waitlisted', 'blocked', 'closed'] as FlagKey[]).map((k) => (
           <Chip key={k} on={flag === k} onClick={() => setFlag(flag === k ? 'all' : k)}>
-            {FLAG_LABEL[k]} · {flagCounts[k]}
+            {FLAG_LABEL[k]} <span className="chip-count">{flagCounts[k]}</span>
           </Chip>
         ))}
       </div>
