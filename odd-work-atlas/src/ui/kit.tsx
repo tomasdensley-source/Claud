@@ -1,4 +1,5 @@
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
+import logoIds from '../data/logos.json';
 import { Icon, type IconName } from './Icon';
 import type { Gig } from '../types';
 import { STAGE_LABEL } from '../types';
@@ -36,8 +37,27 @@ export function initials(name: string) {
   return (words[0][0] + words[1][0]).toUpperCase();
 }
 
-export function Tile({ gig, size = 48 }: { gig: Pick<Gig, 'name' | 'category'>; size?: number }) {
+const LOGOS = new Set<string>(logoIds as string[]);
+
+/** The company's real logo when one is bundled; otherwise a designed two-tone monogram. */
+export function Tile({ gig, size = 48 }: { gig: Pick<Gig, 'id' | 'name' | 'category'>; size?: number }) {
+  const [broken, setBroken] = useState(false);
   const [bg, fg] = TONES[hash(gig.category) % TONES.length];
+  if (LOGOS.has(gig.id) && !broken) {
+    return (
+      <img
+        className="tile logo"
+        src={`${import.meta.env.BASE_URL}logos/${gig.id}.webp`}
+        alt=""
+        width={size}
+        height={size}
+        loading="lazy"
+        decoding="async"
+        style={{ borderRadius: size * 0.26 }}
+        onError={() => setBroken(true)}
+      />
+    );
+  }
   return (
     <div
       className="tile"

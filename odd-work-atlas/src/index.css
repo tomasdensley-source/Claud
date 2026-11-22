@@ -1427,3 +1427,11 @@ p {
   text-align: center;
   animation: rise 0.2s ease;
 }
+
+/* Real logos: a hairline edge so white-background marks still read as tiles. */
+.tile.logo {
+  display: block;
+  object-fit: cover;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(24, 33, 31, 0.08), 0 1px 3px rgba(24, 33, 31, 0.06);
+}

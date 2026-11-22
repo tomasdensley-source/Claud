@@ -68,7 +68,7 @@ Everything saves on the phone as you go, and a second private copy is written to
 
 ## Design
 
-Light mode always. Atkinson Hyperlegible, a typeface made for easy reading, at 17px body with 15px minimum labels. Touch targets are at least 44px. One deep-teal accent family, soft shadows, rounded cards, and a designed two-tone monogram tile for every gig (colored by category). Short plain sentences throughout.
+Light mode always. Atkinson Hyperlegible, a typeface made for easy reading, at 17px body with 15px minimum labels. Touch targets are at least 44px. One deep-teal accent family, soft shadows, and rounded cards. 271 gigs show the company's real logo: the official Google Play icon where the gig has an app (188), otherwise the logo from the company's own website, checked to be the right company. The other 70 show a designed two-tone monogram (colored by category): about 45 of them are kinds of work rather than companies (for example Commercial Geoduck Harvester), and the rest are companies whose site is closed, blocked or could not be confirmed. The list is in `data/logos-missing.txt`. Logos are bundled in the app, so they show offline. Short plain sentences throughout.
 
 ## What is seeded
 
