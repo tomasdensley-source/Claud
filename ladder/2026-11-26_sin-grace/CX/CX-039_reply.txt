@@ -1,0 +1,25 @@
+**Verdict: BROKEN**
+
+**How the statement works.** It sorts the owed deeds by one test, pairwise exclusion. If two deeds exclude each other, facing the past work does not require both. If deeds "can be done together," facing it requires all of them. The statement assumes that pairwise compatibility guarantees joint compatibility. That assumption is false.
+
+**Counterexample.** You once published work built largely on a colleague's uncredited contribution. Three deeds are rightly owed toward that past work:
+
+- **A.** Issue a formal published correction assigning credit.
+- **B.** Personally present the corrected account at the field's annual meeting, where the misattribution took hold.
+- **C.** Restore and release her original data archive, which you let lapse.
+
+Each deed takes a full day of your direct effort. All three lapse at a fixed point. The journal's correction window closes, the meeting ends, and the archive host deletes the files. Only two working days remain before that point. So:
+
+- A and B can be done together. So can A and C, and B and C.
+- No two of the deeds exclude each other.
+- A, B and C cannot all be done together.
+
+**Why the statement fails here.** Every condition in it is met. There are several deeds, each is rightly owed, and they concern a past work.
+
+- The "not two that exclude each other" clause never applies, because no pair excludes.
+- Under the natural reading, every deed can be done together with every other. The statement then says facing the work requires all three, which is impossible.
+- Under the stricter reading, "all of them that can be done together" means the largest set that is jointly doable. But there are three such sets of equal size: {A,B}, {A,C} and {B,C}. "All of them that can be done together" then picks out no unique set, and the statement gives no definite requirement at all.
+
+So the claimed result is either impossible to meet or undefined. The case does not change what any term means or step outside the statement's scope. The failure comes from the statement's own structure: it treats exclusion as a relation between two deeds, while incompatibility can arise only among three or more deeds taken together.
+
+(A secondary weakness points the same way. If A excludes B but both are compatible with C, there are again two equally good sets, {A,C} and {B,C}. "All of them that can be done together" again fails to name a single requirement.)

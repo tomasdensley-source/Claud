@@ -1,0 +1,42 @@
+# Statement 1: BROKEN
+
+**Counterexample.** A man lies to a colleague, and the lie quietly costs her a promotion. Later he learns of the lie's effect on the one person he knows was deceived. He then does three things:
+
+- He owns the lie as his own.
+- He names it for what it is: a lie, not a "misunderstanding."
+- He does every deed he can see it calls for: confession, restitution to her, and correction of the record.
+
+Without his knowing, the lie also reached a third party, who passed over a second candidate because of it. That harm calls, rightly, for a further deed, such as telling that candidate and making amends. No inquiry the man could reasonably make would reveal it.
+
+**How the case satisfies the statement's terms and breaks it:**
+
+1. **He is not in sin as defined.** Sin is remaining turned away *after knowledge*. He is turned toward everything he knows, and he is not turned away from anything he knows.
+
+2. **He cannot be in the contrary as defined.** Statement 1 requires standing toward the work "in the deeds it rightly calls for," with no limit. One of those deeds is hidden from him.
+
+3. **The requirement is incoherent, not merely hard.** The contrary is defined as a *facing*, which is an orientation of the agent toward something. One cannot be oriented toward a claim that cannot be seen.
+   - Suppose he did the hidden deed by accident, for example by happening to help the passed-over candidate. That would not be facing, because he would not be standing toward it as the deed his work calls for.
+   - So the clause asks the agent to face what cannot be faced.
+   - Since almost any real work has consequences no one can foresee, Statement 1's "facing" can never be achieved by an agent, through repentance or otherwise.
+   - The only way out is for grace to reveal the hidden harm. But then it is no longer unseen, which concedes that the facing is bounded by what can be seen.
+
+4. **The "contrary" is mis-defined.** Sin is defined inside the bounds of knowledge, but its supposed contrary runs past those bounds. The man has fully undone sin's defining condition, being turned away after knowledge, yet he cannot stand in the contrary even in principle.
+   - Contraries can both be false, so a middle state alone would not be decisive.
+   - What breaks the statement is the combination: the contrary demands facing what cannot be faced, and it is unreachable for reasons unrelated to any turning away.
+   - So the definition fails to name the opposite of the sin it defines. A complete repentance that reaches every claim that can be seen would never "arrive at that facing."
+
+# Statement 2: STANDS
+
+The qualifier "as far as these can be seen" fixes the gap exactly.
+
+- **The counterexample above no longer works.** The man now stands in the contrary, because he faces the work and does every deed that can be seen. His repentance has arrived at that facing.
+- **Later discovery does not break it.** If the hidden harm comes to light, it becomes seen. If he then declines the new deed, he is turned away after knowledge, which is sin again. The definitions now track each other, both bounded by knowledge.
+
+I tried other attacks, and none produced a valid counterexample:
+
+- **Attention without acknowledgment or deeds.** This is not facing by the statement's own terms, so "attention alone never reaches that facing" holds.
+- **A case where no further deed can be seen.** The requirement is then met by acknowledgment alone. This is consistent with the statement, not a contradiction.
+- **Repentance stalled short of facing.** The statement already denies that such repentance contains the contrary.
+- **Grace.** It is defined as the facing insofar as it is given. This is a stipulation that cannot conflict with the rest.
+
+Every challenge to Statement 2 either confirms its clauses or requires changing what "facing," "seen," or "knowledge" mean, which is outside the rules.

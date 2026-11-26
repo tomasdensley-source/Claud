@@ -44,3 +44,14 @@ A-009-S1: FAILED CX-031 #1; discarded. A-009-S2: passed CX-031 #2 against the fa
 A-009v2 surplus: LIVE-BARREN. Every candidate either restates O-0077 (refraining from an unfitting repair) or repeats the deathbed structure of O-0075 (the paralysed case), so none is absent from its construction set.
 | A-009v3 | CX-032 | Narrow | The deed that facing a past work of one's own calls for is limited to what remains both possible and fitting, and where nothing at all can be done, what it calls for can be the willing acceptance of what one did. | O-0080, O-0077, O-0078 | The descriptive claim about the deeds by which people do face their past |
 A-009v3 surplus: LIVE-BARREN, for the same reason as A-009v2.
+
+## Pass 7 (Step 1; candidate abstraction; operator construction; untested)
+| ID | Group | Exact sentence |
+|---|---|---|
+| A-010 | G-010 | What facing a past work requires is bounded by what the one facing can know: it needs only the knowledge of the work that can be had, and, where the right deed is unclear or several compete, a deed among those that can be seen to be right. |
+
+## Pass 7 repairs (operator construction; untested until filed CX)
+| Object | Failed in | Operation | Repaired exact sentence | Receipt | Named loss |
+|---|---|---|---|---|---|
+| A-010v2 | CX-037 | Narrow | What facing a past work of one's own requires is bounded by what the one facing can know: it needs only the knowledge of the work that can be had, and, where no deed can be seen to be right, the deed that can be seen to be best. | O-0090, O-0083, O-0084 | Coverage of works not one's own; "a deed among those that can be seen to be right" as the only standard |
+A-010v2 surplus: A-010-S1 and A-010-S2 are re-derived unchanged as children of A-010v2 (both remain entailed: good-faith amends seen as best at the time; requirements that grow with knowledge). Their CX-038 results stand for those exact sentences and are not rerun (§5.3.8).

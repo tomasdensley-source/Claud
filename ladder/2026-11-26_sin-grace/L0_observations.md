@@ -89,3 +89,17 @@ Affect charge: not recorded (the operator is not the selector; the author's affe
 | O-0079 | A tester stated that a man in complete locked-in syndrome cannot face his past wrong by any outward deed. | CX-031 #1 |
 | O-0080 | A tester stated that a driver who killed a pedestrian can face it through a possible but unfitting deed, such as an unwanted, filmed apology and payment pressed on the family. | CX-032 |
 | O-0081 | A tester stated that where the fault was careless work, the deed that can rightly be done may simply be to give the work the attention that was withheld. | CX-033 #2 |
+| O-0082 | An auditor stated that an omission one could and should have performed is attributable to the agent just as an act is. | pass7/P04_reply.txt #1 |
+| O-0083 | An auditor stated that complete knowledge of a work cannot be had, since its consequences ramify without limit, so facing it for what it is as far as known must suffice. | pass7/P04_reply.txt #5 |
+| O-0084 | An auditor stated that some works leave the right response genuinely unclear, as when the person wronged is dead. | pass7/P04_reply.txt #7 |
+| O-0085 | An auditor stated that requiring every permissible deed could demand incompatible actions, so the obligation must be disjunctive. | pass7/P04_reply.txt #8 |
+| O-0086 | An auditor stated that it remains open whether acknowledgment is itself a special kind of attention, attention to the work as one's own. | pass7/P04_reply.txt #9 |
+| O-0087 | An auditor stated that relapse into aversion after genuine turning is possible and common. | pass7/P04_reply.txt #11 |
+| O-0088 | An auditor stated that whether a received facing is compatible with the agent's ownership of it is the long-disputed question of grace and freedom. | pass7/P04_reply.txt #13 |
+| O-0089 | An auditor stated that if grace names only a turning back it presupposes prior aversion, and if it can be given at the first moment of knowledge it need not. | pass7/P04_reply.txt #14 |
+| O-0090 | A tester stated that a conservator facing a dead artist's failing fresco can exhaust all knowledge to be had and find that every option fails the work, so none can be seen to be right. | CX-037 |
+| O-0091 | A tester stated that someone who stole money and lied to cover it owes both the return of the money and the confession of the lie. | CX-036 #7 |
+| O-0092 | A tester stated that where the rightful deed is attention to the work as one's own, that attention already is acknowledgment. | CX-036 #9 |
+| O-0093 | A tester stated that where nothing can be repaired, resolving never to repeat the wrong can be the one deed that can rightly be done. | CX-036 #11 |
+| O-0094 | A tester stated that three owed deeds can each be doable with each other yet not all together, so "all that can be done together" names no unique set. | CX-039 |
+| O-0095 | A tester stated that a lie can cause a harm no reasonable inquiry would reveal, so a contrary that demands every deed the work calls for, unbounded by what can be seen, cannot be reached. | CX-041 #1 |

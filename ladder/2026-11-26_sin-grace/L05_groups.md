@@ -31,3 +31,9 @@ Left ungrouped: O-0057, O-0058.
 |---|---|---|---|
 | G-009 | the deed when little or nothing can be done | instinct | O-0072, O-0073, O-0075 |
 Left ungrouped: O-0069, O-0070, O-0071, O-0074, O-0076.
+
+## Pass 7 (Step 0.5 again)
+| ID | Tag | Basis | Members |
+|---|---|---|---|
+| G-010 | facing within what one can know | instinct | O-0083, O-0084, O-0085 |
+Left ungrouped: O-0082, O-0086, O-0087, O-0088, O-0089.

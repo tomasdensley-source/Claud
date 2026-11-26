@@ -109,3 +109,15 @@ Pass-6 audit (pass6/P04_reply.txt): DEMONSTRATED 8, CONTESTED 5, FALSE AS STATED
 | REV-13 | (three sentences; attention clause attached to the deed) | FAILED CX (CX-033 #2, the careless craftsman) |
 | REV-14 | Sin is remaining turned away, after knowledge, from the work of one's own hand. Its contrary is to stand facing that work as one's own and for what it is, in acknowledgment and in whatever deed can rightly be done; attention alone never reaches that facing. Repentance contains that contrary only once it arrives at that facing, and grace is that facing insofar as it is given. | passes CX as phrased (CX-035); tester: "linked stipulative definitions" |
 Finding carried into the piece: REV-11 demanded a deed even where none can rightly be done (deathbed, locked-in, a repair that would compound the harm); REV-12 and REV-14 ask only for the deed that can rightly be done.
+
+## Pass 7 (2026-11-26): REV-14 carried forward by ruling ("REV-14 (Recommended)")
+Pass-7 audit (pass7/P04_reply.txt): DEMONSTRATED 8, CONTESTED 5, FALSE AS STATED 1. S-002.a, S-007.a discarded at the audit stage.
+| ID | Exact sentence | Status |
+|---|---|---|
+| pass7 assumptions | see pass7/P04R_reformulated.md | 9 of 12 pass CX (CX-036); S-004.b repaired then discarded (CX-039); S-005.b, S-006.bR discarded |
+| A-010 | (bounded by what can be known; "a past work") | FAILED CX (CX-037, the conservator's fresco) |
+| A-010v2 | What facing a past work of one's own requires is bounded by what the one facing can know: it needs only the knowledge of the work that can be had, and, where no deed can be seen to be right, the deed that can be seen to be best. | passes CX as phrased (CX-040) |
+| A-010-S1, A-010-S2 | (L2_surplus.md, pass 7) | pass CX as phrased (CX-038); re-derived under A-010v2 |
+| REV-15 | (contrary "in the deeds it rightly calls for", unbounded) | FAILED CX (CX-041 #1, the hidden harm) |
+| REV-16 | Sin is remaining turned away, after knowledge, from the work of one's own hand. Its contrary is to stand facing that work as one's own and for what it is, in acknowledgment and in the deeds it rightly calls for, as far as these can be seen; attention alone never reaches that facing. Repentance contains that contrary only once it arrives at that facing, and grace is that facing insofar as it is given. | passes CX as phrased (CX-041 #2) |
+Finding carried into the piece: "whatever deed" was ambiguous between one and all (CX-036 #7); "the deeds it rightly calls for" requires those owed; "as far as these can be seen" bounds the contrary by knowledge as "after knowledge" bounds sin (CX-041).

@@ -29,3 +29,7 @@
 | REV-12, REV-13 | vulnerable generalization (pass 6) | one valid case inside its terms |
 | A-009v3 | normative principle (what facing calls for) | a case where facing plainly calls for an impossible or unfitting deed, or where nothing can be done and acceptance cannot be what it calls for |
 | REV-14 | vulnerable generalization (pass 6) | one valid case inside its terms |
+| pass7 S-001.b, S-002.b, S-003.a, S-003.b, S-004.aR, S-006.a, S-006.bR, S-007.bR, A-010-S2 | possibility | a showing of impossibility within its terms |
+| pass7 S-001.a, S-004.b, S-005.aR, S-005.b, A-010, A-010-S1 | vulnerable generalization | one valid case inside its terms |
+| pass7 S-004.bR, A-010v2 | vulnerable generalization | one valid case inside its terms |
+| REV-15, REV-16 | vulnerable generalization (pass 7) | one valid case inside its terms |

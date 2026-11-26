@@ -1,0 +1,31 @@
+# Statement 1: BROKEN
+
+**The statement's claim.** It makes two moves:
+
+1. **Knowledge:** facing a past work needs only the knowledge of the work that can be had.
+2. **Deed:** where the right deed is unclear or several compete, it needs "a deed among those that can be seen to be right."
+
+Both are offered as instances of one thesis: the requirement is bounded by what the one facing can know. In short, the statement makes the demand always satisfiable from within the facer's position.
+
+**The counterexample.** A conservator inherits a large, unfinished fresco cycle. The artist died partway through. Part of the plaster is now failing. The evidence leaves three courses of action:
+
+- **(a) Consolidate it as a fragment.** This freezes the work in a state the artist plainly treated as provisional. His notes call the bare sections "wounds to be closed."
+- **(b) Complete it from the surviving cartoons.** But the cartoons conflict with each other and with the painted portions. Any completion puts the conservator's own guesses in place of the artist's.
+- **(c) Do nothing.** The work then decays, and doing nothing is itself a deed with consequences.
+
+Every source of knowledge that can be had has been exhausted: archives, imaging, the artist's letters. That knowledge shows only that each option fails the work in a specific way. It does not show any option to be right. It cannot even rank them, because they fail along different dimensions: fidelity to intent, fidelity to the material, and survival.
+
+**Why this falls within the statement's terms.**
+
+- It is a past work.
+- The facer has all the knowledge that can be had, so the knowledge clause is fully met.
+- It is exactly the situation the second clause addresses: the right deed is unclear and several deeds compete.
+
+**Why the statement's result fails.** The statement says the facer then needs "a deed among those that can be seen to be right." Here that set is empty. Not one of the competing deeds can be seen to be right, and the case does not rely on hidden or unobtainable facts to make this so. The available knowledge is simply sufficient to show that each option is wrong in some respect. So the statement gives only two outcomes, and neither keeps its thesis intact:
+
+- **The requirement still stands.** Then it demands choosing from an empty set. That is impossible, which contradicts the claim that the requirement is bounded by what the facer can know and do.
+- **The requirement lapses.** Then facing the work requires no deed at all. This contradicts the statement's own claim that, in unclear or competing cases, a deed is required. It is also false to the situation, because the conservator must act, and inaction is itself one of the options.
+
+**A possible defence, and why it fails.** One could reply that "can be seen to be right" should be read loosely, as "can be seen to be defensible." That changes what the words mean. "Right" is not "least bad," and the statement chose "right."
+
+Read as written, the statement covers this case and cannot deliver what it promises. The bound it claims is not guaranteed by its own conditions.

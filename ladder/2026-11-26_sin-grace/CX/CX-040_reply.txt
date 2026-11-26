@@ -1,0 +1,13 @@
+**1. STANDS**
+
+I tried to find a case where facing a past work of one's own requires something beyond the knowledge that can be had, or beyond the best deed that can be seen. Each candidate is absorbed by the statement's own terms.
+
+- **Moral luck (an undetectable flaw).** Someone builds a bridge with a flaw that no inspection could have found, and it later harms people. It seems they must still answer for the harm, owing acknowledgment and repair. But once the harm happens, knowledge of it can be had. The repair is then a deed that can be seen to be right, or at least best. Nothing is required from the person before that knowledge was available. This case only breaks the statement if "requires" means "would ideally have known all along." That changes what the word means.
+
+- **Culpable ignorance.** The author destroys records of the work's defects, so that knowledge can no longer be had. This looks like a case where a self-made limit on knowing lowers what is required, which seems wrong. But the author can know that they destroyed the records, and that fact is now part of "the knowledge of the work that can be had." The best deed in view is then to own the destruction and assume the worst. That is demanding, and it is fully covered by the statement. The limit on knowing does not let the author off; it moves what is required onto what is still knowable.
+
+- **Moral residue after a dilemma.** The author does the best deed available, it turns out wrong, and regret or repair still seems owed. That later demand arises when the new knowledge arrives. It is a later act of facing the work, again bounded by what can be known then. The original act of facing required only the best deed that could be seen, which the author did.
+
+- **Attitudes rather than knowledge or deeds** (for example, the regret an agent feels for harm they caused without fault). Such attitudes are directed at what one knows, and taking them up is part of the deed that can be seen to be best. So they do not escape the two terms the statement names.
+
+**Why no valid counterexample exists.** The statement is a form of the principle that you cannot be required to do what you cannot do, applied to facing one's own work. Any requirement that exceeds what can be known would need knowledge that cannot be had, or a deed no one can recognize as right or best. Such a requirement cannot be acted on, so calling it a requirement redefines the word. Every case I found that keeps the statement's terms fits inside its bound. The statement stands.

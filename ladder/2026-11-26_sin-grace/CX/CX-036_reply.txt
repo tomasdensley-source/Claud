@@ -1,0 +1,59 @@
+# Verdicts on the Twelve Statements
+
+## 1. STANDS
+The statement says omissions *can* belong to one's work. It does not say that everything not done is one's work. "Left undone" in its ordinary sense already means something within one's reach or charge. Examples are the promised letter never written, or the warning one could have given and withheld. A proposed counterexample like "I left undone the building of the pyramids" works only by stretching "left undone" to cover anything that did not happen. That changes the meaning of the words, so it is not a valid counterexample.
+
+## 2. STANDS
+Someone who has never faced a work has been turned away from it from the outset. "Remain" fits that state exactly: it is a continuation, not a return. Nothing in the statement requires that a prior facing occurred.
+
+## 3. STANDS
+Take someone who knows they sent a particular letter, but does not know that it ruined someone. They know the work is theirs but not fully what it is. Knowing a work is one's own is separable from knowing its full content. I could construct no case within the statement's terms that defeats this.
+
+## 4. STANDS
+One can own a known wrong as one's own, and as wrong, while its downstream harms are still hidden. To refute the statement, "for what it is" would have to mean "with complete knowledge of everything it is." That would make facing impossible for any finite agent. It also contradicts the statement's plain sense, so it is not a valid counterexample.
+
+## 5. STANDS
+Owning a good deed as one's own is facing it for what it is, just as owning a wrong deed is. A counterexample would need "facing" to be limited to wrongs. Nothing in the statement's terms supports that restriction.
+
+## 6. STANDS
+The statement is permissive: facing *can* include inquiry where what is right is unclear. Earnestly seeking what one owes is a natural part of turning toward the work. Nothing in the statement's terms excludes it.
+
+## 7. BROKEN
+**Counterexample:** A person stole money and then lied to the victim to cover it up. Two deeds can rightly be done:
+- returning the money, and
+- confessing the lie.
+
+Facing the whole work requires both. Returning the money while keeping the lie in place leaves part of the work unfaced. Confessing while keeping the money does the same.
+
+This case satisfies the statement's own condition: several deeds that can rightly be done. Yet the facing requires every one of them. "Several rightful deeds" does not entail "alternative rightful deeds," so "not every one" fails in cases where the rightful deeds are jointly owed.
+
+## 8. STANDS
+On the statement's own supposition, acknowledgment is attention *to the work as one's own*. Bare attention lacks that qualifier, and the statement itself names the qualifier "the owning."
+
+One could object that "as one's own" might mean merely registering the fact of ownership while disowning it. That reading substitutes a different meaning for the clause the statement uses to define acknowledgment. Within the statement's terms, the owning is exactly what is added.
+
+## 9. BROKEN
+**Counterexample:** Suppose the rightful deed toward some past work consists in attention *to the work as one's own*. Examples are:
+- recalling a past good deed with genuine ownership, or
+- a wrong whose only remaining due is to keep it before oneself as one's own.
+
+By Statement 8, that attention just is acknowledgment. The rightful deed then already contains the acknowledgment, so the facing requires no acknowledgment *beyond* it.
+
+The statement's condition ("the rightful deed consists in attention") is met, and its claim ("still requires an acknowledgment beyond it") fails.
+
+## 10. STANDS
+A person can come, through repentance, to own their wrong fully, and later slide back into excuse or avoidance. Relapse is an ordinary possibility. Refuting the statement would require defining repentance as permanent, which the statement does not do.
+
+## 11. BROKEN
+This verdict depends on reading the statement as a general claim that sorrow and resolve are never required for facing. On a weaker reading, that they are merely sometimes optional, it would stand.
+
+**Counterexample:** A man repeatedly belittled a friend who has since died. Nothing can now be restored, apologized for, or repaired. The one deed that can rightly be done toward this past work is to resolve never to treat anyone that way again.
+
+The framework implied in Statement 7 holds that facing requires at least one rightful deed. Here resolve is the only rightful deed, so the facing requires resolve. Resolve is therefore not always a mere accompaniment; in some cases it is required.
+
+## 12. STANDS
+By Statement 2, anyone who has not yet faced a work is turned away from it. So "never turned away" describes someone who faced the work from the very moment of doing it. If grace is defined as a facing that is *given*, that original, never-interrupted facing can be what is given. Grace, so defined, needs no prior turning away to act on. I found no case within the statement's terms that defeats it.
+
+---
+
+**Summary:** BROKEN: 7, 9, 11. STANDS: 1, 2, 3, 4, 5, 6, 8, 10, 12.

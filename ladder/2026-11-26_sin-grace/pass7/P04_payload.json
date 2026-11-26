@@ -1,0 +1,9 @@
+{
+ "model": "anthropic/claude-opus-5.5",
+ "messages": [
+  {
+   "role": "user",
+   "content": "You are given numbered propositions. For each, give exactly one category, DEMONSTRATED, CONTESTED, or FALSE AS STATED, followed by one line of ground.\n\n1. The work of one's own hand includes what one left undone as well as what one did.\n2. One can remain turned away from a work one has never yet faced, not only from a work one faced and then turned from.\n3. The knowledge after which remaining turned away is sin includes knowledge of what the work is, not only that it is one's own.\n4. One can know that a work is one's own without knowing what it is, as when its consequences are hidden.\n5. One can face a work for what it is even while part of what it is remains unknown to one.\n6. A work can be faced for what it is whether it is a wrong or a good.\n7. What can rightly be done toward a past work is determinate enough to guide the one who faces it.\n8. Where several deeds can rightly be done, the facing requires at least one of them, not every one.\n9. Acknowledgment is never merely a kind of attention, however close the attention.\n10. Even where the rightful deed consists in attention, the facing still requires an acknowledgment beyond it.\n11. Repentance can arrive at the facing and later lose it.\n12. What repentance contains beyond the facing, such as sorrow and resolve, is not itself part of sin's contrary.\n13. A facing can be given without being any less the agent's own.\n14. The facing that grace names can be given to one who was never turned away from the work."
+  }
+ ]
+}

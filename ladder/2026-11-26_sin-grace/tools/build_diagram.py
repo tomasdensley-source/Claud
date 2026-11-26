@@ -129,10 +129,10 @@ for c in surplus:
          prov="L2_surplus.md" if "v2" not in sid else "L4_repairs_round1.md", test=t)
     edge(f"L:{parent}", f"L:{sid}", "surplus")
 # revisions
-REVS = []; REVS_A = []; REVS_BY = {"B": [], "C": [], "D": []}
+REVS = []; REVS_A = []; REVS_BY = {"B": [], "C": [], "D": [], "E": []}
 REV_FILES = (("L4_repairs_round2.md", ("L", "A")), ("L4_repairs_round3.md", ("L", "A")), ("L4_repairs_round4.md", ("L", "A")),
-             ("pass4/L4_repairs_round2.md", ("L", "B")), ("pass5/L4_repairs_round2.md", ("L", "C")), ("pass6/L4_repairs_round2.md", ("L", "D")))
-REVCOL = {"L": 9, "A": 7, "B": 6, "C": 5, "D": 4}
+             ("pass4/L4_repairs_round2.md", ("L", "B")), ("pass5/L4_repairs_round2.md", ("L", "C")), ("pass6/L4_repairs_round2.md", ("L", "D")), ("pass7/L4_repairs_round2.md", ("L", "E")))
+REVCOL = {"L": 9, "A": 7, "B": 6, "C": 5, "D": 4, "E": 5}
 for f, ds in REV_FILES:
     for c in table(f, r"REV-\d+$"):
         if len(c) < 2 or c[0] in REVS: continue
@@ -141,12 +141,14 @@ for f, ds in REV_FILES:
         else: REVS_BY[ds[1]].append(c[0])
         for d in ds:
             node(f"{d}:{c[0]}", c[0], "revision", c[1], REVCOL[d], d, st, prov=f, test=t)
-for b, revs in (("A-001", REVS), ("A-002v2", REVS), ("A-003v2", REVS), ("A-004", ["REV-5", "REV-6", "REV-7", "REV-9", "REV-10", "REV-11"] + REVS_BY["D"]),
-                ("A-005", ["REV-5", "REV-6"]), ("A-006", REVS_BY["B"] + REVS_BY["C"] + REVS_BY["D"]), ("A-007", REVS_BY["C"] + REVS_BY["D"])):
+for b, revs in (("A-001", REVS), ("A-002v2", REVS), ("A-003v2", REVS), ("A-004", ["REV-5", "REV-6", "REV-7", "REV-9", "REV-10", "REV-11"] + REVS_BY["D"] + REVS_BY["E"]),
+                ("A-005", ["REV-5", "REV-6"]), ("A-006", REVS_BY["B"] + REVS_BY["C"] + REVS_BY["D"] + REVS_BY["E"]), ("A-007", REVS_BY["C"] + REVS_BY["D"] + REVS_BY["E"]),
+                ("A-009v3", REVS_BY["E"]), ("A-010v2", ["REV-16"])):
     for rv in revs: edge(f"L:{b}", f"L:{rv}", "basis", "basis")
 for rv in REVS_BY["B"]: edge("L:REV-5", f"L:{rv}", "repair", "carried forward by ruling")
 for rv in REVS_BY["C"]: edge("L:REV-7", f"L:{rv}", "repair", "carried forward by ruling")
 for rv in REVS_BY["D"]: edge("L:REV-11", f"L:{rv}", "repair", "carried forward by ruling")
+for rv in REVS_BY["E"]: edge("L:REV-14", f"L:{rv}", "repair", "carried forward by ruling")
 for b in ("A:R1:S-005.aR", "A:R2:S-005.bR", "A:R2:S-006.aR2", "A:R1:S-006.bR"):
     if b in nodes:
         for rv in REVS_A: edge(b, f"A:{rv}", "basis", "basis")
@@ -205,6 +207,9 @@ build_pass("C", "pass5/", "P5:", "REV-7", (("L4_repairs_round1.md", 4),),
 build_pass("D", "pass6/", "P6:", "REV-11", (), ("R1:S-004.bR", "R1:S-006.bR", "R1:S-003.a", "R1:S-005.a"))
 PASSES.append(dict(id="D", title="Pass 6: REV-11 as the piece", hint="By the author's ruling (\"REV-11 (Recommended)\"), REV-11 became the piece for pass 6. All eleven tested assumptions passed; S-002.b, S-007.a and S-007.b were discarded at the audit stage (see pass6/P04R_reformulated.md). Abstraction A-009 and its repairs are in Diagram 1.",
     cols=["The piece: REV-11", "Claims (P1)", "Assumptions · P4 audit", "Round 1 reformulation · CX-029", "Revision of REV-11 · CX-033, CX-035"]))
+build_pass("E", "pass7/", "P7:", "REV-14", (("L4_repairs_round1.md", 4),), ("R1:S-003.a", "R1:S-004.aR", "R1:S-005.aR", "R1:S-006.a"))
+PASSES.append(dict(id="E", title="Pass 7: REV-14 as the piece", hint="By the author's ruling (\"REV-14 (Recommended)\"), REV-14 became the piece for pass 7. S-002.a and S-007.a were discarded at the audit stage (see pass7/P04R_reformulated.md). Abstraction A-010 and its repair are in Diagram 1.",
+    cols=["The piece: REV-14", "Claims (P1)", "Assumptions · P4 audit", "Round 1 reformulation · CX-036", "Round 2 repair and discards · CX-039", "Revision of REV-14 · CX-041"]))
 PASSES.append(dict(id="C", title="Pass 5: REV-7 as the piece", hint="By the author's ruling (\"with Rev 7.\"), REV-7 became the piece for pass 5. S-003.b was discarded at the audit stage in favour of abstraction A-007, shown in Diagram 1.",
     cols=["The piece: REV-7", "Claims (P1)", "Assumptions · P4 audit", "Round 1 reformulation · CX-021", "Round 2 repair and discards · CX-024", "Revision of REV-7 · CX-027, CX-028"]))
 
@@ -235,10 +240,13 @@ for k, why in (("L:A-008-S1", "Archived in pass 5 with failed parent A-008 (it a
                ("L:A-008-S2", "Archived in pass 5: passed against parent phrasing A-008, which failed CX-022"),
                ("L:A-008v2-S1", "Parent A-008v2 failed CX-025; this passes as its own sentence only"),
                ("L:A-009-S1", "Discarded in pass 6 after failing CX-031 #1"),
-               ("L:A-009-S2", "Archived in pass 6: passed against parent phrasing A-009, which failed CX-030")):
+               ("L:A-009-S2", "Archived in pass 6: passed against parent phrasing A-009, which failed CX-030"),
+               ("L:A-010-S1", "Derived under A-010 (failed CX-037); re-derived unchanged under A-010v2; CX-038 result stands for this exact sentence"),
+               ("L:A-010-S2", "Derived under A-010 (failed CX-037); re-derived unchanged under A-010v2; CX-038 result stands for this exact sentence")):
     if k in nodes:
         nodes[k]["op"] = why
-        if k not in ("L:A-008-S1", "L:A-009-S1"): nodes[k]["status"] = "archived"
+        if k not in ("L:A-008-S1", "L:A-009-S1", "L:A-010-S1", "L:A-010-S2"): nodes[k]["status"] = "archived"
+for sid in ("A-010-S1", "A-010-S2"): edge("L:A-010v2", f"L:{sid}", "surplus", "re-derived")
 if "L:A-002-S2" in nodes:
     nodes["L:A-002-S2"]["op"] = "Discarded after failing CX-003 (L4_repairs_round1.md)"
 for k in ("L:A-002-S1", "L:A-003-S1"):

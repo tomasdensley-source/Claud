@@ -39,5 +39,8 @@ You are given numbered statements and a body of writing. For each statement answ
 - O-20: Meaning consequences of REV-11 named by the tester (CX-028): the first wrongful act is not itself sin (O-0067), and knowingly disowning a good work is sin (O-0068). The author decides whether these are intended.
 - O-21: A-008v2 failed (CX-025); the tester's suggested narrowing to foreseeable results was not run, since answerability does not appear in the revision. Author may direct.
 - O-22 CLOSED 2026-11-26 by author ruling: "REV-11 (Recommended)" (RULINGS.md)
-- O-23: Carry-forward after pass 6: REV-12 or REV-14 (both pass CX as phrased). Operator's recommendation in RUNLOG.md entry 37.
+- O-23 CLOSED 2026-11-26 by author ruling: "REV-14 (Recommended)" (RULINGS.md)
 - O-24: A-009v3 passes partly by definition ("called for" contains "fitting"; CX-034). Vacuity flag (Ladder 318).
+- O-25: Must the knowledge after which remaining turned away is sin include knowing what the work is, or only that it is one's own? Contested (pass7 #3); REV-16 does not say.
+- O-26: Meaning consequence: under REV-16, grace (a given facing) can belong to one who was never turned away (pass7 S-007.bR passed CX-036 #12).
+- O-27: When owed deeds cannot all be done, REV-16 leaves the choice to what the work "rightly calls for"; no tested formula survived (CX-039).

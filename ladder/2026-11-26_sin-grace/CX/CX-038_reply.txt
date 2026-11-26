@@ -1,0 +1,31 @@
+# Verdicts
+
+## 1. STANDS
+
+**Why no valid counterexample exists:** The statement assumes its own condition. The subject is "someone who faces a past wrong." The added facts are that the amends were made in good faith and later turned out to be the wrong choice. A counterexample would need a case where all of that holds and yet the person has *not* faced the wrong. That would mean the person both faces and does not face the same wrong, which is a contradiction.
+
+The only way to break it is to redefine "facing" so that it requires amends that turn out correct. That changes what the word means, so it is not a valid counterexample. I also tried two subtler routes:
+
+- **A bad outcome undoes the facing.** This ties facing to results the person could not know when acting. The statement says "later prove," which places the mistake after the act, and "good faith," which rules out willful blindness.
+- **The person never really faced it.** For example, the amends were evasive or performative. This drops the statement's condition that they faced it in good faith. It moves outside the stated scope.
+
+Neither route leaves the statement's terms intact while making its result false.
+
+## 2. STANDS
+
+**Why no valid counterexample exists:** The statement is a possibility claim ("*can* require"). To break it, you would have to show that new knowledge about a past wrong or work *never* could require a further deed from someone who has already faced it. A single coherent case is enough to support it.
+
+**Supporting case:** A researcher discovers an error in her published paper. She faces it: she acknowledges it publicly and issues a correction. Years later, she learns that a clinical guideline relied on the flawed figure and that patients were affected. Her earlier correction was a genuine facing of the wrong as she then knew it. The new knowledge plausibly calls for a further deed, such as notifying the guideline authors or helping remedy the downstream harm.
+
+Arguing that this further deed is never required would mean either:
+
+- treating "faced" as a permanent discharge that no new information can reopen, which is a stipulation the statement does not contain, or
+- denying that new knowledge can change what a situation demands, which flies against how moral and practical obligations ordinarily work.
+
+Neither is a counterexample within the statement's own terms.
+
+**Note on wording:** The statement says "past work," where statement 1 says "past wrong." This may be a typo. The verdict holds on either reading. My example covers both, since the paper is a past work and the error is a past wrong.
+
+## Summary
+
+Both statements stand. Statement 1 is close to analytic: its conclusion repeats its condition. Statement 2 is a modest possibility claim that one coherent case satisfies.

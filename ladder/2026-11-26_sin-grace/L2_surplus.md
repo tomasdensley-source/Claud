@@ -47,3 +47,10 @@ A-008v2 is LIVE-LIGHT.
 | A-009-S1 | A person who can no longer reach those they harmed can still face that harm in deed by changing how they treat others. | Where repair cannot be made, amends or changed conduct is the deed. | G-009 (O-0072, O-0073, O-0075) has no case of harmed parties beyond reach. | Restorative practice where victims are dead or untraceable. |
 | A-009-S2 | Two people who did the same kind of wrong can owe different deeds in facing it, because what remains possible for each differs. | The deed varies with what remains possible. | No member compares two agents. | Comparative cases of equal wrongs with unequal means of repair. |
 Disliked implication kept (Ladder 058): A-009's last clause counts "willing acceptance" as a deed, which O-0073 reports is disputed.
+
+## Pass 7 surplus (CLOSED before any pass-7 test; all untested)
+| ID | Statement | ENTAILED | ABSENT (construction set named) | TEST SURFACE |
+|---|---|---|---|---|
+| A-010-S1 | Someone who faces a past wrong and in good faith makes amends that later prove to have been the wrong choice has still faced it. | The deed required is one among those that can be seen to be right at the time. | G-010 (O-0083, O-0084, O-0085) has no case of amends later shown mistaken. | Cases of good-faith amends that misfire. |
+| A-010-S2 | New knowledge about a past work can require a further deed from someone who has already faced it. | What facing requires is bounded by what can be known, so it grows as knowledge grows. | No member concerns knowledge arriving after the facing. | Cases where a work's consequences surface years later. |
+Disliked implication kept (Ladder 058): A-010-S2 means a completed facing can be reopened, which sits uneasily with "stand facing" as a settled condition.

@@ -1,0 +1,21 @@
+# CX-036 meta
+Time UTC: 2026-11-26T05:09:15.079705+00:00
+Platform: OpenRouter chat completions. Model requested: anthropic/claude-opus-5.5; reported: anthropic/claude-opus-5.5; id: gen-1795669702-SiuzKuw4zMN4bgbNgtDG
+Freshness (5.3.1(b)): one request, messages array holds one user message, no system message. Payload: CX-036_payload.json. No further turn sent.
+Integrity diff (must be empty): EMPTY
+
+## Number map
+| # | Object | Exact sentence |
+|---|---|---|
+| 1 | P7:S-001.a | The work of one's own hand includes what one left undone as well as what one did. |
+| 2 | P7:S-001.b | One can remain turned away from a work one has never yet faced, not only from a work one faced and then turned from. |
+| 3 | P7:S-002.b | One can know that a work is one's own without knowing what it is, as when its consequences are hidden. |
+| 4 | P7:S-003.a | One can face a work for what it is even while part of what it is remains unknown to one. |
+| 5 | P7:S-003.b | A work can be faced for what it is whether it is a wrong or a good. |
+| 6 | P7:S-004.aR | Where what can rightly be done toward a past work is genuinely unclear, facing the work can include seeking out what would be right to do. |
+| 7 | P7:S-004.b | Where several deeds can rightly be done, the facing requires at least one of them, not every one. |
+| 8 | P7:S-005.aR | Even if acknowledgment is a kind of attention, namely attention to the work as one's own, it adds the owning that bare attention lacks. |
+| 9 | P7:S-005.b | Even where the rightful deed consists in attention, the facing still requires an acknowledgment beyond it. |
+| 10 | P7:S-006.a | Repentance can arrive at the facing and later lose it. |
+| 11 | P7:S-006.bR | Sorrow and resolve can accompany the facing without being required for it. |
+| 12 | P7:S-007.bR | Where grace is defined as a given facing rather than as a turning back, it can be given to one who was never turned away. |
