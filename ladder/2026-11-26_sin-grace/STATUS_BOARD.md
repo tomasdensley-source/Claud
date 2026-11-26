@@ -37,3 +37,17 @@ Author's governing caveat (§P16): a pass on this test is not a proof that a cla
 - Step 3 external tests against evidence: the surplus implications were tested by counterexample only. Whether that counts as Step 3 for conceptual implications is OPEN (O-07).
 - Step 3 internal channel (implications contradicting each other): not run; no prompt (O-08).
 - Steps 5-8: not run. Step 7 needs independently developed paths, which one sentence cannot supply. Nothing is or may be called an axiom.
+
+## Pass 2 (2026-11-26)
+| ID | Exact sentence | Status |
+|---|---|---|
+| S-004.bR4 | (see L4_repairs_round3.md) | passes CX as phrased (CX-009); tester: "close to definitional" |
+| A-002-S1, A-003-S1 | (archived) | belonged to failed parent phrasings; not carried forward |
+| G-101 | A-001, A-002v2, A-003v2 regrouped (Step 5, provisional under O-07) | group |
+| T-001 | Whether one condition is the contrary of another is fixed by what the two conditions are in the same subject, at the same time and toward the same object, and not by how either came about, whether it was achieved, given, or reached as a remedy after the other. | passes CX as phrased (CX-010); tester's argument suggests it may hold by definition |
+| T-001-S1, S2, S3 | (see L56_tier2.md) | pass CX as phrased (CX-011) |
+| REV-3 | Sin is being turned away, after knowledge, from the work of one's own hand; its contrary is facing that same work with the same knowledge. Repentance becomes that contrary only when it arrives at the facing, and grace is the facing when it is given rather than achieved. | passes CX as phrased (CX-012) |
+| REV-4 | Sin is the turning away, after knowledge, from the work of one's own hand; its contrary is the facing. Repentance is that contrary only when it arrives there, and grace is the facing given. | passes CX as phrased (CX-012); tester: drops the knowledge condition from the facing, so it is broader |
+
+Tester's remark on both revisions (CX-012): "They are stipulative definitions. They assert nothing empirical that a case could falsify." This is the governing caveat applied: they pass partly because they are definitions.
+Steps 7-8: not run. Convergence needs independently developed paths; one sentence supplies one path.

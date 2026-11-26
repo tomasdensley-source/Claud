@@ -1,0 +1,34 @@
+# Verdicts on the Two Statements
+
+**Summary:** Both statements STAND. They are stipulative definitions. They assert nothing empirical that a case could falsify, and every attack I tried either found no contradiction or only worked by changing what the terms mean.
+
+## 1. STANDS
+
+The statement defines four things:
+- **Sin:** turning away, after knowledge, from the work of one's own hand.
+- **Its contrary:** facing that same work with the same knowledge.
+- **Repentance:** counts as that contrary only when it arrives at the facing.
+- **Grace:** the facing when it is given rather than achieved.
+
+A counterexample would need a case that meets these terms but makes a claim false. I tried four lines of attack:
+
+- **Repentance and grace overlap.** A repentance might arrive at a facing that was given. It would then be both repentance-as-contrary and grace. The statement never says the two exclude each other, so this is consistent.
+- **A facing that is both given and achieved** (cooperative). The phrase "given rather than achieved" leaves such a case unclassified, which is a gap in coverage. But a gap is not a falsified claim. The statement only says which facing *is* grace, not that every facing must be sorted.
+- **Facing without prior turning away.** This still satisfies "facing that same work with the same knowledge," so it is still the contrary of sin. That is consistent: contraries need not be preceded by their opposites.
+- **Turning away and facing at once** (for example, acknowledging the work in word while avoiding it in deed). This would make "contrary" false. However, it only works by splitting "facing" and "turning away" into different respects, which changes what the words mean. The statement treats them as a single orientation toward a single work with a single knowledge. Within that scope, the two cannot both hold.
+
+The "only when" clause for repentance states a necessary condition, not a sufficient one. So no case of repentance-that-faces-but-is-not-the-contrary can falsify it.
+
+No valid counterexample exists. The statement stands.
+
+## 2. STANDS
+
+Statement 2 is an elliptical version of statement 1. It drops "that same work" and "with the same knowledge," and "the facing" refers back to the work just named.
+
+The one new opening is the loosened knowledge condition. Someone might face their work in ignorance, and that would seem to count as "the facing," so grace could be given without knowledge. This makes the definition broader, but it does not make any claim false. Nothing in statement 2 asserts that the facing requires knowledge, so the case still satisfies the statement.
+
+The cooperative given-and-achieved case does not break it either. "The facing given" simply includes such a facing as grace, with no rival clause for it to contradict.
+
+The remaining clauses work as in statement 1. "Only when" is necessary-only, and contrariety holds within a single respect.
+
+No valid counterexample exists. The statement stands.

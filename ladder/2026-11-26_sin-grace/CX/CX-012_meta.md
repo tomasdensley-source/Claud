@@ -1,0 +1,11 @@
+# CX-012 meta
+Time UTC: 2026-11-26T04:13:51.429331+00:00
+Platform: OpenRouter chat completions. Model requested: anthropic/claude-opus-5.5; reported: anthropic/claude-opus-5.5; id: gen-1795666407-Zb6qFxzcM9a5WLfUjsxX
+Freshness (5.3.1(b)): one request, messages array holds one user message, no system message. Payload: CX-012_payload.json. No further turn sent.
+Integrity diff (must be empty): EMPTY
+
+## Number map
+| # | Object | Exact sentence |
+|---|---|---|
+| 1 | REV-3 | Sin is being turned away, after knowledge, from the work of one's own hand; its contrary is facing that same work with the same knowledge. Repentance becomes that contrary only when it arrives at the facing, and grace is the facing when it is given rather than achieved. |
+| 2 | REV-4 | Sin is the turning away, after knowledge, from the work of one's own hand; its contrary is the facing. Repentance is that contrary only when it arrives there, and grace is the facing given. |

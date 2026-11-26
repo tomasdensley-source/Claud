@@ -37,5 +37,12 @@
 | CX-007 | 2 | S-004.bR3 | BROKEN |
 | CX-008 | 1 | REV-1 | STANDS |
 | CX-008 | 2 | REV-2 | BROKEN |
+| CX-009 | 1 | S-004.bR4 | STANDS |
+| CX-010 | 1 | T-001 | STANDS |
+| CX-011 | 1 | T-001-S1 | STANDS |
+| CX-011 | 2 | T-001-S2 | STANDS |
+| CX-011 | 3 | T-001-S3 | STANDS |
+| CX-012 | 1 | REV-3 | STANDS |
+| CX-012 | 2 | REV-4 | STANDS |
 
-STANDS=21 BROKEN=14 invalid=0 tested=35
+STANDS=28 BROKEN=14 invalid=0 tested=42

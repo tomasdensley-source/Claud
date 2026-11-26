@@ -27,3 +27,6 @@ You are given numbered statements and a body of writing. For each statement answ
 - O-09: S-004.bR3 failed (CX-007: turning as event vs orientation). Next repair would narrow to a lasting turned-ness; not attempted. Author may direct.
 - O-10: The named loss "its opposite is not repentance" (A-002v2, O-0026). Whether the author accepts REV-1's change of meaning is the author's call.
 - O-11: All testers were anthropic/claude-opus-5.5 (same family as the builder; see O-06).
+- O-12: Steps 5-6 were run treating counterexample tests as Step 3 (O-07, provisional). If the author rules otherwise, G-101 and T-001 revert to untested-basis.
+- O-13: Vacuity (Ladder 318) flagged by testers: S-004.bR4 (CX-009), T-001 (CX-010), REV-3 and REV-4 (CX-012). Whether a definition-like pass carries any weight here is the author's call.
+- O-14: Choice between REV-1, REV-3 and REV-4 (all pass CX as phrased). REV-4 keeps the original's cadence but drops the knowledge condition from the facing. Author.

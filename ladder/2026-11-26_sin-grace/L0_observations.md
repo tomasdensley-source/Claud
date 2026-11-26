@@ -34,3 +34,4 @@ Affect charge: not recorded (the operator is not the selector; the author's affe
 | O-0024 | A tester stated that a person can repent of a sin they only suspect, citing the suspended guilt offering of Leviticus 5:17-19. | CX-004 #3 |
 | O-0025 | A tester stated that grace can be located in the giver as favor, not in the receiver as an orientation. | CX-004 #4 |
 | O-0026 | A tester stated that repentance does not exclude the past act of sin but does exclude its present willing. | CX-005 #1 |
+| O-0027 | A tester stated that a turning can be a momentary event that lapses, distinct from a lasting orientation, citing Aquinas on grace as motion versus habit. | CX-007 #2 |

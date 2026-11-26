@@ -1,0 +1,20 @@
+**1. STANDS**
+
+**Why it stands.** The statement's conditions decide its conclusion. They require two things:
+
+- Grace names the gift, not the giver's favor.
+- The gift is a lasting turned-ness of the one who receives it, not a momentary turning.
+
+A lasting turned-ness of a subject is what an orientation is: a settled directedness of that subject toward something. So once the conditions are met, grace in that sense is the same kind of thing as an orientation. The claim is close to definitional, and a valid counterexample would need a lasting turned-ness that is not an orientation. I could not find one.
+
+**Attempts I made, and why each fails:**
+
+1. **Thomist habitual grace.** In Aquinas, sanctifying grace is an entitative habit in the essence of the soul. It is distinct from charity, the operative orientation of the will, which flows from it. That makes grace a quality of being rather than a turned-ness. But this case denies the statement's second condition: it says the gift is not a turned-ness. It falls outside the statement's scope, so it does not break it.
+
+2. **Grace as received and sustained by another.** Someone might say grace differs in kind because it is passively received and kept in being by the giver, while an orientation is one's own. But "orientation" does not require being self-originated or self-sustained. An orientation can be formed, given, or maintained from outside, as with upbringing or conversion. Where the turned-ness comes from changes how it originates, not what kind of thing it is.
+
+3. **Grace as a relation rather than a state.** One might say grace is the relation between giver and recipient. That is the "favor" reading, which the first condition explicitly excludes.
+
+4. **Grace as an empowerment rather than a direction.** One might say grace is a capacity, not a directedness. That again replaces "turned-ness" with something else, which changes what the statement's words mean.
+
+**Conclusion.** Every route to a counterexample either drops one of the stated conditions or redefines its terms. Within its own terms, the statement holds.

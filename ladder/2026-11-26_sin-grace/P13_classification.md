@@ -7,3 +7,4 @@
 | S-003.a, S-003.bR, S-005.aR, S-005.b, S-006.aR, S-006.bR | vulnerable generalization | one valid case inside its terms |
 | A-001, A-002, A-003 | vulnerable generalization | one valid case inside its terms |
 | A-001-S1, A-001-S2, A-002-S1, A-002-S2, A-003-S1 | vulnerable generalization | one valid case inside its terms |
+| S-004.bR4, T-001, T-001-S1, T-001-S2, T-001-S3, REV-3, REV-4 | vulnerable generalization (pass 2) | one valid case inside its terms |

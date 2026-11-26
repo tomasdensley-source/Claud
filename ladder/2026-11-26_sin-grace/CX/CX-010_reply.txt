@@ -1,0 +1,24 @@
+**Verdict: STANDS**
+
+To break the statement, I would need two conditions that are the same in a subject, at the same time and toward the same object, but differ only in how they came about. That difference in origin would then have to change whether one of them is contrary to some third condition.
+
+**Attempts:**
+
+1. **Health given versus health restored.** Natural health and health regained through medicine are both contrary to sickness, in the same way and to the same degree. Origin makes no difference here.
+
+2. **Forgiveness versus goodwill that never wavered.** Forgiveness is reached as a remedy after resentment. Constant goodwill toward the same person never had to be reached. Both are contrary to resentment toward that person. The remedial origin does not create or remove the contrariety.
+
+3. **Self-control versus settled virtue (Aristotle).** These do differ in their relation to contrary appetite. But they differ because of what each condition currently is. Self-control still contains conflicting desire that has been mastered. Virtue does not. The difference lies in present makeup, not in history.
+
+4. **Error versus mere ignorance.** Error is contrary to knowledge, while simple ignorance is only an absence of it. Again, the difference is in what each state is: a positive false disposition versus a lack. It does not come from how either state arose.
+
+5. **Conditions defined by their history, such as widowhood or repentance.** These come closest to a counterexample. Even so, if the history determines contrariety, that is only because the history is built into what the condition presently is. A widow's state includes "having been married" as part of her current condition. So the contrariety is still fixed by what the conditions are.
+
+**Why no valid counterexample exists:**
+
+Every candidate falls into one of two cases:
+
+- **The origin leaves a mark on the present condition.** Then that mark is part of what the condition is, and the statement already covers it.
+- **The origin leaves no mark.** Then the two conditions are identical in the same subject, time and object. Since contrariety is incompatibility between conditions as they are in one subject, identical conditions must stand in identical contrariety relations.
+
+Producing a counterexample would require two conditions that are the same yet differently contrary. That would contradict itself, or else it would quietly redefine "what the condition is" so as to exclude its present features. That is changing the statement's terms, which does not count.

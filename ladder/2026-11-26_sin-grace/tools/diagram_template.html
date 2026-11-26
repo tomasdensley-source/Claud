@@ -66,6 +66,7 @@ svg.edges path.lo{opacity:.07}
 .chip{display:inline-block;font:600 10.5px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.04em;text-transform:uppercase;padding:4px 6px;border-radius:4px;white-space:nowrap}
 .s-stands{border-left-color:var(--stands)} .s-stands .chip{background:var(--stands-bg);color:var(--stands)}
 .s-broken{border-left-color:var(--broken)} .s-broken .chip{background:var(--broken-bg);color:var(--broken)}
+.s-archived{border-left-color:var(--disc);background:var(--soft)} .s-archived .chip{background:var(--disc-bg);color:var(--disc)}
 .s-discarded{border-left-color:var(--disc);background:var(--soft)} .s-discarded .chip{background:var(--disc-bg);color:var(--disc)} .s-discarded .txt{color:var(--muted)}
 .s-p4dem{border-left-color:var(--stands)} .s-p4dem .chip{background:var(--stands-bg);color:var(--stands)}
 .s-p4con{border-left-color:var(--amber)} .s-p4con .chip{background:var(--amber-bg);color:var(--amber)}
@@ -103,7 +104,7 @@ header{position:relative}
   <h1>Ladder Run: Sin and Grace</h1>
   <p class="sub">Run 2026-11-26_sin-grace. Every sentence, verdict and tester reply on this page is generated from the run's filed artifacts.</p>
   <div class="piece" id="piece"></div>
-  <div class="caveat"><b>Governing caveat.</b> "Passes" on this page always means passes the counterexample test as phrased. It is not proof that a claim is true. Some pass because they are carefully scoped, or because they state a standard rather than a universal observation. Nothing here is TESTED-LIVE, and nothing is an axiom: Steps 5 to 8 were not run.</div>
+  <div class="caveat"><b>Governing caveat.</b> "Passes" on this page always means passes the counterexample test as phrased. It is not proof that a claim is true. Some pass because they are carefully scoped, or because they state a standard rather than a universal observation. Nothing here is an axiom. Steps 5 and 6 were run provisionally (open item O-07); Steps 7 and 8 were not run, because one sentence cannot supply independently developed paths.</div>
   <div class="stats" id="stats"></div>
 </header>
 
@@ -132,10 +133,10 @@ header{position:relative}
 <script>
 const DATA = /*__DATA__*/null;
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const STATUS = {stands:"Passes CX", broken:"Failed CX", discarded:"Discarded", untested:"Untested", p4dem:"P4 demonstrated", p4con:"P4 contested", p4false:"P4 false as stated", observation:"Observation", group:"Group", source:"Source", extracted:"Claim"};
+const STATUS = {stands:"Passes CX", broken:"Failed CX", discarded:"Discarded", archived:"Archived", untested:"Untested", p4dem:"P4 demonstrated", p4con:"P4 contested", p4false:"P4 false as stated", observation:"Observation", group:"Group", source:"Source", extracted:"Claim"};
 const COLS = {
-  L:["The piece","Claims (P1)","Step 0 · Observations","Step 0.5 · Groups","Step 1 · Abstractions","Step 4 · Repaired abstractions","Step 2 · Surplus implications","Revision of the piece"],
-  A:["The piece","Claims (P1)","Assumptions (P3) · P4 audit","Round 1 reformulation · CX-001","Round 2 repair · CX-004","Round 3 repair · CX-007","Revision of the piece · CX-008"]
+  L:["The piece","Claims (P1)","Step 0 · Observations","Step 0.5 · Groups","Step 1 · Abstractions","Step 4 · Repaired abstractions","Step 2 · Surplus implications","Steps 5-6 · Survivors regrouped, tier 2","Tier-2 surplus implications","Revision of the piece"],
+  A:["The piece","Claims (P1)","Assumptions (P3) · P4 audit","Round 1 reformulation · CX-001","Round 2 repair · CX-004","Round 3 repair · CX-007","Round 4 repair (pass 2) · CX-009","Revision of the piece · CX-008, CX-012"]
 };
 const EDGE = {flow:"--e-flow", prov:"--e-flow", member:"--e-member", repair:"--e-repair", kill:"--e-kill", receipt:"--e-receipt", surplus:"--e-surplus", basis:"--e-basis"};
 const EDGE_LABEL = {member:"Group membership", repair:"Repair (Narrow / Split)", kill:"Discard", receipt:"Receipt for a qualifier", surplus:"Surplus implication", basis:"Basis of revision", flow:"Derivation / provenance"};
@@ -155,7 +156,7 @@ document.getElementById("stats").innerHTML = [
 document.getElementById("legend1").innerHTML =
   ["stands","broken","discarded","observation","group"].map(s => `<span><span class="chip s-${s}" style="${chipStyle(s)}">${STATUS[s]}</span></span>`).join("") +
   Object.entries(EDGE_LABEL).map(([k,l]) => `<span><i style="border-top-color:var(${EDGE[k]});${DASH[k]?'border-top-style:dashed':''}"></i>${l}</span>`).join("");
-function chipStyle(s){ const m={stands:["--stands-bg","--stands"],broken:["--broken-bg","--broken"],discarded:["--disc-bg","--disc"],observation:["--obs-bg","--obs"],group:["--grp-bg","--grp"]}[s]; return `background:var(${m[0]});color:var(${m[1]})`; }
+function chipStyle(s){ const m={stands:["--stands-bg","--stands"],broken:["--broken-bg","--broken"],discarded:["--disc-bg","--disc"],archived:["--disc-bg","--disc"],observation:["--obs-bg","--obs"],group:["--grp-bg","--grp"]}[s]; return `background:var(${m[0]});color:var(${m[1]})`; }
 
 function build(d){
   const inner = document.getElementById("inner"+d);
@@ -216,7 +217,7 @@ function select(k){
   h += `</dl>`;
   document.getElementById("dbody").innerHTML = h; document.getElementById("detail").classList.add("open");
 }
-function statusChip(s){ const m={stands:["--stands-bg","--stands"],broken:["--broken-bg","--broken"],discarded:["--disc-bg","--disc"],observation:["--obs-bg","--obs"],group:["--grp-bg","--grp"],p4dem:["--stands-bg","--stands"],p4con:["--amber-bg","--amber"],p4false:["--broken-bg","--broken"]}[s]||["--soft","--muted"]; return `background:var(${m[0]});color:var(${m[1]})`; }
+function statusChip(s){ const m={stands:["--stands-bg","--stands"],broken:["--broken-bg","--broken"],discarded:["--disc-bg","--disc"],archived:["--disc-bg","--disc"],observation:["--obs-bg","--obs"],group:["--grp-bg","--grp"],p4dem:["--stands-bg","--stands"],p4con:["--amber-bg","--amber"],p4false:["--broken-bg","--broken"]}[s]||["--soft","--muted"]; return `background:var(${m[0]});color:var(${m[1]})`; }
 document.getElementById("close").onclick = () => { document.getElementById("detail").classList.remove("open"); clearHi(); };
 document.addEventListener("keydown", e => { if (e.key==="Escape") document.getElementById("close").click(); });
 

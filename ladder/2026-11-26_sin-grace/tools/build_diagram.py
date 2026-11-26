@@ -22,9 +22,11 @@ def segments(text, pat):
         out[k] = text[m.start():end].strip()
     return out
 seg = {}
-for n in range(1, 9):
-    run = f"CX-00{n}"
+import glob
+RUNS = sorted(os.path.basename(f)[:6] for f in glob.glob(os.path.join(R, "CX/CX-*_reply.txt")))
+for run in RUNS:
     seg[run] = segments(rd(f"CX/{run}_reply.txt"), r"^\W*(\d+)\.\s*\**\s*(?:BROKEN|STANDS)\b")
+    if len([l for l in rd(f"CX/{run}_statements.tsv").splitlines() if l.strip()]) == 1: seg[run] = {1: rd(f"CX/{run}_reply.txt").strip()}
 p4seg = segments(rd("P04_reply.txt"), r"^\W*(\d+)\.\s*\**\s*(?:DEMONSTRATED|CONTESTED|FALSE AS STATED)")
 p4map = {l.split()[1]: int(l.split()[0]) for l in rd("P04_numbermap.txt").splitlines() if l.strip()}
 p4cat = {}
@@ -74,7 +76,7 @@ def failed_obj(f):
     m = re.match(r"(CX-\d{3}) #(\d+)", f); run, num = m.group(1), int(m.group(2))
     for o, (r_, n_, v) in cx.items():
         if r_ == run and n_ == num: return o
-roundcols = {"L4_repairs_round1.md": 4, "L4_repairs_round2.md": 5}
+roundcols = {"L4_repairs_round1.md": 4, "L4_repairs_round2.md": 5, "L4_repairs_round3.md": 6}
 rev_inputs = []
 for f, col in roundcols.items():
     for c in table(f, r"[SA]-\d{3}"):
@@ -125,24 +127,39 @@ for c in surplus:
          prov="L2_surplus.md" if "v2" not in sid else "L4_repairs_round1.md", test=t)
     edge(f"L:{parent}", f"L:{sid}", "surplus")
 # revisions, in both diagrams
-for c in table("L4_repairs_round2.md", r"REV-\d$"):
-    st, t = tested(c[0])
-    for d in ("L", "A"):
-        node(f"{d}:{c[0]}", c[0], "revision", c[1], 7 if d == "L" else 6, d, st, prov="L4_repairs_round2.md", test=t)
+REVS = []
+for f in ("L4_repairs_round2.md", "L4_repairs_round3.md"):
+    for c in table(f, r"REV-\d$"):
+        st, t = tested(c[0]); REVS.append(c[0])
+        for d in ("L", "A"):
+            node(f"{d}:{c[0]}", c[0], "revision", c[1], 9 if d == "L" else 7, d, st, prov=f, test=t)
 for b in ("A-001", "A-002v2", "A-003v2"):
-    for rv in ("REV-1", "REV-2"): edge(f"L:{b}", f"L:{rv}", "basis", "basis")
+    for rv in REVS: edge(f"L:{b}", f"L:{rv}", "basis", "basis")
 for b in ("A:R1:S-005.aR", "A:R2:S-005.bR", "A:R2:S-006.aR2", "A:R1:S-006.bR"):
     if b in nodes:
-        for rv in ("REV-1", "REV-2"): edge(b, f"A:{rv}", "basis", "basis")
+        for rv in REVS: edge(b, f"A:{rv}", "basis", "basis")
+# tier 2 (Steps 5-6)
+for c in table("L56_tier2.md", r"G-1\d\d$"):
+    node(f"L:{c[0]}", c[0], "group", c[1], 7, "L", "group", prov="L56_tier2.md (Step 5); members provisionally survivors under O-07")
+    for m in [x.strip() for x in c[3].split(",")]: edge(f"L:{m}", f"L:{c[0]}", "member")
+for c in table("L56_tier2.md", r"T-\d{3}$"):
+    st, t = tested(c[0])
+    node(f"L:{c[0]}", c[0], "abstraction", c[2], 7, "L", st, prov="L56_tier2.md (Step 6)", test=t, tier="tier 2")
+    edge(f"L:{c[1]}", f"L:{c[0]}")
+for c in table("L56_tier2.md", r"T-\d{3}-S\d$"):
+    st, t = tested(c[0])
+    node(f"L:{c[0]}", c[0], "surplus", c[1], 8, "L", st, entailed=c[2], absent=c[3], surface=c[4], prov="L56_tier2.md", test=t)
+    edge(f"L:{re.match(r'(T-\d{3})', c[0]).group(1)}", f"L:{c[0]}", "surplus")
 if "L:A-002-S2" in nodes:
     nodes["L:A-002-S2"]["op"] = "Discarded after failing CX-003 (L4_repairs_round1.md)"
 for k in ("L:A-002-S1", "L:A-003-S1"):
-    if k in nodes: nodes[k]["op"] = "Derived from a parent phrasing that later failed CX-002; needs fresh derivation against the repaired parent"
+    if k in nodes:
+        nodes[k]["op"] = "Archived in pass 2: belongs to a parent phrasing that failed CX-002 (L4_repairs_round3.md)"; nodes[k]["status"] = "archived"
 edges = [e for e in edges if e["a"] in nodes and e["b"] in nodes]
 
 runs = []
-for n in range(1, 9):
-    run = f"CX-00{n}"; meta = rd(f"CX/{run}_meta.md")
+for run in RUNS:
+    meta = rd(f"CX/{run}_meta.md")
     runs.append(dict(run=run, model=re.search(r"reported: ([^;]+);", meta).group(1).strip(),
         gid=re.search(r"id: (\S+)", meta).group(1), diff=re.search(r"Integrity diff \(must be empty\): (\S+)", meta).group(1),
         n=len([l for l in rd(f"CX/{run}_statements.tsv").splitlines() if l.strip()]),

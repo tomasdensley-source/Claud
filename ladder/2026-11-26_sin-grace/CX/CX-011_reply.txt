@@ -1,0 +1,41 @@
+## 1. STANDS
+
+**Verdict: STANDS.** No valid counterexample.
+
+Contrariety holds between states because of what the states are, not how they came about. If the practiced virtue and the gifted virtue really are the *same* virtue, then whatever vice is contrary to one is contrary to the other. Origin is not part of the contrariety relation.
+
+Two attempted counterexamples fail:
+
+- **The virtue has two contrary vices.** On Aristotle's scheme, courage has two contraries: cowardice (deficiency) and rashness (excess). This does not break the statement. Both instances of courage are contrary to cowardice, and both are contrary to rashness. Each vice remains a shared contrary.
+- **Gifted virtue is a different kind.** One could argue, as Aquinas does for infused versus acquired temperance, that a gifted virtue differs in species and so opposes a vice differently. That denies the statement's premise that it is "the same virtue." It steps outside the statement's terms, so it is not a valid counterexample.
+
+## 2. STANDS
+
+**Verdict: STANDS.** No valid counterexample.
+
+The statement builds in its own safeguard: "if the two calms are the same condition."
+
+- Contrariety to anxiety, in that person at that time, is a relation between conditions.
+- If the two calms are the same condition, they stand in the same relations, including contrariety to anxiety.
+
+A counterexample would need one of two things:
+
+- **A difference between the calms.** For example, medicated calm might be only a suppression of the symptoms of anxiety while the anxiety persists underneath. But then the two calms are not the same condition, and the antecedent fails.
+- **Origin as part of contrariety.** This changes what "contrary" means.
+
+Either route leaves the statement's scope.
+
+## 3. STANDS
+
+**Verdict: STANDS.** No valid counterexample, though an equivocation can make it look broken.
+
+**The tempting counterexample.** Consider a person forced to watch the consequences of their deed, eyes held open as in *A Clockwork Orange*. They look at it while inwardly refusing to acknowledge it, so in spirit they are still "turned away."
+
+**Why it fails.** It switches senses of "face" partway through. The statement uses "face" and "turned away" as a matched pair of contraries, and that pairing has to hold within a single sense:
+
+- **Physical or perceptual sense.** The coerced agent faces the work exactly as the free agent does. They are therefore fully in the contrary of being turned away in that respect.
+- **Inward sense (acknowledging, confronting).** Then "made to face it" means they are actually brought to acknowledge it, however unwillingly. While doing so, they are not turned away in that sense.
+
+**What about the unwilling will?** Someone might say the agent's resisting will keeps part of them turned away. But unwillingness is a different property from turned-away-ness. It concerns the agent's attitude toward being made to face the work, not their orientation toward the work itself. Coercion settles how the state arose and how the agent feels about it. It does not make the state any less the contrary of its opposite.
+
+"As much as" is therefore satisfied: occupying a contrary state is not diminished by the state's being compelled. The only ways to break the statement are to equivocate on "face" or to count unwillingness as being turned away. Both change the meaning of the words.
