@@ -48,3 +48,9 @@ Left ungrouped: O-0082, O-0086, O-0087, O-0088, O-0089.
 | ID | Tag | Basis | Members |
 |---|---|---|---|
 | G-013 | what facing is | instinct | O-0010, O-0031, O-0038, O-0046, O-0121, O-0128, O-0135 |
+
+## Pass 13 (Step 0.5 again, on the author's writings; directive: define "hand" and "facing")
+| ID | Tag | Basis | Members |
+|---|---|---|---|
+| G-014 | what the hand is and does | instinct | O-0082, O-0148, O-0149, O-0150, O-0152, O-0158, O-0159 |
+| G-015 | facing in the author's writings | instinct | O-0151, O-0153, O-0154, O-0155, O-0156, O-0157, O-0161 |

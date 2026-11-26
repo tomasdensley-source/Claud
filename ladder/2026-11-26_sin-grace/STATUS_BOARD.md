@@ -195,3 +195,17 @@ Evidence on O-38: (1) facing is not the three together; seeing, owning and readi
 | REV-25 | Sin is remaining turned away, after understanding, from the work of one's own hand. Its contrary is grace: to stand facing that work as one's own and for what it is, right or wrong, in acknowledgment and in the deeds it rightly calls for, as far as these can be seen; attention alone never reaches that facing. Repentance is the facing of God's creation as God's work, and of oneself within it as a whole, though not every part of oneself can be seen. | passes CX as phrased (CX-087 #1) |
 | REV-26 | (as REV-25, with the facing of oneself given to conscience) | FAILED CX (CX-087 #2): repentance would no longer reach sin |
 Finding: the poem's definitions fail as freestanding claims but the rulings drawn from them hold inside the piece (REV-25). Facing oneself must stay within repentance for repentance to reach sin (bears on O-42).
+
+## Pass 13 (2026-11-26): directive to define "hand" and "facing" within REV-24; comparison of REV-24 and REV-25
+| ID | Exact sentence | Status |
+|---|---|---|
+| A-017 | (hand as what one made, did or left undone by one's own agency) | FAILED CX (CX-088 #1: dictation; "left undone" is never "done") |
+| A-017v2 | The work of one's own hand is what one has authored: what one has made or done, directly or through others acting at one's direction, or has left undone when it was one's to do; it does not include what another's free choice makes of it, and it remains one's own after it is finished. | passes CX as phrased (CX-093 #1) |
+| A-018 | (facing with "stay before it, rather than turn away or flee") | FAILED CX (CX-088 #2: a facing that does not stay) |
+| A-013v3 | (facing core with "as it is") | FAILED CX (CX-088 #3: exposure therapy) |
+| A-013v4 | To face something is to turn toward it rather than away from it, whether for a moment or as a standing. | passes CX as phrased (CX-093 #2) |
+| REV-27 | (REV-24 with both substitutions) | FAILED CX (CX-090: selective repentance) |
+| REV-28 | (REV-27 with "as its author" and "repentance, once fulfilled, implies") | FAILED CX (CX-094: fulfilment read per work) |
+| REV-29 | Sin is remaining turned away, after understanding, from what one has made, done or left undone as its author. Its contrary is to stand turned toward that work, rather than away from it, as one's own and for what it is, right or wrong, in acknowledgment and in the deeds it rightly calls for, as far as these can be seen; attention alone never amounts to that standing. Grace is the free giving of that standing, and repentance is the turning toward that grace; it contains sin's contrary only once it comes to that standing. Whether sought or found, repentance is not fulfilled until it turns toward God's creation as God's work, and toward oneself within it as a whole, though not every part of oneself can be seen. | passes CX as phrased (CX-095) |
+| Comparison | REV-24 presuppositions 7 of 8 pass (CX-091; R24-1b fails: "free" needs more than "not owed"); REV-25 presuppositions 5 of 6 pass (CX-092; R25-2b fails: facing one's own work can earn, so grace as one's own facing can be earned) | see pass13/COMPARE_presuppositions.md |
+Bearing on REV-24 (not a verdict): its final sentence never faced the selective-repentance case (O-0166) that broke REV-27; REV-29's form answers it.

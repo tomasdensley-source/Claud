@@ -1,0 +1,70 @@
+# Verdicts on the Eight Statements
+
+## 1. STANDS
+**Claim:** Another can give the facing of one's own work, at least in part.
+
+This is a possibility claim. Breaking it would require showing that such giving is impossible. A plain case confirms it instead. A writer cannot see what their manuscript is doing until an editor names its evasions. The writer still does the facing, but the editor supplied its occasion and much of its content. "At least in part" is satisfied.
+
+The only route to a break is to insist that "facing" is purely first-personal, so that nothing in it can come from outside. That redefines the term rather than meeting it.
+
+## 2. BROKEN
+**Claim:** A giving is free when it is not owed to the one who receives it.
+
+This makes "not owed" a sufficient condition for "free." Two cases meet the condition and fail the result:
+
+- **Ransom:** A parent hands money to a kidnapper. Nothing is owed to the kidnapper, and the money really passes from one to the other. Yet the giving is not free in either sense of the word. It is not voluntary, because it is extorted. It is not gratuitous, because it is extracted under threat.
+- **Bribe:** An official receives money from someone who owes them nothing. The money is given only to secure a return, so it is not a free gift.
+
+Both cases stay inside the statement's terms: there is a giving, and nothing is owed to the receiver. The counterexample works because the absence of obligation is necessary for a free gift, but not enough on its own. Freedom also requires the absence of coercion and of an exacted return.
+
+## 3. STANDS
+**Claim:** One can turn toward a giving before what it gives has arrived.
+
+A person told that a pardon has been granted, but not yet delivered, can orient their life toward it: hoping, preparing, trusting. The giving, meaning the act or promise, can precede the gift's arrival. I found no case showing this is impossible.
+
+## 4. STANDS
+**Claim:** Turning toward grace is something the one who repents does, even if what grace gives is not their own doing.
+
+Read naturally, the statement assigns the act of turning to the penitent. Two challenges fail:
+
+- **Strong divine causation (monergism):** Even on this view, the person is the one who turns, though enabled to. The agency attribution survives.
+- **The secular penitent:** Someone repents toward a wronged neighbor and never turns toward grace at all. This only breaks the statement if it is read as "everyone who repents turns toward grace." That is a different claim from the one about who performs the turning. The case shifts the statement's meaning, so it is not valid.
+
+## 5. STANDS
+**Claim:** Repentance can be under way before it contains sin's contrary.
+
+A thief feels real contrition and begins restitution while still covetous. Generosity, the contrary of the sin, is not yet present. The repentance is still under way. This confirms the possibility, and I found nothing that makes it impossible.
+
+## 6. STANDS
+**Claim:** Turning toward a gift and receiving it are distinct.
+
+Distinctness is established if the two can come apart, and they do in both directions:
+
+- **Turning without receiving:** One can turn toward a gift that has not yet arrived (see statement 3).
+- **Receiving without turning:** One can receive a gift without turning toward it, as when an anonymous benefactor pays off a debt the debtor never learns about.
+
+Cases where the two coincide, such as turning toward sunlight being the same moment as receiving its warmth, show co-occurrence, not identity. They do not break the claim.
+
+## 7. STANDS
+**Claim:** A facing received as freely given points to a giver.
+
+To receive something *as given* is to take it as coming from somewhere. That structure refers to a giver, even if no giver exists or the recipient denies one. "Points to" does not assert that a giver exists.
+
+The strongest objection is Marion's notion of "givenness without a giver." It succeeds only by moving "given" to a technical phenomenological sense that drops "freely given," which implies a giving act. That is a change of meaning, not a valid counterexample.
+
+## 8. STANDS
+**Claim:** Facing oneself as a whole is possible though not every part of oneself can be seen.
+
+One can face a mountain as a whole without seeing its far side. In the same way, one can take responsibility for oneself as a unity, including parts one cannot see: "whatever I am, I own it." A break would require that facing a whole means seeing all of it. That is a redefinition of "facing," not a case within the statement's terms.
+
+## Summary
+| # | Verdict |
+|---|---|
+| 1 | STANDS |
+| 2 | **BROKEN** |
+| 3 | STANDS |
+| 4 | STANDS |
+| 5 | STANDS |
+| 6 | STANDS |
+| 7 | STANDS |
+| 8 | STANDS |

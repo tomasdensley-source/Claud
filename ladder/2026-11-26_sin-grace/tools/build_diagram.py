@@ -129,10 +129,10 @@ for c in surplus:
          prov="L2_surplus.md" if "v2" not in sid else "L4_repairs_round1.md", test=t)
     edge(f"L:{parent}", f"L:{sid}", "surplus")
 # revisions
-REVS = []; REVS_A = []; REVS_BY = {"B": [], "C": [], "D": [], "E": [], "F": [], "G": [], "H": [], "I": []}
+REVS = []; REVS_A = []; REVS_BY = {"B": [], "C": [], "D": [], "E": [], "F": [], "G": [], "H": [], "I": [], "J": []}
 REV_FILES = (("L4_repairs_round2.md", ("L", "A")), ("L4_repairs_round3.md", ("L", "A")), ("L4_repairs_round4.md", ("L", "A")),
-             ("pass4/L4_repairs_round2.md", ("L", "B")), ("pass5/L4_repairs_round2.md", ("L", "C")), ("pass6/L4_repairs_round2.md", ("L", "D")), ("pass7/L4_repairs_round2.md", ("L", "E")), ("pass8/L4_repairs_round2.md", ("L", "F")), ("pass9/L4_revisions.md", ("L", "G")), ("pass10/L4_revisions.md", ("L", "H")), ("pass12/L4_revisions.md", ("L", "I")))
-REVCOL = {"L": 9, "A": 7, "B": 6, "C": 5, "D": 4, "E": 5, "F": 4, "G": 4, "H": 3, "I": 2}
+             ("pass4/L4_repairs_round2.md", ("L", "B")), ("pass5/L4_repairs_round2.md", ("L", "C")), ("pass6/L4_repairs_round2.md", ("L", "D")), ("pass7/L4_repairs_round2.md", ("L", "E")), ("pass8/L4_repairs_round2.md", ("L", "F")), ("pass9/L4_revisions.md", ("L", "G")), ("pass10/L4_revisions.md", ("L", "H")), ("pass12/L4_revisions.md", ("L", "I")), ("pass13/L4_revisions.md", ("L", "J")))
+REVCOL = {"L": 9, "A": 7, "B": 6, "C": 5, "D": 4, "E": 5, "F": 4, "G": 4, "H": 3, "I": 2, "J": 2}
 for f, ds in REV_FILES:
     for c in table(f, r"REV-\d+$"):
         if len(c) < 2 or c[0] in REVS: continue
@@ -143,7 +143,7 @@ for f, ds in REV_FILES:
             node(f"{d}:{c[0]}", c[0], "revision", c[1], REVCOL[d], d, st, prov=f, test=t)
 for b, revs in (("A-001", REVS), ("A-002v2", REVS), ("A-003v2", REVS), ("A-004", ["REV-5", "REV-6", "REV-7", "REV-9", "REV-10", "REV-11"] + REVS_BY["D"] + REVS_BY["E"]),
                 ("A-005", ["REV-5", "REV-6"]), ("A-006", REVS_BY["B"] + REVS_BY["C"] + REVS_BY["D"] + REVS_BY["E"]), ("A-007", REVS_BY["C"] + REVS_BY["D"] + REVS_BY["E"]),
-                ("A-009v3", REVS_BY["E"]), ("A-010v2", ["REV-16"] + REVS_BY["F"] + REVS_BY["G"] + REVS_BY["H"]), ("A-011v6a", REVS_BY["F"] + REVS_BY["G"] + REVS_BY["H"]), ("A-011v6b", REVS_BY["F"] + REVS_BY["G"] + REVS_BY["H"]), ("A-012", ["REV-19"] + REVS_BY["G"] + REVS_BY["H"])):
+                ("A-009v3", REVS_BY["E"]), ("A-010v2", ["REV-16"] + REVS_BY["F"] + REVS_BY["G"] + REVS_BY["H"]), ("A-011v6a", REVS_BY["F"] + REVS_BY["G"] + REVS_BY["H"]), ("A-011v6b", REVS_BY["F"] + REVS_BY["G"] + REVS_BY["H"]), ("A-012", ["REV-19"] + REVS_BY["G"] + REVS_BY["H"]), ("A-017v2", ["REV-28", "REV-29"]), ("A-013v4", ["REV-28", "REV-29"]), ("A-013v2", ["REV-27"])):
     for rv in revs: edge(f"L:{b}", f"L:{rv}", "basis", "basis")
 for rv in REVS_BY["B"]: edge("L:REV-5", f"L:{rv}", "repair", "carried forward by ruling")
 for rv in REVS_BY["C"]: edge("L:REV-7", f"L:{rv}", "repair", "carried forward by ruling")
@@ -227,6 +227,13 @@ for c in table("L56_tier2.md", r"T-\d{3}-S\d$"):
     node(f"L:{c[0]}", c[0], "surplus", c[1], 8, "L", st, entailed=c[2], absent=c[3], surface=c[4], prov="L56_tier2.md", test=t)
     edge(f"L:{re.match(r'(T-\d{3})', c[0]).group(1)}", f"L:{c[0]}", "surplus")
 for c in table("L1_abstractions.md", r"A-\d{3}v\d[a-z]?$"):
+    if len(c) == 3:
+        m = re.match(r"(A-\d{3})v(\d)", c[0]); v = int(m.group(2))
+        base = m.group(1) if v <= 2 else f"{m.group(1)}v{v-1}"
+        st, t = tested(c[0])
+        node(f"L:{c[0]}", c[0], "abstraction", c[2], 5, "L", st, prov="L1_abstractions.md (restated for substitution)", test=t, tier="repaired")
+        edge(f"L:{base}", f"L:{c[0]}", "flow", "restated")
+        continue
     if len(c) < 6: continue
     obj, failed, op, sent, rec, loss = c[:6]
     st, t = tested(obj)
@@ -324,6 +331,9 @@ build_pass8("F", "pass8/")
 build_pass8("G", "pass9/", "REV-20", (("AU-006R3", ["REV-22"]), ("AU-010", ["REV-21", "REV-22"])))
 build_pass8("H", "pass10/", "REV-22", (("AU-012R", ["REV-24"]),))
 build_pass8("I", "pass12/", "REV-24", (("P-03", ["REV-25", "REV-26"]), ("P-04", ["REV-25", "REV-26"]), ("P-06", ["REV-26"])), stmt_file="POEM_statements.md", prefix="| P-")
+build_pass8("J", "pass13/", "REV-24", (), stmt_file="COMPARE_presuppositions.md", prefix="| R2")
+PASSES.append(dict(id="J", title="Pass 13: defining hand and facing within REV-24", hint="Directive: replace hand and facing in REV-24 with tested definitions (A-017v2, A-013v4, in Diagram 1). The presuppositions where REV-24 and REV-25 differ were tested by the same procedure: REV-24 7 of 8, REV-25 5 of 6.",
+    cols=["The piece: REV-24", "Presuppositions compared (R24, R25)", "Revisions · CX-090, CX-094, CX-095"]))
 PASSES.append(dict(id="I", title="Pass 12: the author's poem, and REV-24 revised by ruling", hint="The poem's definitions were tested word for word (edits labeled in pass12/POEM_statements.md); all failed as freestanding claims. The author ruled grace to be the facing of our own creation, named it sin's contrary, and made repentance the facing of God's creation; REV-25 passed and REV-26 failed.",
     cols=["The piece: REV-24", "The poem's definitions (tested)", "Revisions · CX-087"]))
 PASSES.append(dict(id="H", title="Pass 10: REV-22, repentance and the facing of God's creation", hint="A directed pass. The author ruled that the repentance clause takes in facing God's creation as God's work, and oneself within it as a whole, as an implication and not an objective. The freestanding claims were scoped to the piece's own repentance; the implication form (AU-012R) passed and the precondition form (AU-010R2) failed.",

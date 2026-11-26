@@ -77,3 +77,9 @@ Operator's reading, recorded as such:
 - These SUPERSEDE ruling R-G ("Grace is defined by its giving, not by its receiving") and REV-24's "Grace is the free giving of that facing", and the O-36 form of repentance (facing God's creation as implication). The superseded rulings and their test records stay on file (Ladder 158, 285).
 - The O-29 ruling ("having grace means that you give it") was made under R-G; its fit with the new definition is OPEN (O-43).
 - O-42 (conscience and facing oneself) was not answered; REV-25 and REV-26 test both placements.
+
+## 2026-11-26 (verbatim in pass13/INPUT_directive.md)
+Operator's reading, recorded as such:
+- The pass-12 rulings (grace as "the facing of our own creation", sin's contrary named grace, repentance as "the facing of God's creation") are held PROVISIONALLY: they stand only if their presuppositions hold up at least as well as REV-24's under the same procedure ("Rev 4 Rev 24" read as "for REV-24").
+- DIRECTIVE CHANGE: the run now aims to define "facing" and "hand" within REV-24 and to replace each word with its more precise formulation, tested.
+- The author's Drive writings may be used as Step 0 observations (context), each with provenance; nothing from them is adopted without passing the Ladder.

@@ -1,0 +1,14 @@
+**1. BROKEN**
+
+**Counterexample:** A neighbor asks to borrow my kitchen knife to cook dinner. I lend it. He has no history of violence, and nothing suggests he intends harm. That night he unexpectedly uses the knife to stab someone.
+
+This case meets every condition of the statement:
+- **Something one did:** I lent the knife.
+- **A consequence of it:** But for my lending, that knife would not have been used in that stabbing.
+- **Unforeseen:** I neither foresaw nor could reasonably have foreseen it.
+
+Yet the stabbing is not the work of my hand. It is the work of *his* hand. His free, deliberate choice is an intervening act (what law calls *novus actus interveniens*) that makes the outcome his deed, not mine. Ordinary moral judgment, legal attribution, and the plain meaning of "work of one's own hand" all assign the stabbing to him. The statement claims, without qualification, that an unforeseen consequence is *still* part of one's own handiwork. Here it is not.
+
+**Why this does not step outside the statement's terms:** The only way to save the statement is to read "work of one's own hand" as "anything causally downstream of one's action." That reading changes what the phrase means. Ordinarily it refers to one's own doing, what one made or did. On the expanded reading, every remote ripple would become one's handiwork, including other people's deliberate crimes. A teacher would author a former pupil's atrocities decades later. The phrase would lose its sense. Under its ordinary meaning, the statement fails whenever another agent's free choice intervenes between my act and the unforeseen outcome.
+
+**Scope of the break:** The statement holds for many unforeseen consequences that flow directly from one's act with no intervening agent. For example, if I knock a vase off a shelf by accident, the broken vase is my doing. But the statement is universal ("an unforeseen consequence... is still"), so one valid counterexample is enough to break it.

@@ -1,0 +1,35 @@
+# Verdicts on the Two Definitional Statements
+
+## 1. The work of one's own hand: **STANDS**
+
+I tested the following cases against the statement's own terms.
+
+- **The hired agent who deviates.** I direct a builder to build a wall, and he freely chooses to skimp on it. This looked like a conflict between "through others acting at one's direction" and "does not include what another's free choice makes of it."
+  - The statement already separates the two parts. What he does *in following* my direction is mine. What his free choice adds or diverts is his.
+  - His free choice to comply does not take the work out of my authorship. "Acting at one's direction" already assumes a free agent who acts.
+  - There is no contradiction.
+- **The hitman.** I order a killing, and he freely carries it out. One could argue the killing is what his free choice "makes of" my order, so it should be excluded. But that reading erases the "through others" clause entirely. The plain reading is the one the statement intends: execution of the direction is included, and departure from it is excluded. The case is classified consistently.
+- **Incapacitated omission.** A lifeguard has a stroke and someone drowns. Is the omission his authored work? Two things in the statement's own terms rule it out:
+  - "Left undone" implies a leaving.
+  - "When it was one's to do" cannot sensibly bind someone who cannot do it.
+  
+  So the case falls outside the omission clause rather than refuting it.
+- **Involuntary motion.** A seizure knocks over a lamp. The statement equates its list ("made or done") with "what one has authored." "Done" therefore carries the sense of an act, not a mere bodily event. Treating a seizure as something "done" would change what the word means.
+- **"Remains one's own after it is finished."** A chair I made and then sold still remains my work. "Own" here means authorship, not property. Reading it as ownership is an equivocation.
+- **Natural decay or downstream consequences without another's choice.** A bridge I built later erodes. It is still my work. Nothing in the statement conflicts with this.
+
+I found no case that fits the statement's terms and makes its classification false or impossible.
+
+## 2. To face something: **STANDS**
+
+I tested the following cases.
+
+- **The house that "faces the sea."** It never turned. But "as a standing" covers a fixed orientation toward something. "Turn toward" is not limited to an act of rotating.
+- **Backing away from a bear while facing it.** The person moves away while staying oriented toward the bear. The statement concerns turning toward, meaning orientation, not the direction of travel. So the case confirms the statement rather than breaking it.
+- **Facing one's fears or a hard truth.** This is metaphorical turning toward rather than away. It fits the statement exactly.
+- **"The fugitive faces charges" while fleeing.** This was the strongest candidate: he faces something while turning away from it. But "face" here means *be confronted by* or *have in prospect*. That is a separate, passive sense in which the thing confronts the subject.
+  - The statement's own framing (toward versus away, a moment versus a standing) shows it defines the active, orientational sense.
+  - Using the passive sense steps outside the statement's scope by changing what the word means.
+  - That makes it an invalid counterexample. It is the only kind of counterexample I could find.
+
+I found no valid counterexample within the statement's sense of "face."

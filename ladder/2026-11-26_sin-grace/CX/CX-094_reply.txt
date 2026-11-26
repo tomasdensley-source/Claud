@@ -1,0 +1,26 @@
+**1. Verdict: BROKEN**
+
+**What the statement claims.** Most of the statement is definition. It defines sin, sin's contrary, grace and repentance. Definitions cannot be counterexampled, so they are taken as given here. The one claim that can be tested is the final one: fulfilled repentance *implies* turning toward God's creation as God's work, and toward oneself within it as a whole. The statement allows only one limit on this: some parts of oneself cannot be seen.
+
+**What the definitions supply.** Every term is defined relative to a particular work:
+
+- Sin is remaining turned away, after understanding, from "what one has made, done or left undone."
+- Its contrary is standing turned toward "*that* work."
+- Repentance "contains sin's contrary only once it comes to that standing," meaning the standing toward that work.
+
+So, on the statement's own terms, fulfilled repentance is reaching the standing toward the work in question. Nothing in the definitions extends that standing to all of one's works, to oneself as a whole, or to creation as God's work. Grace is "the free giving of that standing," but the giver is never named. The theistic consequence is asserted, not derived.
+
+**Counterexample 1 (the "whole self" clause).** A man has done two things:
+
+- **Deed A:** he lied to his sister and damaged her marriage.
+- **Deed B:** he cheated a business partner.
+
+He clearly understands both deeds as his own.
+
+He receives his sister's unearned forgiveness, which is a free giving of the standing. He turns toward it. He acknowledges the lie fully as his and as wrong, confesses it, and does what it rightly calls for: he tells her husband the truth and repairs what he can. His repentance concerning A has come to the standing, so by the statement's own terms it is fulfilled.
+
+Meanwhile he still sees and understands Deed B, and he deliberately stays turned away from it. That is sin by definition. So he is not turned toward himself as a whole. The statement's exemption does not cover this, because it excuses only parts of oneself that "cannot be seen," and B is plainly seen. Every condition is met, and the claimed result is false.
+
+**Counterexample 2 (the "God's creation" clause).** An atheist carries out the same repentance concerning the lie, in full and with every required deed. She stands toward her work "as her own and for what it is, right or wrong." Seeing a deed for what it is, such as a harmful lie, does not require seeing it, or the world, as God's work. The phrase "as far as these can be seen" makes this easier, not harder. Her standing is complete, yet she does not turn toward creation as God's work. So the implication fails here too.
+
+**Anticipated defense.** One could reply that "fulfilled" means repentance that is total, extending to the whole self and to God. The statement never defines "fulfilled" that way. Reading that meaning in would make the final claim true only by restating it: "repentance that turns toward the whole self and God implies turning toward the whole self and God." That rescue works by changing the words, not by following from the statement's terms. As written, the conclusion does not follow from the definitions, and the cases above satisfy every stated condition while making the conclusion false.

@@ -1,0 +1,34 @@
+**1. BROKEN**
+
+The statement identifies "the work of one's own hand" with whatever one has made, done, or left undone by one's own agency. The phrase "own hand" exists in ordinary use to mark something agency alone does not: personal execution as opposed to execution through others.
+
+Counterexample: A king dictates a decree to a scribe, who writes it out, and the king seals it.
+- The decree is made and done by the king's own agency, so it satisfies the statement's terms.
+- Yet it is precisely *not* "in his own hand." That contrast is the whole point of the idiom, as in "a letter in his own hand" versus a dictated one.
+- The same holds for an architect whose building is raised by masons. The building exists by his agency, but it is not the work of his own hand.
+
+So something can meet the statement's condition (done by one's own agency) without being the work of one's own hand. The claimed identity fails.
+
+A second weakness: what is "left undone" never reaches the state of being "done." The statement's clause about the work remaining related to its maker "after it is done" therefore has nothing to apply to in that case. The first counterexample alone is sufficient.
+
+**2. BROKEN**
+
+Counterexample: A man reads the diagnosis, looks squarely at what it means for a few seconds, and then cannot bear it and turns away into denial.
+- Ordinary speech says, without strain, "he faced it for a moment, then fled from it."
+- He turned toward the thing as it is, which meets the statement's own terms.
+- But he did not stay before it, and he did eventually flee.
+
+Facing therefore occurred without the "stay before it, rather than flee" component. The statement makes staying part of what facing is, and that requirement is false. Statement 3 effectively concedes this by adding "whether for a moment."
+
+**3. BROKEN**
+
+The statement requires that one turn toward the thing "as it is." But facing can occur while the thing is seen as it is not.
+
+Counterexample: In exposure therapy, an arachnophobe deliberately turns toward a harmless house spider and stays with it. He perceives it as a grave menace, which is not what it is.
+- This is the paradigm case of "facing one's fear."
+- The therapy works only because he faces the spider *while* misperceiving it. The distorted perception corrects itself afterward, as a result of the facing.
+- If facing required apprehending the object as it is, he could not have faced it until the misperception was already gone. That reverses the actual order of events.
+
+Similarly, a soldier who stands his ground against a charging force he badly underestimates still faces the enemy.
+
+Turning toward something, rather than away from it, is enough for facing. Accurate apprehension of the thing "as it is" is not a necessary condition, so the statement as given fails.

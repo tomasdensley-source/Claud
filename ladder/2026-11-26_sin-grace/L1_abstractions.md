@@ -92,3 +92,18 @@ Two abstractions appear over one group, which may mean the group conceals two st
 | A-015v2 | CX-081 #1 | Narrow | Facing has a common core whatever its object, turning toward it rather than away, but its shape differs with the object: another person can face one back, oneself is faced reflexively, and facing God answers a prior being faced by God. | O-0139 | One structure across all objects |
 A-014: FAILED CX-080 #2 (readiness and true seeing are not required); A-014-S1: FAILED CX-082. Both archived; their content is carried by A-013v2.
 | A-015v3 | CX-083 #2 | Narrow | Facing has a common core whatever its object, turning toward it rather than away, but its shape differs with the object: another person can face one back, and oneself is faced reflexively. | O-0142, O-0139 | The claim that facing God answers a prior being faced by God (it needs a theistic premise the sentence does not supply) |
+
+## Pass 13 (Step 1; candidate definitions for the directive; operator construction; untested)
+| ID | Group | Exact sentence |
+|---|---|---|
+| A-017 | G-014 | The work of one's own hand is what one has made, done or left undone by one's own agency, and it remains in relation to its maker after it is done. |
+| A-018 | G-015 | To face something is to turn toward it as it is and stay before it, rather than turn away or flee from it. |
+| A-013v3 | G-013 | To face something is to turn toward it as it is, rather than away from it, whether for a moment or as a standing. |
+A-013v3 is the core of A-013v2 (passed CX-083) without its clause on what follows from facing, stated as the substitution candidate; it is a new sentence and is tested afresh.
+
+## Pass 13 repairs (operator construction; untested until filed CX)
+| Object | Failed in | Operation | Repaired exact sentence | Receipt | Named loss |
+|---|---|---|---|---|---|
+| A-017v2 | CX-088 #1 | Narrow | The work of one's own hand is what one has authored: what one has made or done, directly or through others acting at one's direction, or has left undone when it was one's to do; it does not include what another's free choice makes of it, and it remains one's own after it is finished. | O-0162, O-0165, O-0082 | "agency" as the mark of the work; unforeseen effects through another's free choice |
+| A-013v4 | CX-088 #3 | Narrow | To face something is to turn toward it rather than away from it, whether for a moment or as a standing. | O-0164, O-0163, O-0141 | "as it is" (accuracy belongs to "for what it is" in the piece, not to facing) |
+A-018: FAILED CX-088 #2 (staying belongs to "stand facing", not to facing); archived, its content carried by "stand" in the piece. A-017-S1: FAILED CX-089; archived (A-017v2 excludes what another's free choice makes of one's work).

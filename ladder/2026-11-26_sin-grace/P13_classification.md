@@ -70,3 +70,10 @@
 | A-015v3 | vulnerable generalization | one valid case inside its terms |
 | P-01 to P-11 | definitional claims (the author's) | a correct use or case of the term that the definition excludes, or a case it includes that is not the term |
 | REV-25, REV-26 | vulnerable generalization (pass 12) | one valid case inside its terms |
+| A-017, A-018, A-013v3 | definitional claims (pass 13) | a correct use excluded, or a case included that is not the thing |
+| A-017-S1, REV-27 | vulnerable generalization (pass 13) | one valid case inside its terms |
+| R24-1a, R24-2a, R24-3a, R24-4b, R25-1a, R25-1b, R25-2a, R25-3b | possibility | a showing of impossibility within its terms |
+| R24-1b, R24-2b, R24-3b, R24-4a, R25-2b, R25-3a | vulnerable generalization | one valid case inside its terms |
+| A-017v2, A-013v4 | definitional claims (pass 13 repairs) | a correct use excluded, or a case included that is not the thing |
+| REV-28 | vulnerable generalization (pass 13) | one valid case inside its terms |
+| REV-29 | vulnerable generalization (pass 13) | one valid case inside its terms |

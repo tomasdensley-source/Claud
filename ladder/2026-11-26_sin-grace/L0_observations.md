@@ -155,3 +155,25 @@ Affect charge: not recorded (the operator is not the selector; the author's affe
 | O-0145 | A tester stated that Judas faced what he had done and despaired, and that defining grace as one's own act of facing turns grace into a work. | CX-085 #4 |
 | O-0146 | A tester stated that an astronomer faces God's creation without repenting, and that repentance aimed only at God's creation misses the object of sin. | CX-085 #5 |
 | O-0147 | A tester stated that if facing oneself belongs to conscience, repentance as the facing of God's creation can coexist with an understood, unfaced sin. | CX-087 #2 |
+| O-0148 | The author wrote: "The works imply the hand." | Drive 11-yjuIpCE8atyYtB6tg601s1ClkE-Lxi (Of the Name Given), I |
+| O-0149 | The author wrote: "The hand is given before the hand can give." | Drive 11-yjuIpCE8atyYtB6tg601s1ClkE-Lxi, II |
+| O-0150 | The author wrote: "Now the maker is implicated by what has been made. The work carries the name of the hand into the field, and the hand must answer for the arrow it released." | Drive 11-yjuIpCE8atyYtB6tg601s1ClkE-Lxi, II |
+| O-0151 | The author wrote: "After the making is known, the maker stands before a choice: face, or turn away." | Drive 11-yjuIpCE8atyYtB6tg601s1ClkE-Lxi, III |
+| O-0152 | The author wrote: "To turn away is sin, because the hand that made has entered relation and cannot deny that relation without transferring its abandoned weight." | Drive 11-yjuIpCE8atyYtB6tg601s1ClkE-Lxi, III |
+| O-0153 | The author wrote: "Love faces. Love stays before what the hands have knowingly made. Love does not yet explain. It does not yet redeem. It refuses the primal flight." | Drive 11-yjuIpCE8atyYtB6tg601s1ClkE-Lxi, IV |
+| O-0154 | The author wrote: "Conscience says: face what is true and repair what you have made." | Drive 11-yjuIpCE8atyYtB6tg601s1ClkE-Lxi, I |
+| O-0155 | The author wrote of repentance: "It is to accept being seen without fleeing, known without dissolving, named without refusing the invocation." | Drive 11-yjuIpCE8atyYtB6tg601s1ClkE-Lxi, VI |
+| O-0156 | The author wrote: "The maker faces the made and names what has occurred." | Drive 11-yjuIpCE8atyYtB6tg601s1ClkE-Lxi, II |
+| O-0157 | The author wrote: "love is no feeling. Love is the hand that stays, the choice to keep the cord uncut." | Drive 1Vyzb6ZOKCaMTWFZJCyCIaAcunvq9_CV1 (The Center and the Hand), V |
+| O-0158 | The author wrote: "To make aright is make, and stay, and hold." | Drive 1Vyzb6ZOKCaMTWFZJCyCIaAcunvq9_CV1, VI |
+| O-0159 | The author wrote: "the ground that holds you holds you off-its-centre, the way a hand holds, and asks nothing back." | Drive 1Vyzb6ZOKCaMTWFZJCyCIaAcunvq9_CV1, VI |
+| O-0160 | The author wrote: "to know is to owe, and waking itself begins the reckoning." | Drive 1Vyzb6ZOKCaMTWFZJCyCIaAcunvq9_CV1, Part One II |
+| O-0161 | The author wrote: "So go back. Go down. Sit with it. Say the word you owe its years." | Drive 1Vyzb6ZOKCaMTWFZJCyCIaAcunvq9_CV1, V |
+| O-0162 | A tester stated that a king's dictated decree is made by his agency but is not "in his own hand", and that what is left undone is never "done". | CX-088 #1 |
+| O-0163 | A tester stated that one can face a thing for a moment and then flee it. | CX-088 #2 |
+| O-0164 | A tester stated that an arachnophobe in exposure therapy faces a harmless spider while perceiving it as a menace, so facing does not require seeing the thing as it is. | CX-088 #3 |
+| O-0165 | A tester stated that a stabbing done with a knife one lent in good faith is the work of the stabber's hand, not the lender's, because his free choice intervenes. | CX-089 |
+| O-0166 | A tester stated that a man can repent one wrong fully while deliberately staying turned away from another wrong he understands, so his repentance does not reach himself as a whole. | CX-090 (bears also on REV-24's final sentence, which never faced this case) |
+| O-0167 | A tester stated that a ransom and a bribe are given to those not owed them, yet neither is a free giving. | CX-091 #2 |
+| O-0168 | A tester stated that facing one's own work can earn something (an engineer paid to audit her own code; Trent, Session 6, canon 32). | CX-092 #4 |
+| O-0169 | A tester read "repentance, once fulfilled" as fulfilled for a single work, so that one fully repented wrong does not imply turning toward oneself as a whole while another seen wrong is kept unfaced. | CX-094 |

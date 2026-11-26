@@ -79,3 +79,9 @@ A-012-S1: INVALID DERIVATION (operator's own entailment audit, not yet checked b
 |---|---|---|---|---|
 | A-014-S1 | Someone who sees their work truly and owns it as theirs, but is not ready to answer it, has not faced it. | A-014: where readiness is missing, the thing is not faced. | G-013 members do not separate readiness from seeing and owning. | Cases of clear, owned regret with no readiness to act. |
 A-013: LIVE-BARREN (candidate consequences restate pass-6 S-003.a, CX-029 #5). A-015: LIVE-BARREN (consequences need A-013 or A-014 as a second premise). A-016: LIVE-BARREN (a possibility claim).
+
+## Pass 13 surplus (CLOSED before any pass-13 test; all untested)
+| ID | Statement | ENTAILED | ABSENT (construction set named) | TEST SURFACE |
+|---|---|---|---|---|
+| A-017-S1 | An unforeseen consequence of something one did is still part of the work of one's own hand. | A-017 rests the work on one's agency, not on one's foresight. | G-014 members do not address unforeseen consequences. | Accounts of responsibility for side effects and unintended harms. |
+A-018 and A-013v3: LIVE-BARREN (their consequences restate A-013v2's tested clauses or pass-6 S-003.a).

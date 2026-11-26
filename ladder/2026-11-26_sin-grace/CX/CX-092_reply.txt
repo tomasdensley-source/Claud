@@ -1,0 +1,41 @@
+# Verdicts
+
+**1. Grace can be a stance of the one who sinned, not only something done to them. STANDS**
+
+The statement makes a "can" claim. To break it, I would need to show that grace is never a stance held by someone who has sinned. That fails on ordinary cases. A person who has sinned can still forgive someone who wronged them, and that forgiveness is a stance of grace. The strongest objection is that all human grace is God's grace working through the person. Even granted, the person still holds the stance. "Received from God" and "held as one's own stance" are compatible, and the statement only denies that grace is *merely* something done to them.
+
+**2. The word grace can rightly name a creature's stance toward its own work. STANDS**
+
+A counterexample would have to show that this use is always improper. Under the strictest definition, grace is unmerited favor from God, and calling self-regard "grace" looks like a category error. But the statement does not fix that definition, and established usage contradicts it. Take a craftsman who looks at flawed work without contempt and without excusing the flaws. That is unmerited favor toward his own work. "Rightly" makes the claim contestable, but contestable is not refuted. I found no case where the use is necessarily wrong.
+
+**3. Grace need not be given by another to be grace. STANDS**
+
+To break this, every instance of grace would have to be given by someone else. God's own graciousness defeats that: it is grace, and no one gives it to God. In a theistic frame, the strongest objection is that every creature's grace is ultimately received ("What do you have that you did not receive?"). But the statement is not limited to creatures, and one non-given case is enough. Grace as a disposition also exists in a gracious person before any giving happens.
+
+**4. Facing one's own work is not a work that earns anything. BROKEN**
+
+The statement is unqualified, so any case where facing one's own work earns something breaks it.
+
+- **Ordinary case:** An engineer is paid to audit and report the defects in her own code. Facing her own work is the task, and it earns wages.
+- **Graded case:** A student's grade depends on a self-assessment of his own project. Facing his work earns the grade.
+- **Theological case:** Within its own domain, the Council of Trent (Session 6, canon 32) teaches that good works done in a state of grace truly merit an increase of grace. That would include examination of conscience and contrition, both of which mean facing one's own deeds.
+
+The statement may intend "earns nothing before God in the sense of justification." It does not say so, and even in the theological domain one major tradition denies it.
+
+**5. Facing oneself as a whole includes facing one's own works as far as they are understood. STANDS**
+
+If "works" means one's deeds, they belong to the self as a whole, and the claim is nearly true by definition. The qualifier "as far as they are understood" (read naturally as understood by the person) blocks the obvious objection about forgotten or unknown deeds.
+
+I tried two other routes:
+- **Works as external products, like a statue the sculptor made.** This changes what "works" means.
+- **"Understood" as understood by others.** On this reading, an amnesiac could face himself without facing deeds that only others understand. That stretches the wording.
+
+Neither is a valid counterexample under the statement's natural terms.
+
+**6. Facing God's creation as God's work is something a person can do, not only receive. STANDS**
+
+The strongest challenge comes from strict monergist views, such as Calvin's "spectacles of Scripture" and Barth's rejection of natural theology. On these views, recognizing creation as God's work is wholly a gift of illumination. Yet even these views have the person actually perceive and acknowledge creation. The ability is received, but the act is still performed. Receiving and doing are not exclusive, and the statement only denies "*only* receive." Romans 1:20 describes people perceiving God's works.
+
+# Summary
+- **Broken:** 4.
+- **Stand:** 1, 2, 3, 5, 6.

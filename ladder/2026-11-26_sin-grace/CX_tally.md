@@ -215,5 +215,28 @@
 | CX-086 | 6 | P-11 | BROKEN |
 | CX-087 | 1 | REV-25 | STANDS |
 | CX-087 | 2 | REV-26 | BROKEN |
+| CX-088 | 1 | A-017 | BROKEN |
+| CX-088 | 2 | A-018 | BROKEN |
+| CX-088 | 3 | A-013v3 | BROKEN |
+| CX-089 | 1 | A-017-S1 | BROKEN |
+| CX-090 | 1 | REV-27 | BROKEN |
+| CX-091 | 1 | R24-1a | STANDS |
+| CX-091 | 2 | R24-1b | BROKEN |
+| CX-091 | 3 | R24-2a | STANDS |
+| CX-091 | 4 | R24-2b | STANDS |
+| CX-091 | 5 | R24-3a | STANDS |
+| CX-091 | 6 | R24-3b | STANDS |
+| CX-091 | 7 | R24-4a | STANDS |
+| CX-091 | 8 | R24-4b | STANDS |
+| CX-092 | 1 | R25-1a | STANDS |
+| CX-092 | 2 | R25-1b | STANDS |
+| CX-092 | 3 | R25-2a | STANDS |
+| CX-092 | 4 | R25-2b | BROKEN |
+| CX-092 | 5 | R25-3a | STANDS |
+| CX-092 | 6 | R25-3b | STANDS |
+| CX-093 | 1 | A-017v2 | STANDS |
+| CX-093 | 2 | A-013v4 | STANDS |
+| CX-094 | 1 | REV-28 | BROKEN |
+| CX-095 | 1 | REV-29 | STANDS |
 
-STANDS=125 BROKEN=80 invalid=8 tested=213
+STANDS=140 BROKEN=88 invalid=8 tested=236
