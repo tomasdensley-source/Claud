@@ -80,3 +80,18 @@ Pass-4 audit (pass4/P04_reply.txt): DEMONSTRATED 7, CONTESTED 4, FALSE AS STATED
 | REV-8 | Sin is being turned away, after knowledge, from the work of one's own hand; its contrary is to stand facing that work as one's own. Repentance holds that contrary only once it comes to stand there, and grace is that facing insofar as it is given. | passes CX as phrased (CX-020) |
 Finding carried into the piece: REV-5's contrary was a momentary facing set against a standing condition; CX-016 #5 showed the two can coexist, so REV-7 and REV-8 make the contrary a standing facing.
 Finding about the grace clause: "insofar as it is given" does not assert that the facing is given; that is why the clause survives accounts on which it cannot be (S-006.aR, S-006.aR2 discarded).
+
+## Pass 5 (2026-11-26): REV-7 carried forward by ruling ("with Rev 7.")
+Pass-5 audit (pass5/P04_reply.txt): DEMONSTRATED 7, CONTESTED 4, FALSE AS STATED 1 (S-003.b, discarded in favour of A-007).
+| ID | Exact sentence | Status |
+|---|---|---|
+| pass5 assumptions | see pass5/P04R_reformulated.md | 8 of 11 pass CX (CX-021); S-001.bR, S-002.aR discarded; S-002.bR2 passes (CX-024) |
+| A-007 | Being turned away from one's own work can lie in conduct, as in neglect, or in acknowledgment, as in disowning, and facing the work in either of these does not exclude being turned away from it in the other. | passes CX as phrased (CX-022) |
+| A-007-S1, A-007-S2 | (L2_surplus.md, pass 5) | pass CX as phrased (CX-023) |
+| A-008 | (answerability only where one could have turned back) | FAILED CX (CX-022 #2, Frankfurt case) |
+| A-008v2 | Losing knowledge of one's own work removes one's answerability for being turned away from it only when the loss was not one's fault. | FAILED CX (CX-025, unforeseeable deception); not repaired (O-21) |
+| REV-9 | Sin is remaining turned away, after knowledge, from the work of one's own hand; its contrary is to stand facing that same work as one's own, in acknowledgment and in deed, which attention alone does not do. Repentance contains that contrary only once it arrives at that facing, and grace is that facing insofar as it is given. | passes CX as phrased (CX-027) |
+| REV-10 | (sin narrowed to "refusing to own it") | FAILED CX (CX-027 #2, the proud owner) |
+| REV-11 | Sin is remaining turned away, after knowledge, from the work of one's own hand; its contrary is to stand facing that same work as one's own and for what it is, in acknowledgment and in deed, which attention alone does not do. Repentance contains that contrary only once it arrives at that facing, and grace is that facing insofar as it is given. | passes CX as phrased (CX-028) |
+Findings carried into the piece: "remaining" (CX-021 #3); the contrary must reach deed as well as acknowledgment (A-007, CX-022/023); and "for what it is" states the reading on which REV-9 held against the proud owner (CX-027).
+Bearing on REV-7 (not a verdict; REV-7 never faced this case): the proud owner (O-0064) meets REV-7's contrary as worded.

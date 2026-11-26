@@ -4,6 +4,10 @@ HEAD = r"^\W*(?:Statement\s+(\d+)\s*[:.]|(\d+)\.\s+\S)"
 def parse(reply, n):
     """Return {i: (verdict or None, segment)} for i in 1..n."""
     out = {}
+    m_sum = re.search(r"^#{1,6}\s*Summary\b", reply, flags=re.M | re.I)
+    first_head = re.search(HEAD, reply, flags=re.M)
+    if m_sum and first_head and m_sum.start() > first_head.start():
+        reply = reply[:m_sum.start()]
     if n == 1:
         words = set(re.findall(r"\b(BROKEN|STANDS)\b", reply))
         return {1: (words.pop() if len(words) == 1 else None, reply.strip())}

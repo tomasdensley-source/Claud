@@ -129,62 +129,80 @@ for c in surplus:
          prov="L2_surplus.md" if "v2" not in sid else "L4_repairs_round1.md", test=t)
     edge(f"L:{parent}", f"L:{sid}", "surplus")
 # revisions
-REVS = []; REVS_A = []; REVS_B = []
-for f, ds in (("L4_repairs_round2.md", ("L", "A")), ("L4_repairs_round3.md", ("L", "A")), ("L4_repairs_round4.md", ("L", "A")), ("pass4/L4_repairs_round2.md", ("L", "B"))):
+REVS = []; REVS_A = []; REVS_BY = {"B": [], "C": []}
+REV_FILES = (("L4_repairs_round2.md", ("L", "A")), ("L4_repairs_round3.md", ("L", "A")), ("L4_repairs_round4.md", ("L", "A")),
+             ("pass4/L4_repairs_round2.md", ("L", "B")), ("pass5/L4_repairs_round2.md", ("L", "C")))
+REVCOL = {"L": 9, "A": 7, "B": 6, "C": 5}
+for f, ds in REV_FILES:
     for c in table(f, r"REV-\d+$"):
+        if len(c) < 2 or c[0] in REVS: continue
         st, t = tested(c[0]); REVS.append(c[0])
-        (REVS_A if "A" in ds else REVS_B).append(c[0])
+        if "A" in ds: REVS_A.append(c[0])
+        else: REVS_BY[ds[1]].append(c[0])
         for d in ds:
-            node(f"{d}:{c[0]}", c[0], "revision", c[1], 9 if d == "L" else (7 if d == "A" else 6), d, st, prov=f, test=t)
-for b, revs in (("A-001", REVS), ("A-002v2", REVS), ("A-003v2", REVS), ("A-004", ["REV-5", "REV-6", "REV-7"]), ("A-005", ["REV-5", "REV-6"]), ("A-006", REVS_B)):
+            node(f"{d}:{c[0]}", c[0], "revision", c[1], REVCOL[d], d, st, prov=f, test=t)
+for b, revs in (("A-001", REVS), ("A-002v2", REVS), ("A-003v2", REVS), ("A-004", ["REV-5", "REV-6", "REV-7", "REV-9", "REV-10", "REV-11"]),
+                ("A-005", ["REV-5", "REV-6"]), ("A-006", REVS_BY["B"] + REVS_BY["C"]), ("A-007", REVS_BY["C"])):
     for rv in revs: edge(f"L:{b}", f"L:{rv}", "basis", "basis")
-for rv in REVS_B: edge("L:REV-5", f"L:{rv}", "repair", "carried forward by ruling")
+for rv in REVS_BY["B"]: edge("L:REV-5", f"L:{rv}", "repair", "carried forward by ruling")
+for rv in REVS_BY["C"]: edge("L:REV-7", f"L:{rv}", "repair", "carried forward by ruling")
 for b in ("A:R1:S-005.aR", "A:R2:S-005.bR", "A:R2:S-006.aR2", "A:R1:S-006.bR"):
     if b in nodes:
         for rv in REVS_A: edge(b, f"A:{rv}", "basis", "basis")
 
-# ---------- DIAGRAM B: pass 4, REV-5 as the piece ----------
-P4 = "pass4/"
-src4 = re.search(r"## The piece, verbatim.*?\n\n(.+?)\n", rd(P4 + "P00_source.md"), flags=re.S).group(1)
-node("B:PIECE", "REV-5 (piece)", "piece", src4, 0, "B", "source", prov="pass4/P00_source.md; carried forward by the author's ruling")
-for cid, t, anc in re.findall(r"### (S-\d{3})\nText: (.+)\nAnchor: (.+)", rd(P4 + "P01_claims.md")):
-    node(f"B:{cid}", cid, "claim", t, 1, "B", "extracted", prov=f"pass4/P01_claims.md; anchor {anc}")
-    edge("B:PIECE", f"B:{cid}")
-p4seg4 = segments(rd(P4 + "P04_reply.txt"), r"^\W*(\d+)\.\s*\**\s*(?:DEMONSTRATED|CONTESTED|FALSE AS STATED)")
-p4map4 = {l.split()[1]: int(l.split()[0]) for l in rd(P4 + "P04_numbermap.txt").splitlines() if l.strip()}
-p4cat4 = {}
-for l in rd(P4 + "P04_tally.txt").splitlines():
-    m = re.match(r"(DEMONSTRATED|CONTESTED|FALSE AS STATED): \d+ (\[.*\])", l)
-    if m:
-        for i in eval(m.group(2)): p4cat4[i] = m.group(1)
-for c in table(P4 + "P03_generalized.md", r"S-\d{3}\.[ab]$"):
-    i = c[0]; cat = p4cat4[i]
-    st = {"DEMONSTRATED": "p4dem", "CONTESTED": "p4con", "FALSE AS STATED": "p4false"}[cat]
-    node(f"B:{i}", i, "assumption", c[2], 2, "B", st, prov="pass4/P03_generalized.md; audited in pass-4 P4",
-         test=dict(run="P4 audit (pass 4)", num=p4map4[i], verdict=cat, reply=p4seg4.get(p4map4[i], "")))
-    edge(f"B:{i[:5]}", f"B:{i}")
-for c in table(P4 + "P04R_reformulated.md", r"S-\d{3}"):
-    nid, pred, p4, op, sent, rec = c[:6]
-    pid = nid if pred.startswith("(kept") else pred
-    st, t = tested("P4:" + nid)
-    node(f"B:R1:{nid}", nid + (" (kept)" if pred.startswith("(kept") else ""), "reformulation", sent, 3, "B", st,
-         op=op, receipt=rec, prov="pass4/P04R_reformulated.md; tested CX-016", test=t)
-    edge(f"B:{pid}", f"B:R1:{nid}", "repair" if op != "none" else "flow", op if op != "none" else "kept")
-for f, col in ((P4 + "L4_repairs_round1.md", 4), (P4 + "L4_repairs_round2.md", 5)):
-    for c in table(f, r"S-\d{3}"):
+# ---------- PASS DIAGRAMS (pass 4 = B, pass 5 = C) ----------
+PASSES = []
+def build_pass(d, P, pref, piece_label, rounds, basis):
+    srcp = re.search(r"## The piece, verbatim.*?\n\n(.+?)\n", rd(P + "P00_source.md"), flags=re.S).group(1)
+    node(f"{d}:PIECE", piece_label + " (piece)", "piece", srcp, 0, d, "source", prov=P + "P00_source.md; carried forward by the author's ruling")
+    for cid, t, anc in re.findall(r"### (S-\d{3})\nText: (.+)\nAnchor: (.+)", rd(P + "P01_claims.md")):
+        node(f"{d}:{cid}", cid, "claim", t, 1, d, "extracted", prov=f"{P}P01_claims.md; anchor {anc}")
+        edge(f"{d}:PIECE", f"{d}:{cid}")
+    seg_ = segments(rd(P + "P04_reply.txt"), r"^\W*(\d+)\.\s*\**\s*(?:DEMONSTRATED|CONTESTED|FALSE AS STATED)")
+    map_ = {l.split()[1]: int(l.split()[0]) for l in rd(P + "P04_numbermap.txt").splitlines() if l.strip()}
+    cat_ = {}
+    for l in rd(P + "P04_tally.txt").splitlines():
+        m = re.match(r"(DEMONSTRATED|CONTESTED|FALSE AS STATED): \d+ (\[.*\])", l)
+        if m:
+            for i in eval(m.group(2)): cat_[i] = m.group(1)
+    for c in table(P + "P03_generalized.md", r"S-\d{3}\.[ab]$"):
+        i = c[0]; cat = cat_[i]
+        st = {"DEMONSTRATED": "p4dem", "CONTESTED": "p4con", "FALSE AS STATED": "p4false"}[cat]
+        node(f"{d}:{i}", i, "assumption", c[2], 2, d, st, prov=f"{P}P03_generalized.md; audited in this pass's P4",
+             test=dict(run=f"P4 audit ({P.strip('/')})", num=map_[i], verdict=cat, reply=seg_.get(map_[i], "")))
+        edge(f"{d}:{i[:5]}", f"{d}:{i}")
+    for c in table(P + "P04R_reformulated.md", r"S-\d{3}"):
         if len(c) < 6: continue
-        obj, failed, op, sent, rec, loss = c[:6]
-        pred = failed_obj(failed)[3:]
-        pkey = f"B:R1:{pred}" if f"B:R1:{pred}" in nodes else f"B:R2:{pred}"
-        if op == "DISCARD":
-            key = f"B:R{col-2}:{obj}:discard"
-            node(key, obj + " (discarded)", "discard", sent, col, "B", "discarded", op=op, receipt=rec, loss=loss, prov=f)
-            edge(f"B:R2:{obj}", key, "kill", "Discard"); continue
-        st, t = tested("P4:" + obj)
-        node(f"B:R{col-2}:{obj}", obj, "repair", sent, col, "B", st, op=op, receipt=rec, loss=loss, prov=f, test=t)
-        edge(pkey, f"B:R{col-2}:{obj}", "repair", op)
-for b in ("B:R2:S-003.aR", "B:R1:S-005.bR", "B:R1:S-006.bR", "B:R1:S-004.b"):
-    for rv in REVS_B: edge(b, f"B:{rv}", "basis", "basis")
+        nid, pred, p4, op, sent, rec = c[:6]
+        pid = nid if pred.startswith("(kept") else pred
+        st, t = tested(pref + nid)
+        node(f"{d}:R1:{nid}", nid + (" (kept)" if pred.startswith("(kept") else ""), "reformulation", sent, 3, d, st,
+             op=op, receipt=rec, prov=f"{P}P04R_reformulated.md", test=t)
+        edge(f"{d}:{pid}", f"{d}:R1:{nid}", "repair" if op != "none" else "flow", op if op != "none" else "kept")
+    for f, col in rounds:
+        for c in table(P + f, r"S-\d{3}"):
+            if len(c) < 6: continue
+            obj, failed, op, sent, rec, loss = c[:6]
+            pred = failed_obj(failed)[len(pref):]
+            src_ = next((k for k in (f"{d}:R2:{pred}", f"{d}:R1:{pred}") if k in nodes), None)
+            if op == "DISCARD":
+                key = f"{d}:X:{obj}"
+                node(key, obj + " (discarded)", "discard", sent, col, d, "discarded", op=op, receipt=rec, loss=loss, prov=P + f)
+                edge(src_ or f"{d}:R1:{obj}", key, "kill", "Discard"); continue
+            st, t = tested(pref + obj)
+            node(f"{d}:R2:{obj}", obj, "repair", sent, col, d, st, op=op, receipt=rec, loss=loss, prov=P + f, test=t)
+            edge(src_, f"{d}:R2:{obj}", "repair", op)
+    for b in basis:
+        for rv in REVS_BY[d]: edge(f"{d}:{b}", f"{d}:{rv}", "basis", "basis")
+
+build_pass("B", "pass4/", "P4:", "REV-5", (("L4_repairs_round1.md", 4), ("L4_repairs_round2.md", 5)),
+           ("R2:S-003.aR", "R1:S-005.bR", "R1:S-006.bR", "R1:S-004.b"))
+PASSES.append(dict(id="B", title="Pass 4: REV-5 as the piece", hint="By the author's ruling (\"Use Rev 5.\"), REV-5 became the piece for pass 4: its claims, their assumptions, a fresh audit, repairs, and the revisions that descend from it.",
+    cols=["The piece: REV-5", "Claims (P1)", "Assumptions · P4 audit", "Round 1 reformulation · CX-016", "Round 2 repair · CX-019", "Discards", "Revision of REV-5 · CX-020"]))
+build_pass("C", "pass5/", "P5:", "REV-7", (("L4_repairs_round1.md", 4),),
+           ("R1:S-003.a", "R1:S-004.b", "R1:S-005.b", "R1:S-006.bR", "R2:S-002.bR2"))
+PASSES.append(dict(id="C", title="Pass 5: REV-7 as the piece", hint="By the author's ruling (\"with Rev 7.\"), REV-7 became the piece for pass 5. S-003.b was discarded at the audit stage in favour of abstraction A-007, shown in Diagram 1.",
+    cols=["The piece: REV-7", "Claims (P1)", "Assumptions · P4 audit", "Round 1 reformulation · CX-021", "Round 2 repair and discards · CX-024", "Revision of REV-7 · CX-027, CX-028"]))
 
 # tier 2 (Steps 5-6)
 for c in table("L56_tier2.md", r"G-1\d\d$"):
@@ -198,6 +216,23 @@ for c in table("L56_tier2.md", r"T-\d{3}-S\d$"):
     st, t = tested(c[0])
     node(f"L:{c[0]}", c[0], "surplus", c[1], 8, "L", st, entailed=c[2], absent=c[3], surface=c[4], prov="L56_tier2.md", test=t)
     edge(f"L:{re.match(r'(T-\d{3})', c[0]).group(1)}", f"L:{c[0]}", "surplus")
+for c in table("L1_abstractions.md", r"A-\d{3}v2$"):
+    if len(c) < 6: continue
+    obj, failed, op, sent, rec, loss = c[:6]
+    st, t = tested(obj)
+    node(f"L:{obj}", obj, "abstraction", sent, 5, "L", st, op=op, receipt=rec, loss=loss, prov="L1_abstractions.md (pass 5 repairs)", test=t, tier="repaired")
+    edge(f"L:{failed_obj(failed)}", f"L:{obj}", "repair", op)
+    for o in re.findall(r"O-\d{4}", rec): edge(f"L:{o}", f"L:{obj}", "receipt", "receipt")
+for c in table("L2_surplus.md", r"A-\d{3}v2-S\d"):
+    st, t = tested(c[0])
+    node(f"L:{c[0]}", c[0], "surplus", c[1], 6, "L", st, entailed=c[2], absent=c[3], surface=c[4], prov="L2_surplus.md (pass 5)", test=t)
+    edge(f"L:{re.match(r'(A-\d{3}v2)', c[0]).group(1)}", f"L:{c[0]}", "surplus")
+for k, why in (("L:A-008-S1", "Archived in pass 5 with failed parent A-008 (it also failed CX-023 #3)"),
+               ("L:A-008-S2", "Archived in pass 5: passed against parent phrasing A-008, which failed CX-022"),
+               ("L:A-008v2-S1", "Parent A-008v2 failed CX-025; this passes as its own sentence only")):
+    if k in nodes:
+        nodes[k]["op"] = why
+        if k != "L:A-008-S1": nodes[k]["status"] = "archived"
 if "L:A-002-S2" in nodes:
     nodes["L:A-002-S2"]["op"] = "Discarded after failing CX-003 (L4_repairs_round1.md)"
 for k in ("L:A-002-S1", "L:A-003-S1"):
@@ -216,7 +251,7 @@ for run in RUNS:
         reply=rd(f"CX/{run}_reply.txt"), prompt=rd(f"CX/{run}_prompt.txt")))
 openitems = [l[2:] for l in rd("OPEN.md").splitlines() if l.startswith("- O-")]
 openitems += ["| ".join(c[:2]) for c in table("OPEN.md", r"O-0[1-6]$")]
-data = dict(nodes=list(nodes.values()), edges=edges, runs=runs, piece=src, p4=rd("P04_reply.txt"),
+data = dict(nodes=list(nodes.values()), edges=edges, passes=PASSES, runs=runs, piece=src, p4=rd("P04_reply.txt"),
             p4prompt=rd("P04_prompt.txt"), tally=rd("CX_tally.md").splitlines()[-1], open=openitems,
             rulings=rd("RULINGS.md"))
 tpl = open(os.path.join(os.path.dirname(__file__), "diagram_template.html"), encoding="utf-8").read()

@@ -25,3 +25,18 @@ Constraint observed (§9.6, Ladder 073): no new surplus was added to A-001, A-00
 |---|---|---|---|---|
 | A-006-S1 | Sorrow for a deed can occur without the facing of that deed as one's own. | The elements are separable, so sorrow can occur without the facing. | G-006 (O-0012, O-0021, O-0026, O-0042) contains no case of sorrow apart from facing. | Self-pitying or self-excusing remorse. |
 | A-006-S2 | Resolve to amend one's conduct can be present without sorrow for what one did. | The elements are separable, so resolve can occur without sorrow. | G-006 contains no case of resolve apart from sorrow. | Cool-headed reform after a mistake one does not regret. |
+
+## Pass 5 surplus (CLOSED before any pass-5 test; all untested)
+| ID | Statement | ENTAILED | ABSENT (construction set named) | TEST SURFACE |
+|---|---|---|---|---|
+| A-007-S1 | One can repair the damage one's own work has done while disowning the work. | Facing in conduct does not exclude being turned away in acknowledgment. | G-007 (O-0029, O-0052, O-0056) has only acknowledgment-facing with conduct-turning-away, not the converse. | Cases of repair or restitution paired with denial of authorship. |
+| A-007-S2 | A turning away in conduct and a facing in acknowledgment are not contraries of each other. | They do not exclude each other, and contraries exclude each other. | No member of G-007 uses or bears on contrariety. | Analyses of contrariety across respects. |
+| A-008-S1 | An agent coerced into neglecting their own work does not answer for that neglect. | Coercion removes the ability to turn back. | G-008 (O-0053, O-0054, O-0055) has no coercion case. | Duress and coercion doctrine in law and ethics. |
+| A-008-S2 | An agent who knew their work was theirs, forgot it through their own carelessness, and stays turned away from it still answers for being turned away. | Culpable loss of knowledge does not remove answerability (second clause), provided they could have turned back. | O-0055 states the culpable/innocent contrast as a possibility ("may keep blame"); no member asserts the case. Weak absence, recorded. | Negligence and culpable-ignorance doctrine. |
+Disliked implication kept (Ladder 058): A-007-S2 threatens REV-7, whose contrary (acknowledgment) is paired with an unregistered turning away.
+
+## Pass 5 fresh surplus for A-008v2 (CLOSED before its test; untested)
+| ID | Statement | ENTAILED | ABSENT (construction set named) | TEST SURFACE |
+|---|---|---|---|---|
+| A-008v2-S1 | A judge who, through their own neglect, forgets that they signed a wrongful order does not by that forgetting stop answering for leaving it in force. | A culpable loss of knowledge does not remove answerability. | Construction set (O-0053, O-0054, O-0055, O-0061, O-0062) has no case of an official's forgotten order. | Doctrine on officials' culpable ignorance of their own acts. |
+A-008v2 is LIVE-LIGHT.

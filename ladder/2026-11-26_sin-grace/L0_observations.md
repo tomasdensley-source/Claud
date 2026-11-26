@@ -59,3 +59,20 @@ Affect charge: not recorded (the operator is not the selector; the author's affe
 | O-0049 | A tester stated that a person can face a work as their own on acceptance without belief that it is theirs (a sleepwalker who owns a letter he cannot recall writing). | CX-019 #2 |
 | O-0050 | A tester stated that an account can let grace act within a person while holding that owning one's work must be wholly self-originated. | CX-019 #3 |
 | O-0051 | A tester stated that a humble person who stops dwelling on a good deed they did is not turned away from it in the disowning sense, since asked they would say "yes, I did that". | CX-020 #1 |
+| O-0052 | An auditor stated that neglect of and drift from a task are commonly noticed only afterward, so the turning away came before awareness of it. | pass5/P04_reply.txt #1 |
+| O-0053 | An auditor stated that whether one answers for a turning away depends on whether it was avoidable. | pass5/P04_reply.txt #2 |
+| O-0054 | An auditor stated that knowing does not obviously bring the ability or the obligation to turn back. | pass5/P04_reply.txt #3 |
+| O-0055 | An auditor stated that culpable forgetting may keep blame in place, while innocent loss of knowledge seems to restore ignorance. | pass5/P04_reply.txt #4 |
+| O-0056 | An auditor stated that if one can be turned away without awareness, the turning away cannot lie wholly in acknowledgment, so conduct can break the facing. | pass5/P04_reply.txt #6 |
+| O-0057 | An auditor stated that a result can outlast the process that produced it. | pass5/P04_reply.txt #10 |
+| O-0058 | An auditor stated that facing could be treated as all-or-nothing, like acknowledgment, or as graded, like attention. | pass5/P04_reply.txt #12 |
+| O-0059 | A tester stated that someone who lost all memory of their work through no fault, though able to resume it, is not answerable for staying away from it. | CX-021 #2 |
+| O-0060 | A tester stated that a man who learns he is turned away and at once begins turning back is, during the turning back, still turned away after knowledge, yet does nothing sinful. | CX-021 #3 |
+| O-0061 | A tester stated that a faultless loss of knowledge followed by willful refusal of credible reminders makes the continued turning away culpable. | CX-021 #4 |
+| O-0062 | A tester stated that in a Frankfurt-style case an agent who could not have turned back still answers for turning away on her own. | CX-022 #2 |
+| O-0063 | A tester stated that a trivial threat cannot excuse a grave neglect of one's work. | CX-023 #3 |
+| O-0064 | A tester stated that a man who knowingly ruins a rival and declares "I did that. It is mine. I am glad of it" owns the work as his own while remaining unrepentant. | CX-027 #2 |
+| O-0065 | A tester read "acknowledgment" as admitting what the work actually is, not only that one did it, and on that reading held REV-9 against the proud owner. | CX-027 #1(a) |
+| O-0066 | A tester stated that culpable loss of knowledge leaves one answerable only for the foreseeable results of the lapse, not for an unforeseeable deception that exploits it. | CX-025 |
+| O-0067 | A tester stated that under REV-11 the original wrongful act is not itself sin; only remaining turned away after knowledge is. | CX-028 |
+| O-0068 | A tester stated that under REV-11 knowingly disowning a good work of one's own counts as sin. | CX-028 |

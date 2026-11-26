@@ -7,3 +7,5 @@
 2026-11-26 Pass 3: G-004, G-005, A-004, A-005, REV-5, REV-6; CX-013 to CX-015.
 2026-11-26 Author ruling: REV-5 carried forward. Pass 4 opened with REV-5 as the piece (pass4/).
 2026-11-26 Pass 4 on REV-5: CX-016 to CX-020; REV-7, REV-8.
+2026-11-26 Author ruling: REV-7 carried forward. Pass 5 opened with REV-7 as the piece (pass5/).
+2026-11-26 Pass 5 on REV-7: CX-021 to CX-028; REV-9, REV-10 (failed), REV-11.

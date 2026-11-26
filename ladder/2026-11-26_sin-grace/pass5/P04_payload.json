@@ -1,0 +1,9 @@
+{
+ "model": "anthropic/claude-opus-5.5",
+ "messages": [
+  {
+   "role": "user",
+   "content": "You are given numbered propositions. For each, give exactly one category, DEMONSTRATED, CONTESTED, or FALSE AS STATED, followed by one line of ground.\n\n1. One can be turned away from a work without being aware that one is turned away from it.\n2. Being turned away from a work is something an agent is answerable for, not only something that happens to the agent.\n3. A turning away that began in ignorance becomes sin once it continues after knowledge.\n4. The knowledge need only have been had, not still be held, for the being turned away to count as sin.\n5. Standing facing a work as one's own is a condition that persists without continuous attention to the work.\n6. Being turned away from a work and standing facing it as one's own both lie in acknowledgment, so conduct alone neither makes nor breaks either.\n7. Attention to a work can be sustained over time as a standing condition, not only given in moments.\n8. Acknowledgment can be withheld throughout a sustained attention to one's own work.\n9. Repentance is a process that can arrive at a condition, not only an act completed at once.\n10. The standing facing that repentance arrives at can continue after the repentance itself has ended.\n11. A standing condition, and not only a single act, can be given.\n12. Whether a facing is given can be a matter of degree."
+  }
+ ]
+}

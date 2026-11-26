@@ -1,0 +1,26 @@
+**Statement 1: STANDS**
+
+**How I read it.** The statement is in the language of classical moral theology, the Augustinian and Thomist account of culpable (vincible) ignorance. Its pieces mean:
+
+- **"Knowledge of one's work lost through one's own fault":** the agent no longer knows what they are doing, or that it is wrong, and this ignorance came from their own negligence or choice.
+- **"A being turned away that continues":** a continuing state of the will turned away from the good or from God. In the scholastic term, this is *aversio*.
+- **"Can still count as sin":** a claim only about possibility. It does not say the state *always* counts as sin.
+
+**What a counterexample would need.** Because the claim is "can," it is not enough to find one culpable-ignorance case where the turning away happens not to count as sin. A valid counterexample must show that, given culpably lost knowledge, a continuing turning away *cannot* count as sin. In other words, culpable loss of knowledge would have to rule out sin entirely.
+
+**Candidates I tested:**
+
+1. **Culpable drunkenness.** Someone gets drunk through their own fault and then acts, or continues a disordered course, without awareness. The tradition counts such acts as sinful "in their cause": the fault in losing awareness carries over to what follows. This confirms the statement.
+
+2. **Culpable ignorance of the law or of one's duty.** Someone neglects to learn what they are obliged to know and then continues in the wrong course. Vincible ignorance at most lessens guilt and does not remove it. This also confirms the statement.
+
+3. **Self-induced, permanent loss of reason.** This is the strongest attempt. Someone culpably destroys their own capacity for knowledge, for example through deliberate self-harm leading to lasting madness. Acts done afterward, in the absence of reason, are not new sins. However:
+   - The original culpable act remains a sin.
+   - The resulting state of guilt (*reatus*) persists.
+   - The turning away that was set in motion therefore still counts as sinful through its voluntary cause.
+
+   At most, this case shows that later acts are not fresh sins. It does not show that the continuing turning away *cannot* count as sin. So it fails to break the possibility claim.
+
+4. **Repentance.** If the person repents, the turning away no longer continues. That removes the statement's own condition, so it steps outside its scope and is not a valid counterexample.
+
+**Conclusion.** Every case I could build that stays within the statement's terms (fault-caused loss of knowledge plus a continuing turning away) leaves open, and usually confirms, that the state counts as sin. Breaking it would require showing that culpable loss of knowledge makes sin impossible. That contradicts the statement's own premise, since the loss is stipulated to be the agent's fault, and a fault-caused loss is exactly what keeps the consequence imputable. No valid counterexample exists, so the statement stands.

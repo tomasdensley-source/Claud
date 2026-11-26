@@ -1,0 +1,2 @@
+claims=6 assumptions=12 expected=12 ok=True
+id_list_match: True

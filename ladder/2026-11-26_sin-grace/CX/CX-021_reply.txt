@@ -1,0 +1,63 @@
+# Verdicts on the Eleven Statements
+
+**1. STANDS**
+
+This is a possibility claim. To break it, being turned away would have to require awareness, and nothing in the statement's terms requires that. One clear case is a craftsman who drifts from his calling through accumulated distraction and never notices he has drifted. Statements 3 and 4 also presuppose turnings that began in ignorance, so the set itself treats unaware turning as possible.
+
+**2. BROKEN**
+
+*The case:* A woman loses all memory of her vocation through an illness she did nothing to bring on. She remains fully able to resume the work if she knew of it. Her ability to turn back is intact, so the condition "could have turned back" is met. Yet she is not answerable for her continued turning away.
+
+*Why this is valid:* Statement 3 treats "knowing" and "could turn back" as separate conditions. That shows ability does not already include knowledge, so the case stays within the statement's own terms. Ability alone is not sufficient for answerability. Statement 4 confirms that faultless ignorance does not count as sin.
+
+**3. BROKEN**
+
+*The case:* A man learns that he has been turned away from his work. He is able to turn back and immediately begins doing so. But turning back takes time. Statement 8 itself treats repentance as a process. During that interval:
+- his turning away continues after knowledge;
+- he is able to turn back and is in fact doing so as fast as possible;
+- nothing he does is sinful.
+
+The claim that it "becomes sin once it continues after knowledge" fails.
+
+*A second case:* The agent knows and could turn back. However, a weightier immediate obligation justifies a brief delay, such as tending a dying parent.
+
+**4. BROKEN**
+
+The first clause stands, since faultily lost knowledge *can* still yield sin. The second clause ("if lost without fault, it does not") fails.
+
+*The case:* Knowledge of the work is lost without fault. Later, others repeatedly and credibly remind the agent of it, and he willfully refuses to listen.
+
+- His continued turning away now carries culpability, even though the original loss was faultless.
+- If instead he regains the knowledge and still persists while able to turn back, statement 3 classifies the continuation as sin. Statement 4's blanket "does not" contradicts this.
+
+The origin of the loss does not settle the status of everything that follows.
+
+**5. STANDS**
+
+This is a possibility claim. A committed physician remains facing her vocation as her own while asleep or on holiday. No valid case requires the standing to lapse whenever attention lapses.
+
+**6. STANDS**
+
+Sustained vigilance is a real phenomenon: a sentry on watch, or a nurse monitoring a patient through a night. Denying it would require redefining attention as merely momentary, which steps outside the statement's terms.
+
+**7. STANDS**
+
+An heir resentfully runs the family business with constant attention while insisting throughout that it is not his. Sustained attention and withheld acknowledgment coexist, so the possibility holds.
+
+**8. STANDS**
+
+Gradual conversion, in which contrition deepens over months into a settled reorientation, satisfies the claim. Showing that repentance can *only* be instantaneous would require redefining the term.
+
+**9. STANDS**
+
+Ending in the arrived-at condition is what it means for a process to reach a condition. A person whose repentance concluded years ago can still stand facing the work. No case shows the standing must end when the process does.
+
+**10. STANDS**
+
+Standing conditions are routinely given: conferred citizenship, an adoption that gives a lasting status, or, theologically, a gift of grace understood as a lasting state. The possibility holds.
+
+**11. STANDS**
+
+An inherited vocation can be partly received and partly made one's own through effort, and the proportions differ across persons. Refuting this would require showing that facing must be wholly given or wholly achieved. No such constraint follows from the terms.
+
+**Summary:** Statements 2, 3 and 4 are BROKEN. Statements 1, 5, 6, 7, 8, 9, 10 and 11 STAND. The broken ones are the universal or conditional claims about culpability. The possibility claims resist counterexample by their form.

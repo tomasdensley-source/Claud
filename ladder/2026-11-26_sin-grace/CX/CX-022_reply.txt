@@ -1,0 +1,41 @@
+# Verdicts on the Two Statements
+
+## 1. STANDS
+
+**Verdict: STANDS.** I found no valid counterexample.
+
+To break the statement, I would need a case where facing the work in one mode makes it impossible to be turned away from it in the other. Both directions fail.
+
+**Facing in conduct, turned away in acknowledgment.** A ghostwriter keeps revising, correcting and maintaining a book for years. That is full care in conduct. Yet the ghostwriter publicly and sincerely denies authorship. The diligent tending does not prevent the disowning.
+
+**Facing in acknowledgment, turned away in conduct.** An architect proudly claims a building as their own design. Meanwhile they ignore every report of its structural decay. The acknowledgment does not prevent the neglect.
+
+**The strongest objection.** One might argue that caring for a work is already a tacit acknowledgment of it. If so, facing it in conduct would rule out disowning it.
+
+The objection fails for two reasons:
+- At most, tending implies an implicit ownership. It does not rule out explicit, sincere disowning. The ghostwriter shows the two coexist.
+- The objection only works by collapsing "acknowledgment" into "conduct." The statement explicitly keeps these as distinct modes, so the objection changes the statement's terms.
+
+The claim is a modest one: facing in one mode "does not exclude" turning away in the other. Since it asserts only compatibility, these cases confirm it rather than threaten it.
+
+## 2. BROKEN
+
+**Verdict: BROKEN.** The first clause fails. That clause says an agent answers for being turned away from what they know *only where they could have turned back*.
+
+**Counterexample (a Frankfurt-style case).** Ana knows that her research data was fabricated by a collaborator. She deliberately looks away from it and keeps publishing. She does this wholeheartedly and for her own reasons: she wants the publications.
+
+Unknown to Ana, a department head has been monitoring her closely. Had she shown any sign of confronting the fabrication, the department head would have intervened. Through threats or manipulation, they would have kept her turned away. So Ana could not have turned back. Every route back was blocked.
+
+The intervener never acts, because Ana turns away entirely on her own. Ana still answers for her turning away. The causes of her conduct are exactly what they would be without the intervener, and the blocked alternative played no role in what she did.
+
+**Why the case is valid:**
+- It stays within the statement's terms:
+  - an agent;
+  - knowledge the agent possesses;
+  - an actual turning away from it;
+  - no ability to turn back.
+- Answerability holds anyway, which contradicts the "only where" condition.
+- It does not change what any word means. It simply denies that alternative possibilities are necessary for answerability. That is the standard way to refute a principle of this form.
+- Frankfurt cases are disputed by some libertarians about free will. Even so, the statement cannot simply be assumed true when a coherent and widely accepted case violates it.
+
+**Note on the second clause.** It says the loss of knowledge removes answerability only when the loss was not the agent's fault. Taken alone, it survives my attempts. A faultless loss that leaves answerability intact does not refute it, because "only when" states a necessary condition, not a sufficient one. A loss caused by the agent's fault can be handled by tracing back to the time before the loss, when the agent could have turned back. The statement is broken nonetheless, because its first clause fails.

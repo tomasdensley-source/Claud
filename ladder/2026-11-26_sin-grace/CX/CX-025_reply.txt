@@ -1,0 +1,17 @@
+**1. BROKEN**
+
+The statement makes a necessary-condition claim: losing knowledge of one's work removes answerability for being turned away from it *only if* the loss was not one's fault. To break it, I need a case where the loss *was* one's fault, yet losing the knowledge still removes answerability for the turning-away.
+
+**Counterexample:** A scribe compiles a treatise. Through ordinary negligence, he stops reviewing it, loses his notes, and lets his memory of its contents fade. This loss is his fault, and he is answerable for that negligence.
+
+Years later, a forger presents him with a corrupted version of the treatise. The forger tells him this is the authoritative text and persuades him to abandon his original teaching for it. Because he no longer knows his own work, he cannot detect the alteration. He is turned away from it.
+
+Is he answerable for *being turned away*? He is not, because:
+
+- **The excuse comes from the ignorance itself.** His answerability for the turning-away would have rested on his ability to recognise his own work and reject the forgery. His lost knowledge is exactly what removes that ability. So the excusing factor is the loss of knowledge, which is what the statement's terms require.
+- **His fault does not reach this outcome.** At the time he was negligent, he had no reason to foresee that a forger would later exploit his ignorance. Standard accounts of culpable ignorance hold that a person remains answerable only for the foreseeable consequences of their culpable lapse. A deliberate, unforeseeable deception by a third party breaks that chain.
+- **His answerability is real but separate.** He remains answerable for the negligent forgetting. He is not answerable for being turned away. The statement is about the second answerability, not the first.
+
+The case stays within the statement's own terms: it involves his own work, a real loss of knowledge, a loss that was his fault, and a turning-away from that work. Yet the loss of knowledge removes his answerability for the turning-away. So faultlessness is not a necessary condition.
+
+The most the statement can support is a narrower claim: culpable loss of knowledge does not excuse a turning-away that was a *foreseeable* result of the culpable lapse. As written, without that restriction, it fails.

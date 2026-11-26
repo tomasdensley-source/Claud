@@ -1,0 +1,55 @@
+# Verdicts on the Four Statements
+
+## 1. One can repair the damage one's own work has done while disowning the work.
+**Verdict: STANDS**
+
+This is a claim that something is possible. One real case proves it. To break it, I would need to show that repair under disowning is impossible, and I cannot.
+
+A builder's retaining wall collapses into a neighbor's yard. The builder quietly pays for the cleanup and rebuilds the wall properly. Throughout, he insists the wall was never his work. The physical damage is repaired, and he still disowns the work. The terms are met.
+
+The strongest objection is that some damage is relational, such as a wrong done to a person, and that such damage can only be mended by acknowledgment. Even if that is true, it shows only that *some* damage cannot be repaired this way. It does not show that *no* damage can. Using the objection to break the statement would require reading "repair" as "repair of every kind of damage," which changes what the words mean.
+
+## 2. A turning away in conduct and a facing in acknowledgment are not contraries.
+**Verdict: STANDS**
+
+Contraries cannot both hold of the same subject at once. Breaking the statement would require showing that turning away in conduct and facing in acknowledgment can never co-occur. The ordinary weak-willed case shows the opposite.
+
+A novelist fully acknowledges that her unfinished manuscript is hers, that it is good, and that she owes it work. For a year she does nothing on it. Her acknowledgment faces the work while her conduct turns away from it. Because both hold at once, they are not contraries.
+
+## 3. An agent coerced into neglecting their own work does not answer for that neglect.
+**Verdict: BROKEN**
+
+The statement is unqualified. It covers any coercion, of any strength, over any neglect.
+
+**Main counterexample:** A surgeon is mid-operation. A colleague threatens to report her for a minor parking infraction unless she walks out now. She leaves, and the patient is seriously harmed. She was coerced into neglecting her own work. Yet a trivial threat cannot excuse a grave neglect, so she plainly answers for it.
+
+**Supporting case:** An agent knowingly joins an organization famous for forcing its members to abandon their obligations. He is later coerced into exactly such neglect. He answers for it, because he culpably placed himself under that coercion.
+
+Coercion can reduce or remove answerability. It does not do so automatically, and the statement asserts that it does.
+
+## 4. An agent who knew their work was theirs, forgot it through their own carelessness, and stays turned away from it still answers for being turned away.
+**Verdict: STANDS**
+
+The statement's conditions close the usual escape routes:
+- The agent once knew the work was theirs.
+- The forgetting was their own fault.
+- The turning away continues.
+
+This is culpable ignorance, and culpable ignorance does not excuse. Responsibility traces back through the careless forgetting to the present turning away.
+
+The best attempt at a counterexample is permanent amnesia brought on by reckless drinking. One could argue the agent answers only for the drinking, not for the current turning away. But that relies on rejecting the tracing view of responsibility, which is the very thing in dispute. It does not produce a case that satisfies the terms while making the result false.
+
+Every other attempt I considered falls outside the statement's scope:
+- making the forgetting blameless contradicts "through their own carelessness";
+- having the agent be reminded and resume work contradicts "stays turned away."
+
+No valid counterexample remains.
+
+## Summary
+
+| # | Verdict |
+|---|---------|
+| 1 | STANDS |
+| 2 | STANDS |
+| 3 | **BROKEN** |
+| 4 | STANDS |

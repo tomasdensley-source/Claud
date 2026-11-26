@@ -33,5 +33,9 @@ You are given numbered statements and a body of writing. For each statement answ
 - O-15: A-004 shows facing has registers (attention, acknowledgment, conduct). REV-5 and REV-6 name the acknowledgment register for the contrary but leave sin's "turning away" unregistered. No tester broke this; whether the piece should name the register for sin too is the author's call.
 - O-16: REV-6's "it" may refer to the work or to the turning away (O-0039). A writing choice for the author.
 - O-14 CLOSED 2026-11-26 by author ruling: "Use Rev 5." (RULINGS.md)
-- O-17: Carry-forward after pass 4: REV-7 (keeps the tested attention clause) or REV-8 (leaner). Operator's recommendation is recorded in RUNLOG.md, entry 28; the choice is the author's.
+- O-17 CLOSED 2026-11-26 by author ruling: "with Rev 7." (RULINGS.md)
 - O-18: Tester-format parsing: two parser defects found and fixed (RUNLOG 25, 26). A fixed reply format would remove this class of defect; the fixed prompt cannot be changed by the operator (§5.4).
+- O-19: When is remaining turned away after knowledge answerable? Every simple condition tested failed (CX-021 #2, CX-022 #2, CX-023 #3, CX-025). The piece leaves answerability unstated; whether it should say more is the author's call.
+- O-20: Meaning consequences of REV-11 named by the tester (CX-028): the first wrongful act is not itself sin (O-0067), and knowingly disowning a good work is sin (O-0068). The author decides whether these are intended.
+- O-21: A-008v2 failed (CX-025); the tester's suggested narrowing to foreseeable results was not run, since answerability does not appear in the revision. Author may direct.
+- O-22: Carry-forward after pass 5: REV-9 or REV-11 (both pass CX as phrased). Operator's recommendation in RUNLOG.md entry 33.

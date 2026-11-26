@@ -1,0 +1,17 @@
+**Statement 1: STANDS**
+
+I tried several routes to a counterexample. None satisfies the statement's own terms.
+
+**Why it stands.** The statement is narrow. It does not say the judge must always remain answerable no matter what. It says only that the forgetting, when caused by the judge's own neglect, does not by itself end their answerability for leaving the wrongful order in force. This is the standard principle of culpable ignorance: ignorance you are at fault for does not excuse what follows from it. Aristotle's example is the drunk who acts in ignorance but is blamed because he caused that ignorance. Answerability traces back through the neglect to the continued omission.
+
+**Attempted counterexamples and why they fail:**
+
+1. **Judicial immunity or limitation periods.** A judge may be shielded from civil liability, or a claim may become time-barred. But these release the judge because of immunity or the passage of time, not because of the forgetting. They also apply whether or not the judge forgot. They fall outside the "by that forgetting" condition.
+
+2. **Losing jurisdiction, or another court vacating the order.** Answerability for keeping the order in force may stop. But it stops because of a later event, not the forgetting.
+
+3. **Forgetting that would excuse.** Examples are sudden illness, brain injury, or being deceived about whether the order was signed. These excuse because the judge was not at fault. They break the condition "through their own neglect," so they are outside the statement's scope.
+
+4. **Philosophical scepticism about culpable ignorance.** Some theorists, such as Zimmerman, hold that culpability for acting in ignorance is only derivative: blame attaches first to the neglect that produced the ignorance. Even on that view, the judge still answers for leaving the order in force, derivatively, by tracing back to the neglect. The view locates the basis of the answerability differently. It does not make the answerability disappear because of the forgetting. Treating "answering for" as meaning only "being directly culpable" would change the statement's meaning, which is not a valid move.
+
+**Conclusion.** Every scenario that ends the judge's answerability does so through something other than the forgetting, or involves forgetting the judge was not at fault for. Neither satisfies the statement's terms, so it stands.

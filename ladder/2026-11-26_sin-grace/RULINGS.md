@@ -17,3 +17,7 @@ None received for this run yet.
 "Or you can force all of them."
 "Draft. Action. Change of plans. Use Rev 5."
 Operator's reading, recorded as such: REV-5 is carried forward; passes continue with REV-5 as the piece. The third message supersedes the first two.
+
+## 2026-11-26 (verbatim)
+"with Rev 7."
+Operator's reading, recorded as such: REV-7 is carried forward; passes continue with REV-7 as the piece (as after "Use Rev 5.").

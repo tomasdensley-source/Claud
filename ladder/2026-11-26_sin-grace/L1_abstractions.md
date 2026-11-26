@@ -18,3 +18,15 @@ No members are called implications before this table (D3). Generality: all three
 | ID | Group | Exact sentence |
 |---|---|---|
 | A-006 | G-006 | Repentance is a compound of separable elements, such as sorrow, resolve to amend, and the facing of what one did, so it can contain the contrary of a condition without being identical to that contrary. |
+
+## Pass 5 (Step 1; candidate abstractions; operator construction; untested)
+| ID | Group | Exact sentence |
+|---|---|---|
+| A-007 | G-007 | Being turned away from one's own work can lie in conduct, as in neglect, or in acknowledgment, as in disowning, and facing the work in either of these does not exclude being turned away from it in the other. |
+| A-008 | G-008 | An agent answers for being turned away from what they know only where they could have turned back, and the loss of that knowledge removes their answerability only when the loss was not their fault. |
+
+## Pass 5 repairs (operator construction; untested until filed CX)
+| Object | Failed in | Operation | Repaired exact sentence | Receipt | Named loss |
+|---|---|---|---|---|---|
+| A-008v2 | CX-022 #2 | Narrow | Losing knowledge of one's own work removes one's answerability for being turned away from it only when the loss was not one's fault. | O-0062, O-0061 | The first clause ("only where they could have turned back") |
+Archived with failed parent A-008: A-008-S1 (FAILED CX-023 #3) and A-008-S2 (passed CX-023 #4 against the failed phrasing; not carried forward).
