@@ -54,3 +54,9 @@ You are given numbered statements and a body of writing. For each statement answ
 - O-35 CLOSED 2026-11-26: "REV22."
 - O-36 CLOSED 2026-11-26: yes, "as implication, not as objective".
 - O-37 CLOSED 2026-11-26: "what God made as God's work specifically".
+- O-38: Definition of "facing" (pass11/INPUT_facing.md). REV-24 qualifies the facing of one's work positively ("as one's own", "for what it is", "in acknowledgment and in the deeds it rightly calls for") but leaves "facing" itself undefined except by "attention alone never reaches that facing". The author's to define (§3). Sub-questions:
+  - O-38.1 What facing adds to attention: consent, truthfulness and readiness together, or a stance they come from? (evidence: A-013, A-014)
+  - O-38.2 Act or state: already tested as standing (pass4 S-003.aR, CX-019 #1; pass6 S-003.a, CX-029 #5).
+  - O-38.3 Range of objects: the same stance toward one's work, another, oneself, creation, God? (evidence: A-015)
+  - O-38.4 Mutuality: can facing be received as well as done? (evidence: A-016)
+- O-38 (evidence recorded, still the author's to rule): candidate definition tested and standing: A-013v2 (CX-083). Whether the piece should state the definition, and in what words, is the author's call.

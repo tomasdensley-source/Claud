@@ -22,3 +22,4 @@
 2026-11-26 Pass 9 closed: REV-21, REV-22; AU-005R2, AU-006R3, AU-010, AU-011R, IMP-002, IMP-003, CJ-001, CJ-002R; Diagram 8.
 2026-11-26 Author rulings: carry REV-22; repentance implies facing God's creation and oneself within it, as implication not objective; facing creation as God's work. Pass 10 opened on REV-22.
 2026-11-26 Pass 10 closed: REV-24; AU-012R; Diagram 9.
+2026-11-26 Pass 11: facing. A-013v2, A-015v3, A-016 pass; evidence for O-38 recorded.

@@ -1,0 +1,37 @@
+# Verdicts on the Two Statements About Facing
+
+## 1. BROKEN
+
+**Counterexample: a facing that does not persist.**
+
+A man has spent years denying that his drinking destroyed his marriage. One night his daughter confronts him, and he finally faces it:
+
+- **He sees it truly.** The drinking caused the collapse, not his ex-wife or bad luck.
+- **He owns his relation to it.** "I did this."
+- **He is ready to answer it.** He tells her he will apologize to her mother and get help.
+
+He means all of it. By the next morning he has slid back into the old story. He never faces it again.
+
+Every element the statement names was present. He was turned toward the thing as it is, and true seeing, ownership and readiness all came from that stance. The ordinary and accurate description is "he faced it that night, and then he lost his nerve." That night was a facing, but it did not persist beyond the moment.
+
+The statement requires persistence as part of what facing is. So it must say either:
+
+- that night was not facing, which contradicts the plain case, or
+- he still faces it, which is false, because he is back in denial.
+
+A defender might reply "that was only a moment of attention, not facing." That reply fails. The case is not mere attention: it includes ownership and readiness, which the statement itself treats as the marks of facing. To exclude this case, the defender has to assume the persistence clause in order to defend it. The persistence clause is therefore an extra stipulation, not something facing actually requires.
+
+## 2. BROKEN
+
+**Counterexample: facing that comes before readiness to answer.**
+
+A woman finally faces the fact that she is an addict:
+
+- She sees it truly.
+- She owns it: "this is mine, not my circumstances."
+
+She is not yet ready to answer it. The prospect of quitting terrifies her, and for weeks she can do nothing. Later, partly because she faced it, readiness comes.
+
+This is the standard shape of the case: "the first step is admitting it." Facing is commonly what produces readiness, so readiness can be missing at the moment of facing. The statement says that where any one of the three is missing, the thing is not faced. That would mean her admission was not facing. But the admission is the paradigm of facing an addiction.
+
+**A second case breaks the "seeing it truly" condition.** A person facing their own imminent death, or facing an unknown outcome such as waiting on a biopsy, cannot see the thing truly, because its nature or outcome is not available to be seen. Yet "facing death" and "facing the unknown" describe real, central instances of facing. Both conditions can therefore be absent while the thing is still faced. The strict "all three together" requirement fails.

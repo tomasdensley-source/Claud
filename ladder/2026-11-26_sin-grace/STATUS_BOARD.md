@@ -174,3 +174,16 @@ Finding carried into the piece: "whatever deed" was ambiguous between one and al
 | REV-23 | (implication sentence without "though not every part of oneself can be seen") | FAILED CX (CX-078 #1) |
 | REV-24 | Sin is remaining turned away, after understanding, from the work of one's own hand. Its contrary is to stand facing that work as one's own and for what it is, right or wrong, in acknowledgment and in the deeds it rightly calls for, as far as these can be seen; attention alone never reaches that facing. Grace is the free giving of that facing, and repentance is the turning toward that grace; it contains sin's contrary only once it arrives at that facing. Whether sought or found, repentance implies facing God's creation as God's work, and oneself within it as a whole, though not every part of oneself can be seen. | passes CX as phrased (CX-078 #2) |
 Finding: the author's implication holds within the piece's own definition of repentance, as an implication, not as a precondition and not for repentance in every sense of the word.
+
+## Pass 11 (2026-11-26): what is facing? (user message pass11/INPUT_facing.md; evidence for O-38, not a definition)
+| ID | Exact sentence | Status |
+|---|---|---|
+| A-013 | (facing as a standing from which seeing, owning and readiness come, persisting beyond attention) | FAILED CX (CX-080 #1: a facing that does not last) |
+| A-013v2 | Facing something is turning toward it as it is rather than away from it; it can last only a moment or be held as a standing, and seeing it truly, owning one's part in it and readiness to answer it can each follow from it without being required for it. | passes CX as phrased (CX-083 #1) |
+| A-014 | (facing is seeing, owning and readiness all together) | FAILED CX (CX-080 #2: readiness can follow facing; death and the unknown are faced without being seen truly) |
+| A-014-S1 | (owned, truly seen, not ready: not faced) | FAILED CX (CX-082, the surgeon) |
+| A-015 | (one structure whatever the object) | FAILED CX (CX-081 #1: reciprocity, reflexivity) |
+| A-015v2 | (as v3, plus facing God answers a prior being faced) | FAILED CX (CX-083 #2: Spinoza; the unmoved mover) |
+| A-015v3 | Facing has a common core whatever its object, turning toward it rather than away, but its shape differs with the object: another person can face one back, and oneself is faced reflexively. | passes CX as phrased (CX-084) |
+| A-016 | Facing can be received as well as done: being faced by another can be part of how one comes to face. | passes CX as phrased (CX-081 #2) |
+Evidence on O-38: (1) facing is not the three together; seeing, owning and readiness can follow it (A-013v2); (2) facing can be a moment or a standing, and the piece's "stand facing" is the held form (A-013v2; pass4 S-003.aR; pass6 S-003.a); (3) one core, turning toward rather than away, with shapes that differ by object (A-015v3); (4) facing can be received (A-016).

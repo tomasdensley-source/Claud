@@ -64,3 +64,7 @@
 | AU-010R | necessary condition | repentance taking place without facing God's creation as God's work |
 | AU-012, REV-23, REV-24 | vulnerable generalization (pass 10) | one valid case inside its terms |
 | AU-010R2, AU-012R | necessary condition / implication, scoped to the piece's repentance | a repentance of that kind without (or not bringing) facing God's creation as God's work |
+| A-013, A-014, A-015, A-014-S1 | vulnerable generalization (pass 11) | one valid case inside its terms |
+| A-016 | possibility | a showing that being faced can never be part of coming to face |
+| A-013v2, A-015v2 | vulnerable generalization (pass 11 repairs) | one valid case inside its terms |
+| A-015v3 | vulnerable generalization | one valid case inside its terms |

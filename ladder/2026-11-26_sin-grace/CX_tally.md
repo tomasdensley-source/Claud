@@ -193,5 +193,13 @@
 | CX-078 | 2 | REV-24 | STANDS |
 | CX-079 | 1 | AU-010R2 | BROKEN |
 | CX-079 | 2 | AU-012R | STANDS |
+| CX-080 | 1 | A-013 | BROKEN |
+| CX-080 | 2 | A-014 | BROKEN |
+| CX-081 | 1 | A-015 | BROKEN |
+| CX-081 | 2 | A-016 | STANDS |
+| CX-082 | 1 | A-014-S1 | BROKEN |
+| CX-083 | 1 | A-013v2 | STANDS |
+| CX-083 | 2 | A-015v2 | BROKEN |
+| CX-084 | 1 | A-015v3 | STANDS |
 
-STANDS=121 BROKEN=62 invalid=8 tested=191
+STANDS=124 BROKEN=67 invalid=8 tested=199

@@ -1,0 +1,31 @@
+## Statement 1: STANDS
+
+I tried four lines of attack. None produced a case that meets the statement's terms while defeating its claim.
+
+- **Facing without owning one's part.** Someone faces a natural disaster they had no part in causing. This fits the statement. It claims owning one's part is not required, and this case shows exactly that.
+- **Facing without readiness to answer.** Someone faces their own imminent, unavoidable death, where no answer is possible. This also confirms the "not required" clause.
+- **Facing without seeing truly.** This was the most promising attack. "Turning toward it as it is" might seem to presuppose seeing it truly, so the claim that true seeing is optional would contradict the definition.
+  - It fails because "as it is" modifies the object turned toward, not the accuracy of one's grasp.
+  - Take a patient who turns toward a grim diagnosis, the real thing rather than a comforting fiction, while still understanding it only partially and imperfectly. That patient is facing it without yet seeing it truly.
+  - A distorted picture held deliberately would count as turning away, which the definition already excludes. Honest but incomplete seeing remains facing.
+  - So the definition and the "not required" clause are consistent.
+- **Duration.** A momentary facing, such as a flash of acknowledgment, and a standing facing, such as a sustained stance, are both coherent. The disjunction excludes nothing that is a genuine case.
+
+## Statement 2: BROKEN
+
+**Counterexample:** Spinoza's intellectual love of God (*amor Dei intellectualis*).
+
+**It satisfies the statement's terms.**
+- The object is God. The statement places no restriction on which conception of God is meant. It presents the "answering" structure as following from the object itself.
+- The act fits the common core. The Spinozist turns toward God, or Nature, as it is, through adequate understanding, rather than away from it. This is turning toward rather than away in the fullest sense.
+
+**It makes the claimed result impossible.**
+- Spinoza's God has no passions and does not love, address, or regard any individual (*Ethics* V, P17).
+- He states explicitly that "he who loves God cannot endeavour that God should love him in return" (V, P19).
+- There is therefore no prior being-faced-by-God for this facing to answer.
+
+Aristotle's unmoved mover gives a parallel case. It thinks only itself, so one can turn toward it in contemplation, but it faces no one first.
+
+**Possible objection: this changes what "God" means.** That would hold only if the statement had limited "God" to a personal, prevenient God. It did not. It offers the prior-being-faced structure as the shape that facing takes because of what its object is. Once that limit is absent, a recognized conception of God under which facing occurs without any prior divine facing falsifies the clause.
+
+The clause holds only if a theistic premise is added that the statement itself does not supply.

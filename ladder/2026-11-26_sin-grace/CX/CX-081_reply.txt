@@ -1,0 +1,29 @@
+# Verdicts on the Two Statements About Facing
+
+## 1. BROKEN
+
+The statement makes a universal claim. Facing has *one* structure for every object, and facing one's work, another person, oneself, creation and God differ *only* in what is faced. One structural difference between any two cases is enough to break it. There are several.
+
+**Counterexample (reciprocity).** Take a carpenter facing a finished table. Then take the same carpenter facing a friend he has wronged.
+
+- **The table cannot face back.** The relation runs one way. The carpenter attends, assesses and owns the work, and nothing in the work attends to him.
+- **The friend can face back, and does.** The carpenter is now also *being faced*: seen, addressed, held answerable by someone who can accept, refuse or answer him.
+- **This changes the shape of the relation, not just its object.** The relation becomes two-directional and exposed. The facer is also an object of facing, and his facing must answer the other's. This is not a different item slotted into the same frame.
+
+Statement 2 makes the same point from the other side. If being faced can be part of how one comes to face, then facing a person can have a component that facing a table cannot have.
+
+**Further counterexamples:**
+
+- **Facing oneself is reflexive.** Facer and faced are identical. There is no distance between them and no turning away from the object while remaining oneself. Every other case in the list lacks this feature.
+- **Facing God, on the theological terms the statement itself invokes, reverses priority.** God is not one more object among the others. God is classically held to face the person first, and to be the ground of the person's capacity to face at all. A relation in which the "object" precedes and enables the subject's act differs in order, not just in content.
+
+**Is this a valid counterexample?** One could object that reciprocity and reflexivity are merely properties of the objects. Granting that would make "differ only in what is faced" true by definition, since every structural difference could be relabeled as a difference in the object. That reading empties the claim of content. On any non-trivial reading of "structure," the counterexample stays within the statement's terms.
+
+## 2. STANDS
+
+This is a possibility claim. It says being faced *can* be part of how one comes to face. Breaking it would require showing that being faced *never* contributes to one's coming to face. Ordinary cases show the possibility is real:
+
+- **A child** who is steadily and attentively looked at by a parent learns, through being attended to, how to attend.
+- **A person avoiding a failure** is looked at honestly by a friend who neither excuses nor condemns. Being faced that way is what enables the person to face the failure.
+
+A counterexample would have to show that every such case is really something else, such as mere imitation or coincidence. That would mean redefining "being faced" or "coming to face," which steps outside the statement's terms. I could not construct a valid counterexample.

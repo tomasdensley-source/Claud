@@ -75,3 +75,20 @@ A-011v3-S1 is re-derived unchanged under A-011v4 (a needed lesser wrong is still
 A-011-S1 is re-derived unchanged under A-011v5 (a penance that answers nothing fails the necessary condition); its CX-045 result stands. A-011v3-S1 concerns new wrongs, which A-011v5 no longer addresses: archived.
 | A-011v6a | CX-067 | Split | A past wrong of one's own rightly calls for a deed of answering only if the deed answers, in proportion, some part of what the wrong did that has not yet been answered, to those it touched or in one's own conduct. | O-0123, O-0124; Ladder 319 (the A-011 repairs had become a list of exceptions; CX-067 exposes two kinds of call) | Coverage of good works and harmless mistakes, now carried by A-011v6b |
 | A-011v6b | CX-067 | Split | A past work of one's own can rightly call for a deed that carries what the work made possible, its good or its lesson, to others it never touched. | O-0123, O-0124 | None beyond the split |
+
+## Pass 11 (Step 1; rival candidate abstractions of facing over G-013; operator construction; untested)
+Two abstractions appear over one group, which may mean the group conceals two structures (Ladder Step 1); both are tested.
+| ID | Group | Exact sentence |
+|---|---|---|
+| A-013 | G-013 | Facing something is a standing turned toward it as it is, from which seeing it truly, owning one's relation to it, and readiness to answer it all come, and which persists beyond any moment of attention. |
+| A-014 | G-013 | Facing something is seeing it truly, owning one's relation to it, and being ready to answer it, all three together, so that where any one is missing the thing is not faced. |
+| A-015 | G-013 | Facing has one structure whatever its object, so that facing one's own work, another person, oneself, God's creation and God differ only in what is faced. |
+| A-016 | G-013 | Facing can be received as well as done: being faced by another can be part of how one comes to face. |
+
+## Pass 11 repairs (operator construction; untested until filed CX)
+| Object | Failed in | Operation | Repaired exact sentence | Receipt | Named loss |
+|---|---|---|---|---|---|
+| A-013v2 | CX-080 #1 | Narrow | Facing something is turning toward it as it is rather than away from it; it can last only a moment or be held as a standing, and seeing it truly, owning one's part in it and readiness to answer it can each follow from it without being required for it. | O-0136, O-0137, O-0138 | Persistence as part of what facing is; the three as conditions of facing |
+| A-015v2 | CX-081 #1 | Narrow | Facing has a common core whatever its object, turning toward it rather than away, but its shape differs with the object: another person can face one back, oneself is faced reflexively, and facing God answers a prior being faced by God. | O-0139 | One structure across all objects |
+A-014: FAILED CX-080 #2 (readiness and true seeing are not required); A-014-S1: FAILED CX-082. Both archived; their content is carried by A-013v2.
+| A-015v3 | CX-083 #2 | Narrow | Facing has a common core whatever its object, turning toward it rather than away, but its shape differs with the object: another person can face one back, and oneself is faced reflexively. | O-0142, O-0139 | The claim that facing God answers a prior being faced by God (it needs a theistic premise the sentence does not supply) |

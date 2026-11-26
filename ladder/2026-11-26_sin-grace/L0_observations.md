@@ -141,3 +141,12 @@ Affect charge: not recorded (the operator is not the selector; the author's affe
 | O-0131 | A tester stated that a believer whose sin was contempt for creation can repent precisely in order to see creation, and herself, as God's work again, so that facing is then her repentance's objective. | CX-077 #2 |
 | O-0132 | A tester stated that facing oneself "as a whole" without a limit conflicts with a facing that reaches only "as far as these can be seen". | CX-078 #1 |
 | O-0133 | A tester stated that one can be brought to face one's own cruelty as a gift and turn toward it before ever facing creation as God's work, which comes after as a result. | CX-079 #1 |
+| O-0134 | A reader's analysis (user message) stated that "facing" carries the piece's terms (sin, its contrary, grace, repentance) yet is bounded only negatively, by "attention alone never reaches that facing". | pass11/INPUT_facing.md |
+| O-0135 | A reader's analysis (user message) stated that the piece's clauses point to three things facing adds to attention: consent (owning), truthfulness ("for what it is") and readiness to act ("the deeds it rightly calls for"). | pass11/INPUT_facing.md |
+| O-0136 | A tester stated that a man who faces his drinking one night, seeing it, owning it and ready to answer, and slides back by morning, did face it, though the facing did not last. | CX-080 #1 |
+| O-0137 | A tester stated that readiness to answer can come after facing, as when an addict admits her addiction or a surgeon faces her fatal error while too shocked to act. | CX-080 #2, CX-082 |
+| O-0138 | A tester stated that one can face death or an unknown outcome without being able to see it truly. | CX-080 #2 |
+| O-0139 | A tester stated that a person can face one back and a made thing cannot, that facing oneself is reflexive, and that facing God on theological terms reverses the order. | CX-081 #1 |
+| O-0140 | A tester stated that a child steadily attended to learns to attend, and that a friend's honest look can enable one to face a failure. | CX-081 #2 |
+| O-0141 | A tester stated that "as it is" modifies what is turned toward, not the accuracy of one's grasp; honest but partial seeing is facing, and a distortion deliberately held is turning away. | CX-083 #1 |
+| O-0142 | A tester stated that Spinoza's God and Aristotle's unmoved mover can be faced, yet face no one first. | CX-083 #2 |

@@ -1,0 +1,11 @@
+## 1. BROKEN
+
+**Counterexample.** A surgeon makes an error and a patient dies. That night she reviews the case. She sees exactly what she did wrong, without minimizing it or shifting it onto fatigue or the team. She says plainly, "This was my mistake." She has seen her work truly and owned it as hers. But she is in acute shock. She cannot yet speak to the family, cannot sit before the review board, and cannot decide what she owes or what she should change. She is not ready to answer it.
+
+Has she faced it? In the ordinary sense of the word, yes. To "face" something means to confront it directly instead of looking away. She has done that fully, and the confrontation is what has overwhelmed her. "She faced what she had done, though she was not yet ready to answer for it" is a coherent and natural description of her state. So the case meets every condition the statement sets, yet the claimed result, "has not faced it," is false.
+
+**Why this stays within the statement's terms.** The statement does not define "face." It asserts that readiness to answer is necessary for facing, and that necessity is what is being tested. The ordinary meaning of "face" (to confront, to stop evading) is met by seeing truly and owning, without readiness to respond.
+
+The ordering of events also tells against the statement. Facing a wrong is often what produces readiness to answer it: "She faced it, and over the following weeks that made her ready to go to the family." If facing required prior readiness, that sentence would be incoherent. It is not.
+
+**Caveat.** The statement survives only if "facing" is stipulated to mean "seeing, owning, and being ready to answer." Under that stipulation it is a definition, not a claim that can be true or false. The statement gives no such definition, so on the plain meaning of its words it fails.

@@ -43,3 +43,8 @@ Left ungrouped: O-0082, O-0086, O-0087, O-0088, O-0089.
 |---|---|---|---|
 | G-011 | what a past work calls for | instinct | O-0072, O-0077, O-0078, O-0080, O-0091, O-0093 |
 | G-012 | capacity to understand as a condition of sin | instinct | O-0059, O-0070, O-0096 |
+
+## Pass 11 (Step 0.5 again, on observations about facing)
+| ID | Tag | Basis | Members |
+|---|---|---|---|
+| G-013 | what facing is | instinct | O-0010, O-0031, O-0038, O-0046, O-0121, O-0128, O-0135 |

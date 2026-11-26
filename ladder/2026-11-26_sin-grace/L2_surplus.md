@@ -73,3 +73,9 @@ A-012-S1: INVALID DERIVATION (operator's own entailment audit, not yet checked b
 | ID | Statement | ENTAILED | ABSENT (construction set named) | TEST SURFACE |
 |---|---|---|---|---|
 | A-011v3-S1 | When answering one's past wrong rightly requires a lesser new wrong, that new wrong is itself a work of one's own that calls for its own answering deed. | A-011v3 applied to the new wrong: it did something not yet answered. | O-0113 states only that the lesser wrong is rightly done; weak absence, recorded (the CX-054 reply mentions what is then owed). | Necessity and lesser-evil cases in law and ethics. |
+
+## Pass 11 surplus (CLOSED before any pass-11 test; all untested)
+| ID | Statement | ENTAILED | ABSENT (construction set named) | TEST SURFACE |
+|---|---|---|---|---|
+| A-014-S1 | Someone who sees their work truly and owns it as theirs, but is not ready to answer it, has not faced it. | A-014: where readiness is missing, the thing is not faced. | G-013 members do not separate readiness from seeing and owning. | Cases of clear, owned regret with no readiness to act. |
+A-013: LIVE-BARREN (candidate consequences restate pass-6 S-003.a, CX-029 #5). A-015: LIVE-BARREN (consequences need A-013 or A-014 as a second premise). A-016: LIVE-BARREN (a possibility claim).

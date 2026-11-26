@@ -1,0 +1,17 @@
+**1. STANDS**
+
+I tested the statement on two fronts: whether the common core ("turning toward rather than away") holds for every object, and whether the two differences in shape it describes hold.
+
+**Attempts against the common core:**
+
+- **Spatial orientation.** A house faces the street, and a soldier faces north. Neither turns toward anything, and nothing is avoided. But this is the purely positional sense of "face." The statement is plainly about facing as an engaged stance, not as geometry. Using the positional sense changes what the word means, so it is not a valid counterexample.
+- **Passive confrontation.** "He faces charges." "The country faces a recession." Here the subject may be actively in denial, turning away, and still "face" the object. This also trades on a different sense: being confronted by something, not confronting it. The statement's core belongs to the active sense. Moving to the passive sense steps outside its terms.
+- **Facing temptation.** Here the right response is to turn away, which looks like it inverts the core. It does not. To face temptation is to acknowledge and confront it rather than avoid the encounter. Resisting is what one does once one has turned toward it, so the core survives.
+- **Facing death, a fact, the truth, one's past.** In every case, facing means turning toward rather than evading. These confirm the core.
+
+**Attempts against the differences in shape:**
+
+- **"Another person can face one back."** A comatose person, an infant, or someone who refuses one's gaze does not face one back. But the claim is modal: persons are the kind of object that can return facing, unlike facts or death. A person who in fact does not reciprocate does not defeat a claim about what persons are capable of. Even a person who refuses to face one back is exercising the capacity the statement attributes.
+- **"Oneself is faced reflexively."** This is close to true by definition. To face oneself is to be both the one who faces and the one faced. Nothing within the statement's terms falsifies it. One might object that self-facing involves a split, facing one's past self or one's faults. That is still reflexive facing, not a counterexample.
+
+**Conclusion:** Every case that breaks the statement does so by shifting to a different sense of "facing" (positional or passive) or by reading "can" as "always does." Within its own scope, the active, engaged sense of facing, I could not construct a case where the common core fails or where the described differences in shape do not hold. The statement stands.
