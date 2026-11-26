@@ -280,5 +280,15 @@
 | CX-119 | 1 | D-20v4 | BROKEN |
 | CX-120 | 1 | E-4v5 | STANDS |
 | CX-121 | 1 | D-20v5 | BROKEN |
+| CX-122 | 1 | D-20v6 | BROKEN |
+| CX-123 | 1 | D-20v7 | BROKEN |
+| CX-124 | 1 | S-15.1 | STANDS |
+| CX-125 | 1 | D-20v8 | STANDS |
+| CX-125 | 2 | D-23 | STANDS |
+| CX-126 | 1 | E-7 | BROKEN |
+| CX-127 | 1 | E-8 | STANDS |
+| CX-128 | 1 | D-23v2 | STANDS |
+| CX-129 | 1 | E-7v2 | STANDS |
+| CX-130 | 1 | REV-31 | STANDS |
 
-STANDS=167 BROKEN=100 invalid=11 tested=278
+STANDS=174 BROKEN=103 invalid=11 tested=288

@@ -210,3 +210,10 @@ Affect charge: not recorded (the operator is not the selector; the author's affe
 | O-0200 | A tester stated that a man long turned from a wrong can turn toward his brother's free forgiveness as relief, so as never to look at the deed, which is not repentance. | CX-119 |
 | O-0201 | A tester stated that a man alone, with no living victim, no witness and no God in the case, can come after twenty years to face an abandonment he committed and change his life, answering his sin with no giver. | CX-121 |
 | O-0202 | The author wrote: "Sin, as defined here, needs nothing. A man who believes in no God whatever can turn from what his own hands made, and can be brought back to it, and can repair it" | The Opened Center, The Two Hands |
+| O-0203 | The author wrote: "So grace and repentance stay distinct here." and of the two axes: "They cross at covenant" | The Opened Center, The Two Hands |
+| O-0204 | The author wrote: "Repentance requires the judge to come down off the bench and be received as one of the made things." | The Opened Center, The Two Hands |
+| O-0205 | The author wrote: "the first axis concerns what my hand made; the second concerns what made me." | The Opened Center, The Two Hands |
+| O-0206 | A tester read the prodigal son as repenting ("came to himself") before, and against, consenting to receive a restored standing ("no longer worthy to be called your son"). | CX-121 |
+| O-0207 | A tester cited the tax collector (Luke 18:9-14) as repentance toward God, accepted as complete, by one already facing his sin and asking only for mercy, not for a standing toward his work. | CX-122 |
+| O-0208 | A tester stated that a man can go back to the family he abandoned, sincerely holding them to be God's work, only to secure an inheritance, with no turning toward God: a return toward God's work that is not repentance. | CX-123 |
+| O-0209 | A tester stated that the fulfilment condition D-23 covers only what can be seen and only facing as God's work, so one who faces all he can see of himself as God's work, but not as what he has made of himself, meets it; and that "refuses to face any of" can be read as refusing all of it. | CX-126 |

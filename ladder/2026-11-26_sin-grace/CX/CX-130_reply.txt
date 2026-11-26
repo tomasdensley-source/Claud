@@ -1,0 +1,43 @@
+## Statement 1: **STANDS**
+
+Statement 1 is a set of linked definitions (sin, its contrary, grace, repentance), not an empirical claim. A valid counterexample therefore has to show one of three things: the definitions contradict each other, they contradict their own stated conditions, or they force a result the statement itself rules out. Arguing that sin "really" means something else would change what the words mean, so it does not count. I tried the strongest internal attacks I could find, and each fails.
+
+**Attempted counterexamples and why they fail:**
+
+1. **The unaware wrongdoer.** Someone does harm but never understands it, so by the definition they are not "in sin."
+   - This is a consequence of the definition, not a contradiction within it. The "after understanding" condition explicitly sets this scope.
+   - Objecting that this person "should" count as sinning appeals to an outside definition, which is invalid.
+
+2. **The middle state.** A person understands their work and attends to it, but does not acknowledge it. They are not in the contrary state, since "attention alone never amounts to that standing." Are they then in sin?
+   - The statement calls the standing the *contrary* of sin, not its *contradictory*. Contraries can have intermediate states.
+   - So a gap between the two is allowed. A gap would only be a contradiction if the definitions forced the person into both states at once, and they do not.
+
+3. **Grace versus ownership.** Grace "gives" the standing. But the standing requires one's *own* acknowledgment and deeds. Can something given by another still be one's own?
+   - Nothing in the statement says a gift ceases to be the recipient's.
+   - The text leaves room for grace to be the giving of a standing the recipient then actually holds.
+   - The clause "one can also come to it with no one giving it" means grace is sufficient but not necessary. That is consistent and avoids any claim that grace is required.
+
+4. **Impossible restitution.** The deeds a wrong calls for may be impossible, for example because the person wronged has died. Does the standing then become unreachable, leaving the agent in sin by necessity?
+   - The standing requires only "the deeds it rightly calls for." Impossible deeds are not rightly called for.
+   - The qualifier "as far as these can be seen" further limits the demand to what can be discerned.
+   - No forced, inescapable sin results.
+
+5. **The regress.** Remaining turned away is itself something one does or leaves undone. So sin would include being turned away from one's own turning away, and so on without end.
+   - Turning toward the original work also resolves the turning away, so the regress collapses in a single act.
+   - It creates no contradiction.
+
+6. **Repentance versus sin.** Sin concerns one's own works, while repentance concerns God's work and God's call. Is the scope mismatched?
+   - Repentance explicitly includes turning "toward oneself within it as a whole," and that whole contains one's own works and wrongs.
+   - The two definitions mesh rather than conflict.
+   - Someone who never turned from God simply has nothing to "return" from, so the term does not apply. That is a matter of scope, not a contradiction.
+
+7. **Disowning the wrong.** Could someone stand "toward" a wrong deed while refusing to own it?
+   - No. The standing requires holding the work "as one's own … right or wrong."
+   - Disowning the deed therefore fails the standing by definition. This cannot be a counterexample, because the case falls outside the terms.
+
+**Reason it stands:** Every candidate counterexample either:
+- falls outside the statement's explicit scope (the "after understanding" condition and "as far as these can be seen");
+- exploits a gap between contraries that the statement does not deny; or
+- relies on importing a different meaning of sin, grace, or repentance.
+
+None satisfies the statement's own terms while making it contradictory or impossible.

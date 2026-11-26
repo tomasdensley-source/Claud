@@ -1,0 +1,20 @@
+**Statement 1: STANDS**
+
+The conclusion has two parts, and each follows directly from the definitions.
+
+**First part: "grace is a free giving of the standing turned toward one's own work."**
+Definition (4) says this almost word for word. Grace is a free giving whose gift is a maker's standing turned toward his own work. "A maker's standing turned toward his own work" and "the standing turned toward one's own work" name the same thing. Definition (1) fixes what one's own work is, and definition (2) fixes what a standing is. Nothing in the conclusion goes beyond what (4) states.
+
+**Second part: "one can also come to that standing with no one giving it."**
+Definition (3) supplies this.
+- It says one who has remained turned away from what he has made or done can come back to stand turned toward it, without anyone giving him that standing.
+- By (1), what he has made or done is his own work. The phrase in (1) covering things made "through others acting at one's direction" only widens what counts as his. The exclusion of what another's free choice makes of it concerns later uses of the work, not the work itself.
+- So the standing in (3) is the same standing named in (4), reached without any giver.
+- The conclusion's "can" is an existential possibility claim. One possible case is enough to make it true, and (3) asserts exactly that possibility.
+
+**Attempted counterexamples and why they fail:**
+- *Grace requires a giver, so the standing cannot be ungiven.* This fails. (4) defines grace as one way the standing can be received. It does not say the standing can be had only as a gift. "Though" in the conclusion marks a contrast, not a contradiction, so a given route and an unaided route can both exist.
+- *(3) covers only people who were turned away, while the conclusion speaks of "one" generally.* This fails. The conclusion claims only that someone can reach the standing without a giver. The returning person in (3) is such a someone.
+- *God's existence is needed for grace to be "free giving."* This fails. (3) brackets God only for the unaided route. (4) does not settle who the giver is, and the conclusion does not assert that any giver exists.
+
+No case meets all four definitions while making either part of the conclusion false. Any counterexample would have to deny (3) or (4) or change what their terms mean, and that falls outside the statement's scope.

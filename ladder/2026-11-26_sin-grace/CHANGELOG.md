@@ -30,3 +30,4 @@
 2026-11-26 Pass 13 closed: hand (A-017v2) and facing (A-013v4) defined and passing; REV-29 passes; comparison filed; O-47 to O-49 opened.
 2026-11-26 DIRECTIVE: define every term of REV-29 from the author's works, as presuppositions that imply it. DELEGATION R-D: the operator decides OPEN items, labeled. Pass 14 opened.
 2026-11-26 Pass 14 closed: definitions of every REV-29 term; entailments; REV-30. Repentance's freestanding definition left open (O-51). Credit nearly spent (O-52).
+2026-11-26 Pass 15: repentance re-derived on the letter's two axes; route 1 discarded after its fifth failure; REV-31 passes (CX-130) and every clause follows from standing definitions (O-53). Diagram panel M.

@@ -1,0 +1,17 @@
+**1. STANDS**
+
+I could not build a counterexample that stays inside the statement's terms. Each candidate either changes what the words mean or is absorbed by a qualifier the statement already contains.
+
+**Candidates tried and why they fail:**
+
+- **The wronged party refuses reconciliation or blocks repair.** This seems to show that standing must be given by someone else. But the statement claims only repair of "what *can* be repaired." Whatever the victim alone can block falls outside that phrase. The refusal also does not stop the agent from turning toward his deed. "Standing turned toward it" describes the agent's own orientation to what he did. It is not reinstatement by others. Reading "standing" as social or juridical restoration changes the word's meaning.
+
+- **The damage is irreversible (the person harmed is dead, the thing destroyed is gone).** The same qualifier covers this. Irreversible harm limits what can be repaired. It does not limit whether the agent can face his deed and repair the remainder, such as telling the truth, making restitution to others, or changing his conduct.
+
+- **The agent has died, or lost the capacity for agency (advanced dementia, permanent coma).** These cases work only by removing the agent the statement is about. "One who has remained turned away… can come back" presupposes a living agent who is still capable of turning. A case where no such agent exists falls outside the statement's scope.
+
+- **Entrenched self-deception: the agent cannot recognize that he has turned away.** This shows that coming back may be hard or unlikely. It does not show it is impossible. Self-deception can be broken through evidence, crisis, or reflection without anyone conferring standing. Stating that it never can be broken would be an assertion, not a constructed case.
+
+- **The theological objection: return or repentance is possible only through divine grace.** This is a doctrinal premise, not a counterexample. The statement claims only that the return can occur without *granting* that God exists. That is a claim about what the account depends on, not a claim that God does not exist. Refuting it would require showing that every instance of return logically requires assuming God. No case can show that, because ordinary cases of people acknowledging and repairing their wrongs never invoke that assumption.
+
+**Why it stands:** The claim is modest. It says "can," not "will." It limits repair to what can be repaired. Its central act, turning back toward one's own deed, belongs to the agent. Every counterexample I found either removes the agent, redefines "standing" as something only others can grant, or falls within the "what can be repaired" limit.

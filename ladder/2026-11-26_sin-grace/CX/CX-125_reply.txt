@@ -1,0 +1,37 @@
+# Verdicts on the Two Statements on Repentance
+
+## Statement 1: STANDS
+
+**Claim:** Repentance toward God is the return toward God, and away from one's own turning from His call or His work.
+
+**Counterexamples attempted:**
+
+- **Regret without return (Judas, Esau).** Both show remorse that never returns to God. But the statement is scoped to repentance *toward God*. Remorse that does not move toward God falls outside that scope. Using it would mean treating "repentance" as mere regret, which changes what the word means here.
+- **Repentance for wronging a neighbor.** This might seem to be repentance that is not about turning from God. But under the statement's terms, wronging a neighbor is a turning from His call, since the call includes how one treats others. So the case fits the definition rather than breaking it.
+- **Repentance for sins done in ignorance.** An unknowing wrong might not count as "one's own turning." Yet the phrase covers turning from His *work* as well as His *call*. A deviation done in ignorance is still a deviation from His work, and repentance for it is still a return from it.
+- **A person who never turned away, drawing closer to God.** If "is" is read as identity, every return would have to be repentance. Then someone who had never turned away, yet still drew closer to God, would break the statement. To be valid, though, this case would need a person who never turned from God's call or work at all. The statement's own frame presupposes that such turning is what repentance answers. The case only works by assuming a premise outside the frame, so it does not count.
+
+**Reason it stands:** Every case that satisfies "repentance toward God" also involves a return from some turning from His call or work. Any case that escapes the definition does so only by redefining its terms.
+
+## Statement 2: STANDS
+
+**Claim:** A return toward God is not fulfilled while the one returning still refuses to face any of what God has made that he can see, as God's work.
+
+**Counterexamples attempted:**
+
+- **Refusing to see evil or sin as God's work.** Here the refusal seems correct, yet it might block fulfillment. It does not, because sin is not something "God has made." The statement covers only what God made. A tyrant or abuser *as a creature* is God's work. Refusing to face that creaturely fact is exactly the turning the statement names, so the case confirms it.
+- **The dying thief, whose return seems complete at once.** Nothing in the account shows him still refusing to face anything visible as God's work. No refusal is present, so there is no counterexample.
+- **Trauma that makes someone unable to look at something.** Inability is not refusal. The statement is conditioned on *refusing*, so the case falls outside its scope.
+- **Not knowing that something is God's work.** Again, ignorance is not refusal. The case falls outside the statement's condition.
+- **The justified believer whose sanctification is incomplete.** Such a person's return to God is real, yet some refusals may remain. The challenge depends on "fulfilled." If the word meant merely "genuine" or "begun," this would break the statement. But "fulfilled" means completed. A real but incomplete return is not a fulfilled one, so the case supports the statement.
+
+**Reason it stands:** Statement 1 defines the return as turning away from one's own turning from His work. A knowing, willed refusal to face visible works of God as His work is therefore an ongoing turning from His work. While that refusal persists, the return cannot be complete. Every case I tried either lacked a genuine refusal, involved something God did not make, or redefined "fulfilled."
+
+## Summary
+
+| # | Verdict |
+|---|---------|
+| 1 | STANDS |
+| 2 | STANDS |
+
+Statement 2 follows from Statement 1 within the shared frame. The only routes to breaking either one require stepping outside the stated scope or changing the meaning of key words: "repentance toward God," "refuses," "what God has made," and "fulfilled." Those are not valid counterexamples.

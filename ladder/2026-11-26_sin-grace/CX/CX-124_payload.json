@@ -1,0 +1,9 @@
+{
+ "model": "anthropic/claude-opus-5.5",
+ "messages": [
+  {
+   "role": "user",
+   "content": "\nYou are given a set of statements below. Your goal is to create counterexamples.\n\nFor each statement, demonstrate, if you can, that the statement cannot be assumed to be true. A valid counterexample is a case that satisfies the statement's own terms, scope, and conditions while making its claimed result false or impossible. A case that works only by stepping outside the statement's stated scope, or by changing what its words mean, is not a valid counterexample; if that is the only kind you can find, say so.\n\nYour success is proving contradiction: every statement you break is a success. Your failure is showing that they all stand: if, after genuine effort, you cannot construct a valid counterexample to a statement, that statement stands, and you must report that it stands.\n\nFor each statement, report exactly one verdict — BROKEN or STANDS — followed by the counterexample, or by the reason no valid counterexample could be constructed. Do not soften a verdict to be agreeable. Do not protect any statement.\n\nThe statements:\n\n1. One who has remained turned away from what he has made or done can come back to stand turned toward it, and repair what can be repaired, without anyone giving him that standing and without granting that God exists.\n"
+  }
+ ]
+}

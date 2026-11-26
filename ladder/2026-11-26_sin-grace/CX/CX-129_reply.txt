@@ -1,0 +1,22 @@
+**Verdict: STANDS**
+
+I could not construct a valid counterexample. Each part of the conclusion follows from the definitions as stated.
+
+**Why repentance is covered at all.** Definition (4) identifies repentance toward God with the return toward God. So definition (5), which sets the condition under which a return toward God is not fulfilled, applies to repentance directly. Repentance that is still being sought and repentance already found are both repentance, so both fall under (5).
+
+**First limb: refusing to turn toward what God made, as God's work.**
+- By (3), facing something "as God's work" means facing it for what it is and also as God's work.
+- So someone who refuses to face a visible created thing as God's work refuses exactly the combined facing that (5) names.
+- By (5), the return is therefore not fulfilled.
+
+**Second limb: refusing to turn toward oneself as a whole.**
+- By (2), one is among what God made, and one can turn toward oneself as a whole.
+- Facing oneself "for what it is" must include what one has made of oneself, because that is part of what one is.
+- So refusing to face oneself as a whole is refusing to face a created thing for what it is, which is the condition in (5).
+
+**Attempted counterexamples, and why they fail.**
+- *Oneself cannot be fully seen.* (5) only applies to things "the one returning can see," and (2) says not every part of oneself can be seen. This might seem to exempt oneself. It does not, for two reasons. First, (2) says one can still turn toward oneself as a whole, so facing does not require seeing every part. Second, the conclusion is limited to "as far as these can be seen," which matches (5)'s restriction exactly.
+- *Facing oneself as God's work while refusing what one has made of oneself.* This still fails to face oneself for what it is. So it still triggers (5).
+- *Refusing a particular thing rather than "what God has made" in general.* A refusal toward any single visible created thing already satisfies (5). The general phrasing in the conclusion therefore adds nothing that (5) does not cover.
+
+The only way to break the statement would be to redefine "for what it is" so that it leaves out what one has made of oneself, or to treat sought repentance as something other than a return toward God. Both of those change the meaning of the statement's own terms, so neither is a valid counterexample.

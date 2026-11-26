@@ -1,0 +1,20 @@
+**Statement 1: BROKEN**
+
+**Why it fails.** The conclusion is stronger than the premises can support. Only premise (5) states a condition on fulfillment, and that condition is narrow in three ways:
+
+- **It is limited to what can be seen.** Premise (5) concerns only "what God has made *that he can see*." The conclusion drops that limit. It covers all of "what God has made" and "oneself… as a whole," and definition (2) explicitly says the whole self includes parts that cannot be seen.
+- **It is limited to facing things as God's work.** Premise (5) requires facing visible creation as God's work. Facing "oneself as a whole," in the sense of definition (2), also means facing oneself as "what one has made of it." No premise requires that.
+- **Definition (4) points the other way.** Repentance turns *away from* one's own turning from God. Nothing requires it to turn *toward* that turning, or toward what one has made of oneself.
+- **"Any" may be read weakly.** Premise (5) can be read as "refuses to face *any* of it," meaning refuses all of it. On that reading, refusing only some of creation does not trigger the condition at all. This point is secondary, and the counterexample below does not depend on it.
+
+The premises give one necessary condition for fulfillment and nothing more. So a case that meets that condition is not blocked from fulfillment by anything in the premises.
+
+**Counterexample.** A person returns toward God (definition 4). He faces, as God's work, everything God made that he can see, including every part of himself he can see. Premise (5) is therefore satisfied.
+
+He still refuses to turn toward himself *as a whole*. This includes:
+- the parts of himself he cannot see, which definition (2) says belong to the whole self;
+- himself as "what one has made of it."
+
+He turns away from his own past turning from God, as definition (4) describes, but he will not face that whole self.
+
+**Result.** This case uses the definitions as written. No premise is violated, and no premise rules out fulfillment here. Yet the conclusion says this repentance cannot be fulfilled. The conclusion therefore cannot be assumed true from the given definitions.
