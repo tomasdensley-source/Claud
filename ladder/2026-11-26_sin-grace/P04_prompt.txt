@@ -1,0 +1,14 @@
+You are given numbered propositions. For each, give exactly one category, DEMONSTRATED, CONTESTED, or FALSE AS STATED, followed by one line of ground.
+
+1. An agent's own work remains present to the agent as something the agent can face or turn away from.
+2. Sin is essentially an orientation toward something, not an act of transgression against a law.
+3. Turning away from one's own work without knowledge of it is not sin.
+4. Knowledge of one's own work can be had before one turns away from it.
+5. Repentance is a response to sin and so presupposes sin.
+6. What presupposes a thing cannot be that thing's opposite.
+7. Sin has exactly one opposite.
+8. Grace and sin are of the same logical kind, so one can be the opposite of the other.
+9. The opposite of turning away is facing.
+10. The facing that is grace has the same object as the turning away that is sin: one's own work, after knowledge.
+11. The opposite of a defined thing is found by inverting its defining relation.
+12. Repentance (turning back) and facing are distinct orientations.

@@ -1,0 +1,9 @@
+{
+ "model": "anthropic/claude-opus-5.5",
+ "messages": [
+  {
+   "role": "user",
+   "content": "You are given numbered propositions. For each, give exactly one category, DEMONSTRATED, CONTESTED, or FALSE AS STATED, followed by one line of ground.\n\n1. An agent's own work remains present to the agent as something the agent can face or turn away from.\n2. Sin is essentially an orientation toward something, not an act of transgression against a law.\n3. Turning away from one's own work without knowledge of it is not sin.\n4. Knowledge of one's own work can be had before one turns away from it.\n5. Repentance is a response to sin and so presupposes sin.\n6. What presupposes a thing cannot be that thing's opposite.\n7. Sin has exactly one opposite.\n8. Grace and sin are of the same logical kind, so one can be the opposite of the other.\n9. The opposite of turning away is facing.\n10. The facing that is grace has the same object as the turning away that is sin: one's own work, after knowledge.\n11. The opposite of a defined thing is found by inverting its defining relation.\n12. Repentance (turning back) and facing are distinct orientations."
+  }
+ ]
+}

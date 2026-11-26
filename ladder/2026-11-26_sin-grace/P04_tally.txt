@@ -1,0 +1,4 @@
+CONTESTED: 7 ['S-001.a', 'S-001.b', 'S-002.a', 'S-004.b', 'S-005.a', 'S-005.b', 'S-006.b']
+DEMONSTRATED: 2 ['S-002.b', 'S-003.a']
+FALSE AS STATED: 3 ['S-003.b', 'S-004.a', 'S-006.a']
+sum=12 expected=12 reconciles=True

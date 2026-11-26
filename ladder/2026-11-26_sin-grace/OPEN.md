@@ -3,7 +3,7 @@
 | ID | Undecided | Arose at | Who decides |
 |---|---|---|---|
 | O-01 | Is VERITAS_QUO_DISTILLED_PHILOSOPHY_v7.md the corpus for P6/P7? (It contains third-party texts and vault noise despite its header.) | P00 | Author |
-| O-02 | No fixed prompt exists for P4 (fresh audit) or P6 (gate). May an operator-written interim prompt be used at all? (§5.3.12) | P4, P6 | Author |
+| O-02 | RESOLVED AS INTERIM 2026-11-26 (RULINGS.md: "Use the drafts as interim"). No fixed prompt exists for P4 (fresh audit) or P6 (gate). May an operator-written interim prompt be used at all? (§5.3.12) | P4, P6 | Author |
 | O-03 | Claim delimitation criterion (§6 P1 OPEN). This run counted the "therefore" as its own claim, S-006. | P1 | Author |
 | O-04 | Is "exactly two assumptions per claim" fixed for all pieces? This run applied it. | P1 | Author |
 | O-05 | With a one-sentence piece, P9 grouping may have very few observations. How the pipeline treats a piece this small is not ruled. | P9 (anticipated) | Author |
@@ -17,3 +17,7 @@ You are given numbered propositions. For each, give exactly one category, DEMONS
 ### Draft P6
 You are given numbered statements and a body of writing. For each statement answer only YES or NO: does the body of writing agree with this statement? No other answer is permitted.
 [statements: P01_claims.md Text lines] [body of writing: the corpus named under O-01]
+
+## Status notes 2026-11-26
+- O-01 remains OPEN. The author's reply (RULINGS.md) questions whether the corpus question is part of the skill. Operator's citation: §6 P6, "does the author's corpus agree with this?", and P7, "locate the demonstration path in the corpus". P6 cannot run until the author names the writings that make up "the author's corpus".
+- O-06: Which Claude model counts as the tester was not named beyond "A Claude model". The operator used anthropic/claude-opus-5.5, recorded in P04_meta.md. Whether a same-family tester meets "non-identical error structure" (Ladder, Second Party) is OPEN for the author.
