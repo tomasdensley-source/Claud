@@ -230,7 +230,7 @@ for c in table("L1_abstractions.md", r"A-\d{3}v\d[a-z]?$"):
     if len(c) < 6: continue
     obj, failed, op, sent, rec, loss = c[:6]
     st, t = tested(obj)
-    node(f"L:{obj}", obj, "abstraction", sent, 5, "L", st, op=op, receipt=rec, loss=loss, prov="L1_abstractions.md (pass 5 repairs)", test=t, tier="repaired")
+    node(f"L:{obj}", obj, "abstraction", sent, 5, "L", st, op=op, receipt=rec, loss=loss, prov="L1_abstractions.md (repairs; see the receipt and the failing run)", test=t, tier="repaired")
     edge(f"L:{failed_obj(failed)}", f"L:{obj}", "repair", op)
     for o in re.findall(r"O-\d{4}", rec): edge(f"L:{o}", f"L:{obj}", "receipt", "receipt")
 for c in table("L2_surplus.md", r"A-\d{3}v\d-S\d"):
