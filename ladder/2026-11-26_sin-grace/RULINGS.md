@@ -64,3 +64,6 @@ Operator's reading, recorded as such: O-35 CLOSED (REV-22 carried). O-36 CLOSED:
 
 ## 2026-11-26 (user message, recorded verbatim in pass11/INPUT_facing.md)
 The message is an analysis addressed to the author, arguing that "facing" is the undefined concept the piece's terms rest on, and posing four questions a definition must settle. It contains no ruling. Operator's handling, recorded as such: the four questions are entered as OPEN items for the author (definitions are the author's, §3); the operator groups the record's observations about facing and tests candidate abstractions (A-013 to A-016) as evidence for those questions. Claims in the message about the author's manifesto and Codex were not verified by the operator and are recorded as the reader's reading only.
+
+## 2026-11-26 (verbatim in pass12/INPUT_poem.md)
+A poem with a Drive link, no instruction. Operator's handling, recorded as such: the linked Drive document (the author's "Of the Name Given, the Wound Borne, and the Glory Returned") was read in full. Its definitions, the poem's and REV-24's are compared in pass12/CONCORDANCE.md. Conflicts C1 to C4 are put to the author (§0.2); nothing in the piece is changed and nothing is tested until the author says what the poem is for.
