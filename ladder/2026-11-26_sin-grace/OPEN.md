@@ -51,6 +51,6 @@ You are given numbered statements and a body of writing. For each statement answ
 - O-32: The author's repentance (turning toward God's grace, AU-008) differs from the piece's (repentance contains sin's contrary once it arrives at the facing). REV-20 is an operator proposal that joins them; it is not doctrine.
 - O-33 CLOSED 2026-11-26: "For O33, yes." ("for what it is" includes moral character).
 - O-34 CLOSED 2026-11-26: "Carry for revision 20."
-- O-35: Carry-forward after pass 9: REV-21 or REV-22 (both pass CX as phrased). Operator's recommendation in RUNLOG.md entry 45.
-- O-36: Whether the piece's repentance clause should take in AU-010 and AU-011R (facing God's creation, and oneself as a whole as part of it). Not ruled; the piece does not yet say it.
-- O-37: Which sense of "facing God's creation" the author means (CJ-002R): facing what God made for what it is, or facing it also as God's work.
+- O-35 CLOSED 2026-11-26: "REV22."
+- O-36 CLOSED 2026-11-26: yes, "as implication, not as objective".
+- O-37 CLOSED 2026-11-26: "what God made as God's work specifically".

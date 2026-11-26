@@ -129,10 +129,10 @@ for c in surplus:
          prov="L2_surplus.md" if "v2" not in sid else "L4_repairs_round1.md", test=t)
     edge(f"L:{parent}", f"L:{sid}", "surplus")
 # revisions
-REVS = []; REVS_A = []; REVS_BY = {"B": [], "C": [], "D": [], "E": [], "F": [], "G": []}
+REVS = []; REVS_A = []; REVS_BY = {"B": [], "C": [], "D": [], "E": [], "F": [], "G": [], "H": []}
 REV_FILES = (("L4_repairs_round2.md", ("L", "A")), ("L4_repairs_round3.md", ("L", "A")), ("L4_repairs_round4.md", ("L", "A")),
-             ("pass4/L4_repairs_round2.md", ("L", "B")), ("pass5/L4_repairs_round2.md", ("L", "C")), ("pass6/L4_repairs_round2.md", ("L", "D")), ("pass7/L4_repairs_round2.md", ("L", "E")), ("pass8/L4_repairs_round2.md", ("L", "F")), ("pass9/L4_revisions.md", ("L", "G")))
-REVCOL = {"L": 9, "A": 7, "B": 6, "C": 5, "D": 4, "E": 5, "F": 4, "G": 4}
+             ("pass4/L4_repairs_round2.md", ("L", "B")), ("pass5/L4_repairs_round2.md", ("L", "C")), ("pass6/L4_repairs_round2.md", ("L", "D")), ("pass7/L4_repairs_round2.md", ("L", "E")), ("pass8/L4_repairs_round2.md", ("L", "F")), ("pass9/L4_revisions.md", ("L", "G")), ("pass10/L4_revisions.md", ("L", "H")))
+REVCOL = {"L": 9, "A": 7, "B": 6, "C": 5, "D": 4, "E": 5, "F": 4, "G": 4, "H": 3}
 for f, ds in REV_FILES:
     for c in table(f, r"REV-\d+$"):
         if len(c) < 2 or c[0] in REVS: continue
@@ -143,7 +143,7 @@ for f, ds in REV_FILES:
             node(f"{d}:{c[0]}", c[0], "revision", c[1], REVCOL[d], d, st, prov=f, test=t)
 for b, revs in (("A-001", REVS), ("A-002v2", REVS), ("A-003v2", REVS), ("A-004", ["REV-5", "REV-6", "REV-7", "REV-9", "REV-10", "REV-11"] + REVS_BY["D"] + REVS_BY["E"]),
                 ("A-005", ["REV-5", "REV-6"]), ("A-006", REVS_BY["B"] + REVS_BY["C"] + REVS_BY["D"] + REVS_BY["E"]), ("A-007", REVS_BY["C"] + REVS_BY["D"] + REVS_BY["E"]),
-                ("A-009v3", REVS_BY["E"]), ("A-010v2", ["REV-16"] + REVS_BY["F"] + REVS_BY["G"]), ("A-011v6a", REVS_BY["F"] + REVS_BY["G"]), ("A-011v6b", REVS_BY["F"] + REVS_BY["G"]), ("A-012", ["REV-19"] + REVS_BY["G"])):
+                ("A-009v3", REVS_BY["E"]), ("A-010v2", ["REV-16"] + REVS_BY["F"] + REVS_BY["G"] + REVS_BY["H"]), ("A-011v6a", REVS_BY["F"] + REVS_BY["G"] + REVS_BY["H"]), ("A-011v6b", REVS_BY["F"] + REVS_BY["G"] + REVS_BY["H"]), ("A-012", ["REV-19"] + REVS_BY["G"] + REVS_BY["H"])):
     for rv in revs: edge(f"L:{b}", f"L:{rv}", "basis", "basis")
 for rv in REVS_BY["B"]: edge("L:REV-5", f"L:{rv}", "repair", "carried forward by ruling")
 for rv in REVS_BY["C"]: edge("L:REV-7", f"L:{rv}", "repair", "carried forward by ruling")
@@ -322,6 +322,9 @@ def build_pass8(d, P, piece_label="REV-16", au_edges=None):
             for rv in revs: edge(last[au], f"{d}:{rv}", "basis", "basis")
 build_pass8("F", "pass8/")
 build_pass8("G", "pass9/", "REV-20", (("AU-006R3", ["REV-22"]), ("AU-010", ["REV-21", "REV-22"])))
+build_pass8("H", "pass10/", "REV-22", (("AU-012R", ["REV-24"]),))
+PASSES.append(dict(id="H", title="Pass 10: REV-22, repentance and the facing of God's creation", hint="A directed pass. The author ruled that the repentance clause takes in facing God's creation as God's work, and oneself within it as a whole, as an implication and not an objective. The freestanding claims were scoped to the piece's own repentance; the implication form (AU-012R) passed and the precondition form (AU-010R2) failed.",
+    cols=["The piece: REV-22", "Author's rulings (tested)", "Repairs", "Revisions · CX-078"]))
 PASSES.append(dict(id="G", title="Pass 9: REV-20, the author's rulings, and facing God's creation", hint="A directed pass. The author ruled \"after understanding\", that \"for what it is\" includes moral character, and that having grace means giving it; the author's question on repentance and facing God's creation was stated as exact sentences, its implications derived (IMP) and two operator conjectures (CJ) tested.",
     cols=["The piece: REV-20", "Author's statements (tested)", "Repairs and implications", "Second repair", "Revisions · CX-070"]))
 PASSES.append(dict(id="F", title="Pass 8: the author's rulings applied to REV-16", hint="A directed pass. The author's statements on grace, children, rebellion and repentance were tested verbatim (§4.3) and repaired where they broke; the abstraction for what \"rightly calls for\" presupposes (A-011 to A-011v6a/b) and A-012 are in Diagram 1. CX-048 to CX-052 were interrupted and rerun as CX-053 to CX-057.",

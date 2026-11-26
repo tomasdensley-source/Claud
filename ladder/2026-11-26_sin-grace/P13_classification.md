@@ -61,3 +61,6 @@
 | AU-011, IMP-001, IMP-002, IMP-003, CJ-001, CJ-002, REV-21, REV-22 | vulnerable generalization (pass 9) | one valid case inside its terms |
 | AU-005R2 | necessary condition (having grace implies giving it freely) | one who has grace and will not give it |
 | AU-011R, CJ-002R | vulnerable generalization | one valid case inside its terms |
+| AU-010R | necessary condition | repentance taking place without facing God's creation as God's work |
+| AU-012, REV-23, REV-24 | vulnerable generalization (pass 10) | one valid case inside its terms |
+| AU-010R2, AU-012R | necessary condition / implication, scoped to the piece's repentance | a repentance of that kind without (or not bringing) facing God's creation as God's work |

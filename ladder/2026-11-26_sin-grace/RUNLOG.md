@@ -48,3 +48,5 @@ Operator note (not a verdict): the "therefore" (S-006) carries the sentence's wh
 43. Tally: 171 tested, 109 STANDS, 54 BROKEN, 8 invalid (all from the interruption). Diagram regenerated with Diagram 7 (pass 8).
 44. Pass 9 (directed, on REV-20): CX-070 to CX-076. REV-21, REV-22 pass; AU-006R3, AU-010, IMP-002, IMP-003, CJ-001 pass; AU-005R, AU-011, IMP-001 (invalid derivation), CJ-002 fail; repairs AU-005R2, AU-011R, CJ-002R pass. Tally: 185 tested, 119 STANDS, 58 BROKEN, 8 invalid.
 45. Operator recommendation (writing judgment, not a truth verdict): carry REV-22. The author ruled that "for what it is" includes moral character (O-33); REV-22 says so in the sentence, so the meaning does not depend on the ruling being known to a reader. The cost is two words.
+46. Pass 10 (directed, on REV-22): CX-077 to CX-079. REV-24 passes, REV-23 fails; AU-012R passes; AU-010R, AU-012, AU-010R2 fail. Tally: 191 tested, 121 STANDS, 62 BROKEN, 8 invalid.
+47. REV-24 is the only surviving pass-10 revision and carries every ruling to date; no carry-forward choice is pending.

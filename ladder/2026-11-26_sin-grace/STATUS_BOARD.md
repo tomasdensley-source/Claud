@@ -163,3 +163,14 @@ Finding carried into the piece: "whatever deed" was ambiguous between one and al
 | CJ-001 | Because a person is God's creation and has also, through their deeds, made something of themselves, facing oneself wholly includes facing both what God made and what one has made of it. | passes CX as phrased (CX-074; tester: "almost analytic") |
 | CJ-002 | (facing God's creation is facing it as God's work) | FAILED CX (CX-074 #2, the biologist) |
 | CJ-002R | Facing God's creation can mean facing what God made for what it is, or facing it also as God's work; only the second faces it as creation. | passes CX as phrased (CX-076) |
+
+## Pass 10 (2026-11-26): REV-22 carried forward; repentance implies facing God's creation (rulings on O-35, O-36, O-37)
+| ID | Exact sentence | Status |
+|---|---|---|
+| AU-010R | Facing God's creation as God's work is necessary for repentance to be taking place. | FAILED CX (CX-077 #1: the Marcionite; the atheist) |
+| AU-010R2 | (scoped to the piece's repentance, as a precondition) | FAILED CX (CX-079 #1); discarded in favour of AU-012R |
+| AU-012 | (implication, "and not its objective", unscoped) | FAILED CX (CX-077 #2) |
+| AU-012R | Where repentance is the turning toward the grace that freely gives the facing of one's own work, facing God's creation as God's work, and oneself within it as a whole, follows from that repentance as a necessary implication, whether or not it is sought. | passes CX as phrased (CX-079 #2) |
+| REV-23 | (implication sentence without "though not every part of oneself can be seen") | FAILED CX (CX-078 #1) |
+| REV-24 | Sin is remaining turned away, after understanding, from the work of one's own hand. Its contrary is to stand facing that work as one's own and for what it is, right or wrong, in acknowledgment and in the deeds it rightly calls for, as far as these can be seen; attention alone never reaches that facing. Grace is the free giving of that facing, and repentance is the turning toward that grace; it contains sin's contrary only once it arrives at that facing. Whether sought or found, repentance implies facing God's creation as God's work, and oneself within it as a whole, though not every part of oneself can be seen. | passes CX as phrased (CX-078 #2) |
+Finding: the author's implication holds within the piece's own definition of repentance, as an implication, not as a precondition and not for repentance in every sense of the word.

@@ -20,3 +20,5 @@
 2026-11-26 Pass 8 closed: REV-17 to REV-20; A-011v6a/b; A-012; AU repairs.
 2026-11-26 Author rulings: carry REV-20; after understanding; for what it is includes moral character; having grace is giving it. Pass 9 opened on REV-20 with the author's question on repentance and facing God's creation.
 2026-11-26 Pass 9 closed: REV-21, REV-22; AU-005R2, AU-006R3, AU-010, AU-011R, IMP-002, IMP-003, CJ-001, CJ-002R; Diagram 8.
+2026-11-26 Author rulings: carry REV-22; repentance implies facing God's creation and oneself within it, as implication not objective; facing creation as God's work. Pass 10 opened on REV-22.
+2026-11-26 Pass 10 closed: REV-24; AU-012R; Diagram 9.

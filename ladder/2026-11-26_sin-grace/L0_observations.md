@@ -137,3 +137,7 @@ Affect charge: not recorded (the operator is not the selector; the author's affe
 | O-0127 | A tester stated that the penitent of Psalm 19:12 ("Cleanse thou me from secret faults") and the thief on the cross repent fully without facing themselves wholly. | CX-072 #2 |
 | O-0128 | A tester stated that facing oneself "wholly" can mean facing oneself as a whole, not inventorying every part, and that a bound on what is required is a ceiling, not a requirement that fills it. | CX-073 #1 |
 | O-0129 | A tester stated that a biologist can face a cell, which is God's creation, for what it is without facing it as God's work. | CX-074 #2 |
+| O-0130 | A tester stated that a Marcionite Christian repents toward the God of Christ while denying that the material world is that God's work, and an atheist repents in the ordinary sense with no reference to creation. | CX-077 #1 |
+| O-0131 | A tester stated that a believer whose sin was contempt for creation can repent precisely in order to see creation, and herself, as God's work again, so that facing is then her repentance's objective. | CX-077 #2 |
+| O-0132 | A tester stated that facing oneself "as a whole" without a limit conflicts with a facing that reaches only "as far as these can be seen". | CX-078 #1 |
+| O-0133 | A tester stated that one can be brought to face one's own cruelty as a gift and turn toward it before ever facing creation as God's work, which comes after as a result. | CX-079 #1 |
