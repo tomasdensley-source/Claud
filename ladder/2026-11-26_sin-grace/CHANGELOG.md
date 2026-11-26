@@ -9,3 +9,5 @@
 2026-11-26 Pass 4 on REV-5: CX-016 to CX-020; REV-7, REV-8.
 2026-11-26 Author ruling: REV-7 carried forward. Pass 5 opened with REV-7 as the piece (pass5/).
 2026-11-26 Pass 5 on REV-7: CX-021 to CX-028; REV-9, REV-10 (failed), REV-11.
+2026-11-26 Author ruling: REV-11 carried forward. Pass 6 opened with REV-11 as the piece (pass6/).
+2026-11-26 Pass 6 on REV-11: CX-029 to CX-035; REV-12, REV-13 (failed), REV-14; Diagram 5.

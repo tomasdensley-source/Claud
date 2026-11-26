@@ -23,3 +23,9 @@
 | A-008v2, A-008v2-S1 | normative principle (necessary condition) | a faultless loss that leaves answerability in place for the same stretch, or a culpable loss that removes it |
 | REV-9, REV-10 | vulnerable generalization (pass 5) | one valid case inside its terms |
 | REV-11 | vulnerable generalization (pass 5) | one valid case inside its terms |
+| pass6 S-001.a, S-002.a, S-003.a, S-004.a, S-004.bR, S-005.a, S-005.bR, S-006.a, A-009-S1 | possibility | a showing of impossibility within its terms |
+| pass6 S-001.b, S-003.b, S-006.bR, A-009, A-009-S2 | vulnerable generalization | one valid case inside its terms |
+| A-009v2 | vulnerable generalization (limit clause is a possibility) | one valid case inside its terms |
+| REV-12, REV-13 | vulnerable generalization (pass 6) | one valid case inside its terms |
+| A-009v3 | normative principle (what facing calls for) | a case where facing plainly calls for an impossible or unfitting deed, or where nothing can be done and acceptance cannot be what it calls for |
+| REV-14 | vulnerable generalization (pass 6) | one valid case inside its terms |

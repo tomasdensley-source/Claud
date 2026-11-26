@@ -38,4 +38,6 @@ You are given numbered statements and a body of writing. For each statement answ
 - O-19: When is remaining turned away after knowledge answerable? Every simple condition tested failed (CX-021 #2, CX-022 #2, CX-023 #3, CX-025). The piece leaves answerability unstated; whether it should say more is the author's call.
 - O-20: Meaning consequences of REV-11 named by the tester (CX-028): the first wrongful act is not itself sin (O-0067), and knowingly disowning a good work is sin (O-0068). The author decides whether these are intended.
 - O-21: A-008v2 failed (CX-025); the tester's suggested narrowing to foreseeable results was not run, since answerability does not appear in the revision. Author may direct.
-- O-22: Carry-forward after pass 5: REV-9 or REV-11 (both pass CX as phrased). Operator's recommendation in RUNLOG.md entry 33.
+- O-22 CLOSED 2026-11-26 by author ruling: "REV-11 (Recommended)" (RULINGS.md)
+- O-23: Carry-forward after pass 6: REV-12 or REV-14 (both pass CX as phrased). Operator's recommendation in RUNLOG.md entry 37.
+- O-24: A-009v3 passes partly by definition ("called for" contains "fitting"; CX-034). Vacuity flag (Ladder 318).

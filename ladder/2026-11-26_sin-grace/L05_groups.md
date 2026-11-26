@@ -25,3 +25,9 @@ Left ungrouped: O-0040, O-0041, O-0043, O-0044, O-0045. (A grace-senses group ov
 | G-007 | registers of turning away | instinct | O-0029, O-0052, O-0056 |
 | G-008 | answerability follows control | instinct | O-0053, O-0054, O-0055 |
 Left ungrouped: O-0057, O-0058.
+
+## Pass 6 (Step 0.5 again)
+| ID | Tag | Basis | Members |
+|---|---|---|---|
+| G-009 | the deed when little or nothing can be done | instinct | O-0072, O-0073, O-0075 |
+Left ungrouped: O-0069, O-0070, O-0071, O-0074, O-0076.

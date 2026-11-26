@@ -40,3 +40,10 @@ Disliked implication kept (Ladder 058): A-007-S2 threatens REV-7, whose contrary
 |---|---|---|---|---|
 | A-008v2-S1 | A judge who, through their own neglect, forgets that they signed a wrongful order does not by that forgetting stop answering for leaving it in force. | A culpable loss of knowledge does not remove answerability. | Construction set (O-0053, O-0054, O-0055, O-0061, O-0062) has no case of an official's forgotten order. | Doctrine on officials' culpable ignorance of their own acts. |
 A-008v2 is LIVE-LIGHT.
+
+## Pass 6 surplus (CLOSED before any pass-6 test; all untested)
+| ID | Statement | ENTAILED | ABSENT (construction set named) | TEST SURFACE |
+|---|---|---|---|---|
+| A-009-S1 | A person who can no longer reach those they harmed can still face that harm in deed by changing how they treat others. | Where repair cannot be made, amends or changed conduct is the deed. | G-009 (O-0072, O-0073, O-0075) has no case of harmed parties beyond reach. | Restorative practice where victims are dead or untraceable. |
+| A-009-S2 | Two people who did the same kind of wrong can owe different deeds in facing it, because what remains possible for each differs. | The deed varies with what remains possible. | No member compares two agents. | Comparative cases of equal wrongs with unequal means of repair. |
+Disliked implication kept (Ladder 058): A-009's last clause counts "willing acceptance" as a deed, which O-0073 reports is disputed.

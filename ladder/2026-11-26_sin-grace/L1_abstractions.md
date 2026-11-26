@@ -30,3 +30,17 @@ No members are called implications before this table (D3). Generality: all three
 |---|---|---|---|---|---|
 | A-008v2 | CX-022 #2 | Narrow | Losing knowledge of one's own work removes one's answerability for being turned away from it only when the loss was not one's fault. | O-0062, O-0061 | The first clause ("only where they could have turned back") |
 Archived with failed parent A-008: A-008-S1 (FAILED CX-023 #3) and A-008-S2 (passed CX-023 #4 against the failed phrasing; not carried forward).
+
+## Pass 6 (Step 1; candidate abstraction; operator construction; untested)
+| ID | Group | Exact sentence |
+|---|---|---|
+| A-009 | G-009 | The deed in which a past work of one's own is faced varies with what remains possible: repair where repair can be made, amends or changed conduct where it cannot, and, where nothing at all can be done, the willing acceptance of what one did. |
+
+## Pass 6 repairs (operator construction; untested until filed CX)
+| Object | Failed in | Operation | Repaired exact sentence | Receipt | Named loss |
+|---|---|---|---|---|---|
+| A-009v2 | CX-030 | Narrow | The deed in which a past work of one's own is faced is limited to what remains both possible and fitting, and where nothing at all can be done, it can consist in the willing acceptance of what one did. | O-0077, O-0078, O-0073, O-0075 | The tiered order (repair, then amends, then acceptance) and its exclusivity |
+A-009-S1: FAILED CX-031 #1; discarded. A-009-S2: passed CX-031 #2 against the failed phrasing; archived with A-009.
+A-009v2 surplus: LIVE-BARREN. Every candidate either restates O-0077 (refraining from an unfitting repair) or repeats the deathbed structure of O-0075 (the paralysed case), so none is absent from its construction set.
+| A-009v3 | CX-032 | Narrow | The deed that facing a past work of one's own calls for is limited to what remains both possible and fitting, and where nothing at all can be done, what it calls for can be the willing acceptance of what one did. | O-0080, O-0077, O-0078 | The descriptive claim about the deeds by which people do face their past |
+A-009v3 surplus: LIVE-BARREN, for the same reason as A-009v2.

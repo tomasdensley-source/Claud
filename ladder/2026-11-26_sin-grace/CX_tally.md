@@ -93,5 +93,24 @@
 | CX-027 | 1 | REV-9 | STANDS |
 | CX-027 | 2 | REV-10 | BROKEN |
 | CX-028 | 1 | REV-11 | STANDS |
+| CX-029 | 1 | P6:S-001.a | STANDS |
+| CX-029 | 2 | P6:S-001.b | STANDS |
+| CX-029 | 3 | P6:S-002.a | STANDS |
+| CX-029 | 4 | P6:S-003.a | STANDS |
+| CX-029 | 5 | P6:S-003.b | STANDS |
+| CX-029 | 6 | P6:S-004.a | STANDS |
+| CX-029 | 7 | P6:S-004.bR | STANDS |
+| CX-029 | 8 | P6:S-005.a | STANDS |
+| CX-029 | 9 | P6:S-005.bR | STANDS |
+| CX-029 | 10 | P6:S-006.a | STANDS |
+| CX-029 | 11 | P6:S-006.bR | STANDS |
+| CX-030 | 1 | A-009 | BROKEN |
+| CX-031 | 1 | A-009-S1 | BROKEN |
+| CX-031 | 2 | A-009-S2 | STANDS |
+| CX-032 | 1 | A-009v2 | BROKEN |
+| CX-033 | 1 | REV-12 | STANDS |
+| CX-033 | 2 | REV-13 | BROKEN |
+| CX-034 | 1 | A-009v3 | STANDS |
+| CX-035 | 1 | REV-14 | STANDS |
 
-STANDS=65 BROKEN=26 invalid=0 tested=91
+STANDS=80 BROKEN=30 invalid=0 tested=110

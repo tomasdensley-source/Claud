@@ -1,0 +1,16 @@
+You are given numbered propositions. For each, give exactly one category, DEMONSTRATED, CONTESTED, or FALSE AS STATED, followed by one line of ground.
+
+1. Remaining turned away from a work can be told apart from being partway through turning back toward it, though the two may look alike at a given moment.
+2. What is wrong in a first wrongful act can be distinguished from the sin of remaining turned away from it afterward.
+3. An agent can remain turned away from a work while the knowledge of it stays present to them.
+4. Knowledge of a work, once had, makes every later moment of remaining turned away from it a moment of sin.
+5. A work has a character, such as being a wrong or a good, that one can acknowledge or fail to acknowledge apart from acknowledging that one did it.
+6. Acknowledging a wrong of one's own for what it is, without any deed, does not exclude remaining turned away from it.
+7. There is something one can do in deed toward a past work of one's own, even when the work itself cannot be undone.
+8. Where nothing can be repaired, facing a work in deed can consist in bearing its consequences.
+9. Attention can perceive a work's character accurately without acknowledging the work as one's own.
+10. Attention to a work can be complete while no deed toward it is done.
+11. Repentance can arrive at a facing in deed as well as in acknowledgment.
+12. Contrition that never issues in any deed falls short of the facing that is sin's contrary.
+13. A facing that includes deed can be given, at least in part.
+14. The given part and the achieved part of a facing can lie in different registers, such as acknowledgment given and deed achieved.

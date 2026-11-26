@@ -76,3 +76,16 @@ Affect charge: not recorded (the operator is not the selector; the author's affe
 | O-0066 | A tester stated that culpable loss of knowledge leaves one answerable only for the foreseeable results of the lapse, not for an unforeseeable deception that exploits it. | CX-025 |
 | O-0067 | A tester stated that under REV-11 the original wrongful act is not itself sin; only remaining turned away after knowledge is. | CX-028 |
 | O-0068 | A tester stated that under REV-11 knowingly disowning a good work of one's own counts as sin. | CX-028 |
+| O-0069 | An auditor stated that remaining turned away and turning back differ in direction over time, not in any single instant. | pass6/P04_reply.txt #1 |
+| O-0070 | An auditor stated that knowledge can stay present during moments of turning back or of incapacity, so not every later moment is a moment of sin. | pass6/P04_reply.txt #4 |
+| O-0071 | An auditor stated that a defiant or despairing admission ("yes, it was wrong, and I did it") can sit alongside a refusal to turn toward the work. | pass6/P04_reply.txt #6 |
+| O-0072 | An auditor stated that apology, restitution, amends and changed conduct are deeds toward a past act that leave the act itself unchanged. | pass6/P04_reply.txt #7 |
+| O-0073 | An auditor stated that it is disputed whether bearing consequences is a deed of facing or only passive endurance that might be bare submission. | pass6/P04_reply.txt #8 |
+| O-0074 | An auditor stated that on Murdoch's view attention that is truly complete already moves the will toward action. | pass6/P04_reply.txt #10 |
+| O-0075 | An auditor stated that where no deed is possible, as in deathbed contrition, views divide on whether deedless contrition is complete or deficient. | pass6/P04_reply.txt #12 |
+| O-0076 | An auditor stated that whether any part of a facing can be received depends on disputed views of grace, forgiveness and moral luck. | pass6/P04_reply.txt #13 |
+| O-0077 | A tester stated that a repair can be possible yet wrong to make, as when retracting a rumor would revive it against the victim's wishes. | CX-030 |
+| O-0078 | A tester stated that repair can be possible yet insufficient, as when a drunk driver pays for a fence and keeps driving drunk; repair and changed conduct can be joint requirements. | CX-030 |
+| O-0079 | A tester stated that a man in complete locked-in syndrome cannot face his past wrong by any outward deed. | CX-031 #1 |
+| O-0080 | A tester stated that a driver who killed a pedestrian can face it through a possible but unfitting deed, such as an unwanted, filmed apology and payment pressed on the family. | CX-032 |
+| O-0081 | A tester stated that where the fault was careless work, the deed that can rightly be done may simply be to give the work the attention that was withheld. | CX-033 #2 |

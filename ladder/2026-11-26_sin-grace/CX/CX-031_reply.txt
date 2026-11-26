@@ -1,0 +1,32 @@
+## 1. BROKEN
+
+**Counterexample:** A man defrauded his elderly neighbors of their savings. Years later they have died, so he can no longer reach those he harmed. He then has a brainstem stroke and develops complete locked-in syndrome. He is fully conscious and fully aware of what he did, but he cannot move, speak, or blink in any controlled way. He cannot communicate at all.
+
+- He satisfies the statement's condition: he cannot reach those he harmed.
+- He cannot change how he treats others in deed. He has no deeds available. He cannot act kindly, make restitution to anyone, warn others, or treat his caregivers differently in any outward way.
+- Whatever remorse he feels is inward. The statement specifies facing the harm "in deed," so inner change does not count.
+
+So here is a person who cannot reach those he harmed and who also cannot face that harm in deed through how he treats others. The claim that he "can still" do so is false for him.
+
+Simpler variants work the same way: a person in their final conscious minutes, or a last survivor with no others left to treat.
+
+**Note on scope:** If the statement is read only as "being unable to reach one's victims does not, by itself, close off facing the harm in deed," then this case does not touch it. The statement as written, however, attaches the ability to *a person* who meets the condition. This case meets the condition and lacks the ability, so it is a valid counterexample.
+
+## 2. STANDS
+
+**Why no valid counterexample exists:** The statement only says such a difference *can* occur. To break it, I would need to show that two people who did the same kind of wrong must always owe identical deeds, whatever their circumstances.
+
+That cannot be shown, because a single coherent case is enough to confirm the statement:
+
+- Two people each steal an heirloom from a friend.
+- The first friend is alive and the heirloom is intact. The first thief can return it and apologize face to face.
+- The second friend has died and the heirloom was destroyed. Returning it and apologizing to the victim are impossible for the second thief.
+- A deed that is impossible for someone cannot be owed by them, since "ought" implies "can." So the second thief cannot owe the same restorative deeds as the first. Whatever the second thief owes, such as restitution to the heirs or some other act, differs.
+- The difference arises precisely because what remains possible for each differs.
+
+**Attempted counterexamples and why they fail:**
+
+- A theory on which deeds owed are fixed solely by the type of wrong would require obligations to perform impossible acts. That abandons the ordinary meaning of "owe."
+- Redefining the "deed" so abstractly that both owe "the same," for example "do what is fitting," changes what the statement's words mean.
+
+Neither is a valid counterexample, so the statement stands.

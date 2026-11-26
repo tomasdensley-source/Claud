@@ -95,3 +95,17 @@ Pass-5 audit (pass5/P04_reply.txt): DEMONSTRATED 7, CONTESTED 4, FALSE AS STATED
 | REV-11 | Sin is remaining turned away, after knowledge, from the work of one's own hand; its contrary is to stand facing that same work as one's own and for what it is, in acknowledgment and in deed, which attention alone does not do. Repentance contains that contrary only once it arrives at that facing, and grace is that facing insofar as it is given. | passes CX as phrased (CX-028) |
 Findings carried into the piece: "remaining" (CX-021 #3); the contrary must reach deed as well as acknowledgment (A-007, CX-022/023); and "for what it is" states the reading on which REV-9 held against the proud owner (CX-027).
 Bearing on REV-7 (not a verdict; REV-7 never faced this case): the proud owner (O-0064) meets REV-7's contrary as worded.
+
+## Pass 6 (2026-11-26): REV-11 carried forward by ruling ("REV-11 (Recommended)")
+Pass-6 audit (pass6/P04_reply.txt): DEMONSTRATED 8, CONTESTED 5, FALSE AS STATED 1. S-002.b, S-007.a, S-007.b discarded at the audit stage.
+| ID | Exact sentence | Status |
+|---|---|---|
+| pass6 assumptions | see pass6/P04R_reformulated.md | 11 of 11 pass CX (CX-029) |
+| A-009 | (tiered deed: repair, then amends, then acceptance) | FAILED CX (CX-030) |
+| A-009-S1 | (paralysed person can face in deed by changed conduct) | FAILED CX (CX-031 #1); discarded |
+| A-009v2 | (deed "is limited to" the possible and fitting) | FAILED CX (CX-032) |
+| A-009v3 | The deed that facing a past work of one's own calls for is limited to what remains both possible and fitting, and where nothing at all can be done, what it calls for can be the willing acceptance of what one did. | passes CX as phrased (CX-034); tester: first clause "holds almost by definition"; LIVE-BARREN |
+| REV-12 | Sin is remaining turned away, after knowledge, from the work of one's own hand; its contrary is to stand facing that same work as one's own and for what it is, in acknowledgment and, as far as it can rightly be done, in deed, which attention alone does not do. Repentance contains that contrary only once it arrives at that facing, and grace is that facing insofar as it is given. | passes CX as phrased (CX-033) |
+| REV-13 | (three sentences; attention clause attached to the deed) | FAILED CX (CX-033 #2, the careless craftsman) |
+| REV-14 | Sin is remaining turned away, after knowledge, from the work of one's own hand. Its contrary is to stand facing that work as one's own and for what it is, in acknowledgment and in whatever deed can rightly be done; attention alone never reaches that facing. Repentance contains that contrary only once it arrives at that facing, and grace is that facing insofar as it is given. | passes CX as phrased (CX-035); tester: "linked stipulative definitions" |
+Finding carried into the piece: REV-11 demanded a deed even where none can rightly be done (deathbed, locked-in, a repair that would compound the harm); REV-12 and REV-14 ask only for the deed that can rightly be done.

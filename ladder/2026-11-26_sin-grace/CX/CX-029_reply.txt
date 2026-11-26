@@ -1,0 +1,54 @@
+# Verdicts on the Eleven Statements
+
+**Summary:** I could not break any of the eleven. Most are modal claims ("can," "does not exclude," "can be distinguished"). One coherent case is enough to make such a claim true. To refute one, I would need to show the case is impossible, and I could not.
+
+---
+
+**1. STANDS**
+- **Attempted counterexample:** An agent dies at the very moment when "remaining turned away" and "beginning to turn back" look the same. The question is never settled.
+- **Why it fails:** The statement says the two *can be told apart*, not that every observer at every moment can tell them apart. The difference is one of direction and orientation, so it holds even if no one ever observes it. The statement itself admits the two may look alike at an instant.
+
+**2. STANDS**
+- **Attempted counterexample:** A wrongful act that is itself a continuing state, such as an ongoing refusal. Here the first act and the remaining-away seem to merge. Or an agent dies mid-act, so there is no "afterward."
+- **Why it fails:** Merging in time does not prevent conceptual distinction. In the death case, there is simply no second sin to compare. That does not show the two cannot be distinguished where both exist.
+
+**3. STANDS**
+- **Example:** A person remembers a betrayal vividly every day and still refuses to face it. Constant presence of knowledge is compatible with turning away. Indeed, deliberate avoidance usually requires knowing what is being avoided.
+
+**4. STANDS**
+- **Example:** Character and authorship come apart in both directions:
+  - "That was theft," while denying one did it.
+  - "I did it," while denying it was wrong.
+- Since each can be acknowledged without the other, the character is acknowledgeable on its own.
+
+**5. STANDS**
+- **Example:** Someone says, "I lied, and it was wrong," and keeps the profits of the lie indefinitely. One coherent case is enough for "does not exclude."
+- **Objection considered:** Acknowledgment is itself a partial turning back. But partial turning back is compatible with remaining turned away in the respect that matters, namely in deed.
+
+**6. STANDS**
+- **Strongest attempt:** The work is irreversible and the agent is totally incapacitated, for example locked-in and unable to communicate. Here nothing at all can be done in deed.
+- **Why it fails:** The "even when" clause makes the claim about irreversibility: that a work cannot be undone does not by itself close off every deed. The incapacity case adds a different condition. It disproves only a stronger claim, "deed is always possible," which the statement does not make. Statement 11's phrase "where some deed is possible" also shows the set does not assume universal possibility.
+- **Caveat:** If the statement is read as asserting universal possibility, the incapacity case breaks it. I judge that reading a change of the claim's meaning.
+
+**7. STANDS**
+- **Attempted objection:** "Willing bearing" is only an inner attitude, which would make it acknowledgment rather than deed.
+- **Why it fails:** Willing bearing can be enacted, by contrast with mere submission:
+  - turning oneself in;
+  - declining an available appeal or escape;
+  - publicly accepting the loss of a position.
+- One such case suffices for "can."
+
+**8. STANDS**
+- **Example:** An agent describes a cruelty they committed with full accuracy and still disowns it ("the drink did it," "that wasn't really me"). Amnesia gives a cleaner case: the agent judges the act's character correctly from records without recognizing it as their own.
+
+**9. STANDS**
+- **Example:** Obsessive rumination. The attention is intense and sustained, and no deed is ever done.
+
+**10. STANDS**
+- **Example:** Repentance that ends in restitution, such as repaying fourfold what one extorted. This is coherent and commonly attested.
+
+**11. STANDS**
+- **Attempt one:** A deed is physically possible, but every available deed (confession, traceable restitution) would harm the victim further. The contrite agent refrains, and refraining seems not to fall short.
+  - **Why it fails:** Refraining for the victim's sake and carrying the burden in silence is itself a choice enacted toward the work. That is a deed, so the contrition does issue in one.
+- **Attempt two:** A contrite agent who intends restitution and dies before acting.
+  - **Why it fails:** The statement does not say the agent is blameworthy. It says the contrition falls short of the full facing. Unfulfilled contrition does fall short of facing in deed, even if blamelessly.

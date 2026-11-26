@@ -1,0 +1,19 @@
+**1. STANDS**
+
+I tried four lines of attack. Each fails because the statement's own wording blocks it.
+
+**Attempt 1: A past work calls for something that is no longer possible.**
+Example: you wronged someone who has since died, so you can no longer apologize to them. One might say the apology is still "called for." But this confuses what would have been called for with what is called for now. The statement is about what facing the work calls for *now*. A demand to do the impossible is not a deed anyone can be called to perform, since "ought" implies "can." The leftover sense of debt shows up as other, still-possible acts, such as acknowledgment or amends to others. These fall within the statement's limit.
+
+**Attempt 2: A past work calls for something possible but unfitting.**
+Example: an act of over-the-top self-punishment. If it is unfitting, it is not what the situation calls for. "Called for" already implies "fitting," so this clause cannot be broken without changing what the words mean.
+
+**Attempt 3: An internal contradiction.**
+The argument: if nothing at all can be done, then acceptance cannot be done either. So acceptance is ruled out by the first clause, yet the second clause offers it. This only works by stretching "nothing at all can be done" to include the inner act of accepting. In context, the phrase plainly refers to acting on the work or its consequences. Reading it the other way changes what the words mean, so it is not a valid counterexample.
+
+**Attempt 4: A case where nothing can be done and acceptance is clearly wrong.**
+Example: an atrocity, where "willing acceptance" might look like complacency. Two things defeat this:
+- "Willing acceptance of what one did" means owning the deed as one's own. It does not mean approving of it. Owning even a terrible act remains fitting.
+- The clause says acceptance "*can be*" what is called for, not that it always is. To refute this, you would need to show acceptance is *never* called for in any case where nothing can be done. That is not true: in ordinary cases, such as a past failure that can no longer be undone, acceptance is the fitting response. Cases where remorse fits better do not contradict a claim that only says "can be."
+
+**Conclusion:** The first clause holds almost by definition, because "called for" already contains "possible" and "fitting." The second clause makes only a claim of possibility, and real cases satisfy it. I could find no valid counterexample.

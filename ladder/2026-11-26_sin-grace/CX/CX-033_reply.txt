@@ -1,0 +1,38 @@
+# Verdicts on the Two Statements
+
+## 1. STANDS
+
+**Structure of the claim.** The contrary of sin is one act: *standing facing* one's own work as one's own and for what it is. That act has two components:
+
+- acknowledgment, which is always required, and
+- deed, required only "as far as it can rightly be done."
+
+"Which attention alone does not do" applies to this whole standing-facing. The verb "do" fits it: the clause says that bare attention does not perform the act of facing.
+
+**Attempted counterexamples:**
+
+- **No rightful deed is possible.** Suppose the person harmed is dead and restitution is impossible. Then "as far as it can rightly be done" reduces the deed component to nothing, and the facing is acknowledgment alone. The claim still holds, because acknowledgment means owning the work "as one's own and for what it is." That is more than attending to it. A person can look straight at their deed while disowning it. To make acknowledgment collapse into attention, you would have to change what the words mean.
+
+- **The rightful deed is itself an act of attention.** Take a craftsman whose fault was careless work. Here the deed attention performs is only one component. The acknowledgment component still goes beyond attention. So "attention alone does not do" the whole facing, and the claim survives.
+
+- **Repentance short of the facing.** Consider remorse that still evades ownership. The statement already handles this: such repentance does not yet contain the contrary.
+
+- **Grace.** Grace is defined as the facing "insofar as it is given." This allows the facing to be partial or graded, so no contradiction arises.
+
+Every case I tried that stays inside the statement's terms leaves it intact.
+
+## 2. BROKEN
+
+**What changed.** The rewrite moves the attention clause. It now follows directly on "whatever deed can rightly be done," and its verb is "reaches," which fits a deed or goal to be arrived at. It also turns the claim into a universal one: attention alone *never* reaches that deed. This is a claim about every rightful deed, not about the facing as a whole.
+
+**Counterexample.**
+
+- A craftsman knowingly keeps turning away from his own work. He does it carelessly and inattentively, and he will not look at what his hands produce.
+- This is sin by the statement's own definition: remaining turned away, after knowledge, from the work of one's own hand.
+- He comes to face it. He acknowledges the careless work as his.
+- The deed that can rightly be done, here and now, is to give the work the careful attention he withheld.
+- That rightful deed simply *is* attention. Attention alone reaches it.
+
+So there is at least one case, fully inside the statement's scope, where "whatever deed can rightly be done" is reached by attention alone. That contradicts "never." Neglect of this kind, whether of a craft, a patient or a child in one's care, is a common form of turning away from one's own work. The case therefore does not step outside the statement.
+
+**Limit on this verdict.** If "which attention alone never reaches" is read as qualifying the whole facing, as in Statement 1, then Statement 2 stands for the same reasons Statement 1 does. On its most natural grammatical reading, however, the clause attaches to the deed, and on that reading it is broken.

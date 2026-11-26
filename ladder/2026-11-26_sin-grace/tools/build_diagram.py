@@ -75,7 +75,7 @@ for c in table("P04R_reformulated.md", r"S-\d{3}"):
     edge(f"A:{pid}", f"A:R1:{nid}", "repair" if op not in ("none",) else "flow", op if op != "none" else "kept")
 # rounds
 def failed_obj(f):
-    m = re.match(r"(CX-\d{3}) #(\d+)", f); run, num = m.group(1), int(m.group(2))
+    m = re.match(r"(CX-\d{3})(?: #(\d+))?", f); run, num = m.group(1), int(m.group(2) or 1)
     for o, (r_, n_, v) in cx.items():
         if r_ == run and n_ == num: return o
 roundcols = {"L4_repairs_round1.md": 4, "L4_repairs_round2.md": 5, "L4_repairs_round3.md": 6, "L4_repairs_round4.md": 6}
@@ -129,10 +129,10 @@ for c in surplus:
          prov="L2_surplus.md" if "v2" not in sid else "L4_repairs_round1.md", test=t)
     edge(f"L:{parent}", f"L:{sid}", "surplus")
 # revisions
-REVS = []; REVS_A = []; REVS_BY = {"B": [], "C": []}
+REVS = []; REVS_A = []; REVS_BY = {"B": [], "C": [], "D": []}
 REV_FILES = (("L4_repairs_round2.md", ("L", "A")), ("L4_repairs_round3.md", ("L", "A")), ("L4_repairs_round4.md", ("L", "A")),
-             ("pass4/L4_repairs_round2.md", ("L", "B")), ("pass5/L4_repairs_round2.md", ("L", "C")))
-REVCOL = {"L": 9, "A": 7, "B": 6, "C": 5}
+             ("pass4/L4_repairs_round2.md", ("L", "B")), ("pass5/L4_repairs_round2.md", ("L", "C")), ("pass6/L4_repairs_round2.md", ("L", "D")))
+REVCOL = {"L": 9, "A": 7, "B": 6, "C": 5, "D": 4}
 for f, ds in REV_FILES:
     for c in table(f, r"REV-\d+$"):
         if len(c) < 2 or c[0] in REVS: continue
@@ -141,11 +141,12 @@ for f, ds in REV_FILES:
         else: REVS_BY[ds[1]].append(c[0])
         for d in ds:
             node(f"{d}:{c[0]}", c[0], "revision", c[1], REVCOL[d], d, st, prov=f, test=t)
-for b, revs in (("A-001", REVS), ("A-002v2", REVS), ("A-003v2", REVS), ("A-004", ["REV-5", "REV-6", "REV-7", "REV-9", "REV-10", "REV-11"]),
-                ("A-005", ["REV-5", "REV-6"]), ("A-006", REVS_BY["B"] + REVS_BY["C"]), ("A-007", REVS_BY["C"])):
+for b, revs in (("A-001", REVS), ("A-002v2", REVS), ("A-003v2", REVS), ("A-004", ["REV-5", "REV-6", "REV-7", "REV-9", "REV-10", "REV-11"] + REVS_BY["D"]),
+                ("A-005", ["REV-5", "REV-6"]), ("A-006", REVS_BY["B"] + REVS_BY["C"] + REVS_BY["D"]), ("A-007", REVS_BY["C"] + REVS_BY["D"])):
     for rv in revs: edge(f"L:{b}", f"L:{rv}", "basis", "basis")
 for rv in REVS_BY["B"]: edge("L:REV-5", f"L:{rv}", "repair", "carried forward by ruling")
 for rv in REVS_BY["C"]: edge("L:REV-7", f"L:{rv}", "repair", "carried forward by ruling")
+for rv in REVS_BY["D"]: edge("L:REV-11", f"L:{rv}", "repair", "carried forward by ruling")
 for b in ("A:R1:S-005.aR", "A:R2:S-005.bR", "A:R2:S-006.aR2", "A:R1:S-006.bR"):
     if b in nodes:
         for rv in REVS_A: edge(b, f"A:{rv}", "basis", "basis")
@@ -201,6 +202,9 @@ PASSES.append(dict(id="B", title="Pass 4: REV-5 as the piece", hint="By the auth
     cols=["The piece: REV-5", "Claims (P1)", "Assumptions · P4 audit", "Round 1 reformulation · CX-016", "Round 2 repair · CX-019", "Discards", "Revision of REV-5 · CX-020"]))
 build_pass("C", "pass5/", "P5:", "REV-7", (("L4_repairs_round1.md", 4),),
            ("R1:S-003.a", "R1:S-004.b", "R1:S-005.b", "R1:S-006.bR", "R2:S-002.bR2"))
+build_pass("D", "pass6/", "P6:", "REV-11", (), ("R1:S-004.bR", "R1:S-006.bR", "R1:S-003.a", "R1:S-005.a"))
+PASSES.append(dict(id="D", title="Pass 6: REV-11 as the piece", hint="By the author's ruling (\"REV-11 (Recommended)\"), REV-11 became the piece for pass 6. All eleven tested assumptions passed; S-002.b, S-007.a and S-007.b were discarded at the audit stage (see pass6/P04R_reformulated.md). Abstraction A-009 and its repairs are in Diagram 1.",
+    cols=["The piece: REV-11", "Claims (P1)", "Assumptions · P4 audit", "Round 1 reformulation · CX-029", "Revision of REV-11 · CX-033, CX-035"]))
 PASSES.append(dict(id="C", title="Pass 5: REV-7 as the piece", hint="By the author's ruling (\"with Rev 7.\"), REV-7 became the piece for pass 5. S-003.b was discarded at the audit stage in favour of abstraction A-007, shown in Diagram 1.",
     cols=["The piece: REV-7", "Claims (P1)", "Assumptions · P4 audit", "Round 1 reformulation · CX-021", "Round 2 repair and discards · CX-024", "Revision of REV-7 · CX-027, CX-028"]))
 
@@ -216,7 +220,7 @@ for c in table("L56_tier2.md", r"T-\d{3}-S\d$"):
     st, t = tested(c[0])
     node(f"L:{c[0]}", c[0], "surplus", c[1], 8, "L", st, entailed=c[2], absent=c[3], surface=c[4], prov="L56_tier2.md", test=t)
     edge(f"L:{re.match(r'(T-\d{3})', c[0]).group(1)}", f"L:{c[0]}", "surplus")
-for c in table("L1_abstractions.md", r"A-\d{3}v2$"):
+for c in table("L1_abstractions.md", r"A-\d{3}v\d$"):
     if len(c) < 6: continue
     obj, failed, op, sent, rec, loss = c[:6]
     st, t = tested(obj)
@@ -229,10 +233,12 @@ for c in table("L2_surplus.md", r"A-\d{3}v2-S\d"):
     edge(f"L:{re.match(r'(A-\d{3}v2)', c[0]).group(1)}", f"L:{c[0]}", "surplus")
 for k, why in (("L:A-008-S1", "Archived in pass 5 with failed parent A-008 (it also failed CX-023 #3)"),
                ("L:A-008-S2", "Archived in pass 5: passed against parent phrasing A-008, which failed CX-022"),
-               ("L:A-008v2-S1", "Parent A-008v2 failed CX-025; this passes as its own sentence only")):
+               ("L:A-008v2-S1", "Parent A-008v2 failed CX-025; this passes as its own sentence only"),
+               ("L:A-009-S1", "Discarded in pass 6 after failing CX-031 #1"),
+               ("L:A-009-S2", "Archived in pass 6: passed against parent phrasing A-009, which failed CX-030")):
     if k in nodes:
         nodes[k]["op"] = why
-        if k != "L:A-008-S1": nodes[k]["status"] = "archived"
+        if k not in ("L:A-008-S1", "L:A-009-S1"): nodes[k]["status"] = "archived"
 if "L:A-002-S2" in nodes:
     nodes["L:A-002-S2"]["op"] = "Discarded after failing CX-003 (L4_repairs_round1.md)"
 for k in ("L:A-002-S1", "L:A-003-S1"):
@@ -251,6 +257,7 @@ for run in RUNS:
         reply=rd(f"CX/{run}_reply.txt"), prompt=rd(f"CX/{run}_prompt.txt")))
 openitems = [l[2:] for l in rd("OPEN.md").splitlines() if l.startswith("- O-")]
 openitems += ["| ".join(c[:2]) for c in table("OPEN.md", r"O-0[1-6]$")]
+PASSES.sort(key=lambda p: p["id"])
 data = dict(nodes=list(nodes.values()), edges=edges, passes=PASSES, runs=runs, piece=src, p4=rd("P04_reply.txt"),
             p4prompt=rd("P04_prompt.txt"), tally=rd("CX_tally.md").splitlines()[-1], open=openitems,
             rulings=rd("RULINGS.md"))

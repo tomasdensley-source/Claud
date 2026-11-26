@@ -1,0 +1,29 @@
+# Statement 1: **STANDS**
+
+The statement is a set of linked stipulative definitions. A valid counterexample would need to show that the definitions contradict each other, or that a case within their scope makes a claimed result impossible. I tried the strongest candidates I could find. Each fails.
+
+**1. The defiant acknowledger.** Someone says, "Yes, I did it, it is mine, and I would do it again." This person seems to face their work as their own and for what it is, yet remains sinful, which would split sin from its contrary.
+
+- **Why it fails:** The contrary requires acknowledgment *and* "whatever deed can rightly be done." Someone who refuses the right deed does not meet the facing as defined. They remain turned away in the relevant sense. The case confirms the definition rather than breaking it.
+
+**2. No deed is possible.** The wrongdoer is dying, or every available action would cause further harm. Here the facing seems to collapse into mere awareness, which would contradict "attention alone never reaches that facing."
+
+- **Why it fails:** The clause says "whatever deed *can* rightly be done." That allows the right deed to be none, leaving acknowledgment alone. Acknowledgment means owning the work as one's own, which is more than attending to it. So the facing still exceeds attention, and the clause holds.
+
+**3. Grace versus ownership.** If the facing is *given*, it seems it cannot be the person's own standing toward their own work. That would make "grace is that facing" self-undermining.
+
+- **Why it fails:** The qualifier "insofar as it is given" names one aspect of a single facing. It does not claim the facing has an external author instead of the person. "Given" and "one's own" are not contradictory unless a separate premise is added that makes them so. Adding that premise would step outside the statement.
+
+**4. Attention as full facing.** One could argue, in the vein of Simone Weil, that pure attention just is acknowledgment.
+
+- **Why it fails:** This works only by redefining "attention" to include ownership and right action. That changes what the statement's words mean, so it is not a valid counterexample.
+
+**5. Out-of-scope cases.** Two further candidates fall outside the statement's terms:
+  - **Sins of omission:** The omission is still the person's own doing.
+  - **Wrongs done in ignorance:** The definition expressly requires "after knowledge."
+
+  Using either would mean stepping outside the stated scope.
+
+**6. The repentance clause.** "Repentance contains that contrary only once it arrives at that facing" is a conditional that follows from the definitions. Nothing within scope can falsify it.
+
+**Conclusion:** The terms are internally consistent and mutually supporting. Every counterexample I could construct either fits the definitions or depends on redefining their terms or leaving their scope. The statement stands.

@@ -21,3 +21,7 @@ Operator's reading, recorded as such: REV-5 is carried forward; passes continue 
 ## 2026-11-26 (verbatim)
 "with Rev 7."
 Operator's reading, recorded as such: REV-7 is carried forward; passes continue with REV-7 as the piece (as after "Use Rev 5.").
+
+## 2026-11-26 (verbatim)
+"Continue."
+Operator asked (AskUserQuestion): "Pass 6 needs a piece. ... Which one should pass 6 run on?" Author's answer: "REV-11 (Recommended)"
