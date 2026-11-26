@@ -1,0 +1,28 @@
+# Statement 1: BROKEN
+
+**Counterexample: incapacity that is voluntary in its cause.**
+
+A man knows he has standing obligations, such as supporting his dependents or repaying a debt. To escape them, he deliberately takes a substance he knows will cause lasting cognitive impairment. Afterward, he truly cannot understand what his acts and omissions do. He remains turned away from those obligations.
+
+This case meets every term of the statement:
+- He has a cognitive disability.
+- It prevents him from understanding what his acts do.
+- He remains turned away from those acts.
+
+Yet the standard moral framework that grounds the statement's own premise, that sin requires understanding, holds he is in sin. That framework includes Aristotle's drunkard, who is punished doubly, and Aquinas on voluntary and indirectly voluntary ignorance. The reason is that ignorance or incapacity you bring on yourself does not excuse. What he does while impaired is imputed to him because it was "voluntary in its cause." The impairment is real, but it was his own chosen means of turning away. So the continued turning away remains his and remains sinful.
+
+The statement makes no exception for how the disability came about. It claims flatly that the inability to understand removes sin. A self-procured disability satisfies its terms and falsifies that claim.
+
+**What does not work as a counterexample:** original sin. On the Augustinian view, an impaired person may carry inherited guilt. But that guilt is not incurred *by remaining turned away*, so it falls outside the statement's terms.
+
+**Scope of the break:** for disabilities that are not self-procured, such as congenital or accidental ones, the statement holds within its framework. But it is stated without that restriction, so as written it cannot be assumed true.
+
+# Statement 2: STANDS
+
+The statement makes only a possibility claim ("*can* become sin"). To break it, I would have to show that it is impossible for culpability to change while the outward act stays fixed. I could not do that.
+
+- **The obvious case supports it.** A child keeps refusing some duty in exactly the same outward way at ages 3 and 13. The refusal is not imputable at 3 and is imputable at 13, because the knowledge and consent that culpability requires have arrived.
+- **The best objection fails.** One could argue the act itself does change: an unknowing refusal and a knowing refusal are different acts, so "no change in the act" is false. But that only works by redefining "the act" to include the agent's mental state. In the statement, "the act" plainly means the outward behavior, as opposed to the agent's understanding. Shifting the meaning that way is not a valid counterexample.
+- **No realistic case refutes it.** One might try a framework where an act's sinfulness is fixed purely by its object, regardless of the agent's knowledge. Even then, that would only make the claim false within that one framework. It would not show the transition is impossible in a case that meets the statement's terms. And such a framework would also contradict the premise shared with Statement 1, that understanding conditions sin.
+
+I found no case that meets the statement's terms and makes the transition impossible, so Statement 2 stands.

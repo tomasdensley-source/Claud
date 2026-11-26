@@ -54,3 +54,22 @@ Disliked implication kept (Ladder 058): A-009's last clause counts "willing acce
 | A-010-S1 | Someone who faces a past wrong and in good faith makes amends that later prove to have been the wrong choice has still faced it. | The deed required is one among those that can be seen to be right at the time. | G-010 (O-0083, O-0084, O-0085) has no case of amends later shown mistaken. | Cases of good-faith amends that misfire. |
 | A-010-S2 | New knowledge about a past work can require a further deed from someone who has already faced it. | What facing requires is bounded by what can be known, so it grows as knowledge grows. | No member concerns knowledge arriving after the facing. | Cases where a work's consequences surface years later. |
 Disliked implication kept (Ladder 058): A-010-S2 means a completed facing can be reopened, which sits uneasily with "stand facing" as a settled condition.
+
+## Pass 8 surplus (CLOSED before any pass-8 test; all untested)
+| ID | Statement | ENTAILED | ABSENT (construction set named) | TEST SURFACE |
+|---|---|---|---|---|
+| A-011-S1 | A private penance that eases the doer without answering what the work did is not a deed the work calls for. | "Exactly when": a deed that does not answer what the work did is not called for. | G-011 (O-0072, O-0077, O-0078, O-0080, O-0091, O-0093) has no self-directed penance. | Penitential practices aimed at the penitent rather than the harmed. |
+| A-011-S2 | Two people who did the same thing to the same people are called to the same deeds, whatever each now feels about it. | What is called for is fixed by what the work did, not by the doer's feelings. | No member compares doers or concerns their feelings. | Cases where remorse seems to change what is owed. |
+Disliked implication kept (Ladder 058): A-011-S2 sets aside the doer's state, which many accounts of repentance treat as relevant.
+
+## Pass 8 surplus for A-012 (CLOSED before its test; untested)
+| ID | Statement | ENTAILED | ABSENT (construction set named) | TEST SURFACE |
+|---|---|---|---|---|
+| A-012-S1 | A person whose cognitive disability prevents them from understanding what their acts do is not in sin by remaining turned away from those acts. | They lack the ability to understand the work and what it does. | G-012 (O-0059, O-0070, O-0096) concerns youth, faultless amnesia and passing incapacity, not lasting disability. | Moral and legal treatment of severe cognitive disability. |
+| A-012-S2 | As a child's understanding grows, the same remaining turned away can become sin with no change in the act itself. | Sin depends on the ability to understand, which grows. | No member concerns understanding that grows over time. | Accounts of an age or stage of moral accountability. |
+
+## Pass 8 notes and fresh surplus for A-011v3 (CLOSED before its test; untested)
+A-012-S1: INVALID DERIVATION (operator's own entailment audit, not yet checked by a second party). A-012 exempts only youth or a loss that is not one's fault; S1 dropped that condition, so A-012 never had this child (Ladder 340). Its failure (CX-056 #1) does not touch A-012.
+| ID | Statement | ENTAILED | ABSENT (construction set named) | TEST SURFACE |
+|---|---|---|---|---|
+| A-011v3-S1 | When answering one's past wrong rightly requires a lesser new wrong, that new wrong is itself a work of one's own that calls for its own answering deed. | A-011v3 applied to the new wrong: it did something not yet answered. | O-0113 states only that the lesser wrong is rightly done; weak absence, recorded (the CX-054 reply mentions what is then owed). | Necessity and lesser-evil cases in law and ethics. |

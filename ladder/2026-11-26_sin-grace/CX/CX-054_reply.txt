@@ -1,0 +1,15 @@
+**1. BROKEN**
+
+The statement is a biconditional. It says a past work rightly calls for a deed *exactly when* four conditions hold, one of which is that the deed does no new wrong in the answering. So it is broken if some deed is rightly called for by one's own past work even though it involves a new wrong. Lesser-evil repair cases supply one.
+
+**Counterexample.** Before leaving for the day, I carelessly leave a gas line open in my building. That is my past work, and it endangers the residents. An hour later I realize it. The only reachable shutoff is behind my neighbor's locked door. The neighbor cannot be contacted, and there is no time to get anyone else. I break the lock and enter without consent to close the valve.
+
+- **The deed answers what the work did.** Closing the valve averts the danger my negligence created for those it touched.
+- **It answers a part not yet answered.** Nothing else has addressed the leak.
+- **It is in proportion.** It is the minimal act needed to neutralize the specific harm I caused.
+- **It is rightly called for.** It would be wrong of me *not* to do it.
+- **It does a new wrong.** I damage an innocent third party's property and enter their home without consent. That party had nothing to do with my original fault. The sign that this is a genuine wrong, and not merely an unfortunate cost, is what I then owe them: an apology, compensation for the lock, and an explanation. Those are the standard marks of a wrong done to someone, even a justified one.
+
+So my past work rightly calls for a deed that fails the "without doing a new wrong" condition. The "only when" direction of the biconditional is false.
+
+**Anticipated defense.** One could reply that a justified rights-infringement is not a "wrong." That reply only works by narrowing "wrong" to "all-things-considered impermissible act." The statement itself treats "new wrong" as something a deed could contain while still being an answer. In ordinary moral usage, which the statement gives no sign of departing from, wronging an innocent third party is a wrong whether or not it is justified. The residual duties of apology and compensation show this. If "wrong" instead meant "unjustified," the clause would collapse into "the deed is rightly done," and the biconditional would become nearly circular. On its natural reading, the counterexample falls within the statement's terms and defeats it.

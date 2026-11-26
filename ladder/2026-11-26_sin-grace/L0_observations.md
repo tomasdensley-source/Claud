@@ -103,3 +103,32 @@ Affect charge: not recorded (the operator is not the selector; the author's affe
 | O-0093 | A tester stated that where nothing can be repaired, resolving never to repeat the wrong can be the one deed that can rightly be done. | CX-036 #11 |
 | O-0094 | A tester stated that three owed deeds can each be doable with each other yet not all together, so "all that can be done together" names no unique set. | CX-039 |
 | O-0095 | A tester stated that a lie can cause a harm no reasonable inquiry would reveal, so a contrary that demands every deed the work calls for, unbounded by what can be seen, cannot be reached. | CX-041 #1 |
+| O-0096 | The author stated: "Children are exempt from sin inasmuch as they are unable to understand or comprehend their actions, implications." | Author, RULINGS.md 2026-11-26 |
+| O-0097 | A tester stated that "unmerited" describes the recipient: the same giving to one who earned it is wages, to one who did not is grace. | CX-042 #1 |
+| O-0098 | A tester stated that in "Noah found grace in the eyes of the LORD" grace is favorable regard, a disposition, with no act of giving in its definition. | CX-042 #2 |
+| O-0099 | A tester stated that "grace" also names elegance of movement, which involves neither giving nor receiving. | CX-042 |
+| O-0100 | A tester stated that one who knows only that some work is his, without knowing which, does not sin by declining an act he cannot know is that work. | CX-043 |
+| O-0101 | A tester stated that a debt already discharged and accepted is not called for again, though a second payment would answer the same work without wrong. | CX-044 |
+| O-0102 | A tester stated that paying $10,000 for a scuffed shoe answers the act without wrong but is not what it calls for. | CX-044 |
+| O-0103 | A tester stated that two partners in the same fraud can be called to different deeds because the victims respond differently to each, or one has already repaid. | CX-045 #2 |
+| O-0104 | A tester stated that under the doctrine of original sin a newborn, wholly without understanding, is not exempt from sin. | CX-047 |
+| O-0105 | A tester stated that in Thomist theology a young child's objectively wrong act is material sin, excused only from formal guilt. | CX-047 |
+| O-0106 | The author stated: "you receive grace, that's the receiving of grace. But to have grace, you must be defined having grace by the giving of it." | Author, RULINGS.md 2026-11-26 |
+| O-0107 | The author stated: "And grace can only be received by someone with moral agency, that is, the knowledge of what is right and wrong." | Author, RULINGS.md 2026-11-26 |
+| O-0108 | A tester stated that Catholic, Orthodox, Lutheran and Anglican theology hold that a baptized infant, without knowledge of right and wrong, receives grace. | CX-059 #2 |
+| O-0109 | A tester stated that common grace extends to creatures without moral knowledge, and a judge's leniency can reach a defendant who cannot grasp wrongdoing. | CX-059 #2 |
+| O-0110 | A tester read "to have grace ... by the giving of it" as grace being given to you, and called the reading on which you must give grace strained. | CX-059 #1 |
+| O-0111 | A tester stated that Augustine held the infant's mind not innocent, and that Leviticus names unintentional sin (shegagah). | CX-058 |
+| O-0112 | A tester stated that willful blindness, refusing to confirm a suspicion that a work is one's own, does not excuse remaining turned away from it. | CX-053 #2 |
+| O-0113 | A tester stated that breaking a neighbour's lock to shut a gas valve one left open is rightly called for though it does a lesser new wrong. | CX-054 |
+| O-0114 | A tester stated that incapacity one brings on oneself to escape obligations does not excuse remaining turned away from them. | CX-056 #1 |
+| O-0115 | The author stated: "to rebel against God is not necessarily to sin against God, as seen in Jonah's rebellion and Moses' rebellion." | Author, RULINGS.md 2026-11-26 |
+| O-0116 | The author stated that repentance is the turning towards God, towards God's grace, and that its inverse may be rebellion. | Author, RULINGS.md 2026-11-26 |
+| O-0117 | A tester stated that Scripture names Moses' striking of the rock and Jonah's flight as rebellion and judges both as sin (Num 20:12, 20:24; Deut 32:51; Jonah 2, 4). | CX-060 #1 |
+| O-0118 | A tester stated that one can turn from God's grace without rebellion (the elder brother, Luke 15; the Galatians, Gal 5:4; drifting, Heb 2:1), and rebel without turning from grace (Moses at the rock). | CX-060 #3 |
+| O-0119 | A tester stated that the grace that gives the facing of a work for what it is can supply the knowledge of its wrongness to one whose conscience had been formed to think it right. | CX-061 #1 |
+| O-0120 | A tester stated that a lesser new wrong that is not needed for the answering, such as taking a stranger's tool to save fetching one's own, is not called for. | CX-062 |
+| O-0121 | A tester stated that facing a work as one's own and for what it is needs only self-attribution and accurate sight of the work, not moral capacity, unless "for what it is" includes its moral character. | CX-065 #3 |
+| O-0122 | A tester stated that forcing an uninvolved stranger to give a kidney to answer one's own wrong meets every stated condition yet is not called for. | CX-066 |
+| O-0123 | A tester stated that a harmless past discovery of one's own, such as a way to purify well water, rightly calls for sharing it with a village in need, though nothing it did awaits an answer. | CX-067 |
+| O-0124 | A tester stated that a mistake that harmed only oneself, fully recovered from, can still rightly call for warning others about to make it. | CX-067 |

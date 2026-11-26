@@ -1,0 +1,36 @@
+# Statement 1: BROKEN
+
+**What the statement claims.** It is a biconditional ("exactly when"). So it asserts that a deed is rightly called for by one's own past work **if and only if** two things hold:
+
+- (a) the deed answers what the work did, either to those it touched or in one's own conduct; and
+- (b) the answering does no new wrong.
+
+To break it, I only need one case where (a) and (b) hold but the deed is not rightly called for, or the reverse.
+
+**Counterexample: a debt already discharged (sufficiency fails).**
+
+- I carelessly broke my neighbor's vase. That is a past work of my own, and it touched her.
+- I promptly replaced the vase with an identical one, apologized, and she fully accepted.
+- A month later I give her a second identical vase "for the one I broke."
+
+Checking the statement's terms against this case:
+
+- **Does the deed answer what the work did, to the one it touched?** Yes. Its whole content and motive is a response to the breaking, and it goes to the person harmed. It answers the work in exactly the way the first replacement did.
+- **Does it do a new wrong?** No. Giving someone a vase wrongs no one.
+
+So both conditions are satisfied. Yet the past work does not rightly call for this deed. Whatever the breaking called for was already answered and accepted. The second vase is at most permitted, a gratuitous gift. It is not something the past work calls for.
+
+The statement says the work calls for the deed in this case, which is false. So the biconditional fails.
+
+**A second case of the same kind: disproportion.**
+
+- I brush past a stranger and lightly scuff their shoe.
+- I then pay them $10,000 in compensation.
+- The payment answers what I did, to the person I did it to, and it wrongs no one.
+- But the scuff calls for an apology, perhaps a wipe of the shoe. It does not call for $10,000.
+
+Again (a) and (b) are met while "rightly calls for" is false.
+
+**Why these cases stay within the statement's terms.** One might reply that "answers" should be read to mean "answers proportionately and only to an outstanding claim." But the statement includes no condition about proportion or about the claim still being open. Adding one would change the statement rather than apply it.
+
+As written, the two conditions mark at most what is permissible and responsive. They do not mark what the past work actually calls for. The "exactly when" claim therefore fails in the sufficiency direction.

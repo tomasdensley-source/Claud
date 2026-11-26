@@ -1,0 +1,15 @@
+**1. BROKEN**
+
+**Counterexample.** Take a man who knows, with full assurance, that a particular work is his own. He has been told it is laid on him, or has received a commission, but nothing in the telling says what the work is. He accepts this and searches for the work in good faith.
+
+The work is actually to care for a dying neighbour. One evening the neighbour's family asks him to sit with the old man. Nothing marks this request as his work. He declines, for an ordinary and harmless reason, and he goes on declining whenever he is asked. He is now in the state the statement describes: he remains turned away from the work that is his own. And he meets the statement's knowledge condition in full, because he knows that the work is his own.
+
+Yet his remaining turned away is not sin. The reason is exactly what he lacks: he does not know what the work is, so he cannot know that *this* refusal is a refusal *of it*. Once he learns that sitting with the neighbour is his work, continued refusal would be sin. What turns blameless refusal into sin is the arrival of knowledge of *what the work is*. So "knowing that it is one's own is enough" is false. Knowing the work's identity is the very piece that the culpability depends on.
+
+**Why the obvious defence fails.** Someone might say his knowledge "that it is one's own" should be read as knowing, of *this particular act*, that it is his. Under that reading the man would not count. But that reading already includes knowing which work it is, because you cannot pick out an act and know of it that it is yours without identifying it. The statement's claim would then hold only by quietly bringing in the "what" it says is unnecessary.
+
+So the statement faces a dilemma:
+- **Weak reading** (he knows that there is a work that is his own): knowledge of ownership is present, the turning away is present, and there is no sin.
+- **Strong reading** (he knows of this act that it is his own): the condition already contains knowledge of what the work is.
+
+**Possible exception.** Someone might point to a man who knows a sealed commission is his and refuses to open it. That refusal may well be sinful. But it is a refusal of a work he *has* identified, namely "the work written here." It does not support the general claim that knowing ownership alone is always enough.

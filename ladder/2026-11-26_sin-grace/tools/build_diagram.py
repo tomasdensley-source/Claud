@@ -129,10 +129,10 @@ for c in surplus:
          prov="L2_surplus.md" if "v2" not in sid else "L4_repairs_round1.md", test=t)
     edge(f"L:{parent}", f"L:{sid}", "surplus")
 # revisions
-REVS = []; REVS_A = []; REVS_BY = {"B": [], "C": [], "D": [], "E": []}
+REVS = []; REVS_A = []; REVS_BY = {"B": [], "C": [], "D": [], "E": [], "F": []}
 REV_FILES = (("L4_repairs_round2.md", ("L", "A")), ("L4_repairs_round3.md", ("L", "A")), ("L4_repairs_round4.md", ("L", "A")),
-             ("pass4/L4_repairs_round2.md", ("L", "B")), ("pass5/L4_repairs_round2.md", ("L", "C")), ("pass6/L4_repairs_round2.md", ("L", "D")), ("pass7/L4_repairs_round2.md", ("L", "E")))
-REVCOL = {"L": 9, "A": 7, "B": 6, "C": 5, "D": 4, "E": 5}
+             ("pass4/L4_repairs_round2.md", ("L", "B")), ("pass5/L4_repairs_round2.md", ("L", "C")), ("pass6/L4_repairs_round2.md", ("L", "D")), ("pass7/L4_repairs_round2.md", ("L", "E")), ("pass8/L4_repairs_round2.md", ("L", "F")))
+REVCOL = {"L": 9, "A": 7, "B": 6, "C": 5, "D": 4, "E": 5, "F": 4}
 for f, ds in REV_FILES:
     for c in table(f, r"REV-\d+$"):
         if len(c) < 2 or c[0] in REVS: continue
@@ -143,12 +143,13 @@ for f, ds in REV_FILES:
             node(f"{d}:{c[0]}", c[0], "revision", c[1], REVCOL[d], d, st, prov=f, test=t)
 for b, revs in (("A-001", REVS), ("A-002v2", REVS), ("A-003v2", REVS), ("A-004", ["REV-5", "REV-6", "REV-7", "REV-9", "REV-10", "REV-11"] + REVS_BY["D"] + REVS_BY["E"]),
                 ("A-005", ["REV-5", "REV-6"]), ("A-006", REVS_BY["B"] + REVS_BY["C"] + REVS_BY["D"] + REVS_BY["E"]), ("A-007", REVS_BY["C"] + REVS_BY["D"] + REVS_BY["E"]),
-                ("A-009v3", REVS_BY["E"]), ("A-010v2", ["REV-16"])):
+                ("A-009v3", REVS_BY["E"]), ("A-010v2", ["REV-16"] + REVS_BY["F"]), ("A-011v6a", REVS_BY["F"]), ("A-011v6b", REVS_BY["F"]), ("A-012", ["REV-19"])):
     for rv in revs: edge(f"L:{b}", f"L:{rv}", "basis", "basis")
 for rv in REVS_BY["B"]: edge("L:REV-5", f"L:{rv}", "repair", "carried forward by ruling")
 for rv in REVS_BY["C"]: edge("L:REV-7", f"L:{rv}", "repair", "carried forward by ruling")
 for rv in REVS_BY["D"]: edge("L:REV-11", f"L:{rv}", "repair", "carried forward by ruling")
 for rv in REVS_BY["E"]: edge("L:REV-14", f"L:{rv}", "repair", "carried forward by ruling")
+for rv in REVS_BY["F"]: edge("L:REV-16", f"L:{rv}", "repair", "revised by the author's rulings")
 for b in ("A:R1:S-005.aR", "A:R2:S-005.bR", "A:R2:S-006.aR2", "A:R1:S-006.bR"):
     if b in nodes:
         for rv in REVS_A: edge(b, f"A:{rv}", "basis", "basis")
@@ -225,27 +226,30 @@ for c in table("L56_tier2.md", r"T-\d{3}-S\d$"):
     st, t = tested(c[0])
     node(f"L:{c[0]}", c[0], "surplus", c[1], 8, "L", st, entailed=c[2], absent=c[3], surface=c[4], prov="L56_tier2.md", test=t)
     edge(f"L:{re.match(r'(T-\d{3})', c[0]).group(1)}", f"L:{c[0]}", "surplus")
-for c in table("L1_abstractions.md", r"A-\d{3}v\d$"):
+for c in table("L1_abstractions.md", r"A-\d{3}v\d[a-z]?$"):
     if len(c) < 6: continue
     obj, failed, op, sent, rec, loss = c[:6]
     st, t = tested(obj)
     node(f"L:{obj}", obj, "abstraction", sent, 5, "L", st, op=op, receipt=rec, loss=loss, prov="L1_abstractions.md (pass 5 repairs)", test=t, tier="repaired")
     edge(f"L:{failed_obj(failed)}", f"L:{obj}", "repair", op)
     for o in re.findall(r"O-\d{4}", rec): edge(f"L:{o}", f"L:{obj}", "receipt", "receipt")
-for c in table("L2_surplus.md", r"A-\d{3}v2-S\d"):
+for c in table("L2_surplus.md", r"A-\d{3}v\d-S\d"):
     st, t = tested(c[0])
     node(f"L:{c[0]}", c[0], "surplus", c[1], 6, "L", st, entailed=c[2], absent=c[3], surface=c[4], prov="L2_surplus.md (pass 5)", test=t)
-    edge(f"L:{re.match(r'(A-\d{3}v2)', c[0]).group(1)}", f"L:{c[0]}", "surplus")
+    edge(f"L:{re.match(r'(A-\d{3}v\d)', c[0]).group(1)}", f"L:{c[0]}", "surplus")
 for k, why in (("L:A-008-S1", "Archived in pass 5 with failed parent A-008 (it also failed CX-023 #3)"),
                ("L:A-008-S2", "Archived in pass 5: passed against parent phrasing A-008, which failed CX-022"),
                ("L:A-008v2-S1", "Parent A-008v2 failed CX-025; this passes as its own sentence only"),
                ("L:A-009-S1", "Discarded in pass 6 after failing CX-031 #1"),
                ("L:A-009-S2", "Archived in pass 6: passed against parent phrasing A-009, which failed CX-030"),
                ("L:A-010-S1", "Derived under A-010 (failed CX-037); re-derived unchanged under A-010v2; CX-038 result stands for this exact sentence"),
-               ("L:A-010-S2", "Derived under A-010 (failed CX-037); re-derived unchanged under A-010v2; CX-038 result stands for this exact sentence")):
+               ("L:A-010-S2", "Derived under A-010 (failed CX-037); re-derived unchanged under A-010v2; CX-038 result stands for this exact sentence"),
+               ("L:A-011-S2", "Discarded in pass 8 after failing CX-045 #2"),
+               ("L:A-011v3-S1", "Archived in pass 8: A-011v5 and its split no longer address new wrongs"),
+               ("L:A-012-S1", "INVALID DERIVATION (operator's own audit): A-012 exempts only youth or a faultless loss; S1 dropped that condition (Ladder 340)")):
     if k in nodes:
         nodes[k]["op"] = why
-        if k not in ("L:A-008-S1", "L:A-009-S1", "L:A-010-S1", "L:A-010-S2"): nodes[k]["status"] = "archived"
+        if k not in ("L:A-008-S1", "L:A-009-S1", "L:A-010-S1", "L:A-010-S2", "L:A-011-S2", "L:A-012-S1"): nodes[k]["status"] = "archived"
 for sid in ("A-010-S1", "A-010-S2"): edge("L:A-010v2", f"L:{sid}", "surplus", "re-derived")
 if "L:A-002-S2" in nodes:
     nodes["L:A-002-S2"]["op"] = "Discarded after failing CX-003 (L4_repairs_round1.md)"
@@ -255,8 +259,12 @@ for k in ("L:A-002-S1", "L:A-003-S1"):
 edges = [e for e in edges if e["a"] in nodes and e["b"] in nodes]
 
 runs = []
-for run in RUNS:
+RUNS_ALL = sorted(os.path.basename(f)[:6] for f in glob.glob(os.path.join(R, "CX/CX-*_statements.tsv")))
+for run in RUNS_ALL:
     meta = rd(f"CX/{run}_meta.md")
+    if not os.path.exists(os.path.join(R, f"CX/{run}_reply.txt")):
+        runs.append(dict(run=run, model="(interrupted: no reply)", gid="-", diff="-", n=len([l for l in rd(f"CX/{run}_statements.tsv").splitlines() if l.strip()]), stands=0, broken=0, reply="(no reply captured)\n\n" + meta, prompt=rd(f"CX/{run}_prompt.txt")))
+        continue
     runs.append(dict(run=run, model=re.search(r"reported: ([^;]+);", meta).group(1).strip(),
         gid=re.search(r"id: (\S+)", meta).group(1), diff=re.search(r"Integrity diff \(must be empty\): (\S+)", meta).group(1),
         n=len([l for l in rd(f"CX/{run}_statements.tsv").splitlines() if l.strip()]),
@@ -265,6 +273,37 @@ for run in RUNS:
         reply=rd(f"CX/{run}_reply.txt"), prompt=rd(f"CX/{run}_prompt.txt")))
 openitems = [l[2:] for l in rd("OPEN.md").splitlines() if l.startswith("- O-")]
 openitems += ["| ".join(c[:2]) for c in table("OPEN.md", r"O-0[1-6]$")]
+def build_pass8(d, P):
+    srcp = re.search(r"## The piece, verbatim.*?\n\n(.+?)\n", rd(P + "P00_source.md"), flags=re.S).group(1)
+    node(f"{d}:PIECE", "REV-16 (piece)", "piece", srcp, 0, d, "source", prov=P + "P00_source.md")
+    last = {}; depth = {}; sec = 0
+    for l in rd(P + "AU_statements.md").splitlines():
+        if l.startswith("## "): sec += 1; continue
+        if not l.startswith("| AU-"): continue
+        c = [x.strip() for x in l.strip().strip("|").split("|")]
+        if len(c) == 3:
+            st, t = tested(c[0]); key = f"{d}:{c[0]}"
+            node(key, c[0], "assumption", c[2], 1, d, st, prov=f"{P}AU_statements.md; source: {c[1]}", test=t)
+            last[c[0]] = key; depth[key] = 1
+        elif len(c) >= 6:
+            obj, failed, op, sent, rec, loss = c[:6]
+            pred = failed_obj(failed); pkey = last.get(pred)
+            col = depth.get(pkey, 1) + 1; key = f"{d}:{obj}:{sec}"
+            if op == "DISCARD":
+                node(key, obj + " (discarded)", "discard", sent, col, d, "discarded", op=op, receipt=rec, loss=loss, prov=P + "AU_statements.md")
+                if pkey: edge(pkey, key, "kill", "Discard")
+            else:
+                st, t = tested(obj)
+                node(key, obj, "repair", sent, col, d, st, op=op, receipt=rec, loss=loss, prov=P + "AU_statements.md", test=t)
+                if pkey: edge(pkey, key, "repair", op)
+            last[obj] = key; depth[key] = col
+    for rv in REVS_BY[d]: edge(f"{d}:PIECE", f"{d}:{rv}", "repair", "revised by ruling")
+    for au, revs in (("AU-001", ["REV-17"]), ("AU-002", ["REV-17"]), ("AU-001R", ["REV-18", "REV-19", "REV-20"]), ("AU-003R2", ["REV-19"]), ("AU-008", ["REV-20"])):
+        if au in last:
+            for rv in revs: edge(last[au], f"{d}:{rv}", "basis", "basis")
+build_pass8("F", "pass8/")
+PASSES.append(dict(id="F", title="Pass 8: the author's rulings applied to REV-16", hint="A directed pass. The author's statements on grace, children, rebellion and repentance were tested verbatim (§4.3) and repaired where they broke; the abstraction for what \"rightly calls for\" presupposes (A-011 to A-011v6a/b) and A-012 are in Diagram 1. CX-048 to CX-052 were interrupted and rerun as CX-053 to CX-057.",
+    cols=["The piece: REV-16", "Author's statements (tested)", "First repair", "Second repair", "Revisions · CX-046, CX-057, CX-064"]))
 PASSES.sort(key=lambda p: p["id"])
 data = dict(nodes=list(nodes.values()), edges=edges, passes=PASSES, runs=runs, piece=src, p4=rd("P04_reply.txt"),
             p4prompt=rd("P04_prompt.txt"), tally=rd("CX_tally.md").splitlines()[-1], open=openitems,

@@ -1,0 +1,15 @@
+**1. STANDS**
+
+**Why no valid counterexample exists.** The statement is a possibility claim. It says a past work *can* rightly call for such a deed, not that every past work does. To break it, I would have to show that no past work of one's own could ever rightly call for a deed that carries its good or lesson to people it never reached. A single coherent, uncontroversial case is enough to defeat that, and such cases are easy to find:
+
+- **A good carried forward.** A physician improvises a technique that saves one patient. That success rightly calls for writing up and teaching the technique, so it reaches patients the original act never touched.
+- **A lesson carried forward.** A founder's company collapses because of a specific, avoidable error. That failure rightly calls for warning or mentoring other founders who were never part of it. The thing carried forward is the lesson, not the good, which is exactly the alternative the statement allows.
+
+**Attempted counterexamples and why they fail:**
+
+- **"Works don't call for anything; only reasons and agents do."** This changes the meaning of "call for." In ordinary usage the phrase means "warrants" or "gives reason for." On that reading, a past work clearly can supply a reason.
+- **"Once the deed reaches them, the work has touched them, so the condition contradicts itself."** This ignores the statement's own distinction between the work and the deed. The *work* never touched these people. The *deed* is what reaches them. There is no contradiction.
+- **"Some such deeds would be wrong," for example spreading a dangerous lesson or a harmful 'good'.** These cases show only that not every such deed is right. That does not touch a claim that some can be.
+- **"Duties extend only to those one has affected."** This is a contestable moral theory, not something the statement's terms commit to. Even under that theory, the claim holds if "rightly" is read as "permissibly" or "fittingly." The word "rightly" does not require that the deed be strictly obligatory.
+
+No case inside the statement's own scope makes its claim false or impossible, so the statement stands.

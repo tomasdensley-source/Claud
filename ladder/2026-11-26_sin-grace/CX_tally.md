@@ -131,5 +131,47 @@
 | CX-040 | 1 | A-010v2 | STANDS |
 | CX-041 | 1 | REV-15 | BROKEN |
 | CX-041 | 2 | REV-16 | STANDS |
+| CX-042 | 1 | AU-001 | BROKEN |
+| CX-042 | 2 | AU-002 | BROKEN |
+| CX-043 | 1 | AU-003 | BROKEN |
+| CX-044 | 1 | A-011 | BROKEN |
+| CX-045 | 1 | A-011-S1 | STANDS |
+| CX-045 | 2 | A-011-S2 | BROKEN |
+| CX-046 | 1 | REV-17 | STANDS |
+| CX-047 | 1 | AU-004 | BROKEN |
+| CX-048 | 1 | AU-001R | INVALID (interrupted; no reply captured) |
+| CX-048 | 2 | AU-003R | INVALID (interrupted; no reply captured) |
+| CX-049 | 1 | A-011v2 | INVALID (interrupted; no reply captured) |
+| CX-050 | 1 | A-012 | INVALID (interrupted; no reply captured) |
+| CX-051 | 1 | A-012-S1 | INVALID (interrupted; no reply captured) |
+| CX-051 | 2 | A-012-S2 | INVALID (interrupted; no reply captured) |
+| CX-052 | 1 | REV-18 | INVALID (interrupted; no reply captured) |
+| CX-052 | 2 | REV-19 | INVALID (interrupted; no reply captured) |
+| CX-053 | 1 | AU-001R | STANDS |
+| CX-053 | 2 | AU-003R | BROKEN |
+| CX-054 | 1 | A-011v2 | BROKEN |
+| CX-055 | 1 | A-012 | STANDS |
+| CX-056 | 1 | A-012-S1 | BROKEN |
+| CX-056 | 2 | A-012-S2 | STANDS |
+| CX-057 | 1 | REV-18 | STANDS |
+| CX-057 | 2 | REV-19 | STANDS |
+| CX-058 | 1 | AU-004R | BROKEN |
+| CX-059 | 1 | AU-005 | STANDS |
+| CX-059 | 2 | AU-006 | BROKEN |
+| CX-060 | 1 | AU-007 | BROKEN |
+| CX-060 | 2 | AU-008 | STANDS |
+| CX-060 | 3 | AU-009 | BROKEN |
+| CX-061 | 1 | AU-006R | BROKEN |
+| CX-061 | 2 | AU-003R2 | STANDS |
+| CX-062 | 1 | A-011v3 | BROKEN |
+| CX-063 | 1 | A-011v3-S1 | STANDS |
+| CX-064 | 1 | REV-20 | STANDS |
+| CX-065 | 1 | AU-007R | STANDS |
+| CX-065 | 2 | AU-009R | STANDS |
+| CX-065 | 3 | AU-006R2 | BROKEN |
+| CX-066 | 1 | A-011v4 | BROKEN |
+| CX-067 | 1 | A-011v5 | BROKEN |
+| CX-068 | 1 | A-011v6a | STANDS |
+| CX-069 | 1 | A-011v6b | STANDS |
 
-STANDS=93 BROKEN=36 invalid=0 tested=129
+STANDS=109 BROKEN=54 invalid=8 tested=171

@@ -1,0 +1,15 @@
+**1. BROKEN**
+
+**What the statement claims:** If a child cannot understand their actions or what those actions imply, that child is exempt from sin. The phrase "inasmuch as" means the exemption extends exactly as far as the lack of understanding does.
+
+**Counterexample: a newborn under the doctrine of original sin.**
+
+- **The conditions are met.** A newborn is a child. A newborn has no ability to understand any action or its consequences, so the lack of understanding is total. If the statement held, the exemption should be total too.
+- **The claimed result fails.** In Augustinian theology, as formalized by the Council of Trent (Session V, Decree on Original Sin) and the Westminster Confession (VI.3–4), the newborn is not exempt from sin. It bears original sin, an inherited sinful condition that requires remedy, such as baptism. Scriptural support is drawn from Psalm 51:5 ("in sin did my mother conceive me") and Romans 5:12–19. In these frameworks, lacking understanding does not remove sin at all, because original sin was never based on the child's own understanding.
+- **No terms were redefined.** "Sin" in the statement is unqualified. Original sin is a standard, central meaning of sin in the theological tradition where the word is used. The case uses the statement's own vocabulary and conditions.
+
+**A second, independent break: material versus formal sin.** Even in frameworks that excuse children, such as Thomist moral theology, a young child who does something objectively wrong, like striking or taking, commits a material sin. That is an act that is sinful in kind. The child is excused only from *formal* guilt, meaning personal blame. Lack of understanding removes the blame, not the sinfulness of the act. So the child is not "exempt from sin" without qualification.
+
+**Where the statement does hold:** It survives only if "sin" is narrowed to *personal, culpable, actual sin*. Under that reading it becomes nearly true by definition, since culpability requires understanding. That narrowing is not in the statement as written.
+
+**Conclusion:** As written, the statement cannot be assumed true. Major, coherent frameworks accept all of its conditions while rejecting its conclusion.

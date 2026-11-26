@@ -1,0 +1,19 @@
+**1. Verdict: STANDS**
+
+The statement is a linked set of definitions: sin, its contrary, repentance and grace. A valid counterexample would need a case that meets these terms while making one of the claims false, or a contradiction among the claims themselves. I tried the strongest candidates and none works without stepping outside the statement's scope or changing its words.
+
+**Attempts and why each fails:**
+
+- **Sin without knowledge.** Someone harms another unknowingly and stays turned away from it. Is this sin that the definition misses? The definition is limited to "after knowledge," so this case is outside its scope. Calling it sin would replace the statement's concept with a different one, which does not refute it.
+
+- **Facing reached by attention alone.** Someone dwells intensely on their wrongdoing, with constant awareness and full mental focus, and seems to "face" it. The statement's facing includes acknowledgment as one's own and the deeds the work rightly calls for. Pure attention lacks these by construction. Any case that adds them is no longer attention alone. So "attention alone never reaches that facing" cannot be broken from inside the definition.
+
+- **Deeds that cannot be done.** The wronged party is dead, or the person is incapacitated, so it seems they can never fully face their work. The statement qualifies the deeds as those the work "*rightly* calls for, as far as these can be seen." Impossible restitution is not rightly called for in that form. What is called for shifts to what can be done, so the person can still face their work. The qualifier blocks this case.
+
+- **Repentance without facing.** Someone feels remorse, resolves to change, but never acknowledges the act as theirs. Is this repentance that contains the contrary? The statement says repentance contains the contrary *only once* it arrives at facing. Remorse without facing is repentance that does not yet contain it, which is exactly what the statement allows. The case confirms the claim rather than breaking it.
+
+- **Self-achieved facing and grace.** Someone appears to reach facing by their own effort, apparently without grace. The statement does not say facing comes only by grace from an outside source. It says grace *is* the giving of facing. Wherever facing is given, that giving counts as grace by the definition. Objecting that this "isn't really grace" would bring in an outside meaning of grace, which the rules exclude.
+
+- **Internal contradiction.** Sin is "remaining turned away." Its contrary is "standing facing." Repentance is a movement whose endpoint is that facing, and grace is the giving of that endpoint. Each term is defined consistently relative to the others. Nothing in the structure requires something to be both turned away and facing at once.
+
+**Reason it stands:** The statement fixes its own terms and limits its claims with qualifiers ("after knowledge," "rightly," "as far as these can be seen," "only once"). Every candidate counterexample either falls outside those limits or depends on redefining sin, facing or grace. It could be disputed on theological grounds as an account of what sin "really" is, but that dispute replaces its meanings rather than refuting it on its own terms.

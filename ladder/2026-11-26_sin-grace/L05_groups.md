@@ -37,3 +37,9 @@ Left ungrouped: O-0069, O-0070, O-0071, O-0074, O-0076.
 |---|---|---|---|
 | G-010 | facing within what one can know | instinct | O-0083, O-0084, O-0085 |
 Left ungrouped: O-0082, O-0086, O-0087, O-0088, O-0089.
+
+## Pass 8 (Step 0.5 again, directed by ruling R-C)
+| ID | Tag | Basis | Members |
+|---|---|---|---|
+| G-011 | what a past work calls for | instinct | O-0072, O-0077, O-0078, O-0080, O-0091, O-0093 |
+| G-012 | capacity to understand as a condition of sin | instinct | O-0059, O-0070, O-0096 |

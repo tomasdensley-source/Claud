@@ -13,3 +13,8 @@
 2026-11-26 Pass 6 on REV-11: CX-029 to CX-035; REV-12, REV-13 (failed), REV-14; Diagram 5.
 2026-11-26 Author ruling: REV-14 carried forward. Pass 7 opened with REV-14 as the piece (pass7/).
 2026-11-26 Pass 7 on REV-14: CX-036 to CX-041; REV-15 (failed), REV-16; Diagram 6.
+2026-11-26 Author rulings R-G (grace defined by its giving), R-K (provisional: knowledge need not include what the work is), R-C (an abstraction for what "rightly calls for" presupposes must be built and tested). Pass 8 opened on REV-16 as a directed pass applying these rulings; a full P1-P4 extraction of REV-16 is not run in this pass.
+2026-11-26 Author input: children exempt from sin inasmuch as unable to comprehend their actions and implications (O-0096; AU-004).
+2026-11-26 Author input: AU-005 (having grace defined by its giving), AU-006 (grace received only by one with moral agency). CX-048 to CX-052 interrupted with no reply: invalid tests, rerun as CX-053 to CX-057.
+2026-11-26 Author input: AU-007 (rebellion not necessarily sin; Jonah, Moses), AU-008 (repentance is turning toward God's grace), AU-009 provisional (its inverse is rebellion).
+2026-11-26 Pass 8 closed: REV-17 to REV-20; A-011v6a/b; A-012; AU repairs.

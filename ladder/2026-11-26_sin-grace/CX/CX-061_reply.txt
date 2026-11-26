@@ -1,0 +1,36 @@
+# Verdicts
+
+## 1. BROKEN
+
+**The flaw.** The statement treats knowledge of right and wrong as a *precondition* for receiving the grace. But the grace, by its own description, gives the facing of one's work "for what it is." Where the work's character is moral, that facing *is* the knowledge of its rightness or wrongness. So the grace can supply the knowledge rather than require it.
+
+**Counterexample A (corrupted conscience).**
+- A person has been formed from childhood to believe that a certain cruelty, such as humiliating a servant, is right and even dutiful.
+- They do not know it is wrong. They are not suppressing a suspicion; they sincerely hold it to be good.
+- Grace is given. They now face the act as their own and for what it is: a cruelty.
+- That facing is the first moment they know it was wrong.
+- The grace was received by someone who lacked the relevant knowledge of right and wrong until the grace delivered it.
+
+This meets the statement's terms: the work is their own, it is faced as their own and for what it is, and the grace is received. Yet the "only" condition fails.
+
+Someone could reply that they have the knowledge "at the moment of reception." That turns the claim into a tautology: whoever receives a gift has what the gift gives. It no longer says anything about who *can* receive it.
+
+**Counterexample B (non-moral work).**
+- Facing one's work "for what it is" does not require the work to carry moral weight.
+- A small child, or a person with profound cognitive impairment, who has no grasp of right and wrong, can be given to see: "I made this, and this is what it is." An example would be a tower they built and then knocked down.
+- Nothing in the statement restricts the grace to morally weighted works.
+- So the grace is received without moral agency.
+
+## 2. STANDS
+
+**Attempts to break it, and why each fails.**
+
+- **Doesn't know and doesn't suspect the work is theirs.** Their turning away from it is not "remaining turned away *from a work of one's own*" as theirs. At most they are turned away from what they take to be someone else's work. They are not *remaining* turned away *after* knowledge, so the case does not satisfy the statement's conditions.
+
+- **Knows they have done *something* they are avoiding, but not which work.** This is exactly "suspecting it and refusing to find out." It falls inside the second disjunct rather than defeating it.
+
+- **Generalized refusal of all self-examination.** Every work they did is trivially known to be their own. What they refuse to know is what the work *is*, not *whose* it is. So the knowledge of ownership is present, and the statement is satisfied.
+
+- **Ownership was knowable, but they were negligent rather than refusing.** Negligence about a suspicion is a form of refusing to find out. Negligence with no suspicion at all returns to the first case: there is no knowledge for the "remaining" to come after.
+
+**Why it holds.** The phrase "turned away from" already implies some orientation toward the work as the agent's own. The willful-ignorance clause closes the only remaining gap. Every case either satisfies one of the two disjuncts or falls outside the statement's scope, because there is no knowledge after which the person "remains" turned away.

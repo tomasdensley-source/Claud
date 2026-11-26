@@ -1,0 +1,37 @@
+# Verdicts on the Two Statements About Grace
+
+## Statement 1: "Grace is defined by its giving, not by its receiving."
+
+**Verdict: BROKEN**
+
+**Counterexample (staying within the theological sense of "favor/gift" that the statement assumes):** The standard definition of grace is *unmerited* favor. "Unmerited" describes the recipient. It says the receiver has no claim to what is given.
+
+Take two scenarios where the giving is identical:
+
+- **(a)** God, or a benefactor, gives a good to someone who has earned it. This is wages or reward.
+- **(b)** The same giver gives the same good, in the same way, to someone who has not earned it and may even deserve the opposite. This is grace.
+
+The giving side is held constant, and only the recipient's condition differs. Yet (a) is not grace and (b) is. So what makes something grace, as opposed to a mere gift or a payment, is located at least partly in the receiving. The statement claims grace is defined "not by its receiving," and that claim fails.
+
+**Supporting case:** In Catholic theology, *sanctifying grace* is defined as a habitual quality inhering in the soul of the recipient, called "the state of grace." That is defined directly by what the recipient has.
+
+**Separate failure in ordinary English:** A dancer's grace is defined by neither giving nor receiving. That case alone breaks the "defined by its giving" half.
+
+## Statement 2: "The very definition of grace must include the action of giving."
+
+**Verdict: BROKEN**
+
+**Counterexample 1 (theological, within scope):** In Genesis 6:8, "Noah found grace in the eyes of the LORD." The Hebrew word is *chen*, and the New Testament word *charis* carries the same sense. Here grace means favorable regard: a disposition or attitude in the one who looks on another with favor. No action of giving is part of what this grace is. A giving may follow from it, but the definition is complete without one.
+
+This shows that a recognized, scriptural definition of grace does not include the action of giving. The statement says the definition "must" include it, so the statement fails.
+
+**Counterexample 2 (the word's ordinary sense):** Grace as "elegance or refinement of movement" is a standard dictionary sense. The statement makes an unqualified claim about "the very definition of grace." This sense of the word contains no giving whatsoever.
+
+This counterexample does not rely on changing what the word means, because it is one of the word's established meanings. Even if someone insists the statement is limited to theology, Counterexample 1 still breaks it.
+
+## Summary
+
+| Statement | Verdict |
+|---|---|
+| 1 | BROKEN |
+| 2 | BROKEN |

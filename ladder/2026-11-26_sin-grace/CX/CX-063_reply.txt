@@ -1,0 +1,23 @@
+**1. STANDS**
+
+**Why no valid counterexample could be constructed:** The statement's own terms block each line of attack. Four natural attempts each fail.
+
+**Attempt 1: "Because it was rightly required, it isn't really a wrong."**
+For example, I break a promise to a friend because it is the only way to return stolen money to its owner in time. One could argue that the justification cancels the wrongness, so nothing remains to answer.
+This fails because the statement stipulates that the act is "a lesser new wrong." Treating a justified act as no wrong at all changes what the statement's words mean. Within its terms, the act stays a wrong even though doing it was right. The broken promise still leaves the friend wronged, and an apology or making-good is still owed.
+
+**Attempt 2: "Someone else did it, or I was forced, so it isn't my own work."**
+This fails because the scenario is my own answering of my own past wrong. The new wrong is something I chose, as a means to that answer. Coercion or another person's agency would put the case outside the statement's scope.
+
+**Attempt 3: "The original restitution already absorbs it, so no separate deed is called for."**
+For example, I trespass into the victim's house to return the stolen goods to them. One could argue that the return itself answers the trespass.
+This fails in one of two ways:
+- If the victim would welcome the entry, presumed consent means there was no wrong, which collapses back into Attempt 1.
+- If it really was a wrong, it remains a distinct intrusion. It still calls for its own acknowledgment, such as explaining and apologizing for the entry. The restitution answers the theft, not the trespass.
+
+**Attempt 4: "The new wrong is trivial, or no answering deed is possible, such as when the victim is unreachable."**
+This fails because "calls for" is normative. It says what is owed, not what will actually be carried out. Even a small wrong calls for at least a fitting acknowledgment or repair. When the ideal answer is impossible, the call shifts to the best available response, such as acknowledgment, amends to others, or changed conduct. It does not vanish.
+
+**A worry about regress:** If each answering requires a further lesser wrong, the chain could seem to run forever. This does not contradict the statement. Each new wrong is lesser than the last, and the statement claims only that each one calls for an answer, not that the series must end.
+
+Every case I could construct either satisfies the statement or escapes it only by redefining "wrong" or "one's own." The statement therefore stands.

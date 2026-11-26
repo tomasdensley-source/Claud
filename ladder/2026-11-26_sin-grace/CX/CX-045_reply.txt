@@ -1,0 +1,33 @@
+# Verdicts on the Two Statements
+
+## 1. STANDS
+
+**The statement:** A private penance that eases the doer without answering what the work did is not a deed the work calls for.
+
+**Why no valid counterexample could be found:**
+
+The statement nearly defines its own terms. A deed "the work calls for" is a deed that responds to what the work did. A penance that by stipulation does *not* answer what the work did therefore falls outside that category almost by construction. I tried several attacks:
+
+- **The instrumental case.** A doer is so broken by guilt that they cannot make repairs until a private penance steadies them. Here the penance is called for by the doer's condition, not by the work. The work calls only for the repair. If someone insists the penance "answers" the work by enabling repair, then the case no longer meets the statement's condition ("without answering"), so it falls outside its scope either way.
+- **The self-harm case.** The work damaged the doer, so easing the doer *is* answering what the work did. This also fails the condition. The penance answers the work, so the statement does not apply to it.
+- **The irreparable case.** The victims are gone and nothing can be repaired. The work may then call for nothing outward, or for acknowledgment, or for changed conduct. It still does not call for a penance whose only effect is the doer's relief. Nothing the work did is answered by that relief.
+- **The enforced-silence case.** Disclosure would harm the victims, so only private action is possible. This shows that a *private* deed can be called for. But such a deed is called for only if it answers the work, for example quiet restitution. That is not the stipulated penance, which eases without answering.
+
+Every attempt either leaves the statement's conditions intact and confirms it, or breaks them and falls out of scope.
+
+## 2. BROKEN
+
+**The statement:** Two people who did the same thing to the same people are called to the same deeds, whatever each now feels about it.
+
+**Counterexample:**
+
+Two business partners, A and B, together defraud the same three families out of their savings. Their act is identical and so are the people harmed. Then their circumstances diverge in ways that have nothing to do with feeling:
+
+- **The victims respond differently to each.** One family tells A: "Never contact us again. Hearing from you would undo us." The same family wants a face-to-face apology from B, whom they once trusted as a friend. B is called to go and apologize. A is called to stay away, because seeking them out would be a further wrong.
+- **One has already done what the other has not.** A has since repaid his full share of the restitution. B has repaid nothing. B is now called to repay, and A is not called to repay again.
+
+Both people did the same thing to the same people. Feelings play no part in the difference. Yet they are called to different, even opposite, deeds.
+
+**A second, independent break.** The statement also asserts that this holds "whatever each now feels." Feelings can change what is called for. Suppose B is unrepentant and still boasts about the scheme. B is called to renounce and stop that conduct, which is a deed the remorseful A has no occasion to perform. This case operates squarely inside the statement's terms, because the statement explicitly claims that feelings make no difference.
+
+The statement fails on both counts.

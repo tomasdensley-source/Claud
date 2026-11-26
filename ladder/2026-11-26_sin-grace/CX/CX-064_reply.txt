@@ -1,0 +1,27 @@
+**Statement 1: STANDS**
+
+I could not build a valid counterexample. Every route I tried either fails on the statement's own terms or works only by changing what its words mean.
+
+**Why it is hard to break.** The statement is a set of linked definitions (sin, its contrary, grace, repentance) plus two conditions:
+- attention alone never reaches the facing;
+- repentance contains sin's contrary only once it arrives at that facing.
+
+Definitions like these cannot be refuted by outside cases. They could only be broken by an internal contradiction, or by a case that meets every stated condition yet yields a result the statement rules out.
+
+**Attempts and why each fails:**
+
+1. **Attention that seems to suffice.** Imagine someone who attends fully and honestly to what they have done, but does not acknowledge it or act on it. By the statement's definition, the facing requires acknowledgment and the deeds called for. So this person has not reached it. The clause holds by construction, not by accident.
+
+2. **Facing that is not freely given.** Suppose someone reaches the facing through compulsion or their own effort. The statement says grace is the free giving of the facing. It never claims all facing comes from grace. So this case contradicts nothing.
+
+3. **One's own facing versus a given facing.** If the facing is given, can it still be "one's own"? The statement says the work is faced as one's own. It does not require that the facing originate solely in the agent. A received capacity that the agent then exercises is coherent, as in cooperative accounts of grace. There is tension here, but no contradiction.
+
+4. **A middle state.** Take someone who acknowledges the work but does not act. They are neither "remaining turned away" nor fully facing. But the statement calls facing sin's *contrary*, not its contradictory. Contraries allow intermediate states, so this person breaks nothing.
+
+5. **Deeds that are impossible.** Take someone who is dying or otherwise unable to act. The qualifier "the deeds it rightly calls for, as far as these can be seen" covers this. If no deeds can rightly be called for, acknowledgment alone can satisfy the requirement. No contradiction arises.
+
+6. **Turning away without knowledge.** Someone turns away from their work without knowing what it is. This is simply not sin under the "after knowledge" condition. That is scope, not a counterexample.
+
+7. **Repentance that never arrives.** Someone turns toward grace but never reaches the facing. The statement explicitly says repentance contains sin's contrary only once it arrives. Incomplete repentance therefore lacks the contrary, which is exactly what the statement predicts.
+
+**Conclusion.** Every apparent counterexample is either absorbed by an explicit qualifier or depends on reading "contrary" as "contradictory" or "grace" as "the only source of facing." Both readings change the statement's words, so neither is a valid counterexample. The statement is internally consistent, so it stands.

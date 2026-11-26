@@ -1,0 +1,51 @@
+# Verdicts on the Two Statements
+
+**Preliminary point on method:** Both statements are definitions. They say what sin, its contrary, repentance and grace *are*. A definition cannot be refuted by pointing to a case "in the world" that it does not fit, because it sets the terms by which cases are classified. A valid counterexample therefore has to show one of three things:
+- the clauses contradict each other,
+- a clause makes a claim that some admissible case falsifies, or
+- the definitions fail to do what they say they do.
+
+I tested each statement on all three.
+
+---
+
+## 1. STANDS
+
+I tried five lines of attack.
+
+**(a) A gap between sin and its contrary.** Take someone who knows the bare fact that they did X but has not grasped its significance. They are not clearly "turned away," and they are not facing the work "for what it is." The statement calls the facing the *contrary* of sin, not its *contradictory*. Contraries may both be false of the same case, so a middle state is allowed. This is no break.
+
+**(b) "Attention alone never reaches that facing."** This is the one clause that makes a universal empirical-sounding claim, so it is the likeliest target. Suppose a work rightly calls for no deeds. Then the facing reduces to acknowledgment. Could attention alone then amount to it? No. Acknowledgment means taking the work as one's own, which is more than attending to it. "Attention *alone*" excludes that owning by its own terms. Any case where attention "reaches" the facing would be a case where something beyond attention, namely acknowledgment, is present. So the case falls outside the clause.
+
+**(c) Knowledge without full sight.** Suppose a person knows a fact about their work but cannot see all of what it is. The phrase "as far as these can be seen" limits the demand to what is visible. So the definition does not require the impossible, and it does not convict anyone for failing to face what they cannot see.
+
+**(d) Grace versus "one's own."** If the facing is *given* freely, is it still the agent's standing? The phrase "as one's own" qualifies *the work*, not the facing. Nothing in the statement requires the facing to be self-produced. A given facing is still a facing by the person, of their own work. There is no contradiction.
+
+**(e) The repentance clause.** "Repentance contains that contrary only once it arrives at that facing" is close to analytic. It cannot be falsified without redefining repentance.
+
+**Conclusion:** No internally admissible case falsifies any clause.
+
+---
+
+## 2. STANDS
+
+This statement is identical to Statement 1 except that "after knowledge" becomes "after understanding." Understanding is a stronger condition than knowledge. It implies grasping what the work is, which fits the contrary's "for what it is" even more tightly than Statement 1 does.
+
+Every attack listed above fails here for the same reasons. The gap case in (a) becomes even less available, because understanding already includes the significance that bare knowledge may lack. No clause conflicts with another, and no admissible case falsifies any of them.
+
+---
+
+## Summary
+
+| Statement | Verdict |
+|---|---|
+| 1 | STANDS |
+| 2 | STANDS |
+
+Neither statement could be broken from within its own terms. The only "counterexamples" available would work by one of the following moves:
+- treating the contrary as a contradictory,
+- reading "attention alone" as including acknowledgment,
+- reading "one's own" as qualifying the facing instead of the work, or
+- rejecting the definitions as definitions.
+
+Each of these steps outside the statements' scope or changes what their words mean, so none is valid.

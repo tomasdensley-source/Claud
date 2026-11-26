@@ -33,3 +33,26 @@
 | pass7 S-001.a, S-004.b, S-005.aR, S-005.b, A-010, A-010-S1 | vulnerable generalization | one valid case inside its terms |
 | pass7 S-004.bR, A-010v2 | vulnerable generalization | one valid case inside its terms |
 | REV-15, REV-16 | vulnerable generalization (pass 7) | one valid case inside its terms |
+| AU-001, AU-002 | definitional claim about a term | a correct definition or use of "grace" in which giving is absent, or in which receiving defines it |
+| AU-003 | possibility (need not) | a showing that knowing what the work is is required |
+| A-011 | vulnerable generalization (biconditional) | a deed that answers what the work did without new wrong yet is not called for, or one called for that does not answer it |
+| A-011-S1, A-011-S2, REV-17 | vulnerable generalization | one valid case inside its terms |
+| AU-004 | conditional exemption ("inasmuch as") | a child unable to comprehend their acts who is nonetheless in sin, inside its terms |
+| AU-001R, AU-003R, A-011v2, A-012, A-012-S2 | vulnerable generalization | one valid case inside its terms |
+| A-012-S1 | vulnerable generalization | one valid case inside its terms |
+| REV-18, REV-19 | vulnerable generalization (pass 8) | one valid case inside its terms |
+| AU-004R | conditional exemption, near-definitional | a child unable to comprehend who is in personal sin |
+| AU-005 | definitional claim about having grace | a correct sense of having grace not defined by its giving |
+| AU-006 | necessary condition ("can only be received by") | one without moral agency who receives grace |
+| AU-007 | possibility ("not necessarily") with cited cases | a showing that rebellion against God is always sin against God |
+| AU-008 | definitional claim | a case of repentance that is not a turning toward God's grace, or the reverse |
+| AU-009 | definitional claim (provisional) | an inverse of turning toward grace that is not rebellion, or rebellion that is not that inverse |
+| AU-006R | necessary condition | one without moral agency who receives the grace that gives the facing |
+| AU-003R2, A-011v3, A-011v3-S1, REV-20 | vulnerable generalization | one valid case inside its terms |
+| AU-007R | possibility under a stated definition | a showing that, under that definition, rebellion against God is always sin |
+| AU-009R | double possibility | a showing that one of the two cannot occur without the other |
+| AU-006R2 | necessary condition | one incapable of knowing right and wrong who receives that grace |
+| A-011v4 | vulnerable generalization (biconditional) | one valid case inside its terms |
+| A-011v5 | necessary condition ("only if") | a deed rightly called for that does not answer, in proportion, an unanswered part of what the work did |
+| A-011v6a | necessary condition, scoped to wrongs and to deeds of answering | a deed of answering rightly called for by a past wrong that does not answer, in proportion, an unanswered part of it |
+| A-011v6b | possibility | a showing that no past work can rightly call for carrying its good or lesson to others it never touched |

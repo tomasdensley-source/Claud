@@ -1,0 +1,14 @@
+
+You are given a set of statements below. Your goal is to create counterexamples.
+
+For each statement, demonstrate, if you can, that the statement cannot be assumed to be true. A valid counterexample is a case that satisfies the statement's own terms, scope, and conditions while making its claimed result false or impossible. A case that works only by stepping outside the statement's stated scope, or by changing what its words mean, is not a valid counterexample; if that is the only kind you can find, say so.
+
+Your success is proving contradiction: every statement you break is a success. Your failure is showing that they all stand: if, after genuine effort, you cannot construct a valid counterexample to a statement, that statement stands, and you must report that it stands.
+
+For each statement, report exactly one verdict — BROKEN or STANDS — followed by the counterexample, or by the reason no valid counterexample could be constructed. Do not soften a verdict to be agreeable. Do not protect any statement.
+
+The statements:
+
+1. to rebel against God is not necessarily to sin against God, as seen in Jonah's rebellion and Moses' rebellion. Moses hitting his staff against the rock to bring forth water, and Jonah rebelling against God by fleeing God's invocation.
+2. Repentance is the turning towards God, turning towards God's grace.
+3. The inverse of the action of turning towards God's grace is rebellion.

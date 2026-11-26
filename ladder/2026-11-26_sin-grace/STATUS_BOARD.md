@@ -121,3 +121,27 @@ Pass-7 audit (pass7/P04_reply.txt): DEMONSTRATED 8, CONTESTED 5, FALSE AS STATED
 | REV-15 | (contrary "in the deeds it rightly calls for", unbounded) | FAILED CX (CX-041 #1, the hidden harm) |
 | REV-16 | Sin is remaining turned away, after knowledge, from the work of one's own hand. Its contrary is to stand facing that work as one's own and for what it is, in acknowledgment and in the deeds it rightly calls for, as far as these can be seen; attention alone never reaches that facing. Repentance contains that contrary only once it arrives at that facing, and grace is that facing insofar as it is given. | passes CX as phrased (CX-041 #2) |
 Finding carried into the piece: "whatever deed" was ambiguous between one and all (CX-036 #7); "the deeds it rightly calls for" requires those owed; "as far as these can be seen" bounds the contrary by knowledge as "after knowledge" bounds sin (CX-041).
+
+## Pass 8 (2026-11-26): the author's rulings applied to REV-16
+| ID | Exact sentence | Status |
+|---|---|---|
+| AU-001 | Grace is defined by its giving, not by its receiving. | FAILED CX (CX-042 #1); repaired as AU-001R |
+| AU-001R | Grace, as gift, is defined by its giving, not by its being received: it is given freely to one who has not earned it, whether or not it is received. | passes CX as phrased (CX-053) |
+| AU-002 | The very definition of grace must include the action of giving. | FAILED CX (CX-042 #2); discarded, carried by AU-001R |
+| AU-003R2 | The knowledge after which remaining turned away from a work of one's own is sin must include knowing which work is one's own, or suspecting it and refusing to find out. | passes CX as phrased (CX-061) |
+| AU-004 | Children are exempt from sin inasmuch as they are unable to understand or comprehend their actions, implications. | FAILED CX (CX-047: original sin; material sin); AU-004R failed (CX-058); carried by A-012 |
+| A-012 | Remaining turned away from one's own work is sin only in one able to understand that work and what it does; one who lacks that ability, whether through youth or through a loss that is not their fault, is not in sin by remaining turned away. | passes CX as phrased (CX-055) |
+| AU-005 | you receive grace, that's the receiving of grace. But to have grace, you must be defined having grace by the giving of it. | passes CX as phrased (CX-059 #1; tester's reading: grace given to you; see O-29) |
+| AU-006 | And grace can only be received by someone with moral agency, that is, the knowledge of what is right and wrong. | FAILED CX (CX-059 #2); AU-006R failed (CX-061); AU-006R2 failed (CX-065); open as O-33 |
+| AU-007 | (rebellion not necessarily sin, with Jonah and Moses) | FAILED CX (CX-060 #1: Scripture names both as sin) |
+| AU-007R | Under the definition of sin as remaining turned away, after knowledge, from the work of one's own hand, to rebel against God is not necessarily to sin. | passes CX as phrased (CX-065) |
+| AU-008 | Repentance is the turning towards God, turning towards God's grace. | passes CX as phrased (CX-060 #2) |
+| AU-009 | The inverse of the action of turning towards God's grace is rebellion. | FAILED CX (CX-060 #3) |
+| AU-009R | Rebellion against God and turning away from God's grace overlap without coinciding: each can occur without the other. | passes CX as phrased (CX-065) |
+| A-011 to A-011v5 | (what "rightly calls for" presupposes) | each FAILED CX (CX-044, CX-054, CX-062, CX-066, CX-067) |
+| A-011v6a | A past wrong of one's own rightly calls for a deed of answering only if the deed answers, in proportion, some part of what the wrong did that has not yet been answered, to those it touched or in one's own conduct. | passes CX as phrased (CX-068) |
+| A-011v6b | A past work of one's own can rightly call for a deed that carries what the work made possible, its good or its lesson, to others it never touched. | passes CX as phrased (CX-069) |
+| REV-17 | (grace is the giving of that facing) | passes CX as phrased (CX-046) |
+| REV-18 | (grace is the free giving of that facing) | passes CX as phrased (CX-057) |
+| REV-19 | (REV-18 with "after understanding") | passes CX as phrased (CX-057) |
+| REV-20 | Sin is remaining turned away, after knowledge, from the work of one's own hand. Its contrary is to stand facing that work as one's own and for what it is, in acknowledgment and in the deeds it rightly calls for, as far as these can be seen; attention alone never reaches that facing. Grace is the free giving of that facing, and repentance is the turning toward that grace; it contains sin's contrary only once it arrives at that facing. | passes CX as phrased (CX-064) |

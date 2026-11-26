@@ -1,0 +1,27 @@
+**Verdict: BROKEN**
+
+The statement is a biconditional: a past work rightly calls for a deed *exactly when* two conditions hold. So it fails if a case meets both conditions and yet the deed is not rightly called for. Such a case exists, because the second condition only weighs the new wrong's size and necessity. It never asks *whom* the wrong falls on or *what kind* of wrong it is.
+
+**Counterexample**
+
+Through my own reckless driving (my past work), I destroyed both of A's kidneys. A will die without a transplant. No donor is available except C, an unwilling stranger who had nothing to do with the crash. I can arrange to have one of C's kidneys removed by force. C would survive and live normally on one kidney.
+
+Checking the statement's conditions:
+
+1. **It answers an unanswered part of what the work did, to someone it touched.** A's loss of kidney function, and the death it will cause, has not been answered. A was touched by my work. The deed restores what my act took.
+2. **It is proportional.** One functioning kidney is exactly what A needs to survive. That is neither more nor less than the harm requires.
+3. **The new wrong is needed.** By stipulation, no other donor or means exists.
+4. **The new wrong is less than the wrong it answers.** C forcibly loses one kidney but lives a normal life. A lost both kidneys and faces death. The new wrong is clearly smaller.
+
+Every condition holds, so the statement says my past work rightly calls for this deed.
+
+It does not. Forcibly taking an organ from an innocent third party is not something my wrongdoing calls for at all. It is a further serious violation, now aimed at someone my original act never touched. My debt to A is mine. It does not give me a claim on C's body. The past work calls for me to answer it with what is mine to give: my money, my effort, my confession, or my own kidney. It does not call for me to impose its cost on an uninvolved person, however much smaller that cost is.
+
+**Why this stays within the statement's terms**
+
+The case changes no word's meaning:
+- "Those it touched" is satisfied by A.
+- "Any new wrong" is satisfied by the harm to C.
+- "Needed" and "less than" are satisfied by stipulation.
+
+The case shows that "needed and lesser" is not enough to make a deed rightly called for. Constraints against using innocent third parties can make a deed impermissible even when it meets every condition in the formula. Since the formula claims those conditions are sufficient, the biconditional fails.

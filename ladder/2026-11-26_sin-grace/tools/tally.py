@@ -6,6 +6,10 @@ tot = {"STANDS": 0, "BROKEN": 0}; bad = 0
 for f in sorted(glob.glob("CX/CX-*_statements.tsv")):
     run = os.path.basename(f)[:6]
     ids = [l.split("\t")[0] for l in open(f, encoding="utf-8") if l.strip()]
+    if not os.path.exists(f"CX/{run}_reply.txt"):
+        for i, o in enumerate(ids, 1):
+            bad += 1; lines.append(f"| {run} | {i} | {o} | INVALID (interrupted; no reply captured) |")
+        continue
     v = parse(open(f"CX/{run}_reply.txt", encoding="utf-8").read(), len(ids))
     for i, o in enumerate(ids, 1):
         w = v[i][0] or "INVALID (non-compliant reply)"

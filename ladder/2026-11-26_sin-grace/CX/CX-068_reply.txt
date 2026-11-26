@@ -1,0 +1,23 @@
+**1. Verdict: STANDS**
+
+The statement gives a necessary condition. If a past wrong of one's own rightly calls for a deed of answering, then that deed must answer, in proportion, some part of what the wrong did that is still unanswered. That part may lie with those the wrong touched or in one's own conduct. To break it, I need a deed that is rightly called for by one's own past wrong but fails this condition. I tried each way that could happen, and each attempt fails.
+
+**Attempt 1: a deed called for after the wrong is fully answered.** Suppose full restitution has been made, an apology given, and forgiveness granted, yet some further deed (renewed confession, remembrance) still seems called for.
+- If it is genuinely called for, it answers something still open, such as lasting vigilance or one's settled disposition. That is the "own conduct" clause.
+- If nothing at all remains open, the further deed is supererogatory or devotional. It is not *rightly called for* by the wrong.
+- Either way the condition holds.
+
+**Attempt 2: someone else has already answered the harm.** Suppose an insurer or a generous friend compensates the victim, so the victim's loss is answered. Intuitively the wrongdoer still owes something.
+- Still owing something is exactly what the statement predicts. The benefactor, who is now touched by the wrong, has an unanswered claim.
+- The wrongdoer's own failure to answer is also an unanswered part "in one's own conduct."
+
+**Attempt 3: the victims are unreachable.** Suppose one stole from someone who has died without heirs, and restitution rightly goes to charity, whose recipients the wrong never touched.
+- The unanswered part is the unjust gain still held in one's possession and conduct. Giving it up answers that part, so the condition is met.
+- The statement requires the answering to occur "to those it touched *or* in one's own conduct." It does not require that the recipients be victims.
+
+**Attempt 4: a deed that is rightly called for but disproportionate.** Examples are an official's resignation over a minor wrong, or confession for an irreparable wrong such as killing.
+- The resignation is proportionate to the damage to public trust. The public was touched, and that harm is unanswered.
+- For an irreparable wrong, the statement asks only that the deed answer *some part* in proportion. It does not demand a whole-wrong equivalence. A confession proportionately answers the concealment and the unacknowledged truth.
+- A deed that is genuinely out of proportion, such as self-punishment beyond any harm, is not "rightly" called for.
+
+**Why no valid counterexample exists.** The "or in one's own conduct" disjunct absorbs any residue left on the wrongdoer's side. The phrase "some part" removes any demand for whole-wrong equivalence. "Rightly" excludes excessive deeds. Every candidate either satisfies the condition or falls outside "rightly calls for." The only way to break the statement would be to treat merely permissible or devotional acts as "rightly called for," which changes the statement's terms.

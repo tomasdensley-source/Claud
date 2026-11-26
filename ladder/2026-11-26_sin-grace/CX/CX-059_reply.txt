@@ -1,0 +1,38 @@
+# Analysis of the Two Statements on Grace
+
+## Statement 1: STANDS
+
+**Reading the statement.** The first sentence ("you receive grace, that's the receiving of grace") is a tautology and cannot be false. The second sentence separates *receiving* grace (an event) from *having* grace (a standing or status). It claims that the status is constituted by the act of giving. In other words, you count as "having grace" only because grace was given to you.
+
+**Attempted counterexamples:**
+
+- **God possesses grace without anyone giving it to Him.** Classical theism calls God "the God of all grace" (1 Pet 5:10), and this attribute does not depend on creation.
+  - This fails as a counterexample. It works only by shifting what "have grace" means.
+  - In the statement, "having grace" is the recipient's condition of being in favor.
+  - God "having grace" means God *being gracious*, which is the giver's attribute. That is a different sense of the word, and the statement's "you" is the recipient.
+- **A person who has grace but has never given grace to anyone.** An example is a newly baptized infant.
+  - This would break a reading on which "to have grace you must give grace."
+  - That reading is strained. "Defined having grace by the giving of it" most naturally refers to grace being given *to you*, not *by you*.
+- **"Grace" as elegance or poise.** Someone can have this kind of grace without receiving it from anyone. But this plainly changes the word's meaning.
+
+**Why it stands.** On its natural reading, the statement is close to definitional. In every tradition the statement is drawing on, grace is unmerited favor *given*. A recipient who "has grace" without it having been given is incoherent within the statement's own terms. No in-scope counterexample exists.
+
+## Statement 2: BROKEN
+
+**The claim.** Grace can *only* be received by someone with moral agency, meaning knowledge of right and wrong.
+
+**Counterexamples within the statement's own terms.** Each case uses grace in the same theological sense as Statement 1: unmerited favor given and received.
+
+1. **Infant baptism.**
+   - Catholic, Orthodox, Lutheran, and Anglican theology all hold that a baptized infant receives sanctifying or regenerating grace.
+   - A days-old infant has no knowledge of right and wrong.
+   - In these traditions, the infant is the paradigm case of grace received *without* merit or understanding. That is precisely what makes it grace.
+2. **Elect infants and incapacitated persons in Reformed theology.**
+   - The Westminster Confession (10.3) states: "Elect infants, dying in infancy, are regenerated and saved by Christ... So also are all other elect persons who are incapable of being outwardly called by the ministry of the Word."
+   - This explicitly affirms grace received by those lacking moral agency.
+3. **Common grace.**
+   - Scripture describes God's favor extending to "all his works" (Ps 145:9) and to the non-human creation (Ps 104; Matt 6:26).
+   - Creatures without any moral knowledge are recipients of that unmerited favor.
+4. **Human-level grace.** A judge may show leniency to a defendant with profound cognitive disability who cannot grasp wrongdoing. The defendant still receives that unmerited favor.
+
+**Why it breaks.** Each case meets the statement's terms. Grace in the same sense is genuinely received, and the recipient lacks knowledge of right and wrong. A single case refutes "can only." Moral agency may be required to *recognize* or *respond to* grace, but not to *receive* it.

@@ -1,0 +1,35 @@
+# Verdicts
+
+## 1. STANDS
+
+**Attempted counterexamples and why they fail:**
+
+- **"A gift that is never received was never really given; it was only offered."** This is the strongest objection. It holds that giving is only complete when the recipient receives, so an unreceived gift is not a gift. But the statement deliberately defines giving as the giver's act: "defined by its giving, not by its being received." To insist that "given" means "transferred and accepted" is to change what the statement's words mean, not to find a case inside its terms. The objection rejects the definition. It does not break it.
+
+- **"A gift lost in transit or refused is not grace."** Under the statement's terms, the giver still gave freely to someone who had not earned it. The claimed result, that this is grace, holds. Nothing contradicts it.
+
+- **"Something given freely and unearned that is not grace, such as a bribe or poison."** A bribe is not given freely, because it seeks a return. Poison handed over is not a gift. Neither meets the statement's conditions.
+
+- **"Grace given to someone who earned it."** The definition excludes this case. It is not a counterexample.
+
+No case satisfies the statement's conditions while making its result false. The statement is a coherent stipulation, so it stands.
+
+## 2. BROKEN
+
+**Counterexample: willful blindness (affected ignorance).**
+
+1. A person strongly suspects that a particular work, X, is his own.
+2. Precisely because he suspects this, and wants to avoid the obligation, he deliberately refuses to confirm it. He avoids discernment, does not ask, and looks away.
+3. He therefore never knows which work is his, and he remains turned away from X.
+
+This satisfies the statement's terms:
+- X is in fact a work of his own.
+- He remains turned away from it.
+
+Yet his remaining turned away is sin. On the standard moral and theological account, affected ignorance does not excuse; it aggravates guilt. His culpability arises from suspicion plus willful avoidance, without his ever knowing which work is his. That contradicts the claim that the knowledge making this sin "must include knowing which work is one's own."
+
+**The available rescue, and why it fails:**
+
+One might say his real sin is turning away from a different work he does know is his: the work of inquiring. But the statement concerns remaining turned away from *a work of one's own*, and the work at issue here is X. Moving his guilt onto "the work of inquiry" means he is not culpable for failing X at all. That changes which work the statement is about and contradicts the settled judgment that the willfully blind are responsible for what they refused to see.
+
+Since sin attaches to the turning away from X without knowledge of which work is his, the "must include" condition fails.

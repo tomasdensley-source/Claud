@@ -1,0 +1,18 @@
+## Statement 1: BROKEN
+
+**What the statement claims.** Children are exempt from personal sin to the extent that, or because, they cannot understand their actions and what follows from them. The claim depends on one premise: **personal sin requires comprehension.** That premise is a contested theological position, not part of what the words mean. The statement does not name a tradition in which that premise is fixed, so it is open to counterexample.
+
+**Counterexample A: a child without understanding who is still held to sin personally.**
+Augustine, *Confessions* I.7, describes his own infancy, when he had no capacity for moral reasoning. He writes: "Who reminds me of the sin of my infancy? ... What then was my sin?" He cites the infant who screams and grows jealous at a nurse's breast. He concludes that "the feebleness of infant limbs is innocent, not the infant's mind."
+
+- **Within scope:** the subject is a child who cannot understand his actions or their implications.
+- **Result reversed:** the infant's mind is not innocent. Augustine treats the grasping, envious behavior as real sin in the child, not merely as inherited guilt.
+- **Effect:** inability to comprehend does not secure exemption.
+
+**Counterexample B: sin is incurred without knowledge, so ignorance cannot be the ground of exemption.**
+Leviticus 4:2, 4:13 and 5:17, and Numbers 15:27–28, set out the category of *shegagah*, unintentional sin. Leviticus 5:17 says: "though he knew it not, yet is he guilty, and shall bear his iniquity." In this framework, an act done without understanding is still a sin by the one who did it, and it requires atonement. So "they are unable to understand" does not yield "they are exempt from sin." The reasoning the statement gives fails even where the conclusion might be reached on other grounds.
+
+**Counterexample C: the "because" reading.**
+"Inasmuch as" can also mean "since" or "because." On that reading, the statement says children are exempt because children lack comprehension. Consider a ten-year-old who deliberately lies to frame a sibling and knows it is wrong and why. That child is plainly a child and plainly understands. The causal claim is therefore false for that child.
+
+**Concession.** Read narrowly, as "insofar as and only insofar as comprehension is absent," and *inside* a framework that defines personal sin as requiring knowledge and consent (for example, the Catholic conditions for mortal sin), the statement is close to true by definition. However, the statement does not limit itself to such a framework. Counterexamples A and B each satisfy its own terms (a child who lacks understanding) and still produce sin. Its conclusion therefore cannot be assumed true.

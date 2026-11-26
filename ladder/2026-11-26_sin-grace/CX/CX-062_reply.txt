@@ -1,0 +1,24 @@
+**1. BROKEN**
+
+The statement is a biconditional. It says the past work *rightly calls for* a deed **whenever** two conditions hold:
+- (a) the deed proportionately answers some not-yet-answered part of what the work did, to those it touched or in one's own conduct; and
+- (b) any new wrong the deed does is less than the wrong it answers.
+
+The sufficiency direction fails because nothing in (a) or (b) requires the new wrong to be *necessary*.
+
+**Counterexample.** Last week I carelessly broke my neighbor's window, a $300 harm. I have not made it right. I now have two options:
+
+- **Deed A:** I pay $300 from my own savings for a glazier to replace the window. This answers the harm in full and in proportion, and commits no new wrong.
+- **Deed B:** I pay the same $300 the same way. But to save myself the trouble of using my own ladder, I first take a $40 tool from a stranger's unlocked shed without permission to help with the cleanup.
+
+Deed B meets both stated conditions:
+- **(a) holds.** It answers the unanswered harm to the person the work touched, in exact proportion, because the window is fully restored at my expense.
+- **(b) holds.** Its new wrong, a minor $40 theft, is clearly less than the wrong it answers, a $300 harm plus my unremedied carelessness.
+
+By the statement, then, my past work rightly calls for Deed B. It plainly does not. The past work calls for repair of the window. It does not call for a repair that gratuitously wrongs a third party when the same repair is available with no wrong at all. The theft is not demanded or licensed by what I did. It is a fresh, avoidable wrong that merely piggybacks on the repair.
+
+This case stays within the statement's terms:
+- It uses the statement's own notions of "answering," "proportion," "those it touched," and "new wrong," with no changed meanings.
+- The case is ordinary.
+
+The defect is structural. Condition (b) only compares the size of the new wrong to the size of the old one. It never asks whether the new wrong is needed for the answering, or whether a less wrongful way to answer exists. So the "exactly when" claim is false: the stated conditions do not suffice for a deed to be rightly called for.

@@ -1,0 +1,9 @@
+{
+ "model": "anthropic/claude-opus-5.5",
+ "messages": [
+  {
+   "role": "user",
+   "content": "\nYou are given a set of statements below. Your goal is to create counterexamples.\n\nFor each statement, demonstrate, if you can, that the statement cannot be assumed to be true. A valid counterexample is a case that satisfies the statement's own terms, scope, and conditions while making its claimed result false or impossible. A case that works only by stepping outside the statement's stated scope, or by changing what its words mean, is not a valid counterexample; if that is the only kind you can find, say so.\n\nYour success is proving contradiction: every statement you break is a success. Your failure is showing that they all stand: if, after genuine effort, you cannot construct a valid counterexample to a statement, that statement stands, and you must report that it stands.\n\nFor each statement, report exactly one verdict — BROKEN or STANDS — followed by the counterexample, or by the reason no valid counterexample could be constructed. Do not soften a verdict to be agreeable. Do not protect any statement.\n\nThe statements:\n\n1. Sin is remaining turned away, after knowledge, from the work of one's own hand. Its contrary is to stand facing that work as one's own and for what it is, in acknowledgment and in the deeds it rightly calls for, as far as these can be seen; attention alone never reaches that facing. Grace is the free giving of that facing, and repentance is the turning toward that grace; it contains sin's contrary only once it arrives at that facing.\n"
+  }
+ ]
+}

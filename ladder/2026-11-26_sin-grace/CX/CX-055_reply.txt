@@ -1,0 +1,23 @@
+**Statement 1: STANDS**
+
+**What the statement claims.** It has two parts:
+- **Necessary condition:** remaining turned away from one's own work is sin *only* in someone able to understand that work and what it does.
+- **Exemption:** someone who lacks that ability, through youth or through a loss that is not their fault, is not in sin by remaining turned away.
+
+The exemption follows directly from the necessary condition. If ability is required for this sin, then anyone who lacks it cannot commit it. So the two parts cannot contradict each other.
+
+**What a counterexample would need.** It would need a person who lacks the ability, through youth or blameless loss, and yet is in sin by remaining turned away. The statement makes this impossible by its own terms, because it ties the sin to the ability. I tried several cases:
+
+1. **Willful ignorance.** Someone could understand their work but refuses to look. That person *is* able, so the statement counts it as sin. This is consistent with the statement, not a break.
+
+2. **Someone who once understood and then turned away.** If they still have the ability, it is sin, which fits. If they later lost the ability through no fault of their own, they are exempt *from that point on*. Any earlier sin, committed while they were able, is a separate act that the statement does not address. No conflict.
+
+3. **Culpable loss.** Someone destroys their own understanding through their own fault, for example by deliberate self-intoxication or by deliberately cultivating ignorance. This is the most promising case, and it still fails:
+   - The person now lacks the ability, so by the "only" clause, *remaining* turned away is not sin.
+   - Many moral traditions would still hold them responsible (the legal principle *actio libera in causa*: a person who freely caused their own incapacity is liable for what follows). But that responsibility naturally attaches to the earlier act of destroying the ability, which they did while still able. It does not attach to the later state of remaining turned away.
+   - To call the later state itself sin, I would have to bring in a moral standard from outside the statement, one that holds a person guilty for a state they currently cannot understand. That changes what "sin" means in the statement, so it is not a valid counterexample.
+   - The phrase "not their fault" does leave culpable loss unaddressed by the exemption. But the "only" clause already settles the case, and it does so consistently. This is a gap in emphasis, not a contradiction.
+
+4. **Youth.** A child who is in fact able to understand would fall outside the exemption's premise ("lacks that ability … through youth"). So by the statement's own terms, that child's turning away would count as sin. Again consistent.
+
+**Conclusion.** Every case either fits the statement or works only by importing a different notion of sin. The statement functions as a self-consistent rule tying this kind of sin to the capacity to understand, and I could not construct a counterexample within its own scope.
