@@ -1,0 +1,17 @@
+**1. STANDS**
+
+I could not construct a counterexample that stays inside the statement's own terms. These are the strongest attacks I tried, and why each fails:
+
+- **Grace versus ownership.** The standing must be held "as one's own" and includes one's own deeds. So can another person give it? If a giver supplies it, it might seem not to be one's own. But the statement does not say the giver performs the acknowledgment or the deeds. It says the standing is freely given. A given standing that the receiver then holds and acts from involves no contradiction. The clause "one can also come to that standing with no one giving it" only adds a second route. It does not conflict with the first.
+
+- **A gap between sin and its contrary.** Before understanding, a person is neither "remaining turned away, after understanding" nor standing turned toward the work. This shows the two are contraries, not contradictories, which is exactly the word the statement uses. A middle state is allowed.
+
+- **A work that calls for nothing but noticing.** Take a right work that calls for no further deeds. One might think attention would then suffice, against "attention alone never amounts to that standing." It does not suffice, because the standing still requires acknowledgment: owning the work as one's own and seeing it for what it is. Noticing is not owning, so the clause holds.
+
+- **Someone who faces their own works but is turned from God.** Is such a person sinless under the narrow definition while still needing repentance? Turning from God's call is itself something one has done or left undone. So it falls under sin wherever it is understood. Where it cannot be seen as wrong, the clauses "after understanding" and "as far as these can be seen" consistently exclude it. The definitions agree with each other.
+
+- **Repentance by someone who never turned away.** "Return" presupposes a prior turning. Such a person simply has nothing to repent, which is consistent with the definition.
+
+- **The "or" in the repentance clause.** Refusing either God's work or oneself within it blocks fulfillment. This is a demanding condition but a coherent one. I found no case where it forces an impossible or contradictory result.
+
+These are stipulative definitions with explicit scope limits ("after understanding," "as far as these can be seen"). Every case I built either fit the definitions without contradiction or worked only by changing what a term means.

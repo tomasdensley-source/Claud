@@ -290,5 +290,14 @@
 | CX-128 | 1 | D-23v2 | STANDS |
 | CX-129 | 1 | E-7v2 | STANDS |
 | CX-130 | 1 | REV-31 | STANDS |
+| CX-131 | 1 | D-24 | STANDS |
+| CX-131 | 2 | D-25 | STANDS |
+| CX-131 | 3 | D-26 | STANDS |
+| CX-132 | 1 | P-16 | STANDS |
+| CX-133 | 1 | IMP-16.1 | STANDS |
+| CX-133 | 2 | IMP-16.2 | STANDS |
+| CX-133 | 3 | IMP-16.3 | STANDS |
+| CX-133 | 4 | IMP-16.4 | STANDS |
+| CX-134 | 1 | REV-32 | STANDS |
 
-STANDS=174 BROKEN=103 invalid=11 tested=288
+STANDS=183 BROKEN=103 invalid=11 tested=297

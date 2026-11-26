@@ -1,0 +1,28 @@
+**1. STANDS**
+
+**First half: the sin, contrary and grace sentences need no God**
+
+I tested every term that could plausibly smuggle in God.
+
+- **"Sin."** In ordinary religious usage, sin is an offense against God. Here the passage defines it: remaining turned away, after understanding, from one's own work as its author. The defining terms are human and secular: "understanding," "made, done or left undone," "author." Reading the traditional theological sense back into the word would change what the passage says it means. That is not a valid counterexample.
+- **"Author."** This refers to the human agent of the deed, not a divine author.
+- **"Right or wrong," "rightly calls for."** These are normative terms. Their sense does not require God, since secular ethics uses them coherently. Insisting that all normativity needs God is a substantive metaethical thesis, not part of what these words mean.
+- **"As far as these can be seen."** Seen by the agent or by anyone. No divine observer is implied.
+- **"Grace."** This is traditionally a divine gift, which makes it the strongest candidate. But the passage defines it as the "free giving of that standing." Any giver will do, including a human one. It then adds that "one can also come to it with no one giving it." So the definition explicitly allows grace with no giver at all, let alone a divine one. Nothing in it requires God to exist.
+
+**Second half: the repentance sentence does need God**
+
+The repentance sentence uses "God," "His call," "His work," "what God has made" and "as God's work." Two features build God in:
+
+- **"Return toward God."** A return presupposes something to return to.
+- **"What God has made, as God's work."** This phrase presupposes a maker who made it.
+
+These terms make sense only on the assumption that God exists. So the repentance sentence is the one that uses such terms.
+
+**The one possible counterexample, and why it fails**
+
+One could take a Fregean line: names without a referent still have a sense, so "God" has meaning even if God does not exist. On that view, no term's sense ever "requires that God exists," and the second half of the statement fails.
+
+This works only by reinterpreting "sense requires that God exists" as a strict claim in the theory of reference. In context, the phrase plainly means that the term presupposes God's existence. Swapping in the technical meaning changes what the statement's words mean, so it is not a valid counterexample.
+
+**Verdict:** With no valid counterexample to either half, the statement stands.

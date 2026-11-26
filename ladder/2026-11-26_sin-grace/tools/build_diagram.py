@@ -129,10 +129,10 @@ for c in surplus:
          prov="L2_surplus.md" if "v2" not in sid else "L4_repairs_round1.md", test=t)
     edge(f"L:{parent}", f"L:{sid}", "surplus")
 # revisions
-REVS = []; REVS_A = []; REVS_BY = {"B": [], "C": [], "D": [], "E": [], "F": [], "G": [], "H": [], "I": [], "J": [], "K": [], "M": []}
+REVS = []; REVS_A = []; REVS_BY = {"B": [], "C": [], "D": [], "E": [], "F": [], "G": [], "H": [], "I": [], "J": [], "K": [], "M": [], "N": []}
 REV_FILES = (("L4_repairs_round2.md", ("L", "A")), ("L4_repairs_round3.md", ("L", "A")), ("L4_repairs_round4.md", ("L", "A")),
-             ("pass4/L4_repairs_round2.md", ("L", "B")), ("pass5/L4_repairs_round2.md", ("L", "C")), ("pass6/L4_repairs_round2.md", ("L", "D")), ("pass7/L4_repairs_round2.md", ("L", "E")), ("pass8/L4_repairs_round2.md", ("L", "F")), ("pass9/L4_revisions.md", ("L", "G")), ("pass10/L4_revisions.md", ("L", "H")), ("pass12/L4_revisions.md", ("L", "I")), ("pass13/L4_revisions.md", ("L", "J")), ("pass14/L4_revisions.md", ("L", "K")), ("pass15/L4_revisions.md", ("L", "M")))
-REVCOL = {"L": 9, "A": 7, "B": 6, "C": 5, "D": 4, "E": 5, "F": 4, "G": 4, "H": 3, "I": 2, "J": 2, "K": 6, "M": 6}
+             ("pass4/L4_repairs_round2.md", ("L", "B")), ("pass5/L4_repairs_round2.md", ("L", "C")), ("pass6/L4_repairs_round2.md", ("L", "D")), ("pass7/L4_repairs_round2.md", ("L", "E")), ("pass8/L4_repairs_round2.md", ("L", "F")), ("pass9/L4_revisions.md", ("L", "G")), ("pass10/L4_revisions.md", ("L", "H")), ("pass12/L4_revisions.md", ("L", "I")), ("pass13/L4_revisions.md", ("L", "J")), ("pass14/L4_revisions.md", ("L", "K")), ("pass15/L4_revisions.md", ("L", "M")), ("pass16/L4_revisions.md", ("L", "N")))
+REVCOL = {"L": 9, "A": 7, "B": 6, "C": 5, "D": 4, "E": 5, "F": 4, "G": 4, "H": 3, "I": 2, "J": 2, "K": 6, "M": 6, "N": 3}
 for f, ds in REV_FILES:
     for c in table(f, r"REV-\d+$"):
         if len(c) < 2 or c[0] in REVS: continue
@@ -143,7 +143,7 @@ for f, ds in REV_FILES:
             node(f"{d}:{c[0]}", c[0], "revision", c[1], REVCOL[d], d, st, prov=f, test=t)
 for b, revs in (("A-001", REVS), ("A-002v2", REVS), ("A-003v2", REVS), ("A-004", ["REV-5", "REV-6", "REV-7", "REV-9", "REV-10", "REV-11"] + REVS_BY["D"] + REVS_BY["E"]),
                 ("A-005", ["REV-5", "REV-6"]), ("A-006", REVS_BY["B"] + REVS_BY["C"] + REVS_BY["D"] + REVS_BY["E"]), ("A-007", REVS_BY["C"] + REVS_BY["D"] + REVS_BY["E"]),
-                ("A-009v3", REVS_BY["E"]), ("A-010v2", ["REV-16"] + REVS_BY["F"] + REVS_BY["G"] + REVS_BY["H"]), ("A-011v6a", REVS_BY["F"] + REVS_BY["G"] + REVS_BY["H"]), ("A-011v6b", REVS_BY["F"] + REVS_BY["G"] + REVS_BY["H"]), ("A-012", ["REV-19"] + REVS_BY["G"] + REVS_BY["H"]), ("A-017v2", ["REV-28", "REV-29", "REV-30", "REV-31"]), ("A-013v4", ["REV-28", "REV-29", "REV-30", "REV-31"]), ("A-013v2", ["REV-27"])):
+                ("A-009v3", REVS_BY["E"]), ("A-010v2", ["REV-16"] + REVS_BY["F"] + REVS_BY["G"] + REVS_BY["H"]), ("A-011v6a", REVS_BY["F"] + REVS_BY["G"] + REVS_BY["H"]), ("A-011v6b", REVS_BY["F"] + REVS_BY["G"] + REVS_BY["H"]), ("A-012", ["REV-19"] + REVS_BY["G"] + REVS_BY["H"]), ("A-017v2", ["REV-28", "REV-29", "REV-30", "REV-31", "REV-32"]), ("A-013v4", ["REV-28", "REV-29", "REV-30", "REV-31", "REV-32"]), ("A-013v2", ["REV-27"])):
     for rv in revs: edge(f"L:{b}", f"L:{rv}", "basis", "basis")
 for rv in REVS_BY["B"]: edge("L:REV-5", f"L:{rv}", "repair", "carried forward by ruling")
 for rv in REVS_BY["C"]: edge("L:REV-7", f"L:{rv}", "repair", "carried forward by ruling")
@@ -455,6 +455,34 @@ def build_pass15(d, P):
 build_pass15("M", "pass15/")
 PASSES.append(dict(id="M", title="Pass 15: repentance re-derived on the letter's two axes; REV-31", hint="O-51 taken up under R-D. Two routes for repentance were tested, each in its own fresh context: route 1 kept REV-30's model (repentance as turning toward the giving of the standing) and broke on the tax collector (CX-122), its fifth failure, so it was discarded; route 2 followed The Opened Center (repentance on the creature's axis) and, once narrowed to a return toward God himself, stood (D-20v8, CX-125). The letter's claim that the maker's axis needs no giver stood (S-15.1, CX-124). Every clause of REV-31 follows from definitions that stand (E-1v2, E-2, E-5 from pass 14; E-7v2, E-8), and REV-31 stands as a whole (CX-130).",
     cols=["The piece: REV-30", "Starting definitions", "First repairs", "Second repairs", "Entailment conditionals", "Entailment repaired", "Revision · CX-130"]))
+def build_pass16(d, P):
+    """Pass 16: remaining terms of REV-31 defined; the God presupposition; surplus implications; REV-32."""
+    rev31 = [c[1] for c in table("pass15/L4_revisions.md", r"REV-31$")][0]
+    node(f"{d}:PIECE", "REV-31 (piece)", "piece", rev31, 0, d, "source", prov="pass15/L4_revisions.md (REV-31, carried under R-D, O-53)")
+    for l in rd(P + "DEFINITIONS.md").splitlines():
+        if not (l.startswith("| D-") or l.startswith("| P-")): continue
+        c = [x.strip() for x in l.strip().strip("|").split("|")]
+        st, t = tested(c[0])
+        if c[0].startswith("D-"):
+            node(f"{d}:{c[0]}", c[0], "assumption", c[2], 1, d, st, prov=f"{P}DEFINITIONS.md; term {c[1]}; sources {c[3]}", test=t)
+            edge(f"{d}:PIECE", f"{d}:{c[0]}", "flow", "term " + c[1])
+        else:
+            node(f"{d}:{c[0]}", c[0], "assumption", c[1], 1, d, st, prov=f"{P}DEFINITIONS.md; presupposition of God; sources {c[2]}", test=t)
+            edge(f"{d}:PIECE", f"{d}:{c[0]}", "flow", "presupposition")
+    for l in rd(P + "L2_implications.md").splitlines():
+        if not l.startswith("| IMP-"): continue
+        c = [x.strip() for x in l.strip().strip("|").split("|")]
+        st, t = tested(c[0])
+        node(f"{d}:{c[0]}", c[0], "surplus", c[1], 2, d, st, entailed=c[2], absent=c[3], surface=c[4], prov=P + "L2_implications.md", test=t)
+        for k in re.findall(r"D-\d\d(?:v\d)?", c[2]):
+            if f"{d}:{k}" in nodes: edge(f"{d}:{k}", f"{d}:{c[0]}", "surplus")
+        edge(f"{d}:PIECE", f"{d}:{c[0]}", "surplus", "implies")
+    for rv in REVS_BY[d]:
+        edge(f"{d}:P-16", f"{d}:{rv}", "receipt", "O-0217 (CX-132)")
+        edge(f"{d}:PIECE", f"{d}:{rv}", "repair", "clarified (R-D, O-56)")
+build_pass16("N", "pass16/")
+PASSES.append(dict(id="N", title="Pass 16: the remaining terms of REV-31, its presupposition of God, and its surplus", hint="Under R-D. God's call, God's work and return were defined from The Opened Center and stand (CX-131). Only the repentance sentence needs God (P-16, CX-132). Four implications that the definition set yields but REV-31 does not state were tested and stand (CX-133), among them that fleeing a task God called one to is both rebellion and sin, and that one can turn from God's work without sin (open for the author, O-55). CX-132 showed that REV-31's \"come to it\" could be read as grace with no giver; REV-32 says \"that standing\" and stands (CX-134).",
+    cols=["The piece: REV-31", "Definitions and presupposition", "Surplus implications", "Revision · CX-134"]))
 PASSES.sort(key=lambda p: p["id"])
 data = dict(nodes=list(nodes.values()), edges=edges, passes=PASSES, runs=runs, piece=src, p4=rd("P04_reply.txt"),
             p4prompt=rd("P04_prompt.txt"), tally=rd("CX_tally.md").splitlines()[-1], open=openitems,

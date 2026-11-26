@@ -217,3 +217,12 @@ Affect charge: not recorded (the operator is not the selector; the author's affe
 | O-0207 | A tester cited the tax collector (Luke 18:9-14) as repentance toward God, accepted as complete, by one already facing his sin and asking only for mercy, not for a standing toward his work. | CX-122 |
 | O-0208 | A tester stated that a man can go back to the family he abandoned, sincerely holding them to be God's work, only to secure an inheritance, with no turning toward God: a return toward God's work that is not repentance. | CX-123 |
 | O-0209 | A tester stated that the fulfilment condition D-23 covers only what can be seen and only facing as God's work, so one who faces all he can see of himself as God's work, but not as what he has made of himself, meets it; and that "refuses to face any of" can be read as refusing all of it. | CX-126 |
+| O-0210 | The author wrote: "That the Hand calls, so the refusal is not a posture toward blind contingency but a turning away from someone who is there." | The Opened Center, The Two Hands |
+| O-0211 | The author wrote: "Every invocation contains a road" | The Opened Center (keyword sweep) |
+| O-0212 | The author wrote: "You too were made. You too stand inside another Hand's work. Stop fleeing what you did not author." | The Opened Center, The Two Hands |
+| O-0213 | The author wrote of conscience: "One says: This is wrong. Return." and "Conscience says return what you took." | The Opened Center, Shame and Conscience |
+| O-0214 | The author wrote: "And the child returns. Not ignorance restored, not innocence before the world" (the passage continues: innocence after knowledge). | The Opened Center (keyword sweep) |
+| O-0215 | The author wrote: "A reader who will not grant that keeps the axis and leaves the Hand on the table. The argument goes thin. It does not fall down." | The Opened Center, The Two Hands |
+| O-0216 | The author wrote of what one did not author: "he receives it or spends forty years at war with it" | The Opened Center, The Two Hands |
+| O-0217 | A tester read REV-31's "though one can also come to it with no one giving it" as allowing grace with no giver, though grace is defined as a free giving: "it" can be read as grace or as the standing. | CX-132 |
+| O-0218 | A tester read turning from God's call, wherever it is understood, as also something one has done or left undone, and so as sin. | CX-134 |

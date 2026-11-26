@@ -1,0 +1,42 @@
+# Verdicts on the Three Statements
+
+## 1. STANDS
+
+**Why no valid counterexample exists:** The statement defines God's call as a summons *from God*. A summons implies someone who summons. So whatever is turned from, when the call is turned from, includes the one who calls.
+
+I tested three candidates:
+
+- **A person who turns away without recognizing the call as God's.** They may experience it as only a circumstance. But the statement says what the turning *is*, not what the person perceives it to be. Within its terms, they still turn from the caller.
+- **A call mediated through circumstances, such as an opportunity or a need encountered.** The statement already allows for this. It says the turning is "not *only*" from a circumstance, so a circumstance may be involved.
+- **A "call" with no God behind it.** This would mean redefining the term. That steps outside the statement's scope and is invalid.
+
+Given its own terms, the claim follows directly from the definition.
+
+## 2. STANDS
+
+**Why no valid counterexample exists:** The statement makes two claims.
+
+- **The distinction between what God made and what a creature makes of it.** This is stipulated, so it cannot be falsified internally.
+- **Each person is among God's work.** I tested two candidates against this:
+  - **A person produced by parents or shaped by their own choices.** This fails as a counterexample. The statement already separates "what God has made" from "what a creature makes of it." It also says only that the person is *among* God's work, not that everything about them is God's making. Parental and self-shaping contributions fall on the "what a creature makes of it" side without removing the person from God's work.
+  - **A person not made by God at all.** This would deny the framework the statement works within, namely that God makes. That changes the scope rather than meeting it.
+
+## 3. STANDS
+
+**Why no valid counterexample exists:** The claim is that returning does not restore the earlier state, because the turning has been lived through. I tested three candidates:
+
+- **Full forgiveness that restores the relationship "as if nothing happened."** This can restore the relationship's *quality* or standing. It cannot make the person someone who never turned. The statement's reason, that the turning has been lived through, refers to historical fact, and forgiveness does not undo that fact.
+- **A momentary or barely conscious turning.** It was still lived through. Brevity does not erase its occurrence.
+- **Amnesia, where the person no longer remembers turning.** Lack of memory does not mean the turning was not lived through. The past remains fixed, and a state that comes after the turning differs from the state before it in having the turning behind it.
+
+Any case where the turning was *not* lived through would be a case where no turning occurred. Then there is no "return," and the case falls outside the statement's conditions.
+
+## Summary
+
+| Statement | Verdict | Basis |
+|---|---|---|
+| 1 | STANDS | Follows from defining a call as a summons by a caller |
+| 2 | STANDS | The made-by-God vs. made-of-it distinction absorbs apparent counterexamples |
+| 3 | STANDS | The irreversibility of lived history makes the claim hold whenever its conditions are met |
+
+All three are largely definitional or analytic within their stated framework. The only "counterexamples" available deny the framework itself, for example by holding that there is no God who calls or makes. That is invalid under your rules, because it changes the statement's scope rather than satisfying it.

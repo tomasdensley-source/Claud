@@ -1,0 +1,12 @@
+
+You are given a set of statements below. Your goal is to create counterexamples.
+
+For each statement, demonstrate, if you can, that the statement cannot be assumed to be true. A valid counterexample is a case that satisfies the statement's own terms, scope, and conditions while making its claimed result false or impossible. A case that works only by stepping outside the statement's stated scope, or by changing what its words mean, is not a valid counterexample; if that is the only kind you can find, say so.
+
+Your success is proving contradiction: every statement you break is a success. Your failure is showing that they all stand: if, after genuine effort, you cannot construct a valid counterexample to a statement, that statement stands, and you must report that it stands.
+
+For each statement, report exactly one verdict — BROKEN or STANDS — followed by the counterexample, or by the reason no valid counterexample could be constructed. Do not soften a verdict to be agreeable. Do not protect any statement.
+
+The statements:
+
+1. Sin is remaining turned away, after understanding, from what one has made, done or left undone as its author. Its contrary is to stand turned toward that work, rather than away from it, as one's own and for what it is, right or wrong, in acknowledgment and in the deeds it rightly calls for, as far as these can be seen; attention alone never amounts to that standing. Grace is the free giving of that standing, though one can also come to that standing with no one giving it. Repentance toward God is the return toward God, and away from one's own turning from His call or His work; whether sought or found, it is not fulfilled while it still refuses to turn toward what God has made, as God's work, or toward oneself within it as a whole, as far as these can be seen.

@@ -1,0 +1,10 @@
+# Pass 16. Surplus implications of REV-31's definition set (operator derivation; closed before any pass-16 test)
+
+| ID | Statement | ENTAILED | ABSENT | TEST SURFACE |
+|---|---|---|---|---|
+| IMP-16.1 | Where sin is remaining turned away, after understanding, from one's own work, and one's own work includes what one has left undone when it was one's to do, a man who understands a task God has called him to, flees it and holds to that flight, as Jonah fled toward Tarshish, both turns from God's call and sins. | D-01, D-04, D-18, D-20v8, D-24 | REV-31 does not say that turning from God's call and sin can coincide | O-0115 ("not necessarily to sin"), O-0117 |
+| IMP-16.2 | Where sin is remaining turned away, after understanding, from one's own work, a man can turn from God's work without sinning: one who spends forty years at war with the body, century and temperament he was given turns from what made him, not from anything he made. | D-01, D-18, D-20v8, D-25 | REV-31 does not say that one can turn from God's work without sin | O-0115, O-0205, O-0216 |
+| IMP-16.3 | Where a return toward God is not fulfilled while the one returning still refuses to face something God has made that he can see, for what it is and as God's work, a man can stand turned toward every work of his own, in acknowledgment and in the deeds each calls for, while his repentance toward God remains unfulfilled, because he still refuses to face some of those around him as God's work. | D-05, D-20v8, D-23v2; E-1v2 | REV-31 does not say the two axes can come apart this way | O-0175, O-0203 |
+| IMP-16.4 | Where a return toward God is not fulfilled while the one returning still refuses to face something God has made that he can see, for what it is and as God's work, a return that was fulfilled can cease to be fulfilled, if he later comes to see something God has made and refuses to face it. | D-23v2, D-11 | REV-31 does not say whether fulfilment, once reached, can be lost | O-0169 (fulfilment read per work); IMP-001 (pass 9, invalid derivation; this one is checked against it: D-23v2 states a condition that a new refusal meets) |
+
+CX-133: IMP-16.1 to IMP-16.4 STAND.

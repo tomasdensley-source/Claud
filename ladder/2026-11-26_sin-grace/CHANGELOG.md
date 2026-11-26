@@ -31,3 +31,4 @@
 2026-11-26 DIRECTIVE: define every term of REV-29 from the author's works, as presuppositions that imply it. DELEGATION R-D: the operator decides OPEN items, labeled. Pass 14 opened.
 2026-11-26 Pass 14 closed: definitions of every REV-29 term; entailments; REV-30. Repentance's freestanding definition left open (O-51). Credit nearly spent (O-52).
 2026-11-26 Pass 15: repentance re-derived on the letter's two axes; route 1 discarded after its fifth failure; REV-31 passes (CX-130) and every clause follows from standing definitions (O-53). Diagram panel M.
+2026-11-26 Pass 16: call, God's work and return defined from the letter; God presupposition and four surplus implications stand; REV-32 fixes an ambiguous 'it' (O-0217) and passes (CX-134). Diagram panel N.
