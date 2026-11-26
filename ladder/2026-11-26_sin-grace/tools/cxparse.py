@@ -1,6 +1,6 @@
 import re
 STRICT = r"^\W*(\d+)\.\s*\**\s*(BROKEN|STANDS)\b"
-HEAD = r"^\W*(\d+)\.\s+\S"
+HEAD = r"^\W*(?:Statement\s+(\d+)\s*[:.]|(\d+)\.\s+\S)"
 def parse(reply, n):
     """Return {i: (verdict or None, segment)} for i in 1..n."""
     out = {}
@@ -13,7 +13,11 @@ def parse(reply, n):
         if i in out or i > n: continue
         end = strict[j+1].start() if j+1 < len(strict) else len(reply)
         out[i] = (m.group(2), reply[m.start():end].strip())
-    heads = [(int(m.group(1)), m.start()) for m in re.finditer(HEAD, reply, flags=re.M)]
+    stmt = [(int(m.group(1)), m.start()) for m in re.finditer(r"^\W*Statement\s+(\d+)\s*[:.]", reply, flags=re.M)]
+    if stmt and set(range(1, n+1)) <= {k for k, _ in stmt}:
+        heads = stmt
+    else:
+        heads = [(int(m.group(1) or m.group(2)), m.start()) for m in re.finditer(HEAD, reply, flags=re.M)]
     for i in range(1, n+1):
         if i in out: continue
         starts = [p for k, p in heads if k == i]

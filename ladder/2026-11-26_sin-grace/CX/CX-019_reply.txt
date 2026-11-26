@@ -1,0 +1,46 @@
+## 1. STANDS
+
+To break this, one would need an agent who, toward the same work at the same time, is settled in turning away from it and settled in facing it as their own. Every candidate I tried fails in one of two ways.
+
+- **Splitting the work or the respect.** For example, someone faces the work's merits but is turned away from its failures. Here the agent is not facing *the work* as their own; they face an aspect of it. That shifts the object of the statement.
+- **Weakening "standing condition."** For example, an ambivalent person alternates between owning and avoiding the work, or holds competing tendencies. That is oscillation or inner conflict, not two settled conditions holding at once.
+
+The strongest attempt is "I did it, and I disown it." It also fails. That is acknowledging authorship while turning away. Acknowledging authorship is not facing the work *as one's own*: disowning is precisely the refusal to face it as one's own. Once the terms keep their meaning (same agent, same work, same time, settled conditions), "facing" and "turned away" are opposite orientations. No valid counterexample exists. Any I can build only partializes or equivocates.
+
+## 2. BROKEN
+
+**Counterexample: owning by acceptance, without belief.**
+
+A man has a documented history of sleepwalking. He is shown a cruel letter in his handwriting, sent from his account during a night he cannot recall. The evidence leaves him genuinely uncertain whether he wrote it; he suspends judgment. Even so, he settles into a stable stance toward it:
+
+- He treats the letter as his.
+- He apologizes to its recipient and makes amends.
+- He refuses to deflect blame onto his condition.
+- He lets the letter shape how he understands himself.
+
+He faces the work as his own in every practical and reflective respect. What he does not do is *believe* it is his own: he holds that question open.
+
+This is the familiar distinction between acceptance and belief (as in L. J. Cohen's account). One can adopt a proposition as the basis of one's stance and conduct without believing it. The phrase "facing a work *as* one's own" names a way of regarding and taking up the work, and that can rest on acceptance.
+
+Nothing in the statement's terms is changed:
+
+- There is a real agent and a real work.
+- There is genuine facing, not a pretense, because his stance and conduct are sincere and settled.
+- Belief is absent.
+
+So facing a work as one's own does not *include* believing it is one's own. (A self-denying Buddhist practitioner who fully owns her deeds while denying any "self" to which they belong gives a second case.)
+
+## 3. BROKEN
+
+The statement says that *any* account on which grace can act within its recipient thereby allows facing one's own work as one's own to be given, at least in part. One coherent account that meets the condition but denies the result is enough to break it.
+
+**Counterexample account:**
+
+- **Grace acts within.** Grace genuinely operates inside the person. It heals, infuses faith, illumines the intellect, and sanctifies sacramentally. So it satisfies the condition of acting within the one who receives it.
+- **Ownership is excluded.** The account holds as a principle that facing one's own work as one's own is, by its nature, a strictly self-originated act. Any part of it that came from outside, grace included, would make the facing not one's own. So the account rules out grace, or anything else, giving this facing even partly. Grace may restore or prepare the agent, but the act of owning is the agent's alone. This mirrors positions that reserve the beginning of faith, or of moral self-acknowledgment, to unaided human initiative.
+
+This account is internally consistent. It is a coherent philosophical or theological position, whether or not one finds it attractive. It satisfies the condition and denies the result.
+
+**Possible rescue and why it fails.** One might argue that grace's illumination of the intellect supplies "part" of the facing, since it supplies the belief that the work is one's own. But Statement 2 is broken: facing need not include that belief. The account can also simply deny that illumination is any constituent of the owning act. Either way, the qualifier "at least in part" does not rescue the statement.
+
+The statement holds on some accounts of grace, but it does not follow from the condition it names.

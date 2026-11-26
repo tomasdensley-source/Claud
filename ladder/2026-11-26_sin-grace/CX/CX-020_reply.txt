@@ -1,0 +1,35 @@
+# Verdicts on the Two Statements on Sin, Repentance, and Grace
+
+## Statement 1: STANDS
+
+**What the statement claims:**
+- Sin is a turning away, after knowledge, from one's own work.
+- Its contrary is to stand facing that work *as one's own*.
+- Attention alone does not achieve that contrary.
+- Repentance contains the contrary only once it reaches that facing.
+- Grace is that facing insofar as it is given.
+
+**Counterexamples attempted:**
+
+1. **Humility.** A person who does a good deed and deliberately stops dwelling on it ("let not your left hand know…") seems to be turned away from their own work after knowing it, yet is not sinning.
+   - *Why it fails:* The statement fixes what "turned away" means through its contrary, which is "facing as one's own." So the turning away here is a *disowning* orientation. The humble person does not disown the deed. Asked about it, they would say "yes, I did that." They are simply not dwelling on it. The same answer covers a craftsman who moves on to new work. Neither case meets the statement's terms.
+
+2. **Attention suffices.** Sin occurs "after knowledge," so the person already knows the work is theirs. One could argue that turning attention back to it is then all that is needed to face it as one's own, which would falsify "attention alone does not do."
+   - *Why it fails:* Knowledge plus attention still leaves room for disavowal.
+     - The excuse-maker looks straight at what they did, knows it was them, and still stands beside it, not in it: "circumstances made me," "that wasn't the real me."
+     - A person forced to watch a recording of their deed attends fully and still does not own it.
+   - Owning the work is an act beyond attending to it. If attention is defined to include that owning, it is no longer "attention alone." Every case either confirms the clause or changes what "attention" means.
+
+3. **Grace versus repentance.** One could look for a conflict between a facing that is *given* (grace) and a facing that repentance *arrives at*.
+   - *Why it fails:* The statement allows that a facing repentance arrives at may itself be given. Its "insofar as" restricts what counts as grace without excluding anything. No case forces a contradiction.
+
+**Conclusion:** No valid counterexample can be built without changing what "turned away," "as one's own," or "attention" mean.
+
+## Statement 2: STANDS
+
+Statement 2 has the same structure as Statement 1, minus the clause about attention. It also says "holds" instead of "contains" and "comes to stand there" instead of "arrives at that facing." These wording changes do not alter what is being claimed.
+
+- The humility and craftsman cases fail for the same reason as above: they are not disowning turnings away.
+- With the attention clause removed, there is even less to attack. What remains is a definition of sin by its contrary, a condition on when repentance holds that contrary, and a restriction on what counts as grace. None of these conflicts with the others.
+
+**Conclusion:** No case satisfies the statement's terms while making it false.

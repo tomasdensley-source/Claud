@@ -12,3 +12,7 @@
 | A-005 | possibility | a showing that no condition can be both given and achieved |
 | A-004-S1, A-004-S2 | possibility | a showing of impossibility within its terms |
 | REV-5, REV-6 | vulnerable generalization (pass 3) | one valid case inside its terms |
+| pass4 S-001.aR, S-002.b, S-005.a, S-006.aR, S-006.bR, A-006-S1, A-006-S2 | possibility | a showing of impossibility within its terms |
+| pass4 S-001.b, S-002.aR, S-003.a, S-003.b, S-004.a, S-004.b, S-005.bR, A-006 | vulnerable generalization | one valid case inside its terms |
+| pass4 S-003.aR, S-003.bR, S-006.aR2 | vulnerable generalization; S-006.aR2 possibility | as above |
+| REV-7, REV-8 | vulnerable generalization (pass 4) | one valid case inside its terms |

@@ -1,0 +1,21 @@
+# CX-016 meta
+Time UTC: 2026-11-26T04:36:10.469287+00:00
+Platform: OpenRouter chat completions. Model requested: anthropic/claude-opus-5.5; reported: anthropic/claude-opus-5.5; id: gen-1795667726-i6uvesdhpHefVbQ1zZ7R
+Freshness (5.3.1(b)): one request, messages array holds one user message, no system message. Payload: CX-016_payload.json. No further turn sent.
+Integrity diff (must be empty): EMPTY
+
+## Number map
+| # | Object | Exact sentence |
+|---|---|---|
+| 1 | P4:S-001.aR | Being turned away from something can persist as a standing condition after the act of turning away is over, and a definition of sin may name that condition rather than the act. |
+| 2 | P4:S-001.b | A work remains the work of one's own hand after it is done, so one can stand in a relation to it later. |
+| 3 | P4:S-002.aR | The knowledge required includes at least knowledge that the work is one's own. |
+| 4 | P4:S-002.b | Knowledge that a work is one's own can persist while one is turned away from it. |
+| 5 | P4:S-003.a | Being turned away from a work and facing it as one's own are in the same respect, so they cannot both hold of one agent toward one work at one time. |
+| 6 | P4:S-003.b | Facing a work as one's own includes knowing that it is one's own. |
+| 7 | P4:S-004.a | Attending to a work and acknowledging it as one's own are distinct. |
+| 8 | P4:S-004.b | Facing a work as one's own requires acknowledging it, not only attending to it. |
+| 9 | P4:S-005.a | Repentance can fail to arrive at facing one's work as one's own. |
+| 10 | P4:S-005.bR | Repentance that arrives at facing one's work as one's own then includes that facing, though repentance may also include more, such as sorrow and resolve to amend. |
+| 11 | P4:S-006.aR | On accounts that admit grace, facing one's own work as one's own can be given, at least in part. |
+| 12 | P4:S-006.bR | Grace can name the giver's favor or what is given, and in the second sense it can name a facing given to the one who receives it. |

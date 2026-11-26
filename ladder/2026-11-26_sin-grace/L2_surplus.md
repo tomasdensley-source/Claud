@@ -19,3 +19,9 @@ Disliked implication kept (Ladder 058): A-002-S2 threatens A-002, because preven
 Rejected (recycled from construction set): "Being shown the consequences of one's deed does not by itself produce acknowledgment" (restates O-0030); "One can acknowledge a deed without changing one's conduct" (restates O-0029).
 A-005: LIVE-BARREN. Reason: it is a possibility claim; its candidate consequences either restate O-0028 ("given and achieved are not exclusive") or are mere instances that a possibility claim does not entail.
 Constraint observed (§9.6, Ladder 073): no new surplus was added to A-001, A-002v2, A-003v2 or T-001, whose derivation closed before their tests.
+
+## Pass 4 surplus (CLOSED before any pass-4 test; all untested)
+| ID | Statement | ENTAILED | ABSENT (construction set named) | TEST SURFACE |
+|---|---|---|---|---|
+| A-006-S1 | Sorrow for a deed can occur without the facing of that deed as one's own. | The elements are separable, so sorrow can occur without the facing. | G-006 (O-0012, O-0021, O-0026, O-0042) contains no case of sorrow apart from facing. | Self-pitying or self-excusing remorse. |
+| A-006-S2 | Resolve to amend one's conduct can be present without sorrow for what one did. | The elements are separable, so resolve can occur without sorrow. | G-006 contains no case of resolve apart from sorrow. | Cool-headed reform after a mistake one does not regret. |

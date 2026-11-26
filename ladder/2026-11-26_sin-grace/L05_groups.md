@@ -12,3 +12,9 @@
 | G-004 | registers of facing | instinct | O-0014, O-0029, O-0030, O-0031, O-0035 |
 | G-005 | given and achieved together | instinct | O-0018, O-0028, O-0036 |
 Left ungrouped (Ladder: may remain ungrouped): O-0032, O-0033, O-0034.
+
+## Pass 4 (Step 0.5 again)
+| ID | Tag | Basis | Members |
+|---|---|---|---|
+| G-006 | what repentance contains | instinct | O-0012, O-0021, O-0026, O-0042 |
+Left ungrouped: O-0040, O-0041, O-0043, O-0044, O-0045. (A grace-senses group over O-0009, O-0025, O-0044 was considered and refused: those members show two senses but nothing beyond the split already tested as S-004.bR3/bR4, so no abstraction adding constraint could be built from them without smuggling.)

@@ -64,3 +64,19 @@ Steps 7-8: not run. Convergence needs independently developed paths; one sentenc
 | REV-6 | Sin is the turning away, after knowledge, from the work of one's own hand; its contrary is the facing that owns it. Repentance is that contrary only when it arrives there, and grace is that facing insofar as it is given. | passes CX as phrased (CX-015); "it" is ambiguous (O-0039) |
 Tester's remark (CX-015): both revisions "are stipulative definitions".
 Not done: no new surplus for A-001, A-002v2, A-003v2 or T-001 (derivation for those phrasings closed before their tests, §9.6). Ungrouped: O-0032, O-0033, O-0034, O-0037, O-0038, O-0039.
+
+## Pass 4 (2026-11-26): REV-5 carried forward by ruling ("Use Rev 5.")
+Pass-4 audit (pass4/P04_reply.txt): DEMONSTRATED 7, CONTESTED 4, FALSE AS STATED 1.
+| ID | Exact sentence | Status |
+|---|---|---|
+| pass4 S-003.aR | Being turned away from a work as a standing condition and facing it as one's own as a standing condition cannot both hold of one agent toward one work at one time. | passes CX as phrased (CX-019) |
+| pass4 S-003.bR | (belief requirement) | FAILED CX (CX-019 #2); discarded |
+| pass4 S-006.aR2 | (facing can be given, on accounts where grace acts within) | FAILED CX (CX-016 #11, CX-019 #3); discarded |
+| pass4 others | see pass4/P04R_reformulated.md | 9 of 12 pass CX (CX-016) |
+| G-006 | what repentance contains (O-0012, O-0021, O-0026, O-0042) | group |
+| A-006 | Repentance is a compound of separable elements, such as sorrow, resolve to amend, and the facing of what one did, so it can contain the contrary of a condition without being identical to that contrary. | passes CX as phrased (CX-017) |
+| A-006-S1, A-006-S2 | (see L2_surplus.md, pass 4) | pass CX as phrased (CX-018) |
+| REV-7 | Sin is being turned away, after knowledge, from the work of one's own hand; its contrary is to stand facing that same work as one's own, which attention alone does not do. Repentance contains that contrary only once it arrives at that facing, and grace is that facing insofar as it is given. | passes CX as phrased (CX-020) |
+| REV-8 | Sin is being turned away, after knowledge, from the work of one's own hand; its contrary is to stand facing that work as one's own. Repentance holds that contrary only once it comes to stand there, and grace is that facing insofar as it is given. | passes CX as phrased (CX-020) |
+Finding carried into the piece: REV-5's contrary was a momentary facing set against a standing condition; CX-016 #5 showed the two can coexist, so REV-7 and REV-8 make the contrary a standing facing.
+Finding about the grace clause: "insofar as it is given" does not assert that the facing is given; that is why the clause survives accounts on which it cannot be (S-006.aR, S-006.aR2 discarded).

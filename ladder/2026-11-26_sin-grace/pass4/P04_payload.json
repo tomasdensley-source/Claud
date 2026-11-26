@@ -1,0 +1,9 @@
+{
+ "model": "anthropic/claude-opus-5.5",
+ "messages": [
+  {
+   "role": "user",
+   "content": "You are given numbered propositions. For each, give exactly one category, DEMONSTRATED, CONTESTED, or FALSE AS STATED, followed by one line of ground.\n\n1. Sin can be a standing condition of an agent, not only a single act.\n2. A work remains the work of one's own hand after it is done, so one can stand in a relation to it later.\n3. The knowledge required is knowledge that the work is one's own.\n4. Knowledge that a work is one's own can persist while one is turned away from it.\n5. Being turned away from a work and facing it as one's own are in the same respect, so they cannot both hold of one agent toward one work at one time.\n6. Facing a work as one's own includes knowing that it is one's own.\n7. Attending to a work and acknowledging it as one's own are distinct.\n8. Facing a work as one's own requires acknowledging it, not only attending to it.\n9. Repentance can fail to arrive at facing one's work as one's own.\n10. Repentance that arrives at facing one's work as one's own is then itself that facing.\n11. Facing one's own work as one's own can be given, at least in part.\n12. Grace names what is given in such a facing, not the giver's favor."
+  }
+ ]
+}

@@ -32,4 +32,6 @@ You are given numbered statements and a body of writing. For each statement answ
 - O-14: Choice between REV-1, REV-3 and REV-4 (all pass CX as phrased). REV-4 keeps the original's cadence but drops the knowledge condition from the facing. Author.
 - O-15: A-004 shows facing has registers (attention, acknowledgment, conduct). REV-5 and REV-6 name the acknowledgment register for the contrary but leave sin's "turning away" unregistered. No tester broke this; whether the piece should name the register for sin too is the author's call.
 - O-16: REV-6's "it" may refer to the work or to the turning away (O-0039). A writing choice for the author.
-- O-14 (updated): choice among REV-1, REV-3, REV-4, REV-5, REV-6 (all pass CX as phrased).
+- O-14 CLOSED 2026-11-26 by author ruling: "Use Rev 5." (RULINGS.md)
+- O-17: Carry-forward after pass 4: REV-7 (keeps the tested attention clause) or REV-8 (leaner). Operator's recommendation is recorded in RUNLOG.md, entry 28; the choice is the author's.
+- O-18: Tester-format parsing: two parser defects found and fixed (RUNLOG 25, 26). A fixed reply format would remove this class of defect; the fixed prompt cannot be changed by the operator (§5.4).

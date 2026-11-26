@@ -47,3 +47,15 @@ Affect charge: not recorded (the operator is not the selector; the author's affe
 | O-0037 | A tester stated that acknowledgment can occur without attention, as in signing off on a report as one's own without reading it. | CX-013 #1 |
 | O-0038 | A tester stated that recognizing a deed as one's own differs from acknowledging it as one's own, and refusal needs only recognition. | CX-014 #2 |
 | O-0039 | A tester stated that in "the facing that owns it", "it" may refer either to the work or to the turning away. | CX-015 #2 |
+| O-0040 | An auditor stated that act-only accounts of sin deny that a standing condition is sin in the proper sense. | pass4/P04_reply.txt #1 |
+| O-0041 | An auditor stated that facing a work may require knowing its character, such as its wrongness, not only that it is one's own. | pass4/P04_reply.txt #3 |
+| O-0042 | An auditor stated that repentance is often held to include more than the facing: sorrow, resolve to amend, and turning to God. | pass4/P04_reply.txt #10 |
+| O-0043 | An auditor stated that autonomy-based accounts of moral self-reckoning deny that facing one's work can be given. | pass4/P04_reply.txt #11 |
+| O-0044 | An auditor stated that grace standardly names the giver's favor as well as the gift. | pass4/P04_reply.txt #12 |
+| O-0045 | An auditor stated that apparent ambivalence toward a work splits into different aspects of the work. | pass4/P04_reply.txt #5 |
+| O-0046 | A tester stated that a man settled in aversion toward his betrayal can, in one moment, acknowledge it as his and then return to his settled refusal, so a momentary facing and a standing turning away can hold at once. | CX-016 #5 |
+| O-0047 | A tester stated that one can face a work as one's own on true belief that falls short of knowledge (a Gettier case). | CX-016 #6 |
+| O-0048 | A tester stated that an account admitting grace only as forensic pardon holds that the facing is wholly the sinner's own act. | CX-016 #11 |
+| O-0049 | A tester stated that a person can face a work as their own on acceptance without belief that it is theirs (a sleepwalker who owns a letter he cannot recall writing). | CX-019 #2 |
+| O-0050 | A tester stated that an account can let grace act within a person while holding that owning one's work must be wholly self-originated. | CX-019 #3 |
+| O-0051 | A tester stated that a humble person who stops dwelling on a good deed they did is not turned away from it in the disowning sense, since asked they would say "yes, I did that". | CX-020 #1 |

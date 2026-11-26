@@ -1,0 +1,40 @@
+# Verdicts on the Twelve Statements
+
+**1. STANDS.** This claims only a possibility. It is coherent for an aversion to outlast the act that began it, as a settled disposition does. It is also coherent for a definition to pick out that standing state. No case refutes a "can" or "may" claim when the possibility is plainly coherent.
+
+**2. STANDS.** Authorship is a fact about the past, and the work's completion cannot undo it. Even if the work is destroyed, it remains true that one made it. That fact is enough for a later relation such as remembering, owning up to, or regretting it. Any counterexample would have to change what "work of one's own hand" means.
+
+**3. STANDS.** Read inside the framework (knowledge required for knowing aversion, or for facing), it sets only a minimum ("at least"). Any knowledge that counts as knowing about *one's own* work must include that it is one's own. I found no valid case within the statement's terms.
+
+**4. STANDS.** Example: someone knows perfectly well they wrote the cruel letter and steadily refuses to look at it. Knowledge and aversion clearly coexist.
+
+**5. BROKEN.**
+- **Counterexample:** A man has been settled for years in aversion toward a betrayal he committed. This is the standing condition that Statement 1 allows.
+- **The moment of facing:** Confronted once, he looks straight at the act and says, "Yes, that was mine; I did it." In that moment he attends to it, acknowledges it, and knows it as his own.
+- **Why the aversion persists:** He then returns to his settled refusal to live in relation to it. During the moment of facing, the disposition was never revoked.
+- **Result:** At that one time, both hold of one agent toward one work. He faces the work as his own (occurrent acknowledgment) and is turned away from it (standing condition). They hold in different respects: act versus standing state.
+- The statement's own framework makes this distinction available. So the claim that the two are in the same respect fails, and with it the conclusion that they cannot co-occur.
+
+**6. BROKEN.**
+- **Counterexample:** A Gettier case. You did break the heirloom, but without noticing. You believe you broke it only because a lying witness told you so, and the witness was in fact trying to frame you.
+- **The facing:** You attend to the broken heirloom and acknowledge it fully: "This is my doing." Your belief is true and justified, but it is not knowledge.
+- **Result:** You face your own work as your own. The work is yours, and you attend and acknowledge. Yet you do not *know* it is yours. So facing does not necessarily include knowing.
+
+**7. STANDS.** One can stare at one's work while denying that it is one's own. The two come apart, so they are distinct.
+
+**8. STANDS.** Attending while disowning, as in the case under 7, is not facing the work *as one's own*. Acknowledgment is therefore required.
+
+**9. STANDS.** Repentance that stops at grief over consequences, fear of punishment, or vague regret shows this possibility. In none of these does the person arrive at "this is mine."
+
+**10. STANDS.** "Arrives at" places the facing inside the repentance, as its reached term. The added allowance ("may also include more") is purely permissive. I found no counterexample that stays within the terms.
+
+**11. BROKEN.**
+- **Counterexample:** Consider an account that admits grace only as forensic pardon. On this account, God freely remits guilt *after* the sinner acknowledges the sin. It also holds that acknowledgment and attention are wholly the sinner's own act, with no aid, capacity, or gift involved.
+- **Result:** This account admits grace, yet on it the facing cannot be given even in part.
+- The statement covers accounts that admit grace in general, not only those that extend grace to the sinner's turning. One coherent account of this kind therefore falsifies it.
+
+**12. STANDS.** The distinction between grace as the giver's favor and grace as the gift given is standard (uncreated versus created grace). Nothing prevents the gift from being a facing that is bestowed. This is a coherent possibility claim.
+
+**Summary:**
+- **BROKEN:** 5, 6, 11
+- **STANDS:** 1, 2, 3, 4, 7, 8, 9, 10, 12

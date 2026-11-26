@@ -1,0 +1,45 @@
+# Results
+
+Both statements are **possibility claims** ("can occur," "can be present"). A single counterexample case cannot refute a possibility claim. The only way to break one is to show the described combination is impossible. So for each statement I tried to establish impossibility, and I found that real cases instantiate the combination instead.
+
+---
+
+## 1. Sorrow for a deed can occur without the facing of that deed as one's own.
+
+**Verdict: STANDS**
+
+**Attempted break:** One could argue that genuine sorrow *for a deed* (as opposed to sorrow about an outcome) already includes owning it. On this view, sorrow without ownership is really sorrow about consequences, so the claim is incoherent.
+
+**Why the attempt fails:** The statement says "sorrow," not "remorse." It does not require the sorrow to be morally complete. Ordinary cases satisfy the statement on its own terms:
+
+- **Disowning the deed:** A driver who caused a crash grieves over that collision and wishes it had never happened. Yet he insists "the road was icy, anyone would have done it." He sorrows for the deed while deflecting authorship.
+- **Another person's deed:** Someone sorrows over a betrayal committed by a friend. The phrasing "sorrow for a deed" does not require the deed to be the sorrower's own.
+
+The impossibility argument works only by narrowing "sorrow" to mean "contrition." That changes what the word means, so it is not a valid break. Since no impossibility can be shown, the statement stands.
+
+---
+
+## 2. Resolve to amend one's conduct can be present without sorrow for what one did.
+
+**Verdict: STANDS**
+
+**Attempted break:** One could argue that resolving to *amend* presupposes judging the past conduct as wrong, and that such a judgment entails sorrow.
+
+**Why the attempt fails:** Judging conduct suboptimal or wrong does not entail feeling sorrow about it. Concrete cases:
+
+- **Prudential correction:** A person resolves to stop arriving late to meetings because it is hurting their promotion prospects. They feel no sorrow about past lateness, only calculation.
+- **Indifference to the past:** Someone resolves to quit a habit after learning new information. They regard their past behavior with indifference, or even fondness ("I enjoyed it, but it's time to stop").
+- **Reluctant compliance:** A person resolves to obey a rule they think is arbitrary, purely to avoid penalties. They feel no sorrow for having broken it.
+
+In each case, the resolve to amend is real and the sorrow is absent. Impossibility cannot be shown, so the statement stands.
+
+---
+
+## Summary
+
+| # | Verdict |
+|---|---------|
+| 1 | STANDS |
+| 2 | STANDS |
+
+Neither statement could be broken. Each describes a combination that real cases instantiate. The only route to "breaking" either one would be to redefine "sorrow" as full moral contrition, which steps outside the statements' own terms.

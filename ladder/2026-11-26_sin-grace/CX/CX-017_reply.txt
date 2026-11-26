@@ -1,0 +1,27 @@
+**Verdict: STANDS**
+
+**What the statement claims.** It makes two moves:
+
+1. A premise: repentance is made up of separable elements, such as sorrow, resolve to amend, and facing what one did.
+2. A conclusion that follows from it: repentance *can* contain the contrary of some condition without *being* that contrary.
+
+The conclusion only claims a possibility. So it is true if even one case works.
+
+**Why the inference holds.** If repentance has several distinct, separable elements, each element is only a proper part of the whole. A whole with other parts cannot be identical to just one of its parts. So whenever one element is the contrary of some condition, repentance contains that contrary without being it.
+
+A concrete case: sorrow over the deed is the contrary of complacency, or delight in one's wrongdoing. Repentance contains that sorrow. But repentance is not the same thing as that sorrow, because it also includes resolve to amend and honest facing of the act. This one case is enough to make the possibility claim true.
+
+**Attempted counterexamples and why they fail.**
+
+- **Deny that the elements are separable.** One could argue that repentance is a single, simple act, so sorrow and resolve are only aspects of one thing. But experience shows they come apart:
+  - Remorse without resolve to amend exists, as in despairing regret (Judas is the classic figure).
+  - Resolve to amend without sorrow exists, as in a purely prudential decision to change.
+  - Facing what one did can occur with neither, as in a cold, clinical admission.
+
+  So the separability premise holds.
+
+- **Find a repentance that lacks one element.** An example would be a sudden conversion with no felt sorrow. This shows not every element is always present. It does not show repentance is simple. The case still has several parts, so the non-identity point still applies.
+
+- **Make the contained contrary be the whole of repentance.** Suppose the "condition" is impenitence, whose contrary is repentance itself. Then repentance would not "contain" that contrary as a part; it would simply be it. This does not refute the statement, because the statement claims only that repentance *can* contain *a* contrary without being identical to it, not that this is true of every contrary. The sorrow-versus-complacency case already meets the claim.
+
+**Conclusion.** No case satisfies the statement's terms while making its conclusion false. Once the compound premise is granted, and that premise is supported, the conclusion follows from the basic principle that a whole with multiple parts is not identical to any one of them.

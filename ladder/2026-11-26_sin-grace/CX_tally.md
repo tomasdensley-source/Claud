@@ -50,5 +50,25 @@
 | CX-014 | 2 | A-004-S2 | STANDS |
 | CX-015 | 1 | REV-5 | STANDS |
 | CX-015 | 2 | REV-6 | STANDS |
+| CX-016 | 1 | P4:S-001.aR | STANDS |
+| CX-016 | 2 | P4:S-001.b | STANDS |
+| CX-016 | 3 | P4:S-002.aR | STANDS |
+| CX-016 | 4 | P4:S-002.b | STANDS |
+| CX-016 | 5 | P4:S-003.a | BROKEN |
+| CX-016 | 6 | P4:S-003.b | BROKEN |
+| CX-016 | 7 | P4:S-004.a | STANDS |
+| CX-016 | 8 | P4:S-004.b | STANDS |
+| CX-016 | 9 | P4:S-005.a | STANDS |
+| CX-016 | 10 | P4:S-005.bR | STANDS |
+| CX-016 | 11 | P4:S-006.aR | BROKEN |
+| CX-016 | 12 | P4:S-006.bR | STANDS |
+| CX-017 | 1 | A-006 | STANDS |
+| CX-018 | 1 | A-006-S1 | STANDS |
+| CX-018 | 2 | A-006-S2 | STANDS |
+| CX-019 | 1 | P4:S-003.aR | STANDS |
+| CX-019 | 2 | P4:S-003.bR | BROKEN |
+| CX-019 | 3 | P4:S-006.aR2 | BROKEN |
+| CX-020 | 1 | REV-7 | STANDS |
+| CX-020 | 2 | REV-8 | STANDS |
 
-STANDS=34 BROKEN=14 invalid=0 tested=48
+STANDS=49 BROKEN=19 invalid=0 tested=68

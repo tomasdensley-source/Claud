@@ -13,3 +13,8 @@ No members are called implications before this table (D3). Generality: all three
 |---|---|---|
 | A-004 | G-004 | Facing one's own work can occur in attention, in acknowledgment, or in conduct, and none of these three guarantees the other two: an agent can face the work in one of them while being turned away from it in another. |
 | A-005 | G-005 | One and the same condition in a person can be both given and achieved, as when what is received must also be taken up, so "given" and "achieved" do not divide conditions into two exclusive kinds. |
+
+## Pass 4 (Step 1; candidate abstraction; operator construction; untested)
+| ID | Group | Exact sentence |
+|---|---|---|
+| A-006 | G-006 | Repentance is a compound of separable elements, such as sorrow, resolve to amend, and the facing of what one did, so it can contain the contrary of a condition without being identical to that contrary. |

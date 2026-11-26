@@ -11,3 +11,9 @@ None received for this run yet.
 ## 2026-11-26 (verbatim)
 "reformulate P04 and try to apply the latter method, test the abstractions."
 "My corpus doesn't matter. Run the ladder method as shown in the ladder document."
+
+## 2026-11-26 (verbatim; the first two messages were interrupted by the author before the third)
+"continue to pass and letting you make the decision as to which one is strongest and which one to carry forth."
+"Or you can force all of them."
+"Draft. Action. Change of plans. Use Rev 5."
+Operator's reading, recorded as such: REV-5 is carried forward; passes continue with REV-5 as the piece. The third message supersedes the first two.
