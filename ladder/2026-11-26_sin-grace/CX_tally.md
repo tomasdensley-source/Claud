@@ -238,5 +238,47 @@
 | CX-093 | 2 | A-013v4 | STANDS |
 | CX-094 | 1 | REV-28 | BROKEN |
 | CX-095 | 1 | REV-29 | STANDS |
+| CX-096 | 1 | D-02 | STANDS |
+| CX-096 | 2 | D-04 | STANDS |
+| CX-096 | 3 | D-05 | STANDS |
+| CX-096 | 4 | D-06 | STANDS |
+| CX-096 | 5 | D-07 | BROKEN |
+| CX-096 | 6 | D-08 | STANDS |
+| CX-097 | 1 | D-09 | BROKEN |
+| CX-097 | 2 | D-10 | BROKEN |
+| CX-097 | 3 | D-12 | STANDS |
+| CX-097 | 4 | D-13 | STANDS |
+| CX-097 | 5 | D-14 | STANDS |
+| CX-097 | 6 | D-16 | STANDS |
+| CX-098 | 1 | D-18 | STANDS |
+| CX-098 | 2 | D-19 | STANDS |
+| CX-098 | 3 | D-20 | STANDS |
+| CX-099 | 1 | D-07v2 | STANDS |
+| CX-099 | 2 | D-09v2 | STANDS |
+| CX-099 | 3 | D-10v2 | BROKEN |
+| CX-100 | 1 | D-10v3 | INVALID (API error; no reply) |
+| CX-101 | 1 | E-1 | STANDS |
+| CX-102 | 1 | E-2 | INVALID (API error; no reply) |
+| CX-103 | 1 | E-3 | STANDS |
+| CX-104 | 1 | E-4 | INVALID (API error; no reply) |
+| CX-105 | 1 | E-5 | STANDS |
+| CX-106 | 1 | E-6 | BROKEN |
+| CX-107 | 1 | D-10v3 | BROKEN |
+| CX-108 | 1 | E-2 | STANDS |
+| CX-109 | 1 | E-4 | BROKEN |
+| CX-110 | 1 | D-10v4 | STANDS |
+| CX-110 | 2 | D-14v2 | STANDS |
+| CX-111 | 1 | E-1v2 | STANDS |
+| CX-112 | 1 | E-4v2 | BROKEN |
+| CX-113 | 1 | E-6v2 | STANDS |
+| CX-114 | 1 | D-20v2 | BROKEN |
+| CX-114 | 2 | D-21v2 | STANDS |
+| CX-115 | 1 | D-20v3 | BROKEN |
+| CX-116 | 1 | E-4v4 | STANDS |
+| CX-117 | 1 | E-3v2 | STANDS |
+| CX-118 | 1 | REV-30 | STANDS |
+| CX-119 | 1 | D-20v4 | BROKEN |
+| CX-120 | 1 | E-4v5 | STANDS |
+| CX-121 | 1 | D-20v5 | BROKEN |
 
-STANDS=140 BROKEN=88 invalid=8 tested=236
+STANDS=167 BROKEN=100 invalid=11 tested=278

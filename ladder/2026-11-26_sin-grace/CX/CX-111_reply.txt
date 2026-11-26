@@ -1,0 +1,31 @@
+**Verdict: STANDS**
+
+**What has to be shown.** By definition (4), the conclusion needs two things:
+
+- **(a) Exclusion.** Standing turned toward one's own work, in acknowledgment and in the deeds it rightly calls for, cannot hold together with remaining turned away from that work. This must hold in the same subject, toward the same object, at the same time.
+- **(b) Joint absence.** Both standings can be absent at once.
+
+**(a) Exclusion holds.**
+- By (3), standing turned toward is holding a turning *toward* the work as a standing.
+- By (2), remaining turned away is holding a turning *from* it, "rather than toward," as a standing.
+- Definition (1) treats toward and away as alternatives ("rather than away"). Definition (2) builds the exclusion of "toward" into "turned away." So no subject can hold both standings toward the same work at the same time.
+- Making the "toward" side more demanding cannot reintroduce overlap. Adding acknowledgment (5–6) and deeds (7) only narrows it, so it still excludes the turning-away standing.
+
+**(b) Joint absence holds.**
+- *Someone in the course of turning back.* Definition (2) expressly excludes this person from "remaining turned away." They have not yet settled into a standing toward the work, so neither standing is present.
+- *Someone who faces the work only momentarily.* By (1), facing can be momentary rather than a standing, so again neither standing need be present.
+- *Someone who acknowledges the work but has not done the deeds it rightly calls for.* This person lacks the compound "toward" standing. They need not hold a standing turning-away either.
+
+**Counterexamples I tried, and why they fail.**
+
+1. **Lapsed attention.** A person stands turned toward the work but is not currently attending to it. Is that a turning away? No. Definition (3) says the standing persists without continuous attention, so lapsed attention is not a turning from.
+
+2. **Acknowledgment without the deeds.** This case fails the compound "toward" standing, so it cannot show both standings together. It is at most a case where both are absent, which (4) explicitly allows.
+
+3. **No deeds rightly called for.** Suppose the work calls for no deed that can rightly be done. Definition (7) then makes the "deeds" clause vacuously satisfied. Acknowledgment alone constitutes the "toward" standing, which still excludes turning away.
+
+4. **Splitting the object.** One might try "turned toward the work in one respect, away in another." This changes the object into aspects of the work, and (4) requires the same object. A case built this way steps outside the statement's terms.
+
+5. **The compound standing can never exist.** If it were impossible, the claim might look empty. But it can be instantiated: inwardly owning the work, owning it in speech, naming it accurately, and doing proportionate right deeds are jointly possible. In any case, (4) does not require that each standing be possible.
+
+Every candidate either respects the statement's terms and leaves it intact, or breaks it only by changing the object or the meaning of the terms. No valid counterexample can be constructed, so the statement stands.

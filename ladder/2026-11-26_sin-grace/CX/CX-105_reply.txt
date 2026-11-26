@@ -1,0 +1,25 @@
+**Verdict: STANDS**
+
+**Why no valid counterexample exists.** The conclusion is the result of substituting the definitions into one another. Every element of the conclusion traces back to a definition, and nothing is added or lost.
+
+- **"Sin is remaining turned away, after understanding..."** This comes straight from definition (1): sin is the abandonment, after understanding, of one's own work, glossed as "remaining turned away from it." Definition (4) only explains what "remaining turned away" means: a standing turn-away held over time, not a turning back. The conclusion keeps that phrase unchanged.
+
+- **"...from what one has made, done or left undone as its author."** This replaces "one's own work" in (1) with the content of definition (2). Definition (2) defines the work of one's own hand as what one has authored: what one made or did, directly or through others at one's direction, or left undone when it was one's to do. The phrase "as its author" keeps all of (2)'s limits in place:
+  - **Done through others at one's direction:** this is included, because one is its author.
+  - **What another's free choice makes of the work:** this is excluded, because one is not its author.
+  - **Things left undone that were not one's to do:** these are excluded, because (2) counts omissions as authored only when the task was one's to do.
+  - **Finished work:** this remains one's own, so turning away from past work still counts.
+
+**Attempted counterexamples, and why each fails.**
+
+1. **A person turns away from someone else's free misuse of their work.** This is not sin under (1)–(2). It is also not sin under the conclusion, because the person is not the author of that misuse. The two agree.
+
+2. **A person turns away from an omission that was never theirs to do.** The definitions exclude it, and "as its author" excludes it too. The two agree.
+
+3. **A person turns away briefly but is already turning back.** Definition (4) excludes this. The conclusion uses the same phrase "remaining turned away," so it excludes it as well.
+
+4. **A person suspects a work is theirs and refuses to find out.** Definition (3) says this refusal does not excuse them. The conclusion keeps the same "after understanding" condition as (1), so it handles the case the same way.
+
+5. **Exploiting the wording gap.** Definition (1) says "one's own work," while (2) defines "the work of one's own hand." Treating these as different would break the link. However, the definitions are plainly meant to define the term (1) uses. Reading them as different changes what the words mean, so this is not a valid counterexample.
+
+Since no case that stays within the statement's terms makes the conclusion false, the statement stands.

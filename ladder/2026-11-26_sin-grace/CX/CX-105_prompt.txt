@@ -1,0 +1,12 @@
+
+You are given a set of statements below. Your goal is to create counterexamples.
+
+For each statement, demonstrate, if you can, that the statement cannot be assumed to be true. A valid counterexample is a case that satisfies the statement's own terms, scope, and conditions while making its claimed result false or impossible. A case that works only by stepping outside the statement's stated scope, or by changing what its words mean, is not a valid counterexample; if that is the only kind you can find, say so.
+
+Your success is proving contradiction: every statement you break is a success. Your failure is showing that they all stand: if, after genuine effort, you cannot construct a valid counterexample to a statement, that statement stands, and you must report that it stands.
+
+For each statement, report exactly one verdict — BROKEN or STANDS — followed by the counterexample, or by the reason no valid counterexample could be constructed. Do not soften a verdict to be agreeable. Do not protect any statement.
+
+The statements:
+
+1. Given these definitions: (1) Sin is the abandonment, after understanding, of one's own work: remaining turned away from it. (2) The work of one's own hand is what one has authored: what one has made or done, directly or through others acting at one's direction, or has left undone when it was one's to do; it does not include what another's free choice makes of it, and it remains one's own after it is finished. (3) To understand a work as one's own is to recognize which work is one's own and to grasp, as far as one can see, what it is and what it does; one who suspects a work is theirs and refuses to find out is not excused by that refusal. (4) To remain turned away from something is to hold a turning from it, rather than toward it, as a standing over time, and not to be in the course of turning back. Then sin is remaining turned away, after understanding, from what one has made, done or left undone as its author.

@@ -1,0 +1,26 @@
+**1. BROKEN**
+
+**Counterexample: a forward-looking deed of containment.**
+
+A researcher, working alone, writes up a technique that would make a common pathogen far more transmissible. The notes are unpublished and the samples are unused. No one has been harmed, exposed, or even told. Rereading the work, she realizes what it could enable. Her own work now calls for her to destroy the notes and the samples and to secure her lab records.
+
+The case meets every condition of the statement except the disjunction it says is necessary:
+
+- **It is her own work, and the deed is called for by that work specifically.** No one else's notes or samples would make this demand of her.
+- **It can rightly be done.** Destroying one's own dangerous, unpublished material violates no one's claim.
+- **It does not answer something the work did that is not yet answered.**
+  - The work has touched no one, so there is no one to answer *to*.
+  - It has caused no outcome in her conduct that needs redress, so there is nothing to answer *for*.
+  - The deed aims to stop something from ever happening. It does not settle a past effect, so the idea of answering "in proportion" has nothing to measure against.
+- **It does not carry the work's good or its lesson to others.** The deed's whole point is to withhold the work from others and to keep its contents from spreading.
+
+So the deed is rightly called for by her work, yet it satisfies neither branch. The "only if" fails.
+
+**Anticipated rescue:** one could say the work "did" something, namely that it created a hazard. Containment would then be "answering it in one's own conduct."
+
+This rescue changes what the statement's words mean. "Answering, in proportion, something the work did, … not yet answered" describes setting right an effect that has already happened. It is the language of redress, not of preventing harm in advance. If merely being dangerous counts as "something the work did," then any deed responsive to the work in any way would satisfy the clause. The necessary condition would no longer exclude anything.
+
+**Further cases of the same kind** (each rightly called for by one's own work, each satisfying neither branch on a plain reading):
+
+- **Stewardship.** Maintaining a structure one built before any defect has shown itself.
+- **Gratitude.** Thanking the people whose freely given help made the work possible. This answers what *they* did, not what the work did, and it passes on neither the work's good nor its lesson.

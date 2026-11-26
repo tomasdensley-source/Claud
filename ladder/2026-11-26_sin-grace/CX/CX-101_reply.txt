@@ -1,0 +1,23 @@
+**Statement 1: STANDS**
+
+The claim is that standing turned toward one's own work, in acknowledgment and in the deeds it rightly calls for, is the contrary of remaining turned away from that work. By definition (4), a contrary must meet two conditions. Both are met, and no valid counterexample can be built.
+
+**Condition 1: both standings are possible.**
+- Both are holdings over time, by definitions (2) and (3).
+- The "toward" side adds acknowledgment and the deeds the work rightly calls for. These further specify the orientation without making it something other than a standing.
+- If no deed can rightly be done, the deed clause is empty but not contradictory. The standing then consists in acknowledgment held over time.
+
+**Condition 2: they cannot hold together in the same subject, toward the same object, at the same time.**
+- Definition (2) makes remaining turned away a holding of a turning from the work "rather than toward it."
+- Standing turned toward is a holding of a turning toward the work.
+- So occupying one excludes occupying the other, for the same subject, object and time.
+- The "toward" side also requires acknowledgment, meaning owning the work inwardly and never disowning it. This narrows that side further and adds no way for the two to overlap.
+- I tried to split them by respect. One attempt was being turned toward the work in speech but away from it inwardly. That fails, because acknowledgment requires owning the work in both. The other attempt was acknowledging the work while neglecting the deeds it calls for. That fails too: it does not create a co-holding. It only means the full "toward" standing is absent.
+
+**Condition 3: both can be absent.**
+- Take someone in the course of turning back toward the work.
+- Definition (2) explicitly excludes them from remaining turned away.
+- They do not yet hold a turning toward the work as a standing over time, and may not yet acknowledge it or do the deeds it calls for. So they do not stand turned toward it either.
+- Both standings are therefore absent in the same subject, toward the same object, at the same time, as definition (4) permits.
+
+The only routes to breaking the statement would be to read "rather than toward" as not excluding a turning toward, or to treat "standing" as compatible with momentary turning. Both depart from the given definitions, so neither counts as a valid counterexample.

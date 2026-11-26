@@ -129,10 +129,10 @@ for c in surplus:
          prov="L2_surplus.md" if "v2" not in sid else "L4_repairs_round1.md", test=t)
     edge(f"L:{parent}", f"L:{sid}", "surplus")
 # revisions
-REVS = []; REVS_A = []; REVS_BY = {"B": [], "C": [], "D": [], "E": [], "F": [], "G": [], "H": [], "I": [], "J": []}
+REVS = []; REVS_A = []; REVS_BY = {"B": [], "C": [], "D": [], "E": [], "F": [], "G": [], "H": [], "I": [], "J": [], "K": []}
 REV_FILES = (("L4_repairs_round2.md", ("L", "A")), ("L4_repairs_round3.md", ("L", "A")), ("L4_repairs_round4.md", ("L", "A")),
-             ("pass4/L4_repairs_round2.md", ("L", "B")), ("pass5/L4_repairs_round2.md", ("L", "C")), ("pass6/L4_repairs_round2.md", ("L", "D")), ("pass7/L4_repairs_round2.md", ("L", "E")), ("pass8/L4_repairs_round2.md", ("L", "F")), ("pass9/L4_revisions.md", ("L", "G")), ("pass10/L4_revisions.md", ("L", "H")), ("pass12/L4_revisions.md", ("L", "I")), ("pass13/L4_revisions.md", ("L", "J")))
-REVCOL = {"L": 9, "A": 7, "B": 6, "C": 5, "D": 4, "E": 5, "F": 4, "G": 4, "H": 3, "I": 2, "J": 2}
+             ("pass4/L4_repairs_round2.md", ("L", "B")), ("pass5/L4_repairs_round2.md", ("L", "C")), ("pass6/L4_repairs_round2.md", ("L", "D")), ("pass7/L4_repairs_round2.md", ("L", "E")), ("pass8/L4_repairs_round2.md", ("L", "F")), ("pass9/L4_revisions.md", ("L", "G")), ("pass10/L4_revisions.md", ("L", "H")), ("pass12/L4_revisions.md", ("L", "I")), ("pass13/L4_revisions.md", ("L", "J")), ("pass14/L4_revisions.md", ("L", "K")))
+REVCOL = {"L": 9, "A": 7, "B": 6, "C": 5, "D": 4, "E": 5, "F": 4, "G": 4, "H": 3, "I": 2, "J": 2, "K": 6}
 for f, ds in REV_FILES:
     for c in table(f, r"REV-\d+$"):
         if len(c) < 2 or c[0] in REVS: continue
@@ -143,7 +143,7 @@ for f, ds in REV_FILES:
             node(f"{d}:{c[0]}", c[0], "revision", c[1], REVCOL[d], d, st, prov=f, test=t)
 for b, revs in (("A-001", REVS), ("A-002v2", REVS), ("A-003v2", REVS), ("A-004", ["REV-5", "REV-6", "REV-7", "REV-9", "REV-10", "REV-11"] + REVS_BY["D"] + REVS_BY["E"]),
                 ("A-005", ["REV-5", "REV-6"]), ("A-006", REVS_BY["B"] + REVS_BY["C"] + REVS_BY["D"] + REVS_BY["E"]), ("A-007", REVS_BY["C"] + REVS_BY["D"] + REVS_BY["E"]),
-                ("A-009v3", REVS_BY["E"]), ("A-010v2", ["REV-16"] + REVS_BY["F"] + REVS_BY["G"] + REVS_BY["H"]), ("A-011v6a", REVS_BY["F"] + REVS_BY["G"] + REVS_BY["H"]), ("A-011v6b", REVS_BY["F"] + REVS_BY["G"] + REVS_BY["H"]), ("A-012", ["REV-19"] + REVS_BY["G"] + REVS_BY["H"]), ("A-017v2", ["REV-28", "REV-29"]), ("A-013v4", ["REV-28", "REV-29"]), ("A-013v2", ["REV-27"])):
+                ("A-009v3", REVS_BY["E"]), ("A-010v2", ["REV-16"] + REVS_BY["F"] + REVS_BY["G"] + REVS_BY["H"]), ("A-011v6a", REVS_BY["F"] + REVS_BY["G"] + REVS_BY["H"]), ("A-011v6b", REVS_BY["F"] + REVS_BY["G"] + REVS_BY["H"]), ("A-012", ["REV-19"] + REVS_BY["G"] + REVS_BY["H"]), ("A-017v2", ["REV-28", "REV-29", "REV-30"]), ("A-013v4", ["REV-28", "REV-29", "REV-30"]), ("A-013v2", ["REV-27"])):
     for rv in revs: edge(f"L:{b}", f"L:{rv}", "basis", "basis")
 for rv in REVS_BY["B"]: edge("L:REV-5", f"L:{rv}", "repair", "carried forward by ruling")
 for rv in REVS_BY["C"]: edge("L:REV-7", f"L:{rv}", "repair", "carried forward by ruling")
@@ -342,6 +342,55 @@ PASSES.append(dict(id="G", title="Pass 9: REV-20, the author's rulings, and faci
     cols=["The piece: REV-20", "Author's statements (tested)", "Repairs and implications", "Second repair", "Revisions · CX-070"]))
 PASSES.append(dict(id="F", title="Pass 8: the author's rulings applied to REV-16", hint="A directed pass. The author's statements on grace, children, rebellion and repentance were tested verbatim (§4.3) and repaired where they broke; the abstraction for what \"rightly calls for\" presupposes (A-011 to A-011v6a/b) and A-012 are in Diagram 1. CX-048 to CX-052 were interrupted and rerun as CX-053 to CX-057.",
     cols=["The piece: REV-16", "Author's statements (tested)", "First repair", "Second repair", "Revisions · CX-046, CX-057, CX-064"]))
+def build_pass14(d, P):
+    """Pass 14: definitions of every term of REV-29, their repairs, entailment conditionals, REV-30."""
+    rev29 = [c[1] for c in table("pass13/L4_revisions.md", r"REV-29$")][0]
+    node(f"{d}:PIECE", "REV-29 (piece)", "piece", rev29, 0, d, "source", prov="pass13/L4_revisions.md (REV-29, carried under R-D, O-49)")
+    alias = {"D-01": "A-017v2", "D-03": "A-013v4", "D-11": "A-010v2", "D-15": "A-006", "D-17": "CJ-002R", "D-21": "AU-012R"}
+    defs = {}
+    for l in rd(P + "DEFINITIONS.md").splitlines():
+        if not l.startswith("| D-"): continue
+        c = [x.strip() for x in l.strip().strip("|").split("|")]
+        obj = c[0]
+        if len(c) == 5:
+            st, t = tested(alias.get(obj, obj))
+            note = f"tested earlier as {alias[obj]}" if obj in alias else ""
+            node(f"{d}:{obj}", obj, "assumption", c[2], 1, d, st, prov=f"{P}DEFINITIONS.md; term {c[1]}; sources {c[3]}" + (f"; {note}" if note else ""), test=t)
+            edge(f"{d}:PIECE", f"{d}:{obj}", "flow", "term")
+        else:
+            failed, op, sent, rec, loss = c[1:6]
+            if obj == "D-21":
+                st, t = tested(alias[obj])
+                node(f"{d}:{obj}", obj, "assumption", sent, 1, d, st, prov=f"{P}DEFINITIONS.md; prior pass, tested as {alias[obj]}; {rec}", test=t)
+                edge(f"{d}:PIECE", f"{d}:{obj}", "flow", "bridge")
+            else:
+                m = re.match(r"(D-\d\d)v(\d+)$", obj); base, v = m.group(1), int(m.group(2))
+                pred = base if v == 2 else f"{base}v{v-1}"
+                st, t = tested(obj)
+                node(f"{d}:{obj}", obj, "repair", sent, 2 if v == 2 else 3, d, st, op=op, receipt=rec, loss=loss, prov=f"{P}DEFINITIONS.md; failed in {failed}", test=t)
+                edge(f"{d}:{pred}", f"{d}:{obj}", "repair", op.split(" ")[0])
+        defs[obj] = nodes[f"{d}:{obj}"]["text"]
+    ents = []
+    for l in rd(P + "ENTAILMENT.md").splitlines():
+        if not l.startswith("| E-"): continue
+        c = [x.strip() for x in l.strip().strip("|").split("|")]
+        obj = c[0]; ents.append(obj)
+        m = re.match(r"(E-\d)(?:v(\d+))?$", obj); base, v = m.group(1), int(m.group(2) or 1)
+        st, t = tested(obj)
+        kw = {}
+        if obj == "E-4v3": kw["op"] = "not sent: its definition of repentance (D-20v2) broke in CX-114 first; replaced by E-4v4"
+        node(f"{d}:{obj}", obj, "abstraction" if v == 1 else "repair", c[1], 4 if v == 1 else 5, d, st, prov=f"{P}ENTAILMENT.md (entailment conditional)", test=t, **kw)
+        if v > 1: edge(f"{d}:{base if v == 2 else f'{base}v{v-1}'}", f"{d}:{obj}", "repair", "Narrow")
+    finals = [e for e in ents if not any(o != e and o.startswith(e.split("v")[0]) and o > e for o in ents)]
+    for e in finals:
+        txt = nodes[f"{d}:{e}"]["text"]
+        for k, dt in defs.items():
+            if dt in txt: edge(f"{d}:{k}", f"{d}:{e}", "basis", "premise")
+        for rv in REVS_BY[d]: edge(f"{d}:{e}", f"{d}:{rv}", "basis", "basis")
+    for rv in REVS_BY[d]: edge(f"{d}:PIECE", f"{d}:{rv}", "repair", "revised (O-0197; R-D)")
+build_pass14("K", "pass14/")
+PASSES.append(dict(id="K", title="Pass 14: every term of REV-29 defined from the author's works", hint="Directive: define every term of the newest revision from the author's works (The Opened Center, the Michael review, Of the Name Given, The Center and the Hand) and show that the definitions imply it. Each definition and each entailment conditional (\"Given these definitions ... Then ...\") was tested in its own fresh context. Every term stands except repentance as a freestanding definition (D-20v2 to D-20v5 broke; O-51). REV-30 adds \"by one who has been turned away from that work\" and passes. CX-100, CX-102 and CX-104 hit an API error and were rerun as CX-107 to CX-109.",
+    cols=["The piece: REV-29", "Definitions drawn from the works", "First repair", "Further repairs", "Entailment conditionals", "Entailments repaired", "Revision · CX-118"]))
 PASSES.sort(key=lambda p: p["id"])
 data = dict(nodes=list(nodes.values()), edges=edges, passes=PASSES, runs=runs, piece=src, p4=rd("P04_reply.txt"),
             p4prompt=rd("P04_prompt.txt"), tally=rd("CX_tally.md").splitlines()[-1], open=openitems,

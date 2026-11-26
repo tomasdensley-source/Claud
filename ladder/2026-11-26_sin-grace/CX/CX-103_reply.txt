@@ -1,0 +1,15 @@
+**Verdict: STANDS**
+
+**Why I could not construct a valid counterexample**
+
+The claim is conditional: if repentance contains sin's contrary (the standing turned toward one's own work), then repentance has come to that standing. To break it, I would need repentance to contain that standing without having come to it. Each route I tried fails within the definitions.
+
+1. **The standing as an element present before repentance arrives at it.** Definition (1) lets repentance contain the contrary as one separable element without being identical to it. But containing an element means that element is actually present in the compound. Definition (3) says the element is a standing: a turning held over time that persists without continuous attention. For a standing to be present, it must already obtain. Repentance then has that standing, which is all that "comes to that standing" requires. Separability lets the standing sit alongside sorrow and resolve without being identical to them. It does not let the standing be present without being had.
+
+2. **A momentary turning that already contains the standing.** Definition (2) makes repentance a turning toward grace. A turning at a single instant is not yet a standing, because definition (3) requires that it be held over time. So an instantaneous repentance does not contain the standing. That fits the claim rather than breaking it.
+
+3. **Grace bestowing the standing instantly or beforehand.** Grace "freely gives" the standing, so it might arrive at once, or even before the turning. If it arrives at once, the moment of containing is also the moment of coming to it, and "only once" is satisfied. If it is given before or apart from repentance, it is not contained in repentance, so the antecedent fails.
+
+4. **Separating "it comes to the standing" from "the compound contains the standing."** One could read "it comes to that standing" as requiring the whole compound, including sorrow and other parts, to become the standing. That reading contradicts definition (1). The definitions explicitly let repentance contain the contrary without being identical to it. So "coming to" can only mean acquiring the standing, not becoming it. Reading it as "becoming" would change the meaning of the statement's words, which the rules exclude.
+
+**Result:** Within the given definitions, containing the standing and having come to it coincide. The persistence condition in (3) rules out containment at any earlier point. No in-scope case makes the claim false, though this is largely because the claim follows almost by definition.

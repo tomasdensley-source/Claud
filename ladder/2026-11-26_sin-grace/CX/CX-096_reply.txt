@@ -1,0 +1,55 @@
+# Verdicts on the Six Statements
+
+## 1. STANDS
+
+The first part is a definition with a built-in limit: "as far as one can see." So a case of unforeseeable consequences doesn't break it. Someone who identifies the work as theirs but cannot foresee all its effects still meets the definition.
+
+The second part says the refusal is not an excuse. It does not say the person can never be excused. Take someone who refuses to find out because finding out would cause harm. If anything excuses them, it is the harm-avoidance reason, not the refusal itself. Every attempted counterexample ends up relying on an excuse from outside the refusal, so the claim holds.
+
+## 2. STANDS
+
+"Remaining" means persisting without change. Being in the course of turning back is a change. So the exclusion matches the word's own meaning rather than adding something arbitrary.
+
+Someone partway through turning back is no longer *remaining* turned away, even if they are not yet turned toward. Ambivalent cases, where a person is half-turned, don't meet the definition's terms. They therefore don't falsify it.
+
+## 3. STANDS
+
+The definition separates a standing from an occurrent act of attention. Suppose an orientation only lasts while one is actively attending. By the statement's own terms, that is an occurrent turning, not a standing.
+
+A counterexample would need a standing that requires continuous attention. Producing one would mean changing what "standing" means here, so it would not be valid.
+
+## 4. STANDS
+
+This defines a contrary, as opposed to a contradictory: the two cannot hold together, but both can be absent.
+
+- **Incompatible pairs that cannot both be absent:** these are simply not contraries under this definition. They don't refute it.
+- **Ambivalence** (being turned toward and away from the same person): this is normally explained by different aspects of the person. In any case, the statement never says that turning toward and turning away *are* contraries, so it doesn't break the definition.
+- **"*The* contrary":** one could object that this implies each standing has only one contrary. That reading presses the article harder than the defining sentence supports.
+
+## 5. BROKEN
+
+**Counterexample:** A driver causes a fatal collision.
+
+- Privately, he fully admits to himself that he caused it: "I did this."
+- In court, he testifies that the other driver swerved into him.
+
+By the statement's own disjunction ("inwardly *or* in speech"), his inward acknowledgment is enough to count as holding the work as his own. Yet in the same moment, toward the same deed, he publicly disowns it and lays it on another, which are exactly the alternatives the statement sets against holding.
+
+"Rather than" presents acknowledgment and disowning as mutually exclusive. This case satisfies both at once, using every term in its ordinary sense. Either:
+
+- the definition counts him as holding the deed as his own while he is disowning it, or
+- the exclusivity fails.
+
+Either way, the statement's claim is false as written. A narrower version could avoid this, for example by pairing inward acknowledgment against inward disowning and spoken against spoken. But the statement as given does not say that.
+
+## 6. STANDS
+
+The tempting counterexample is the honestly self-deceived or culturally conditioned person. Suppose someone who sincerely sees his duel as "honor." Does "as far as one can see" let him take the work by a flattering cover?
+
+No. The statement includes "right or wrong," so an honest but mistaken perception of the work's character still counts as taking it by its character. A "cover" is something laid over what one sees, not the seeing itself.
+
+Condemning "the person in place of the deed" is defined as a substitution, so it cannot overlap with taking the deed by its character. I found no case that satisfies both sides of the contrast without changing what "cover" means.
+
+## Tally
+
+Statement 5 is broken. Statements 1, 2, 3, 4, and 6 stand.

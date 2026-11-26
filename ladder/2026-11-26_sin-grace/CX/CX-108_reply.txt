@@ -1,0 +1,17 @@
+**Verdict: STANDS**
+
+No valid counterexample can be built. Each candidate fails for one of three reasons.
+
+**1. Attention alone does not include ownership.** Definition (1) says attention can be close and sustained while one disowns the work, distorts it, or does nothing it calls for. So attention, as attention, does not include holding the work as one's own (def. 2) or naming it for what it is (def. 3). Both are required for acknowledgment. Suppose you offer a case where someone attends and, in that same act, owns and truly names the work. That case contains attention *plus* the further elements of acknowledgment. It is not "attention alone." The added elements are not optional, because the same attention, unchanged, could occur with disowning or distortion.
+
+**2. Attention is the wrong kind of thing to be a standing.** Definition (4) makes standing turned toward something a standing over time that persists without continuous attention to it. Attention, as defined, is a holding-in-view. When the holding-in-view stops, the attention stops. A standing, by definition, survives that stopping. So attention cannot *be* the standing.
+
+You might reply with uninterrupted attention, kept up over the whole period, so that it never lapses. This does not help. Definition (4) does not merely allow continuous attention to be absent. It defines the standing as something that does not depend on attention. Even unbroken attention would only accompany the standing. It would not amount to it.
+
+**3. No other reading rescues a counterexample.** Breaking the statement would require one of two moves:
+- reading "attention" as already including acknowledgment, which contradicts definition (1); or
+- reading "standing" as something that ends when attention ends, which contradicts definition (4).
+
+Both moves change what the defined terms mean, so neither yields a valid counterexample.
+
+The statement follows from its own definitions, and it stands.

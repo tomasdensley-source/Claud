@@ -72,3 +72,22 @@ You are given numbered statements and a body of writing. For each statement answ
 - O-47: The pass-12 rulings (grace as the facing of our own creation; repentance as the facing of God's creation) are provisional under the directive of pass 13. In the comparison, REV-25's presuppositions failed at its core (R25-2b: grace as one's own facing can be earned) while REV-24's failed at a supporting point (R24-1b). REV-29 keeps REV-24's grace and repentance. The author decides whether the pass-12 rulings stand.
 - O-48: REV-29 compresses the definitions: "as its author" stands for A-017v2's fuller sense (through others at one's direction; when it was one's to do; not what another's free choice makes of it); "stand turned toward ... rather than away from it" is A-013v4 held as a standing. Whether the sentence should carry the fuller wording is the author's call.
 - O-49: Carry-forward after pass 13: REV-29 is the only surviving revision.
+
+## Operator judgments under delegation R-D (2026-11-26; each revisable by the author)
+- O-47 DECIDED: REV-24's grace ("the free giving of that facing") and repentance ("the turning toward that grace") stand; the pass-12 rulings are not adopted. Reason: by the author's own standard (pass13/INPUT_directive.md), the new claims must pass at least as well; REV-25's presuppositions failed at their core (R25-2b, CX-092), REV-24's only at a supporting point (R24-1b, CX-091).
+- O-48 DECIDED: REV-29 keeps "as its author" in the sentence; the full sense of "hand" (A-017v2) is carried in the definitions set that presupposes the sentence. Reason: the directive asks for definitions as presuppositions, not for the sentence to hold every clause.
+- O-49 DECIDED: REV-29 is carried forward.
+- O-43 DECIDED: with grace as giving (O-47), O-29 ("having grace means that you give it") stands as ruled; AU-005R2 (CX-075) carries it.
+- O-45 DECIDED: answered by O-47 (grace is not defined as one's own facing).
+- O-44 DECIDED: the poem stays poetry; its lines are not repaired into claims. Its terms feed the definitions as observations.
+- O-42 DECIDED: facing oneself stays within repentance (REV-26 failed, CX-087 #2); conscience is not given a separate clause in the piece.
+- O-07 DECIDED: for conceptual claims, the fixed-prompt counterexample test serves as Step 3 (it is the only available external channel); the provisional basis of Steps 5-6 is accepted.
+- O-08 DECIDED: the internal kill channel is run through the entailment conditionals of pass 14 (a set of definitions that contradict each other cannot satisfy them without a tester finding the case).
+- O-13 DECIDED: definitional passes are accepted as passes with their vacuity flags kept on the status board.
+- O-19 DECIDED: the piece leaves answerability unstated; no clause added.
+- O-26, O-30 DECIDED: accepted as intended consequences (grace may be given to one never turned away; the piece concerns personal sin).
+- O-31 DECIDED: rebellion stays out of the piece; AU-007R and AU-009R remain on record.
+- O-25, O-38 DECIDED: closed by A-017v2, A-013v4 and AU-003R2.
+- O-50 DECIDED (operator judgment under R-D): The Opened Center sets sin and grace on the maker's axis and rebellion and repentance on the creature's axis ("Grace faces the work of my hand. Repentance turns toward the work of His."). REV-29 joins them (repentance turns toward the grace that gives the maker's standing). Per the directive (definitions imply the newest revision and may be refined), the works' terms are refined toward REV-29; the two-axis model stays on record as an alternative. The bridge is in the works: grace "gives the true name" (O-0172), "Grace is how we are forgiven of our personal sins" (O-0186).
+- O-51 DECIDED (operator judgment under R-D): REV-30 is carried forward; it passes CX, and the definitions set implies it (E-1v2 to E-6v2). The freestanding definition of repentance is left open (D-20v5 failed, CX-121). Next step when credit allows: re-derive repentance on The Opened Center's two axes (the maker's axis needs no giver, O-0202; repentance turns toward God's work, O-0173, O-0175), testing whether REV-30's repentance clause should be revised to that model.
+- O-52: The OpenRouter account's credit is nearly spent (396 total, about 392.8 used; this key's own limit is not the constraint). Further Counter-AI runs need the author to add credit.

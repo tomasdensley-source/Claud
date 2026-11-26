@@ -177,3 +177,36 @@ Affect charge: not recorded (the operator is not the selector; the author's affe
 | O-0167 | A tester stated that a ransom and a bribe are given to those not owed them, yet neither is a free giving. | CX-091 #2 |
 | O-0168 | A tester stated that facing one's own work can earn something (an engineer paid to audit her own code; Trent, Session 6, canon 32). | CX-092 #4 |
 | O-0169 | A tester read "repentance, once fulfilled" as fulfilled for a single work, so that one fully repented wrong does not imply turning toward oneself as a whole while another seen wrong is kept unfaced. | CX-094 |
+| O-0170 | The author wrote: "Sin is the turning away from what one's own hands have knowingly made." | Drive 1fQ4AWDmuUKcosG6DZU3jRSoeM_NU__gv (The Opened Center), The Two Hands |
+| O-0171 | The author wrote: "The decisive motion is abandonment after recognition. Before knowledge there is blindness, appetite, accident, confusion." | The Opened Center, The Two Hands |
+| O-0172 | The author wrote: "Grace faces what the hand has made. Then grace names." and "Grace gives the true name with the desire that what has been named may rise" | The Opened Center, The Two Hands |
+| O-0173 | The author wrote: "Rebellion is the turning from the invocation and the work of the greater Hand. And its answering movement is repentance: the return toward what God has made." | The Opened Center, The Two Hands |
+| O-0174 | The author wrote: "since I am among the things God has made, repentance eventually arrives at an uncomfortable creature" (the passage continues: myself). | The Opened Center, The Two Hands |
+| O-0175 | The author wrote: "Grace faces the work of my hand. Repentance turns toward the work of His." | The Opened Center, The Two Hands |
+| O-0176 | The author wrote: "Conscience says you lied. Shame says you are the lie." and "Conscience preserves agency. Shame attempts disappearance." | The Opened Center, Shame and Conscience |
+| O-0177 | The author wrote: "Knowledge creates relation; relation raises responsibility; responsibility does not confer control." | The Opened Center, The Record |
+| O-0178 | The author wrote: "Awareness is not enlightenment. Awareness is enlistment." | The Opened Center, The Record |
+| O-0179 | The author wrote of the second naming: "it says: I see what has become. It belongs to grace." | The Opened Center, The Name Given |
+| O-0180 | The author wrote: "carry what relation has made yours, and leave what belongs to another Hand" and "Do not buy peace by sending the bill to the innocent." | The Opened Center, Coda |
+| O-0181 | The author wrote: "Freedom comes first; a compelled cost is extraction." | The Opened Center, The Opened Side |
+| O-0182 | The author wrote: "Grace speaks the true name after facing." | The Opened Center, Coda |
+| O-0183 | The author wrote: "To know is to owe. To see is to carry what is seen." | Drive 14Snb02HxfexVxCjT7X-4TN9i2NjG-f2p (Michael, A Review, Extended), Part V |
+| O-0184 | The author wrote: "charity is not a feeling; it is the willing assumption of the burden of having seen." | Michael, A Review, Part V |
+| O-0185 | The author wrote that the words that heal are "honesty first" (confession), "then sorrow, godly sorrow taking the form of guilt as responsibility; and then the asking for forgiveness from those who have been hurt." | Michael, A Review, Part VI |
+| O-0186 | The author wrote: "Grace is how we are forgiven of our personal sins." | Michael, A Review, Part VII |
+| O-0187 | The author wrote of distraction as "the scattering of attention into multiplicity" and of ritual as "the repetitive act done to avoid the weight of what is true". | Michael, A Review, Part IX |
+| O-0188 | The author wrote: "Love is the hand that stays does not mean the body must remain within reach of the striking hand." | The Opened Center (keyword sweep) |
+| O-0189 | A tester stated that a driver can admit to himself that he caused a fatal crash while testifying that the other driver swerved, holding and disowning the deed at once. | CX-096 #5 |
+| O-0190 | A tester stated that a historian's footnote acknowledges another's work without holding it as her own. | CX-097 #1 |
+| O-0191 | A tester stated that a murderer must confess to free an innocent man though his own family will suffer for it; such costs to innocents can be byproducts of rightly answering a wrong. | CX-097 #2 |
+| O-0192 | A tester stated that a surgeon who carries the lesson of a fatal error by lecturing on the case with identifying details, against the family's wish, does new harm to the innocent though no cost of his own is shifted. | CX-099 #3 |
+| O-0193 | A tester stated that a researcher's own unpublished notes on making a pathogen more transmissible call for their destruction, a preventive deed that neither answers a past effect nor carries good onward. | CX-107 |
+| O-0194 | A tester stated that the definitions establish that a standing can be given, not that it can be given freely. | CX-106 |
+| O-0195 | A tester stated that the definitions make grace the object of repentance and do not connect repentance to creation. | CX-109 |
+| O-0196 | A tester stated that "standing toward one's own work" (D-20) and "the facing of one's own work" (D-21) are not shown to be the same, and that D-21 makes the facing of creation a consequence of repentance, not something repentance itself turns toward. | CX-112 |
+| O-0197 | A tester stated that a faultless maker (Christ as a carpenter, a sinless Adam) can turn toward freely given grace without repenting, because repentance needs something to repent of. | CX-114 #1 |
+| O-0198 | The author wrote: "When you are wrong" (the Coda's next words: return). | The Opened Center, Coda |
+| O-0199 | A tester read "turned away from his own work" as turning from reliance on one's own works for standing, and cited Nineveh (Jonah 3) and an ordinary apology between brothers as repentance without grace conferring a standing. | CX-115 |
+| O-0200 | A tester stated that a man long turned from a wrong can turn toward his brother's free forgiveness as relief, so as never to look at the deed, which is not repentance. | CX-119 |
+| O-0201 | A tester stated that a man alone, with no living victim, no witness and no God in the case, can come after twenty years to face an abandonment he committed and change his life, answering his sin with no giver. | CX-121 |
+| O-0202 | The author wrote: "Sin, as defined here, needs nothing. A man who believes in no God whatever can turn from what his own hands made, and can be brought back to it, and can repair it" | The Opened Center, The Two Hands |

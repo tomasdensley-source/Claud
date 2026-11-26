@@ -1,0 +1,35 @@
+# Verdicts on the Three Statements
+
+## 1. STANDS
+
+**Candidate counterexamples considered:**
+
+- **Coerced denial.** A dissident writes an anonymous pamphlet, then denies authorship under interrogation to protect others, while privately still owning it. One might say he still "holds it as his own." That only works by importing a purely inward sense of "holding." The statement explicitly makes the speech condition part of holding. On its own terms, the person who disowns the work in speech has, in that respect, failed to hold it. Calling this a failure of holding, even an understandable one, is coherent. It does not contradict the statement.
+- **Silence while another is blamed.** The author acknowledges the work inwardly, never speaks of it, and lets someone else take the blame. The speech condition is vacuously met, and he does not actively lay the work on another. So by the statement he holds it as his own, which may seem wrong. But the scheme puts that failure elsewhere: in naming it (statement 2) and in the deeds it calls for (statement 3). "Holding" is not falsified by this case.
+- **Co-authorship.** Crediting a co-author for their share is not "laying it on another." It honestly states the authorship, so the condition holds.
+
+No case satisfies the terms while making the definition false. It is a stipulative account, and it is internally consistent.
+
+## 2. STANDS
+
+**Candidate counterexamples considered:**
+
+- **Ignorance of consequences.** A person holds a work as their own but misjudges or does not yet know its effects. Under the definition, they are then not fully "naming it for what it is," so their acknowledgment is incomplete. That is a demanding standard, not a contradiction. "Naming it for what it is" can also work at the level of the work's kind, such as "a betrayal," without requiring knowledge of every consequence.
+- **Circularity.** Statement 1 defines holding partly as acknowledging *oneself as author*. Statement 2 defines acknowledging *the work* as holding plus naming. These are different objects of acknowledgment, so the definitions do not form a vicious circle.
+
+No valid counterexample was found.
+
+## 3. BROKEN
+
+**Counterexample:**
+
+1. A surgeon's error kills a patient.
+2. To carry the lesson to others, the surgeon gives a public lecture presenting the case with identifying details. The family objects, and an anonymized version would teach the lesson equally well.
+3. Check the identified lecture against the statement's terms:
+   - It carries the work's lesson to others, so it falls in the class of deeds the statement says the work calls for.
+   - It can be done, so the impossibility exclusion does not apply.
+   - It does not shift onto the innocent a cost that is the surgeon's own to bear. The family's renewed exposure and grief is a *new* harm. It is not a burden transferred from the surgeon. The second exclusion therefore does not apply either.
+   - "In proportion" governs only the answering clause, not the lesson-carrying clause. So proportion cannot be used to rule the deed out.
+4. By the statement's own terms, then, the work "rightly calls for" a deed that freshly harms the innocent victims of that very work. That deed would itself create a new unanswered harm needing to be answered. A work cannot *rightly* call for that.
+
+**Why it breaks:** The statement's only safeguard for the innocent is against *shifting one's own cost* onto them. It has no safeguard against *inflicting new costs* on them. The same gap appears in the answering clause. For example, keeping a broken promise now may answer the breach in one's own conduct but newly injure a third party, and nothing in the statement excludes that deed.

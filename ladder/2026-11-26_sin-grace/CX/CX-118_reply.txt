@@ -1,0 +1,19 @@
+**1. STANDS**
+
+The passage is mostly stipulated definitions: sin, its contrary, grace and repentance. The only substantive claim it places on those terms is the last sentence, which says repentance is not fulfilled until it turns toward God's creation as God's work, and toward oneself within it as a whole. A valid counterexample would need one of two things: a case that meets the definitions while making that final claim false, or a contradiction among the stated terms. I tried the following lines, and none produces one.
+
+- **Repentance that reaches the standing but not creation.** Someone repents, receives the standing toward their own work, and never turns toward creation as God's work. This looks like a fulfilled repentance that violates the final clause. It is not, because the text never says reaching the standing is enough for fulfillment. It says repentance "contains sin's contrary *only once* it comes to that standing," which is a necessary condition, not a sufficient one. The final clause adds a further condition for fulfillment. So this case is simply an unfulfilled repentance, which agrees with the statement.
+
+- **Hidden parts of the self.** Turning toward oneself "as a whole" could seem impossible if parts of the self cannot be seen. The statement anticipates this: "though not every part of oneself can be seen." This matches the limit already built into sin's contrary ("as far as these can be seen"). The wholeness required is a turning toward the whole, not full sight of it, so there is no impossibility.
+
+- **Disowning good work.** Someone remains turned away from a good work they authored. Is that sin? Yes. Sin is defined by turning away, not by the work being wrong, and the contrary explicitly covers work "right or wrong." This is consistent.
+
+- **Repentance that is found rather than sought.** Repentance is "turning toward grace." Grace is freely given, so the turning may come unsought. "Whether sought or found" covers both cases. No conflict.
+
+- **Mere attention.** Turning toward creation might reduce to merely attending to it, which the text says never amounts to the standing. But the final clause does not equate the turning with attention, and the standing already requires acknowledgment and deeds. No conflict.
+
+- **Circularity between grace and repentance.** Repentance turns toward grace, and grace gives the standing. If turning toward grace already meant having the standing, the definitions would collapse into each other. The text keeps them apart: repentance "contains sin's contrary only once it comes to that standing," so the turning comes before the standing is reached.
+
+- **Someone who was never turned away.** Repentance is defined only for one who has been turned away from their work. Such a person is outside its scope, so they cannot serve as a counterexample without stepping outside the statement's terms.
+
+Each attempt either fits the statement or works only by changing what its words mean or stepping outside its scope. No valid counterexample can be constructed, so the statement stands.

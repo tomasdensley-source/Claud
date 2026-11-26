@@ -77,3 +77,12 @@
 | A-017v2, A-013v4 | definitional claims (pass 13 repairs) | a correct use excluded, or a case included that is not the thing |
 | REV-28 | vulnerable generalization (pass 13) | one valid case inside its terms |
 | REV-29 | vulnerable generalization (pass 13) | one valid case inside its terms |
+| D-02 to D-20 (new) | definitional claims (pass 14) | a correct use excluded, or a case included that is not the thing; for D-14, D-16 (possibility parts) a showing of impossibility |
+| D-07v2, D-09v2, D-10v2 | definitional claims (pass 14 repairs) | a correct use excluded, or a case included that is not the thing |
+| D-10v3 | necessary condition | a deed rightly called for that meets neither branch, or cannot rightly be done |
+| E-1 to E-6 | conditional (definitions jointly imply the claim) | a case satisfying every definition in which the claim fails |
+| D-10v4, D-14v2, E-1v2, E-4v2, E-6v2 | as D-10v3 (necessary condition), D-14 (possibility), E-n (conditional) | as above |
+| D-20v2, D-21v2, E-4v3 | definitional / conditional (pass 14 round 3) | as above |
+| D-20v3, E-3v2, E-4v4, REV-30 | definitional / conditional / vulnerable generalization (pass 14 round 4) | as above |
+| D-20v4, E-4v5 | definitional / conditional (pass 14 round 5) | as above |
+| D-20v5 | definitional (pass 14 round 6) | a repentance excluded, or a case included that is not repentance |

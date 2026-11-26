@@ -1,0 +1,27 @@
+**Verdict: STANDS**
+
+The conclusion follows from the premises. Every route to a counterexample is blocked by the premises themselves.
+
+**The derivation**
+
+- **Premise (5)** says what repentance is: the turning, by one turned away from his own work, toward the grace that freely gives the standing turned toward that work.
+- **Premise (6)** applies to anything that is exactly that turning. Its condition, "where repentance is the turning toward the grace...," is met by (5), not merely assumed.
+- So, by (6), repentance as it is fulfilled turns toward God's creation as God's work, and toward oneself within it as a whole.
+- (6) says it *does* so turn. The conclusion claims only that it *can*, which is weaker. What actually holds is possible.
+- **Premise (3)** supplies the final clause. One can turn toward oneself as a whole even though not every part of oneself can be seen. So the clause "though not every part of oneself can be seen" fits with turning toward oneself as a whole.
+
+**Attempted counterexamples, and why each fails**
+
+1. **Repentance that is never fulfilled.** The conclusion is limited to repentance "as it is fulfilled." An unfulfilled case falls outside its scope, so it cannot make the conclusion false.
+
+2. **Repentance that never seeks creation or the whole self.** Suppose someone repents but aims only at grace concerning their own work, with no interest in creation. Premise (6) rules this out: the further turning happens "whether or not this is sought."
+
+3. **Facing creation only "for what it is," not as God's work.** Premise (4) does allow this weaker kind of facing. But (6) specifies that the fulfilled turning faces creation *as God's work*, which is the stronger kind. The weaker case is therefore not a case of fulfilled repentance.
+
+4. **Some part of oneself cannot be seen, so one cannot face oneself as a whole.** Premise (3) explicitly says turning toward oneself as a whole is possible despite unseen parts. The conclusion keeps this same qualification. Building a counterexample here would require changing what "as a whole" means, which is not allowed.
+
+5. **A momentary turning versus a standing.** Premise (1) counts both brief and lasting turnings as facing. The conclusion depends on neither, so this distinction opens no gap.
+
+**Why it stands**
+
+The conclusion essentially restates (6) in weaker form, with (5) meeting its condition and (3) supplying the qualification. The only possible attacks would step outside the statement's stated scope or change the meaning of its words, and neither is a valid counterexample.

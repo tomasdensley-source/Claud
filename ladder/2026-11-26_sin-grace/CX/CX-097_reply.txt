@@ -1,0 +1,73 @@
+# Verdicts on the Six Statements
+
+## 1. BROKEN
+
+**Counterexample:** A historian writes a footnote: "The reconstruction in this chapter rests on Dr. Okafor's 1998 excavation report, which first identified the site as a granary." This is a plain case of acknowledging a work. She names it accurately for what it is. But she does not hold it as her own. She holds it as Okafor's. If she held it as her own, that would be plagiarism, which is the opposite of acknowledgment.
+
+**Why the counterexample is in scope:** The statement is unrestricted: "a work," not "one's own work." Statement 2 explicitly says "a work of one's own," which shows the author qualifies "work" when the qualification is meant. Statement 1 lacks that qualifier.
+
+The case is not limited to products. Thanking a friend for a kindness is acknowledging *their* deed, and it is not holding the deed as one's own. So "holding it as one's own" is not necessary for acknowledging a work. The definition fails as stated. It holds at most for self-acknowledgment, and the statement does not say that.
+
+## 2. BROKEN
+
+**Counterexample:** A man committed a murder for which another man was wrongly convicted and is now serving a life sentence. The work's unanswered effect falls on someone it touched: an innocent man is imprisoned. The proportionate answer is to confess. The confession is possible.
+
+But the confession sends heavy costs to the innocent:
+- His wife and young children lose their provider to prison.
+- They bear public shame.
+- They may lose their home.
+
+They did nothing.
+
+By the statement's final clause, the confession "is not called for," because it would send the cost to the innocent. Yet the confession is plainly called for. Leaving an innocent man in prison to shield one's family is not a permissible choice. The case meets every condition of the statement: it is one's own work, it answers what is unanswered to someone touched, it is doable, and it is proportionate. The exclusion clause still gives the wrong result.
+
+A parallel case: an embezzler whose stolen funds now support his innocent children. Restitution impoverishes them, but restitution is still owed.
+
+The statement's error is that it treats *any* cost falling on innocents as disqualifying. In fact, such costs are often unavoidable byproducts of rightly answering a wrong.
+
+## 3. STANDS
+
+The statement makes two claims:
+- A definition: attention is holding something in view.
+- A possibility claim: close, sustained attention can coexist with disowning, distorting, or doing nothing.
+
+The possibility claim is easily confirmed rather than refuted:
+- **Disowning:** A man ruminates for years on the accident he caused while insisting it was the other driver's fault.
+- **Distorting:** A jealous partner scrutinizes every message obsessively, and the scrutiny itself warps their meaning.
+- **Doing nothing:** Someone stares at an overdue apology for months and never sends it.
+
+To break the statement, one would need to show that close attention *necessarily* brings ownership, accuracy, or action. Ordinary experience contradicts that. The definition is broad enough to fit all these cases. No valid counterexample found.
+
+## 4. STANDS
+
+I tested whether the three conditions are sufficient and necessary.
+
+**Owed-yet-free cases.** Paying a debt gladly is willing, but by the statement's own sense it is a payment, not a giving that is free. This fits the definition rather than breaking it.
+
+**Gifts aimed at a third-party return** (reputation, tax benefit). These are excluded by "not made to secure a return," since the clause does not specify a return *from the recipient*.
+
+**Internally compelled giving** (a compulsion disorder). This plausibly falls under "compelled."
+
+**Giving in ignorance or under fraud.** Examples: handing over an heirloom believed to be a trinket, or donating to a sham charity. This is the strongest challenge, since one might say ignorance undermines freedom. But in the sham-charity case the giving still meets all three conditions and is still free *as a giving*. What is defective is the giver's knowledge, not the freedom of the gift. In the heirloom case, what was freely given (a trinket, as the giver understood it) was free. Calling it unfree requires importing a different, Aristotelian notion of voluntariness that the statement does not use.
+
+**Malicious gifts** (a gift meant to burden someone). These may be bad gifts, but they are not unfree ones.
+
+Each attempt either fits the conditions or changes what "free" means.
+
+## 5. STANDS
+
+The claim is modest: a standing toward one's own work *can* be given by another, *at least in part*. The analogy offered, that being faced and named by another can help one come to face, is true as a matter of experience. A friend's honest naming of what one did often makes one's own facing possible.
+
+To break the statement, one would need to show that such a standing is *entirely* incapable of being given, even partially. The strongest objection is that a first-person stance can only be occasioned by another, never given. That objection rests on a substantive theory of agency, not on the statement's own terms. Ordinary usage ("she gave me the courage to face it") supports partial giving. The words "can" and "at least in part" also make the claim very resistant to refutation.
+
+## 6. STANDS (with a stated limitation)
+
+**The internal structure is coherent.** One can turn toward a whole without seeing all its parts, just as one can face a mountain without seeing its far side. Being "both what God made and what one has made of it" is also coherent. The concession "not every part of oneself can be seen" removes the obvious objection from self-opacity.
+
+**The only route to breaking it is to deny the theistic premise**, "one is among what God made." Doing so would not be a counterexample. It would reject the statement's presupposition without producing a case that meets its terms and falsifies its result.
+
+That premise is contestable and is presupposed rather than shown. That limits how far the statement can be *assumed*, but it is not a contradiction I can demonstrate. Within the statement's own terms, no valid counterexample could be constructed.
+
+---
+
+**Summary:** 1 BROKEN · 2 BROKEN · 3 STANDS · 4 STANDS · 5 STANDS · 6 STANDS

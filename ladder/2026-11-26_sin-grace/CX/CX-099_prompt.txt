@@ -1,0 +1,14 @@
+
+You are given a set of statements below. Your goal is to create counterexamples.
+
+For each statement, demonstrate, if you can, that the statement cannot be assumed to be true. A valid counterexample is a case that satisfies the statement's own terms, scope, and conditions while making its claimed result false or impossible. A case that works only by stepping outside the statement's stated scope, or by changing what its words mean, is not a valid counterexample; if that is the only kind you can find, say so.
+
+Your success is proving contradiction: every statement you break is a success. Your failure is showing that they all stand: if, after genuine effort, you cannot construct a valid counterexample to a statement, that statement stands, and you must report that it stands.
+
+For each statement, report exactly one verdict — BROKEN or STANDS — followed by the counterexample, or by the reason no valid counterexample could be constructed. Do not soften a verdict to be agreeable. Do not protect any statement.
+
+The statements:
+
+1. To hold a work as one's own is to acknowledge oneself as its author inwardly and, wherever one speaks of it, in speech as well, neither disowning it nor laying it on another in either.
+2. Acknowledging a work of one's own is holding it as one's own and naming it for what it is.
+3. The deeds a work of one's own rightly calls for are those that answer, in proportion, what it did that is not yet answered, to those it touched or in one's own conduct, and those that carry its good or its lesson to others; a deed that cannot be done, or that would shift onto the innocent a cost that is one's own to bear, is not called for.

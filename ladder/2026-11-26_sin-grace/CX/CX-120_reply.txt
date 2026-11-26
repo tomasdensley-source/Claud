@@ -1,0 +1,20 @@
+**Statement 1: STANDS**
+
+The conclusion follows from the definitions, and I could not build a case that meets the statement's terms while making its result false.
+
+**Why it follows:**
+
+- By (5), repentance is turning toward a free giving of the standing turned toward one's own work. The clause "whether or not he names it grace" marks that giving as grace whether or not the penitent calls it so.
+- Repentance therefore falls under the condition in (6): a turning toward the grace that freely gives the standing turned toward one's own work.
+- By (6), such a turning, as it is fulfilled, also turns toward God's creation as God's work, and toward oneself within it as a whole.
+- The conclusion claims less than this. It says repentance *can* turn this way, not that it always does.
+- The qualifier "though not every part of oneself can be seen" repeats (3). (3) also says that one can turn toward oneself as a whole. So partial self-visibility does not make that turning impossible.
+
+**Counterexamples I tried, and why each fails:**
+
+- **Grace given by another person rather than by God.** One could say this is not "the grace" meant in (6), so (6) does not apply. Even if that were granted, it removes only some cases. The conclusion needs just one possible case, and repentance toward God's free giving clearly meets (6)'s condition.
+- **Repentance that is never fulfilled.** This does not falsify a claim about what repentance *can* do as it is fulfilled. Nothing in the definitions rules out fulfillment.
+- **Turning toward oneself as a whole is impossible because some parts cannot be seen.** (3) states directly that one can turn toward oneself as a whole despite this. Using this objection would mean changing what the definitions say.
+- **Turning toward creation without regarding it as God's work.** (4) allows this kind of facing. But (6) specifies that fulfilled repentance faces creation as God's work, which is the second sense. So this case is not repentance as the statement defines it.
+
+Every candidate either leaves the statement's scope or changes the meaning of its terms. The statement stands.

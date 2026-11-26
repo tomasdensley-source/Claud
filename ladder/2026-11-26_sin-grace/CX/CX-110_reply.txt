@@ -1,0 +1,42 @@
+# Verdicts on the Two Statements
+
+## 1. STANDS
+
+**What the statement claims.** It sets two necessary conditions for a deed to be "rightly called for" by one's own work:
+- (a) the deed can rightly be done, and
+- (b) it responds proportionately to what the work has done or may yet do, for good or for ill.
+
+**Attempts at a counterexample.**
+
+- **A tragic dilemma.** Suppose your work calls for a deed that cannot be done rightly. For example, you built something dangerous, and destroying it would break a binding promise. This doesn't break the statement. If the deed cannot rightly be done, then calling for it is not *rightly* calling for it. Condition (a) nearly follows from the word "rightly." To keep the deed "rightly called for" while denying that it can rightly be done, you would have to change what "rightly" means.
+
+- **Disproportionate amends.** Suppose a work caused a death, and its maker devotes a lifetime to reparation. This doesn't break the statement either. Either the lifetime is proportionate to a death, or the excess is supererogatory, meaning admirable but not *called for*. Neither reading gives a deed that is rightly called for and also out of proportion.
+
+- **Effect-independent duties.** Suppose a work that has done nothing and will do nothing, such as a sealed private notebook, still calls for honestly owning authorship when asked. This is the strongest attempt, but it fails for two reasons:
+  - The call comes from the question and from honesty, not from the work. That puts it outside "called for by a work."
+  - Alternatively, being made by you and being yours counts among the work's standing facts, which falls under "what the work has done."
+
+  To make this a counterexample, you must either move the source of the call elsewhere or narrow "done" so that it excludes the work's existence as yours. Both moves step outside the statement's terms.
+
+**Why it stands.** The scope is deliberately broad: past and future, good and ill. Rightness and proportion are built into what "rightly called for" means. I could not construct a case that stays within the statement's terms and defeats it.
+
+## 2. STANDS
+
+**What the statement claims.** This is a possibility claim. A standing toward one's own work *can* be given freely by another, *at least in part*. The ground offered is that being faced and named, unowed and asking no return, *can help* one come to face one's work.
+
+**Attempts at a counterexample.**
+
+- **The standing must be one's own.** One could argue that a standing toward one's own work must be self-turned, so another person cannot give it. But the hedge "at least in part" absorbs this objection. A contribution that the recipient must still take up counts as a partial gift. Showing that the gift cannot be *whole* does not show it cannot be given *in part*.
+
+- **The gift backfires.** Free facing might produce shame, dependency, or defensiveness. That shows the gift sometimes fails. It does not refute "can." Breaking a possibility claim requires showing impossibility, not a single case where it doesn't happen.
+
+- **Helping is not giving.** The justifying clause establishes only that being faced *helps*, not that a standing is *given*. This is a fair criticism of the argument's support. It is not a case where the claimed result is false. And under "at least in part," helping someone come to a standing plausibly is giving part of it.
+
+**Why it stands.** It is a modest, hedged possibility claim. Breaking it would require proving that no such partial gift could ever occur, and nothing within its terms forces that conclusion.
+
+## Summary
+
+| # | Verdict |
+|---|---------|
+| 1 | STANDS |
+| 2 | STANDS |

@@ -8,7 +8,10 @@ for f in sorted(glob.glob("CX/CX-*_statements.tsv")):
     ids = [l.split("\t")[0] for l in open(f, encoding="utf-8") if l.strip()]
     if not os.path.exists(f"CX/{run}_reply.txt"):
         for i, o in enumerate(ids, 1):
-            bad += 1; lines.append(f"| {run} | {i} | {o} | INVALID (interrupted; no reply captured) |")
+            why = "interrupted; no reply captured"
+            rp = f"CX/{run}_response.json"
+            if os.path.exists(rp) and '"error"' in open(rp, encoding="utf-8").read(): why = "API error; no reply"
+            bad += 1; lines.append(f"| {run} | {i} | {o} | INVALID ({why}) |")
         continue
     v = parse(open(f"CX/{run}_reply.txt", encoding="utf-8").read(), len(ids))
     for i, o in enumerate(ids, 1):

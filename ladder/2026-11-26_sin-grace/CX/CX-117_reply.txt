@@ -1,0 +1,15 @@
+**1. STANDS**
+
+**What the claim says.** Repentance contains sin's contrary, which is the standing turned toward one's own work, only once it comes to that standing. That is a necessary condition. Repentance holds that element only if it has reached the standing.
+
+**The candidate counterexamples, and why each fails:**
+
+- **The resolve to amend is already the contrary.** Definition (1) lists resolve as a separable element of repentance. If a fresh resolve were already the standing, repentance would contain the contrary before reaching it. But definition (3) defines a standing as a turning held over time that persists without continuous attention. A fresh resolve is an act of turning, not yet a standing. Calling it the standing changes what definition (3) means, so the case is invalid.
+
+- **Repentance contains the contrary by aiming at it.** Definition (2) says repentance turns toward the grace that gives the standing. It does not say repentance already has the standing. Being directed at something is not containing it. Treating "contain" as "aim at" changes the meaning of "contain" in definition (1).
+
+- **The penitent already had the standing.** Definition (2) says the penitent is "one who has been turned away from his own work." That is sin's condition. A prior, unbroken standing toward that same work contradicts this description, so the case falls outside the statement's scope.
+
+- **Grace gives the standing, so repentance never "comes to" it.** If repentance never comes to the standing, then by definition (1) it never contains it either. That makes the "only once" condition true, not false. Reading "comes to that standing" as "comes to have it, by grace's gift" still requires having the standing before containing it.
+
+**Why no counterexample exists.** Definition (1) allows repentance to contain a contrary. For repentance to contain something as an element, it must actually have that element. By definitions (2) and (3), having this element means having arrived at a persisting standing. Reaching that standing is exactly what "coming to that standing" means. So the definitions guarantee the conclusion, close to a tautology. No case can meet all three definitions and have repentance contain the contrary without having come to the standing.

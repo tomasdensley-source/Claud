@@ -83,3 +83,8 @@ Operator's reading, recorded as such:
 - The pass-12 rulings (grace as "the facing of our own creation", sin's contrary named grace, repentance as "the facing of God's creation") are held PROVISIONALLY: they stand only if their presuppositions hold up at least as well as REV-24's under the same procedure ("Rev 4 Rev 24" read as "for REV-24").
 - DIRECTIVE CHANGE: the run now aims to define "facing" and "hand" within REV-24 and to replace each word with its more precise formulation, tested.
 - The author's Drive writings may be used as Step 0 observations (context), each with provenance; nothing from them is adopted without passing the Ladder.
+
+## 2026-11-26 (verbatim in pass14/INPUT_directive.md)
+Operator's reading, recorded as such:
+- DIRECTIVE: define every term of the newest revision (REV-29) rigorously by the Ladder, drawing first on the author's works (Of the Name Given; The Center and the Hand; the poem; The Courtesy Key and The Opened Center Letter; Michael, A Review), refining them where they fail, so that together they imply REV-29.
+- DELEGATION R-D: "for all the questions you ask me, I need you to make your best judgment call and answer them for me as well." The operator now decides OPEN items that would otherwise go to the author. Each such decision is labeled "operator judgment under R-D", gives its reason, and stays revisable by the author. Decisions that are claims are still tested by a Counter-AI (Rule B is not lifted).

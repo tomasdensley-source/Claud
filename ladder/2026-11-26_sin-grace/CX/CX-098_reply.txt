@@ -1,0 +1,39 @@
+# Verdicts: all three STAND
+
+All three statements are definitions. Each says what sin, grace, and repentance *are*, and together they form a closed system:
+
+- Sin is the turning away from one's own work.
+- Grace gives the standing turned toward that work.
+- Repentance is the turning toward that grace.
+
+A valid counterexample would need a case that meets a definition's terms but contradicts it, or a contradiction between the definitions. Every attack I tried either imports an outside meaning of a key word or finds no contradiction. Since that kind of attack is ruled out, each statement stands.
+
+---
+
+**1. STANDS**
+
+*Attempt A: abandoning an evil work.* A weapons designer fully understands what his device will do and abandons the project for good. By Statement 1 this is sin, which seems absurd. But the case fails in one of two ways:
+- If "one's own work" means the work properly one's own (one's true task), an evil project does not qualify. Then the case falls outside the statement's terms.
+- If "one's own work" means anything one makes, the statement simply classifies the abandonment as sin. To call that result false, I must appeal to an ordinary moral sense of "sin." That replaces the statement's meaning instead of testing it.
+
+*Attempt B: sins of ignorance.* Some traditions count unwitting wrongdoing as sin (for example, Leviticus 4). Statement 1 requires "after understanding," so it excludes such cases. Objecting to that exclusion uses another tradition's definition of the word, which is again changing what the word means.
+
+*Attempt C: abandon, then return.* Someone abandons their work and later comes back to it. The colon locates sin in the *remaining* turned away. So the case is either sin only while the turning-away lasts, or not sin at all. Neither reading contradicts the statement.
+
+**2. STANDS**
+
+*Attempt A: earned standing.* A maker gains a standing toward his work through his own effort, so nothing was freely given. Statement 2 says only that grace is a free giving of this standing. It does not say that every such standing comes from grace. Earned standing is simply not grace, so there is no contradiction.
+
+*Attempt B: giving someone what is already theirs.* Can one be "given" one's own standing? Yes, coherently. It is like being given one's own life. Nothing in the terms makes this impossible.
+
+**3. STANDS**
+
+*Attempt A: why grace and not the work?* Given Statement 1, one might expect repentance to be turning back toward the work itself. Statement 3 instead says turning toward grace. This is not a contradiction. Turning toward grace is how one receives the standing toward the work (Statement 2), and that standing ends the "remaining turned away" (Statement 1). The three definitions fit together.
+
+*Attempt B: repentance makes grace conditional.* If grace follows repentance, it might seem no longer free. But nothing in Statements 2 or 3 makes the giving depend on the turning. Grace can be freely given while repentance is the turning toward it.
+
+*Attempt C: turning back without grace.* Someone turns back to their work by their own effort, with no grace involved. By Statement 3 this is not repentance. Calling it repentance anyway would import an outside meaning of the word.
+
+---
+
+**Summary:** 0 broken, 3 stand. Because these are stipulative definitions that do not contradict each other, they cannot be refuted on their own terms. They can only be rejected by preferring different meanings of "sin," "grace," or "repentance," which the rules exclude.

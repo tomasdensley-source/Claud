@@ -28,3 +28,5 @@
 2026-11-26 Pass 12 closed: poem definitions tested (all fail as freestanding); REV-25 passes; Diagram 10.
 2026-11-26 DIRECTIVE CHANGE: define 'facing' and 'hand' within REV-24 and substitute them; pass-12 rulings held provisionally pending a presupposition comparison of REV-25 against REV-24. Pass 13 opened.
 2026-11-26 Pass 13 closed: hand (A-017v2) and facing (A-013v4) defined and passing; REV-29 passes; comparison filed; O-47 to O-49 opened.
+2026-11-26 DIRECTIVE: define every term of REV-29 from the author's works, as presuppositions that imply it. DELEGATION R-D: the operator decides OPEN items, labeled. Pass 14 opened.
+2026-11-26 Pass 14 closed: definitions of every REV-29 term; entailments; REV-30. Repentance's freestanding definition left open (O-51). Credit nearly spent (O-52).

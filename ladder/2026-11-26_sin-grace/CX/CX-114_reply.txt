@@ -1,0 +1,33 @@
+# Verdicts on the two statements on repentance
+
+## 1. BROKEN
+
+The statement defines repentance as a turning toward a certain grace. For that to hold, every case of repentance must be that turning, and every case of that turning must be repentance. The second direction fails.
+
+**Counterexample.** Take a maker who has committed no fault toward his work. He turns toward grace that freely gives him standing toward what he makes. The plainest case within the statement's own theological frame is Christ as a carpenter in Nazareth. Classical theology, for example Aquinas on the habitual grace of Christ's human soul, holds that his humanity received grace freely and turned toward God fully. It also holds that this humanity stood rightly toward its own work. A sinless Adam before the fall would serve as well.
+
+This turning meets every term the statement sets:
+- It is a turning.
+- It is toward grace.
+- The grace is freely given.
+- It gives a maker standing toward his own work.
+
+Yet it is not repentance. Repentance requires something to repent of, a turning away from fault, and here there is none. The doctrine that Christ never repented depends on exactly this distinction.
+
+The statement names only the turning-toward and leaves out the turning-from. So it describes something broader than repentance, and the identity claim fails.
+
+## 2. STANDS
+
+**Attempted counterexamples, and why each fails:**
+
+- **A maker who receives the grace but never notices creation.** He might regard the world as indifferent raw material. The clause "whether or not this is sought" rules this out. The statement claims the turning toward creation happens whether or not the person aims at it or is aware of it. His lack of attention is therefore no counterexample.
+- **A turning that rests at one's own work and goes no further.** The phrase "as it is fulfilled" excludes this. A turning that stops short is, by the statement's terms, not yet fulfilled, so it falls outside the statement's scope.
+- **Arguing that the entailment itself is empty.** Something must link the fulfilled turning to creation. If nothing did, the statement would be a bare assertion protected by its qualifiers. But there is a link:
+  - The standing is freely given. So the maker does not ground it himself.
+  - What is received with that standing are the maker himself and the materials of his work. Both belong to creation.
+  - Receiving the standing fully as a gift therefore means receiving oneself, and one's materials, as the giver's work.
+  - That just is turning toward creation as God's work, and toward oneself as a whole within it.
+
+I could not build a case that meets all of the statement's conditions (repentance as this turning, fulfilled) and still lacks the turning toward creation. Every candidate either fails the fulfillment condition or depends on what the person seeks, which the statement explicitly sets aside.
+
+**Caveat.** "As it is fulfilled" makes the statement very hard to falsify by observation. That is a limit on how much the statement can be tested, not a counterexample to it. Within its own terms it stands.

@@ -1,0 +1,24 @@
+**1. STANDS**
+
+The conclusion follows from the three definitions, and no case can satisfy all three while making the conclusion false.
+
+**First clause: grace is the free giving of a standing turned toward one's own work.** This restates definition (1). Definition (1) calls grace "a free giving whose gift is a maker's standing turned toward his own work." The conclusion replaces "a maker's … his own work" with "one's own work." Within the statement, both phrases name the same thing: the standing a person (the maker) has toward the work that is his. Denying the first clause would contradict definition (1) itself, so it would not be a valid counterexample.
+
+**Second clause: such a giving, at least in part, can occur.** Definition (3) asserts exactly this. It says such a standing "can be given to one freely by another, at least in part." It also names how this happens: by being faced and named, in a way that helps the receiver come to face.
+
+**The giving meets the "free" test.** Definition (3) describes the giving as "unowed, uncompelled and asking no return." These match the three conditions of definition (2) one for one:
+- not owed to the one who receives it,
+- not compelled from the giver,
+- not made to secure a return.
+
+So the giving definition (3) describes is free in the sense of definition (2). Its gift is a standing turned toward one's own work. By definition (1), it therefore counts as grace, at least in part.
+
+**Possible lines of attack, and why they fail:**
+
+- **"Helping someone come to face their work is not giving them a standing."** One might argue that the giver only supplies an aid, and the receiver must produce the standing alone. Definition (3), however, explicitly describes this help as the standing "being given … at least in part." The conclusion claims only partial giving. Treating "help" as not counting as partial giving would change the meaning of the statement's own words, so it is not a valid counterexample.
+
+- **"Such giving never actually happens."** This changes the claim. The conclusion says such a giving *can* occur, which is a possibility, and definition (3) grants that possibility directly. Offering a world where it never occurs would mean rejecting definition (3), which steps outside the statement's own terms.
+
+- **"Help that is in fact owed or compelled is not free."** Such cases exist, but they are not the giving definition (3) describes. They therefore fall outside the conclusion's scope.
+
+Every possible counterexample either contradicts one of the given definitions or reinterprets its terms. The argument is valid relative to its premises. It is close to circular, since the conclusion mostly repeats definitions (1) and (3), but that does not create a contradiction.
