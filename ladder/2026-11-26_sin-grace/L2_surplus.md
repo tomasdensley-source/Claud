@@ -10,3 +10,12 @@
 
 Shortfall: A-003 has one genuine surplus implication, LIVE-LIGHT (reason: further consequences restate the definition). Rejected candidate: "Grace in the gift sense cannot be lost through sin" (not entailed by A-003).
 Disliked implication kept (Ladder 058): A-002-S2 threatens A-002, because preventive measures may count as remedies without a prior condition.
+
+## Pass 3 surplus (CLOSED before any pass-3 test; all untested)
+| ID | Statement | ENTAILED | ABSENT (construction set named) | TEST SURFACE |
+|---|---|---|---|---|
+| A-004-S1 | An agent can make full restitution for a harm they did while never attending to the harm itself. | Conduct does not guarantee attention. | G-004 (O-0014, O-0029, O-0030, O-0031, O-0035) has no case of restitution or of conduct without attention. | Restitution made under legal compulsion or by standing arrangement. |
+| A-004-S2 | An agent can attend to their own deed again and again, by choice, while refusing to acknowledge it as theirs. | Attention does not guarantee acknowledgment. | G-004's attention-without-acknowledgment case (O-0030) is forced, not chosen; O-0014 involves no refusal. | Cases of compulsive, voluntary review of one's deed paired with denial. |
+Rejected (recycled from construction set): "Being shown the consequences of one's deed does not by itself produce acknowledgment" (restates O-0030); "One can acknowledge a deed without changing one's conduct" (restates O-0029).
+A-005: LIVE-BARREN. Reason: it is a possibility claim; its candidate consequences either restate O-0028 ("given and achieved are not exclusive") or are mere instances that a possibility claim does not entail.
+Constraint observed (§9.6, Ladder 073): no new surplus was added to A-001, A-002v2, A-003v2 or T-001, whose derivation closed before their tests.

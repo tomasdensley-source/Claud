@@ -5,3 +5,10 @@
 | G-001 | orientation toward what one knows | instinct | O-0001, O-0002, O-0005, O-0010, O-0013 |
 | G-002 | remedy versus contrary | instinct | O-0003, O-0006, O-0007, O-0008, O-0011, O-0012 |
 | G-003 | two senses of grace | instinct | O-0004, O-0009 |
+
+## Pass 3 (Step 0.5 again, on observations added from CX-009 to CX-012 and earlier)
+| ID | Tag | Basis | Members |
+|---|---|---|---|
+| G-004 | registers of facing | instinct | O-0014, O-0029, O-0030, O-0031, O-0035 |
+| G-005 | given and achieved together | instinct | O-0018, O-0028, O-0036 |
+Left ungrouped (Ladder: may remain ungrouped): O-0032, O-0033, O-0034.

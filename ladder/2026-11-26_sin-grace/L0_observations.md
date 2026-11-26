@@ -35,3 +35,15 @@ Affect charge: not recorded (the operator is not the selector; the author's affe
 | O-0025 | A tester stated that grace can be located in the giver as favor, not in the receiver as an orientation. | CX-004 #4 |
 | O-0026 | A tester stated that repentance does not exclude the past act of sin but does exclude its present willing. | CX-005 #1 |
 | O-0027 | A tester stated that a turning can be a momentary event that lapses, distinct from a lasting orientation, citing Aquinas on grace as motion versus habit. | CX-007 #2 |
+| O-0028 | A tester stated that a facing can be partly given and partly achieved, and that "given rather than achieved" leaves such a facing unclassified. | CX-012 #1 |
+| O-0029 | A tester stated that one can acknowledge one's work in word while avoiding it in deed. | CX-012 #1 |
+| O-0030 | A tester stated that a person forced to watch the consequences of their deed can look at it while inwardly refusing to acknowledge it. | CX-011 #3 |
+| O-0031 | A tester stated that "face" has a physical or perceptual sense and an inward sense of acknowledging. | CX-011 #3 |
+| O-0032 | A tester stated that a wording which drops "with the same knowledge" lets someone face their work in ignorance and still count as facing. | CX-012 #2 |
+| O-0033 | A tester stated that Aquinas holds infused and acquired temperance to differ in species. | CX-011 #1 |
+| O-0034 | A tester stated that self-control still contains mastered contrary desire, while settled virtue does not. | CX-010 |
+| O-0035 | A tester stated that unwillingness toward being made to face a work is a different property from being turned away from the work. | CX-011 #3 |
+| O-0036 | A tester stated that on Aquinas sanctifying grace is a habit in the essence of the soul, distinct from charity, the orientation of the will. | CX-009 |
+| O-0037 | A tester stated that acknowledgment can occur without attention, as in signing off on a report as one's own without reading it. | CX-013 #1 |
+| O-0038 | A tester stated that recognizing a deed as one's own differs from acknowledging it as one's own, and refusal needs only recognition. | CX-014 #2 |
+| O-0039 | A tester stated that in "the facing that owns it", "it" may refer either to the work or to the turning away. | CX-015 #2 |

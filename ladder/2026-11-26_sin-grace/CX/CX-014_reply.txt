@@ -1,0 +1,47 @@
+**Both statements are "can" claims. They assert that something is possible.** A valid counterexample would have to show that the described combination is impossible, so that any case meeting the statement's terms must fail. One case where it doesn't happen is not enough. For each, I tried to build that impossibility argument, and each attempt failed. A concrete case satisfies each statement as written.
+
+---
+
+**1. An agent can make full restitution for a harm they did while never attending to the harm itself.**
+
+**Verdict: STANDS**
+
+**Strongest attempted break:** Restitution is *full* only if it is matched to the harm. Matching it requires someone to examine the harm. If the agent never attends to the harm, nothing guides the repayment, so any match would be luck, and luck is not *making* restitution. A second line: restitution is reparative by nature, so it must be aimed at the harm *as* a harm. That aim would itself be a form of attending.
+
+**Why the break fails:** The matching can be done by someone other than the agent. The aim can be general rather than specific to this harm.
+
+- An agent damages a neighbor's property without noticing. The neighbor files a claim.
+- Long before, the agent instructed their attorney and accountant: "Pay in full whatever damages are lawfully established against me. Don't bring me the details."
+- The attorney assesses the loss and the accountant pays it, under the agent's standing authorization and from the agent's own funds.
+
+The restitution is full: it is exactly calibrated, by competent proxies. It is the agent's own act, an intentional, authorized payment, not a seizure. Yet the agent never attends to this harm at any point.
+
+The "aimed at the harm" objection fails as well. The agent's intention is directed at harms-I-cause as a category, not at this particular harm. That satisfies the reparative point of restitution without attention to the harm itself.
+
+**Limits of the objection:** You could insist that "full restitution" includes a moral component, such as acknowledgment or remorse. That would break the case, but only by redefining restitution as apology. That is the kind of change in what the words mean that the rules exclude. On its ordinary meaning, restoring the loss, the statement holds.
+
+---
+
+**2. An agent can attend to their own deed again and again, by choice, while refusing to acknowledge it as theirs.**
+
+**Verdict: STANDS**
+
+**Strongest attempted break:** You cannot refuse something you don't recognize. Refusing to acknowledge the deed as one's own therefore presupposes recognizing it as one's own. Choosing to return to it again and again, as *that* deed, then looks like a tacit acknowledgment. On this view, refusal and repeated chosen attention undermine each other.
+
+**Why the break fails:** The argument runs together two different things:
+
+- **Recognition:** inward knowledge that the deed is mine.
+- **Acknowledgment:** avowing it, owning it, accepting it as mine.
+
+Refusal needs only the first. The statement denies only the second.
+
+- A hit-and-run driver deliberately rereads the news coverage, revisits the intersection, and replays the moment in memory, all by choice and repeatedly.
+- Throughout, he denies it to everyone. Inwardly he disowns it: "That wasn't really me. I wasn't myself. It was the road, the dark, the other driver."
+
+His repeated attention is chosen. Its object is his own deed. His refusal to acknowledge it as his own is sustained, and it is a refusal rather than mere ignorance. Nothing in the case contradicts itself. Patterns like this, compulsive return combined with disavowal, are familiar from ordinary life and from accounts of self-deception.
+
+**Limits of the objection:** You could stipulate that any knowing attention to one's own deed already *is* acknowledgment. That stipulation would collapse the word "refusing" into nothing, because no one could ever refuse to acknowledge something they knowingly attend to. That again changes what the words mean, so it is not a valid counterexample.
+
+---
+
+**Summary:** 1 — STANDS. 2 — STANDS. Neither has a valid counterexample. The only routes to "breaking" them depend on redefining "restitution" or "acknowledge," which the rules exclude.

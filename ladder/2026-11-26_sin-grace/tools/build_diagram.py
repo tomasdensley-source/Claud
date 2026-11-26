@@ -24,9 +24,11 @@ def segments(text, pat):
 seg = {}
 import glob
 RUNS = sorted(os.path.basename(f)[:6] for f in glob.glob(os.path.join(R, "CX/CX-*_reply.txt")))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from cxparse import parse as cxparse
 for run in RUNS:
-    seg[run] = segments(rd(f"CX/{run}_reply.txt"), r"^\W*(\d+)\.\s*\**\s*(?:BROKEN|STANDS)\b")
-    if len([l for l in rd(f"CX/{run}_statements.tsv").splitlines() if l.strip()]) == 1: seg[run] = {1: rd(f"CX/{run}_reply.txt").strip()}
+    nst = len([l for l in rd(f"CX/{run}_statements.tsv").splitlines() if l.strip()])
+    seg[run] = {i: v[1] for i, v in cxparse(rd(f"CX/{run}_reply.txt"), nst).items()}
 p4seg = segments(rd("P04_reply.txt"), r"^\W*(\d+)\.\s*\**\s*(?:DEMONSTRATED|CONTESTED|FALSE AS STATED)")
 p4map = {l.split()[1]: int(l.split()[0]) for l in rd("P04_numbermap.txt").splitlines() if l.strip()}
 p4cat = {}
@@ -76,7 +78,7 @@ def failed_obj(f):
     m = re.match(r"(CX-\d{3}) #(\d+)", f); run, num = m.group(1), int(m.group(2))
     for o, (r_, n_, v) in cx.items():
         if r_ == run and n_ == num: return o
-roundcols = {"L4_repairs_round1.md": 4, "L4_repairs_round2.md": 5, "L4_repairs_round3.md": 6}
+roundcols = {"L4_repairs_round1.md": 4, "L4_repairs_round2.md": 5, "L4_repairs_round3.md": 6, "L4_repairs_round4.md": 6}
 rev_inputs = []
 for f, col in roundcols.items():
     for c in table(f, r"[SA]-\d{3}"):
@@ -128,13 +130,16 @@ for c in surplus:
     edge(f"L:{parent}", f"L:{sid}", "surplus")
 # revisions, in both diagrams
 REVS = []
-for f in ("L4_repairs_round2.md", "L4_repairs_round3.md"):
+for f in ("L4_repairs_round2.md", "L4_repairs_round3.md", "L4_repairs_round4.md"):
     for c in table(f, r"REV-\d$"):
         st, t = tested(c[0]); REVS.append(c[0])
         for d in ("L", "A"):
             node(f"{d}:{c[0]}", c[0], "revision", c[1], 9 if d == "L" else 7, d, st, prov=f, test=t)
 for b in ("A-001", "A-002v2", "A-003v2"):
-    for rv in REVS: edge(f"L:{b}", f"L:{rv}", "basis", "basis")
+    for rv in REVS:
+        pass
+for b, revs in (("A-001", REVS), ("A-002v2", REVS), ("A-003v2", REVS), ("A-004", ["REV-5", "REV-6"]), ("A-005", ["REV-5", "REV-6"])):
+    for rv in revs: edge(f"L:{b}", f"L:{rv}", "basis", "basis")
 for b in ("A:R1:S-005.aR", "A:R2:S-005.bR", "A:R2:S-006.aR2", "A:R1:S-006.bR"):
     if b in nodes:
         for rv in REVS: edge(b, f"A:{rv}", "basis", "basis")

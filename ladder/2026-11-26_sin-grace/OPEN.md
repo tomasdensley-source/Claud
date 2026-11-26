@@ -30,3 +30,6 @@ You are given numbered statements and a body of writing. For each statement answ
 - O-12: Steps 5-6 were run treating counterexample tests as Step 3 (O-07, provisional). If the author rules otherwise, G-101 and T-001 revert to untested-basis.
 - O-13: Vacuity (Ladder 318) flagged by testers: S-004.bR4 (CX-009), T-001 (CX-010), REV-3 and REV-4 (CX-012). Whether a definition-like pass carries any weight here is the author's call.
 - O-14: Choice between REV-1, REV-3 and REV-4 (all pass CX as phrased). REV-4 keeps the original's cadence but drops the knowledge condition from the facing. Author.
+- O-15: A-004 shows facing has registers (attention, acknowledgment, conduct). REV-5 and REV-6 name the acknowledgment register for the contrary but leave sin's "turning away" unregistered. No tester broke this; whether the piece should name the register for sin too is the author's call.
+- O-16: REV-6's "it" may refer to the work or to the turning away (O-0039). A writing choice for the author.
+- O-14 (updated): choice among REV-1, REV-3, REV-4, REV-5, REV-6 (all pass CX as phrased).

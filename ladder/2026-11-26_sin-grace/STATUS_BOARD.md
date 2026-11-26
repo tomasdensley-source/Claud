@@ -51,3 +51,16 @@ Author's governing caveat (§P16): a pass on this test is not a proof that a cla
 
 Tester's remark on both revisions (CX-012): "They are stipulative definitions. They assert nothing empirical that a case could falsify." This is the governing caveat applied: they pass partly because they are definitions.
 Steps 7-8: not run. Convergence needs independently developed paths; one sentence supplies one path.
+
+## Pass 3 (2026-11-26)
+| ID | Exact sentence | Status |
+|---|---|---|
+| G-004 | registers of facing (O-0014, O-0029, O-0030, O-0031, O-0035) | group |
+| G-005 | given and achieved together (O-0018, O-0028, O-0036) | group |
+| A-004 | Facing one's own work can occur in attention, in acknowledgment, or in conduct, and none of these three guarantees the other two: an agent can face the work in one of them while being turned away from it in another. | passes CX as phrased (CX-013) |
+| A-004-S1, A-004-S2 | (see L2_surplus.md, pass 3) | pass CX as phrased (CX-014) |
+| A-005 | One and the same condition in a person can be both given and achieved, as when what is received must also be taken up, so "given" and "achieved" do not divide conditions into two exclusive kinds. | passes CX as phrased (CX-013); LIVE-BARREN |
+| REV-5 | Sin is being turned away, after knowledge, from the work of one's own hand; its contrary is facing that same work as one's own, which attention alone does not do. Repentance becomes that contrary only when it arrives at that facing, and grace is that facing insofar as it is given. | passes CX as phrased (CX-015) |
+| REV-6 | Sin is the turning away, after knowledge, from the work of one's own hand; its contrary is the facing that owns it. Repentance is that contrary only when it arrives there, and grace is that facing insofar as it is given. | passes CX as phrased (CX-015); "it" is ambiguous (O-0039) |
+Tester's remark (CX-015): both revisions "are stipulative definitions".
+Not done: no new surplus for A-001, A-002v2, A-003v2 or T-001 (derivation for those phrasings closed before their tests, §9.6). Ungrouped: O-0032, O-0033, O-0034, O-0037, O-0038, O-0039.

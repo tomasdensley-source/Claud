@@ -1,0 +1,48 @@
+# Verdicts on the Two Statements
+
+## 1. STANDS
+
+**What would break it.** The statement makes a non-guarantee claim. To break it, I would need to show that facing the work in one mode necessarily brings facing it in at least one other. Merely failing to find an example of divergence would not be enough.
+
+**Strongest attempt.** Acknowledgment seems to require attention. You cannot own up to work you are not attending to. If that held, acknowledgment would guarantee attention, and the strong reading of "guarantees neither of the other two" would fail.
+
+**Why the attempt fails.** Acknowledgment can occur without attention. Someone can sign off on a report as "mine, I stand behind it" while never looking at what it contains. Rote or formal acknowledgment of this kind is still acknowledgment in ordinary usage. Ruling it out would mean redefining acknowledgment as "attentive acknowledgment," which changes what the word means.
+
+Every other pairing also diverges in both directions:
+
+- **Attention without acknowledgment:** staring at a flaw in one's own work while insisting it is someone else's doing.
+- **Acknowledgment without conduct:** "Yes, I botched it," followed by no repair.
+- **Conduct without acknowledgment:** quietly fixing the error while publicly denying it existed.
+- **Conduct without attention:** habitually correcting a recurring mistake on autopilot.
+- **Attention without conduct:** seeing the problem clearly and doing nothing.
+
+**Conclusion.** No mode entails another, so the claim holds under both the weak and the strong reading.
+
+## 2. STANDS
+
+**What would break it.** The statement claims only possibility: one condition can be both given and achieved. To break it, I would need to show that "given" and "achieved" are mutually exclusive by their meaning, so that no single condition could be both.
+
+**Strongest attempt: the equivocation objection.** In apparent cases, two different conditions might be hiding under one name.
+
+- A talent is given as a raw capacity.
+- The developed skill is achieved.
+- On this view, the given item and the achieved item are distinct, and the division between kinds survives.
+
+**Why the attempt fails.** Some conditions are not split this way, because the taking up is part of what the condition is:
+
+- **Forgiveness:** being forgiven, in the sense of being reconciled, is offered by another. It is also only realized when the recipient accepts it.
+- **Trust:** being trusted depends on someone else extending it, and also on one's own bearing that sustains it.
+- **A mother tongue:** it is received from one's community, and also made one's own only through use.
+
+In these cases the received thing and the realized thing are one condition. Treating them as two would mean stipulating that "given" means "not at all achieved." That is a redefinition, not a counterexample within the statement's terms.
+
+**Conclusion.** Because the claim is existential, one clear case suffices, and several are available.
+
+## Summary
+
+| Statement | Verdict |
+|---|---|
+| 1 | STANDS |
+| 2 | STANDS |
+
+I could not construct a valid counterexample to either statement. The only attacks available work by narrowing the meaning of key terms: "acknowledgment" to "attentive acknowledgment," and "given" to "wholly unachieved." The rules exclude that move.

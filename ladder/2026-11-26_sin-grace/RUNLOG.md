@@ -24,3 +24,7 @@ Operator note (not a verdict): the "therefore" (S-006) carries the sentence's wh
 19. Pass 2: S-004.bR3 repaired (S-004.bR4); A-002-S1, A-003-S1 archived; Steps 5-6 provisional (G-101, T-001, T-001-S1..S3, surplus closed before test); REV-3, REV-4 drafted. Files: L4_repairs_round3.md, L56_tier2.md.
 20. CX-009 to CX-012 in fresh contexts, diffs empty. All 7 statements STAND. Tally: CX_tally.md (42 tested: 28 STANDS, 14 BROKEN, 0 invalid).
 21. Diagram regenerated with tier-2 and round-4 columns.
+22. Pass 3: Step 0 again (O-0028 to O-0036 from CX-009..CX-012); Step 0.5 G-004, G-005; Step 1 A-004, A-005; Step 2 A-004-S1, A-004-S2 (closed), A-005 LIVE-BARREN. CX-013, CX-014: all STAND.
+23. Revisions REV-5, REV-6 (L4_repairs_round4.md); CX-015: both STAND. O-0037 to O-0039 recorded.
+24. Tally by tools/tally.py; diagram regenerated.
+25. Defect found and fixed: the first tally parser misread CX-014's format (verdict on its own line) as INVALID. New parser tools/cxparse.py reproduces all 46 earlier verdicts and reads CX-014 as STANDS, STANDS. Final: 48 tested, 34 STANDS, 14 BROKEN, 0 invalid.

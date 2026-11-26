@@ -1,0 +1,37 @@
+# Verdicts on Statements 1 and 2
+
+Both statements are stipulative definitions. They define sin, its contrary, repentance and grace by reference to each other. A valid counterexample would have to show one of three things:
+
+- **(a)** an internal contradiction,
+- **(b)** a case meeting the stated conditions where the claimed relation fails, or
+- **(c)** that the claimed "contrary" is not actually a contrary.
+
+Bringing in an outside theological definition of sin or grace would step outside the statements' terms, so it does not count.
+
+---
+
+## 1. STANDS
+
+**Is the contrary a real contrary?** Sin is being turned away from one's own work after knowledge. Its contrary is facing that same work as one's own. You cannot be turned away from and facing the same work at once, in the same respect. So the two are incompatible.
+
+Both can still be false at once. Before knowledge, someone is neither turned away after knowledge nor yet facing the work as their own. That is exactly the pattern of a contrary rather than a contradictory, so the relation holds as claimed.
+
+**Attempted break via "attention alone does not do."** I tried the case of someone who attends closely to their deed while disowning it, for example by saying "that wasn't really me." This case does not refute the statement. It confirms it: attention is present and owning is absent, so this is attention without the facing.
+
+**Attempted break via repentance.** "Repentance becomes that contrary only when it arrives at that facing" states only a necessary condition. A break would need repentance that is the contrary without arriving at the facing. That is impossible, because the contrary is defined as the facing.
+
+**Attempted break via grace.** I asked whether grace as "given" conflicts with the facing being "as one's own." It does not. "As one's own" qualifies how the work is regarded, not who the source of the facing is. A given facing can still face the work as one's own.
+
+No case satisfies the terms while falsifying the claims.
+
+## 2. STANDS
+
+**What changed.** The omission of the attention clause removes a claim; it does not create a contradiction. "The facing that owns it" builds owning into the facing itself. So mere attention already fails to qualify as the contrary.
+
+**Ambiguity of "it."** "It" may refer either to the work or to the turning away. On either reading, the facing owns what one turned from. That is incompatible with remaining turned away from it, and possible absence before knowledge keeps the relation a contrary.
+
+**Attempted break via intellectual admission.** I tried someone who intellectually admits "I did it" while still refusing to look at the deed. This person is not facing the work, so they do not meet the definition of "the facing that owns it." The case falls outside the definition rather than refuting it.
+
+**Repentance and grace.** These clauses have the same structure as in statement 1, so the same analysis applies.
+
+No valid counterexample could be constructed within the statement's own terms.

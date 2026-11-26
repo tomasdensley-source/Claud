@@ -1,4 +1,4 @@
-# CX tally (computed by script from reply files and number maps)
+# CX tally (computed by script from reply files and number maps; parser tools/cxparse.py)
 
 | Run | # | Object | Verdict |
 |---|---|---|---|
@@ -44,5 +44,11 @@
 | CX-011 | 3 | T-001-S3 | STANDS |
 | CX-012 | 1 | REV-3 | STANDS |
 | CX-012 | 2 | REV-4 | STANDS |
+| CX-013 | 1 | A-004 | STANDS |
+| CX-013 | 2 | A-005 | STANDS |
+| CX-014 | 1 | A-004-S1 | STANDS |
+| CX-014 | 2 | A-004-S2 | STANDS |
+| CX-015 | 1 | REV-5 | STANDS |
+| CX-015 | 2 | REV-6 | STANDS |
 
-STANDS=28 BROKEN=14 invalid=0 tested=42
+STANDS=34 BROKEN=14 invalid=0 tested=48
