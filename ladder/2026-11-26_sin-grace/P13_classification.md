@@ -68,3 +68,5 @@
 | A-016 | possibility | a showing that being faced can never be part of coming to face |
 | A-013v2, A-015v2 | vulnerable generalization (pass 11 repairs) | one valid case inside its terms |
 | A-015v3 | vulnerable generalization | one valid case inside its terms |
+| P-01 to P-11 | definitional claims (the author's) | a correct use or case of the term that the definition excludes, or a case it includes that is not the term |
+| REV-25, REV-26 | vulnerable generalization (pass 12) | one valid case inside its terms |

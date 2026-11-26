@@ -67,3 +67,13 @@ The message is an analysis addressed to the author, arguing that "facing" is the
 
 ## 2026-11-26 (verbatim in pass12/INPUT_poem.md)
 A poem with a Drive link, no instruction. Operator's handling, recorded as such: the linked Drive document (the author's "Of the Name Given, the Wound Borne, and the Glory Returned") was read in full. Its definitions, the poem's and REV-24's are compared in pass12/CONCORDANCE.md. Conflicts C1 to C4 are put to the author (§0.2); nothing in the piece is changed and nothing is tested until the author says what the poem is for.
+
+## 2026-11-26 (answers to AskUserQuestion, verbatim)
+- Poem's role: "Test its definitions"
+- Grace (O-39): "Facing our own creation"
+- Sin's contrary (O-40): "Grace"
+- Repentance (O-41): "Facing God's creation"
+Operator's reading, recorded as such:
+- These SUPERSEDE ruling R-G ("Grace is defined by its giving, not by its receiving") and REV-24's "Grace is the free giving of that facing", and the O-36 form of repentance (facing God's creation as implication). The superseded rulings and their test records stay on file (Ladder 158, 285).
+- The O-29 ruling ("having grace means that you give it") was made under R-G; its fit with the new definition is OPEN (O-43).
+- O-42 (conscience and facing oneself) was not answered; REV-25 and REV-26 test both placements.

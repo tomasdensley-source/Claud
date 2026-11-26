@@ -129,10 +129,10 @@ for c in surplus:
          prov="L2_surplus.md" if "v2" not in sid else "L4_repairs_round1.md", test=t)
     edge(f"L:{parent}", f"L:{sid}", "surplus")
 # revisions
-REVS = []; REVS_A = []; REVS_BY = {"B": [], "C": [], "D": [], "E": [], "F": [], "G": [], "H": []}
+REVS = []; REVS_A = []; REVS_BY = {"B": [], "C": [], "D": [], "E": [], "F": [], "G": [], "H": [], "I": []}
 REV_FILES = (("L4_repairs_round2.md", ("L", "A")), ("L4_repairs_round3.md", ("L", "A")), ("L4_repairs_round4.md", ("L", "A")),
-             ("pass4/L4_repairs_round2.md", ("L", "B")), ("pass5/L4_repairs_round2.md", ("L", "C")), ("pass6/L4_repairs_round2.md", ("L", "D")), ("pass7/L4_repairs_round2.md", ("L", "E")), ("pass8/L4_repairs_round2.md", ("L", "F")), ("pass9/L4_revisions.md", ("L", "G")), ("pass10/L4_revisions.md", ("L", "H")))
-REVCOL = {"L": 9, "A": 7, "B": 6, "C": 5, "D": 4, "E": 5, "F": 4, "G": 4, "H": 3}
+             ("pass4/L4_repairs_round2.md", ("L", "B")), ("pass5/L4_repairs_round2.md", ("L", "C")), ("pass6/L4_repairs_round2.md", ("L", "D")), ("pass7/L4_repairs_round2.md", ("L", "E")), ("pass8/L4_repairs_round2.md", ("L", "F")), ("pass9/L4_revisions.md", ("L", "G")), ("pass10/L4_revisions.md", ("L", "H")), ("pass12/L4_revisions.md", ("L", "I")))
+REVCOL = {"L": 9, "A": 7, "B": 6, "C": 5, "D": 4, "E": 5, "F": 4, "G": 4, "H": 3, "I": 2}
 for f, ds in REV_FILES:
     for c in table(f, r"REV-\d+$"):
         if len(c) < 2 or c[0] in REVS: continue
@@ -273,13 +273,13 @@ for run in RUNS_ALL:
         reply=rd(f"CX/{run}_reply.txt"), prompt=rd(f"CX/{run}_prompt.txt")))
 openitems = [l[2:] for l in rd("OPEN.md").splitlines() if l.startswith("- O-")]
 openitems += ["| ".join(c[:2]) for c in table("OPEN.md", r"O-0[1-6]$")]
-def build_pass8(d, P, piece_label="REV-16", au_edges=None):
+def build_pass8(d, P, piece_label="REV-16", au_edges=None, stmt_file="AU_statements.md", prefix="| AU-"):
     srcp = re.search(r"## The piece, verbatim.*?\n\n(.+?)\n", rd(P + "P00_source.md"), flags=re.S).group(1)
     node(f"{d}:PIECE", piece_label + " (piece)", "piece", srcp, 0, d, "source", prov=P + "P00_source.md")
     last = {}; depth = {}; sec = 0
-    for l in rd(P + "AU_statements.md").splitlines():
+    for l in rd(P + stmt_file).splitlines():
         if l.startswith("## "): sec += 1; continue
-        if not l.startswith("| AU-"): continue
+        if not l.startswith(prefix): continue
         c = [x.strip() for x in l.strip().strip("|").split("|")]
         if len(c) == 3:
             st, t = tested(c[0]); key = f"{d}:{c[0]}"
@@ -323,6 +323,9 @@ def build_pass8(d, P, piece_label="REV-16", au_edges=None):
 build_pass8("F", "pass8/")
 build_pass8("G", "pass9/", "REV-20", (("AU-006R3", ["REV-22"]), ("AU-010", ["REV-21", "REV-22"])))
 build_pass8("H", "pass10/", "REV-22", (("AU-012R", ["REV-24"]),))
+build_pass8("I", "pass12/", "REV-24", (("P-03", ["REV-25", "REV-26"]), ("P-04", ["REV-25", "REV-26"]), ("P-06", ["REV-26"])), stmt_file="POEM_statements.md", prefix="| P-")
+PASSES.append(dict(id="I", title="Pass 12: the author's poem, and REV-24 revised by ruling", hint="The poem's definitions were tested word for word (edits labeled in pass12/POEM_statements.md); all failed as freestanding claims. The author ruled grace to be the facing of our own creation, named it sin's contrary, and made repentance the facing of God's creation; REV-25 passed and REV-26 failed.",
+    cols=["The piece: REV-24", "The poem's definitions (tested)", "Revisions · CX-087"]))
 PASSES.append(dict(id="H", title="Pass 10: REV-22, repentance and the facing of God's creation", hint="A directed pass. The author ruled that the repentance clause takes in facing God's creation as God's work, and oneself within it as a whole, as an implication and not an objective. The freestanding claims were scoped to the piece's own repentance; the implication form (AU-012R) passed and the precondition form (AU-010R2) failed.",
     cols=["The piece: REV-22", "Author's rulings (tested)", "Repairs", "Revisions · CX-078"]))
 PASSES.append(dict(id="G", title="Pass 9: REV-20, the author's rulings, and facing God's creation", hint="A directed pass. The author ruled \"after understanding\", that \"for what it is\" includes moral character, and that having grace means giving it; the author's question on repentance and facing God's creation was stated as exact sentences, its implications derived (IMP) and two operator conjectures (CJ) tested.",

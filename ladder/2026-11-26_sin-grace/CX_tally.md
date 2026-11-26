@@ -201,5 +201,19 @@
 | CX-083 | 1 | A-013v2 | STANDS |
 | CX-083 | 2 | A-015v2 | BROKEN |
 | CX-084 | 1 | A-015v3 | STANDS |
+| CX-085 | 1 | P-01 | BROKEN |
+| CX-085 | 2 | P-02a | BROKEN |
+| CX-085 | 3 | P-02b | BROKEN |
+| CX-085 | 4 | P-03 | BROKEN |
+| CX-085 | 5 | P-04 | BROKEN |
+| CX-085 | 6 | P-06 | BROKEN |
+| CX-086 | 1 | P-05 | BROKEN |
+| CX-086 | 2 | P-07 | BROKEN |
+| CX-086 | 3 | P-08 | BROKEN |
+| CX-086 | 4 | P-09 | BROKEN |
+| CX-086 | 5 | P-10 | BROKEN |
+| CX-086 | 6 | P-11 | BROKEN |
+| CX-087 | 1 | REV-25 | STANDS |
+| CX-087 | 2 | REV-26 | BROKEN |
 
-STANDS=124 BROKEN=67 invalid=8 tested=199
+STANDS=125 BROKEN=80 invalid=8 tested=213

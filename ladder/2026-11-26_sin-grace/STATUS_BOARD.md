@@ -187,3 +187,11 @@ Finding: the author's implication holds within the piece's own definition of rep
 | A-015v3 | Facing has a common core whatever its object, turning toward it rather than away, but its shape differs with the object: another person can face one back, and oneself is faced reflexively. | passes CX as phrased (CX-084) |
 | A-016 | Facing can be received as well as done: being faced by another can be part of how one comes to face. | passes CX as phrased (CX-081 #2) |
 Evidence on O-38: (1) facing is not the three together; seeing, owning and readiness can follow it (A-013v2); (2) facing can be a moment or a standing, and the piece's "stand facing" is the held form (A-013v2; pass4 S-003.aR; pass6 S-003.a); (3) one core, turning toward rather than away, with shapes that differ by object (A-015v3); (4) facing can be received (A-016).
+
+## Pass 12 (2026-11-26): the author's poem; rulings on O-39, O-40, O-41
+| ID | Exact sentence | Status |
+|---|---|---|
+| P-01 to P-11 | the poem's definitions (pass12/POEM_statements.md) | all 12 FAILED CX as freestanding claims (CX-085, CX-086) |
+| REV-25 | Sin is remaining turned away, after understanding, from the work of one's own hand. Its contrary is grace: to stand facing that work as one's own and for what it is, right or wrong, in acknowledgment and in the deeds it rightly calls for, as far as these can be seen; attention alone never reaches that facing. Repentance is the facing of God's creation as God's work, and of oneself within it as a whole, though not every part of oneself can be seen. | passes CX as phrased (CX-087 #1) |
+| REV-26 | (as REV-25, with the facing of oneself given to conscience) | FAILED CX (CX-087 #2): repentance would no longer reach sin |
+Finding: the poem's definitions fail as freestanding claims but the rulings drawn from them hold inside the piece (REV-25). Facing oneself must stay within repentance for repentance to reach sin (bears on O-42).

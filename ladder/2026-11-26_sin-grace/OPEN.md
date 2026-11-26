@@ -60,7 +60,12 @@ You are given numbered statements and a body of writing. For each statement answ
   - O-38.3 Range of objects: the same stance toward one's work, another, oneself, creation, God? (evidence: A-015)
   - O-38.4 Mutuality: can facing be received as well as done? (evidence: A-016)
 - O-38 (evidence recorded, still the author's to rule): candidate definition tested and standing: A-013v2 (CX-083). Whether the piece should state the definition, and in what words, is the author's call.
-- O-39 (C1): Grace has three definitions across REV-24 (ruling R-G), the poem and "Of the Name Given". Which governs the piece?
-- O-40 (C2): What stands facing one's own work: sin's contrary (unnamed), grace (poem), or love (NAME)?
-- O-41 (C3): Repentance: turning toward grace with facing God's creation as implication (REV-24, AU-012R), or the facing of God's creation itself (poem)?
+- O-39 CLOSED 2026-11-26: grace is "the facing of our own creation" (supersedes R-G).
+- O-40 CLOSED 2026-11-26: sin's contrary is grace.
+- O-41 CLOSED 2026-11-26: repentance is "the facing of God's creation" (supersedes the O-36 implication form).
 - O-42 (C4): Is conscience the facing of oneself (poem), and if so, does facing oneself belong to conscience rather than to repentance's implication (AU-011R)?
+- O-43: Ruling O-29 ("having grace means that you give it") was made when grace was defined by its giving. Under the new definition (grace is the facing of our own creation), what does having grace, or giving it, mean? The author decides.
+- O-42 (evidence): REV-26 failed (CX-087 #2) when facing oneself was given to conscience; REV-25 passed with it inside repentance. The author decides whether conscience is also the facing of oneself.
+- O-44: The poem's twelve definitions failed as freestanding claims (CX-085, CX-086). Whether to repair any of them into scoped claims, or leave the poem as poetry, is the author's call.
+- O-45: A tester objected that defining grace as one's own act of facing makes grace a work, against grace as unmerited gift (CX-085 #4). REV-25 passed regardless; the theological question is the author's.
+- O-46: Carry-forward after pass 12: REV-25 is the only surviving revision.

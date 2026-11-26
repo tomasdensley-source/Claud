@@ -51,3 +51,4 @@ Operator note (not a verdict): the "therefore" (S-006) carries the sentence's wh
 46. Pass 10 (directed, on REV-22): CX-077 to CX-079. REV-24 passes, REV-23 fails; AU-012R passes; AU-010R, AU-012, AU-010R2 fail. Tally: 191 tested, 121 STANDS, 62 BROKEN, 8 invalid.
 47. REV-24 is the only surviving pass-10 revision and carries every ruling to date; no carry-forward choice is pending.
 48. Pass 11 (directed by user message pass11/INPUT_facing.md): G-013 over observations about facing; A-013 to A-016 (CX-080 to CX-082), repairs A-013v2, A-015v2, A-015v3 (CX-083, CX-084). Standing: A-013v2, A-015v3, A-016. Tally: 199 tested, 124 STANDS, 67 BROKEN, 8 invalid. No revision of the piece in this pass; the definition of facing is the author's (O-38).
+49. Pass 12 (directed by the poem and the rulings on O-39 to O-41): CX-085 to CX-087. The poem's 12 definitions all fail as freestanding claims; REV-25 passes; REV-26 fails. Tally: 213 tested, 125 STANDS, 80 BROKEN, 8 invalid.

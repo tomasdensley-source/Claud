@@ -1,0 +1,89 @@
+# Verdicts on the Six Statements
+
+Each statement has the form "X is Y," which claims identity. It can be broken in two ways while keeping the words' ordinary meanings:
+- a real case of Y that is not X, or
+- a real case of X that is not Y.
+
+The poetic register does not exempt the statements. If they were purely stipulative ("I will call this love"), they would assert nothing and could neither stand nor fall. As claims, they are testable.
+
+---
+
+### 1. "Love is the hand that stays." — **BROKEN**
+
+**Staying without love:**
+- A jailer's hand on a prisoner stays.
+- An abuser's grip that will not let go stays.
+- A spouse who remains only from fear, money, or inertia stays.
+
+Each is a hand that stays, in the plain sense, and none is love.
+
+**Love without staying:**
+- A parent releases a grown child to leave home.
+- A mother surrenders her infant for adoption so it can live.
+- A dying person sends a loved one away to spare them the vigil.
+
+Here love takes the form of the hand that lets go. Staying is neither sufficient nor necessary.
+
+### 2. "Faith is the knowing that tension holds weight." — **BROKEN**
+
+**Knowing without faith:**
+- A structural engineer knows, by calculation and load testing, that a tensioned cable will hold a bridge deck.
+- A climber can verify the rope rating.
+
+This is knowing that tension holds weight, and it requires no faith. Verification is exactly what makes faith unnecessary.
+
+**Faith without knowing:**
+- The classic definition is "the assurance of things hoped for, the conviction of things not seen."
+- Its paradigm cases (Job, the doubting believer who prays anyway) are cases of trusting without knowing.
+
+If faith were knowing, then doubt would be incompatible with faith. Yet "I believe; help my unbelief" is a standard expression of faith. The statement conflates faith with its opposite.
+
+### 3. "Sin is the turning away from what our hands have made." — **BROKEN**
+
+**Turning away that is not sin:**
+- Within the very tradition this vocabulary draws on, turning away from the work of one's hands is repentance. Hosea 14:3: "We will no more say to the work of our hands, 'You are our gods.'" Isaiah 2:8 condemns bowing to it.
+- More generally, turning away from a bomb you built, a lie you told, or a cruel habit you formed is the opposite of sin.
+
+**Sin without turning away:**
+- A person who commits murder while facing the act fully, deliberately, and with pride has not turned away from anything they made.
+- Yet the act is sin.
+
+### 4. "Grace is the facing of our own creation." — **BROKEN**
+
+**Facing one's own creation without grace:**
+- Judas faced what he had done and despaired. Countless people confront their own wreckage and are crushed by it.
+- This is facing one's own creation in full, with no grace present.
+
+**Grace without facing one's own creation:**
+- In its ordinary theological sense, grace is unmerited gift received from outside the self.
+- An infant receiving baptism has faced nothing. Unexpected mercy from a wronged person can also arrive before the offender has faced anything.
+- Defining grace as our own act of facing turns it into a work, which contradicts what the word means.
+
+### 5. "Repentance is the facing of God's creation." — **BROKEN**
+
+**Facing God's creation without repentance:**
+- An astronomer studying galaxies faces God's creation, on the statement's own premise.
+- So does a hiker staring at a mountain, or an atheist geologist reading rock strata.
+- None is repenting.
+
+**Internal contradiction:**
+- Statement 3 locates sin in our relation to our own works.
+- Repentance, the reversal of sin, would therefore have to concern our own works, which is what statement 4 assigns to grace.
+- Statement 5 points repentance at the wrong object, so the set is inconsistent on its own terms.
+
+### 6. "Conscience is the facing of one's self." — **BROKEN**
+
+**Facing oneself without conscience:**
+- A narcissist admiring himself in a mirror faces himself.
+- So does an athlete reviewing footage of her technique.
+- So does a person reflecting on their personality type.
+
+None of these is conscience. Self-facing can be vain, technical, or morally neutral.
+
+**Conscience without facing oneself:**
+- Conscience often looks outward and forward. Someone feels a sudden recoil before striking a person, or an unprompted pang at seeing a stranger wronged.
+- These are acts of conscience aimed at another person's harm or a contemplated act. No self-examination occurs.
+
+---
+
+**Summary:** Under ordinary readings of their own words, all six statements are BROKEN. None survives as an identity claim. Each names, at most, one occasional feature or expression of the thing it defines.

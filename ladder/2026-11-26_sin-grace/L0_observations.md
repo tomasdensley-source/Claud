@@ -150,3 +150,8 @@ Affect charge: not recorded (the operator is not the selector; the author's affe
 | O-0140 | A tester stated that a child steadily attended to learns to attend, and that a friend's honest look can enable one to face a failure. | CX-081 #2 |
 | O-0141 | A tester stated that "as it is" modifies what is turned toward, not the accuracy of one's grasp; honest but partial seeing is facing, and a distortion deliberately held is turning away. | CX-083 #1 |
 | O-0142 | A tester stated that Spinoza's God and Aristotle's unmoved mover can be faced, yet face no one first. | CX-083 #2 |
+| O-0143 | A tester stated that a jailer's or abuser's hand stays without love, and that love can let go, as a mother surrendering her infant so it can live. | CX-085 #1 |
+| O-0144 | A tester stated that turning away from the work of one's hands can be repentance (Hosea 14:3), and that a murder faced with pride is still sin. | CX-085 #3 |
+| O-0145 | A tester stated that Judas faced what he had done and despaired, and that defining grace as one's own act of facing turns grace into a work. | CX-085 #4 |
+| O-0146 | A tester stated that an astronomer faces God's creation without repenting, and that repentance aimed only at God's creation misses the object of sin. | CX-085 #5 |
+| O-0147 | A tester stated that if facing oneself belongs to conscience, repentance as the facing of God's creation can coexist with an understood, unfaced sin. | CX-087 #2 |
