@@ -1,0 +1,41 @@
+# Verdicts on the Five Statements
+
+**1. STANDS**
+
+If willful ignorance is being turned away from what one knows, its contrary is being turned toward that same knowledge. "Attending to" it names that orientation.
+
+The best counterexample attempt is the rationalizer. Someone examines evidence of a spouse's affair closely, but only to explain it away. This seems to attend and turn away at once. It fails because what they attend to is the *evidence*, not the knowledge itself. Toward the knowledge, they remain turned away. Within the statement's terms, the two orientations cannot coexist toward the same object. The statement is close to definitional.
+
+**2. STANDS**
+
+In A-001, both orientations take "what one knows" as their object. Without knowledge there is no object, so neither turning away nor facing is possible in that sense.
+
+- **Suspicion:** someone half-knows and turns away. This either counts as a form of knowing, which keeps the case inside the statement, or it is not knowing, in which case A-001's orientation does not apply.
+- **Inquiry:** someone faces an open question. This is a different sense of "facing" from A-001's, so it steps outside the statement's scope.
+
+**3. STANDS**
+
+Contraries exclude each other in the same subject without presupposing each other. Remedies presuppose the wrong they answer.
+
+- **Forgiveness** belongs to a different subject than the wrong. The victim forgives; the wrongdoer did the wrong.
+- **Apology and restitution** belong to the same subject but presuppose the wrong rather than exclude it.
+
+The strongest attempt is back pay for withheld wages. It looks like the contrary of withholding, since paying excludes not paying. But the true contrary of withholding is timely payment, which presupposes no wrong. Back pay is a separate act that exists only because the withholding occurred. The distinction holds.
+
+**4. BROKEN**
+
+The statement says an agent who has never been in a condition "cannot be performing a remedy for it." The pronoun "it" refers to the condition, not to the agent's own instance of it. Several cases satisfy the terms and falsify the claim:
+
+- **Restitution by an heir:** an heir who never stole repays the victims of a theft committed by the person they inherited from.
+- **Apology by a successor:** a head of state who never committed an atrocity formally apologizes for it on the nation's behalf.
+- **Forgiveness:** statement 3 itself treats forgiveness as a remedy answering a wrong. The victim performs it, and the victim was never in the condition of wrongdoing.
+
+In each case, the agent was never in the condition, is in its contrary (innocent of it), and is performing a remedy for it.
+
+**5. STANDS**
+
+A gift never given leaves only a privation, an absence. A privation is not a stance and has no direction, so it cannot be the contrary of receptive openness.
+
+The best counterexample attempt is someone who never received the gift because they refused it. There the refusal is an orientation, and it may well be grace's contrary. But the refusal is the orientation, not the lack. The statement claims only that the lack is not itself an orientation, and that claim holds.
+
+**Summary:** One statement is broken (4). Four stand (1, 2, 3, 5).

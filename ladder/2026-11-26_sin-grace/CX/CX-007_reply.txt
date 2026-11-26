@@ -1,0 +1,31 @@
+# Verdicts on the Two Statements
+
+## 1. STANDS
+
+**Why no valid counterexample works:** The statement defines repentance as a *response* to a sin that is at least suspected. A response presupposes the thing it responds to. So the suspicion is prior to the repentance, at least logically. The conclusion is already contained in the premise.
+
+I tested the natural candidates, and each one fails:
+
+- **"Forgive me my unknown sins."** This still rests on a suspicion that there are sins, even if none is specified. It confirms the statement rather than breaking it.
+- **Theologies where sin is recognized only in the act of turning** (for example, the Barthian view that sin is known only in the light of grace). These make recognition and repentance simultaneous in time. Even so, the recognition remains logically prior: one repents *of* what one sees. "Comes after" holds in the logical sense, which is the sense the "and so" relies on.
+- **Anticipatory "repentance" for a sin not yet committed or suspected.** This is not a response to a suspected sin, so it lies outside the statement's scope. It works only by changing what "repentance" means.
+
+## 2. BROKEN
+
+**Counterexample:** Grant every condition:
+
+- "Grace" names the gift, not the giver's favor.
+- The gift is a turning of the one who receives it.
+
+Now let that turning be what "turning" most directly denotes: an act or movement. A concrete case is the momentary motion of conversion, where the will is moved from sin toward God.
+
+A movement is an event, a change. An orientation is a standing state or direction, a disposition. These belong to different categories:
+
+- **In Aristotelian terms:** motion versus quality or habit.
+- **In scholastic theology:** Aquinas explicitly distinguishes grace as a *motion* of the soul by God (*auxilium*, operating grace) from grace as a *habitual* gift (*habitus*) that disposes the soul. (*Summa Theologiae* I–II q.110 a.2; q.111 a.2.)
+
+The distinction is real, not merely verbal. A turning can occur and then lapse, leaving no lasting orientation, as in a conversion that does not persist. In that case grace, in the stated sense, was given, but nothing of the kind "orientation" was given.
+
+So the conditions are satisfied while the conclusion fails. A turning is the *coming-to-be* of an orientation, or a change of one. It is not itself the same kind of thing as an orientation.
+
+This counterexample does not step outside the statement's terms. The statement says "turning," and the event sense is that word's primary meaning. The statement would hold only if "turning" were restricted to "turned-ness," a restriction it does not make.

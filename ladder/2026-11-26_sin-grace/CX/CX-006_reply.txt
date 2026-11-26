@@ -1,0 +1,46 @@
+# Verdicts on the Three Statements
+
+## 1. STANDS
+
+The statement turns on what "contrary" means: a contrary is something that cannot coexist with the thing it opposes.
+
+- **Ceasing the conduct.** Ceasing the wrongful conduct ends the wrong's continuation. You cannot both cease the conduct and keep doing it. So ceasing is the contrary.
+- **Paying money.** Payment for the wrong can coexist with the wrong. A polluter can pay damages and keep polluting. A trespasser can pay rent-like compensation and stay. So payment is not the contrary.
+
+**Candidates I tried, and why each fails:**
+
+- **A wrong that consists of non-payment.** Take wages wrongfully withheld. Paying the wages ends the wrong, so here "paying money" looks like the contrary. But paying the wages *is* ceasing the wrongful conduct; it is the first response, not the second. Money paid *for* the wrong, such as interest or damages for the delay, still does not end the withholding. The case works only by treating "paying the debt" as "paying money for the wrong." That changes what the words mean, so it is not a valid counterexample.
+- **Harm that outlasts the conduct.** Take contamination that keeps leaching after dumping stops. What persists is the harm, not the wrongful conduct. Ceasing still excludes the conduct the statement names. Making this a counterexample would require treating the lingering harm as the wrong itself, which steps outside the statement's terms.
+
+## 2. STANDS
+
+If contrariety means one state excluding another, it depends on what the state is, not on how it came about. Two pairs show this:
+
+- **Health and sickness.** Health excludes sickness whether it was restored by treatment or was never lost.
+- **Immunity and infection.** Immunity excludes infection whether it was acquired by vaccine or held naturally.
+
+To break the statement, I would need a state that excludes the condition when held from the start but not when reached by remedy, or the reverse. But exclusion is a feature of the state itself, so its history cannot change it.
+
+**A candidate I tried, and why it fails:**
+
+- **Mere incompatibility.** One could object that some excluding states are not true contraries. A corpse "excludes" fever, yet death is not the contrary of fever. This attacks a stricter, same-kind sense of "contrary" that the statement does not use. It also has no bearing on the statement's actual claim, which is that origin makes no difference. So it is not a valid counterexample.
+
+## 3. STANDS
+
+The statement is conditional, and its conclusion is only "can be."
+
+- **The antecedent.** It stipulates that the gifted courage really is an orientation of the person who receives it, meaning it belongs to that person's own disposition.
+- **Applying Statement 2.** A disposition that excludes cowardice is its contrary, regardless of where it came from.
+- **The conclusion.** Being received as a gift is just one origin, so it cannot remove the exclusion. The weak "can be" is therefore satisfied.
+
+**A candidate I tried, and why it fails:**
+
+- **An external gift.** Suppose the gift only produces courageous acts from outside, without becoming the recipient's disposition. Then it would not exclude cowardice. But this case denies the antecedent, so it falls outside the statement's stated conditions and is not a valid counterexample.
+
+## Result
+
+All three statements stand. Each candidate counterexample worked only by:
+
+- treating paying a debt as paying for a wrong,
+- substituting a stricter meaning of "contrary," or
+- violating the conditional's own antecedent.

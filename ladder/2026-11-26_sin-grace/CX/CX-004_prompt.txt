@@ -1,0 +1,17 @@
+
+You are given a set of statements below. Your goal is to create counterexamples.
+
+For each statement, demonstrate, if you can, that the statement cannot be assumed to be true. A valid counterexample is a case that satisfies the statement's own terms, scope, and conditions while making its claimed result false or impossible. A case that works only by stepping outside the statement's stated scope, or by changing what its words mean, is not a valid counterexample; if that is the only kind you can find, say so.
+
+Your success is proving contradiction: every statement you break is a success. Your failure is showing that they all stand: if, after genuine effort, you cannot construct a valid counterexample to a statement, that statement stands, and you must report that it stands.
+
+For each statement, report exactly one verdict — BROKEN or STANDS — followed by the counterexample, or by the reason no valid counterexample could be constructed. Do not soften a verdict to be agreeable. Do not protect any statement.
+
+The statements:
+
+1. An agent who knows a work to be their own can, in at least some cases, either attend to it or avoid attending to it.
+2. On an account of sin that requires the agent to know that the work is their own, turning away from one's own work in ignorance that it is one's own does not count as sin.
+3. Repentance is a response to a sin believed to have been committed, and so presupposes at least the belief that a sin was committed.
+4. Grace is the same kind of thing as an orientation when what is given or received is itself a turning of the one who receives it.
+5. If sin is the turning away from one's own work after knowledge, then the facing that is contrary to it has that same object.
+6. Where a condition is defined as being turned away from an object, facing that same object is the contrary at the opposite pole of that orientation, though other conditions, such as indifference, may also exclude it.

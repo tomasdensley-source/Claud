@@ -1,0 +1,56 @@
+**1. STANDS**
+
+The claim is existential: it says that in *at least some* cases, an agent who knows a work is theirs can either attend to it or avoid it. To break it, you would need to show that no knowing agent can ever do either. Deterministic or compulsion cases do exist, such as an agent who cannot stop fixating on their own work. But these only show that the capacity sometimes fails. They do not show it always fails. Ordinary cases supply the instance the statement needs. An author who knows a manuscript is hers can reread it or leave it in the drawer.
+
+**2. STANDS**
+
+This is a conditional about a specified account, and its terms make it close to analytic. If the account requires that the agent know the work is their own, and the agent turns away in ignorance of that, the required condition is unmet. So the act does not count as sin *on that account*.
+
+I tried two candidate counterexamples, and both change the terms:
+
+- **Culpable ignorance.** One could say the ignorance is itself sinful, so the turning away counts as sin. But this replaces the knowledge requirement with a "knew or should have known" requirement. That is a different account.
+- **Prior knowledge then forgetting.** One could invoke "after knowledge": the agent once knew, later forgot, then turned away. But this reads "know" as "have known at some time." The natural scope of the condition is knowledge in the act of turning, so this also changes the account.
+
+No valid counterexample stays within the statement's terms.
+
+**3. BROKEN**
+
+Counterexample: repentance for a *doubtful* sin.
+
+- A person is genuinely uncertain whether they committed a wrong. For example, they may have given a false statement unknowingly, or eaten forbidden food without being sure.
+- They do not believe a sin was committed. Their credence is perhaps 0.5, which is suspicion, not belief.
+- Even so, they repent of it.
+
+This is not a contrived case. Leviticus 5:17–19 prescribes the *asham talui* (the "suspended guilt offering") for exactly this situation. Psalm 19:12 asks to be cleansed from "hidden faults," meaning faults one cannot identify. The conditional apology "I'm sorry if I wronged you, and I repent of it if I did" has the same structure.
+
+In each case the act counts as repentance in the ordinary and traditional sense. Yet it presupposes only the *possibility* or suspicion of sin, not the belief that a sin occurred. The statement claims belief is a necessary presupposition, so it fails.
+
+**4. BROKEN**
+
+The statement infers that grace is the same kind of thing as an orientation because its content is a turning. That inference confuses the gift with the giving.
+
+Counterexample: grace understood as divine favor or as the act of bestowal, which is standard in forensic Protestant accounts (*favor Dei*).
+
+- What God gives in this case is a turning, namely the receiver's conversion.
+- But grace itself is located in the giver as an act or relation of favor. It is not located in the receiver as an orientation.
+
+The category of an act of giving is fixed by the giving, not by what is given. Compare the gift of a sword. The *gifting* is a transaction, not a weapon, even though what is given is a weapon.
+
+So the condition of the statement holds: what is given is a turning of the one who receives it. Yet grace, so understood, is an act of bestowal rather than an orientation. The claimed sameness of kind fails.
+
+**5. STANDS**
+
+Contrariety, in the strict sense the statement uses, requires the same subject and the same respect. Suppose sin is turning away from one's own work. Then facing some *other* object, such as God or a neighbor, is compatible with that turning away. Compatibility means it is not contrary to it.
+
+The only orientation that strictly excludes "turned from X" in the same respect is "turned toward X." So the contrary necessarily shares the object. Any case with a different object stops being a case of the contrary, which means it steps outside the statement's terms.
+
+**6. STANDS**
+
+The statement is carefully hedged:
+
+- It claims that facing the same object is the *polar* contrary of being turned away from it.
+- It explicitly allows that other conditions, such as indifference, can also exclude facing.
+
+I tried a scalar model with intermediate positions between the two poles. It confirms the statement rather than refuting it: the poles are still "toward X" and "away from X," and the intermediates are the "other conditions" the statement already acknowledges. No case satisfies the definition while making facing the object something other than the opposite pole.
+
+**Summary:** 3 and 4 are BROKEN. 1, 2, 5, and 6 STAND.

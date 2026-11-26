@@ -1,0 +1,36 @@
+## 1. STANDS
+
+To break this I would need a case where an agent is turned away from something it knows, and the contrary is something other than facing that same thing under the same knowledge. I tried four candidates, and none works:
+
+- **Neutrality or indifference.** Being merely "not turned away" is the *contradictory* of being turned away, not its contrary. It is the absence of the condition, not the opposite extreme on the same axis.
+- **Facing it under better or different knowledge.** This changes one of the terms the statement holds fixed. It is a contrary to a different condition, defined by different knowledge.
+- **Turning toward something else.** This changes the object. That makes it a rival orientation, not the contrary of this one.
+- **Knowledge gained only through the turning away.** Even here, facing the thing under that same knowledge remains possible. So the contrary is still the one the statement names.
+
+Contrariety needs the same subject, the same axis, the same object and the same respect, with the two extremes opposed. The statement fixes the subject, the object and the knowledge, and it names the opposite pole of the orientation. Every alternative I found works only by altering one of those fixed terms. That is the out-of-scope kind of counterexample, so it does not count.
+
+## 2. BROKEN
+
+**Counterexample: repentance, or recovered health.**
+
+Take repentance, an act of repair. It presupposes a prior aversion: one can only repent of something already done. Yet while it lasts, repentance is a present turning toward. It cannot coexist with a persisting turning away, because one cannot repent of an aversion and remain in it at the same moment. So repentance meets the statement's own test for a contrary: it excludes the condition at the same time.
+
+The same holds for recovered health. It presupposes illness and comes after it. Yet it is health, and it excludes illness at the same time just as any health does.
+
+The statement's reasoning treats "comes after" and "excludes at the same time" as alternatives. They are not. A response can begin after the condition and still, once present, exclude it simultaneously. Its history is extrinsic to its content.
+
+This break does not cover every remedy. A medicine, or an act of repair considered only as an event, is indeed not the contrary. But the statement claims generally that a response presupposing a prior condition is not that condition's contrary. That general claim fails for responses that consist in establishing the contrary state.
+
+## 3. BROKEN
+
+**Counterexample: a gift that is itself a disposition of the recipient.**
+
+Take "faith" in the theological sense. It names both:
+- the gift given, which is a disposition of trust toward God, and
+- the state of having received it.
+
+Here the gift sense is itself an orientation of the agent toward something known. Taken in that sense, it is contrary to the orientation of distrust or turning away, with no detour through the receiving-state sense. So the claim that "only the second sense can be the contrary" fails.
+
+The statement assumes that a gift is always an external thing. That assumption fails whenever the thing given is a disposition of the receiver.
+
+A related point shows the statement misidentifies where contrariety lies. The receiving-state sense is not reliably a contrary of an orientation at all. An ingrate is in the state of having received the gift while being turned away from the giver. In fact, ingratitude presupposes that receipt.

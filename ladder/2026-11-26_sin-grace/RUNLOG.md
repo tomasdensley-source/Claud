@@ -13,3 +13,10 @@ Operator note (not a verdict): the "therefore" (S-006) carries the sentence's wh
 9. Author rulings filed verbatim: RULINGS.md (interim prompts allowed; Claude-model tester; corpus question).
 10. P4 run in a fresh API context, anthropic/claude-opus-5.5, interim prompt: P04_prompt.txt, P04_payload.json, P04_response.json, P04_reply.txt, P04_meta.md, P04_numbermap.txt, P04_tally.txt. DEMONSTRATED 2 / CONTESTED 7 / FALSE AS STATED 3 (sum 12, reconciled by script). Grounds not summarized; see the reply file.
 11. HALT at P6: O-01 (corpus) unresolved.
+12. Author ruled corpus not needed (RULINGS.md). Ran the Ladder per references/the-ladder.md.
+13. P04 reformulated with P4 grounds as receipts: P04R_reformulated.md.
+14. Step 0 / 0.5 / 1 / 2: L0_observations.md, L05_groups.md, L1_abstractions.md, L2_surplus.md (closed before testing). Classification: P13_classification.md.
+15. Step 3 by fixed-prompt CX in fresh OpenRouter contexts, integrity diffs empty: CX-001 to CX-003.
+16. Step 4 round 1: L4_repairs_round1.md; retests CX-004 to CX-006.
+17. Step 4 round 2 and revision candidates: L4_repairs_round2.md; tests CX-007, CX-008.
+18. Tally by script: CX_tally.md (35 tested: 21 STANDS, 14 BROKEN, 0 invalid). Status: STATUS_BOARD.md.

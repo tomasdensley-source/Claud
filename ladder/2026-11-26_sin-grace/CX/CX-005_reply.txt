@@ -1,0 +1,50 @@
+# Verdicts on the Two Statements on Contrariety
+
+Both statements stand. Neither yields a valid counterexample.
+
+## 1. STANDS
+
+**What the statement claims.** It makes two claims:
+- Contrariety is fixed by simultaneous exclusion, not by temporal order.
+- A response that presupposes a prior condition is that condition's contrary only to the extent that the response is a state excluding it.
+
+The second claim gives a *necessary* condition. It does not give a sufficient one.
+
+**What a counterexample would need.** One of two things:
+- A pair of contraries that do not exclude each other in the same subject at the same time, but are contrary because one follows the other.
+- A response that is contrary to its presupposed condition without being a state that excludes that condition.
+
+**Why neither can be built.**
+
+- *Contraries by sequence alone.* Contraries are defined as opposites that cannot be present together in the same subject at the same time. A pair that is "contrary" only because one comes after the other is not contrary in that sense. Using it would change what the word means, so it is not a valid case.
+
+- *Repentance and sin.* This is the obvious test case, since repentance presupposes sin.
+  - Repentance does not exclude the *past act* of sin. On that point it is not the act's contrary, which is what the statement says.
+  - Repentance does exclude the *present willing* of sin. To that extent it is a contrary, which again is what the statement says.
+  - The case confirms the "insofar as" qualification rather than breaking it.
+
+- *The possible objection that exclusion is not sufficient.* White excludes red, yet red is not white's contrary. This does not touch the statement, because the statement makes exclusion necessary, not sufficient.
+
+## 2. STANDS
+
+**What the statement claims.**
+- **First clause:** an orientation-gift *can* be contrary to an opposing orientation. This is a claim of possibility. It is satisfied by charity, a received orientation, which is contrary to hatred.
+- **Second clause:** a gift that is not an orientation cannot be contrary to an opposing orientation, and neither can the mere fact of having received it.
+
+**What a counterexample would need.** A gift that is not an orientation, or the bare reception of such a gift, standing as the contrary of an orientation.
+
+**Why the candidates fail.**
+
+- *Genus requirement.* Contraries must fall in the same genus. The contrary of an orientation must itself be an orientation. A non-orientation can be *incompatible* with an orientation, but it cannot be its *contrary*.
+
+- *Grace and sin.* Grace, taken as a quality rather than an orientation, is incompatible with mortal sin. On the standard analysis, though, that opposition is privative, not contrary.
+
+- *Knowledge and ignorance.* Knowledge is a non-orientation gift, and ignorance is opposed to it. But ignorance is not an orientation, so the case falls outside the statement's scope.
+
+- *Health and sickness.* The same problem applies: sickness is not an orientation, so the case is out of scope.
+
+- *Receiving as willing acceptance.* One could treat reception as an act of willing acceptance, which would be an orientation opposed to refusal. That swaps "merely having received" for an act of the will. The word "merely" explicitly rules this out, so it changes the statement's terms.
+
+- *Gratitude.* Gratitude is an orientation, and it is contrary to ingratitude. But gratitude is a response to the gift. It is neither the non-orientation gift itself nor the bare fact of having received it.
+
+Every candidate either confirms the statement or steps outside its scope. No valid counterexample exists.

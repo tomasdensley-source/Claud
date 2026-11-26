@@ -21,3 +21,9 @@ You are given numbered statements and a body of writing. For each statement answ
 ## Status notes 2026-11-26
 - O-01 remains OPEN. The author's reply (RULINGS.md) questions whether the corpus question is part of the skill. Operator's citation: §6 P6, "does the author's corpus agree with this?", and P7, "locate the demonstration path in the corpus". P6 cannot run until the author names the writings that make up "the author's corpus".
 - O-06: Which Claude model counts as the tester was not named beyond "A Claude model". The operator used anthropic/claude-opus-5.5, recorded in P04_meta.md. Whether a same-family tester meets "non-identical error structure" (Ladder, Second Party) is OPEN for the author.
+- O-01 CLOSED by author ruling 2026-11-26 ("My corpus doesn't matter."); P6/P7 not run.
+- O-07: Does the fixed counterexample prompt count as the Step 3 test for conceptual surplus implications, or is a separate evidence test owed? Author.
+- O-08: Internal kill channel (contradiction among implications) has no prompt. Author.
+- O-09: S-004.bR3 failed (CX-007: turning as event vs orientation). Next repair would narrow to a lasting turned-ness; not attempted. Author may direct.
+- O-10: The named loss "its opposite is not repentance" (A-002v2, O-0026). Whether the author accepts REV-1's change of meaning is the author's call.
+- O-11: All testers were anthropic/claude-opus-5.5 (same family as the builder; see O-06).

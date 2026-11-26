@@ -1,0 +1,117 @@
+# Verdicts on the Twelve Statements
+
+**Summary:** Seven statements are broken (1, 3, 5, 6, 8, 10, 11) and five stand (2, 4, 7, 9, 12).
+
+---
+
+**1. BROKEN**
+
+The statement says the agent *can* do either: attend to the work or avoid attending to it.
+
+- **Counterexample:** Take an agent who knows a deed is his own, and the knowledge forces itself on him. "My sin is ever before me" (Ps. 51:3) describes this. So do intrusive, compulsive memories. Such an agent knows the work is his but cannot avoid attending to it.
+- **Second case:** An agent who keeps the knowledge but is unconscious or incapacitated can neither attend nor avoid attending. Avoiding is something an agent does, so it is not available to him either.
+- Either way, having knowledge does not guarantee having both options.
+
+---
+
+**2. STANDS**
+
+This is a claim of possibility: sin *can* be characterized by orientation. At least one coherent account does exactly that. Augustine's account treats sin as *aversio*, a turning away. A counterexample would need every orientation-based characterization to be impossible, and none is.
+
+---
+
+**3. BROKEN**
+
+"An account of sin that requires knowledge" does not say *what* must be known.
+
+- **Counterexample:** Consider an account that requires knowledge of the moral law, not knowledge of authorship.
+- On that account, suppose an agent does not know the harmful work is his own. He does know he is obliged to examine work of that kind, such as a report showing damage he may have caused.
+- If he turns away from it, he sins on that account, even though he is ignorant that the work is his.
+- Accounts on which "affected" or culpable ignorance does not excuse give the same result.
+- So "any account" is too strong.
+
+---
+
+**4. STANDS**
+
+Again a possibility claim, and it is plainly realizable. Someone knows she wrote a cruel letter, and afterwards refuses to reread it or think about it. The knowledge comes first; the turning away follows.
+
+---
+
+**5. BROKEN**
+
+- **Counterexample:** A scrupulous person repents of an act that was not sinful, for example a permitted act she wrongly believes forbidden.
+- This is genuine repentance: real contrition, real resolve to amend. Yet no sin exists.
+- So repentance presupposes the *belief* in sin, not sin itself. The inference "response to sin, therefore presupposes sin" fails.
+
+---
+
+**6. BROKEN**
+
+Many responses presuppose a prior condition without being its remedy:
+
+- **Punishment** presupposes a crime. On a retributive view it remedies nothing; it answers or requites the crime.
+- **Mourning** presupposes a death but does not remedy it.
+- **Praise** presupposes merit, and **gratitude** presupposes a benefit.
+
+The first clause of the statement is therefore false as a general rule.
+
+---
+
+**7. STANDS**
+
+- "Not-sin," the simple absence of sin, works as a contradictory.
+- "May have more than one contrary" is only a possibility, and it is realized in Aristotle's own framework. The mean is opposed to both extremes, and opposite vices exclude each other.
+- Nothing rules the possibility out.
+
+---
+
+**8. BROKEN**
+
+The "only" clause fails.
+
+- **Counterexample:** In the first sense, grace as a gift received, the gift can itself be an orientation.
+- Habitual grace is an infused quality of the soul that disposes it toward God.
+- Operative grace is God's moving of the will, so the gift *is* the turning.
+- "A new heart" is a gift that consists in a reoriented disposition.
+
+So grace in the gift sense can also be the same kind of thing as an orientation.
+
+---
+
+**9. STANDS**
+
+- The statement asserts oppositions; it does not claim they are exclusive.
+- Turning toward X does oppose turning away from X. Facing X does exclude being turned away from X.
+- It is true that motion is also opposed to rest (Aristotle, *Physics* V.6), but this adds an opposition rather than refuting the stated ones.
+- Reading "toward" as aimed at a different object would change the statement's evident meaning, so that is not a valid counterexample.
+
+---
+
+**10. BROKEN**
+
+Nothing in the statement or in the set fixes the object as one's own work.
+
+- **Counterexample:** On the standard Augustinian and Thomist account, sin is *aversio a Deo*, a turning away from God.
+- Grace correspondingly turns the soul toward God.
+- On that account, the facing that is grace has God as its object, not one's own work after knowledge.
+- So the claimed sameness of object can fail.
+
+---
+
+**11. BROKEN**
+
+The statement claims a unique contrary ("the condition contrary to it").
+
+- Statement 6 defines a contrary as any other condition that excludes the first at the same time.
+- On that definition, being turned *sideways* to X is also a contrary of being turned away from X. So is a state of averted indifference that neither faces nor turns from X.
+- Statement 7 already allows a condition to have multiple contraries.
+- So facing X is *a* contrary, but not "the" contrary.
+
+---
+
+**12. STANDS**
+
+- This is a possibility claim. Granting that repentance involves turning back (a motion), a motion can terminate in a state without being identical to it.
+- Even if repentance is also partly a lasting state, such as ongoing contrition, it still *may* end in facing while remaining distinct from facing.
+- No valid counterexample exists.
