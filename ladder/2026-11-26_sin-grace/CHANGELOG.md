@@ -18,3 +18,5 @@
 2026-11-26 Author input: AU-005 (having grace defined by its giving), AU-006 (grace received only by one with moral agency). CX-048 to CX-052 interrupted with no reply: invalid tests, rerun as CX-053 to CX-057.
 2026-11-26 Author input: AU-007 (rebellion not necessarily sin; Jonah, Moses), AU-008 (repentance is turning toward God's grace), AU-009 provisional (its inverse is rebellion).
 2026-11-26 Pass 8 closed: REV-17 to REV-20; A-011v6a/b; A-012; AU repairs.
+2026-11-26 Author rulings: carry REV-20; after understanding; for what it is includes moral character; having grace is giving it. Pass 9 opened on REV-20 with the author's question on repentance and facing God's creation.
+2026-11-26 Pass 9 closed: REV-21, REV-22; AU-005R2, AU-006R3, AU-010, AU-011R, IMP-002, IMP-003, CJ-001, CJ-002R; Diagram 8.

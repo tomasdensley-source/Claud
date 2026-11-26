@@ -56,3 +56,8 @@
 | A-011v5 | necessary condition ("only if") | a deed rightly called for that does not answer, in proportion, an unanswered part of what the work did |
 | A-011v6a | necessary condition, scoped to wrongs and to deeds of answering | a deed of answering rightly called for by a past wrong that does not answer, in proportion, an unanswered part of it |
 | A-011v6b | possibility | a showing that no past work can rightly call for carrying its good or lesson to others it never touched |
+| AU-005R, AU-010 | definitional / necessary-condition claim | a case of having grace not defined by giving it; repentance taking place without facing God's creation |
+| AU-006R3 | necessary condition | one incapable of knowing right and wrong who receives that grace |
+| AU-011, IMP-001, IMP-002, IMP-003, CJ-001, CJ-002, REV-21, REV-22 | vulnerable generalization (pass 9) | one valid case inside its terms |
+| AU-005R2 | necessary condition (having grace implies giving it freely) | one who has grace and will not give it |
+| AU-011R, CJ-002R | vulnerable generalization | one valid case inside its terms |

@@ -1,0 +1,43 @@
+# Verdicts
+
+## 1. STANDS
+
+**What the statement claims:**
+- Having grace (as one's own) shows itself in giving it freely.
+- Contrapositive: one who *will not* give grace does not have it.
+- Merely passing along grace that is not one's own does not count as having it.
+
+**Counterexamples I tried:**
+
+- **Someone with grace but no one to give it to** (isolated, incapacitated, in a coma). This fails. The statement concerns one who *will not* give, not one who *cannot*. Inability is outside its scope.
+- **Someone who has received grace but hasn't yet given it** (e.g., a new convert). This fails. "Has not yet" is not "will not." The statement speaks of refusal, not timing.
+- **Someone with grace who refuses in a lapse** (e.g., Peter's denial). This fails. It works only by assuming an outside meaning of "having grace," one that holds regardless of disposition. The statement itself defines having grace by the disposition to give it freely. Peter's refusal in that moment, on the statement's terms, is precisely not-having in that moment. Calling it a counterexample changes what "have" means.
+- **Someone who withholds an act of grace for the other's good** (e.g., delaying forgiveness until repentance). This fails. Either the withholding is itself an act of grace, so they are giving it, or it is refusal, so the statement applies. Neither satisfies the terms while defeating the claim.
+- **"Grace is never one's own; it is always God's gift."** This fails. It redefines "as one's own." The statement's own distinction is between grace one has made one's own and grace one merely relays. It does not claim that grace originates in oneself.
+
+**Why it stands:** The statement is largely self-defining. "Having grace" is specified through the free giving of it. Every case I could build either falls outside the "will not" condition or imports a different meaning of "have." By the rules given, neither is a valid counterexample.
+
+## 2. STANDS
+
+**What the statement claims:**
+- Repentance is not fulfilled until one looks inward and faces oneself as a whole, as part of God's creation.
+- This holds even though not every part of oneself can be seen.
+
+**Counterexamples I tried:**
+
+- **Internal contradiction:** facing oneself "as a whole" seems impossible if not every part can be seen. This fails. Facing a whole is not the same as inspecting every part. One can acknowledge and confront the totality of oneself without seeing all its parts. The concessive "though" signals that the statement intends exactly this distinction.
+- **Instant repentance without introspection** (e.g., the thief on the cross). This fails on two counts:
+  - The thief does turn inward ("we are receiving the due reward of our deeds").
+  - More decisively, the case only works if "fulfilled" means "accepted" or "forgiven." The statement's claim concerns repentance being fulfilled, which is not the same as repentance beginning or being received. Treating them as the same changes the terms.
+- **The inference looks thin:** being part of creation doesn't obviously entail that repentance requires self-confrontation. This fails as a counterexample. It points to a premise the statement leaves implicit: repentance concerns one's relation to God's creation. It does not produce a case where someone meets the statement's conditions and repentance is fulfilled without facing oneself. A gap in justification is not a case that falsifies the claim.
+
+**Why it stands:** The apparent paradox resolves on the statement's own wording. Every case of "fulfilled repentance without self-facing" works only by redefining "fulfilled" or by importing an outside theology of repentance. By the rules given, those are not valid counterexamples.
+
+## Summary
+
+| # | Verdict |
+|---|---------|
+| 1 | STANDS |
+| 2 | STANDS |
+
+Both statements are normative and definitional rather than empirical. Breaking either one requires bringing in definitions of "have" or "fulfilled" that differ from the statements' own, and the rules exclude that. After a genuine attempt, neither breaks.

@@ -173,5 +173,19 @@
 | CX-067 | 1 | A-011v5 | BROKEN |
 | CX-068 | 1 | A-011v6a | STANDS |
 | CX-069 | 1 | A-011v6b | STANDS |
+| CX-070 | 1 | REV-21 | STANDS |
+| CX-070 | 2 | REV-22 | STANDS |
+| CX-071 | 1 | AU-005R | BROKEN |
+| CX-071 | 2 | AU-006R3 | STANDS |
+| CX-072 | 1 | AU-010 | STANDS |
+| CX-072 | 2 | AU-011 | BROKEN |
+| CX-073 | 1 | IMP-001 | BROKEN |
+| CX-073 | 2 | IMP-002 | STANDS |
+| CX-073 | 3 | IMP-003 | STANDS |
+| CX-074 | 1 | CJ-001 | STANDS |
+| CX-074 | 2 | CJ-002 | BROKEN |
+| CX-075 | 1 | AU-005R2 | STANDS |
+| CX-075 | 2 | AU-011R | STANDS |
+| CX-076 | 1 | CJ-002R | STANDS |
 
-STANDS=109 BROKEN=54 invalid=8 tested=171
+STANDS=119 BROKEN=58 invalid=8 tested=185

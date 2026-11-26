@@ -129,10 +129,10 @@ for c in surplus:
          prov="L2_surplus.md" if "v2" not in sid else "L4_repairs_round1.md", test=t)
     edge(f"L:{parent}", f"L:{sid}", "surplus")
 # revisions
-REVS = []; REVS_A = []; REVS_BY = {"B": [], "C": [], "D": [], "E": [], "F": []}
+REVS = []; REVS_A = []; REVS_BY = {"B": [], "C": [], "D": [], "E": [], "F": [], "G": []}
 REV_FILES = (("L4_repairs_round2.md", ("L", "A")), ("L4_repairs_round3.md", ("L", "A")), ("L4_repairs_round4.md", ("L", "A")),
-             ("pass4/L4_repairs_round2.md", ("L", "B")), ("pass5/L4_repairs_round2.md", ("L", "C")), ("pass6/L4_repairs_round2.md", ("L", "D")), ("pass7/L4_repairs_round2.md", ("L", "E")), ("pass8/L4_repairs_round2.md", ("L", "F")))
-REVCOL = {"L": 9, "A": 7, "B": 6, "C": 5, "D": 4, "E": 5, "F": 4}
+             ("pass4/L4_repairs_round2.md", ("L", "B")), ("pass5/L4_repairs_round2.md", ("L", "C")), ("pass6/L4_repairs_round2.md", ("L", "D")), ("pass7/L4_repairs_round2.md", ("L", "E")), ("pass8/L4_repairs_round2.md", ("L", "F")), ("pass9/L4_revisions.md", ("L", "G")))
+REVCOL = {"L": 9, "A": 7, "B": 6, "C": 5, "D": 4, "E": 5, "F": 4, "G": 4}
 for f, ds in REV_FILES:
     for c in table(f, r"REV-\d+$"):
         if len(c) < 2 or c[0] in REVS: continue
@@ -143,7 +143,7 @@ for f, ds in REV_FILES:
             node(f"{d}:{c[0]}", c[0], "revision", c[1], REVCOL[d], d, st, prov=f, test=t)
 for b, revs in (("A-001", REVS), ("A-002v2", REVS), ("A-003v2", REVS), ("A-004", ["REV-5", "REV-6", "REV-7", "REV-9", "REV-10", "REV-11"] + REVS_BY["D"] + REVS_BY["E"]),
                 ("A-005", ["REV-5", "REV-6"]), ("A-006", REVS_BY["B"] + REVS_BY["C"] + REVS_BY["D"] + REVS_BY["E"]), ("A-007", REVS_BY["C"] + REVS_BY["D"] + REVS_BY["E"]),
-                ("A-009v3", REVS_BY["E"]), ("A-010v2", ["REV-16"] + REVS_BY["F"]), ("A-011v6a", REVS_BY["F"]), ("A-011v6b", REVS_BY["F"]), ("A-012", ["REV-19"])):
+                ("A-009v3", REVS_BY["E"]), ("A-010v2", ["REV-16"] + REVS_BY["F"] + REVS_BY["G"]), ("A-011v6a", REVS_BY["F"] + REVS_BY["G"]), ("A-011v6b", REVS_BY["F"] + REVS_BY["G"]), ("A-012", ["REV-19"] + REVS_BY["G"])):
     for rv in revs: edge(f"L:{b}", f"L:{rv}", "basis", "basis")
 for rv in REVS_BY["B"]: edge("L:REV-5", f"L:{rv}", "repair", "carried forward by ruling")
 for rv in REVS_BY["C"]: edge("L:REV-7", f"L:{rv}", "repair", "carried forward by ruling")
@@ -273,9 +273,9 @@ for run in RUNS_ALL:
         reply=rd(f"CX/{run}_reply.txt"), prompt=rd(f"CX/{run}_prompt.txt")))
 openitems = [l[2:] for l in rd("OPEN.md").splitlines() if l.startswith("- O-")]
 openitems += ["| ".join(c[:2]) for c in table("OPEN.md", r"O-0[1-6]$")]
-def build_pass8(d, P):
+def build_pass8(d, P, piece_label="REV-16", au_edges=None):
     srcp = re.search(r"## The piece, verbatim.*?\n\n(.+?)\n", rd(P + "P00_source.md"), flags=re.S).group(1)
-    node(f"{d}:PIECE", "REV-16 (piece)", "piece", srcp, 0, d, "source", prov=P + "P00_source.md")
+    node(f"{d}:PIECE", piece_label + " (piece)", "piece", srcp, 0, d, "source", prov=P + "P00_source.md")
     last = {}; depth = {}; sec = 0
     for l in rd(P + "AU_statements.md").splitlines():
         if l.startswith("## "): sec += 1; continue
@@ -298,10 +298,32 @@ def build_pass8(d, P):
                 if pkey: edge(pkey, key, "repair", op)
             last[obj] = key; depth[key] = col
     for rv in REVS_BY[d]: edge(f"{d}:PIECE", f"{d}:{rv}", "repair", "revised by ruling")
-    for au, revs in (("AU-001", ["REV-17"]), ("AU-002", ["REV-17"]), ("AU-001R", ["REV-18", "REV-19", "REV-20"]), ("AU-003R2", ["REV-19"]), ("AU-008", ["REV-20"])):
+    if au_edges is None:
+        au_edges = (("AU-001", ["REV-17"]), ("AU-002", ["REV-17"]), ("AU-001R", ["REV-18", "REV-19", "REV-20"]), ("AU-003R2", ["REV-19"]), ("AU-008", ["REV-20"]))
+    if os.path.exists(os.path.join(R, P + "L2_implications.md")):
+        for l in rd(P + "L2_implications.md").splitlines():
+            if not l.startswith("| IMP-") and not l.startswith("| CJ-"): continue
+            c = [x.strip() for x in l.strip().strip("|").split("|")]
+            st, t = tested(c[0]); key = f"{d}:{c[0]}"
+            if c[0].startswith("IMP-"):
+                node(key, c[0], "surplus", c[1], 2, d, st, entailed=c[2], absent=c[3], surface=c[4], prov=P + "L2_implications.md", test=t)
+                for au in ("AU-010", "AU-011"):
+                    if au in last: edge(last[au], key, "surplus")
+            else:
+                col = 3 if c[0].endswith("R") else 2
+                node(key, c[0], "repair" if c[0].endswith("R") else "abstraction", c[1], col, d, st, op=c[2], surface=c[3], prov=P + "L2_implications.md", test=t)
+                if c[0].endswith("R"): edge(f"{d}:{c[0][:-1]}", key, "repair", "Split")
+                elif "AU-011" in last: edge(last["AU-011"], key, "flow", "conjecture")
+            last[c[0]] = key
+        if f"{d}:IMP-001" in nodes:
+            nodes[f"{d}:IMP-001"]["op"] = "INVALID DERIVATION (operator's own audit): a bound on what is required is a ceiling, not a requirement that fills it; discarded"
+    for au, revs in au_edges:
         if au in last:
             for rv in revs: edge(last[au], f"{d}:{rv}", "basis", "basis")
 build_pass8("F", "pass8/")
+build_pass8("G", "pass9/", "REV-20", (("AU-006R3", ["REV-22"]), ("AU-010", ["REV-21", "REV-22"])))
+PASSES.append(dict(id="G", title="Pass 9: REV-20, the author's rulings, and facing God's creation", hint="A directed pass. The author ruled \"after understanding\", that \"for what it is\" includes moral character, and that having grace means giving it; the author's question on repentance and facing God's creation was stated as exact sentences, its implications derived (IMP) and two operator conjectures (CJ) tested.",
+    cols=["The piece: REV-20", "Author's statements (tested)", "Repairs and implications", "Second repair", "Revisions · CX-070"]))
 PASSES.append(dict(id="F", title="Pass 8: the author's rulings applied to REV-16", hint="A directed pass. The author's statements on grace, children, rebellion and repentance were tested verbatim (§4.3) and repaired where they broke; the abstraction for what \"rightly calls for\" presupposes (A-011 to A-011v6a/b) and A-012 are in Diagram 1. CX-048 to CX-052 were interrupted and rerun as CX-053 to CX-057.",
     cols=["The piece: REV-16", "Author's statements (tested)", "First repair", "Second repair", "Revisions · CX-046, CX-057, CX-064"]))
 PASSES.sort(key=lambda p: p["id"])

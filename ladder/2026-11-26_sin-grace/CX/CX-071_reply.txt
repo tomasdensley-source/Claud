@@ -1,0 +1,28 @@
+# Verdicts on the Two Statements on Grace
+
+## 1. BROKEN
+
+**Counterexample: the conduit who gives grace that is not theirs.**
+
+A governor pardons a condemned prisoner. A clerk, who is personally indifferent or even hostile to the prisoner, carries the pardon to the cell and hands it over. Through that act, grace reaches the prisoner. The clerk has given grace in the plain sense the statement leaves unrestricted.
+
+A sharper version comes from sacramental theology. A minister in a state of grave sin validly confers sacramental grace, since the giving does not depend on his own state. He gives grace while plainly lacking it.
+
+The statement says having grace is defined by giving it. That leaves only two options, and both fail:
+
+- **It accepts the clerk and the minister as having grace.** Then "having grace" just means "being the channel it passed through." Even someone devoid of grace would qualify, which empties the term.
+- **It narrows "giving" to giving grace as one's own, from oneself.** Then giving presupposes a prior possession that makes the grace one's own to give. Having is now logically prior to giving rather than defined by it. That contradicts the statement's central claim.
+
+This case stays inside the statement's terms. It uses "give" as the statement uses it and does not appeal to a different meaning of "have." It shows that giving can come apart from having, so giving cannot be what defines having.
+
+## 2. STANDS
+
+I tried three lines of attack, and none produced a valid counterexample.
+
+- **An incapable recipient.** I tried someone incapable of moral knowledge, such as an infant, a severely impaired person, or an animal, who nonetheless receives this grace. The grace described is specifically one that gives the facing of one's own work "for what it is, including whether it is right or wrong." To receive it is to face rightness and wrongness, which is a form of knowing them. Whoever actually knows something is thereby capable of knowing it. So any genuine recipient is capable by the very fact of receiving. An incapable being can be offered or exposed to such grace, but it cannot receive it as described. That is consistent with the statement, not a counterexample to it.
+
+- **Grace that creates the capacity.** Suppose someone is incapable of moral knowledge until the grace itself makes them capable. The statement does not require the capacity to exist before the grace arrives. It explicitly says even the knowledge "need not [be known] beforehand." At the moment of receiving, the person is capable, so the statement is satisfied.
+
+- **Facing without knowing.** I tried a person who faces their work as their own but never grasps whether it is right or wrong. That person has not received the grace the statement specifies, because the specification includes the facing of right and wrong. Using this case would step outside the statement's scope.
+
+The statement is tightly self-securing: receiving this grace already involves the capacity it requires. No case meets its terms while making its conclusion false.

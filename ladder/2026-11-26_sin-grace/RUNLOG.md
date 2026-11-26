@@ -46,3 +46,5 @@ Operator note (not a verdict): the "therefore" (S-006) carries the sentence's wh
 41. R-C satisfied by a Split: A-011 to A-011v5 failed in turn (Ladder 319 warning recognised); A-011v6a (answering, necessary condition for wrongs) and A-011v6b (carrying forward, possibility) both pass.
 42. A-012-S1 recorded as invalid derivation by the operator's own entailment audit (Ladder 340); not yet checked by a second party.
 43. Tally: 171 tested, 109 STANDS, 54 BROKEN, 8 invalid (all from the interruption). Diagram regenerated with Diagram 7 (pass 8).
+44. Pass 9 (directed, on REV-20): CX-070 to CX-076. REV-21, REV-22 pass; AU-006R3, AU-010, IMP-002, IMP-003, CJ-001 pass; AU-005R, AU-011, IMP-001 (invalid derivation), CJ-002 fail; repairs AU-005R2, AU-011R, CJ-002R pass. Tally: 185 tested, 119 STANDS, 58 BROKEN, 8 invalid.
+45. Operator recommendation (writing judgment, not a truth verdict): carry REV-22. The author ruled that "for what it is" includes moral character (O-33); REV-22 says so in the sentence, so the meaning does not depend on the ruling being known to a reader. The cost is two words.

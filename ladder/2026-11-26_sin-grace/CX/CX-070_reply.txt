@@ -1,0 +1,67 @@
+# Verdicts on the Two Statements on Sin, Facing, Grace, and Repentance
+
+Both statements are mostly stipulative definitions. A definition can only be broken from inside. That means finding one of two things:
+
+- an internal inconsistency, or
+- a case that clearly meets a definiens but clearly fails the definiendum (or the reverse), judged by the statement's own terms.
+
+I tested each clause against the strongest such cases I could build.
+
+---
+
+## 1. STANDS
+
+**Attempt: neutral facing.** Someone confronts their wrong act fully and makes amends by their own effort, with no gift involved. Does this contradict "Grace is the free giving of that facing"?
+
+- No. The clause says what grace is: the giving of the facing.
+- It does not say that the facing occurs only by grace.
+- Repentance is defined as turning toward that grace, and is said to contain the contrary only on arrival. Nothing here is falsified.
+
+**Attempt: attention without facing.** Take a work that calls for no further deeds. Could attention alone then amount to facing?
+
+- No. The facing still requires acknowledgment: owning the work "as one's own and for what it is."
+- One can attend to something without owning it, as a spectator of one's own act.
+- So "attention alone never reaches that facing" holds even in this limit case.
+
+**Attempt: impossible restitution.** The victim is dead or the harm cannot be undone. Is the contrary then impossible?
+
+- No. "As far as these can be seen" scales the required deeds to what is discernible and possible. The contrary remains available.
+
+**Attempt: ignorance.** Harm was done unknowingly. Is this sin?
+
+- No. "After understanding" excludes it, as it should.
+
+**Attempt: humble disregard of a good deed.** Does sin cover turning away from a good work out of humility?
+
+- Humility does not disown the work. It faces the work truthfully ("we did only our duty") and declines to advertise it.
+- What would count as "turned away" is denying or refusing to own one's good act. That is a falsehood about oneself, which the definition can consistently call sin.
+
+**Attempt: scrupulosity.** Someone treats a good act as wrong and does penance for it. Is this a counterexample?
+
+- No. They are not facing the work "for what it is," so they fail the contrary.
+- The statement never claims that sin and its contrary exhaust all cases. "Contrary," as opposed to "contradictory," allows that both can fail.
+
+No case meets the terms while falsifying a claim.
+
+---
+
+## 2. STANDS
+
+Everything above carries over to Statement 2. The added phrase "right or wrong" only makes explicit what "for what it is" already implied: facing includes owning good works as well as bad.
+
+**Attempt: good works now explicitly in scope.** Since "right or wrong" brings good works in explicitly, does this produce a contradiction?
+
+- No. As shown under Statement 1, true humility already faces the good work for what it is.
+- Only actual disowning counts as turning away, and calling that sin is internally consistent.
+
+**Attempt: "repentance" over a good work.** Is it odd that "repentance" can now be aimed at owning a good work?
+
+- It is odd only against ordinary usage. The statement stipulates its own meaning of repentance.
+- A counterexample that relies on the usual meaning changes what the words mean, so it is invalid.
+
+**Attempt: morally neutral or mixed works.** Does a work that is neither right nor wrong break "right or wrong"?
+
+- No. The phrase reads naturally as "whether it be right or wrong." It does not assert that every work is one or the other.
+- Where a work's rightness is unclear, "as far as these can be seen" bounds what is required.
+
+No valid counterexample within scope could be constructed.

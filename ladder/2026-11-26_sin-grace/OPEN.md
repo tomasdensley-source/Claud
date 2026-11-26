@@ -44,10 +44,13 @@ You are given numbered statements and a body of writing. For each statement answ
 - O-25: Must the knowledge after which remaining turned away is sin include knowing what the work is, or only that it is one's own? Contested (pass7 #3); REV-16 does not say.
 - O-26: Meaning consequence: under REV-16, grace (a given facing) can belong to one who was never turned away (pass7 S-007.bR passed CX-036 #12).
 - O-27: When owed deeds cannot all be done, REV-16 leaves the choice to what the work "rightly calls for"; no tested formula survived (CX-039).
-- O-28: The author's O-0096 (children exempt inasmuch as they cannot comprehend their actions' implications) bears on O-25 and on "after knowledge": a child may know a work is theirs without comprehending it. REV-19 tests "after understanding". The author decides.
-- O-29: AU-005 reads two ways: (a) one who has grace is one who gives it; (b) one has grace by its having been given to one. The operator does not choose; the author may say which is meant.
+- O-28 CLOSED 2026-11-26: "after understanding".
+- O-29 CLOSED 2026-11-26: "having grace means that you give it" (reading (a)).
 - O-30: Meaning consequence: the piece's sin (remaining turned away after knowledge) is personal sin; it does not address original sin or material sin (CX-047). The author decides whether that is intended.
 - O-31: The author distinguishes rebellion (against God) from sin (AU-007) and proposes rebellion as the inverse of repentance (AU-009, "Maybe"). The piece defines sin toward one's own work, not toward God; whether rebellion belongs in the piece is the author's call.
 - O-32: The author's repentance (turning toward God's grace, AU-008) differs from the piece's (repentance contains sin's contrary once it arrives at the facing). REV-20 is an operator proposal that joins them; it is not doctrine.
-- O-33: Does "for what it is" in the piece include the work's moral character (right or wrong)? If so, the author's AU-006 line (grace received only by one capable of moral knowledge) can hold (CX-065 #3 caveat); if not, it fails. The author decides.
-- O-34: Carry-forward after pass 8: REV-18 (knowledge), REV-19 (understanding) or REV-20 (REV-18 plus the author's repentance formulation). All pass CX as phrased.
+- O-33 CLOSED 2026-11-26: "For O33, yes." ("for what it is" includes moral character).
+- O-34 CLOSED 2026-11-26: "Carry for revision 20."
+- O-35: Carry-forward after pass 9: REV-21 or REV-22 (both pass CX as phrased). Operator's recommendation in RUNLOG.md entry 45.
+- O-36: Whether the piece's repentance clause should take in AU-010 and AU-011R (facing God's creation, and oneself as a whole as part of it). Not ruled; the piece does not yet say it.
+- O-37: Which sense of "facing God's creation" the author means (CJ-002R): facing what God made for what it is, or facing it also as God's work.

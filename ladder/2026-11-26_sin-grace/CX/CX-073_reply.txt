@@ -1,0 +1,42 @@
+# Verdicts on the Three Statements
+
+## 1. BROKEN
+
+**The flaw.** The premise says the requirement of facing is *bounded by* what one can know of oneself. A bound is an upper limit. It is not an equation. The conclusion only follows if the requirement always expands to fill that limit, and the premise does not say so.
+
+**Counterexample.** Repentance requires facing oneself wholly as God's creation. Take "wholly" to mean facing oneself *as a whole*: accepting oneself in one's entirety as created. It does not mean inventorying every particular. This requirement stays within what one can know, so the premise is satisfied.
+
+A person faces themselves in this way, so the requirement is fully met. Later they discover something new about themselves, such as a buried disposition or a forgotten deed. The ceiling of what they can know has risen. The requirement has not changed, because they had already faced themselves as a whole, including whatever that whole contained. So:
+
+- The repentance was completely fulfilled. It was not fulfilled "only as far as" their sight reached, since the requirement never depended on how far their sight reached.
+- Seeing more does not reopen it.
+
+**A second gap.** The bound is set by what one *can* know, which is a capacity. The conclusion turns on what one *comes to see*, which is actual sight. If the person later sees something that was always within their capacity, the requirement has not changed at all. Nothing is "reopened." At most, an earlier failure to meet the requirement is revealed. The conclusion's dependence on present sight therefore does not follow from a premise about capacity.
+
+## 2. STANDS
+
+**The reading.** The definition is: sin = remaining turned away, after understanding, from the work of one's own hand. The statement claims only a necessary condition. Turning from oneself is sin *only insofar as* oneself falls under "the work of one's own hand." It does not claim that every such turning is sin, so the further conditions "after understanding" and "remaining" create no gap.
+
+**Attempted counterexample.** Suppose a person is wholly God's work and not their own. They refuse self-examination specifically to avoid seeing an external harm they caused, such as a person they wronged. Here turning from oneself seems to be sin even though the self is not one's own work.
+
+**Why it fails.** Under the definition, what is sinful in this case is the remaining turned from the *external work*. The turning from oneself carries the sin, or is the means of it. It is not sin *as* turning from oneself. The "insofar" qualifier covers exactly this: whatever sinfulness the act has comes from its relation to one's handiwork, not from its relation to the self.
+
+To make turning from oneself sinful *as such*, without the self being one's work, would require a second definition of sin. That steps outside the stated scope. Under the given definition, the statement follows.
+
+## 3. STANDS
+
+**What must be shown.** The statement is a possibility claim ("can contain"). Breaking it would require showing that the combination is impossible under the stated terms.
+
+**Why the combination is possible.**
+
+- **Sin's contrary is present.** Sin is remaining turned away, after understanding, from one's works. Its contrary is facing one's works after understanding. A repentance that faces one's works therefore contains that contrary.
+- **The repentance is still unfulfilled.** Repentance requires facing oneself wholly, as in the framework of statement 1. A repentance that does not face oneself fails that requirement.
+
+There is no inconsistency in having both.
+
+**Attempted counterexamples.**
+
+- *"One cannot truly face one's works without facing oneself."* This adds a premise that the terms do not supply.
+- *"If oneself is entirely one's own work, then facing works just is facing oneself."* This eliminates the case only in that scenario. It does not show the case is impossible everywhere, and a "can" claim needs only one possible instance.
+
+No valid counterexample within the statement's terms was found.

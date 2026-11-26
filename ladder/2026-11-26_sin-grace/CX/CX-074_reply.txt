@@ -1,0 +1,24 @@
+## 1. STANDS
+
+**Why no valid counterexample works:** The statement grants two premises: a person is God's creation, and a person has made something of themselves through their deeds. Given those, the self has two aspects. Facing oneself *wholly* means facing everything that one is. So it must include both aspects. The conclusion follows almost analytically from the premises plus the word "wholly."
+
+Attempted counterexamples, and why each fails:
+
+- **A person who has made nothing of themselves**, such as a newborn. This violates the premise, which stipulates that the person has made something of themselves. Out of scope.
+- **The two aspects are fused.** What one makes of oneself transforms the created self, so perhaps no separate "what God made" remains to face. But the statement does not require facing the two separately. It requires that facing oneself include both. A fused self still contains its created substrate, so facing it wholly still includes facing what God made.
+- **Facing one's created nature without recognizing God as its source.** This does not break statement 1. Statement 1 only requires facing *what* God made, not facing it *as* God's work. Someone who faces their given nature without theological recognition still meets the conclusion's terms.
+
+Every attempt either steps outside the premises or fails to make the conclusion false.
+
+## 2. BROKEN
+
+**Counterexample:** Take the statement's own frame, in which the world and its contents are God's creation. A biologist studies a living cell. She sees it accurately and exhaustively, "for what it is," and never takes it as God's work. She may be an atheist, or simply a believer who isn't thinking about origins at that moment.
+
+- She is standing facing God's creation. The cell *is* God's creation by the statement's own terms.
+- She is not standing facing it *as God's work*.
+
+So facing God's creation is not, as such, facing it as God's work. The statement conflates facing a thing with facing it under a particular description. That is the same gap as "seeing the morning star" versus "seeing it as Venus." Statement 1 itself relies on this distinction, since one can face "what God made" without that recognition.
+
+The comparison clause fails the same way. An author with amnesia rereads a book she wrote. She faces her own work, even for what it is, but not *as her own*. Facing one's own work therefore does not carry the "as one's own" recognition either. The analogy offered as the model breaks too.
+
+**Possible defense:** One could reply that "facing" is a thick term of art meaning "facing with full recognition." Under that reading the statement becomes true by definition and cannot be broken. But the statement offers no such stipulation. It presents itself as saying what facing God's creation *is*. On the ordinary meaning of "facing," the counterexample satisfies the statement's terms and makes its claim false.

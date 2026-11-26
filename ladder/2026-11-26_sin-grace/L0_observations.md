@@ -132,3 +132,8 @@ Affect charge: not recorded (the operator is not the selector; the author's affe
 | O-0122 | A tester stated that forcing an uninvolved stranger to give a kidney to answer one's own wrong meets every stated condition yet is not called for. | CX-066 |
 | O-0123 | A tester stated that a harmless past discovery of one's own, such as a way to purify well water, rightly calls for sharing it with a village in need, though nothing it did awaits an answer. | CX-067 |
 | O-0124 | A tester stated that a mistake that harmed only oneself, fully recovered from, can still rightly call for warning others about to make it. | CX-067 |
+| O-0125 | A tester stated that a clerk carrying a governor's pardon, or a minister in grave sin conferring a sacrament, gives grace without having it. | CX-071 #1 |
+| O-0126 | A tester stated that even repentance before God alone faces oneself, who is part of God's creation. | CX-072 #1 |
+| O-0127 | A tester stated that the penitent of Psalm 19:12 ("Cleanse thou me from secret faults") and the thief on the cross repent fully without facing themselves wholly. | CX-072 #2 |
+| O-0128 | A tester stated that facing oneself "wholly" can mean facing oneself as a whole, not inventorying every part, and that a bound on what is required is a ceiling, not a requirement that fills it. | CX-073 #1 |
+| O-0129 | A tester stated that a biologist can face a cell, which is God's creation, for what it is without facing it as God's work. | CX-074 #2 |

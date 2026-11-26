@@ -145,3 +145,21 @@ Finding carried into the piece: "whatever deed" was ambiguous between one and al
 | REV-18 | (grace is the free giving of that facing) | passes CX as phrased (CX-057) |
 | REV-19 | (REV-18 with "after understanding") | passes CX as phrased (CX-057) |
 | REV-20 | Sin is remaining turned away, after knowledge, from the work of one's own hand. Its contrary is to stand facing that work as one's own and for what it is, in acknowledgment and in the deeds it rightly calls for, as far as these can be seen; attention alone never reaches that facing. Grace is the free giving of that facing, and repentance is the turning toward that grace; it contains sin's contrary only once it arrives at that facing. | passes CX as phrased (CX-064) |
+
+## Pass 9 (2026-11-26): REV-20 carried forward; rulings "after understanding", O-33 yes, O-29 (a); the question of facing God's creation
+| ID | Exact sentence | Status |
+|---|---|---|
+| REV-21 | Sin is remaining turned away, after understanding, from the work of one's own hand. Its contrary is to stand facing that work as one's own and for what it is, in acknowledgment and in the deeds it rightly calls for, as far as these can be seen; attention alone never reaches that facing. Grace is the free giving of that facing, and repentance is the turning toward that grace; it contains sin's contrary only once it arrives at that facing. | passes CX as phrased (CX-070) |
+| REV-22 | Sin is remaining turned away, after understanding, from the work of one's own hand. Its contrary is to stand facing that work as one's own and for what it is, right or wrong, in acknowledgment and in the deeds it rightly calls for, as far as these can be seen; attention alone never reaches that facing. Grace is the free giving of that facing, and repentance is the turning toward that grace; it contains sin's contrary only once it arrives at that facing. | passes CX as phrased (CX-070) |
+| AU-005R | (having grace defined by giving it) | FAILED CX (CX-071 #1, the conduit) |
+| AU-005R2 | One who has grace gives it freely as one's own, so that one who will not give grace does not have it; passing on grace that is not one's own is not having it. | passes CX as phrased (CX-075) |
+| AU-006R3 | Grace that gives the facing of one's own work as one's own and for what it is, including whether it is right or wrong, can only be received by someone capable of knowing what is right and wrong, though they need not know it beforehand. | passes CX as phrased (CX-071) |
+| AU-010 | Facing God's creation is necessary for repentance to be taking place. | passes CX as phrased (CX-072) |
+| AU-011 | (repentance unfulfilled until one faces oneself wholly) | FAILED CX (CX-072 #2: Ps 19:12; the thief on the cross) |
+| AU-011R | Because one is oneself part of God's creation, repentance is not fulfilled until one looks inward and faces oneself as a whole, as part of God's creation, though not every part of oneself can be seen. | passes CX as phrased (CX-075) |
+| IMP-001 | (repentance fulfilled only as far as one sees oneself, reopened as one sees more) | FAILED CX (CX-073 #1); invalid derivation; discarded |
+| IMP-002 | Under the definition of sin as remaining turned away, after understanding, from the work of one's own hand, turning away from oneself is sin only insofar as one is the work of one's own hand. | passes CX as phrased (CX-073) |
+| IMP-003 | Repentance that faces one's works but not oneself can contain sin's contrary while remaining unfulfilled as repentance. | passes CX as phrased (CX-073) |
+| CJ-001 | Because a person is God's creation and has also, through their deeds, made something of themselves, facing oneself wholly includes facing both what God made and what one has made of it. | passes CX as phrased (CX-074; tester: "almost analytic") |
+| CJ-002 | (facing God's creation is facing it as God's work) | FAILED CX (CX-074 #2, the biologist) |
+| CJ-002R | Facing God's creation can mean facing what God made for what it is, or facing it also as God's work; only the second faces it as creation. | passes CX as phrased (CX-076) |
