@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ladder Run Diagram</title>
+<style>
+:root{
+  --bg:#f7f6f2; --panel:#ffffff; --ink:#1d1d1b; --muted:#6b6a64; --line:#d9d6cc; --soft:#efede6;
+  --stands:#1f7a4d; --stands-bg:#e3f3ea; --broken:#b3261e; --broken-bg:#fbe7e5;
+  --disc:#7a7870; --disc-bg:#ecebe6; --amber:#9a6200; --amber-bg:#fbf0d9;
+  --obs:#2d5f9a; --obs-bg:#e6eef8; --grp:#6a4c93; --grp-bg:#efe8f7; --src:#1d1d1b; --src-bg:#ecebe6;
+  --e-flow:#a9a597; --e-repair:#c7861a; --e-kill:#b3261e; --e-receipt:#2d5f9a; --e-member:#8b7bb0; --e-surplus:#6a4c93; --e-basis:#1f7a4d;
+  --focus:#1d1d1b;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#151513; --panel:#1e1e1b; --ink:#ecebe6; --muted:#a3a198; --line:#3a3933; --soft:#262622;
+  --stands:#6fd39f; --stands-bg:#17321f; --broken:#ff8a80; --broken-bg:#3a1a18;
+  --disc:#a3a198; --disc-bg:#2a2a26; --amber:#f2b84b; --amber-bg:#3a2d12;
+  --obs:#8fb8ef; --obs-bg:#182638; --grp:#c5a8ef; --grp-bg:#2a2138; --src:#ecebe6; --src-bg:#2a2a26;
+  --e-flow:#6b6a64; --e-repair:#f2b84b; --e-kill:#ff8a80; --e-receipt:#8fb8ef; --e-member:#a493cc; --e-surplus:#c5a8ef; --e-basis:#6fd39f;
+  --focus:#ecebe6;
+}}
+:root[data-theme="dark"]{
+  --bg:#151513; --panel:#1e1e1b; --ink:#ecebe6; --muted:#a3a198; --line:#3a3933; --soft:#262622;
+  --stands:#6fd39f; --stands-bg:#17321f; --broken:#ff8a80; --broken-bg:#3a1a18;
+  --disc:#a3a198; --disc-bg:#2a2a26; --amber:#f2b84b; --amber-bg:#3a2d12;
+  --obs:#8fb8ef; --obs-bg:#182638; --grp:#c5a8ef; --grp-bg:#2a2138; --src:#ecebe6; --src-bg:#2a2a26;
+  --e-flow:#6b6a64; --e-repair:#f2b84b; --e-kill:#ff8a80; --e-receipt:#8fb8ef; --e-member:#a493cc; --e-surplus:#c5a8ef; --e-basis:#6fd39f;
+  --focus:#ecebe6;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:1500px;margin:0 auto;padding:28px 16px 80px}
+h1{font:600 28px/1.2 ui-serif,Georgia,serif;margin:0 0 6px;letter-spacing:-.01em}
+h2{font:600 20px/1.3 ui-serif,Georgia,serif;margin:40px 0 4px}
+h3{font-size:15px;margin:18px 0 6px}
+.sub{color:var(--muted);margin:0 0 18px}
+.piece{font:italic 19px/1.5 ui-serif,Georgia,serif;border-left:3px solid var(--ink);padding:6px 0 6px 16px;margin:16px 0 18px;max-width:900px}
+.caveat{background:var(--amber-bg);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px 14px;max-width:900px;font-size:14px}
+.stats{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 14px;min-width:120px}
+.stat b{display:block;font-size:22px;font-variant-numeric:tabular-nums}
+.stat span{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:13px;color:var(--muted);margin:10px 0 0}
+.legend i{display:inline-block;width:22px;height:0;border-top:2px solid;vertical-align:middle;margin-right:6px}
+.legend .chip{margin-right:6px}
+.hint{font-size:13px;color:var(--muted);margin:6px 0 10px}
+.board{position:relative;overflow:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel);max-height:82vh}
+.inner{position:relative;display:grid;grid-auto-flow:column;grid-auto-columns:250px;gap:56px;padding:16px 22px 22px;width:max-content}
+.col h4{position:sticky;top:0;z-index:3;margin:0 0 10px;padding:6px 0;background:var(--panel);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line)}
+.col .stack{display:flex;flex-direction:column;gap:10px}
+svg.edges{position:absolute;left:0;top:0;pointer-events:none;z-index:1;overflow:visible}
+svg.edges path{fill:none;stroke-width:1.4;opacity:.55;transition:opacity .15s}
+svg.edges path.hi{opacity:1;stroke-width:2.4}
+svg.edges path.lo{opacity:.07}
+.node{position:relative;z-index:2;background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--line);border-radius:8px;padding:8px 10px 9px;cursor:pointer;font-size:13px;line-height:1.42;transition:opacity .15s,box-shadow .15s}
+.node:hover{box-shadow:0 1px 0 var(--line),0 4px 14px rgba(0,0,0,.08)}
+.node:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.node.sel{box-shadow:0 0 0 2px var(--focus)}
+.node.lo{opacity:.25}
+.node .top{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px}
+.node .id{font:600 12px ui-monospace,SFMono-Regular,Menlo,monospace}
+.node .txt{color:var(--ink)}
+.node .meta{margin-top:5px;font-size:11.5px;color:var(--muted)}
+.chip{display:inline-block;font:600 10.5px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.04em;text-transform:uppercase;padding:4px 6px;border-radius:4px;white-space:nowrap}
+.s-stands{border-left-color:var(--stands)} .s-stands .chip{background:var(--stands-bg);color:var(--stands)}
+.s-broken{border-left-color:var(--broken)} .s-broken .chip{background:var(--broken-bg);color:var(--broken)}
+.s-discarded{border-left-color:var(--disc);background:var(--soft)} .s-discarded .chip{background:var(--disc-bg);color:var(--disc)} .s-discarded .txt{color:var(--muted)}
+.s-p4dem{border-left-color:var(--stands)} .s-p4dem .chip{background:var(--stands-bg);color:var(--stands)}
+.s-p4con{border-left-color:var(--amber)} .s-p4con .chip{background:var(--amber-bg);color:var(--amber)}
+.s-p4false{border-left-color:var(--broken)} .s-p4false .chip{background:var(--broken-bg);color:var(--broken)}
+.s-observation{border-left-color:var(--obs)} .s-observation .chip{background:var(--obs-bg);color:var(--obs)}
+.s-group{border-left-color:var(--grp)} .s-group .chip{background:var(--grp-bg);color:var(--grp)}
+.s-source,.s-extracted{border-left-color:var(--src)} .s-source .chip,.s-extracted .chip{background:var(--src-bg);color:var(--src)}
+.s-untested .chip{background:var(--soft);color:var(--muted)}
+.k-revision{background:var(--soft)}
+aside#detail{position:fixed;right:16px;top:16px;bottom:16px;width:min(460px,calc(100vw - 32px));background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,.18);padding:18px 18px 24px;overflow:auto;z-index:20;transform:translateX(calc(100% + 32px));transition:transform .2s}
+aside#detail.open{transform:none}
+aside#detail .x{position:absolute;right:10px;top:8px;border:0;background:none;color:var(--muted);font-size:22px;cursor:pointer;padding:4px 8px}
+aside#detail dl{margin:10px 0 0;display:grid;grid-template-columns:1fr;gap:2px}
+aside#detail dt{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:10px}
+aside#detail dd{margin:0}
+aside#detail .sent{font:16px/1.5 ui-serif,Georgia,serif}
+pre{white-space:pre-wrap;word-wrap:break-word;background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font:12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;margin:6px 0}
+table{border-collapse:collapse;width:100%;font-size:13.5px;background:var(--panel)}
+th,td{border-bottom:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+td.num{font-variant-numeric:tabular-nums}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+details{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin:8px 0}
+summary{cursor:pointer;font-weight:600}
+ul.open{padding-left:18px} ul.open li{margin:4px 0}
+.theme{position:absolute;right:16px;top:20px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer;font-size:13px}
+header{position:relative}
+@media (max-width:640px){ h1{font-size:23px;padding-right:70px} .inner{grid-auto-columns:220px;gap:40px} }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <button class="theme" id="theme" type="button">Theme</button>
+  <h1>Ladder Run: Sin and Grace</h1>
+  <p class="sub">Run 2026-11-26_sin-grace. Every sentence, verdict and tester reply on this page is generated from the run's filed artifacts.</p>
+  <div class="piece" id="piece"></div>
+  <div class="caveat"><b>Governing caveat.</b> "Passes" on this page always means passes the counterexample test as phrased. It is not proof that a claim is true. Some pass because they are carefully scoped, or because they state a standard rather than a universal observation. Nothing here is TESTED-LIVE, and nothing is an axiom: Steps 5 to 8 were not run.</div>
+  <div class="stats" id="stats"></div>
+</header>
+
+<h2>Diagram 1. The Ladder: observations to abstractions to tests</h2>
+<p class="hint">Click any card for its exact sentence, receipts and the tester's verbatim verdict. Connected lines and cards light up. Scroll the board sideways on small screens.</p>
+<div class="legend" id="legend1"></div>
+<div class="board" id="boardL"><div class="inner" id="innerL"><svg class="edges" id="svgL"></svg></div></div>
+
+<h2>Diagram 2. The piece's assumptions: audit, reformulation, repair</h2>
+<p class="hint">Each assumption is traced from the claim it supports, through the P4 audit, to each reformulation and the counterexample run that judged it.</p>
+<div class="board" id="boardA"><div class="inner" id="innerA"><svg class="edges" id="svgA"></svg></div></div>
+
+<h2>Counter-AI run ledger</h2>
+<p class="hint">Each run was one OpenRouter request whose messages held a single user message (the fixed prompt with the statements inserted) and no system message.</p>
+<div class="tablewrap"><table id="ledger"><thead><tr><th>Run</th><th>Statements</th><th>Stands</th><th>Broken</th><th>Model reported</th><th>Prompt integrity diff</th><th>Generation id</th></tr></thead><tbody></tbody></table></div>
+
+<h2>Open items</h2>
+<ul class="open" id="open"></ul>
+
+<h2>Verbatim record</h2>
+<div id="appendix"></div>
+</div>
+
+<aside id="detail" aria-live="polite"><button class="x" id="close" aria-label="Close">×</button><div id="dbody"></div></aside>
+
+<script>
+const DATA = /*__DATA__*/null;
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const STATUS = {stands:"Passes CX", broken:"Failed CX", discarded:"Discarded", untested:"Untested", p4dem:"P4 demonstrated", p4con:"P4 contested", p4false:"P4 false as stated", observation:"Observation", group:"Group", source:"Source", extracted:"Claim"};
+const COLS = {
+  L:["The piece","Claims (P1)","Step 0 · Observations","Step 0.5 · Groups","Step 1 · Abstractions","Step 4 · Repaired abstractions","Step 2 · Surplus implications","Revision of the piece"],
+  A:["The piece","Claims (P1)","Assumptions (P3) · P4 audit","Round 1 reformulation · CX-001","Round 2 repair · CX-004","Round 3 repair · CX-007","Revision of the piece · CX-008"]
+};
+const EDGE = {flow:"--e-flow", prov:"--e-flow", member:"--e-member", repair:"--e-repair", kill:"--e-kill", receipt:"--e-receipt", surplus:"--e-surplus", basis:"--e-basis"};
+const EDGE_LABEL = {member:"Group membership", repair:"Repair (Narrow / Split)", kill:"Discard", receipt:"Receipt for a qualifier", surplus:"Surplus implication", basis:"Basis of revision", flow:"Derivation / provenance"};
+const DASH = {receipt:"3 4", kill:"6 4", basis:"8 3"};
+
+document.getElementById("piece").textContent = DATA.piece;
+const byKey = Object.fromEntries(DATA.nodes.map(n => [n.key, n]));
+const tested = DATA.nodes.filter(n => n.test && n.test.run.startsWith("CX"));
+const uniq = new Map(); tested.forEach(n => uniq.set(n.label.replace(" (kept)",""), n.test.verdict));
+const nStand = [...uniq.values()].filter(v => v==="STANDS").length, nBroke = [...uniq.values()].filter(v => v==="BROKEN").length;
+const obs = DATA.nodes.filter(n => n.kind==="observation").length;
+const abs = DATA.nodes.filter(n => n.kind==="abstraction").length;
+document.getElementById("stats").innerHTML = [
+  [DATA.runs.length,"fresh Counter-AI runs"],[uniq.size,"statements tested"],[nStand,"passed as phrased"],[nBroke,"failed"],[obs,"observations"],[abs,"abstractions"]
+].map(([b,s]) => `<div class="stat"><b>${b}</b><span>${s}</span></div>`).join("");
+
+document.getElementById("legend1").innerHTML =
+  ["stands","broken","discarded","observation","group"].map(s => `<span><span class="chip s-${s}" style="${chipStyle(s)}">${STATUS[s]}</span></span>`).join("") +
+  Object.entries(EDGE_LABEL).map(([k,l]) => `<span><i style="border-top-color:var(${EDGE[k]});${DASH[k]?'border-top-style:dashed':''}"></i>${l}</span>`).join("");
+function chipStyle(s){ const m={stands:["--stands-bg","--stands"],broken:["--broken-bg","--broken"],discarded:["--disc-bg","--disc"],observation:["--obs-bg","--obs"],group:["--grp-bg","--grp"]}[s]; return `background:var(${m[0]});color:var(${m[1]})`; }
+
+function build(d){
+  const inner = document.getElementById("inner"+d);
+  const cols = COLS[d].map((t,i) => { const c=document.createElement("div"); c.className="col"; c.innerHTML=`<h4>${esc(t)}</h4><div class="stack"></div>`; inner.appendChild(c); return c.querySelector(".stack"); });
+  DATA.nodes.filter(n => n.diagram===d).sort((a,b)=>a.label.localeCompare(b.label, undefined, {numeric:true})).forEach(n => {
+    const el = document.createElement("div");
+    el.className = `node s-${n.status} k-${n.kind}`; el.tabIndex = 0; el.dataset.key = n.key;
+    const chip = n.test && n.test.run.startsWith("CX") ? `${STATUS[n.status]} · ${n.test.run}` : STATUS[n.status] || n.status;
+    const meta = [n.op && n.op!=="none" ? n.op : "", n.tier || ""].filter(Boolean).join(" · ");
+    el.innerHTML = `<div class="top"><span class="id">${esc(n.label)}</span><span class="chip">${esc(chip)}</span></div><div class="txt">${esc(n.text)}</div>${meta?`<div class="meta">${esc(meta)}</div>`:""}`;
+    el.addEventListener("click", () => select(n.key));
+    el.addEventListener("keydown", e => { if(e.key==="Enter"||e.key===" "){ e.preventDefault(); select(n.key);} });
+    cols[n.col].appendChild(el);
+  });
+}
+function draw(d){
+  const inner = document.getElementById("inner"+d), svg = document.getElementById("svg"+d);
+  svg.setAttribute("width", inner.scrollWidth); svg.setAttribute("height", inner.scrollHeight);
+  const base = inner.getBoundingClientRect();
+  const cs = getComputedStyle(document.documentElement);
+  svg.innerHTML = "";
+  DATA.edges.forEach((e,i) => {
+    if (byKey[e.a].diagram!==d || byKey[e.b].diagram!==d) return;
+    const A = inner.querySelector(`[data-key="${CSS.escape(e.a)}"]`), B = inner.querySelector(`[data-key="${CSS.escape(e.b)}"]`);
+    if(!A||!B) return;
+    const a=A.getBoundingClientRect(), b=B.getBoundingClientRect();
+    let x1=a.right-base.left, y1=a.top+a.height/2-base.top, x2=b.left-base.left, y2=b.top+b.height/2-base.top;
+    if (b.left < a.right - 5) { x2 = b.right-base.left; }
+    const dx = Math.max(30, Math.abs(x2-x1)/2);
+    const p = document.createElementNS("http://www.w3.org/2000/svg","path");
+    p.setAttribute("d", `M${x1},${y1} C${x1+dx},${y1} ${x2-dx},${y2} ${x2},${y2}`);
+    p.setAttribute("stroke", cs.getPropertyValue(EDGE[e.kind]||"--e-flow").trim());
+    if (DASH[e.kind]) p.setAttribute("stroke-dasharray", DASH[e.kind]);
+    p.dataset.a=e.a; p.dataset.b=e.b;
+    svg.appendChild(p);
+  });
+  if (current) highlight(current);
+}
+let current = null;
+function neighbors(k){ const s=new Set([k]); DATA.edges.forEach(e=>{ if(e.a===k) s.add(e.b); if(e.b===k) s.add(e.a); }); return s; }
+function highlight(k){
+  const nb = neighbors(k);
+  document.querySelectorAll(".node").forEach(el => { el.classList.toggle("lo", byKey[el.dataset.key].diagram===byKey[k].diagram && !nb.has(el.dataset.key)); el.classList.toggle("sel", el.dataset.key===k); });
+  document.querySelectorAll("svg.edges path").forEach(p => { const on = p.dataset.a===k || p.dataset.b===k; p.classList.toggle("hi", on); p.classList.toggle("lo", !on && byKey[p.dataset.a].diagram===byKey[k].diagram); });
+}
+function clearHi(){ current=null; document.querySelectorAll(".node").forEach(el=>el.classList.remove("lo","sel")); document.querySelectorAll("svg.edges path").forEach(p=>p.classList.remove("hi","lo")); }
+function select(k){
+  current = k; highlight(k); const n = byKey[k];
+  const ins = DATA.edges.filter(e=>e.b===k).map(e=>byKey[e.a].label+(e.label?` (${e.label})`:""));
+  const outs = DATA.edges.filter(e=>e.a===k).map(e=>byKey[e.b].label+(e.label?` (${e.label})`:""));
+  const f = (t,v,cls="") => v ? `<dt>${t}</dt><dd class="${cls}">${esc(v)}</dd>` : "";
+  let h = `<div class="top" style="display:flex;gap:8px;align-items:center"><span class="id" style="font:600 15px ui-monospace,monospace">${esc(n.label)}</span><span class="chip s-${n.status}" style="${statusChip(n.status)}">${esc(STATUS[n.status]||n.status)}</span></div><dl>`;
+  h += f("Kind", n.kind) + f("Exact sentence", n.text, "sent") + f("Original (before generalization)", n.original) + f("Operation", n.op && n.op!=="none" ? n.op : "")
+     + f("Receipt", n.receipt) + f("Named loss", n.loss) + f("Entailed", n.entailed) + f("Absent from construction set", n.absent) + f("Test surface", n.surface)
+     + f("Provenance", n.prov) + f("Comes from", ins.join(", ")) + f("Leads to", outs.join(", "));
+  if (n.test) h += `<dt>Test: ${esc(n.test.run)} item ${esc(n.test.num)}, verdict ${esc(n.test.verdict)}</dt><dd><pre>${esc(n.test.reply||"(no segment found; see the full reply below)")}</pre></dd>`;
+  else if (["abstraction","surplus","reformulation","repair","revision"].includes(n.kind)) h += f("Test", "Not tested.");
+  h += `</dl>`;
+  document.getElementById("dbody").innerHTML = h; document.getElementById("detail").classList.add("open");
+}
+function statusChip(s){ const m={stands:["--stands-bg","--stands"],broken:["--broken-bg","--broken"],discarded:["--disc-bg","--disc"],observation:["--obs-bg","--obs"],group:["--grp-bg","--grp"],p4dem:["--stands-bg","--stands"],p4con:["--amber-bg","--amber"],p4false:["--broken-bg","--broken"]}[s]||["--soft","--muted"]; return `background:var(${m[0]});color:var(${m[1]})`; }
+document.getElementById("close").onclick = () => { document.getElementById("detail").classList.remove("open"); clearHi(); };
+document.addEventListener("keydown", e => { if (e.key==="Escape") document.getElementById("close").click(); });
+
+build("L"); build("A");
+const redraw = () => { draw("L"); draw("A"); };
+new ResizeObserver(redraw).observe(document.body);
+window.addEventListener("load", redraw);
+
+document.querySelector("#ledger tbody").innerHTML = DATA.runs.map(r => `<tr><td>${r.run}</td><td class="num">${r.n}</td><td class="num">${r.stands}</td><td class="num">${r.broken}</td><td>${esc(r.model)}</td><td>${esc(r.diff)}</td><td><code>${esc(r.gid)}</code></td></tr>`).join("")
+  + `<tr><td colspan="7" style="color:var(--muted)">${esc(DATA.tally)}</td></tr>`;
+document.getElementById("open").innerHTML = DATA.open.map(o => `<li>${esc(o)}</li>`).join("");
+document.getElementById("appendix").innerHTML =
+  `<details><summary>Author rulings (verbatim)</summary><pre>${esc(DATA.rulings)}</pre></details>` +
+  `<details><summary>P4 fresh audit: interim prompt and reply</summary><h3>Prompt</h3><pre>${esc(DATA.p4prompt)}</pre><h3>Reply</h3><pre>${esc(DATA.p4)}</pre></details>` +
+  DATA.runs.map(r => `<details><summary>${r.run}: prompt as sent and full reply</summary><h3>Prompt as sent</h3><pre>${esc(r.prompt)}</pre><h3>Reply</h3><pre>${esc(r.reply)}</pre></details>`).join("");
+
+const tb = document.getElementById("theme");
+tb.onclick = () => { const r=document.documentElement; const dark = r.dataset.theme ? r.dataset.theme==="dark" : matchMedia("(prefers-color-scheme: dark)").matches; r.dataset.theme = dark ? "light" : "dark"; redraw(); };
+</script>
+</body>
+</html>
