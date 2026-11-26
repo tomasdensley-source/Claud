@@ -88,3 +88,10 @@ Operator's reading, recorded as such:
 Operator's reading, recorded as such:
 - DIRECTIVE: define every term of the newest revision (REV-29) rigorously by the Ladder, drawing first on the author's works (Of the Name Given; The Center and the Hand; the poem; The Courtesy Key and The Opened Center Letter; Michael, A Review), refining them where they fail, so that together they imply REV-29.
 - DELEGATION R-D: "for all the questions you ask me, I need you to make your best judgment call and answer them for me as well." The operator now decides OPEN items that would otherwise go to the author. Each such decision is labeled "operator judgment under R-D", gives its reason, and stays revisable by the author. Decisions that are claims are still tested by a Counter-AI (Rule B is not lifted).
+
+## 2026-11-26 (verbatim in pass17/INPUT_directive.md)
+Operator's reading, recorded as such:
+- RULING R-S: a term whose definition can be given perfectly by quoting the Bible or the Book of Mormon has a valid definition by that quotation. The author's own example (Moses 1:39) is in the Book of Moses (Pearl of Great Price); it is read as within the ruling because the author gave it.
+- Status of such a definition: "valid by ruling R-S (scripture); untested". It is never labeled as passing Counter-AI ("untested called passed" is a counterfeit), and it does not shield any claim built on it ("sacredness used as armor" is a counterfeit): every claim that uses it is still tested in a fresh context.
+- "Perfectly" is read strictly: the verse must say what the term is, in the sense the revision uses. A verse that fits only in part is recorded as a receipt, not adopted as a definition (operator judgment under R-D).
+- Verse text verified against churchofjesuschrist.org (Moses 1, 3 Nephi 9, James 4). Verses containing a dash are quoted in parts.

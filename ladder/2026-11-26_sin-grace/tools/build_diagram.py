@@ -129,10 +129,10 @@ for c in surplus:
          prov="L2_surplus.md" if "v2" not in sid else "L4_repairs_round1.md", test=t)
     edge(f"L:{parent}", f"L:{sid}", "surplus")
 # revisions
-REVS = []; REVS_A = []; REVS_BY = {"B": [], "C": [], "D": [], "E": [], "F": [], "G": [], "H": [], "I": [], "J": [], "K": [], "M": [], "N": []}
+REVS = []; REVS_A = []; REVS_BY = {"B": [], "C": [], "D": [], "E": [], "F": [], "G": [], "H": [], "I": [], "J": [], "K": [], "M": [], "N": [], "O": []}
 REV_FILES = (("L4_repairs_round2.md", ("L", "A")), ("L4_repairs_round3.md", ("L", "A")), ("L4_repairs_round4.md", ("L", "A")),
-             ("pass4/L4_repairs_round2.md", ("L", "B")), ("pass5/L4_repairs_round2.md", ("L", "C")), ("pass6/L4_repairs_round2.md", ("L", "D")), ("pass7/L4_repairs_round2.md", ("L", "E")), ("pass8/L4_repairs_round2.md", ("L", "F")), ("pass9/L4_revisions.md", ("L", "G")), ("pass10/L4_revisions.md", ("L", "H")), ("pass12/L4_revisions.md", ("L", "I")), ("pass13/L4_revisions.md", ("L", "J")), ("pass14/L4_revisions.md", ("L", "K")), ("pass15/L4_revisions.md", ("L", "M")), ("pass16/L4_revisions.md", ("L", "N")))
-REVCOL = {"L": 9, "A": 7, "B": 6, "C": 5, "D": 4, "E": 5, "F": 4, "G": 4, "H": 3, "I": 2, "J": 2, "K": 6, "M": 6, "N": 3}
+             ("pass4/L4_repairs_round2.md", ("L", "B")), ("pass5/L4_repairs_round2.md", ("L", "C")), ("pass6/L4_repairs_round2.md", ("L", "D")), ("pass7/L4_repairs_round2.md", ("L", "E")), ("pass8/L4_repairs_round2.md", ("L", "F")), ("pass9/L4_revisions.md", ("L", "G")), ("pass10/L4_revisions.md", ("L", "H")), ("pass12/L4_revisions.md", ("L", "I")), ("pass13/L4_revisions.md", ("L", "J")), ("pass14/L4_revisions.md", ("L", "K")), ("pass15/L4_revisions.md", ("L", "M")), ("pass16/L4_revisions.md", ("L", "N")), ("pass17/L4_revisions.md", ("L", "O")))
+REVCOL = {"L": 9, "A": 7, "B": 6, "C": 5, "D": 4, "E": 5, "F": 4, "G": 4, "H": 3, "I": 2, "J": 2, "K": 6, "M": 6, "N": 3, "O": 4}
 for f, ds in REV_FILES:
     for c in table(f, r"REV-\d+$"):
         if len(c) < 2 or c[0] in REVS: continue
@@ -143,7 +143,7 @@ for f, ds in REV_FILES:
             node(f"{d}:{c[0]}", c[0], "revision", c[1], REVCOL[d], d, st, prov=f, test=t)
 for b, revs in (("A-001", REVS), ("A-002v2", REVS), ("A-003v2", REVS), ("A-004", ["REV-5", "REV-6", "REV-7", "REV-9", "REV-10", "REV-11"] + REVS_BY["D"] + REVS_BY["E"]),
                 ("A-005", ["REV-5", "REV-6"]), ("A-006", REVS_BY["B"] + REVS_BY["C"] + REVS_BY["D"] + REVS_BY["E"]), ("A-007", REVS_BY["C"] + REVS_BY["D"] + REVS_BY["E"]),
-                ("A-009v3", REVS_BY["E"]), ("A-010v2", ["REV-16"] + REVS_BY["F"] + REVS_BY["G"] + REVS_BY["H"]), ("A-011v6a", REVS_BY["F"] + REVS_BY["G"] + REVS_BY["H"]), ("A-011v6b", REVS_BY["F"] + REVS_BY["G"] + REVS_BY["H"]), ("A-012", ["REV-19"] + REVS_BY["G"] + REVS_BY["H"]), ("A-017v2", ["REV-28", "REV-29", "REV-30", "REV-31", "REV-32"]), ("A-013v4", ["REV-28", "REV-29", "REV-30", "REV-31", "REV-32"]), ("A-013v2", ["REV-27"])):
+                ("A-009v3", REVS_BY["E"]), ("A-010v2", ["REV-16"] + REVS_BY["F"] + REVS_BY["G"] + REVS_BY["H"]), ("A-011v6a", REVS_BY["F"] + REVS_BY["G"] + REVS_BY["H"]), ("A-011v6b", REVS_BY["F"] + REVS_BY["G"] + REVS_BY["H"]), ("A-012", ["REV-19"] + REVS_BY["G"] + REVS_BY["H"]), ("A-017v2", ["REV-28", "REV-29", "REV-30", "REV-31", "REV-32", "REV-33"]), ("A-013v4", ["REV-28", "REV-29", "REV-30", "REV-31", "REV-32", "REV-33"]), ("A-013v2", ["REV-27"])):
     for rv in revs: edge(f"L:{b}", f"L:{rv}", "basis", "basis")
 for rv in REVS_BY["B"]: edge("L:REV-5", f"L:{rv}", "repair", "carried forward by ruling")
 for rv in REVS_BY["C"]: edge("L:REV-7", f"L:{rv}", "repair", "carried forward by ruling")
@@ -483,6 +483,37 @@ def build_pass16(d, P):
 build_pass16("N", "pass16/")
 PASSES.append(dict(id="N", title="Pass 16: the remaining terms of REV-31, its presupposition of God, and its surplus", hint="Under R-D. God's call, God's work and return were defined from The Opened Center and stand (CX-131). Only the repentance sentence needs God (P-16, CX-132). Four implications that the definition set yields but REV-31 does not state were tested and stand (CX-133), among them that fleeing a task God called one to is both rebellion and sin, and that one can turn from God's work without sin (open for the author, O-55). CX-132 showed that REV-31's \"come to it\" could be read as grace with no giver; REV-32 says \"that standing\" and stands (CX-134).",
     cols=["The piece: REV-31", "Definitions and presupposition", "Surplus implications", "Revision · CX-134"]))
+def build_pass17(d, P):
+    """Pass 17: ruling R-S (scripture definitions); the two senses of "work"; REV-33."""
+    rev32 = [c[1] for c in table("pass16/L4_revisions.md", r"REV-32$")][0]
+    node(f"{d}:PIECE", "REV-32 (piece)", "piece", rev32, 0, d, "source", prov="pass16/L4_revisions.md (REV-32, carried under R-D, O-56)")
+    obs = {c[0]: c for c in table("L0_observations.md", r"O-02(19|2[0-4])$")}
+    for o, c in obs.items():
+        node(f"{d}:{o}", o, "observation", c[1], 1, d, "observation", prov=c[2])
+    for c in table(P + "DEFINITIONS.md", r"D-25s$"):
+        node(f"{d}:{c[0]}", c[0], "assumption", c[2], 1, d, "ruled", prov=f"{P}DEFINITIONS.md; term {c[1]}; source {c[3]}; {c[4]}")
+        edge(f"{d}:O-0219", f"{d}:{c[0]}", "receipt", "quoted (R-S)")
+        edge(f"{d}:PIECE", f"{d}:{c[0]}", "flow", "term \"His work\"")
+    for c in table(P + "DEFINITIONS.md", r"D-(17v2|20v9|23v3)$"):
+        st, t = tested(c[0])
+        node(f"{d}:{c[0]}", c[0], "repair", c[3], 2, d, st, op=c[2], receipt=c[4], loss=c[5], prov=f"{P}DEFINITIONS.md; forced by ruling R-S", test=t)
+        for o in re.findall(r"O-\d{4}", c[4]):
+            if f"{d}:{o}" in nodes: edge(f"{d}:{o}", f"{d}:{c[0]}", "receipt", "receipt")
+        if "D-25s" in c[4]: edge(f"{d}:D-25s", f"{d}:{c[0]}", "repair", "Narrow")
+    for c in table(P + "ENTAILMENT.md", r"E-7v3$"):
+        st, t = tested(c[0])
+        node(f"{d}:{c[0]}", c[0], "abstraction", c[1], 3, d, st, prov=f"{P}ENTAILMENT.md (entailment conditional)", test=t)
+        for k in ("D-17v2", "D-20v9", "D-23v3"): edge(f"{d}:{k}", f"{d}:{c[0]}", "basis", "premise")
+    for c in table(P + "L2_implications.md", r"IMP-17\.1$"):
+        st, t = tested(c[0])
+        node(f"{d}:{c[0]}", c[0], "surplus", c[1], 3, d, st, entailed=c[2], absent=c[3], surface=c[4], prov=P + "L2_implications.md", test=t)
+        edge(f"{d}:D-25s", f"{d}:{c[0]}", "surplus"); edge(f"{d}:D-20v9", f"{d}:{c[0]}", "surplus")
+    for rv in REVS_BY[d]:
+        for k in ("E-7v3", "D-20v9", "IMP-17.1"): edge(f"{d}:{k}", f"{d}:{rv}", "basis", "basis")
+        edge(f"{d}:PIECE", f"{d}:{rv}", "repair", "revised under R-S (R-D)")
+build_pass17("O", "pass17/")
+PASSES.append(dict(id="O", title="Pass 17: scripture definitions (ruling R-S) and the two senses of God's work", hint="The author ruled that a definition given perfectly by quoting scripture is valid. Moses 1:39 defines God's work (\"to bring to pass the immortality and eternal life of man\"); it is shown as valid by ruling and untested, never as passing. Moses 1:4 calls creation \"the workmanship of mine hands\", so REV-32's two uses of \"God's work\" were split: His work (1:39) and His workmanship (1:4). The repaired definitions, the fulfilment entailment and a new implication on despair stand (CX-135 to CX-137); REV-33 stands (CX-138). James 4:17, 3 Nephi 9:13 and Moses 1:33 fit only in part and are receipts, not definitions.",
+    cols=["The piece: REV-32", "Scripture (ruling R-S)", "Definitions repaired", "Entailment and surplus", "Revision · CX-138"]))
 PASSES.sort(key=lambda p: p["id"])
 data = dict(nodes=list(nodes.values()), edges=edges, passes=PASSES, runs=runs, piece=src, p4=rd("P04_reply.txt"),
             p4prompt=rd("P04_prompt.txt"), tally=rd("CX_tally.md").splitlines()[-1], open=openitems,

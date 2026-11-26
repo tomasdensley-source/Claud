@@ -299,5 +299,11 @@
 | CX-133 | 3 | IMP-16.3 | STANDS |
 | CX-133 | 4 | IMP-16.4 | STANDS |
 | CX-134 | 1 | REV-32 | STANDS |
+| CX-135 | 1 | D-17v2 | STANDS |
+| CX-135 | 2 | D-20v9 | STANDS |
+| CX-135 | 3 | D-23v3 | STANDS |
+| CX-136 | 1 | E-7v3 | STANDS |
+| CX-137 | 1 | IMP-17.1 | STANDS |
+| CX-138 | 1 | REV-33 | STANDS |
 
-STANDS=183 BROKEN=103 invalid=11 tested=297
+STANDS=189 BROKEN=103 invalid=11 tested=303

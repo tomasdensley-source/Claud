@@ -32,3 +32,4 @@
 2026-11-26 Pass 14 closed: definitions of every REV-29 term; entailments; REV-30. Repentance's freestanding definition left open (O-51). Credit nearly spent (O-52).
 2026-11-26 Pass 15: repentance re-derived on the letter's two axes; route 1 discarded after its fifth failure; REV-31 passes (CX-130) and every clause follows from standing definitions (O-53). Diagram panel M.
 2026-11-26 Pass 16: call, God's work and return defined from the letter; God presupposition and four surplus implications stand; REV-32 fixes an ambiguous 'it' (O-0217) and passes (CX-134). Diagram panel N.
+2026-11-26 Pass 17: ruling R-S; God's work defined by Moses 1:39 (valid by ruling, untested); 'God's work' split from 'His workmanship' (Moses 1:4); REV-33 passes (CX-138). Diagram panel O.

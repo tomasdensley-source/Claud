@@ -1,0 +1,33 @@
+**1. STANDS**
+
+I could not build a counterexample that stays within the statement's premise and its terms. These are the candidates I tried and why each fails.
+
+**Candidate A: involuntary or clinical despair.** A person sinks into despair through illness, not choice. Is that really a "turning from" God's work?
+- This only works if "turning from" means a culpable, deliberate act.
+- The statement makes no claim about blame. It says how despair is oriented relative to God's work.
+- If God's work is to bring about this person's eternal life, then despairing of it points away from that work, whether the despair was chosen or suffered.
+- Turning the word into a moral accusation changes its meaning. So this is not a valid counterexample.
+
+**Candidate B: despair that leads to repentance.** Alma the Younger, "racked with eternal torment," wished for extinction and then called on Christ.
+- His despair came before his repentance, but it did not belong to God's work. It was the condition he turned away from.
+- His repentance did end that despair.
+- The case therefore confirms both clauses.
+
+**Candidate C: remorse that never lifts.** Judas felt remorse but still despaired.
+- Remorse aimed at oneself or at one's guilt is not "repentance toward God."
+- The statement is limited to repentance toward God, so this case falls outside it.
+
+**Candidate D: accurate despair.** Someone correctly foresees that they will not receive eternal life, for example a son of perdition, or anyone assigned below exaltation.
+- Within the premise, no one can know this before judgment. Their despair would still deny a work that God is, by premise, carrying out on their behalf.
+- If someone has truly passed beyond repentance, clause two is never triggered, so it is not falsified.
+- Clause one still holds: their state is itself a turning from God's work.
+
+**Candidate E: despair of one's own merit.** "I cannot earn eternal life."
+- This is despair of self-sufficiency, not despair of eternal life.
+- It is compatible with hope in God's work, so it does not satisfy the statement's terms.
+
+**Why the statement holds structurally.**
+- **Clause one:** Given the premise, God's work aims at this person's eternal life. Despairing of that eternal life denies that the work will succeed in them, so it is opposed to that work.
+- **Clause two:** Repentance toward God means turning toward the one whose stated purpose is your eternal life. You cannot do that while still holding that your eternal life is hopeless. So genuine repentance toward God turns away from that despair.
+
+Both clauses follow from the premise once the terms keep their ordinary meanings. Every attack I found either redefined a term or stepped outside the statement's scope.

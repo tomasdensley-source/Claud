@@ -226,3 +226,10 @@ Affect charge: not recorded (the operator is not the selector; the author's affe
 | O-0216 | The author wrote of what one did not author: "he receives it or spends forty years at war with it" | The Opened Center, The Two Hands |
 | O-0217 | A tester read REV-31's "though one can also come to it with no one giving it" as allowing grace with no giver, though grace is defined as a free giving: "it" can be read as grace or as the standing. | CX-132 |
 | O-0218 | A tester read turning from God's call, wherever it is understood, as also something one has done or left undone, and so as sin. | CX-134 |
+| O-0219 | Scripture: "For behold, this is my work and my glory" (the verse continues, after a dash: "to bring to pass the immortality and eternal life of man."). | Moses 1:39 |
+| O-0220 | Scripture: "And, behold, thou art my son; wherefore look, and I will show thee the workmanship of mine hands; but not all, for my works are without end, and also my words, for they never cease." | Moses 1:4 |
+| O-0221 | Scripture: "And worlds without number have I created; and I also created them for mine own purpose; and by the Son I created them, which is mine Only Begotten." | Moses 1:33 |
+| O-0222 | Scripture: "Therefore to him that knoweth to do good, and doeth it not, to him it is sin." | James 4:17 |
+| O-0223 | Scripture: "O all ye that are spared because ye were more righteous than they, will ye not now return unto me, and repent of your sins, and be converted, that I may heal you?" | 3 Nephi 9:13 |
+| O-0224 | Moses 1 uses "work" in two senses: God's work as what He is bringing to pass (1:39, singular) and His works as "the workmanship of mine hands" (1:4, plural). REV-32 uses "God's work" in both senses. | Operator reading of O-0219, O-0220 |
+| O-0225 | A tester noted that theologians may call REV-33's "one can also come to that standing with no one giving it" Pelagian, and judged this a disagreement with doctrine, not a contradiction within the piece. | CX-138 |
