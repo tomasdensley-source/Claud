@@ -1,0 +1,1 @@
+P03 generalization done by the operator in its own context under §6 P3. No external model.

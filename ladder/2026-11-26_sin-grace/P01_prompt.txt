@@ -1,0 +1,1 @@
+No external extractor was used. The operator extracted the claims in its own context from P00_source.md, under §6 P1 of the skill: "every claim in the piece", "exactly two undemonstrated assumptions used as support", numbered S-nnn and S-nnn.a/b.
