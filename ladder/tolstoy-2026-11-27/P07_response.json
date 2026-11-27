@@ -1,0 +1,60 @@
+{
+ "id": "gen-1795746292-GuJS6x5D0aBwRHsprD4r",
+ "object": "chat.completion",
+ "created": 1795746292,
+ "model": "google/gemini-3.8-flash",
+ "provider": "Google",
+ "system_fingerprint": null,
+ "service_tier": "default",
+ "choices": [
+  {
+   "index": 0,
+   "logprobs": null,
+   "finish_reason": "stop",
+   "native_finish_reason": "STOP",
+   "message": {
+    "role": "assistant",
+    "content": "S-001\nPATH TYPE: NO PATH FOUND\nSTEPS: none\n\nS-002\nPATH TYPE: NO PATH FOUND\nSTEPS: none",
+    "refusal": null,
+    "reasoning": "**Exploring Demonstrative Paths**\n\nI'm currently dissecting the core concept of a \"demonstration\" as it's defined for this context. My focus is on understanding how it functions as a sequential, interactive \"walked path\" through the corpus, driven by a question-answer-question structure. The role of metaphors as connective tissue between these elements is particularly intriguing.\n\n**Analyzing Textual Journeys**\n\nI'm now examining how specific statements are represented as interactive pathways. My current focus is on identifying instances where the corpus guides users through a question-answer-question sequence, employing metaphors to bridge these segments. I'm meticulously checking each excerpt to see if it aligns with this \"walked path\" methodology.\n\nS-001\nPATH TYPE: NO PATH FOUND\nSTEPS: none\n\n**Seeking Exemplars**\n\nI'm actively reviewing excerpts to identify any that demonstrate the \"walked path\" structure, specifically focusing on the Tolstoy quote about families. My analysis confirms that simple quotations or citations do not qualify, and I'm looking for instances where a question-answer-question progression, linked by metaphors, substantiates the initial statement.\n\n**Investigating Path Elements**\n\nI'm meticulously sifting through each provided excerpt, looking for specific patterns. My focus is on identifying any that exhibit a question, followed by an answer, and then another question, as per the established definition. So far, neither S-001 nor S-002 seems to fit this \"walked path\" criterion.\n\n",
+    "reasoning_details": [
+     {
+      "type": "reasoning.text",
+      "text": "**Exploring Demonstrative Paths**\n\nI'm currently dissecting the core concept of a \"demonstration\" as it's defined for this context. My focus is on understanding how it functions as a sequential, interactive \"walked path\" through the corpus, driven by a question-answer-question structure. The role of metaphors as connective tissue between these elements is particularly intriguing.\n\n**Analyzing Textual Journeys**\n\nI'm now examining how specific statements are represented as interactive pathways. My current focus is on identifying instances where the corpus guides users through a question-answer-question sequence, employing metaphors to bridge these segments. I'm meticulously checking each excerpt to see if it aligns with this \"walked path\" methodology.\n\nS-001\nPATH TYPE: NO PATH FOUND\nSTEPS: none\n\n**Seeking Exemplars**\n\nI'm actively reviewing excerpts to identify any that demonstrate the \"walked path\" structure, specifically focusing on the Tolstoy quote about families. My analysis confirms that simple quotations or citations do not qualify, and I'm looking for instances where a question-answer-question progression, linked by metaphors, substantiates the initial statement.\n\n**Investigating Path Elements**\n\nI'm meticulously sifting through each provided excerpt, looking for specific patterns. My focus is on identifying any that exhibit a question, followed by an answer, and then another question, as per the established definition. So far, neither S-001 nor S-002 seems to fit this \"walked path\" criterion.\n\n",
+      "format": "google-gemini-v1",
+      "index": 0
+     },
+     {
+      "type": "reasoning.encrypted",
+      "data": "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.eyJlbmRwb2ludF9zbHVnIjoiZ29vZ2xlL2dlbWluaS0zLjgtZmxhc2gtMjAyNjA5MDJ8Z29vZ2xlLXZlcnRleC9nbG9iYWwifQ",
+      "format": "google-gemini-v1",
+      "index": 1
+     }
+    ]
+   }
+  }
+ ],
+ "usage": {
+  "prompt_tokens": 7758,
+  "completion_tokens": 1055,
+  "total_tokens": 8813,
+  "cost": 0.00977475,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 0,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.00977475,
+   "upstream_inference_prompt_cost": 0.0058185,
+   "upstream_inference_completions_cost": 0.00395625
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 1020,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ }
+}

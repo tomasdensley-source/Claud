@@ -1,0 +1,7 @@
+      1 TESTED-LIVE
+      1 axiom
+      1 confirmed
+      2 invariant
+      9 passed
+
+Reading of the hits (operator's note): every hit is in the Ladder's own text (P00_the-ladder.md), in a sentence that names a word in order to refuse it (PRECEDENCE_LOG.md, P10_relabel_note.md), or in 'passed the retrieval filter' (P06_meta_note.md). None is used as a status of any object. A reviewer can confirm with: grep -rnE the same pattern.

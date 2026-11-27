@@ -1,0 +1,21 @@
+Below is a short piece of writing. Extract every claim the piece makes, explicitly or by direct implication of its wording. Do not invent claims the piece does not make, and do not merge distinct claims.
+
+For each claim, give:
+- an ID, numbered sequentially S-001, S-002, ...
+- the claim, stated as one sentence
+- the anchor: the exact words of the piece the claim comes from, quoted
+- exactly two undemonstrated assumptions the claim relies on for support, IDs S-nnn.a and S-nnn.b
+
+Do not judge whether any claim or assumption is true.
+
+Output plain text only, in exactly this layout for each claim, with a blank line between claims:
+
+S-001
+CLAIM: ...
+ANCHOR: "..."
+S-001.a: ...
+S-001.b: ...
+
+The piece:
+
+Happy families are all alike; every unhappy family is unhappy in its own way.

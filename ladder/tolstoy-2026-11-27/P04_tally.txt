@@ -1,0 +1,5 @@
+CONTESTED: 2 ['S-001.a', 'S-002.b']
+FALSE AS STATED: 1 ['S-001.b']
+DEMONSTRATED: 1 ['S-002.a']
+sum 4; equals P3 count 4: True
+Note: the sense of DEMONSTRATED here is the auditor's own, not D8 (walked path). OPEN O-02.

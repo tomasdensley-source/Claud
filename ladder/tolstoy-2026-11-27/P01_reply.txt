@@ -1,0 +1,11 @@
+S-001
+CLAIM: Happy families are all alike.
+ANCHOR: "Happy families are all alike"
+S-001.a: Families can be identified as happy.
+S-001.b: There is a basis on which all happy families can be compared as alike.
+
+S-002
+CLAIM: Every unhappy family is unhappy in its own way.
+ANCHOR: "every unhappy family is unhappy in its own way"
+S-002.a: Families can be identified as unhappy.
+S-002.b: A family's way of being unhappy can be distinguished from the ways of other unhappy families.

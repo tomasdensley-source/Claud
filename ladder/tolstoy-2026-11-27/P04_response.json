@@ -1,0 +1,46 @@
+{
+ "id": "gen-1795746212-weuAA2ozLg4ZIUTPXICw",
+ "object": "chat.completion",
+ "created": 1795746212,
+ "model": "deepseek/deepseek-v4-pro-0813",
+ "provider": "DeepInfra",
+ "system_fingerprint": null,
+ "service_tier": "default",
+ "choices": [
+  {
+   "index": 0,
+   "logprobs": null,
+   "finish_reason": "stop",
+   "native_finish_reason": "stop",
+   "message": {
+    "role": "assistant",
+    "content": "S-001.a\tCONTESTED\tWhether happiness in families is identifiable depends on subjective criteria and varying definitions of well-being.  \nS-001.b\tFALSE AS STATED\tThe claim implies a universal common basis for all happy families, but no such single shared trait or standard has been demonstrated.  \nS-002.a\tDEMONSTRATED\tUnhappiness in families can be identified through observable indicators such as conflict, dysfunction, or distress.  \nS-002.b\tCONTESTED\tThe uniqueness of each unhappy family’s situation is plausible but depends on how finely one distinguishes their circumstances.",
+    "refusal": null,
+    "reasoning": null
+   }
+  }
+ ],
+ "usage": {
+  "prompt_tokens": 129,
+  "completion_tokens": 125,
+  "total_tokens": 254,
+  "cost": 0.0004927,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 0,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.0004927,
+   "upstream_inference_prompt_cost": 0.0001677,
+   "upstream_inference_completions_cost": 0.000325
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 0,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ }
+}

@@ -1,0 +1,4 @@
+P2 isolated: 4 ['S-001.a', 'S-001.b', 'S-002.a', 'S-002.b']
+P1 assumptions: 4 ['S-001.a', 'S-001.b', 'S-002.a', 'S-002.b']
+count equal: True
+ID lists identical: True

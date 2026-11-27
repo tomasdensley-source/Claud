@@ -1,0 +1,4 @@
+# P07 quote verification
+Anchor quotations found in P07_reply.txt (pattern [excerpt n] "..."): 0
+Exact-match checks run: 0
+Result: there are no anchors to verify; both paths are NO PATH FOUND with STEPS: none.

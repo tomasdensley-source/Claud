@@ -1,0 +1,4 @@
+claims: 2 ['S-001', 'S-002']
+assumptions: 4 ['S-001.a', 'S-001.b', 'S-002.a', 'S-002.b']
+assumptions == 2 x claims: True
+assumption IDs match expected a/b per claim: True

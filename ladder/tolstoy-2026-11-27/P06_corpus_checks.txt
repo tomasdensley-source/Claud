@@ -1,0 +1,5 @@
+# Mechanical corpus checks (grep -F -c, corpus C1)
+piece wording 'Happy families are all alike; every unhappy family is unhappy in its own way.': 0
+corpus wording 'All happy families are alike; each unhappy family is unhappy in its own way.': 30
+lines with that wording AND 'Tolstoy' on the same line: 19
+Ladder (C2) lines matching 'famil': 10

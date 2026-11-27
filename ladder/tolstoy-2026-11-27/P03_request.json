@@ -1,0 +1,9 @@
+{
+ "model": "x-ai/grok-4.7",
+ "messages": [
+  {
+   "role": "user",
+   "content": "Rewrite each proposition below as a general proposition that can be judged apart from any particular narrator, named person or scene. Remove personal references only. Do not change the content otherwise: do not strengthen or weaken any quantifier, do not add or drop conditions, do not merge or drop items. Keep each item's ID. If an item already contains no personal reference, return it unchanged.\n\nOutput plain text only, one line per item, exactly: ID<TAB>generalized proposition\n\nS-001.a\tFamilies can be identified as happy.\nS-001.b\tThere is a basis on which all happy families can be compared as alike.\nS-002.a\tFamilies can be identified as unhappy.\nS-002.b\tA family's way of being unhappy can be distinguished from the ways of other unhappy families.\n"
+  }
+ ]
+}

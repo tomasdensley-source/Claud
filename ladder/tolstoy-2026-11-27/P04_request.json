@@ -1,0 +1,9 @@
+{
+ "model": "deepseek/deepseek-v4-pro-0813",
+ "messages": [
+  {
+   "role": "user",
+   "content": "Categorize each proposition below as exactly one of: DEMONSTRATED, CONTESTED, FALSE AS STATED. Give one line of ground for each.\n\nOutput plain text only, one line per item, exactly: ID<TAB>CATEGORY<TAB>ground\n\nS-001.a\tFamilies can be identified as happy.\nS-001.b\tThere is a basis on which all happy families can be compared as alike.\nS-002.a\tFamilies can be identified as unhappy.\nS-002.b\tA family's way of being unhappy can be distinguished from the ways of other unhappy families.\n"
+  }
+ ]
+}

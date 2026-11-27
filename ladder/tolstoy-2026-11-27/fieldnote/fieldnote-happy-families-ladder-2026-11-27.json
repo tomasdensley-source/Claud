@@ -1,0 +1,690 @@
+{
+  "version": 1,
+  "panels": [
+    {
+      "id": "P-0001",
+      "kind": "panel",
+      "createdAt": "2026-11-27T02:22:39.038Z",
+      "updatedAt": "2026-11-27T02:22:39.038Z",
+      "archived": false,
+      "layout": {
+        "x": -560,
+        "y": 0
+      },
+      "tags": [
+        "heading",
+        "band:1",
+        "pass:1"
+      ],
+      "boardSize": {
+        "width": 460,
+        "height": 202
+      },
+      "panelType": "regular",
+      "title": "Pass 1 (Nov 27, 2026): the piece, its claims and assumptions, the fresh audit, the gate and the paths",
+      "detail": "Two claims, four assumptions. Gate: 2 YES, 0 NO. Paths: 2 NO PATH FOUND. With no NOs, Steps 0 to 8 had no input: no candidate abstraction, no Counter-AI run. Every stage rests on interim prompts (OPEN O-01).",
+      "voice": "note",
+      "history": []
+    },
+    {
+      "id": "P-0002",
+      "kind": "panel",
+      "createdAt": "2026-11-27T02:22:39.038Z",
+      "updatedAt": "2026-11-27T02:22:39.038Z",
+      "archived": false,
+      "layout": {
+        "x": -560,
+        "y": -1000
+      },
+      "tags": [
+        "run:P00",
+        "band:1",
+        "pass:1"
+      ],
+      "boardSize": {
+        "width": 460,
+        "height": 200
+      },
+      "panelType": "regular",
+      "title": "The piece (P00), verbatim",
+      "detail": "Happy families are all alike; every unhappy family is unhappy in its own way.\n\nThe opening line of Tolstoy's Anna Karenina (Garnett translation). Not the author's writing.",
+      "voice": "note",
+      "history": []
+    }
+  ],
+  "observations": [
+    {
+      "id": "O-0001",
+      "kind": "observation",
+      "createdAt": "2026-11-27T02:24:23.929Z",
+      "updatedAt": "2026-11-27T02:24:23.929Z",
+      "archived": false,
+      "layout": {
+        "x": 110,
+        "y": 0
+      },
+      "tags": [
+        "band:1",
+        "pass:1"
+      ],
+      "boardSize": {
+        "width": 360,
+        "height": 158
+      },
+      "text": "The corpus file C1 contains the wording 'All happy families are alike; each unhappy family is unhappy in its own way.' 30 times, 19 of them on a line that also names Tolstoy.",
+      "affectCharge": "neutral",
+      "groupIds": [
+        "G-001"
+      ],
+      "provenance": {
+        "source": "P06_corpus_checks.txt (grep -F -c on C1)",
+        "firstEncounter": "Ladder run tolstoy-2026-11-27, P06_corpus_checks.txt",
+        "recordedAt": "2026-11-27T02:24:23.929Z"
+      }
+    },
+    {
+      "id": "O-0002",
+      "kind": "observation",
+      "createdAt": "2026-11-27T02:24:23.929Z",
+      "updatedAt": "2026-11-27T02:24:23.929Z",
+      "archived": false,
+      "layout": {
+        "x": 530,
+        "y": 0
+      },
+      "tags": [
+        "band:1",
+        "pass:1"
+      ],
+      "boardSize": {
+        "width": 360,
+        "height": 158
+      },
+      "text": "The piece's own wording, 'Happy families are all alike; every unhappy family is unhappy in its own way.', occurs 0 times in corpus file C1.",
+      "affectCharge": "neutral",
+      "groupIds": [
+        "G-001"
+      ],
+      "provenance": {
+        "source": "P06_corpus_checks.txt (grep -F -c on C1)",
+        "firstEncounter": "Ladder run tolstoy-2026-11-27, P06_corpus_checks.txt",
+        "recordedAt": "2026-11-27T02:24:23.929Z"
+      }
+    }
+  ],
+  "groups": [
+    {
+      "id": "G-001",
+      "kind": "group",
+      "createdAt": "2026-11-27T02:22:39.038Z",
+      "updatedAt": "2026-11-27T02:22:39.038Z",
+      "archived": false,
+      "tag": "Pass 1: observations first recorded",
+      "basis": "topical",
+      "memberIds": [
+        "O-0001",
+        "O-0002"
+      ],
+      "tier": 0,
+      "layout": {
+        "x": 110,
+        "y": 0
+      },
+      "tags": [
+        "band:1",
+        "pass:1"
+      ],
+      "notes": "The observations first recorded in this pass. It is also the source group of the pass's claims and assumptions. A boundary for the pass, not evidence."
+    }
+  ],
+  "abstractions": [
+    {
+      "id": "A-101",
+      "kind": "abstraction",
+      "createdAt": "2026-11-27T02:22:39.038Z",
+      "updatedAt": "2026-11-27T02:22:39.038Z",
+      "archived": false,
+      "layout": {
+        "x": 110,
+        "y": -1000
+      },
+      "tags": [
+        "run:S-001",
+        "claim",
+        "gate:YES",
+        "path:NO PATH FOUND",
+        "band:1",
+        "pass:1"
+      ],
+      "boardSize": {
+        "width": 360,
+        "height": 312
+      },
+      "statement": "Happy families are all alike.",
+      "sourceGroupId": "G-001",
+      "tier": 1,
+      "status": "live",
+      "notes": "Claim S-001 (P01, AUX-1 x-ai/grok-4.7, fresh request). Anchor: \"Happy families are all alike\"\nGate (P06, interim prompt): YES, resting on excerpt [1], a quotation list (OPEN O-05).\nPath (P07, interim prompt): NO PATH FOUND. What follows is OPEN (O-06).\nThe gate and the path type are workflow findings, not truth values; no test of this sentence was run."
+    },
+    {
+      "id": "A-102",
+      "kind": "abstraction",
+      "createdAt": "2026-11-27T02:22:39.038Z",
+      "updatedAt": "2026-11-27T02:22:39.038Z",
+      "archived": false,
+      "layout": {
+        "x": 1410,
+        "y": -1000
+      },
+      "tags": [
+        "run:S-002",
+        "claim",
+        "gate:YES",
+        "path:NO PATH FOUND",
+        "band:1",
+        "pass:1"
+      ],
+      "boardSize": {
+        "width": 360,
+        "height": 334
+      },
+      "statement": "Every unhappy family is unhappy in its own way.",
+      "sourceGroupId": "G-001",
+      "tier": 1,
+      "status": "live",
+      "notes": "Claim S-002 (P01, AUX-1 x-ai/grok-4.7, fresh request). Anchor: \"every unhappy family is unhappy in its own way\"\nGate (P06, interim prompt): YES, resting on excerpt [1], a quotation list (OPEN O-05).\nPath (P07, interim prompt): NO PATH FOUND. What follows is OPEN (O-06).\nThe gate and the path type are workflow findings, not truth values; no test of this sentence was run."
+    },
+    {
+      "id": "A-103",
+      "kind": "abstraction",
+      "createdAt": "2026-11-27T02:22:39.038Z",
+      "updatedAt": "2026-11-27T02:22:39.038Z",
+      "archived": false,
+      "layout": {
+        "x": 110,
+        "y": -260
+      },
+      "tags": [
+        "run:S-001.a",
+        "assumption",
+        "band:1",
+        "pass:1"
+      ],
+      "boardSize": {
+        "width": 360,
+        "height": 158
+      },
+      "statement": "Families can be identified as happy.",
+      "sourceGroupId": "G-001",
+      "tier": 1,
+      "status": "live",
+      "notes": "Assumption S-001.a of claim S-001 (P01). Generalized form (P03): Families can be identified as happy. (string-identical: True)."
+    },
+    {
+      "id": "A-104",
+      "kind": "abstraction",
+      "createdAt": "2026-11-27T02:22:39.038Z",
+      "updatedAt": "2026-11-27T02:22:39.038Z",
+      "archived": false,
+      "layout": {
+        "x": 110,
+        "y": -600
+      },
+      "tags": [
+        "run:S-001.b",
+        "assumption",
+        "band:1",
+        "pass:1"
+      ],
+      "boardSize": {
+        "width": 360,
+        "height": 202
+      },
+      "statement": "There is a basis on which all happy families can be compared as alike.",
+      "sourceGroupId": "G-001",
+      "tier": 1,
+      "status": "live",
+      "notes": "Assumption S-001.b of claim S-001 (P01). Generalized form (P03): There is a basis on which all happy families can be compared as alike. (string-identical: True)."
+    },
+    {
+      "id": "A-105",
+      "kind": "abstraction",
+      "createdAt": "2026-11-27T02:22:39.038Z",
+      "updatedAt": "2026-11-27T02:22:39.038Z",
+      "archived": false,
+      "layout": {
+        "x": 1410,
+        "y": -260
+      },
+      "tags": [
+        "run:S-002.a",
+        "assumption",
+        "band:1",
+        "pass:1"
+      ],
+      "boardSize": {
+        "width": 360,
+        "height": 158
+      },
+      "statement": "Families can be identified as unhappy.",
+      "sourceGroupId": "G-001",
+      "tier": 1,
+      "status": "live",
+      "notes": "Assumption S-002.a of claim S-002 (P01). Generalized form (P03): Families can be identified as unhappy. (string-identical: True)."
+    },
+    {
+      "id": "A-106",
+      "kind": "abstraction",
+      "createdAt": "2026-11-27T02:22:39.038Z",
+      "updatedAt": "2026-11-27T02:22:39.038Z",
+      "archived": false,
+      "layout": {
+        "x": 1410,
+        "y": -600
+      },
+      "tags": [
+        "run:S-002.b",
+        "assumption",
+        "band:1",
+        "pass:1"
+      ],
+      "boardSize": {
+        "width": 360,
+        "height": 246
+      },
+      "statement": "A family's way of being unhappy can be distinguished from the ways of other unhappy families.",
+      "sourceGroupId": "G-001",
+      "tier": 1,
+      "status": "live",
+      "notes": "Assumption S-002.b of claim S-002 (P01). Generalized form (P03): A family's way of being unhappy can be distinguished from the ways of other unhappy families. (string-identical: True)."
+    }
+  ],
+  "implications": [
+    {
+      "id": "I-0001",
+      "kind": "implication",
+      "createdAt": "2026-11-27T02:22:39.038Z",
+      "updatedAt": "2026-11-27T02:22:39.038Z",
+      "archived": false,
+      "layout": {
+        "x": 530,
+        "y": -260
+      },
+      "tags": [
+        "run:S-001.a",
+        "direct test",
+        "band:1",
+        "pass:1"
+      ],
+      "statement": "S-001.a itself, audited word for word. Its exact sentence is on A-103.",
+      "parentAbstractionId": "A-103",
+      "surplus": false,
+      "status": "insufficient_evidence",
+      "testIds": [
+        "T-0001"
+      ],
+      "notes": "The sentence itself, audited directly. Not a surplus implication, so it carries no weight toward an invariant.\n\nExact sentence audited:\nFamilies can be identified as happy."
+    },
+    {
+      "id": "I-0002",
+      "kind": "implication",
+      "createdAt": "2026-11-27T02:22:39.038Z",
+      "updatedAt": "2026-11-27T02:22:39.038Z",
+      "archived": false,
+      "layout": {
+        "x": 530,
+        "y": -600
+      },
+      "tags": [
+        "run:S-001.b",
+        "direct test",
+        "band:1",
+        "pass:1"
+      ],
+      "statement": "S-001.b itself, audited word for word. Its exact sentence is on A-104.",
+      "parentAbstractionId": "A-104",
+      "surplus": false,
+      "status": "false",
+      "testIds": [
+        "T-0002"
+      ],
+      "notes": "The sentence itself, audited directly. Not a surplus implication, so it carries no weight toward an invariant.\n\nExact sentence audited:\nThere is a basis on which all happy families can be compared as alike."
+    },
+    {
+      "id": "I-0003",
+      "kind": "implication",
+      "createdAt": "2026-11-27T02:22:39.038Z",
+      "updatedAt": "2026-11-27T02:22:39.038Z",
+      "archived": false,
+      "layout": {
+        "x": 1830,
+        "y": -260
+      },
+      "tags": [
+        "run:S-002.a",
+        "direct test",
+        "band:1",
+        "pass:1"
+      ],
+      "statement": "S-002.a itself, audited word for word. Its exact sentence is on A-105.",
+      "parentAbstractionId": "A-105",
+      "surplus": false,
+      "status": "holds",
+      "testIds": [
+        "T-0003"
+      ],
+      "notes": "The sentence itself, audited directly. Not a surplus implication, so it carries no weight toward an invariant.\n\nExact sentence audited:\nFamilies can be identified as unhappy."
+    },
+    {
+      "id": "I-0004",
+      "kind": "implication",
+      "createdAt": "2026-11-27T02:22:39.038Z",
+      "updatedAt": "2026-11-27T02:22:39.038Z",
+      "archived": false,
+      "layout": {
+        "x": 1830,
+        "y": -600
+      },
+      "tags": [
+        "run:S-002.b",
+        "direct test",
+        "band:1",
+        "pass:1"
+      ],
+      "statement": "S-002.b itself, audited word for word. Its exact sentence is on A-106.",
+      "parentAbstractionId": "A-106",
+      "surplus": false,
+      "status": "insufficient_evidence",
+      "testIds": [
+        "T-0004"
+      ],
+      "notes": "The sentence itself, audited directly. Not a surplus implication, so it carries no weight toward an invariant.\n\nExact sentence audited:\nA family's way of being unhappy can be distinguished from the ways of other unhappy families."
+    }
+  ],
+  "tests": [
+    {
+      "id": "T-0001",
+      "kind": "test",
+      "createdAt": "2026-11-27T02:23:32.663Z",
+      "updatedAt": "2026-11-27T02:23:32.663Z",
+      "archived": false,
+      "layout": {
+        "x": 950,
+        "y": -260
+      },
+      "tags": [
+        "run:P04",
+        "band:1",
+        "pass:1"
+      ],
+      "boardSize": {
+        "width": 360,
+        "height": 202
+      },
+      "implicationId": "I-0001",
+      "channel": "external",
+      "result": "insufficient_evidence",
+      "evidenceNote": "P04 (fresh audit, interim prompt; not the fixed Counter-AI prompt): CONTESTED. The verdict belongs to this exact sentence only. Whether happiness in families is identifiable depends on subjective criteria and varying definitions of well-being.",
+      "testedAt": "2026-11-27T02:23:32.663Z",
+      "notes": "Full reply of P04 (deepseek/deepseek-v4-pro-0813, fresh request):\n\nS-001.a\tCONTESTED\tWhether happiness in families is identifiable depends on subjective criteria and varying definitions of well-being.  \nS-001.b\tFALSE AS STATED\tThe claim implies a universal common basis for all happy families, but no such single shared trait or standard has been demonstrated.  \nS-002.a\tDEMONSTRATED\tUnhappiness in families can be identified through observable indicators such as conflict, dysfunction, or distress.  \nS-002.b\tCONTESTED\tThe uniqueness of each unhappy family’s situation is plausible but depends on how finely one distinguishes their circumstances."
+    },
+    {
+      "id": "T-0002",
+      "kind": "test",
+      "createdAt": "2026-11-27T02:23:32.663Z",
+      "updatedAt": "2026-11-27T02:23:32.663Z",
+      "archived": false,
+      "layout": {
+        "x": 950,
+        "y": -600
+      },
+      "tags": [
+        "run:P04",
+        "band:1",
+        "pass:1"
+      ],
+      "boardSize": {
+        "width": 360,
+        "height": 224
+      },
+      "implicationId": "I-0002",
+      "channel": "external",
+      "result": "false",
+      "evidenceNote": "P04 (fresh audit, interim prompt; not the fixed Counter-AI prompt): FALSE AS STATED. The verdict belongs to this exact sentence only. The claim implies a universal common basis for all happy families, but no such single shared trait or standard has been demonstrated.",
+      "testedAt": "2026-11-27T02:23:32.663Z",
+      "notes": "Full reply of P04 (deepseek/deepseek-v4-pro-0813, fresh request):\n\nS-001.a\tCONTESTED\tWhether happiness in families is identifiable depends on subjective criteria and varying definitions of well-being.  \nS-001.b\tFALSE AS STATED\tThe claim implies a universal common basis for all happy families, but no such single shared trait or standard has been demonstrated.  \nS-002.a\tDEMONSTRATED\tUnhappiness in families can be identified through observable indicators such as conflict, dysfunction, or distress.  \nS-002.b\tCONTESTED\tThe uniqueness of each unhappy family’s situation is plausible but depends on how finely one distinguishes their circumstances."
+    },
+    {
+      "id": "T-0003",
+      "kind": "test",
+      "createdAt": "2026-11-27T02:23:32.663Z",
+      "updatedAt": "2026-11-27T02:23:32.663Z",
+      "archived": false,
+      "layout": {
+        "x": 2250,
+        "y": -260
+      },
+      "tags": [
+        "run:P04",
+        "band:1",
+        "pass:1"
+      ],
+      "boardSize": {
+        "width": 360,
+        "height": 202
+      },
+      "implicationId": "I-0003",
+      "channel": "external",
+      "result": "holds",
+      "evidenceNote": "P04 (fresh audit, interim prompt; not the fixed Counter-AI prompt): DEMONSTRATED. The verdict belongs to this exact sentence only. Unhappiness in families can be identified through observable indicators such as conflict, dysfunction, or distress.",
+      "testedAt": "2026-11-27T02:23:32.663Z",
+      "notes": "Full reply of P04 (deepseek/deepseek-v4-pro-0813, fresh request):\n\nS-001.a\tCONTESTED\tWhether happiness in families is identifiable depends on subjective criteria and varying definitions of well-being.  \nS-001.b\tFALSE AS STATED\tThe claim implies a universal common basis for all happy families, but no such single shared trait or standard has been demonstrated.  \nS-002.a\tDEMONSTRATED\tUnhappiness in families can be identified through observable indicators such as conflict, dysfunction, or distress.  \nS-002.b\tCONTESTED\tThe uniqueness of each unhappy family’s situation is plausible but depends on how finely one distinguishes their circumstances."
+    },
+    {
+      "id": "T-0004",
+      "kind": "test",
+      "createdAt": "2026-11-27T02:23:32.663Z",
+      "updatedAt": "2026-11-27T02:23:32.663Z",
+      "archived": false,
+      "layout": {
+        "x": 2250,
+        "y": -600
+      },
+      "tags": [
+        "run:P04",
+        "band:1",
+        "pass:1"
+      ],
+      "boardSize": {
+        "width": 360,
+        "height": 202
+      },
+      "implicationId": "I-0004",
+      "channel": "external",
+      "result": "insufficient_evidence",
+      "evidenceNote": "P04 (fresh audit, interim prompt; not the fixed Counter-AI prompt): CONTESTED. The verdict belongs to this exact sentence only. The uniqueness of each unhappy family’s situation is plausible but depends on how finely one distinguishes their circumstances.",
+      "testedAt": "2026-11-27T02:23:32.663Z",
+      "notes": "Full reply of P04 (deepseek/deepseek-v4-pro-0813, fresh request):\n\nS-001.a\tCONTESTED\tWhether happiness in families is identifiable depends on subjective criteria and varying definitions of well-being.  \nS-001.b\tFALSE AS STATED\tThe claim implies a universal common basis for all happy families, but no such single shared trait or standard has been demonstrated.  \nS-002.a\tDEMONSTRATED\tUnhappiness in families can be identified through observable indicators such as conflict, dysfunction, or distress.  \nS-002.b\tCONTESTED\tThe uniqueness of each unhappy family’s situation is plausible but depends on how finely one distinguishes their circumstances."
+    }
+  ],
+  "convergences": [],
+  "invariants": [],
+  "repairs": [],
+  "edges": [
+    {
+      "id": "E-00001",
+      "fromId": "O-0001",
+      "toId": "G-001",
+      "kind": "member_of",
+      "createdAt": "2026-11-27T02:24:23.929Z"
+    },
+    {
+      "id": "E-00002",
+      "fromId": "O-0002",
+      "toId": "G-001",
+      "kind": "member_of",
+      "createdAt": "2026-11-27T02:24:23.929Z"
+    },
+    {
+      "id": "E-00003",
+      "fromId": "G-001",
+      "toId": "A-101",
+      "kind": "source_of",
+      "createdAt": "2026-11-27T02:22:39.038Z"
+    },
+    {
+      "id": "E-00004",
+      "fromId": "G-001",
+      "toId": "A-102",
+      "kind": "source_of",
+      "createdAt": "2026-11-27T02:22:39.038Z"
+    },
+    {
+      "id": "E-00005",
+      "fromId": "G-001",
+      "toId": "A-103",
+      "kind": "source_of",
+      "createdAt": "2026-11-27T02:22:39.038Z"
+    },
+    {
+      "id": "E-00006",
+      "fromId": "A-101",
+      "toId": "A-103",
+      "kind": "related",
+      "createdAt": "2026-11-27T02:22:39.038Z"
+    },
+    {
+      "id": "E-00007",
+      "fromId": "A-103",
+      "toId": "I-0001",
+      "kind": "entails",
+      "createdAt": "2026-11-27T02:22:39.038Z"
+    },
+    {
+      "id": "E-00008",
+      "fromId": "I-0001",
+      "toId": "T-0001",
+      "kind": "tested_by",
+      "createdAt": "2026-11-27T02:23:32.663Z"
+    },
+    {
+      "id": "E-00009",
+      "fromId": "G-001",
+      "toId": "A-104",
+      "kind": "source_of",
+      "createdAt": "2026-11-27T02:22:39.038Z"
+    },
+    {
+      "id": "E-00010",
+      "fromId": "A-101",
+      "toId": "A-104",
+      "kind": "related",
+      "createdAt": "2026-11-27T02:22:39.038Z"
+    },
+    {
+      "id": "E-00011",
+      "fromId": "A-104",
+      "toId": "I-0002",
+      "kind": "entails",
+      "createdAt": "2026-11-27T02:22:39.038Z"
+    },
+    {
+      "id": "E-00012",
+      "fromId": "I-0002",
+      "toId": "T-0002",
+      "kind": "tested_by",
+      "createdAt": "2026-11-27T02:23:32.663Z"
+    },
+    {
+      "id": "E-00013",
+      "fromId": "I-0002",
+      "toId": "T-0002",
+      "kind": "killed_by",
+      "createdAt": "2026-11-27T02:23:32.663Z"
+    },
+    {
+      "id": "E-00014",
+      "fromId": "G-001",
+      "toId": "A-105",
+      "kind": "source_of",
+      "createdAt": "2026-11-27T02:22:39.038Z"
+    },
+    {
+      "id": "E-00015",
+      "fromId": "A-102",
+      "toId": "A-105",
+      "kind": "related",
+      "createdAt": "2026-11-27T02:22:39.038Z"
+    },
+    {
+      "id": "E-00016",
+      "fromId": "A-105",
+      "toId": "I-0003",
+      "kind": "entails",
+      "createdAt": "2026-11-27T02:22:39.038Z"
+    },
+    {
+      "id": "E-00017",
+      "fromId": "I-0003",
+      "toId": "T-0003",
+      "kind": "tested_by",
+      "createdAt": "2026-11-27T02:23:32.663Z"
+    },
+    {
+      "id": "E-00018",
+      "fromId": "G-001",
+      "toId": "A-106",
+      "kind": "source_of",
+      "createdAt": "2026-11-27T02:22:39.038Z"
+    },
+    {
+      "id": "E-00019",
+      "fromId": "A-102",
+      "toId": "A-106",
+      "kind": "related",
+      "createdAt": "2026-11-27T02:22:39.038Z"
+    },
+    {
+      "id": "E-00020",
+      "fromId": "A-106",
+      "toId": "I-0004",
+      "kind": "entails",
+      "createdAt": "2026-11-27T02:22:39.038Z"
+    },
+    {
+      "id": "E-00021",
+      "fromId": "I-0004",
+      "toId": "T-0004",
+      "kind": "tested_by",
+      "createdAt": "2026-11-27T02:23:32.663Z"
+    },
+    {
+      "id": "E-00022",
+      "fromId": "O-0001",
+      "toId": "A-101",
+      "kind": "related",
+      "createdAt": "2026-11-27T02:24:23.929Z"
+    },
+    {
+      "id": "E-00023",
+      "fromId": "O-0001",
+      "toId": "A-102",
+      "kind": "related",
+      "createdAt": "2026-11-27T02:24:23.929Z"
+    },
+    {
+      "id": "E-00024",
+      "fromId": "O-0002",
+      "toId": "A-101",
+      "kind": "related",
+      "createdAt": "2026-11-27T02:24:23.929Z"
+    },
+    {
+      "id": "E-00025",
+      "fromId": "O-0002",
+      "toId": "A-102",
+      "kind": "related",
+      "createdAt": "2026-11-27T02:24:23.929Z"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+ "id": "gen-1795746159-W81W5HecwRhqEdDYvQP6",
+ "object": "chat.completion",
+ "created": 1795746159,
+ "model": "x-ai/grok-4.7",
+ "provider": "xAI",
+ "system_fingerprint": null,
+ "service_tier": "default",
+ "choices": [
+  {
+   "index": 0,
+   "logprobs": null,
+   "finish_reason": "stop",
+   "native_finish_reason": "completed",
+   "message": {
+    "role": "assistant",
+    "content": "S-001\nCLAIM: Happy families are all alike.\nANCHOR: \"Happy families are all alike\"\nS-001.a: Families can be identified as happy.\nS-001.b: There is a basis on which all happy families can be compared as alike.\n\nS-002\nCLAIM: Every unhappy family is unhappy in its own way.\nANCHOR: \"every unhappy family is unhappy in its own way\"\nS-002.a: Families can be identified as unhappy.\nS-002.b: A family's way of being unhappy can be distinguished from the ways of other unhappy families.",
+    "refusal": null,
+    "reasoning": "I am extracting every claim from the piece, identifying the anchor text and two undemonstrated assumptions for each.\n\nThe piece contains two distinct claims. I am now identifying undemonstrated assumptions for each.\n\nI am identifying the undemonstrated assumptions for each claim. For S-001, one assumption is that families can be classified as happy or not happy in a determinate way.\n\nFor S-001, the second assumption is that similarity among happy families is uniform across whatever dimensions are compared. The semicolon separates two distinct claims.\n\nThe contrast between the two claims is not a separate claim. The piece explicitly states only the two distinct propositions.\n\nThe second claim limits uniqueness to the manner of unhappiness, not to every respect. The contrast between uniformity and diversity is implied by the structure but will not be extracted as a separate claim.\n\nI have finalized the undemonstrated assumptions for both claims. For S-001, families can be correctly identified as happy, and likeness among them is a relation that applies uniformly. For S-002, families can be correctly identified as unhappy, and each family's manner of unhappiness can be individuated so that every unhappy family has a distinct way of being unhappy.",
+    "reasoning_details": [
+     {
+      "type": "reasoning.summary",
+      "summary": "I am extracting every claim from the piece, identifying the anchor text and two undemonstrated assumptions for each.\n\nThe piece contains two distinct claims. I am now identifying undemonstrated assumptions for each.\n\nI am identifying the undemonstrated assumptions for each claim. For S-001, one assumption is that families can be classified as happy or not happy in a determinate way.\n\nFor S-001, the second assumption is that similarity among happy families is uniform across whatever dimensions are compared. The semicolon separates two distinct claims.\n\nThe contrast between the two claims is not a separate claim. The piece explicitly states only the two distinct propositions.\n\nThe second claim limits uniqueness to the manner of unhappiness, not to every respect. The contrast between uniformity and diversity is implied by the structure but will not be extracted as a separate claim.\n\nI have finalized the undemonstrated assumptions for both claims. For S-001, families can be correctly identified as happy, and likeness among them is a relation that applies uniformly. For S-002, families can be correctly identified as unhappy, and each family's manner of unhappiness can be individuated so that every unhappy family has a distinct way of being unhappy.",
+      "format": "xai-responses-v1",
+      "index": 0
+     },
+     {
+      "type": "reasoning.encrypted",
+      "data": "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.eyJlbmRwb2ludF9zbHVnIjoieC1haS9ncm9rLTQuNy0yMDI2MDkxNnx4YWkifQ",
+      "format": "xai-responses-v1",
+      "id": "rs_721b73a7-6445-9bd6-a009-3824efc88e7f",
+      "index": 1
+     }
+    ]
+   }
+  }
+ ],
+ "usage": {
+  "prompt_tokens": 1443,
+  "completion_tokens": 1697,
+  "total_tokens": 3140,
+  "cost": 0.01134,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 1152,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.01134,
+   "upstream_inference_prompt_cost": 0.001158,
+   "upstream_inference_completions_cost": 0.010182
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 1575,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ }
+}

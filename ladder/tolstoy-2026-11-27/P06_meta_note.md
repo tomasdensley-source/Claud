@@ -1,0 +1,2 @@
+# P06 operator note (fact, not a ruling)
+The gate's reply names excerpt [1] for both answers. Excerpt [1] is corpus line 332181, a paragraph of quotations with attributions (Kant, Tolstoy, Cummings, ...) that passed the retrieval filter because its dashes sit mid-line. It contains the piece's sentence attributed to Leo Tolstoy. Whether a quotation of the sentence in the corpus counts as the corpus agreeing with it is not ruled: OPEN O-05. The verdict is filed as returned and was not rerun.

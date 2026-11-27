@@ -1,0 +1,61 @@
+{
+ "id": "gen-1795746201-q87WUNgebLx5y2xGkfFy",
+ "object": "chat.completion",
+ "created": 1795746201,
+ "model": "x-ai/grok-4.7",
+ "provider": "xAI",
+ "system_fingerprint": null,
+ "service_tier": "default",
+ "choices": [
+  {
+   "index": 0,
+   "logprobs": null,
+   "finish_reason": "stop",
+   "native_finish_reason": "completed",
+   "message": {
+    "role": "assistant",
+    "content": "S-001.a\tFamilies can be identified as happy.\nS-001.b\tThere is a basis on which all happy families can be compared as alike.\nS-002.a\tFamilies can be identified as unhappy.\nS-002.b\tA family's way of being unhappy can be distinguished from the ways of other unhappy families.",
+    "refusal": null,
+    "reasoning": "I will rewrite each proposition as a general statement that can be judged apart from any particular narrator, named person, or scene.",
+    "reasoning_details": [
+     {
+      "type": "reasoning.summary",
+      "summary": "I will rewrite each proposition as a general statement that can be judged apart from any particular narrator, named person, or scene.",
+      "format": "xai-responses-v1",
+      "index": 0
+     },
+     {
+      "type": "reasoning.encrypted",
+      "data": "cWHPG8RMbJy6wv/tq9PHVuP0odwLpHKYz2t3GX03we/QB80+6hRAxE/8VmCwOFMZZRu5Zf1vGVoz7LUvkOq+bE5pa+tKllURba+AqnDcmSZBxadSWCpVD98e/asELPX5HVKdCy6cGwGEPKLhGWDqlkW57FAg4oQed6lt5UpwUdVjtPrAhgEalCc4e8rhxnp+EsnnAZD6o+E3/IAimLcj+FNxyh3pFAo5CpdJ4to65lKUvJ+/obZu7J4VTaUfP7Ra5FSGjN9EmyPYtm1jGfmlSr/t/ihCVN7UqAEivBa6dwPn6UY0Uua1jcNOQT0yPFDA3uXHkMK/zl/lqMJxn6u1Ey0kBI9oXjcD9HGeJJiNMN4jx7Y8hQm2l3+6sk1diz/inkv98ZmY4xArFhtNvb/hSDDPlcbrkqO/vL2IE5v490TBd1cR9PZ+CADbWbJ7JqExUt2/7fjRWjQK2Pp4jWeOa0IcSXHxValgqN39/fmKAi9ot6+Xi9Z5LR48tssVj8ujUdMbUTWr3xRT3SgKOuvu7RyUBbA+JtX4Iwwq83paxihG/v5sU5tOCMTtonH6yW3K/Jv1wDTJZADyh9OFmUGM9nbYrP9zOMFiLbWeV03gEUPUBbbOAynYb68ZzdtsG55JVOYrRjnPk9IF2LsAYq+oTNZmcfCyIkLzqvL/xx3KUi1o2K1+ZuX5Ko0UgR3YzB/i0yNY1gyLKwHRAoK/WK2OhZ4wskf8wDpWeClEchIfx32PcCDQUgpS789BkUp5k++xeADIQZduuo+uZSf4Hu41NuDvlAt6lgrPqE+oYllIV2oYYb/NsDlZLOmqoH1Y+Qvj1M7rveFp15eQJA9wMiFiDdIQwSaCXqhhD3XXH6jxZb9lGPGYpEjBfG5Q4+tq/2y3qgFgLdpoigwohV5apAUPxqwt2JPMkRwMh87DSzUshb7bxwJirskO7ts7wyrEwXjitZoGDlfWPT6KtzAi5XgFjV0xguEiRAESdbTCyk+NdKlsrlgxMFgPR6lSE1KATxROPW78Vdidty+B2LMQ1tWHgIuEWJ52FKY5fPXFE0UzhrlsRWZwyhA8/a3WrLrYgvs+m6/ETYEURaISuMvxqlyn2gMV58Fhkg4QYCNASkH8DdJWpVBstYD9/pKoWI77zWrXXQ301rFFR5bS43G+RINAMsEyUs5K177E6jka6qfaroIlNZbSAqDWbpdPg/8Qgs5vKwyXbwNFEPcIDT1x8evEDfDl0KSKVjah5OhFdRRltjp77GK1XesupC4vTlLPsJwrcx0rKJcNNUOfO9kKF3DeY6KRUMHeM4uZ6sOcICO/INj3WLZxlMkNLft5f37G29sVGimnGrE2Wpv+ExZSJ5hoLf7vt/FQqXSruLmar8V13/Im.eyJlbmRwb2ludF9zbHVnIjoieC1haS9ncm9rLTQuNy0yMDI2MDkxNnx4YWkifQ",
+      "format": "xai-responses-v1",
+      "id": "rs_755564ee-8b81-41a4-a728-8e04cfd3ba94",
+      "index": 1
+     }
+    ]
+   }
+  }
+ ],
+ "usage": {
+  "prompt_tokens": 1409,
+  "completion_tokens": 274,
+  "total_tokens": 1683,
+  "cost": 0.002734,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 1152,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.002734,
+   "upstream_inference_prompt_cost": 0.00109,
+   "upstream_inference_completions_cost": 0.001644
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 204,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ }
+}

@@ -1,0 +1,9 @@
+{
+ "model": "x-ai/grok-4.7",
+ "messages": [
+  {
+   "role": "user",
+   "content": "Below is a short piece of writing. Extract every claim the piece makes, explicitly or by direct implication of its wording. Do not invent claims the piece does not make, and do not merge distinct claims.\n\nFor each claim, give:\n- an ID, numbered sequentially S-001, S-002, ...\n- the claim, stated as one sentence\n- the anchor: the exact words of the piece the claim comes from, quoted\n- exactly two undemonstrated assumptions the claim relies on for support, IDs S-nnn.a and S-nnn.b\n\nDo not judge whether any claim or assumption is true.\n\nOutput plain text only, in exactly this layout for each claim, with a blank line between claims:\n\nS-001\nCLAIM: ...\nANCHOR: \"...\"\nS-001.a: ...\nS-001.b: ...\n\nThe piece:\n\nHappy families are all alike; every unhappy family is unhappy in its own way.\n"
+  }
+ ]
+}

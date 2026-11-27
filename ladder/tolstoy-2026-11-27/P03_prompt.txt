@@ -1,0 +1,8 @@
+Rewrite each proposition below as a general proposition that can be judged apart from any particular narrator, named person or scene. Remove personal references only. Do not change the content otherwise: do not strengthen or weaken any quantifier, do not add or drop conditions, do not merge or drop items. Keep each item's ID. If an item already contains no personal reference, return it unchanged.
+
+Output plain text only, one line per item, exactly: ID<TAB>generalized proposition
+
+S-001.a	Families can be identified as happy.
+S-001.b	There is a basis on which all happy families can be compared as alike.
+S-002.a	Families can be identified as unhappy.
+S-002.b	A family's way of being unhappy can be distinguished from the ways of other unhappy families.

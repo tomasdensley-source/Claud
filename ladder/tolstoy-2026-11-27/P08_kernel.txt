@@ -1,0 +1,2 @@
+kernel: 0 []
+NO count 0 - redundant 0 = kernel 0: True

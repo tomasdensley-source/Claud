@@ -1,0 +1,7 @@
+desktop 1440px: page errors 0 []; scrollWidth 1440, clientWidth 1440, horizontal page scroll: false
+import as new Tree: tree name now "Imported · fieldnote-happy-families-ladder-2026-11-27"
+add onto: toast "Added2 observations · 6 abstractions · 4 implications · 4 tests · 0 repairs added onto Imported · fieldnote-happy-families-ladder-2026-11-27."
+save: downloaded fieldnote-imported-fieldnote-happy-families-ladder-2026-11-27.json
+page errors after import/add/save: 0 []
+phone 390px: page errors 0 []; scrollWidth 390, clientWidth 390, horizontal page scroll: false
+ACCEPTED: 4 observations, 2 groups, 12 abstractions, 8 implications, 8 tests, 0 repairs, 50 links

@@ -1,0 +1,2 @@
+P2 count 4; P3 count 4; equal True; ID lists identical True
+unchanged items (string-identical): ['S-001.a', 'S-001.b', 'S-002.a', 'S-002.b']

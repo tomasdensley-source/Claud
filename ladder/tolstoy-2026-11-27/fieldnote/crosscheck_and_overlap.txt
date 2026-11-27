@@ -1,0 +1,4 @@
+Counter-AI runs filed in CX/: 0 -> valid Counter-AI verdicts in the tally: 0
+P04 audit verdicts: 4 ; present in the record with the same result: 4 ; missing or different: 0 []
+Counter-AI verdicts missing: 0 of 0
+plates checked: 18 ; overlapping pairs at stated sizes: 0 []
