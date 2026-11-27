@@ -499,7 +499,7 @@ def build_pass17(d, P):
         node(f"{d}:{c[0]}", c[0], "repair", c[3], 2, d, st, op=c[2], receipt=c[4], loss=c[5], prov=f"{P}DEFINITIONS.md; forced by ruling R-S", test=t)
         for o in re.findall(r"O-\d{4}", c[4]):
             if f"{d}:{o}" in nodes: edge(f"{d}:{o}", f"{d}:{c[0]}", "receipt", "receipt")
-        if "D-25s" in c[4]: edge(f"{d}:D-25s", f"{d}:{c[0]}", "repair", "Narrow")
+        if "D-25s" in c[4]: edge(f"{d}:D-25s", f"{d}:{c[0]}", "basis", "sense from ruling R-S")
     for c in table(P + "ENTAILMENT.md", r"E-7v3$"):
         st, t = tested(c[0])
         node(f"{d}:{c[0]}", c[0], "abstraction", c[1], 3, d, st, prov=f"{P}ENTAILMENT.md (entailment conditional)", test=t)
@@ -521,6 +521,7 @@ data = dict(nodes=list(nodes.values()), edges=edges, passes=PASSES, runs=runs, p
 tpl = open(os.path.join(os.path.dirname(__file__), "diagram_template.html"), encoding="utf-8").read()
 js = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
 open(OUT, "w", encoding="utf-8").write(tpl.replace("/*__DATA__*/null", js))
+json.dump(dict(nodes=data["nodes"], edges=data["edges"], passes=data["passes"]), open(os.path.join(R, "ladder_data.json"), "w", encoding="utf-8"), ensure_ascii=False)
 from collections import Counter
 print("nodes", len(nodes), Counter(n["diagram"] for n in nodes.values()), "edges", len(edges))
 print(Counter((n["diagram"], n["col"]) for n in nodes.values()))

@@ -95,3 +95,9 @@ Operator's reading, recorded as such:
 - Status of such a definition: "valid by ruling R-S (scripture); untested". It is never labeled as passing Counter-AI ("untested called passed" is a counterfeit), and it does not shield any claim built on it ("sacredness used as armor" is a counterfeit): every claim that uses it is still tested in a fresh context.
 - "Perfectly" is read strictly: the verse must say what the term is, in the sense the revision uses. A verse that fits only in part is recorded as a receipt, not adopted as a definition (operator judgment under R-D).
 - Verse text verified against churchofjesuschrist.org (Moses 1, 3 Nephi 9, James 4). Verses containing a dash are quoted in parts.
+
+## 2026-11-27 (verbatim in pass18_INPUT.md)
+Operator's reading, recorded as such:
+- "This app" is the author's Fieldnote app (Drive folder Field Notes). The run's HTML is to look like the app's board, and the skill file is to say how to build it exactly so.
+- "A file I can just input into the app": a Fieldnote record (LadderRecord v1) the app imports as a new Tree. "Import files into the app to build onto latter pages": the board takes Fieldnote files in, as new Trees or added onto the current Tree, and a later pass may start from such a file.
+- The skill file in this session is a synced copy; the updated skill is written to skills/ladder-method/ in the repository (and skills/ladder-method.zip) for the author to upload. It changes nothing until uploaded.
