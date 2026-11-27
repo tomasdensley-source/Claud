@@ -101,3 +101,9 @@ Operator's reading, recorded as such:
 - "This app" is the author's Fieldnote app (Drive folder Field Notes). The run's HTML is to look like the app's board, and the skill file is to say how to build it exactly so.
 - "A file I can just input into the app": a Fieldnote record (LadderRecord v1) the app imports as a new Tree. "Import files into the app to build onto latter pages": the board takes Fieldnote files in, as new Trees or added onto the current Tree, and a later pass may start from such a file.
 - The skill file in this session is a synced copy; the updated skill is written to skills/ladder-method/ in the repository (and skills/ladder-method.zip) for the author to upload. It changes nothing until uploaded.
+
+## 2026-11-27 (verbatim in pass19_INPUT.md)
+Operator's reading, recorded as such (the author asked for the operator's best advice):
+- The board is a schedule: one band per pass, the first at the bottom and the latest at the top. A pass's observations sit on horizontal rows at its band's floor; its work reads upward (a repaired version above the row it repairs); its revisions are at the right edge; its heading at the left.
+- Dating: each Counter-AI run belongs to one pass; observations are dated by provenance (their run, their pass folder, or the next dated observation). A pass with no tests (pass 11) still gets a band.
+- A named group sits in the pass where it reached its final form, and its members with it (each keeps its true pass as the tag recorded:<pass>). Five observations belong to two named groups; the board page draws each group in its own pass with a dotted cord to the member shown elsewhere. In the app, such a region stretches across passes.

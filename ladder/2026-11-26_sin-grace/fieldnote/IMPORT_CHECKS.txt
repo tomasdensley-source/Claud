@@ -1,36 +1,23 @@
-# Fieldnote import checks, 2026-11-27T01:24:09Z
+# Fieldnote import checks, 2026-11-27T01:49:24Z (schedule layout)
 
 ## 1. The app's own import code (@fieldnote/ladder-core 0.5.1, record-io.prepareImport), run with tsx
 validateRecord violations: 0
-prepareImport: ACCEPTED {"panels":16,"observations":225,"groups":31,"abstractions":302,"implications":330,"tests":362,"convergences":0,"invariants":0,"repairs":97,"edges":2041}
+prepareImport: ACCEPTED {"panels":16,"observations":225,"groups":31,"abstractions":302,"implications":330,"tests":362,"convergences":0,"invariants":0,"repairs":97,"edges":2090}
 
 ## 2. Standalone port (tools/validate_fieldnote_record.mjs)
-ACCEPTED: 225 observations, 31 groups, 302 abstractions, 330 implications, 362 tests, 97 repairs, 2041 links
+ACCEPTED: 225 observations, 31 groups, 302 abstractions, 330 implications, 362 tests, 97 repairs, 2090 links
 
 ## 3. Parity of the port with the app's code on 15 files broken one rule at a time
-same  absstatus.json       | app: REFUSED: Abstraction A-001 has an unknown status. 
-same  badid.json           | app: REFUSED: Invalid group membership. 
-same  boardsize.json       | app: REFUSED: Invalid board size. 
-same  dupe.json            | app: REFUSED: Duplicate object O-0001. 
-same  endpoints.json       | app: REFUSED: Relationship E-00001 (entails) cannot connect an observation to a group. 
-same  envelope.json        | app: ACCEPTED 
-same  envelope_newer.json  | app: REFUSED: This Fieldnote file uses a newer format. 
-same  groupref.json        | app: REFUSED: Observation O-0001 belongs to a group that is missing from this record. 
-same  missing.json         | app: REFUSED: A relationship points to a missing object. 
-same  notjson.json         | app: REFUSED: Unexpected token 'h', "this is not json {" is not valid JSON 
-same  question.json        | app: REFUSED: Observation O-0001 is a question. Record a statement, rather than a question. 
-same  sealed.json          | app: REFUSED: Convergence C-001 is sealed. Sealing is not supported yet; only candidates can be imported. 
-same  timestamp.json       | app: REFUSED: T-0001 has an invalid testedAt time. Use the format 2026-10-19T20:00:00.000Z. 
-same  untested_pass.json   | app: REFUSED: Implication I-0044 is marked holds without a recorded test. Untested is not passed. 
-same  version.json         | app: REFUSED: This record version is not supported. The original data has been preserved. 
 agree 15/15
 
-## 4. Tally cross-check and plate overlap
+## 4. Tally cross-check, plate overlap, and the schedule's order
 objects with a valid verdict in CX_tally.md: 292; missing from the file: 0; wrong result: 0
-plates: 1335; overlapping pairs at stated sizes: 0
+plates: 1332; overlapping pairs at stated sizes: 0
+bands from the bottom of the board to the top: Passes 1 to 3 < Pass 4 < Pass 5 < Pass 6 < Pass 7 < Pass 8 < Pass 9 < Pass 10 < Pass 11 < Pass 12 < Pass 13 < Pass 14 < Pass 15 < Pass 16 < Pass 17
+observations per band: {'1': 36, 'B': 13, 'X11': 6, 'C': 16, 'F': 30, 'D': 9, 'E': 16, 'I': 24, 'G': 4, 'H': 11, 'J': 4, 'K': 37, 'M': 3, 'N': 9, 'O': 7}
 
 ## 5. Board page: render, import, add-onto, save (Chromium via Playwright)
-desk fit {"plates":1335,"tabs":28,"readout":"2.1% · B0","hscroll":false}
+desk fit {"plates":1332,"tabs":31,"readout":"1.3% · B0","hscroll":false}
 focus 125% · B3
 map 10.0% · B1
 after new {
@@ -42,13 +29,20 @@ after add {
   name: 'Imported · fieldnote-sin-and-grace-ladder-2026-11-27',
   obs: 450,
   abs: 604,
-  edges: 4082,
+  edges: 4180,
   viol: 0
 }
 download fieldnote-imported-fieldnote-sin-and-grace-ladder--2026-11-27.json
-phone {"readout":"1.4% · B0","hscroll":false}
+phone {"readout":"1.2% · B0","hscroll":false}
+errors []
+desk fit 1.3% · B0 labels 15
+desk after label tap 7.8% · B1
+desk pass15 15.5% · B1
+phone fit 1.2% · B0 labels 15
+phone after label tap 5.0% · B1
+phone pass15 5.0% · B1
 errors []
 
 ## 6. The file saved by the board after adding onto the Tree, checked by the app's code
 validateRecord violations: 0
-prepareImport: ACCEPTED {"panels":32,"observations":450,"groups":62,"abstractions":604,"implications":660,"tests":724,"convergences":0,"invariants":0,"repairs":194,"edges":4082}
+prepareImport: ACCEPTED {"panels":32,"observations":450,"groups":62,"abstractions":604,"implications":660,"tests":724,"convergences":0,"invariants":0,"repairs":194,"edges":4180}

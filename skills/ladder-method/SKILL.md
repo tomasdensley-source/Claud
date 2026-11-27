@@ -4,7 +4,7 @@ description: "Run Thomas Densley's Ladder on a written work to improve its writi
 ---
 
 THE LADDER METHOD: SKILL FILE
-Version: 1.1, Nov 27, 2026 (1.0: Nov 13, 2026; see §16). Drafted by Opus 5.5 under commission from Thomas Densley, from a briefing by Muse. Status of this file: This file is an ordinary epistemic object under the Ladder. It is testable, it may be repaired by Narrow, Split, or Discard, and it carries a changelog (see §16). It claims no immunity (Ladder rules 293, 300, 336).
+Version: 1.2, Nov 27, 2026 (1.0: Nov 13, 2026; see §16). Drafted by Opus 5.5 under commission from Thomas Densley, from a briefing by Muse. Status of this file: This file is an ordinary epistemic object under the Ladder. It is testable, it may be repaired by Narrow, Split, or Discard, and it carries a changelog (see §16). It claims no immunity (Ladder rules 293, 300, 336).
 
 §0. HOW TO READ THIS FILE
 0.1 The words MUST, MUST NOT, SHOULD, OPEN
@@ -1711,6 +1711,10 @@ The checklist, completed, proves only that the steps were performed and recorded
  J6. Import, add-onto and save were each exercised once, and a file saved after adding still imports. Artifact: the test output.
 
 §16. CHANGELOG
+1.2, Nov 27, 2026 (operator: a Claude session, at the author's direction)
+ The author's words, verbatim: "The schedule. From bottom to top. Bottom is first, top is last. If a observation is made, during a session, it's horizontal to that session's other observations, and then it moves up" (interrupted), then: "I don't know. Your best advice and suggestion, it needs to be more organized and easier to understand visually in the way that it's sorted and laid out."
+ Applied: references/fieldnote-board.md §1a (the schedule: one band per pass, bottom first, top last; observations on horizontal rows at each band's floor; lineages reading upward; revisions at the right edge), §4 (groups across passes), §5 (the map shows lineage only), §6 (pass labels); references/fieldnote-record.md §6; tools/.
+ The operator's judgments in applying it, recorded as such and open to the author: a session is a pass; a named group sits in the pass where it reached its final form, and its members sit with it there (each keeps its true pass as a tag); a pass that ran no tests still gets a band.
 1.1, Nov 27, 2026 (operator: a Claude session, at the author's direction)
  The author's words, verbatim: "Okay, this is how the HTML file needs to look. I need you to update the skill file so it has clear instructions so that everything describing how to build the layout builds it exactly like this layout described for this app. In fact, in the future, I want it to actually be a file I can just input into the app and import files into the app to build onto latter pages." The app is Fieldnote; the layout was read from the author's Drive folder Field Notes (the app's palette, screenshots and the ladder-core source).
  Applied: §11.1 (two files added), §11.3 (new), §15.13 (new), references/fieldnote-board.md, references/fieldnote-record.md and tools/ (new).

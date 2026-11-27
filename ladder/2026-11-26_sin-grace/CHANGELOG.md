@@ -34,3 +34,4 @@
 2026-11-26 Pass 16: call, God's work and return defined from the letter; God presupposition and four surplus implications stand; REV-32 fixes an ambiguous 'it' (O-0217) and passes (CX-134). Diagram panel N.
 2026-11-26 Pass 17: ruling R-S; God's work defined by Moses 1:39 (valid by ruling, untested); 'God's work' split from 'His workmanship' (Moses 1:4); REV-33 passes (CX-138). Diagram panel O.
 2026-11-27 Fieldnote output: importable record, board page in the app's layout, import checks; skill 1.1 (§11.3, §15.13, §16) in skills/ladder-method/.
+2026-11-27 Schedule layout: one band per pass, bottom first, top last; pass labels; skill 1.2.

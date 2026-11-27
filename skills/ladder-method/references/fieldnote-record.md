@@ -82,17 +82,12 @@ Edge endpoints MUST be ones the app allows:
 | `supports` | observation | repair (a receipt) |
 | `related` | anything | anything (every other relation in the run's diagram) |
 
-## 6. Layout
+## 6. Layout: the schedule
 
 * Every object gets a `layout` point (the plate anchor), and a `boardSize` when its text needs more than 220 by 108.
-* Each pass is a district.
-* Within a district, the run's diagram columns are kept. A row reads left to right:
-  1. a sentence;
-  2. its direct-test implication;
-  3. its tests;
-  4. its repairs.
-* Observations sit in the district of the pass that first cites them, in a grid in ID order. Those in the L0.5 groups stay in the first district. This keeps each group's region inside its pass.
-* Districts wrap into rows about 22,000 wide.
+* The arrangement is the schedule in `fieldnote-board.md` §1a: one band per pass, the first at the bottom and the latest at the top.
+* Each object carries `band:<pass>`, and each pass heading carries `heading`. An observation shown with its named group in a later pass also carries `recorded:<pass>`.
+* A direct-test implication's `statement` is a short pointer ("REV-33 itself, tested word for word. Its exact sentence is on A-141."). Its `notes` hold the exact sentence, which lives on the abstraction: one sentence, one place.
 * No two plates may overlap at their stated sizes, and this MUST be checked mechanically.
 
 ## 7. Proving the file imports (MUST, before delivery)

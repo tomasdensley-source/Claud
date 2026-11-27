@@ -10,6 +10,33 @@ The reference implementation is `tools/fieldnote_board_template.html`. `tools/bu
 2. The page MUST embed exactly one Fieldnote record (LadderRecord v1, see `fieldnote-record.md`). It MUST draw only from that record: every plate, region and cord on screen is an object or edge in the record. Nothing on the board is drawn from anywhere else.
 3. The page MUST be able to save the record as a Fieldnote import file, and MUST be able to take Fieldnote files in, either as new Trees or added onto the current Tree (§7).
 
+## 1a. Arrangement: the schedule (author ruling of Nov 27, 2026)
+
+The board reads as a schedule. Time runs from the bottom to the top: the first pass is at the bottom and the latest pass is at the top. Each pass (session) is one horizontal band, with clear space between bands.
+
+Inside a band:
+
+1. **Floor.** The observations recorded in that pass sit on horizontal rows at the bottom of the band, in ID order (the order they were recorded).
+   * A named group's members sit together as one block, so its region is one compact shape.
+   * The rest sit in wide rows of up to 12, inside the pass's own group, "Pass N: observations first recorded".
+2. **Lineages, above the floor.** The pass's work reads upward.
+   * A sentence's row is, left to right: the sentence, its direct-test pointer, its verdicts, and its repair.
+   * The repaired version sits directly above that row, so a sentence's history climbs the page.
+   * Surplus implications sit above their abstraction.
+   * Lineages run left to right in the order they were first tested, and wrap onto a new shelf above when a row passes the band width (16,000 by default).
+3. **Revisions, at the right edge.** The revisions the pass produced are stacked upward. The top one is what the next band works on.
+4. **Heading, at the left edge.** The pass's heading note: its title and summary.
+
+When things happened:
+
+* **Each Counter-AI run belongs to one pass.** A pass starts at the first run that tested one of its own objects. An object drawn only in an early summary diagram is dated by the first run that tested it.
+* **An observation is dated by its provenance.**
+  * A tester's observation names its run.
+  * An audit's names its pass folder.
+  * Any other (a quote from the author's works, or a ruling) takes the date of the next dated observation. It arrived at the start of that pass, before its tests.
+* **A pass that ran no tests still gets a band** for its observations, so the schedule has no gap.
+* **A named group sits in the pass where it reached its final form**, which is its latest member's pass, and its members sit in its block there. Each such member keeps a `recorded:<pass>` tag giving its true pass.
+
 ## 2. Board
 
 | Token | Value |
@@ -67,6 +94,8 @@ The glyph silhouettes are the app's `overviewMarkPath` shapes, and they MUST be 
 
 * A group with at least one displayed member is drawn as a region, not a plate. The region is the members' plate bounds plus 18 on every side (`groupRegion`).
 * Membership is explicit: overlapping a region never adds a member.
+* An observation can belong to two named groups formed in different passes. The board page then draws each group's region around its members in its own pass (the group's `band:` tag), and joins a member shown elsewhere to the group's tab with a thin dotted cord in the group's colour.
+* The record keeps the true membership. The app draws a region from all members, so in the app such a region stretches across passes.
 * The region has a dashed outline in the group's outline colour and a light wash of the same colour.
 * Its tab is a pill at the region's top centre (`groupLabelPoint`), showing the colour swatch and the group's tag.
 * A group with no displayed members is drawn as a plate at its own stored position.
@@ -88,6 +117,8 @@ The glyph silhouettes are the app's `overviewMarkPath` shapes, and they MUST be 
 | `source_of` | group teal, light |
 | `related` | grey, dashed, drawn only from the plates band up or when showing one plate's links |
 
+Below the plates band (B0 and B1), the map shows lineage only: `related`, `source_of` and `supports` are drawn from the plates band up, or when showing one plate's links.
+
 ## 6. Zoom bands and camera
 
 The zoom bands come from `zoom-bands.ts`, and MUST NOT change:
@@ -106,6 +137,10 @@ The zoom bands come from `zoom-bands.ts`, and MUST NOT change:
 * Pinch and wheel zoom about the focal point (`zoomAt`).
 * Fit frames every object.
 * Double-tap, or Focus, frames one plate and never lands below 84% (80% x 1.05), so it always lands in B3.
+* **Pass labels.** While the plates are faint (B0, B1), each pass heading is drawn as a screen-size label at its band's bottom-left: the pass name in bold, then its title. This is the schedule's time column.
+  * Labels that would collide stack upward, in time order.
+  * Tapping a label shows that pass: the whole band if it fits at 5% or more. Otherwise the view opens at 5% on the band's start, its heading and floor at the bottom left.
+  * A heading's sheet has `Show this pass`.
 * The zoom readout reads like `24.0% · B2`, using `formatZoomReadout`:
   * one decimal below 100%, whole numbers with commas from 100%;
   * 12 px ink on paper at 88%, with a hairline border;

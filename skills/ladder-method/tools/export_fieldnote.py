@@ -22,11 +22,22 @@ RUN_TIME = "2026-11-26T12:00:00.000Z"
 data = json.load(open(os.path.join(R, "ladder_data.json"), encoding="utf-8"))
 NODES, EDGES, PASSES = data["nodes"], data["edges"], data["passes"]
 DIAG_ORDER = ["L", "A"] + sorted(p["id"] for p in PASSES)
-DIAG_TITLE = {"L": "Diagram 1: the full Ladder (passes 1 to 3)", "A": "Diagram 2: the piece's claims and their assumptions (pass 1)"}
+DIAG_TITLE = {"L": "Passes 1 to 3: observations recorded for the first Ladder", "A": "Pass 1: observations behind the piece's claims"}
 DIAG_TITLE.update({p["id"]: p["title"] for p in PASSES})
 DIAG_HINT = {p["id"]: p.get("hint", "") for p in PASSES}
 DIAG_HINT["L"] = "Observations, groups, abstractions, surplus implications, repairs and every revision of the piece."
 DIAG_HINT["A"] = "The piece's claims (P01), their assumptions (P03), the fresh audit (P4) and the reformulations."
+# the schedule: one band per pass, earliest at the bottom, latest at the top
+BAND_ORDER = ["1"] + [d for d in DIAG_ORDER if d not in ("L", "A")]
+if "H" in BAND_ORDER: BAND_ORDER.insert(BAND_ORDER.index("H") + 1, "X11")   # pass 11 ran no tests; its observations still have a place
+PASS_BAND = {4: "B", 5: "C", 6: "D", 7: "E", 8: "F", 9: "G", 10: "H", 11: "X11", 12: "I", 13: "J", 14: "K", 15: "M", 16: "N", 17: "O"}
+band_of_diag = lambda d: "1" if d in ("L", "A") else d
+BAND_TITLE = {"1": "Passes 1 to 3: the piece, its claims, and the first Ladder"}
+BAND_TITLE.update({d: DIAG_TITLE[d] for d in BAND_ORDER[1:] if d in DIAG_TITLE})
+BAND_TITLE["X11"] = "Pass 11: what is facing? (the author's message, recorded as evidence, not as a definition)"
+BAND_HINT = {"1": DIAG_HINT["A"] + " " + DIAG_HINT["L"]}
+BAND_HINT.update({d: DIAG_HINT.get(d, "") for d in BAND_ORDER[1:]})
+BAND_HINT["X11"] = "No Counter-AI test ran in this pass. Its observations are the author's message on facing (pass11/INPUT_facing.md)."
 
 def iso(t):
     m = re.match(r"(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2})(?:\.(\d+))?", t)
@@ -204,7 +215,7 @@ def base(k, kind):
     o = objects[k]
     lx, ly = layout.get(k, (0, 0)); w, h = bsize.get(k, (220, 108))
     b = dict(id=ids[k], kind=kind, createdAt=RUN_TIME, updatedAt=RUN_TIME, archived=False,
-             layout=dict(x=round(lx), y=round(ly)), tags=[f"run:{o['label']}", f"pass:{pass_home(o) if o['kind'] != 'observation' else home.get(k, '?')}"])
+             layout=dict(x=round(lx), y=round(ly)), tags=[f"run:{o['label']}", f"pass:{pass_home(o) if o['kind'] != 'observation' else obs_band.get(o['label'], '1')}"])
     if (w, h) != (220, 108): b["boardSize"] = dict(width=w, height=h)
     notes = []
     for f, lab in (("prov", "Source"), ("op", "Operation"), ("receipt", "Receipt"), ("loss", "Named loss"),
@@ -224,37 +235,92 @@ for e in EDGES:
         if a and b and ftype(objects[b]) == "group" and ftype(objects[a]) in ("observation", "abstraction"):
             if ids[a] not in group_members[b]: group_members[b].append(ids[a])
 
-# pass groups: the observations each diagram cites
-pass_group = {}
-late_cites = []
-cited = defaultdict(set)
-obs_ids = {ids[k] for k, o in objects.items() if ftype(o) == "observation"}
+# ---------- bands (the schedule) and each band's observations ----------
+# The run clock: each Counter-AI run belongs to one pass. A pass starts at the first run that tested one of its own
+# objects; an object shown only in Diagram 1 or 2 is dated by the first run that tested it.
+band_start = {"1": 1}
 for n in NODES:
-    if n["kind"] == "observation": continue
+    t = n.get("test") or {}
+    carried = re.search(r"prior pass|tested earlier|carried|\(pass \d+\)", str(n.get("prov", "")) + " " + n["label"])
+    if n["diagram"] not in ("L", "A") and str(t.get("run", "")).startswith("CX") and not carried:
+        r_ = int(t["run"][3:]); band_start[n["diagram"]] = min(band_start.get(n["diagram"], r_), r_)
+prev_ = 1
+for x_ in BAND_ORDER:          # passes start in order
+    if x_ in band_start: band_start[x_] = max(band_start[x_], prev_); prev_ = band_start[x_]
+print("pass clock (first Counter-AI run of each pass):", {x_: band_start[x_] for x_ in BAND_ORDER if x_ in band_start})
+def run_band(r_):
+    b_ = "1"
+    for x_ in BAND_ORDER:
+        if x_ in band_start and band_start[x_] <= r_: b_ = x_
+    return b_
+def obj_band(k):
+    o = objects[k]
+    if o["kind"] == "revision":
+        ds = [n["diagram"] for n in o["nodes"] if n["kind"] == "revision" and n["diagram"] not in ("L", "A")]
+        if ds: return ds[0]
+    else:
+        ds = [band_of_diag(n["diagram"]) for n in o["nodes"] if n["kind"] != "piece"] or [band_of_diag(n["diagram"]) for n in o["nodes"]]
+        b_ = min(ds, key=BAND_ORDER.index)
+        if b_ != "1": return b_
+    runs = [int(t["run"][3:]) for t in tests_of(o) if t["run"].startswith("CX")]
+    return run_band(min(runs)) if runs else "1"
+obs_ids = {ids[k] for k, o in objects.items() if ftype(o) == "observation"}
+cites = defaultdict(set)    # non-observation object -> observation IDs it cites
+for n in NODES:
+    k = obj_of.get(n["key"])
+    if not k or n["kind"] == "observation": continue
     blob = " ".join(str(n.get(f, "")) for f in ("prov", "receipt", "op", "text", "loss", "surface", "entailed"))
-    for m in re.findall(r"O-\d{4}", blob):
-        if m in obs_ids: cited[n["diagram"]].add(m)
+    cites[k].update(m for m in re.findall(r"O-\d{4}", blob) if m in obs_ids)
 for e in EDGES:
     if e["kind"] in ("receipt", "prov"):
-        for side in (e["a"], e["b"]):
-            k = obj_of.get(side)
-            if k and ftype(objects[k]) == "observation":
-                cited[side.split(":")[0]].add(ids[k])
-for d in DIAG_ORDER:
-    if d not in district_x: continue
-    gid = nid("G", 3)
-    pass_group[d] = gid
+        a_, b_ = obj_of.get(e["a"]), obj_of.get(e["b"])
+        for x_, y_ in ((a_, b_), (b_, a_)):
+            if x_ and y_ and ftype(objects[x_]) == "observation" and ftype(objects[y_]) != "observation": cites[y_].add(ids[x_])
+in_real = {m for k in real_groups for m in group_members[k]}
+# When was each observation recorded? A tester's observation names its run (CX-nnn); an audit's names its pass folder;
+# P00/P04 belong to pass 1. Any other (a quote from the author's works, a ruling) arrives at the start of a pass, before
+# its tests, so it takes the date of the next dated observation (IDs rise in recording order).
+obs_by_id = {ids[k]: objects[k] for k in objects if ftype(objects[k]) == "observation"}
+rec_band = {}
+for m in sorted(obs_by_id):
+    src = best(obs_by_id[m], "prov") or ""
+    cx, ps = re.search(r"CX-(\d+)", src), re.search(r"pass(\d+)/", src)
+    if cx: rec_band[m] = run_band(int(cx.group(1)))
+    elif ps: rec_band[m] = PASS_BAND.get(int(ps.group(1)), "1")
+    elif re.match(r"P0\d", src): rec_band[m] = "1"
+nxt_ = None
+for m in sorted(obs_by_id, reverse=True):
+    if m in rec_band: nxt_ = rec_band[m]
+    else: rec_band[m] = nxt_ or BAND_ORDER[-1]
+# A named group sits in the pass where it reached its final form (its latest member); its members sit in it there.
+group_band = {}
+for k in real_groups:
+    bs = [rec_band[m] for m in group_members[k] if m in rec_band]
+    group_band[k] = max(bs, key=BAND_ORDER.index) if bs else "1"
+obs_band, home_group = {}, {}
+for k in sorted(real_groups, key=lambda k: (BAND_ORDER.index(group_band[k]), ids[k])):
+    for m in group_members[k]:
+        if m in obs_by_id and m not in obs_band: obs_band[m] = group_band[k]; home_group[m] = k
+for m in obs_by_id:
+    obs_band.setdefault(m, rec_band[m])
+pass_group = {}   # band -> group of the observations first recorded in that pass (outside the L0.5 groups)
+late_cites = []
+for b_ in BAND_ORDER:
+    gid = nid("G", 3); pass_group[b_] = gid
+    short = BAND_TITLE[b_].split(":")[0]
     rec["groups"].append(dict(id=gid, kind="group", createdAt=RUN_TIME, updatedAt=RUN_TIME, archived=False,
-                              tag=DIAG_TITLE.get(d, d), basis="topical",
-                              memberIds=sorted(ids[k] for k, o in objects.items() if o["kind"] == "observation" and home.get(k) == d and ids[k] in cited[d]), tier=0,
-                              layout=dict(x=district_x[d] + 110, y=-260), tags=[f"pass:{d}"],
-                              notes="The observations first recorded for this pass. Its citations of earlier observations are links. A boundary for the pass, not evidence."))
-    for m in sorted(cited[d]):
-        mk = next((k for k, o in objects.items() if o["kind"] == "observation" and ids[k] == m), None)
-        if mk and home.get(mk) != d: late_cites.append((m, gid))
+                              tag=f"{short}: observations first recorded", basis="topical",
+                              memberIds=sorted(m for m in obs_ids if obs_band[m] == b_ and m not in in_real), tier=0,
+                              layout=dict(x=110, y=0), tags=[f"band:{b_}"],
+                              notes="The observations first recorded in this pass, outside the L0.5 groups. Its citations of earlier observations are links. A boundary for the pass, not evidence."))
+    later = set()
+    for k, ms in cites.items():
+        if ftype(objects[k]) != "observation" and obj_band(k) == b_: later |= {m for m in ms if obs_band[m] != b_}
+    late_cites += [(m, gid) for m in sorted(later)]
 for k in real_groups:
     o = objects[k]
     g = base(k, "group"); g.update(tag=o["text"], basis="instinct", memberIds=group_members[k], tier=0)
+    g["tags"].append(f"band:{group_band[k]}")
     rec["groups"].append(g)
 groups_of_obs = defaultdict(list)
 for g in rec["groups"]:
@@ -266,6 +332,7 @@ for k, o in objects.items():
     if ftype(o) != "observation": continue
     b = base(k, "observation")
     prov = best(o, "prov") or "Ladder run"
+    if rec_band.get(ids[k]) != obs_band.get(ids[k]): b["tags"].append(f"recorded:{rec_band[ids[k]]}")
     b.update(text=o["text"], affectCharge="neutral", groupIds=groups_of_obs[ids[k]],
              provenance=dict(source=prov, firstEncounter="Ladder run 2026-11-26 (sin and grace), L0_observations.md", recordedAt=RUN_TIME))
     rec["observations"].append(b)
@@ -279,12 +346,13 @@ for k, o in objects.items():
     p = base(k, "panel")
     p.update(panelType="regular", title="The piece (P00), verbatim", detail=o["text"], voice="note", history=[])
     rec["panels"].append(p)
-for d, gx in district_x.items():
-    pid = nid("P", 4)
+heading_of = {}
+for b_ in BAND_ORDER:
+    pid = nid("P", 4); heading_of[b_] = pid
     rec["panels"].append(dict(id=pid, kind="panel", createdAt=RUN_TIME, updatedAt=RUN_TIME, archived=False,
-                              panelType="regular", title=DIAG_TITLE.get(d, d), detail=DIAG_HINT.get(d, ""), voice="note",
-                              history=[], layout=dict(x=gx + 110, y=-520), boardSize=dict(width=460, height=220),
-                              tags=[f"pass:{d}"]))
+                              panelType="regular", title=BAND_TITLE[b_], detail=BAND_HINT[b_], voice="note",
+                              history=[], layout=dict(x=110, y=0), boardSize=dict(width=460, height=220),
+                              tags=[f"band:{b_}", "heading"]))
 
 # edges by object
 out_edges, in_edges = defaultdict(list), defaultdict(list)
@@ -413,7 +481,7 @@ for k, o in objects.items():
         status = "split" if "split" in outs else "narrowed"; a["archived"] = True
     if k in discarded:
         status = "discarded"; a["archived"] = True
-    sg = src_group.get(k) or pass_group[pass_home(o)]
+    sg = src_group.get(k) or pass_group[obj_band(k)]
     a.update(statement=o["text"], sourceGroupId=sg, tier=tier, status=status)
     for e, p in in_edges[k]:
         if e["kind"] == "repair" and p in ids and ftype(objects[p]) == "abstraction" and k in succ_repair:
@@ -427,9 +495,10 @@ for k, o in objects.items():
         iid = nid("I", 4)
         lx, ly = layout.get(k, (0, 0)); w, h = bsize.get(k, (220, 108))
         impl = dict(id=iid, kind="implication", createdAt=RUN_TIME, updatedAt=RUN_TIME, archived=a["archived"],
-                    statement=o["text"], parentAbstractionId=ids[k], surplus=False, status=result_of(t), testIds=[],
+                    statement=f"{o['label']} itself, tested word for word. Its exact sentence is on {ids[k]}.",
+                    parentAbstractionId=ids[k], surplus=False, status=result_of(t), testIds=[],
                     layout=dict(x=round(lx + w / 2 + 60), y=round(ly)), tags=[f"run:{o['label']}", "direct test"],
-                    notes="The sentence itself, tested directly. Not a surplus implication, so it carries no weight toward an invariant.")
+                    notes="The sentence itself, tested directly. Not a surplus implication, so it carries no weight toward an invariant.\n\nExact sentence tested:\n" + o["text"])
         rec["implications"].append(impl)
         add_edge(ids[k], iid, "entails")
         for tt in tests_of(o):
@@ -481,7 +550,14 @@ for e in EDGES:
         add_edge(ia, succ_repair[b], "supports"); continue
     add_edge(ia, ib, "related")
 
-# ---------- final layout: rows of [sentence][its direct implication][its tests][its repairs] ----------
+# ---------- final layout: the schedule ----------
+# One band per pass, earliest at the bottom and latest at the top. In each band:
+#   floor   - the observations first recorded in that pass, in horizontal rows (groups kept together as blocks);
+#   above   - the pass's work as lineages that read upward: a sentence's row is [sentence][pointer][verdicts][repair],
+#             and its repaired version sits directly above it; lineages run left to right in the order they were tested;
+#   right   - the revisions the pass produced, stacked upward;
+#   left    - the pass's heading note.
+# Coordinates: u grows upward from the band's base; on the board y = -(u + height) for a plate's top.
 by_id = {n["id"]: n for k_ in ("panels", "observations", "groups", "abstractions", "implications", "tests", "repairs") for n in rec[k_]}
 def face(n):
     return n.get("title") or n.get("text") or n.get("statement") or n.get("tag") or n.get("evidenceNote") or n.get("antiAdHocReceipt") or ""
@@ -498,53 +574,134 @@ def row_of(i):
     row += tests_by.get(i, [])
     row += repairs_by.get(i, [])
     return row
-Y0 = [0]
-def put(i, x, y):
-    n = by_id[i]; w, h = plate_size(face(n), n["kind"])
-    y = y + Y0[0]
-    n["layout"] = dict(x=round(x + 110), y=round(y + 54))
+def sz(i):
+    n = by_id[i]; return plate_size(face(n), n["kind"])
+placed = set()
+def put(i, x, u, base):
+    n = by_id[i]; w, h = sz(i)
+    top = -(base + u + h)
+    n["layout"] = dict(x=round(x + 110), y=round(top + 54))
     if (w, h) != (220, 108): n["boardSize"] = dict(width=w, height=h)
     else: n.pop("boardSize", None)
+    placed.add(i)
+    if CUR_BAND[0] and f"band:{CUR_BAND[0]}" not in n.setdefault("tags", []): n["tags"].append(f"band:{CUR_BAND[0]}")
     return w, h
-placed, x0 = set(), 0
-ROW_WIDTH, row_bottom = 22000, 0
-for d in DIAG_ORDER:
-    if x0 > ROW_WIDTH:
-        x0 = 0; Y0[0] = row_bottom + 1400
-    cols = sorted(c for (dd, c) in col_members if dd == d and col_members[(dd, c)])
-    if not cols: continue
-    dx = x0; x = x0
-    for c in cols:
-        ks = [k for k in col_members[(d, c)] if k in ids and ids[k] in by_id and ids[k] not in placed]
-        if not ks: continue
-        if all(objects[k]["kind"] == "observation" for k in ks) and len(ks) > 8:
-            ks = sorted(ks, key=lambda k: k[0]); per = 6 if d == "L" else 3
-            sizes = [plate_size(objects[k]["text"], "observation") for k in ks]; cw = max(s_[0] for s_ in sizes); y = 0
-            for r0 in range(0, len(ks), per):
-                rh = 0
-                for j, k in enumerate(ks[r0:r0 + per]):
-                    w, h = put(ids[k], x + j * (cw + 40), y); placed.add(ids[k]); rh = max(rh, h)
-                y += rh + 40
-            row_bottom = max(row_bottom, Y0[0] + y)
-            x += per * (cw + 40) + 90; continue
-        y, cw = 0, 0
-        for k in ks:
-            rx, rh = x, 0
-            for i in row_of(ids[k]):
-                if i in placed: continue
-                w, h = put(i, rx, y); placed.add(i); rx += w + 36; rh = max(rh, h)
-            y += rh + 56; cw = max(cw, rx - x)
-        row_bottom = max(row_bottom, Y0[0] + y)
-        x += cw + 90
-    for p_ in rec["panels"]:
-        if f"pass:{d}" in p_.get("tags", []) and p_["id"] not in placed and p_.get("boardSize", {}).get("width") == 460:
-            p_["layout"] = dict(x=dx + 110, y=Y0[0] - 300 + 54); placed.add(p_["id"])
-    for g in rec["groups"]:
-        if g["id"] == pass_group.get(d): g["layout"] = dict(x=dx + 700, y=Y0[0] - 300 + 54); placed.add(g["id"])
-    x0 = x + 500
+
+band = {k: (obs_band[ids[k]] if objects[k]["kind"] == "observation" else obj_band(k)) for k in objects if k in ids}
+statement = lambda k: ftype(objects[k]) in ("abstraction", "implication") and objects[k]["kind"] != "revision"
+first_index = {}
+for idx, n in enumerate(NODES):
+    k = obj_of.get(n["key"])
+    if k is not None: first_index.setdefault(k, idx)
+def first_run(k):
+    nums = [int(t["run"][3:]) if t["run"].startswith("CX") else 0 for t in tests_of(objects[k])]
+    return min(nums) if nums else 10 ** 6
+kids = defaultdict(list)
+for e in EDGES:
+    if e["kind"] not in ("repair", "surplus", "flow"): continue
+    a_, b_ = obj_of.get(e["a"]), obj_of.get(e["b"])
+    if not a_ or not b_ or a_ == b_ or a_ not in ids or b_ not in ids: continue
+    if statement(a_) and statement(b_) and band[a_] == band[b_] and b_ not in kids[a_]: kids[a_].append(b_)
+for r_ in rec["repairs"]:   # version chains the exporter added
+    p_ = next((k for k in ids if ids[k] == r_["targetAbstractionId"]), None)
+    for s_id in r_["resultingAbstractionIds"]:
+        c_ = next((k for k in ids if ids[k] == s_id), None)
+        if p_ and c_ and statement(p_) and statement(c_) and band[p_] == band[c_] and c_ not in kids[p_]: kids[p_].append(c_)
+
+GX, VGAP, SHELF_GAP, BAND_GAP, X0 = 36, 70, 200, 1100, 700
+WIDTH = int(os.environ.get("FN_BAND_WIDTH", "16000"))
+CUR_BAND = [None]
+base_u = 0
+for b_ in BAND_ORDER:
+    CUR_BAND[0] = b_
+    mine = [k for k in ids if band.get(k) == b_]
+    # floor: observation blocks
+    obs = [k for k in mine if objects[k]["kind"] == "observation"]
+    blocks = []
+    for gk in sorted(real_groups, key=lambda k: ids[k]):
+        mem = [k for k in obs if home_group.get(ids[k]) == gk]
+        if mem: blocks.append(sorted(mem, key=lambda k: k[0]))
+    rest = sorted([k for k in obs if all(k not in bl for bl in blocks)], key=lambda k: k[0])
+    if rest: blocks.append(rest)
+    x, u, row_h, floor_right, FLOOR_W = X0, 0, 0, X0, WIDTH
+    for bl in blocks:
+        cols = min(12 if bl is rest else 4, max(1, len(bl)))
+        sizes = [sz(ids[k]) for k in bl]; cw = max(s_[0] for s_ in sizes)
+        rows = [bl[i:i + cols] for i in range(0, len(bl), cols)]
+        bw = cols * (cw + 40) - 40
+        if x > X0 and x + bw > X0 + FLOOR_W: x = X0; u += row_h + 160; row_h = 0
+        uu = u
+        for r in rows:
+            rh = max(sz(ids[k])[1] for k in r)
+            for j, k in enumerate(r): put(ids[k], x + j * (cw + 40), uu, base_u)
+            uu += rh + 40
+        row_h = max(row_h, uu - u); floor_right = max(floor_right, x + bw); x += bw + 160
+    floor_top = u + row_h if blocks else 0
+    # lineages above the floor
+    stm = [k for k in mine if statement(k)]
+    child_of, order = {}, []
+    roots = sorted([k for k in stm if not any(k in kids[p] for p in stm)], key=lambda k: (first_run(k), first_index.get(k, 0)))
+    def claim(k):
+        order.append(k)
+        for c in kids[k]:
+            if c in stm and c not in child_of and c not in roots and c not in order:
+                child_of[c] = k; claim(c)
+    for r in roots:
+        if r not in order: claim(r)
+    for k in stm:   # anything in a cycle with no root
+        if k not in order: roots.append(k); claim(k)
+    tree = defaultdict(list)
+    for c, p in child_of.items(): tree[p].append(c)
+    def measure(k):
+        row = [i for i in row_of(ids[k]) if i not in placed]
+        ws = [sz(i) for i in row]
+        rw = sum(w for w, _ in ws) + GX * (len(ws) - 1); rh = max(h for _, h in ws)
+        subs = [measure(c) for c in tree[k]]
+        cw = sum(sw for sw, _ in subs) + 120 * max(0, len(subs) - 1)
+        return max(rw, cw), rh + ((VGAP + max(sh for _, sh in subs)) if subs else 0)
+    def place(k, x, u):
+        row = [i for i in row_of(ids[k]) if i not in placed]
+        rx, rh = x, 0
+        for i in row:
+            w, h = put(i, rx, u, base_u); rx += w + GX; rh = max(rh, h)
+        cx = x
+        for c in tree[k]:
+            cw, _ = measure(c); place(c, cx, u + rh + VGAP); cx += cw + 120
+    SHELF_W = max(WIDTH, floor_right - X0)
+    x, u, shelf_h, right = X0, floor_top + 260, 0, floor_right
+    for r in roots:
+        if r in child_of: continue
+        w, h = measure(r)
+        if x > X0 and x + w > X0 + SHELF_W: x = X0; u += shelf_h + SHELF_GAP; shelf_h = 0
+        place(r, x, u); x += w + 160; shelf_h = max(shelf_h, h); right = max(right, x)
+    top = u + shelf_h
+    # revisions produced in this pass, stacked upward at the right edge
+    revs = sorted([k for k in mine if objects[k]["kind"] == "revision"], key=lambda k: int(re.sub(r"\D", "", objects[k]["label"]) or 0))
+    rx, ru = right + 300, floor_top + 260
+    for k in revs:
+        cx, rh = rx, 0
+        for i in row_of(ids[k]):
+            if i in placed: continue
+            w, h = put(i, cx, ru, base_u); cx += w + GX; rh = max(rh, h)
+        ru += rh + VGAP
+    top = max(top, ru, floor_top)
+    # left edge: the heading, then the piece (pass 1), then groups shown as plates
+    hu = 0
+    def in_this_band(g):
+        if g["id"] == pass_group.get(b_): return True
+        gk = next((k for k in real_groups if ids[k] == g["id"]), None)
+        return gk is not None and group_band.get(gk, "1") == b_
+    for i in [heading_of[b_]] + [ids[k] for k in mine if ftype(objects[k]) == "panel"] + \
+             [g["id"] for g in rec["groups"] if not any(m in by_id for m in g["memberIds"]) and in_this_band(g)]:
+        if i in placed: continue
+        w, h = put(i, 0, hu, base_u); hu += h + 60
+    for g in rec["groups"]:   # stored fallback point for groups drawn as regions: beside the heading
+        if g["id"] not in placed and in_this_band(g):
+            g["layout"] = dict(x=110 + 520, y=round(-(base_u + 54))); placed.add(g["id"])
+    base_u += max(top, hu) + BAND_GAP
 left = [i for i in by_id if i not in placed]
-for j, i in enumerate(left): put(i, x0 + (j % 4) * 500, (j // 4) * 400)
-if left: print("placed outside any district:", left[:10])
+if left: print("not placed by the schedule:", len(left), left[:12])
+for j, i in enumerate(left): put(i, -3000 + (j % 4) * 500, (j // 4) * 400, 0)
 for k in ("panels", "observations", "groups", "abstractions", "implications", "tests", "repairs"):
     rec[k].sort(key=lambda n: n["id"])
 json.dump(rec, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
